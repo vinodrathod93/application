@@ -1,0 +1,21 @@
+PODS:
+  - libPhoneNumber-iOS (0.8.5)
+  - MBProgressHUD (0.9.1)
+  - SDWebImage (3.7.2):
+    - SDWebImage/Core (= 3.7.2)
+  - SDWebImage/Core (3.7.2)
+  - XLForm (3.0.0)
+
+DEPENDENCIES:
+  - libPhoneNumber-iOS (~> 0.8)
+  - MBProgressHUD (~> 0.9.1)
+  - SDWebImage (~> 3.7)
+  - XLForm (~> 3.0.0)
+
+SPEC CHECKSUMS:
+  libPhoneNumber-iOS: b8ccd23576379caca37c7cbdd554addf384459ed
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
+  XLForm: 10fc7eb9e2d5df21a515fa3a794f4e26319abd0e
+
+COCOAPODS: 0.37.2

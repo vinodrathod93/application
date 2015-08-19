@@ -1,0 +1,1368 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0204AB63C24892E8D921576F /* NSArray+XLFormAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D68B409FC8ACAC6E2390C6B9 /* NSArray+XLFormAdditions.h */; };
+		0205D39A8D9AC093375FC0BF /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F37182137E89139C8B4834 /* NSData+ImageContentType.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		039F1480B82C62B7E87A36E4 /* UIImageView+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = CEAE372F1D33EA1E01CAFA7C /* UIImageView+WebCache.h */; };
+		03A6FA1B266769532FBB1345 /* XLForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A90B29D3165CDF5CCB12409 /* XLForm.m */; };
+		051F0B7D7EB5175030FF51B3 /* XLFormValidatorProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FC701F53A060974FA1CBD2C4 /* XLFormValidatorProtocol.h */; };
+		06D01106ABD539B434204771 /* NBAsYouTypeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73C2C26FBFDC7D16B1FFF372 /* NBAsYouTypeFormatter.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		082991224048B49833459307 /* NBMetadataCoreMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC06737DD058A3F4433628B /* NBMetadataCoreMapper.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		0A1FCF64A25B5E8F40C5D7F8 /* XLForm.h in Headers */ = {isa = PBXBuildFile; fileRef = 72CBA32C4EF12953060AB4BC /* XLForm.h */; };
+		0D9DDEA405DF6C5F8F003F7F /* XLFormDatePickerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B473824B09166F5B837EF63 /* XLFormDatePickerCell.h */; };
+		107D22D24EA45ECEB7923F79 /* NBPhoneNumberUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B4138EB25FEDB5DD1D5577 /* NBPhoneNumberUtil.h */; };
+		155E6D9507929F0A1BD01FCC /* NSData+ImageContentType.h in Headers */ = {isa = PBXBuildFile; fileRef = CD3668C1C0EE097AB10E1202 /* NSData+ImageContentType.h */; };
+		164E1A5075CEDE7F183FA8ED /* XLFormSwitchCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D0A01B39E3CACB0AA7A8901 /* XLFormSwitchCell.h */; };
+		178DBE8AF3F50BC3CE7C8929 /* XLFormRowDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 03B796A557D275C7B2B989F5 /* XLFormRowDescriptor.h */; };
+		196D75EF8EDDBA3818FCF3B2 /* XLFormInlineSelectorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E6DA7DCB3A8F6EC5C64001FA /* XLFormInlineSelectorCell.m */; };
+		1A73ACD2A7E15812AD52FCE7 /* XLFormTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E991F9FC34D57C9F10F4B629 /* XLFormTextView.m */; };
+		1DDC6E0BCCC8F2A15EA21673 /* NBPhoneNumberDesc.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C60DF1D22F02799C0ABD12C /* NBPhoneNumberDesc.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		1E8EE3D640784331C767D169 /* XLFormInlineRowDescriptorCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 810132912ECE917E723BAC98 /* XLFormInlineRowDescriptorCell.h */; };
+		1F75F8BE209B5079FD588096 /* SDWebImageDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B67ADAB6E4ACF85ED714C3F3 /* SDWebImageDownloaderOperation.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		227622479A03E9B2BD5F9B25 /* XLFormSegmentedCell.h in Headers */ = {isa = PBXBuildFile; fileRef = DD7D6A3B93265816AB658D3B /* XLFormSegmentedCell.h */; };
+		2494EC128A5E859E9413F92B /* XLFormBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD44B6C266838B61E7E53B8 /* XLFormBaseCell.m */; };
+		24A0CE1BDD225FB9126D75F3 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D5AB0FF34340E510CF50B23 /* MBProgressHUD.h */; };
+		29421B37140363F8AEF15B8C /* XLFormRegexValidator.h in Headers */ = {isa = PBXBuildFile; fileRef = AF91BE22F6B2C99BD52E35D5 /* XLFormRegexValidator.h */; };
+		2A651059A70BF0F3C6725A9B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5808895B2EA50EB8A30B96C /* Foundation.framework */; };
+		2AC0BF362F38246FD0BE66A3 /* NBMetadataCoreTestMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = A860FFC62E2998D4A85BEF34 /* NBMetadataCoreTestMapper.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		2BC76B1AFF15744C80CF8DB2 /* XLFormDatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B4F2C07E1BE9F351C47178D /* XLFormDatePickerCell.m */; };
+		2C7C1DF84FB841C9B2148BE3 /* XLFormBaseCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 412EF7B927C4EAE8222B12AD /* XLFormBaseCell.h */; };
+		3A2F3A1A64E2F96FDF1319A0 /* NBMetadataCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5D5918A37442B36CF628C9 /* NBMetadataCore.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		3B17F8A0F431C494ECF614DF /* NBPhoneMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = DF770BC04B1533EE71E4DF48 /* NBPhoneMetaData.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		3D7CB744A1FE76006E8B6267 /* SDWebImageCompat.h in Headers */ = {isa = PBXBuildFile; fileRef = BE8EAD299AB1715212C5CB84 /* SDWebImageCompat.h */; };
+		3DD9BCA36602EB7F056FF5E2 /* NSArray+NBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5873D4372E87508445875D68 /* NSArray+NBAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		3E025E54E42ABC18D7D13626 /* SDWebImagePrefetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DECEBF2F575597F7602C6B6 /* SDWebImagePrefetcher.h */; };
+		3EA54087267A36840C081105 /* NBMetadataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C83C05D087F703A0FD7CFAF /* NBMetadataHelper.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		4117DF578BCBFDD388F04133 /* NBPhoneMetaData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5889471D6765BEE39286F9AE /* NBPhoneMetaData.h */; };
+		434A7A95C43D4D14C06EEBD7 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5BC901A7F6D50583B2E9B2 /* SDWebImageManager.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		452B7A30F9079AADE5D30D51 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5808895B2EA50EB8A30B96C /* Foundation.framework */; };
+		46998943B20FC5410E704A0C /* SDWebImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = ECF724895334BD24A32D054C /* SDWebImageDownloader.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		4822BF475347791C20D8B215 /* NSPredicate+XLFormAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C475CE8C52F88C9201AE2C4 /* NSPredicate+XLFormAdditions.m */; };
+		49C26B77E6FAC33867ED7620 /* XLFormInlineSelectorCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C1D471016C33A3CD47D62C75 /* XLFormInlineSelectorCell.h */; };
+		4BD67C6E49087F988ECB52B6 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A970D11CA35065E09918FB64 /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		4D9432EF2ADDFF9AB5228F41 /* XLFormButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3C417AB96900691A785F78 /* XLFormButtonCell.m */; };
+		4E713E6B2DB76D5794BEDD87 /* XLFormRightImageButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 97CEBB663187C8038691C080 /* XLFormRightImageButton.h */; };
+		4F0539DC3A74C332079D4656 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB6DAE621BF7858487B073B /* ImageIO.framework */; };
+		4F12F62AFB13EDDBD635ACAE /* XLFormRowNavigationAccessoryView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96C1B0800316437EDA2CC747 /* XLFormRowNavigationAccessoryView.h */; };
+		4F1806C202EC4D5D46054797 /* XLFormTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 252EF9835040C4E76DFE90E1 /* XLFormTextView.h */; };
+		52079D3D9E579AFDC7DFAE87 /* XLFormTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 53695E70E152FC2C43D0157E /* XLFormTextFieldCell.h */; };
+		526482BEF26B7894D6AD76BF /* XLFormCheckCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 052063C39C7835CD33F74849 /* XLFormCheckCell.h */; };
+		59E8A429127428FD75C6CA89 /* NBPhoneNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B6E898B1A05DB812A8C1523 /* NBPhoneNumber.h */; };
+		5E8DB72A4F7E11EB9F36B3BF /* Pods-Chemist Plus-MBProgressHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C229C4FC0BD9E07346A4A743 /* Pods-Chemist Plus-MBProgressHUD-dummy.m */; };
+		609B2E26833B38B125EB8849 /* XLFormSectionDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 778C17E250F9F624D5DD36F5 /* XLFormSectionDescriptor.h */; };
+		6224C3382747126E63D0C407 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D24E8E230577F7D20F1FA61 /* UIView+WebCacheOperation.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		63319BD8706A36FDD40DAA7D /* UIImage+GIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 6803BB39C8B8B2E1599E19AF /* UIImage+GIF.h */; };
+		637D80017186A6816CC8EE69 /* XLFormStepCounterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 873B4C79E30A1E01A3070CB5 /* XLFormStepCounterCell.m */; };
+		64892BAB39B61323766C9060 /* XLFormSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A7F64540A7B7AE68873A2 /* XLFormSliderCell.m */; };
+		6555779D4C098CD496951C97 /* SDWebImageDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D13B809E2AB605765D9FCE2 /* SDWebImageDecoder.h */; };
+		690CA1C51BB852FC72C6E89E /* XLFormValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D8F7B6272D07534E57FBD0B /* XLFormValidator.m */; };
+		6999D76973E943DE6A6EED0D /* UIButton+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = F88CB9BFB9E921782B5D96F5 /* UIButton+WebCache.h */; };
+		699D3AC539C8F2BDA49A80F0 /* NSObject+XLFormAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 984F6F258FD98397EC52C306 /* NSObject+XLFormAdditions.h */; };
+		6A591A964057C3D4701E50F8 /* XLFormSectionDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FAB81D1AF9A7C5D9A8500D /* XLFormSectionDescriptor.m */; };
+		6A71FCE8FA05E0109EB417EB /* NBPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 252F9CCCF2119D549C8AA18E /* NBPhoneNumber.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		6BB7790C670086F94E384D45 /* XLFormPickerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 25A55A0161535368CF0D94E3 /* XLFormPickerCell.h */; };
+		6C3EB0EC6DC1CEF853650A92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5808895B2EA50EB8A30B96C /* Foundation.framework */; };
+		6E339A25F2CE39DF45185A68 /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = ECB8770942D21511227620BA /* SDWebImagePrefetcher.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		6EE71984740B80A4092A4EEC /* XLFormCheckCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8134136AF01587EE09D3B676 /* XLFormCheckCell.m */; };
+		6FD01EA955B4A3770E4001F1 /* NBNumberFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D21E91F59B8FD8E169CE600 /* NBNumberFormat.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		7084494EA0C26455B1AFDE1D /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 096E2C48D359B8A47FA0ADA9 /* UIImage+GIF.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		70C2EF203F79F265B975BAD2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34343721FFBC31A73EFFE323 /* CoreTelephony.framework */; };
+		736CCB9FAA4B7ADEAF34E58D /* NSArray+NBAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA656996763D7023F0042B65 /* NSArray+NBAdditions.h */; };
+		73A47475E871680B89930F1F /* NBMetadataCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C06A15CCF42D9B80E6B10DCA /* NBMetadataCoreTest.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		741F95BEBD2795CFE4ADF03D /* NSArray+XLFormAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AA20770B84D25F695949A1 /* NSArray+XLFormAdditions.m */; };
+		77E6414B00EB2EABEDCC77AD /* NSExpression+XLFormAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAEA4BADB6ED0C900F166A /* NSExpression+XLFormAdditions.m */; };
+		78862C504A447B282938E4C8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D006A17022C6CC290C122C94 /* CoreGraphics.framework */; };
+		7A929AED4DF39AF437BFF37A /* XLFormDateCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E170FF137ABB110A86EB1818 /* XLFormDateCell.h */; };
+		7D80345BE950100A0224066E /* SDImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 59FE32B82BD10DC81BE70BC0 /* SDImageCache.h */; };
+		7DD82A6B8963C07C05C06274 /* NBAsYouTypeFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = E46508FBCC4CF3E22C3FC9B0 /* NBAsYouTypeFormatter.h */; };
+		7FF447B9571195267848DF8F /* XLFormTextViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 272768CC7906F8FD1A80F96A /* XLFormTextViewCell.m */; };
+		829542B6E580E2980A74A7AB /* XLFormRightDetailCell.h in Headers */ = {isa = PBXBuildFile; fileRef = DBA86D31C1A66D23C4AA3973 /* XLFormRightDetailCell.h */; };
+		887AA3EEB67BBDE6CEB3A73E /* XLFormSelectorCell.h in Headers */ = {isa = PBXBuildFile; fileRef = DE8ACA99C8687B0B35BAE33F /* XLFormSelectorCell.h */; };
+		8A1EF983E16A947AE62602F5 /* XLFormDateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3125702540BF53B09FF63E7 /* XLFormDateCell.m */; };
+		8D87225CA816280E1D0224B7 /* XLFormViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FABA6C1AF6D7F624C721921 /* XLFormViewController.h */; };
+		907A03D269D09973B4D141E0 /* SDWebImageDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A704BA295EB488F03F8D76E /* SDWebImageDownloader.h */; };
+		9D6BB1C6689A44EB14BB6ED5 /* XLFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C507B52CEDEE8652F45A656F /* XLFormViewController.m */; };
+		A22F19D075D5BC5C2348CFC5 /* SDWebImageDownloaderOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3ACA792E0B62CBDA08C200 /* SDWebImageDownloaderOperation.h */; };
+		A587B953DE80DDBFE32B352A /* XLFormRowDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC257D19B7EE5823B3003E16 /* XLFormRowDescriptor.m */; };
+		A5F9DE13749AF363360B52B3 /* XLFormDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F828687C083A0692733BDC0 /* XLFormDescriptor.m */; };
+		A619E18CE5E468647191A9A5 /* NBPhoneNumberDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = BE434BB15FDB4E3B017485DE /* NBPhoneNumberDefines.h */; };
+		A92D03EEDA354FD47AC3AE13 /* NBMetadataCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0FC66A0EE5ACA0DDB1F50607 /* NBMetadataCore.h */; };
+		AC85B64DA8BD71E0B90C5BE4 /* XLFormOptionsObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 13D1ECDCB0DC5BEA5CBA1CC8 /* XLFormOptionsObject.h */; };
+		B1D7A681FFFA2BB0687B2FAF /* NBPhoneNumberDesc.h in Headers */ = {isa = PBXBuildFile; fileRef = D5687256AEDBD9B02E4F9CBF /* NBPhoneNumberDesc.h */; };
+		B25CFB48B0A231BB242D4982 /* NSExpression+XLFormAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BC604A49DEFAF90BD633099F /* NSExpression+XLFormAdditions.h */; };
+		B3F7CBA8B164B8859A53A08E /* XLFormSliderCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 13F290D1F4178EB5DE95D787 /* XLFormSliderCell.h */; };
+		B56A7238D219EAFCA5414D2D /* XLFormValidationStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F03E3FA4501F1D98826F67 /* XLFormValidationStatus.m */; };
+		B78FC54E6E3FB89BF3574B3A /* XLFormLeftRightSelectorCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FF04863016CD04F5F955F97 /* XLFormLeftRightSelectorCell.h */; };
+		B9AE814D8D251192F7C5C4B3 /* NBMetadataCoreTest.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D904A07C5F558F5480BBF6 /* NBMetadataCoreTest.h */; };
+		BAA1694A8DC11ECA61057D8D /* NBPhoneNumberUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E53DCBA2E6C42ABA0842DEF /* NBPhoneNumberUtil.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		BB59EA17598E2566A2309CCB /* XLFormSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D360DB0C19BAA1F1816464A /* XLFormSwitchCell.m */; };
+		BB8C5A04DC156DB448C042CA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5808895B2EA50EB8A30B96C /* Foundation.framework */; };
+		BBCAEA1467E9F5F61F2C7A67 /* XLFormOptionsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 920B4D344502EA99024D7594 /* XLFormOptionsViewController.h */; };
+		BC76F9840E3D4023541D9709 /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 733ECDDA360537FD4E5A9533 /* UIImage+MultiFormat.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		BF72CD4A412E4554BEEA0125 /* XLFormRightImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A055B1F2628114CC8CF43E3E /* XLFormRightImageButton.m */; };
+		C1F8F288EB2C1AF8E2208BD6 /* XLFormTextViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = EDC85AF136A296CEDC3C3422 /* XLFormTextViewCell.h */; };
+		C2A101951BB47892A4A0F93B /* Pods-Chemist Plus-libPhoneNumber-iOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1369A990D7DA4E8007FDB478 /* Pods-Chemist Plus-libPhoneNumber-iOS-dummy.m */; };
+		C37DB771EF366E24BE491CF5 /* NSPredicate+XLFormAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = DABEFE1726458CCD815F0D79 /* NSPredicate+XLFormAdditions.h */; };
+		C57B563E07C1E4F9157F14C9 /* XLFormPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C5ADCAA46223419F2C6086 /* XLFormPickerCell.m */; };
+		C5DBC68FD56CE9E49395F35C /* NSString+XLFormAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 47FC13D411D7D1554B264E1A /* NSString+XLFormAdditions.m */; };
+		C6436BEEBB175DD2B55B3F41 /* NBNumberFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FEB82B203F9BD305D59360E /* NBNumberFormat.h */; };
+		C7871E493A4B383D13F05EF5 /* NBMetadataHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 273769677E3F86B83F4E8149 /* NBMetadataHelper.h */; };
+		C837C38BB99F09D43438504B /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD3CB5F86D4A3BF66F598F3 /* SDWebImageCompat.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		C87F53716D060EA8D2D5C167 /* XLFormDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C619BFFF2CFBB4F8ADE912E /* XLFormDescriptor.h */; };
+		C9B87AA2B302DB5B6539C605 /* XLFormRegexValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 79645F0FE529A226D6966BAF /* XLFormRegexValidator.m */; };
+		CE5379B6382F3FA030E3A1F7 /* XLFormSegmentedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FF52CCB0935E6B7A90D3CD /* XLFormSegmentedCell.m */; };
+		CF928BE65A40A35AAD64FFCC /* UIView+WebCacheOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 252607A61FB9E1ABF44E9F16 /* UIView+WebCacheOperation.h */; };
+		D03F66375DDF0E83ED708CB1 /* XLFormOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90896042160879D8DFB3A08C /* XLFormOptionsViewController.m */; };
+		D285620B5E4513ADF6A80E5A /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2339EFEF1ADB3D6CEDF209A /* SDWebImageDecoder.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		D661C083FFEEC05F3B1D175B /* XLFormRowNavigationAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB612FB1836360C6434540BE /* XLFormRowNavigationAccessoryView.m */; };
+		D6DE67CF20CAED21BA875B8D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D006A17022C6CC290C122C94 /* CoreGraphics.framework */; };
+		D9131C51AA33AE778876B6D3 /* XLFormRowDescriptorViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 977EDEBECEBED88291BCE1DA /* XLFormRowDescriptorViewController.h */; };
+		DA32A30C895DA6233089ED98 /* XLFormTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 768815C5C87AB349B653D132 /* XLFormTextFieldCell.m */; };
+		DE4652FE0E5DAF683C5BCF8B /* Pods-Chemist Plus-XLForm-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C45D7CAFC9A99C7705A1BF7 /* Pods-Chemist Plus-XLForm-dummy.m */; };
+		E0DC8353B6B015DB4C5DF89D /* Pods-Chemist Plus-SDWebImage-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AC8A61B668C548F7FA5DB53B /* Pods-Chemist Plus-SDWebImage-dummy.m */; };
+		E16B95D9FEBA183DCD1BDC0E /* XLFormStepCounterCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D1805F079F0B595A2EF090F /* XLFormStepCounterCell.h */; };
+		E2692A23031D1195D555764F /* NBMetadataCoreMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = AC53B55B2582E2B4C0C047B5 /* NBMetadataCoreMapper.h */; };
+		E5149E0565B88F55602BEAED /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F10DCBE5E6A4135BFC5D0F08 /* UIButton+WebCache.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		E64B3D55A7561050B1ED0C6F /* XLFormLeftRightSelectorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA9C9C552E1951387E03B9A7 /* XLFormLeftRightSelectorCell.m */; };
+		E8B74794C9E86D760D921135 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7CD34F6E5BC54FB62E98FD /* UIKit.framework */; };
+		E91BB0E50F7C25A23FAC2505 /* UIImageView+HighlightedWebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 09F473489FAAFEE709F0439C /* UIImageView+HighlightedWebCache.h */; };
+		EB4B124ED677FFBAEF8776BD /* NSString+XLFormAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E5C95F2F4B4F7CE07734262C /* NSString+XLFormAdditions.h */; };
+		EE1A28568FA0172F12145D9F /* NSObject+XLFormAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E17C5F22D27BDD59B96B3109 /* NSObject+XLFormAdditions.m */; };
+		F0CE07D0831CBDBF5ECCBCBC /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B43C307B238DF84742ED71C /* UIImageView+WebCache.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		F176B981F926E56FC00A66D8 /* SDWebImageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 53D881C1B3995794B39EAD71 /* SDWebImageManager.h */; };
+		F1D4D13DDA76C750643284A6 /* XLFormButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 062D64CDFB1ED4814EFB433C /* XLFormButtonCell.h */; };
+		F28A46B1B11FC4AF40019B59 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5808895B2EA50EB8A30B96C /* Foundation.framework */; };
+		F433C37790AFA1A988320340 /* UIView+XLFormAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 040FFFA98CF0A753A8029B28 /* UIView+XLFormAdditions.h */; };
+		F46087C98C3C1DFE1FC8CBE8 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 739922F6607CEFEF19142FC8 /* UIImageView+HighlightedWebCache.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		F4D20216A88E9B8F8EF81F36 /* UIImage+MultiFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = F5F4469C50874FD72044CD48 /* UIImage+MultiFormat.h */; };
+		F82897D8E4E075E0B5E0828D /* SDWebImageOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 67173D8400DD4615F892DF38 /* SDWebImageOperation.h */; };
+		F84626C94F861C790BD17B05 /* UIView+XLFormAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B213481B9A890F7C6D6AB973 /* UIView+XLFormAdditions.m */; };
+		F85234C1379768B36B6BC095 /* XLFormOptionsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FE6DA23AA8478B7FE48B92 /* XLFormOptionsObject.m */; };
+		F927AEDB61D5015D935A0C26 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1938F21CE4C63F4E87D64203 /* SDImageCache.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		F963433372E0D2B4B9567DDE /* Pods-Chemist Plus-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FCB9ADE42420E601DA98FF79 /* Pods-Chemist Plus-dummy.m */; };
+		F9B4A9D37DEAE1FDE10D08DB /* NBMetadataCoreTestMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 38066375EBBAB3004BD0F098 /* NBMetadataCoreTestMapper.h */; };
+		FA35D0969805B96C86459306 /* XLFormSelectorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E169FC96A2429958CC9340 /* XLFormSelectorCell.m */; };
+		FA650E3AFD7F47976D22943B /* XLFormDescriptorCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E94F20C01531B46452BE33F /* XLFormDescriptorCell.h */; };
+		FAF0F23319AB0A01A8AFC319 /* XLFormRightDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E9FDDFCFA2B5EA61A42E96 /* XLFormRightDetailCell.m */; };
+		FDF664EFD20C3BD5C433DD93 /* XLFormDescriptorDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = DFDE02547685573CFF79FF30 /* XLFormDescriptorDelegate.h */; };
+		FF2E44A02719D7437AE5DECE /* XLFormValidationStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = E205F5700824DA7BE0231353 /* XLFormValidationStatus.h */; };
+		FF81802AA7AA850A103BFD3A /* XLFormValidator.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FB7EF514E41B67717DC3D6B /* XLFormValidator.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0F03BD0718EC5E9AD3307422 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5E117865DDC947CC59D0BB30 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B8C3B7DB1E1BDCA56C0EDB7F;
+			remoteInfo = "Pods-Chemist Plus-SDWebImage";
+		};
+		48494528D43CC7FBCD0A490D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5E117865DDC947CC59D0BB30 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93A2FEFC0CE64A318364D5B9;
+			remoteInfo = "Pods-Chemist Plus-MBProgressHUD";
+		};
+		6F59420F6922FA1DB52457DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5E117865DDC947CC59D0BB30 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 86DA157789E8C39C7F1E6A5C;
+			remoteInfo = "Pods-Chemist Plus-XLForm";
+		};
+		97D9448019F4C66257308E63 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5E117865DDC947CC59D0BB30 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DF3F47E0BE0EC72B2203CDF9;
+			remoteInfo = "Pods-Chemist Plus-libPhoneNumber-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00AF49636D7B7546633AA50F /* XLForm.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = XLForm.bundle; path = XLForm/XLForm.bundle; sourceTree = "<group>"; };
+		010A762284F6CEDA80701CF8 /* Pods-Chemist Plus-MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Chemist Plus-MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
+		03B796A557D275C7B2B989F5 /* XLFormRowDescriptor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormRowDescriptor.h; path = XLForm/XL/Descriptors/XLFormRowDescriptor.h; sourceTree = "<group>"; };
+		040FFFA98CF0A753A8029B28 /* UIView+XLFormAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+XLFormAdditions.h"; path = "XLForm/XL/Helpers/UIView+XLFormAdditions.h"; sourceTree = "<group>"; };
+		052063C39C7835CD33F74849 /* XLFormCheckCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormCheckCell.h; path = XLForm/XL/Cell/XLFormCheckCell.h; sourceTree = "<group>"; };
+		062D64CDFB1ED4814EFB433C /* XLFormButtonCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormButtonCell.h; path = XLForm/XL/Cell/XLFormButtonCell.h; sourceTree = "<group>"; };
+		08502871808ECA32890F83AA /* Pods-Chemist Plus-MBProgressHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Chemist Plus-MBProgressHUD.xcconfig"; sourceTree = "<group>"; };
+		096E2C48D359B8A47FA0ADA9 /* UIImage+GIF.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+GIF.m"; path = "SDWebImage/UIImage+GIF.m"; sourceTree = "<group>"; };
+		09F473489FAAFEE709F0439C /* UIImageView+HighlightedWebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImageView+HighlightedWebCache.h"; path = "SDWebImage/UIImageView+HighlightedWebCache.h"; sourceTree = "<group>"; };
+		0B4F2C07E1BE9F351C47178D /* XLFormDatePickerCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormDatePickerCell.m; path = XLForm/XL/Cell/XLFormDatePickerCell.m; sourceTree = "<group>"; };
+		0BCFF8A1A08E39DD87A90D59 /* Pods-Chemist Plus-XLForm-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Chemist Plus-XLForm-prefix.pch"; sourceTree = "<group>"; };
+		0C5BC901A7F6D50583B2E9B2 /* SDWebImageManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageManager.m; path = SDWebImage/SDWebImageManager.m; sourceTree = "<group>"; };
+		0C619BFFF2CFBB4F8ADE912E /* XLFormDescriptor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormDescriptor.h; path = XLForm/XL/Descriptors/XLFormDescriptor.h; sourceTree = "<group>"; };
+		0E92D13082C3F7016B4D670C /* Pods-Chemist Plus-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Chemist Plus-resources.sh"; sourceTree = "<group>"; };
+		0ECAEA4BADB6ED0C900F166A /* NSExpression+XLFormAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSExpression+XLFormAdditions.m"; path = "XLForm/XL/Helpers/NSExpression+XLFormAdditions.m"; sourceTree = "<group>"; };
+		0FC66A0EE5ACA0DDB1F50607 /* NBMetadataCore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBMetadataCore.h; path = libPhoneNumber/NBMetadataCore.h; sourceTree = "<group>"; };
+		11E9FDDFCFA2B5EA61A42E96 /* XLFormRightDetailCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormRightDetailCell.m; path = XLForm/XL/Helpers/Views/XLFormRightDetailCell.m; sourceTree = "<group>"; };
+		1369A990D7DA4E8007FDB478 /* Pods-Chemist Plus-libPhoneNumber-iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Chemist Plus-libPhoneNumber-iOS-dummy.m"; sourceTree = "<group>"; };
+		13D1ECDCB0DC5BEA5CBA1CC8 /* XLFormOptionsObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormOptionsObject.h; path = XLForm/XL/Controllers/XLFormOptionsObject.h; sourceTree = "<group>"; };
+		13F290D1F4178EB5DE95D787 /* XLFormSliderCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormSliderCell.h; path = XLForm/XL/Cell/XLFormSliderCell.h; sourceTree = "<group>"; };
+		174BC446F2D7453CE795ED59 /* NBPhoneNumberMetadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = NBPhoneNumberMetadata.plist; path = libPhoneNumber/NBPhoneNumberMetadata.plist; sourceTree = "<group>"; };
+		1938F21CE4C63F4E87D64203 /* SDImageCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCache.m; path = SDWebImage/SDImageCache.m; sourceTree = "<group>"; };
+		1ABDC84FE571888B43E7C3D8 /* Pods-Chemist Plus-MBProgressHUD-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Chemist Plus-MBProgressHUD-Private.xcconfig"; sourceTree = "<group>"; };
+		1B43C307B238DF84742ED71C /* UIImageView+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+WebCache.m"; path = "SDWebImage/UIImageView+WebCache.m"; sourceTree = "<group>"; };
+		1C475CE8C52F88C9201AE2C4 /* NSPredicate+XLFormAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSPredicate+XLFormAdditions.m"; path = "XLForm/XL/Helpers/NSPredicate+XLFormAdditions.m"; sourceTree = "<group>"; };
+		1D1805F079F0B595A2EF090F /* XLFormStepCounterCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormStepCounterCell.h; path = XLForm/XL/Cell/XLFormStepCounterCell.h; sourceTree = "<group>"; };
+		1FABA6C1AF6D7F624C721921 /* XLFormViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormViewController.h; path = XLForm/XL/Controllers/XLFormViewController.h; sourceTree = "<group>"; };
+		250A66E92C4A33F16BF52B20 /* libPods-Chemist Plus-MBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus-MBProgressHUD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		252607A61FB9E1ABF44E9F16 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+WebCacheOperation.h"; path = "SDWebImage/UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
+		252EF9835040C4E76DFE90E1 /* XLFormTextView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormTextView.h; path = XLForm/XL/Helpers/Views/XLFormTextView.h; sourceTree = "<group>"; };
+		252F9CCCF2119D549C8AA18E /* NBPhoneNumber.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBPhoneNumber.m; path = libPhoneNumber/NBPhoneNumber.m; sourceTree = "<group>"; };
+		25A55A0161535368CF0D94E3 /* XLFormPickerCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormPickerCell.h; path = XLForm/XL/Cell/XLFormPickerCell.h; sourceTree = "<group>"; };
+		272768CC7906F8FD1A80F96A /* XLFormTextViewCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormTextViewCell.m; path = XLForm/XL/Cell/XLFormTextViewCell.m; sourceTree = "<group>"; };
+		273769677E3F86B83F4E8149 /* NBMetadataHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBMetadataHelper.h; path = libPhoneNumber/NBMetadataHelper.h; sourceTree = "<group>"; };
+		2A1A561EB85384F943568670 /* Pods-Chemist Plus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Chemist Plus.release.xcconfig"; sourceTree = "<group>"; };
+		2AB93EB6392574E7BE7E3E4A /* Pods-Chemist Plus-libPhoneNumber-iOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Chemist Plus-libPhoneNumber-iOS.xcconfig"; sourceTree = "<group>"; };
+		2E5D5918A37442B36CF628C9 /* NBMetadataCore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBMetadataCore.m; path = libPhoneNumber/NBMetadataCore.m; sourceTree = "<group>"; };
+		34343721FFBC31A73EFFE323 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		38066375EBBAB3004BD0F098 /* NBMetadataCoreTestMapper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBMetadataCoreTestMapper.h; path = libPhoneNumber/NBMetadataCoreTestMapper.h; sourceTree = "<group>"; };
+		3AB6DAE621BF7858487B073B /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
+		3B473824B09166F5B837EF63 /* XLFormDatePickerCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormDatePickerCell.h; path = XLForm/XL/Cell/XLFormDatePickerCell.h; sourceTree = "<group>"; };
+		3B6E898B1A05DB812A8C1523 /* NBPhoneNumber.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBPhoneNumber.h; path = libPhoneNumber/NBPhoneNumber.h; sourceTree = "<group>"; };
+		3C60DF1D22F02799C0ABD12C /* NBPhoneNumberDesc.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBPhoneNumberDesc.m; path = libPhoneNumber/NBPhoneNumberDesc.m; sourceTree = "<group>"; };
+		3E94F20C01531B46452BE33F /* XLFormDescriptorCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormDescriptorCell.h; path = XLForm/XL/Cell/XLFormDescriptorCell.h; sourceTree = "<group>"; };
+		3F828687C083A0692733BDC0 /* XLFormDescriptor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormDescriptor.m; path = XLForm/XL/Descriptors/XLFormDescriptor.m; sourceTree = "<group>"; };
+		412EF7B927C4EAE8222B12AD /* XLFormBaseCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormBaseCell.h; path = XLForm/XL/Cell/XLFormBaseCell.h; sourceTree = "<group>"; };
+		47FC13D411D7D1554B264E1A /* NSString+XLFormAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSString+XLFormAdditions.m"; path = "XLForm/XL/Helpers/NSString+XLFormAdditions.m"; sourceTree = "<group>"; };
+		4C45D7CAFC9A99C7705A1BF7 /* Pods-Chemist Plus-XLForm-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Chemist Plus-XLForm-dummy.m"; sourceTree = "<group>"; };
+		4C83C05D087F703A0FD7CFAF /* NBMetadataHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBMetadataHelper.m; path = libPhoneNumber/NBMetadataHelper.m; sourceTree = "<group>"; };
+		4D13B809E2AB605765D9FCE2 /* SDWebImageDecoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDecoder.h; path = SDWebImage/SDWebImageDecoder.h; sourceTree = "<group>"; };
+		4D360DB0C19BAA1F1816464A /* XLFormSwitchCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormSwitchCell.m; path = XLForm/XL/Cell/XLFormSwitchCell.m; sourceTree = "<group>"; };
+		4D8F7B6272D07534E57FBD0B /* XLFormValidator.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormValidator.m; path = XLForm/XL/Validation/XLFormValidator.m; sourceTree = "<group>"; };
+		50F37182137E89139C8B4834 /* NSData+ImageContentType.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSData+ImageContentType.m"; path = "SDWebImage/NSData+ImageContentType.m"; sourceTree = "<group>"; };
+		517133E6A6B16A088669ACF2 /* libPods-Chemist Plus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		51AA20770B84D25F695949A1 /* NSArray+XLFormAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+XLFormAdditions.m"; path = "XLForm/XL/Helpers/NSArray+XLFormAdditions.m"; sourceTree = "<group>"; };
+		53695E70E152FC2C43D0157E /* XLFormTextFieldCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormTextFieldCell.h; path = XLForm/XL/Cell/XLFormTextFieldCell.h; sourceTree = "<group>"; };
+		53D881C1B3995794B39EAD71 /* SDWebImageManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageManager.h; path = SDWebImage/SDWebImageManager.h; sourceTree = "<group>"; };
+		55E169FC96A2429958CC9340 /* XLFormSelectorCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormSelectorCell.m; path = XLForm/XL/Cell/XLFormSelectorCell.m; sourceTree = "<group>"; };
+		5873D4372E87508445875D68 /* NSArray+NBAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+NBAdditions.m"; path = "libPhoneNumber/NSArray+NBAdditions.m"; sourceTree = "<group>"; };
+		5889471D6765BEE39286F9AE /* NBPhoneMetaData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBPhoneMetaData.h; path = libPhoneNumber/NBPhoneMetaData.h; sourceTree = "<group>"; };
+		59FE32B82BD10DC81BE70BC0 /* SDImageCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCache.h; path = SDWebImage/SDImageCache.h; sourceTree = "<group>"; };
+		5D3ACA792E0B62CBDA08C200 /* SDWebImageDownloaderOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDownloaderOperation.h; path = SDWebImage/SDWebImageDownloaderOperation.h; sourceTree = "<group>"; };
+		5FF04863016CD04F5F955F97 /* XLFormLeftRightSelectorCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormLeftRightSelectorCell.h; path = XLForm/XL/Cell/XLFormLeftRightSelectorCell.h; sourceTree = "<group>"; };
+		627777F980F94FF5239111D1 /* Pods-Chemist Plus-SDWebImage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Chemist Plus-SDWebImage.xcconfig"; sourceTree = "<group>"; };
+		65FF52CCB0935E6B7A90D3CD /* XLFormSegmentedCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormSegmentedCell.m; path = XLForm/XL/Cell/XLFormSegmentedCell.m; sourceTree = "<group>"; };
+		67173D8400DD4615F892DF38 /* SDWebImageOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageOperation.h; path = SDWebImage/SDWebImageOperation.h; sourceTree = "<group>"; };
+		6803BB39C8B8B2E1599E19AF /* UIImage+GIF.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+GIF.h"; path = "SDWebImage/UIImage+GIF.h"; sourceTree = "<group>"; };
+		689EB666C9F957DC08A46D70 /* Pods-Chemist Plus-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Chemist Plus-environment.h"; sourceTree = "<group>"; };
+		6B090C618E76E13CCD7BD307 /* Pods-Chemist Plus-libPhoneNumber-iOS-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Chemist Plus-libPhoneNumber-iOS-Private.xcconfig"; sourceTree = "<group>"; };
+		6D0A01B39E3CACB0AA7A8901 /* XLFormSwitchCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormSwitchCell.h; path = XLForm/XL/Cell/XLFormSwitchCell.h; sourceTree = "<group>"; };
+		6D3C417AB96900691A785F78 /* XLFormButtonCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormButtonCell.m; path = XLForm/XL/Cell/XLFormButtonCell.m; sourceTree = "<group>"; };
+		6DC06737DD058A3F4433628B /* NBMetadataCoreMapper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBMetadataCoreMapper.m; path = libPhoneNumber/NBMetadataCoreMapper.m; sourceTree = "<group>"; };
+		6DC13616A492FCAF6CBB5DCF /* Pods-Chemist Plus-XLForm-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Chemist Plus-XLForm-Private.xcconfig"; sourceTree = "<group>"; };
+		6FEB82B203F9BD305D59360E /* NBNumberFormat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBNumberFormat.h; path = libPhoneNumber/NBNumberFormat.h; sourceTree = "<group>"; };
+		72CBA32C4EF12953060AB4BC /* XLForm.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLForm.h; path = XLForm/XL/XLForm.h; sourceTree = "<group>"; };
+		733ECDDA360537FD4E5A9533 /* UIImage+MultiFormat.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+MultiFormat.m"; path = "SDWebImage/UIImage+MultiFormat.m"; sourceTree = "<group>"; };
+		739922F6607CEFEF19142FC8 /* UIImageView+HighlightedWebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+HighlightedWebCache.m"; path = "SDWebImage/UIImageView+HighlightedWebCache.m"; sourceTree = "<group>"; };
+		73C2C26FBFDC7D16B1FFF372 /* NBAsYouTypeFormatter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBAsYouTypeFormatter.m; path = libPhoneNumber/NBAsYouTypeFormatter.m; sourceTree = "<group>"; };
+		768815C5C87AB349B653D132 /* XLFormTextFieldCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormTextFieldCell.m; path = XLForm/XL/Cell/XLFormTextFieldCell.m; sourceTree = "<group>"; };
+		776472A5E0D63A83FFBA82D6 /* Pods-Chemist Plus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Chemist Plus.debug.xcconfig"; sourceTree = "<group>"; };
+		778C17E250F9F624D5DD36F5 /* XLFormSectionDescriptor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormSectionDescriptor.h; path = XLForm/XL/Descriptors/XLFormSectionDescriptor.h; sourceTree = "<group>"; };
+		77FAB81D1AF9A7C5D9A8500D /* XLFormSectionDescriptor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormSectionDescriptor.m; path = XLForm/XL/Descriptors/XLFormSectionDescriptor.m; sourceTree = "<group>"; };
+		79645F0FE529A226D6966BAF /* XLFormRegexValidator.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormRegexValidator.m; path = XLForm/XL/Validation/XLFormRegexValidator.m; sourceTree = "<group>"; };
+		7A90B29D3165CDF5CCB12409 /* XLForm.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLForm.m; path = XLForm/XL/XLForm.m; sourceTree = "<group>"; };
+		7E3A7F64540A7B7AE68873A2 /* XLFormSliderCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormSliderCell.m; path = XLForm/XL/Cell/XLFormSliderCell.m; sourceTree = "<group>"; };
+		810132912ECE917E723BAC98 /* XLFormInlineRowDescriptorCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormInlineRowDescriptorCell.h; path = XLForm/XL/Cell/XLFormInlineRowDescriptorCell.h; sourceTree = "<group>"; };
+		8134136AF01587EE09D3B676 /* XLFormCheckCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormCheckCell.m; path = XLForm/XL/Cell/XLFormCheckCell.m; sourceTree = "<group>"; };
+		823FCD3882E2869EDE513D42 /* Pods-Chemist Plus-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Chemist Plus-acknowledgements.markdown"; sourceTree = "<group>"; };
+		868EADF230FC81DEE341F0C1 /* libPods-Chemist Plus-libPhoneNumber-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus-libPhoneNumber-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		873B4C79E30A1E01A3070CB5 /* XLFormStepCounterCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormStepCounterCell.m; path = XLForm/XL/Cell/XLFormStepCounterCell.m; sourceTree = "<group>"; };
+		8882C8A360F38CF530C68E6B /* libPods-Chemist Plus-SDWebImage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus-SDWebImage.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A704BA295EB488F03F8D76E /* SDWebImageDownloader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDownloader.h; path = SDWebImage/SDWebImageDownloader.h; sourceTree = "<group>"; };
+		8C0A1347B7AA95072DDE3592 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		8D5AB0FF34340E510CF50B23 /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		8DECEBF2F575597F7602C6B6 /* SDWebImagePrefetcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImagePrefetcher.h; path = SDWebImage/SDWebImagePrefetcher.h; sourceTree = "<group>"; };
+		8E53DCBA2E6C42ABA0842DEF /* NBPhoneNumberUtil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBPhoneNumberUtil.m; path = libPhoneNumber/NBPhoneNumberUtil.m; sourceTree = "<group>"; };
+		90896042160879D8DFB3A08C /* XLFormOptionsViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormOptionsViewController.m; path = XLForm/XL/Controllers/XLFormOptionsViewController.m; sourceTree = "<group>"; };
+		920B4D344502EA99024D7594 /* XLFormOptionsViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormOptionsViewController.h; path = XLForm/XL/Controllers/XLFormOptionsViewController.h; sourceTree = "<group>"; };
+		96C1B0800316437EDA2CC747 /* XLFormRowNavigationAccessoryView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormRowNavigationAccessoryView.h; path = XLForm/XL/Helpers/Views/XLFormRowNavigationAccessoryView.h; sourceTree = "<group>"; };
+		977EDEBECEBED88291BCE1DA /* XLFormRowDescriptorViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormRowDescriptorViewController.h; path = XLForm/XL/Controllers/XLFormRowDescriptorViewController.h; sourceTree = "<group>"; };
+		97CEBB663187C8038691C080 /* XLFormRightImageButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormRightImageButton.h; path = XLForm/XL/Helpers/Views/XLFormRightImageButton.h; sourceTree = "<group>"; };
+		984F6F258FD98397EC52C306 /* NSObject+XLFormAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSObject+XLFormAdditions.h"; path = "XLForm/XL/Helpers/NSObject+XLFormAdditions.h"; sourceTree = "<group>"; };
+		9A5E206C74BAF12725ACFDDE /* libPods-Chemist Plus-XLForm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus-XLForm.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B3C80E7112D5ECBD24E38C9 /* Pods-Chemist Plus-XLForm.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Chemist Plus-XLForm.xcconfig"; sourceTree = "<group>"; };
+		9B7CD34F6E5BC54FB62E98FD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		9D21E91F59B8FD8E169CE600 /* NBNumberFormat.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBNumberFormat.m; path = libPhoneNumber/NBNumberFormat.m; sourceTree = "<group>"; };
+		9D24E8E230577F7D20F1FA61 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+WebCacheOperation.m"; path = "SDWebImage/UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		9FB7EF514E41B67717DC3D6B /* XLFormValidator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormValidator.h; path = XLForm/XL/Validation/XLFormValidator.h; sourceTree = "<group>"; };
+		A055B1F2628114CC8CF43E3E /* XLFormRightImageButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormRightImageButton.m; path = XLForm/XL/Helpers/Views/XLFormRightImageButton.m; sourceTree = "<group>"; };
+		A0C5ADCAA46223419F2C6086 /* XLFormPickerCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormPickerCell.m; path = XLForm/XL/Cell/XLFormPickerCell.m; sourceTree = "<group>"; };
+		A6A8613519FE9DD676B4DB04 /* Pods-Chemist Plus-libPhoneNumber-iOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Chemist Plus-libPhoneNumber-iOS-prefix.pch"; sourceTree = "<group>"; };
+		A7B4138EB25FEDB5DD1D5577 /* NBPhoneNumberUtil.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBPhoneNumberUtil.h; path = libPhoneNumber/NBPhoneNumberUtil.h; sourceTree = "<group>"; };
+		A860FFC62E2998D4A85BEF34 /* NBMetadataCoreTestMapper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBMetadataCoreTestMapper.m; path = libPhoneNumber/NBMetadataCoreTestMapper.m; sourceTree = "<group>"; };
+		A8D904A07C5F558F5480BBF6 /* NBMetadataCoreTest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBMetadataCoreTest.h; path = libPhoneNumber/NBMetadataCoreTest.h; sourceTree = "<group>"; };
+		A970D11CA35065E09918FB64 /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		A9C4B0455653CDF8589FCFA9 /* Pods-Chemist Plus-SDWebImage-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Chemist Plus-SDWebImage-Private.xcconfig"; sourceTree = "<group>"; };
+		AA656996763D7023F0042B65 /* NSArray+NBAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+NBAdditions.h"; path = "libPhoneNumber/NSArray+NBAdditions.h"; sourceTree = "<group>"; };
+		AC53B55B2582E2B4C0C047B5 /* NBMetadataCoreMapper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBMetadataCoreMapper.h; path = libPhoneNumber/NBMetadataCoreMapper.h; sourceTree = "<group>"; };
+		AC8A61B668C548F7FA5DB53B /* Pods-Chemist Plus-SDWebImage-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Chemist Plus-SDWebImage-dummy.m"; sourceTree = "<group>"; };
+		AF91BE22F6B2C99BD52E35D5 /* XLFormRegexValidator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormRegexValidator.h; path = XLForm/XL/Validation/XLFormRegexValidator.h; sourceTree = "<group>"; };
+		B213481B9A890F7C6D6AB973 /* UIView+XLFormAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+XLFormAdditions.m"; path = "XLForm/XL/Helpers/UIView+XLFormAdditions.m"; sourceTree = "<group>"; };
+		B387586CFA36E97D44F46442 /* Pods-Chemist Plus-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Chemist Plus-acknowledgements.plist"; sourceTree = "<group>"; };
+		B5808895B2EA50EB8A30B96C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		B67ADAB6E4ACF85ED714C3F3 /* SDWebImageDownloaderOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDownloaderOperation.m; path = SDWebImage/SDWebImageDownloaderOperation.m; sourceTree = "<group>"; };
+		BA9C9C552E1951387E03B9A7 /* XLFormLeftRightSelectorCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormLeftRightSelectorCell.m; path = XLForm/XL/Cell/XLFormLeftRightSelectorCell.m; sourceTree = "<group>"; };
+		BC257D19B7EE5823B3003E16 /* XLFormRowDescriptor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormRowDescriptor.m; path = XLForm/XL/Descriptors/XLFormRowDescriptor.m; sourceTree = "<group>"; };
+		BC604A49DEFAF90BD633099F /* NSExpression+XLFormAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSExpression+XLFormAdditions.h"; path = "XLForm/XL/Helpers/NSExpression+XLFormAdditions.h"; sourceTree = "<group>"; };
+		BE434BB15FDB4E3B017485DE /* NBPhoneNumberDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBPhoneNumberDefines.h; path = libPhoneNumber/NBPhoneNumberDefines.h; sourceTree = "<group>"; };
+		BE8EAD299AB1715212C5CB84 /* SDWebImageCompat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageCompat.h; path = SDWebImage/SDWebImageCompat.h; sourceTree = "<group>"; };
+		C06A15CCF42D9B80E6B10DCA /* NBMetadataCoreTest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBMetadataCoreTest.m; path = libPhoneNumber/NBMetadataCoreTest.m; sourceTree = "<group>"; };
+		C1D471016C33A3CD47D62C75 /* XLFormInlineSelectorCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormInlineSelectorCell.h; path = XLForm/XL/Cell/XLFormInlineSelectorCell.h; sourceTree = "<group>"; };
+		C229C4FC0BD9E07346A4A743 /* Pods-Chemist Plus-MBProgressHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Chemist Plus-MBProgressHUD-dummy.m"; sourceTree = "<group>"; };
+		C507B52CEDEE8652F45A656F /* XLFormViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormViewController.m; path = XLForm/XL/Controllers/XLFormViewController.m; sourceTree = "<group>"; };
+		CD3668C1C0EE097AB10E1202 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSData+ImageContentType.h"; path = "SDWebImage/NSData+ImageContentType.h"; sourceTree = "<group>"; };
+		CEAE372F1D33EA1E01CAFA7C /* UIImageView+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImageView+WebCache.h"; path = "SDWebImage/UIImageView+WebCache.h"; sourceTree = "<group>"; };
+		D006A17022C6CC290C122C94 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		D2339EFEF1ADB3D6CEDF209A /* SDWebImageDecoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDecoder.m; path = SDWebImage/SDWebImageDecoder.m; sourceTree = "<group>"; };
+		D5687256AEDBD9B02E4F9CBF /* NBPhoneNumberDesc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBPhoneNumberDesc.h; path = libPhoneNumber/NBPhoneNumberDesc.h; sourceTree = "<group>"; };
+		D68B409FC8ACAC6E2390C6B9 /* NSArray+XLFormAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+XLFormAdditions.h"; path = "XLForm/XL/Helpers/NSArray+XLFormAdditions.h"; sourceTree = "<group>"; };
+		DABEFE1726458CCD815F0D79 /* NSPredicate+XLFormAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSPredicate+XLFormAdditions.h"; path = "XLForm/XL/Helpers/NSPredicate+XLFormAdditions.h"; sourceTree = "<group>"; };
+		DB612FB1836360C6434540BE /* XLFormRowNavigationAccessoryView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormRowNavigationAccessoryView.m; path = XLForm/XL/Helpers/Views/XLFormRowNavigationAccessoryView.m; sourceTree = "<group>"; };
+		DBA86D31C1A66D23C4AA3973 /* XLFormRightDetailCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormRightDetailCell.h; path = XLForm/XL/Helpers/Views/XLFormRightDetailCell.h; sourceTree = "<group>"; };
+		DBD3CB5F86D4A3BF66F598F3 /* SDWebImageCompat.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageCompat.m; path = SDWebImage/SDWebImageCompat.m; sourceTree = "<group>"; };
+		DD7D6A3B93265816AB658D3B /* XLFormSegmentedCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormSegmentedCell.h; path = XLForm/XL/Cell/XLFormSegmentedCell.h; sourceTree = "<group>"; };
+		DE8ACA99C8687B0B35BAE33F /* XLFormSelectorCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormSelectorCell.h; path = XLForm/XL/Cell/XLFormSelectorCell.h; sourceTree = "<group>"; };
+		DF770BC04B1533EE71E4DF48 /* NBPhoneMetaData.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NBPhoneMetaData.m; path = libPhoneNumber/NBPhoneMetaData.m; sourceTree = "<group>"; };
+		DFD44B6C266838B61E7E53B8 /* XLFormBaseCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormBaseCell.m; path = XLForm/XL/Cell/XLFormBaseCell.m; sourceTree = "<group>"; };
+		DFDE02547685573CFF79FF30 /* XLFormDescriptorDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormDescriptorDelegate.h; path = XLForm/XL/Descriptors/XLFormDescriptorDelegate.h; sourceTree = "<group>"; };
+		E05C73E6FC078F6BB75754D1 /* Pods-Chemist Plus-SDWebImage-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Chemist Plus-SDWebImage-prefix.pch"; sourceTree = "<group>"; };
+		E170FF137ABB110A86EB1818 /* XLFormDateCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormDateCell.h; path = XLForm/XL/Cell/XLFormDateCell.h; sourceTree = "<group>"; };
+		E17C5F22D27BDD59B96B3109 /* NSObject+XLFormAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+XLFormAdditions.m"; path = "XLForm/XL/Helpers/NSObject+XLFormAdditions.m"; sourceTree = "<group>"; };
+		E205F5700824DA7BE0231353 /* XLFormValidationStatus.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormValidationStatus.h; path = XLForm/XL/Validation/XLFormValidationStatus.h; sourceTree = "<group>"; };
+		E46508FBCC4CF3E22C3FC9B0 /* NBAsYouTypeFormatter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NBAsYouTypeFormatter.h; path = libPhoneNumber/NBAsYouTypeFormatter.h; sourceTree = "<group>"; };
+		E5C95F2F4B4F7CE07734262C /* NSString+XLFormAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSString+XLFormAdditions.h"; path = "XLForm/XL/Helpers/NSString+XLFormAdditions.h"; sourceTree = "<group>"; };
+		E6DA7DCB3A8F6EC5C64001FA /* XLFormInlineSelectorCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormInlineSelectorCell.m; path = XLForm/XL/Cell/XLFormInlineSelectorCell.m; sourceTree = "<group>"; };
+		E8FE6DA23AA8478B7FE48B92 /* XLFormOptionsObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormOptionsObject.m; path = XLForm/XL/Controllers/XLFormOptionsObject.m; sourceTree = "<group>"; };
+		E991F9FC34D57C9F10F4B629 /* XLFormTextView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormTextView.m; path = XLForm/XL/Helpers/Views/XLFormTextView.m; sourceTree = "<group>"; };
+		ECB8770942D21511227620BA /* SDWebImagePrefetcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImagePrefetcher.m; path = SDWebImage/SDWebImagePrefetcher.m; sourceTree = "<group>"; };
+		ECF724895334BD24A32D054C /* SDWebImageDownloader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDownloader.m; path = SDWebImage/SDWebImageDownloader.m; sourceTree = "<group>"; };
+		EDC85AF136A296CEDC3C3422 /* XLFormTextViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormTextViewCell.h; path = XLForm/XL/Cell/XLFormTextViewCell.h; sourceTree = "<group>"; };
+		F0F03E3FA4501F1D98826F67 /* XLFormValidationStatus.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormValidationStatus.m; path = XLForm/XL/Validation/XLFormValidationStatus.m; sourceTree = "<group>"; };
+		F10DCBE5E6A4135BFC5D0F08 /* UIButton+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIButton+WebCache.m"; path = "SDWebImage/UIButton+WebCache.m"; sourceTree = "<group>"; };
+		F3125702540BF53B09FF63E7 /* XLFormDateCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = XLFormDateCell.m; path = XLForm/XL/Cell/XLFormDateCell.m; sourceTree = "<group>"; };
+		F5F4469C50874FD72044CD48 /* UIImage+MultiFormat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+MultiFormat.h"; path = "SDWebImage/UIImage+MultiFormat.h"; sourceTree = "<group>"; };
+		F88CB9BFB9E921782B5D96F5 /* UIButton+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIButton+WebCache.h"; path = "SDWebImage/UIButton+WebCache.h"; sourceTree = "<group>"; };
+		FC701F53A060974FA1CBD2C4 /* XLFormValidatorProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = XLFormValidatorProtocol.h; path = XLForm/XL/Validation/XLFormValidatorProtocol.h; sourceTree = "<group>"; };
+		FCB9ADE42420E601DA98FF79 /* Pods-Chemist Plus-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Chemist Plus-dummy.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1EC5F427C806DDA4B2A1B2B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70C2EF203F79F265B975BAD2 /* CoreTelephony.framework in Frameworks */,
+				2A651059A70BF0F3C6725A9B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		249E8375C826C4E07AF8F97F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F28A46B1B11FC4AF40019B59 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78FA0D62D39EAAA1E3C982A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C3EB0EC6DC1CEF853650A92 /* Foundation.framework in Frameworks */,
+				4F0539DC3A74C332079D4656 /* ImageIO.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A73727C173DE1A878B7055FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6DE67CF20CAED21BA875B8D /* CoreGraphics.framework in Frameworks */,
+				452B7A30F9079AADE5D30D51 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9EF9B3D59C5916020D71FAE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78862C504A447B282938E4C8 /* CoreGraphics.framework in Frameworks */,
+				BB8C5A04DC156DB448C042CA /* Foundation.framework in Frameworks */,
+				E8B74794C9E86D760D921135 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0ED859BD9A5D3A0A70545819 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				D006A17022C6CC290C122C94 /* CoreGraphics.framework */,
+				34343721FFBC31A73EFFE323 /* CoreTelephony.framework */,
+				B5808895B2EA50EB8A30B96C /* Foundation.framework */,
+				3AB6DAE621BF7858487B073B /* ImageIO.framework */,
+				9B7CD34F6E5BC54FB62E98FD /* UIKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		1FA2E5EB690BE35001BD90C3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0ED859BD9A5D3A0A70545819 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		214FFE2BB717ED735B92E970 /* libPhoneNumber-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				E46508FBCC4CF3E22C3FC9B0 /* NBAsYouTypeFormatter.h */,
+				73C2C26FBFDC7D16B1FFF372 /* NBAsYouTypeFormatter.m */,
+				0FC66A0EE5ACA0DDB1F50607 /* NBMetadataCore.h */,
+				2E5D5918A37442B36CF628C9 /* NBMetadataCore.m */,
+				AC53B55B2582E2B4C0C047B5 /* NBMetadataCoreMapper.h */,
+				6DC06737DD058A3F4433628B /* NBMetadataCoreMapper.m */,
+				A8D904A07C5F558F5480BBF6 /* NBMetadataCoreTest.h */,
+				C06A15CCF42D9B80E6B10DCA /* NBMetadataCoreTest.m */,
+				38066375EBBAB3004BD0F098 /* NBMetadataCoreTestMapper.h */,
+				A860FFC62E2998D4A85BEF34 /* NBMetadataCoreTestMapper.m */,
+				273769677E3F86B83F4E8149 /* NBMetadataHelper.h */,
+				4C83C05D087F703A0FD7CFAF /* NBMetadataHelper.m */,
+				6FEB82B203F9BD305D59360E /* NBNumberFormat.h */,
+				9D21E91F59B8FD8E169CE600 /* NBNumberFormat.m */,
+				5889471D6765BEE39286F9AE /* NBPhoneMetaData.h */,
+				DF770BC04B1533EE71E4DF48 /* NBPhoneMetaData.m */,
+				3B6E898B1A05DB812A8C1523 /* NBPhoneNumber.h */,
+				252F9CCCF2119D549C8AA18E /* NBPhoneNumber.m */,
+				BE434BB15FDB4E3B017485DE /* NBPhoneNumberDefines.h */,
+				D5687256AEDBD9B02E4F9CBF /* NBPhoneNumberDesc.h */,
+				3C60DF1D22F02799C0ABD12C /* NBPhoneNumberDesc.m */,
+				A7B4138EB25FEDB5DD1D5577 /* NBPhoneNumberUtil.h */,
+				8E53DCBA2E6C42ABA0842DEF /* NBPhoneNumberUtil.m */,
+				AA656996763D7023F0042B65 /* NSArray+NBAdditions.h */,
+				5873D4372E87508445875D68 /* NSArray+NBAdditions.m */,
+				912D31E3E0B590179C93E73F /* Resources */,
+				6F06658BF2F421F655B2901B /* Support Files */,
+			);
+			path = "libPhoneNumber-iOS";
+			sourceTree = "<group>";
+		};
+		469B9C502733114BDB5EF870 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				517133E6A6B16A088669ACF2 /* libPods-Chemist Plus.a */,
+				250A66E92C4A33F16BF52B20 /* libPods-Chemist Plus-MBProgressHUD.a */,
+				8882C8A360F38CF530C68E6B /* libPods-Chemist Plus-SDWebImage.a */,
+				9A5E206C74BAF12725ACFDDE /* libPods-Chemist Plus-XLForm.a */,
+				868EADF230FC81DEE341F0C1 /* libPods-Chemist Plus-libPhoneNumber-iOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4D3E4FE81D9D803B16D6C34E /* XLForm */ = {
+			isa = PBXGroup;
+			children = (
+				D68B409FC8ACAC6E2390C6B9 /* NSArray+XLFormAdditions.h */,
+				51AA20770B84D25F695949A1 /* NSArray+XLFormAdditions.m */,
+				BC604A49DEFAF90BD633099F /* NSExpression+XLFormAdditions.h */,
+				0ECAEA4BADB6ED0C900F166A /* NSExpression+XLFormAdditions.m */,
+				984F6F258FD98397EC52C306 /* NSObject+XLFormAdditions.h */,
+				E17C5F22D27BDD59B96B3109 /* NSObject+XLFormAdditions.m */,
+				DABEFE1726458CCD815F0D79 /* NSPredicate+XLFormAdditions.h */,
+				1C475CE8C52F88C9201AE2C4 /* NSPredicate+XLFormAdditions.m */,
+				E5C95F2F4B4F7CE07734262C /* NSString+XLFormAdditions.h */,
+				47FC13D411D7D1554B264E1A /* NSString+XLFormAdditions.m */,
+				040FFFA98CF0A753A8029B28 /* UIView+XLFormAdditions.h */,
+				B213481B9A890F7C6D6AB973 /* UIView+XLFormAdditions.m */,
+				72CBA32C4EF12953060AB4BC /* XLForm.h */,
+				7A90B29D3165CDF5CCB12409 /* XLForm.m */,
+				412EF7B927C4EAE8222B12AD /* XLFormBaseCell.h */,
+				DFD44B6C266838B61E7E53B8 /* XLFormBaseCell.m */,
+				062D64CDFB1ED4814EFB433C /* XLFormButtonCell.h */,
+				6D3C417AB96900691A785F78 /* XLFormButtonCell.m */,
+				052063C39C7835CD33F74849 /* XLFormCheckCell.h */,
+				8134136AF01587EE09D3B676 /* XLFormCheckCell.m */,
+				E170FF137ABB110A86EB1818 /* XLFormDateCell.h */,
+				F3125702540BF53B09FF63E7 /* XLFormDateCell.m */,
+				3B473824B09166F5B837EF63 /* XLFormDatePickerCell.h */,
+				0B4F2C07E1BE9F351C47178D /* XLFormDatePickerCell.m */,
+				0C619BFFF2CFBB4F8ADE912E /* XLFormDescriptor.h */,
+				3F828687C083A0692733BDC0 /* XLFormDescriptor.m */,
+				3E94F20C01531B46452BE33F /* XLFormDescriptorCell.h */,
+				DFDE02547685573CFF79FF30 /* XLFormDescriptorDelegate.h */,
+				810132912ECE917E723BAC98 /* XLFormInlineRowDescriptorCell.h */,
+				C1D471016C33A3CD47D62C75 /* XLFormInlineSelectorCell.h */,
+				E6DA7DCB3A8F6EC5C64001FA /* XLFormInlineSelectorCell.m */,
+				5FF04863016CD04F5F955F97 /* XLFormLeftRightSelectorCell.h */,
+				BA9C9C552E1951387E03B9A7 /* XLFormLeftRightSelectorCell.m */,
+				13D1ECDCB0DC5BEA5CBA1CC8 /* XLFormOptionsObject.h */,
+				E8FE6DA23AA8478B7FE48B92 /* XLFormOptionsObject.m */,
+				920B4D344502EA99024D7594 /* XLFormOptionsViewController.h */,
+				90896042160879D8DFB3A08C /* XLFormOptionsViewController.m */,
+				25A55A0161535368CF0D94E3 /* XLFormPickerCell.h */,
+				A0C5ADCAA46223419F2C6086 /* XLFormPickerCell.m */,
+				AF91BE22F6B2C99BD52E35D5 /* XLFormRegexValidator.h */,
+				79645F0FE529A226D6966BAF /* XLFormRegexValidator.m */,
+				DBA86D31C1A66D23C4AA3973 /* XLFormRightDetailCell.h */,
+				11E9FDDFCFA2B5EA61A42E96 /* XLFormRightDetailCell.m */,
+				97CEBB663187C8038691C080 /* XLFormRightImageButton.h */,
+				A055B1F2628114CC8CF43E3E /* XLFormRightImageButton.m */,
+				03B796A557D275C7B2B989F5 /* XLFormRowDescriptor.h */,
+				BC257D19B7EE5823B3003E16 /* XLFormRowDescriptor.m */,
+				977EDEBECEBED88291BCE1DA /* XLFormRowDescriptorViewController.h */,
+				96C1B0800316437EDA2CC747 /* XLFormRowNavigationAccessoryView.h */,
+				DB612FB1836360C6434540BE /* XLFormRowNavigationAccessoryView.m */,
+				778C17E250F9F624D5DD36F5 /* XLFormSectionDescriptor.h */,
+				77FAB81D1AF9A7C5D9A8500D /* XLFormSectionDescriptor.m */,
+				DD7D6A3B93265816AB658D3B /* XLFormSegmentedCell.h */,
+				65FF52CCB0935E6B7A90D3CD /* XLFormSegmentedCell.m */,
+				DE8ACA99C8687B0B35BAE33F /* XLFormSelectorCell.h */,
+				55E169FC96A2429958CC9340 /* XLFormSelectorCell.m */,
+				13F290D1F4178EB5DE95D787 /* XLFormSliderCell.h */,
+				7E3A7F64540A7B7AE68873A2 /* XLFormSliderCell.m */,
+				1D1805F079F0B595A2EF090F /* XLFormStepCounterCell.h */,
+				873B4C79E30A1E01A3070CB5 /* XLFormStepCounterCell.m */,
+				6D0A01B39E3CACB0AA7A8901 /* XLFormSwitchCell.h */,
+				4D360DB0C19BAA1F1816464A /* XLFormSwitchCell.m */,
+				53695E70E152FC2C43D0157E /* XLFormTextFieldCell.h */,
+				768815C5C87AB349B653D132 /* XLFormTextFieldCell.m */,
+				252EF9835040C4E76DFE90E1 /* XLFormTextView.h */,
+				E991F9FC34D57C9F10F4B629 /* XLFormTextView.m */,
+				EDC85AF136A296CEDC3C3422 /* XLFormTextViewCell.h */,
+				272768CC7906F8FD1A80F96A /* XLFormTextViewCell.m */,
+				E205F5700824DA7BE0231353 /* XLFormValidationStatus.h */,
+				F0F03E3FA4501F1D98826F67 /* XLFormValidationStatus.m */,
+				9FB7EF514E41B67717DC3D6B /* XLFormValidator.h */,
+				4D8F7B6272D07534E57FBD0B /* XLFormValidator.m */,
+				FC701F53A060974FA1CBD2C4 /* XLFormValidatorProtocol.h */,
+				1FABA6C1AF6D7F624C721921 /* XLFormViewController.h */,
+				C507B52CEDEE8652F45A656F /* XLFormViewController.m */,
+				A13E1B6709242EFDC2DBC637 /* Resources */,
+				C82095E8E98484AB0F25A1B6 /* Support Files */,
+			);
+			path = XLForm;
+			sourceTree = "<group>";
+		};
+		589C3D98DA4DD80ABE05CBB0 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				CB21696178DEA3B77A018959 /* Pods-Chemist Plus */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		6F06658BF2F421F655B2901B /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				2AB93EB6392574E7BE7E3E4A /* Pods-Chemist Plus-libPhoneNumber-iOS.xcconfig */,
+				6B090C618E76E13CCD7BD307 /* Pods-Chemist Plus-libPhoneNumber-iOS-Private.xcconfig */,
+				1369A990D7DA4E8007FDB478 /* Pods-Chemist Plus-libPhoneNumber-iOS-dummy.m */,
+				A6A8613519FE9DD676B4DB04 /* Pods-Chemist Plus-libPhoneNumber-iOS-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Chemist Plus-libPhoneNumber-iOS";
+			sourceTree = "<group>";
+		};
+		7157358A99038E613F67D2E2 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				08502871808ECA32890F83AA /* Pods-Chemist Plus-MBProgressHUD.xcconfig */,
+				1ABDC84FE571888B43E7C3D8 /* Pods-Chemist Plus-MBProgressHUD-Private.xcconfig */,
+				C229C4FC0BD9E07346A4A743 /* Pods-Chemist Plus-MBProgressHUD-dummy.m */,
+				010A762284F6CEDA80701CF8 /* Pods-Chemist Plus-MBProgressHUD-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Chemist Plus-MBProgressHUD";
+			sourceTree = "<group>";
+		};
+		75F1A4F8901C3627153DE28C /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				CD3668C1C0EE097AB10E1202 /* NSData+ImageContentType.h */,
+				50F37182137E89139C8B4834 /* NSData+ImageContentType.m */,
+				59FE32B82BD10DC81BE70BC0 /* SDImageCache.h */,
+				1938F21CE4C63F4E87D64203 /* SDImageCache.m */,
+				BE8EAD299AB1715212C5CB84 /* SDWebImageCompat.h */,
+				DBD3CB5F86D4A3BF66F598F3 /* SDWebImageCompat.m */,
+				4D13B809E2AB605765D9FCE2 /* SDWebImageDecoder.h */,
+				D2339EFEF1ADB3D6CEDF209A /* SDWebImageDecoder.m */,
+				8A704BA295EB488F03F8D76E /* SDWebImageDownloader.h */,
+				ECF724895334BD24A32D054C /* SDWebImageDownloader.m */,
+				5D3ACA792E0B62CBDA08C200 /* SDWebImageDownloaderOperation.h */,
+				B67ADAB6E4ACF85ED714C3F3 /* SDWebImageDownloaderOperation.m */,
+				53D881C1B3995794B39EAD71 /* SDWebImageManager.h */,
+				0C5BC901A7F6D50583B2E9B2 /* SDWebImageManager.m */,
+				67173D8400DD4615F892DF38 /* SDWebImageOperation.h */,
+				8DECEBF2F575597F7602C6B6 /* SDWebImagePrefetcher.h */,
+				ECB8770942D21511227620BA /* SDWebImagePrefetcher.m */,
+				F88CB9BFB9E921782B5D96F5 /* UIButton+WebCache.h */,
+				F10DCBE5E6A4135BFC5D0F08 /* UIButton+WebCache.m */,
+				6803BB39C8B8B2E1599E19AF /* UIImage+GIF.h */,
+				096E2C48D359B8A47FA0ADA9 /* UIImage+GIF.m */,
+				F5F4469C50874FD72044CD48 /* UIImage+MultiFormat.h */,
+				733ECDDA360537FD4E5A9533 /* UIImage+MultiFormat.m */,
+				09F473489FAAFEE709F0439C /* UIImageView+HighlightedWebCache.h */,
+				739922F6607CEFEF19142FC8 /* UIImageView+HighlightedWebCache.m */,
+				CEAE372F1D33EA1E01CAFA7C /* UIImageView+WebCache.h */,
+				1B43C307B238DF84742ED71C /* UIImageView+WebCache.m */,
+				252607A61FB9E1ABF44E9F16 /* UIView+WebCacheOperation.h */,
+				9D24E8E230577F7D20F1FA61 /* UIView+WebCacheOperation.m */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		8E2C1AA033831CB804607CC0 = {
+			isa = PBXGroup;
+			children = (
+				8C0A1347B7AA95072DDE3592 /* Podfile */,
+				1FA2E5EB690BE35001BD90C3 /* Frameworks */,
+				B9E777ADB0DF3651F581E119 /* Pods */,
+				469B9C502733114BDB5EF870 /* Products */,
+				589C3D98DA4DD80ABE05CBB0 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		8E6CD84EB956AD2B06241E65 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				627777F980F94FF5239111D1 /* Pods-Chemist Plus-SDWebImage.xcconfig */,
+				A9C4B0455653CDF8589FCFA9 /* Pods-Chemist Plus-SDWebImage-Private.xcconfig */,
+				AC8A61B668C548F7FA5DB53B /* Pods-Chemist Plus-SDWebImage-dummy.m */,
+				E05C73E6FC078F6BB75754D1 /* Pods-Chemist Plus-SDWebImage-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Chemist Plus-SDWebImage";
+			sourceTree = "<group>";
+		};
+		912D31E3E0B590179C93E73F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				174BC446F2D7453CE795ED59 /* NBPhoneNumberMetadata.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		A13E1B6709242EFDC2DBC637 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				00AF49636D7B7546633AA50F /* XLForm.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		B9E777ADB0DF3651F581E119 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F5937BB39FB61C2960F23B02 /* MBProgressHUD */,
+				FE0D07D015394B1A1ABD5CF5 /* SDWebImage */,
+				4D3E4FE81D9D803B16D6C34E /* XLForm */,
+				214FFE2BB717ED735B92E970 /* libPhoneNumber-iOS */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C82095E8E98484AB0F25A1B6 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				9B3C80E7112D5ECBD24E38C9 /* Pods-Chemist Plus-XLForm.xcconfig */,
+				6DC13616A492FCAF6CBB5DCF /* Pods-Chemist Plus-XLForm-Private.xcconfig */,
+				4C45D7CAFC9A99C7705A1BF7 /* Pods-Chemist Plus-XLForm-dummy.m */,
+				0BCFF8A1A08E39DD87A90D59 /* Pods-Chemist Plus-XLForm-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Chemist Plus-XLForm";
+			sourceTree = "<group>";
+		};
+		CB21696178DEA3B77A018959 /* Pods-Chemist Plus */ = {
+			isa = PBXGroup;
+			children = (
+				823FCD3882E2869EDE513D42 /* Pods-Chemist Plus-acknowledgements.markdown */,
+				B387586CFA36E97D44F46442 /* Pods-Chemist Plus-acknowledgements.plist */,
+				FCB9ADE42420E601DA98FF79 /* Pods-Chemist Plus-dummy.m */,
+				689EB666C9F957DC08A46D70 /* Pods-Chemist Plus-environment.h */,
+				0E92D13082C3F7016B4D670C /* Pods-Chemist Plus-resources.sh */,
+				776472A5E0D63A83FFBA82D6 /* Pods-Chemist Plus.debug.xcconfig */,
+				2A1A561EB85384F943568670 /* Pods-Chemist Plus.release.xcconfig */,
+			);
+			name = "Pods-Chemist Plus";
+			path = "Target Support Files/Pods-Chemist Plus";
+			sourceTree = "<group>";
+		};
+		F5937BB39FB61C2960F23B02 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				8D5AB0FF34340E510CF50B23 /* MBProgressHUD.h */,
+				A970D11CA35065E09918FB64 /* MBProgressHUD.m */,
+				7157358A99038E613F67D2E2 /* Support Files */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		FE0D07D015394B1A1ABD5CF5 /* SDWebImage */ = {
+			isa = PBXGroup;
+			children = (
+				75F1A4F8901C3627153DE28C /* Core */,
+				8E6CD84EB956AD2B06241E65 /* Support Files */,
+			);
+			path = SDWebImage;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6B54AFEF5BF2F17B8BF941A5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DD82A6B8963C07C05C06274 /* NBAsYouTypeFormatter.h in Headers */,
+				A92D03EEDA354FD47AC3AE13 /* NBMetadataCore.h in Headers */,
+				E2692A23031D1195D555764F /* NBMetadataCoreMapper.h in Headers */,
+				B9AE814D8D251192F7C5C4B3 /* NBMetadataCoreTest.h in Headers */,
+				F9B4A9D37DEAE1FDE10D08DB /* NBMetadataCoreTestMapper.h in Headers */,
+				C7871E493A4B383D13F05EF5 /* NBMetadataHelper.h in Headers */,
+				C6436BEEBB175DD2B55B3F41 /* NBNumberFormat.h in Headers */,
+				4117DF578BCBFDD388F04133 /* NBPhoneMetaData.h in Headers */,
+				59E8A429127428FD75C6CA89 /* NBPhoneNumber.h in Headers */,
+				A619E18CE5E468647191A9A5 /* NBPhoneNumberDefines.h in Headers */,
+				B1D7A681FFFA2BB0687B2FAF /* NBPhoneNumberDesc.h in Headers */,
+				107D22D24EA45ECEB7923F79 /* NBPhoneNumberUtil.h in Headers */,
+				736CCB9FAA4B7ADEAF34E58D /* NSArray+NBAdditions.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91B5CCCF149FC9241F0EB6FD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24A0CE1BDD225FB9126D75F3 /* MBProgressHUD.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9809A9BC3EF227BDC9A1FAD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0204AB63C24892E8D921576F /* NSArray+XLFormAdditions.h in Headers */,
+				B25CFB48B0A231BB242D4982 /* NSExpression+XLFormAdditions.h in Headers */,
+				699D3AC539C8F2BDA49A80F0 /* NSObject+XLFormAdditions.h in Headers */,
+				C37DB771EF366E24BE491CF5 /* NSPredicate+XLFormAdditions.h in Headers */,
+				EB4B124ED677FFBAEF8776BD /* NSString+XLFormAdditions.h in Headers */,
+				F433C37790AFA1A988320340 /* UIView+XLFormAdditions.h in Headers */,
+				0A1FCF64A25B5E8F40C5D7F8 /* XLForm.h in Headers */,
+				2C7C1DF84FB841C9B2148BE3 /* XLFormBaseCell.h in Headers */,
+				F1D4D13DDA76C750643284A6 /* XLFormButtonCell.h in Headers */,
+				526482BEF26B7894D6AD76BF /* XLFormCheckCell.h in Headers */,
+				7A929AED4DF39AF437BFF37A /* XLFormDateCell.h in Headers */,
+				0D9DDEA405DF6C5F8F003F7F /* XLFormDatePickerCell.h in Headers */,
+				C87F53716D060EA8D2D5C167 /* XLFormDescriptor.h in Headers */,
+				FA650E3AFD7F47976D22943B /* XLFormDescriptorCell.h in Headers */,
+				FDF664EFD20C3BD5C433DD93 /* XLFormDescriptorDelegate.h in Headers */,
+				1E8EE3D640784331C767D169 /* XLFormInlineRowDescriptorCell.h in Headers */,
+				49C26B77E6FAC33867ED7620 /* XLFormInlineSelectorCell.h in Headers */,
+				B78FC54E6E3FB89BF3574B3A /* XLFormLeftRightSelectorCell.h in Headers */,
+				AC85B64DA8BD71E0B90C5BE4 /* XLFormOptionsObject.h in Headers */,
+				BBCAEA1467E9F5F61F2C7A67 /* XLFormOptionsViewController.h in Headers */,
+				6BB7790C670086F94E384D45 /* XLFormPickerCell.h in Headers */,
+				29421B37140363F8AEF15B8C /* XLFormRegexValidator.h in Headers */,
+				829542B6E580E2980A74A7AB /* XLFormRightDetailCell.h in Headers */,
+				4E713E6B2DB76D5794BEDD87 /* XLFormRightImageButton.h in Headers */,
+				178DBE8AF3F50BC3CE7C8929 /* XLFormRowDescriptor.h in Headers */,
+				D9131C51AA33AE778876B6D3 /* XLFormRowDescriptorViewController.h in Headers */,
+				4F12F62AFB13EDDBD635ACAE /* XLFormRowNavigationAccessoryView.h in Headers */,
+				609B2E26833B38B125EB8849 /* XLFormSectionDescriptor.h in Headers */,
+				227622479A03E9B2BD5F9B25 /* XLFormSegmentedCell.h in Headers */,
+				887AA3EEB67BBDE6CEB3A73E /* XLFormSelectorCell.h in Headers */,
+				B3F7CBA8B164B8859A53A08E /* XLFormSliderCell.h in Headers */,
+				E16B95D9FEBA183DCD1BDC0E /* XLFormStepCounterCell.h in Headers */,
+				164E1A5075CEDE7F183FA8ED /* XLFormSwitchCell.h in Headers */,
+				52079D3D9E579AFDC7DFAE87 /* XLFormTextFieldCell.h in Headers */,
+				4F1806C202EC4D5D46054797 /* XLFormTextView.h in Headers */,
+				C1F8F288EB2C1AF8E2208BD6 /* XLFormTextViewCell.h in Headers */,
+				FF2E44A02719D7437AE5DECE /* XLFormValidationStatus.h in Headers */,
+				FF81802AA7AA850A103BFD3A /* XLFormValidator.h in Headers */,
+				051F0B7D7EB5175030FF51B3 /* XLFormValidatorProtocol.h in Headers */,
+				8D87225CA816280E1D0224B7 /* XLFormViewController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F6F12052868F097D4AD40175 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				155E6D9507929F0A1BD01FCC /* NSData+ImageContentType.h in Headers */,
+				7D80345BE950100A0224066E /* SDImageCache.h in Headers */,
+				3D7CB744A1FE76006E8B6267 /* SDWebImageCompat.h in Headers */,
+				6555779D4C098CD496951C97 /* SDWebImageDecoder.h in Headers */,
+				907A03D269D09973B4D141E0 /* SDWebImageDownloader.h in Headers */,
+				A22F19D075D5BC5C2348CFC5 /* SDWebImageDownloaderOperation.h in Headers */,
+				F176B981F926E56FC00A66D8 /* SDWebImageManager.h in Headers */,
+				F82897D8E4E075E0B5E0828D /* SDWebImageOperation.h in Headers */,
+				3E025E54E42ABC18D7D13626 /* SDWebImagePrefetcher.h in Headers */,
+				6999D76973E943DE6A6EED0D /* UIButton+WebCache.h in Headers */,
+				63319BD8706A36FDD40DAA7D /* UIImage+GIF.h in Headers */,
+				F4D20216A88E9B8F8EF81F36 /* UIImage+MultiFormat.h in Headers */,
+				E91BB0E50F7C25A23FAC2505 /* UIImageView+HighlightedWebCache.h in Headers */,
+				039F1480B82C62B7E87A36E4 /* UIImageView+WebCache.h in Headers */,
+				CF928BE65A40A35AAD64FFCC /* UIView+WebCacheOperation.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		1BE73C6390B941056BE0E2C9 /* Pods-Chemist Plus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E8700B9BC441C83FB9E9032 /* Build configuration list for PBXNativeTarget "Pods-Chemist Plus" */;
+			buildPhases = (
+				0817B0AE81478CEC520F7AB5 /* Sources */,
+				249E8375C826C4E07AF8F97F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8F5FA5E8D7DA7A400F74723 /* PBXTargetDependency */,
+				5B58B0EADB9A8CD559B2CCCD /* PBXTargetDependency */,
+				5EC60851BE04FF4134D10A57 /* PBXTargetDependency */,
+				D5F71BC050D7727904275492 /* PBXTargetDependency */,
+			);
+			name = "Pods-Chemist Plus";
+			productName = "Pods-Chemist Plus";
+			productReference = 517133E6A6B16A088669ACF2 /* libPods-Chemist Plus.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		86DA157789E8C39C7F1E6A5C /* Pods-Chemist Plus-XLForm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 68D4FB6DFE826D51C5CAC3CC /* Build configuration list for PBXNativeTarget "Pods-Chemist Plus-XLForm" */;
+			buildPhases = (
+				28BF9FDF382A543E0DDFDC93 /* Sources */,
+				C9EF9B3D59C5916020D71FAE /* Frameworks */,
+				C9809A9BC3EF227BDC9A1FAD /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-Chemist Plus-XLForm";
+			productName = "Pods-Chemist Plus-XLForm";
+			productReference = 9A5E206C74BAF12725ACFDDE /* libPods-Chemist Plus-XLForm.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		93A2FEFC0CE64A318364D5B9 /* Pods-Chemist Plus-MBProgressHUD */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B94D5EE38E831C2C98982D27 /* Build configuration list for PBXNativeTarget "Pods-Chemist Plus-MBProgressHUD" */;
+			buildPhases = (
+				913D863934FCE771521D2532 /* Sources */,
+				A73727C173DE1A878B7055FB /* Frameworks */,
+				91B5CCCF149FC9241F0EB6FD /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-Chemist Plus-MBProgressHUD";
+			productName = "Pods-Chemist Plus-MBProgressHUD";
+			productReference = 250A66E92C4A33F16BF52B20 /* libPods-Chemist Plus-MBProgressHUD.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B8C3B7DB1E1BDCA56C0EDB7F /* Pods-Chemist Plus-SDWebImage */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0C5EC180047AD97788479F8 /* Build configuration list for PBXNativeTarget "Pods-Chemist Plus-SDWebImage" */;
+			buildPhases = (
+				F61D96DC35892C3B7B1513D5 /* Sources */,
+				78FA0D62D39EAAA1E3C982A0 /* Frameworks */,
+				F6F12052868F097D4AD40175 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-Chemist Plus-SDWebImage";
+			productName = "Pods-Chemist Plus-SDWebImage";
+			productReference = 8882C8A360F38CF530C68E6B /* libPods-Chemist Plus-SDWebImage.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		DF3F47E0BE0EC72B2203CDF9 /* Pods-Chemist Plus-libPhoneNumber-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C377782CCB7AE6AAE75282FE /* Build configuration list for PBXNativeTarget "Pods-Chemist Plus-libPhoneNumber-iOS" */;
+			buildPhases = (
+				BE84E58543632E2E8605C320 /* Sources */,
+				1EC5F427C806DDA4B2A1B2B4 /* Frameworks */,
+				6B54AFEF5BF2F17B8BF941A5 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-Chemist Plus-libPhoneNumber-iOS";
+			productName = "Pods-Chemist Plus-libPhoneNumber-iOS";
+			productReference = 868EADF230FC81DEE341F0C1 /* libPods-Chemist Plus-libPhoneNumber-iOS.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5E117865DDC947CC59D0BB30 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+			};
+			buildConfigurationList = CDF2398BDCB9C7EE4CC1CDB2 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8E2C1AA033831CB804607CC0;
+			productRefGroup = 469B9C502733114BDB5EF870 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1BE73C6390B941056BE0E2C9 /* Pods-Chemist Plus */,
+				93A2FEFC0CE64A318364D5B9 /* Pods-Chemist Plus-MBProgressHUD */,
+				B8C3B7DB1E1BDCA56C0EDB7F /* Pods-Chemist Plus-SDWebImage */,
+				86DA157789E8C39C7F1E6A5C /* Pods-Chemist Plus-XLForm */,
+				DF3F47E0BE0EC72B2203CDF9 /* Pods-Chemist Plus-libPhoneNumber-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0817B0AE81478CEC520F7AB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F963433372E0D2B4B9567DDE /* Pods-Chemist Plus-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28BF9FDF382A543E0DDFDC93 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				741F95BEBD2795CFE4ADF03D /* NSArray+XLFormAdditions.m in Sources */,
+				77E6414B00EB2EABEDCC77AD /* NSExpression+XLFormAdditions.m in Sources */,
+				EE1A28568FA0172F12145D9F /* NSObject+XLFormAdditions.m in Sources */,
+				4822BF475347791C20D8B215 /* NSPredicate+XLFormAdditions.m in Sources */,
+				C5DBC68FD56CE9E49395F35C /* NSString+XLFormAdditions.m in Sources */,
+				DE4652FE0E5DAF683C5BCF8B /* Pods-Chemist Plus-XLForm-dummy.m in Sources */,
+				F84626C94F861C790BD17B05 /* UIView+XLFormAdditions.m in Sources */,
+				03A6FA1B266769532FBB1345 /* XLForm.m in Sources */,
+				2494EC128A5E859E9413F92B /* XLFormBaseCell.m in Sources */,
+				4D9432EF2ADDFF9AB5228F41 /* XLFormButtonCell.m in Sources */,
+				6EE71984740B80A4092A4EEC /* XLFormCheckCell.m in Sources */,
+				8A1EF983E16A947AE62602F5 /* XLFormDateCell.m in Sources */,
+				2BC76B1AFF15744C80CF8DB2 /* XLFormDatePickerCell.m in Sources */,
+				A5F9DE13749AF363360B52B3 /* XLFormDescriptor.m in Sources */,
+				196D75EF8EDDBA3818FCF3B2 /* XLFormInlineSelectorCell.m in Sources */,
+				E64B3D55A7561050B1ED0C6F /* XLFormLeftRightSelectorCell.m in Sources */,
+				F85234C1379768B36B6BC095 /* XLFormOptionsObject.m in Sources */,
+				D03F66375DDF0E83ED708CB1 /* XLFormOptionsViewController.m in Sources */,
+				C57B563E07C1E4F9157F14C9 /* XLFormPickerCell.m in Sources */,
+				C9B87AA2B302DB5B6539C605 /* XLFormRegexValidator.m in Sources */,
+				FAF0F23319AB0A01A8AFC319 /* XLFormRightDetailCell.m in Sources */,
+				BF72CD4A412E4554BEEA0125 /* XLFormRightImageButton.m in Sources */,
+				A587B953DE80DDBFE32B352A /* XLFormRowDescriptor.m in Sources */,
+				D661C083FFEEC05F3B1D175B /* XLFormRowNavigationAccessoryView.m in Sources */,
+				6A591A964057C3D4701E50F8 /* XLFormSectionDescriptor.m in Sources */,
+				CE5379B6382F3FA030E3A1F7 /* XLFormSegmentedCell.m in Sources */,
+				FA35D0969805B96C86459306 /* XLFormSelectorCell.m in Sources */,
+				64892BAB39B61323766C9060 /* XLFormSliderCell.m in Sources */,
+				637D80017186A6816CC8EE69 /* XLFormStepCounterCell.m in Sources */,
+				BB59EA17598E2566A2309CCB /* XLFormSwitchCell.m in Sources */,
+				DA32A30C895DA6233089ED98 /* XLFormTextFieldCell.m in Sources */,
+				1A73ACD2A7E15812AD52FCE7 /* XLFormTextView.m in Sources */,
+				7FF447B9571195267848DF8F /* XLFormTextViewCell.m in Sources */,
+				B56A7238D219EAFCA5414D2D /* XLFormValidationStatus.m in Sources */,
+				690CA1C51BB852FC72C6E89E /* XLFormValidator.m in Sources */,
+				9D6BB1C6689A44EB14BB6ED5 /* XLFormViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		913D863934FCE771521D2532 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BD67C6E49087F988ECB52B6 /* MBProgressHUD.m in Sources */,
+				5E8DB72A4F7E11EB9F36B3BF /* Pods-Chemist Plus-MBProgressHUD-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE84E58543632E2E8605C320 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06D01106ABD539B434204771 /* NBAsYouTypeFormatter.m in Sources */,
+				3A2F3A1A64E2F96FDF1319A0 /* NBMetadataCore.m in Sources */,
+				082991224048B49833459307 /* NBMetadataCoreMapper.m in Sources */,
+				73A47475E871680B89930F1F /* NBMetadataCoreTest.m in Sources */,
+				2AC0BF362F38246FD0BE66A3 /* NBMetadataCoreTestMapper.m in Sources */,
+				3EA54087267A36840C081105 /* NBMetadataHelper.m in Sources */,
+				6FD01EA955B4A3770E4001F1 /* NBNumberFormat.m in Sources */,
+				3B17F8A0F431C494ECF614DF /* NBPhoneMetaData.m in Sources */,
+				6A71FCE8FA05E0109EB417EB /* NBPhoneNumber.m in Sources */,
+				1DDC6E0BCCC8F2A15EA21673 /* NBPhoneNumberDesc.m in Sources */,
+				BAA1694A8DC11ECA61057D8D /* NBPhoneNumberUtil.m in Sources */,
+				3DD9BCA36602EB7F056FF5E2 /* NSArray+NBAdditions.m in Sources */,
+				C2A101951BB47892A4A0F93B /* Pods-Chemist Plus-libPhoneNumber-iOS-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F61D96DC35892C3B7B1513D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0205D39A8D9AC093375FC0BF /* NSData+ImageContentType.m in Sources */,
+				E0DC8353B6B015DB4C5DF89D /* Pods-Chemist Plus-SDWebImage-dummy.m in Sources */,
+				F927AEDB61D5015D935A0C26 /* SDImageCache.m in Sources */,
+				C837C38BB99F09D43438504B /* SDWebImageCompat.m in Sources */,
+				D285620B5E4513ADF6A80E5A /* SDWebImageDecoder.m in Sources */,
+				46998943B20FC5410E704A0C /* SDWebImageDownloader.m in Sources */,
+				1F75F8BE209B5079FD588096 /* SDWebImageDownloaderOperation.m in Sources */,
+				434A7A95C43D4D14C06EEBD7 /* SDWebImageManager.m in Sources */,
+				6E339A25F2CE39DF45185A68 /* SDWebImagePrefetcher.m in Sources */,
+				E5149E0565B88F55602BEAED /* UIButton+WebCache.m in Sources */,
+				7084494EA0C26455B1AFDE1D /* UIImage+GIF.m in Sources */,
+				BC76F9840E3D4023541D9709 /* UIImage+MultiFormat.m in Sources */,
+				F46087C98C3C1DFE1FC8CBE8 /* UIImageView+HighlightedWebCache.m in Sources */,
+				F0CE07D0831CBDBF5ECCBCBC /* UIImageView+WebCache.m in Sources */,
+				6224C3382747126E63D0C407 /* UIView+WebCacheOperation.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5B58B0EADB9A8CD559B2CCCD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Chemist Plus-SDWebImage";
+			target = B8C3B7DB1E1BDCA56C0EDB7F /* Pods-Chemist Plus-SDWebImage */;
+			targetProxy = 0F03BD0718EC5E9AD3307422 /* PBXContainerItemProxy */;
+		};
+		5EC60851BE04FF4134D10A57 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Chemist Plus-XLForm";
+			target = 86DA157789E8C39C7F1E6A5C /* Pods-Chemist Plus-XLForm */;
+			targetProxy = 6F59420F6922FA1DB52457DB /* PBXContainerItemProxy */;
+		};
+		A8F5FA5E8D7DA7A400F74723 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Chemist Plus-MBProgressHUD";
+			target = 93A2FEFC0CE64A318364D5B9 /* Pods-Chemist Plus-MBProgressHUD */;
+			targetProxy = 48494528D43CC7FBCD0A490D /* PBXContainerItemProxy */;
+		};
+		D5F71BC050D7727904275492 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Chemist Plus-libPhoneNumber-iOS";
+			target = DF3F47E0BE0EC72B2203CDF9 /* Pods-Chemist Plus-libPhoneNumber-iOS */;
+			targetProxy = 97D9448019F4C66257308E63 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		30CC4C2CB677EFBF3E118FE8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B090C618E76E13CCD7BD307 /* Pods-Chemist Plus-libPhoneNumber-iOS-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Chemist Plus-libPhoneNumber-iOS/Pods-Chemist Plus-libPhoneNumber-iOS-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		5B32595E92C2C22308561BF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		626C3218C4287E3E2E1737D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2A1A561EB85384F943568670 /* Pods-Chemist Plus.release.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		67DF69ED2B613D0E064D36A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1ABDC84FE571888B43E7C3D8 /* Pods-Chemist Plus-MBProgressHUD-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Chemist Plus-MBProgressHUD/Pods-Chemist Plus-MBProgressHUD-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		8F92A0E80E019F7CC11AD40D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6DC13616A492FCAF6CBB5DCF /* Pods-Chemist Plus-XLForm-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Chemist Plus-XLForm/Pods-Chemist Plus-XLForm-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		9BA452477CED6A02ED840BF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B090C618E76E13CCD7BD307 /* Pods-Chemist Plus-libPhoneNumber-iOS-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Chemist Plus-libPhoneNumber-iOS/Pods-Chemist Plus-libPhoneNumber-iOS-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A2026885E54ABFAE462DF54B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1ABDC84FE571888B43E7C3D8 /* Pods-Chemist Plus-MBProgressHUD-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Chemist Plus-MBProgressHUD/Pods-Chemist Plus-MBProgressHUD-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		B93978B7DAE4C19B35BCA28B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 776472A5E0D63A83FFBA82D6 /* Pods-Chemist Plus.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		BAB8A2A30C9F858BF1C09CB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A9C4B0455653CDF8589FCFA9 /* Pods-Chemist Plus-SDWebImage-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Chemist Plus-SDWebImage/Pods-Chemist Plus-SDWebImage-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		C05027287FD5440D5C735049 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A9C4B0455653CDF8589FCFA9 /* Pods-Chemist Plus-SDWebImage-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Chemist Plus-SDWebImage/Pods-Chemist Plus-SDWebImage-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C4BDBA0FB34A568D318C36B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6DC13616A492FCAF6CBB5DCF /* Pods-Chemist Plus-XLForm-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Chemist Plus-XLForm/Pods-Chemist Plus-XLForm-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		C98586909DEC0A4D323B721E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E8700B9BC441C83FB9E9032 /* Build configuration list for PBXNativeTarget "Pods-Chemist Plus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B93978B7DAE4C19B35BCA28B /* Debug */,
+				626C3218C4287E3E2E1737D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		68D4FB6DFE826D51C5CAC3CC /* Build configuration list for PBXNativeTarget "Pods-Chemist Plus-XLForm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F92A0E80E019F7CC11AD40D /* Debug */,
+				C4BDBA0FB34A568D318C36B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B94D5EE38E831C2C98982D27 /* Build configuration list for PBXNativeTarget "Pods-Chemist Plus-MBProgressHUD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A2026885E54ABFAE462DF54B /* Debug */,
+				67DF69ED2B613D0E064D36A9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C377782CCB7AE6AAE75282FE /* Build configuration list for PBXNativeTarget "Pods-Chemist Plus-libPhoneNumber-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9BA452477CED6A02ED840BF1 /* Debug */,
+				30CC4C2CB677EFBF3E118FE8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CDF2398BDCB9C7EE4CC1CDB2 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C98586909DEC0A4D323B721E /* Debug */,
+				5B32595E92C2C22308561BF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0C5EC180047AD97788479F8 /* Build configuration list for PBXNativeTarget "Pods-Chemist Plus-SDWebImage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C05027287FD5440D5C735049 /* Debug */,
+				BAB8A2A30C9F858BF1C09CB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5E117865DDC947CC59D0BB30 /* Project object */;
+}

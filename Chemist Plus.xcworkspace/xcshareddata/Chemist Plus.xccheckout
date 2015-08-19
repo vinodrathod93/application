@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>6688B99A-7C75-4FE1-B642-60A46C59C20F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Chemist Plus</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>F7A40FCBFA2F2193FB889664AB74CD6BB4D0A22A</key>
+		<string>https://github.com/vinodrathod93/HealthApp.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Chemist Plus.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>F7A40FCBFA2F2193FB889664AB74CD6BB4D0A22A</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/vinodrathod93/HealthApp.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F7A40FCBFA2F2193FB889664AB74CD6BB4D0A22A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F7A40FCBFA2F2193FB889664AB74CD6BB4D0A22A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>HealthApp</string>
+		</dict>
+	</array>
+</dict>
+</plist>

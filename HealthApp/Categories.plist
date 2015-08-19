@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Category</key>
+	<array>
+		<string>Pharmaceutical</string>
+		<string>Medical Equipments</string>
+		<string>General Items</string>
+		<string>Hospitals</string>
+		<string>Doctors</string>
+		<string>Diagnostics</string>
+		<string>Wellness</string>
+		<string>Fitness</string>
+		<string>Insurance</string>
+	</array>
+</dict>
+</plist>
