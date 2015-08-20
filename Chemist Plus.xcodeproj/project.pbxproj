@@ -47,6 +47,7 @@
 		827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632821B4A3DB800230833 /* FBSDKCoreKit.framework */; };
 		827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632831B4A3DB800230833 /* FBSDKLoginKit.framework */; };
 		827632891B4A629600230833 /* UploadPrescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827632881B4A629600230833 /* UploadPrescriptionViewController.m */; };
+		827A80181B85E15C008085F1 /* AddressesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827A80171B85E15C008085F1 /* AddressesViewController.m */; };
 		82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CDA1B58F81000FCCACC /* DetailsProductViewController.m */; };
 		82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CDD1B58F92600FCCACC /* ProductImageViewCell.m */; };
 		82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CE01B590B8600FCCACC /* DetailViewModel.m */; };
@@ -154,6 +155,8 @@
 		827632831B4A3DB800230833 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		827632871B4A629600230833 /* UploadPrescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadPrescriptionViewController.h; sourceTree = "<group>"; };
 		827632881B4A629600230833 /* UploadPrescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadPrescriptionViewController.m; sourceTree = "<group>"; };
+		827A80161B85E15C008085F1 /* AddressesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressesViewController.h; sourceTree = "<group>"; };
+		827A80171B85E15C008085F1 /* AddressesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressesViewController.m; sourceTree = "<group>"; };
 		82842CD91B58F81000FCCACC /* DetailsProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsProductViewController.h; sourceTree = "<group>"; };
 		82842CDA1B58F81000FCCACC /* DetailsProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsProductViewController.m; sourceTree = "<group>"; };
 		82842CDC1B58F92600FCCACC /* ProductImageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductImageViewCell.h; sourceTree = "<group>"; };
@@ -504,6 +507,8 @@
 				82C722F91B7B42EF00E0C5EF /* Register VC */,
 				823C46AA1B73327E00E37DBE /* Doctors VC */,
 				82BD02951B46A73C00108A0B /* Main.storyboard */,
+				827A80161B85E15C008085F1 /* AddressesViewController.h */,
+				827A80171B85E15C008085F1 /* AddressesViewController.m */,
 				824FB91C1B81F08F0021D28B /* ActivityFooterView.h */,
 				824FB91D1B81F08F0021D28B /* ActivityFooterView.m */,
 				82BD02981B46A73C00108A0B /* Images.xcassets */,
@@ -758,6 +763,7 @@
 				82C722FC1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m in Sources */,
 				82559A681B626B1F0064E994 /* AddToCart.m in Sources */,
 				82395A9C1B53A77300581EB4 /* CategoryViewCell.m in Sources */,
+				827A80181B85E15C008085F1 /* AddressesViewController.m in Sources */,
 				8246FE681B74B70A001D1CFF /* SignInViewController.m in Sources */,
 				827080261B5D24B200302227 /* Cart.xcdatamodeld in Sources */,
 				829CE90A1B4BCB2200304088 /* PlaceOrderViewController.m in Sources */,

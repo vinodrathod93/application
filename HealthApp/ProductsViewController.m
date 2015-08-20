@@ -62,17 +62,13 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     __weak typeof(self) weakSelf = self;
     
-    
     [self.collectionView addInfiniteScrollWithHandler:^(UICollectionView *collectionView) {
-        NSLog(@"%@",weakSelf.nextPage);
         
         [weakSelf loadProductsPage:weakSelf.nextPage.intValue completion:^{
             [collectionView finishInfiniteScroll];
         }];
         
     }];
-    
-    
     
     [self loadProductsPage:kFIRST_PAGE completion:nil];
     
@@ -111,76 +107,18 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     ProductViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:productsReuseIdentifier forIndexPath:indexPath];
     
+    NSString *string = [self.viewModel infiniteImageAtIndex:indexPath.item];
     
-    if (indexPath.item < 10) {
-        NSString *string = [self.viewModel infiniteImageAtIndex:indexPath.item];
-        
-        NSURL *url = [NSURL URLWithString:string];
-        [cell.productImageView sd_setImageWithURL:url];
-        cell.productLabel.text = [self.viewModel nameAtIndex:indexPath.item];
-        cell.productPrice.text = [NSString stringWithFormat:@"Rs. %@",[self.viewModel priceAtIndex:indexPath.item]];
-    } else {
-        NSLog(@"show activity indicator");
-//        UICollectionViewCell *loadingCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"loadingCell" forIndexPath:indexPath];
-//        
-//        self.activityIndicator.center = loadingCell.center;
-//        [loadingCell addSubview:self.activityIndicator];
-//        
-//        
-//        [self.activityIndicator startAnimating];
-        
-    }
+    NSURL *url = [NSURL URLWithString:string];
+    [cell.productImageView sd_setImageWithURL:url];
+    cell.productLabel.text = [self.viewModel nameAtIndex:indexPath.item];
+    cell.productPrice.text = [NSString stringWithFormat:@"Rs. %@",[self.viewModel priceAtIndex:indexPath.item]];
     
     
     return cell;
 }
 
-/*
--(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    
-    UICollectionReusableView *reusableview = nil;
-    
-    if (kind == UICollectionElementKindSectionFooter) {
-        ActivityFooterView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FooterView" forIndexPath:indexPath];
-        
-        if (![self.activityIndicator isAnimating]) {
-            
-            self.no_items = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, footerView.frame.size.height)];
-            self.no_items.text = @"No more products to loads";
-            self.no_items.textAlignment = NSTextAlignmentCenter;
-            self.no_items.font = [UIFont fontWithName:@"AvenirNext-UltraLight" size:14.0f];
-            [footerView addSubview:self.no_items];
-            
-            self.no_items.hidden = YES;
-            
-            
-            self.activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            self.activityIndicator.center = footerView.center;
-            self.activityIndicator.hidesWhenStopped = YES;
-            [footerView addSubview:self.activityIndicator];
-            [self.activityIndicator startAnimating];
-            
-            if (self.currentPage == nil) {
-                [self.activityIndicator stopAnimating];
-//                self.activityIndicator.hidden = YES;
-            }
-        }
-        
-        if (self.currentPage == nil) {
-            [self.activityIndicator stopAnimating];
-        }
-        else {
-//            self.activityIndicator.hidden = NO;
-            [self.activityIndicator startAnimating];
-            self.no_items.hidden = YES;
-        }
-        
-        reusableview = footerView;
-    }
-    
-    return reusableview;
-}
- */
+
 
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -239,22 +177,6 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                     [self.hud hide:YES];
                     [self.collectionView reloadData];
                     
-                    /*
-                    [self.navigationController setNavigationBarHidden:YES animated:NO];
-                    UINavigationBar *newNavBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64.0f)];
-                    [newNavBar setTintColor:[self.collectionView tintColor]];
-                    UINavigationItem *newItem = [[UINavigationItem alloc] init];
-                    newItem.titleView = [self customTitleViewWithCount:[self.viewModel getItemsCount:dictionary]];
-                    
-                    UIImage *backButtonImage = [UIImage imageNamed:@"BackButtonBlack"];
-                    UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithImage:backButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(backTapped:)];
-                    newItem.leftBarButtonItem = backBarButtonItem;
-                    
-                    [newNavBar setItems:@[newItem]];
-                    [self.view addSubview:newNavBar];
-                    */
-                    
-                    
                 } else {
                     [self.collectionView performBatchUpdates:^{
                         int resultSize = @([self.viewModel numberOfProducts]).intValue;
@@ -268,7 +190,6 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                         
                         [self.collectionView insertItemsAtIndexPaths:arrayWithIndexPath];
                         
-                        
                     } completion:^(BOOL finished) {
                         finish();
                     }];
@@ -277,7 +198,6 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                 
                 self.currentPage = [self.viewModel currentPage:dictionary];
                 self.nextPage = [self.viewModel nextPage:dictionary];
-                
                 
             }
             

@@ -16,6 +16,9 @@
 #import "OrderInputsViewController.h"
 #import "InputFormViewController.h"
 #import "AddShippingDetailsViewController.h"
+#import "User.h"
+#import "LogSignViewController.h"
+#import "AddressesViewController.h"
 
 static NSString *cellIdentifier = @"cartCell";
 
@@ -276,19 +279,25 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 -(void)placeOrderPressed {
-//    OrderInputsViewController *orderInputs = [self.storyboard instantiateViewControllerWithIdentifier:@"orderInputsVC"];
-//    [self.navigationController presentViewController:orderInputs animated:YES completion:nil];
     
-//    InputFormViewController *form = [[InputFormViewController alloc]init];
-//    [self.navigationController presentViewController:form animated:YES completion:nil];
-    
-    AddShippingDetailsViewController *shippingDetails = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
-    shippingDetails.cartProducts = [self prepareCartProductsArray];
-    shippingDetails.totalAmount = @([self totalAmount]).stringValue;
-    
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:shippingDetails];
-    [self presentViewController:nav animated:YES completion:nil];
-    
+    User *user = [User savedUser];
+    if (user == nil) {
+        LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
+        [self presentViewController:logSignVC animated:YES completion:nil];
+        
+    } else {
+//        AddShippingDetailsViewController *shippingDetails = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
+//        shippingDetails.cartProducts = [self prepareCartProductsArray];
+//        shippingDetails.totalAmount = @([self totalAmount]).stringValue;
+//        
+//        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:shippingDetails];
+//        [self presentViewController:nav animated:YES completion:nil];
+        
+        
+        
+        AddressesViewController *addressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
+        [self.navigationController pushViewController:addressVC animated:YES];
+    }
 }
 
 - (IBAction)quantityPressed:(UIButton *)sender {
