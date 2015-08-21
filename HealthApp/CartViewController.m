@@ -26,6 +26,8 @@ static NSString *cellIdentifier = @"cartCell";
 
 @property (nonatomic, strong) NSFetchedResultsController *cartFetchedResultsController;
 @property (nonatomic, strong) NSIndexPath *selectIndexPath;
+@property (nonatomic, assign) BOOL hasCheckedOut;
+@property (nonatomic, assign) BOOL isAlreadyLoggedIn;
 
 @end
 
@@ -38,13 +40,24 @@ static NSString *cellIdentifier = @"cartCell";
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     [self.cartFetchedResultsController performFetch:nil];
+    
+    User *isLoggedIn = [User savedUser];
+    
+    self.isAlreadyLoggedIn = isLoggedIn ? YES: NO;
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [self.tableView reloadData];
+    
+    User *didLoggedIn = [User savedUser];
+    
+    didLoggedIn ? (self.hasCheckedOut) ? [self showAddressesVC]: NSLog(@"Did not logged in"):NSLog(@"Not Checked out");
+    
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -280,7 +293,10 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(void)placeOrderPressed {
     
+    self.hasCheckedOut = YES;
+    
     User *user = [User savedUser];
+    
     if (user == nil) {
         LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
         [self presentViewController:logSignVC animated:YES completion:nil];
@@ -293,10 +309,10 @@ static NSString *cellIdentifier = @"cartCell";
 //        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:shippingDetails];
 //        [self presentViewController:nav animated:YES completion:nil];
         
+        self.hasCheckedOut = NO;
         
+        [self showAddressesVC];
         
-        AddressesViewController *addressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
-        [self.navigationController pushViewController:addressVC animated:YES];
     }
 }
 
@@ -424,5 +440,20 @@ static NSString *cellIdentifier = @"cartCell";
     
 }
 
+-(void)showAddressesVC {
+    AddressesViewController *addressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
+    addressVC.cartDetails = [self getCartDetails];
+    
+    [self.navigationController pushViewController:addressVC animated:YES];
+}
+
+-(NSDictionary *)getCartDetails {
+    NSDictionary *dictionary = @{
+                                 @"products": [self prepareCartProductsArray],
+                                 @"total_amount":@([self totalAmount]).stringValue
+                                 };
+    
+    return dictionary;
+}
 
 @end

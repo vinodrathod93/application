@@ -39,6 +39,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.userName becomeFirstResponder];
+}
 
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];

@@ -9,6 +9,7 @@
 #import "AddShippingDetailsViewController.h"
 #import "AddShippingViewModel.h"
 #import "AddressViewCell.h"
+#import "User.h"
 
 
 #define GET_STATES_URL @"http://chemistplus.in/getStates.php"

@@ -12,7 +12,6 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "DetailsProductViewController.h"
 #import "DetailViewModel.h"
-#import "ActivityFooterView.h"
 #import "UIScrollView+InfiniteScroll.h"
 
 //static NSString * const PRODUCTS_DATA_URL = @"https://itunes.apple.com/us/rss/toppaidebooks/limit=100/explicit=true/json";
@@ -53,7 +52,6 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"loadingCell"];
-    [self.collectionView registerClass:[ActivityFooterView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FooterView"];
     
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.collectionView.infiniteScrollIndicatorView = activityIndicator;
@@ -133,8 +131,36 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     DetailsProductViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsVC"];
     details.detail = self.viewModel.viewModelProducts[indexPath.item];
     
+    [self setTabBarVisible:[self tabBarIsVisible] animated:YES completion:^(BOOL finished) {
+        NSLog(@"Finished");
+    }];
+    
     [self.navigationController pushViewController:details animated:YES];
 }
+
+
+-(BOOL)tabBarIsVisible {
+    return self.tabBarController.tabBar.frame.origin.y < CGRectGetMaxY(self.view.frame);
+}
+
+
+-(void)setTabBarVisible:(BOOL)visible animated:(BOOL)animated completion:(void (^)(BOOL))completion {
+    NSLog(@"visible %hhd",visible);
+    
+    if ([self tabBarIsVisible] == visible) return;
+    
+    CGRect frame = self.tabBarController.tabBar.frame;
+    CGFloat height = frame.size.height;
+    CGFloat offsetY = (visible)? -height: height;
+    
+    CGFloat duration = (animated)? 0.3: 0.0;
+    
+    [UIView animateWithDuration:duration animations:^{
+        self.tabBarController.tabBar.frame = CGRectOffset(frame, 0, offsetY);
+    } completion:completion];
+}
+
+
 
 
 -(void)loadProductsPage:(int)page completion:(void(^)(void))completion {

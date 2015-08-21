@@ -8,9 +8,12 @@
 
 #import "AddressesViewController.h"
 #import "AddShippingDetailsViewController.h"
+#import "OrderSummaryViewCell.h"
+#import "PaymentViewController.h"
 
 #define kADD_ADDRESS_CELL @"addAddressCell"
 #define kAVAILABLE_ADDRESS_CELL @"availabeAddressCell"
+#define kORDER_SUMMARY_CELL @"orderSummaryCell"
 
 @interface AddressesViewController ()
 {
@@ -37,26 +40,28 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     
-    return (section == 0) ? 1:2;
+    return (section == 0) ? 1: (section == 1)? 2:1;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    cellIdentifier = (indexPath.section == 0) ? kADD_ADDRESS_CELL: kAVAILABLE_ADDRESS_CELL;
+    cellIdentifier = (indexPath.section == 0) ? kADD_ADDRESS_CELL: (indexPath.section == 1)? kAVAILABLE_ADDRESS_CELL:kORDER_SUMMARY_CELL;
     
     id cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier  forIndexPath:indexPath];
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
         [self configureAddAddressCell:cell forIndexPath:indexPath];
-    } else
+    else if(indexPath.section == 1)
         [self configureAvailableAddressCell:cell forIndexPath:indexPath];
+    else if (indexPath.section == 2)
+        [self configureOrderSummaryCell:cell forIndexPath:indexPath];
     
     return cell;
 }
@@ -71,13 +76,43 @@
     cell.textLabel.text = @"available address";
 }
 
+-(void)configureOrderSummaryCell:(OrderSummaryViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    NSArray *products = [self.cartDetails valueForKey:@"products"];
+    cell.itemsLabel.text = [NSString stringWithFormat:@"%lu Item",(unsigned long)products.count];
+    cell.amountLabel.text = [NSString stringWithFormat:@"Rs. %@",[self.cartDetails valueForKey:@"total_amount"]];
+}
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
         [self.navigationController pushViewController:addShippingVC animated:YES];
-    } else
-        NSLog(@"available addresses");
+    }
+        
 }
+
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *selectAddress = @"Select Delivery Address";
+    NSString *orderSummary = @"Order Summary";
+    
+    return (section == 0)? @"": (section == 1)? selectAddress: orderSummary;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 2) {
+        return 82.0f;
+    }
+    
+    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"paymentSegue"]) {
+        PaymentViewController *paymentVC = segue.destinationViewController;
+        paymentVC.amount = [self.cartDetails valueForKey:@"total_amount"];
+    }
+}
+
 
 @end

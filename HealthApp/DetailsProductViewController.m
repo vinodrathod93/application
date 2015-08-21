@@ -38,6 +38,12 @@ NSString *cellReuseIdentifier;
     
 }
 
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    self.tableView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -84,6 +90,11 @@ NSString *cellReuseIdentifier;
 -(void)configureImageViewCell:(ProductImageViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
 
     [cell.productImage sd_setImageWithURL:[NSURL URLWithString:[self.viewModel image]]];
+    
+    UIImage *image = cell.productImage.image;
+    
+    CGSize size = CGSizeMake(image.size.width, image.size.height);
+    NSLog(@"Size is %@",NSStringFromCGSize(size));
     
     cell.productLabel.text = [self.viewModel name];
     cell.summaryLabel.text = [self.viewModel summary];

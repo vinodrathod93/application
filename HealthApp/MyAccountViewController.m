@@ -14,6 +14,15 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "LogSignViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "AddressesViewController.h"
+
+enum cells {
+    myOrders = 0,
+    myAddresses,
+    trackOrders,
+    accountSettings,
+    signOut
+};
 
 @interface MyAccountViewController ()
 {
@@ -133,7 +142,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 4) {
+    if (indexPath.row == signOut) {
         FBSDKLoginManager *manager = [[FBSDKLoginManager alloc]init];
         [manager logOut];
         
@@ -147,6 +156,9 @@
         
         LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
         [self presentViewController:logSignVC animated:NO completion:nil];
+    } else if (indexPath.row == myAddresses) {
+        AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
+        [self.navigationController pushViewController:addressesVC animated:YES];
     }
 }
 

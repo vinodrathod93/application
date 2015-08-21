@@ -147,13 +147,13 @@
 }
 
 - (IBAction)cancelPressed:(id)sender {
-    /*
+    
     User *user = [User savedUser];
     
     if (user == nil) {
         UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
         [tabBarController setSelectedIndex:0];
-    }*/
+    }
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
