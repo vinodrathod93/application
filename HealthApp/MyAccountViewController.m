@@ -16,12 +16,12 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "AddressesViewController.h"
 
-enum cells {
-    myOrders = 0,
-    myAddresses,
-    trackOrders,
-    accountSettings,
-    signOut
+enum MyAccountCells {
+    MyOrdersCell = 0,
+    MyAddressesCell,
+    TrackOrdersCell,
+    AccountSettingsCell,
+    SignOutCell
 };
 
 @interface MyAccountViewController ()
@@ -142,7 +142,7 @@ enum cells {
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == signOut) {
+    if (indexPath.row == SignOutCell) {
         FBSDKLoginManager *manager = [[FBSDKLoginManager alloc]init];
         [manager logOut];
         
@@ -156,7 +156,8 @@ enum cells {
         
         LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
         [self presentViewController:logSignVC animated:NO completion:nil];
-    } else if (indexPath.row == myAddresses) {
+    }
+    else if (indexPath.row == MyAddressesCell) {
         AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
         [self.navigationController pushViewController:addressesVC animated:YES];
     }

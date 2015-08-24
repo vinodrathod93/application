@@ -31,12 +31,6 @@ static NSString *summary = @"summary"; */
 }
 
 
--(NSString *)imageAtIndex:(NSInteger)index {
-    ProductDetail *details = self.viewModelProducts[index];
-    NSArray *array = (NSArray *)details.image;
-    return array[2];
-}
-
 -(NSString *)nameAtIndex:(NSInteger)index {
     ProductDetail *details = self.viewModelProducts[index];
     return details.name;
@@ -56,37 +50,18 @@ static NSString *summary = @"summary"; */
     return details.summary;
 }
 
+-(NSString *)productIDAtIndex:(NSInteger)index {
+    ProductDetail *details = self.viewModelProducts[index];
+    return details.productID;
+}
+
 -(void)addProducts:(NSArray *)array {
     [self.viewModelProducts addObjectsFromArray:array];
 }
 
 
-+(NSArray *)productsFromJSON:(NSDictionary *)objectNotation {
-    NSMutableArray *products = [[NSMutableArray alloc] init];
-    
-    NSArray *entries = [objectNotation valueForKeyPath:@"feed.entry"];
-    
-    [entries enumerateObjectsUsingBlock:^(NSDictionary *entry, NSUInteger idx, BOOL *stop) {
-        NSLog(@"%@",[entry valueForKeyPath:@"im:name.label"]);
-        ProductDetail *detail = [[ProductDetail alloc] init];
-        
-        [detail setValue:[entry valueForKeyPath:@"title.label"] forKey:@"name"];
-        [detail setValue:[entry valueForKeyPath:@"im:image.label"] forKey:@"image"];
-        [detail setValue:[entry valueForKeyPath:@"im:price.label"] forKey:@"price"];
-        [detail setValue:[entry valueForKeyPath:@"summary.label"] forKey:@"summary"];
-        
-        
-        NSLog(@"%@",[entry valueForKeyPath:@"[collect].title.label"]);
-        
-        [products addObject:detail];
-    }];
-    
-    NSLog(@"%lu",(unsigned long)products.count);
-    
-    return products;
-}
 
-
+/************ Infinite series **************/
 
 +(NSArray *)infiniteProductsFromJSON:(NSDictionary *)dictionary {
     NSMutableArray *products = [[NSMutableArray alloc]init];
@@ -97,6 +72,7 @@ static NSString *summary = @"summary"; */
     [array enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
         ProductDetail *detail = [[ProductDetail alloc]init];
         
+        [detail setValue:[obj valueForKey:@"product_id"] forKey:@"productID"];
         [detail setValue:[obj valueForKey:@"product_name"] forKey:@"name"];
         [detail setValue:[obj valueForKey:@"product_image"] forKey:@"image"];
         [detail setValue:[obj valueForKey:@"price"] forKey:@"price"];
@@ -128,5 +104,46 @@ static NSString *summary = @"summary"; */
 -(NSString *)nextPage:(NSDictionary *)dictionary {
     return [dictionary valueForKey:@"next_page"];
 }
+
+
+
+
+
+
+/*
+ +(NSArray *)productsFromJSON:(NSDictionary *)objectNotation {
+ NSMutableArray *products = [[NSMutableArray alloc] init];
+ 
+ NSArray *entries = [objectNotation valueForKeyPath:@"feed.entry"];
+ 
+ [entries enumerateObjectsUsingBlock:^(NSDictionary *entry, NSUInteger idx, BOOL *stop) {
+ NSLog(@"%@",[entry valueForKeyPath:@"im:name.label"]);
+ ProductDetail *detail = [[ProductDetail alloc] init];
+ 
+ [detail setValue:[entry valueForKeyPath:@"title.label"] forKey:@"name"];
+ [detail setValue:[entry valueForKeyPath:@"im:image.label"] forKey:@"image"];
+ [detail setValue:[entry valueForKeyPath:@"im:price.label"] forKey:@"price"];
+ [detail setValue:[entry valueForKeyPath:@"summary.label"] forKey:@"summary"];
+ 
+ 
+ NSLog(@"%@",[entry valueForKeyPath:@"[collect].title.label"]);
+ 
+ [products addObject:detail];
+ }];
+ 
+ NSLog(@"%lu",(unsigned long)products.count);
+ 
+ return products;
+ }
+ 
+ 
+ 
+ -(NSString *)imageAtIndex:(NSInteger)index {
+ ProductDetail *details = self.viewModelProducts[index];
+ NSArray *array = (NSArray *)details.image;
+ return array[2];
+ }
+ 
+ */
 
 @end

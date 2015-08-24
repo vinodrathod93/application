@@ -45,6 +45,14 @@
     return [self.model valueForKey:@"image"];
 }
 
+-(NSString *)productID {
+    return [self.model valueForKey:@"productID"];
+}
+
+-(NSString *)quantity {
+    return @(1).stringValue;
+}
+
 
 -(CGFloat)heightForSummaryTextInTableViewCellWithWidth:(CGFloat)width {
     NSString *string = [self summary];
@@ -57,9 +65,6 @@
 }
 
 
--(void)pushToCartWithManagedObjectContext:(NSManagedObjectContext *)context {
-    
-}
 
 
 

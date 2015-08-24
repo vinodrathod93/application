@@ -40,7 +40,9 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 3;
+    
+    NSLog(@"%@",self.cartDetails);
+    return (self.cartDetails == NULL)? 2: 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -60,7 +62,7 @@
         [self configureAddAddressCell:cell forIndexPath:indexPath];
     else if(indexPath.section == 1)
         [self configureAvailableAddressCell:cell forIndexPath:indexPath];
-    else if (indexPath.section == 2)
+    else if (indexPath.section == 2 )
         [self configureOrderSummaryCell:cell forIndexPath:indexPath];
     
     return cell;
@@ -86,6 +88,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
+        addShippingVC.cartDetails = self.cartDetails;
         [self.navigationController pushViewController:addShippingVC animated:YES];
     }
         
@@ -110,7 +113,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"paymentSegue"]) {
         PaymentViewController *paymentVC = segue.destinationViewController;
-        paymentVC.amount = [self.cartDetails valueForKey:@"total_amount"];
+        paymentVC.orderDetails = self.cartDetails;
     }
 }
 

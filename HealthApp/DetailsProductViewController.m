@@ -176,13 +176,13 @@ NSString *cellReuseIdentifier;
     
     if (fetchedArray.count == 0) {
         self.addToCartModel = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-        self.addToCartModel.productID = @(11).stringValue;
+        self.addToCartModel.productID = [self.viewModel productID];
         self.addToCartModel.productName = [self.viewModel name];
         self.addToCartModel.productPrice = [self.viewModel price];
         self.addToCartModel.addedDate = [NSDate date];
         
         self.addToCartModel.productImage = [self.viewModel image];
-        self.addToCartModel.quantity = @(1).stringValue;
+        self.addToCartModel.quantity = [self.viewModel quantity];
         self.addToCartModel.totalPrice = [self.viewModel price];
         
         [self.managedObjectContext save:nil];

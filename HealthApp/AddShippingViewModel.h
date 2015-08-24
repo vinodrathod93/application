@@ -13,6 +13,7 @@
 - (BOOL)validEmail:(NSString*) emailString;
 - (BOOL)validatePhone:(NSString *)phoneNumber;
 - (BOOL)validatePinCode:(NSString*)pincode;
+- (BOOL)validateName:(NSString *)name;
 
 -(NSString *)getAddressValue;
 -(NSString *)getCityAttribute;

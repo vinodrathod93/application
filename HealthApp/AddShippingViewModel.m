@@ -19,6 +19,14 @@
 @implementation AddShippingViewModel
 
 
+- (BOOL)validateName:(NSString *)name {
+    if (name.length >= 1) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 - (BOOL) validEmail:(NSString*) emailString {
     
     if([emailString length]==0){

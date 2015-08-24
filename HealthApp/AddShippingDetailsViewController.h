@@ -11,8 +11,8 @@
 
 @interface AddShippingDetailsViewController : UITableViewController
 
-@property (nonatomic, strong) NSArray *cartProducts;
-@property (nonatomic, strong) NSString *totalAmount;
+
+@property (nonatomic, strong) NSDictionary *cartDetails;
 
 
 - (IBAction)editingChanged:(id)sender;

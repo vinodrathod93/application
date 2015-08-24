@@ -190,7 +190,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
             }
             else if(![dictionary isEqual:nil])
             {
-                
+                NSLog(@"%@",dictionary);
                 NSArray *array = [DetailViewModel infiniteProductsFromJSON:dictionary];
                 if (page == 1) {
                     

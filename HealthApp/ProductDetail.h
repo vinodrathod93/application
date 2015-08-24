@@ -10,6 +10,7 @@
 
 @interface ProductDetail : NSObject
 
+@property (nonatomic, strong) NSString *productID;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *image;
 @property (nonatomic, strong) NSString *summary;

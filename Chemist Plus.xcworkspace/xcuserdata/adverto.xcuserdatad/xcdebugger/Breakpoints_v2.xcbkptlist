@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HealthApp/ProductsViewController.m"
-            timestampString = "461849228.672299"
+            filePath = "HealthApp/AddShippingDetailsViewController.m"
+            timestampString = "462108614.743873"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "-collectionView:didSelectItemAtIndexPath:"
+            startingLineNumber = "445"
+            endingLineNumber = "445"
+            landmarkName = "-proceedButtonPressed"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

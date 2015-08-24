@@ -10,11 +10,23 @@
 #import "AddShippingViewModel.h"
 #import "AddressViewCell.h"
 #import "User.h"
+#import "Address.h"
+#import "ProductOrderConfirmationViewController.h"
 
 
 #define GET_STATES_URL @"http://chemistplus.in/getStates.php"
 #define GET_CITIES_URL @"http://chemistplus.in/getCities.php"
 #define VERIFY_PINCODE_URL @"http://chemistplus.in/verifyPincode.php"
+
+enum AddressFields {
+    NameTextField = 0,
+    PincodeTextField,
+    AddressTextField,
+    LandmarkTextField,
+    TownTextField,
+    CityTextField,
+    StateTextField
+};
 
 @interface AddShippingDetailsViewController ()<UITextFieldDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
 
@@ -30,6 +42,11 @@
 @property (nonatomic, assign) BOOL isPincodeAvailable;
 
 @property (nonatomic, strong) UIAlertView *orderConfirmation;
+@property (nonatomic, strong) NSArray *cartProducts;
+@property (nonatomic, strong) NSString *totalAmount;
+
+@property (nonatomic, strong) Address *address;
+@property (nonatomic, strong) User *user;
 
 
 @end
@@ -41,12 +58,23 @@ NSString *cellIdentifier;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.formFields = @[@"Name", @"Email", @"Pincode", @"Phone", @"Address", @"Landmark", @"Town", @"City", @"State"];
+    self.formFields = @[@"Name", @"Pincode", @"Address", @"Landmark", @"Town", @"City", @"State"];
     
     self.viewModel = [[AddShippingViewModel alloc]init];
     self.detailsDictionary = [NSMutableDictionary dictionary];
     
     [self checkToVerifyPincode];
+    
+    self.cartProducts = [self.cartDetails valueForKey:@"products"];
+    self.totalAmount = [self.cartDetails valueForKey:@"total_amount"];
+    
+    NSLog(@"%@",self.cartDetails);
+    NSLog(@"%@",self.cartProducts);
+    
+    
+    self.address = [[Address alloc] init];
+    self.user = [User savedUser];
+    
     
     
 }
@@ -58,6 +86,7 @@ NSString *cellIdentifier;
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     
 }
 
@@ -95,15 +124,16 @@ NSString *cellIdentifier;
     cell.textField.tag = indexPath.row;
     cell.textField.delegate = self;
     
-    if (cell.textField.tag == 2) {
+    if (cell.textField.tag == NameTextField) {
+        cell.textField.text = self.user.fullName;
+        [cell.textField becomeFirstResponder];
+    }
+    
+    if (cell.textField.tag == PincodeTextField) {
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         cell.textField.returnKeyType = UIReturnKeyNext;
     }
-    else if(cell.textField.tag == 3) {
-        cell.textField.keyboardType = UIKeyboardTypeNumberPad;
-        cell.textField.returnKeyType = UIReturnKeyNext;
-    }
-    else if (cell.textField.tag == 5)
+    else if (cell.textField.tag == AddressTextField)
         cell.textField.returnKeyType = UIReturnKeyDone;
     else
         cell.textField.returnKeyType = UIReturnKeyNext;
@@ -132,15 +162,12 @@ NSString *cellIdentifier;
 }
 
 
-
-
-
 -(BOOL)checkAvailablePincode:(UITextField *)sender {
     if (![self.availablePincodes containsObject:sender.text]) {
         
-        UITextField *town = (UITextField *)[self.view viewWithTag:6];
-        UITextField *city = (UITextField *)[self.view viewWithTag:7];
-        UITextField *state = (UITextField *)[self.view viewWithTag:8];
+        UITextField *town = (UITextField *)[self.view viewWithTag:TownTextField];
+        UITextField *city = (UITextField *)[self.view viewWithTag:CityTextField];
+        UITextField *state = (UITextField *)[self.view viewWithTag:StateTextField];
         
         sender.text = @"";
         
@@ -153,12 +180,12 @@ NSString *cellIdentifier;
         
         self.isPincodeAvailable = NO;
         
-        return NO;
-    }
+    } else
+        self.isPincodeAvailable = YES;
     
-    self.isPincodeAvailable = YES;
     
-    return YES;
+    
+    return self.isPincodeAvailable;
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)sender {
@@ -166,16 +193,19 @@ NSString *cellIdentifier;
     __block BOOL status = YES;
     
     
-    if (sender.tag == 1) {
-        if (![self.viewModel validEmail:sender.text]) {
+    if (sender.tag == NameTextField) {
+        if (![self.viewModel validateName:sender.text]) {
             [self displayError:sender];
             
             return NO;
         }
         
-    }
-    else if (sender.tag == 2) {
+        return YES;
         
+    }
+    else if (sender.tag == PincodeTextField) {
+        
+        NSLog(@"%@",sender.text);
         if (![self.viewModel validatePinCode:sender.text]) {
             [self displayError:sender];
             
@@ -184,21 +214,13 @@ NSString *cellIdentifier;
         else if (![sender.text isEqualToString:@""]) {
             [self requestPincodeTask:sender completion:^{
                 status = [self checkAvailablePincode:sender];
+                
             }];
+            
             return status;
             
         } else
             return NO;
-        
-        
-    }
-    else if (sender.tag == 3) {
-        
-        if (![self.viewModel validatePhone:sender.text]) {
-            [self displayError:sender];
-            
-            return NO;
-        }
         
     }
     else {
@@ -213,8 +235,7 @@ NSString *cellIdentifier;
 
 - (IBAction)textFieldDidEndEditing:(UITextField *)sender {
     
-    
-    
+    [self saveToArray:sender];
     
 }
 
@@ -233,39 +254,31 @@ NSString *cellIdentifier;
 - (BOOL)textFieldShouldReturn:(UITextField *)sender {
     NSLog(@"textFieldShouldReturn");
     
-    if (sender.tag == 0) {
+    if (sender.tag == NameTextField) {
         
         [self jumpToNext:sender];
         
-    } else if (sender.tag == 1) {
+    } else if (sender.tag == PincodeTextField) {
         
         [self jumpToNext:sender];
         
-    } else if (sender.tag == 2) {
-        
-        [self jumpToNext:sender];
-        
-    } else if (sender.tag == 3) {
-        
-        [self jumpToNext:sender];
-        
-    } else if (sender.tag == 4) {
+    } else if (sender.tag == AddressTextField) {
         
         [self jumpToNext:sender];
     
-    } else if (sender.tag == 5) {
+    } else if (sender.tag == LandmarkTextField) {
         
         [self proceedButtonPressed];
         
-    } else if (sender.tag == 6) {
+    } else if (sender.tag == TownTextField) {
         
         [self jumpToNext:sender];
         
-    } else if (sender.tag == 7) {
+    } else if (sender.tag == CityTextField) {
         
         [self jumpToNext:sender];
         
-    } else if (sender.tag == 8) {
+    } else if (sender.tag == StateTextField) {
         
         [self proceedButtonPressed];
     }
@@ -274,8 +287,9 @@ NSString *cellIdentifier;
 
 - (IBAction)editingChanged:(UITextField *)sender {
     
-    [self saveToArray:sender];
+//    [self saveToArray:sender];
 }
+
 
 
 -(void)loadJSONForTown:(UITextField *)town forCity:(UITextField *)city andForState:(UITextField *)state {
@@ -310,6 +324,7 @@ NSString *cellIdentifier;
                         
                         if (city.text != nil) {
                             [self.detailsDictionary setObject:city.text forKey:@"city"];
+                            self.address.city = city.text;
                         }
                         
                     }
@@ -321,6 +336,7 @@ NSString *cellIdentifier;
                         
                         if (state.text != nil) {
                             [self.detailsDictionary setObject:state.text forKey:@"state"];
+                            self.address.state = state.text;
                         }
                         
                     }
@@ -332,6 +348,7 @@ NSString *cellIdentifier;
                         
                         if (town.text != nil) {
                             [self.detailsDictionary setObject:town.text forKey:@"town"];
+                            self.address.town = state.text;
                         }
                         
                     }
@@ -374,10 +391,10 @@ NSString *cellIdentifier;
                     self.latitude = [address valueForKeyPath:@"geometry.location.lat"];
                     self.longitude = [address valueForKeyPath:@"geometry.location.lng"];
                     
-                    UITextField *town = (UITextField *)[self.view viewWithTag:6];
-                    UITextField *city = (UITextField *)[self.view viewWithTag:7];
-                    UITextField *state = (UITextField *)[self.view viewWithTag:8];
-                    
+                    UITextField *town = (UITextField *)[self.view viewWithTag:TownTextField];
+                    UITextField *city = (UITextField *)[self.view viewWithTag:CityTextField];
+                    UITextField *state = (UITextField *)[self.view viewWithTag:StateTextField];
+
                     self.isCorrectPincode = YES;
                     
                     if (self.isCorrectPincode) {
@@ -388,8 +405,6 @@ NSString *cellIdentifier;
                         }
                         
                     }
-                    
-                    
                     
                 } else {
                     UIAlertView *pincodeAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter the correct pincode" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -428,9 +443,15 @@ NSString *cellIdentifier;
     NSLog(@"proceedButtonPressed");
     NSLog(@"%@",self.detailsDictionary);
     
+    [self.address save];
+    NSLog(@"%@",self.address.name);
+    
+    
     if (self.detailsDictionary.count == self.formFields.count) {
         NSDictionary *json = [NSDictionary dictionaryWithObjectsAndKeys:self.cartProducts, @"products",
                               self.detailsDictionary, @"userInfo", self.totalAmount, @"orderAmount", nil];
+        
+        
         NSLog(@"%@",json);
         NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error];
@@ -449,9 +470,12 @@ NSString *cellIdentifier;
             NSLog(@"%@",string);
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.orderConfirmation = [[UIAlertView alloc]initWithTitle:@"Success" message:[NSString stringWithFormat:@"Yeah! Order has been placed and Order ID is \"%@\"",string] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                self.orderConfirmation.delegate = self;
-                [self.orderConfirmation show];
+//                self.orderConfirmation = [[UIAlertView alloc]initWithTitle:@"Success" message:[NSString stringWithFormat:@"Yeah! Order has been placed and Order ID is \"%@\"",string] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//                self.orderConfirmation.delegate = self;
+//                [self.orderConfirmation show];
+                ProductOrderConfirmationViewController *orderConfirmationVC = [self.storyboard instantiateViewControllerWithIdentifier:@""];
+                
+                
             });
             
             
@@ -467,74 +491,84 @@ NSString *cellIdentifier;
 -(void)saveToArray:(UITextField *)sender {
     
     switch (sender.tag) {
-        case 0: {
+        case NameTextField: {
+            
+            NSLog(@"%@",sender.text);
             if (![sender.text isEqualToString:@""]) {
-                [self.detailsDictionary setObject:sender.text forKey:@"name"];
+                
+                self.address.name = sender.text;
+                [self.detailsDictionary setObject:self.address.name forKey:@"name"];
+                
             } else
                 [self displayErrorMessageFor:self.formFields[sender.tag]];
         }
             break;
             
-        case 1: {
-            if (![sender.text isEqualToString:@""]) {
-                [self.detailsDictionary setObject:sender.text forKey:@"email"];
-            } else
-                [self displayErrorMessageFor:self.formFields[sender.tag]];
-            
-            break;
-        }
+//        case EmailTextField: {
+//            if (![sender.text isEqualToString:@""]) {
+//                [self.detailsDictionary setObject:sender.text forKey:@"email"];
+//                self.address.email = sender.text;
+//                
+//            } else
+//                [self displayErrorMessageFor:self.formFields[sender.tag]];
+//            
+//            break;
+//        }
         
-        case 2: {
+        case PincodeTextField: {
             if (![sender.text isEqualToString:@""]) {
                 [self.detailsDictionary setObject:sender.text forKey:@"pincode"];
+                self.address.pincode = sender.text;
+                
             } else
                 [self displayErrorMessageFor:self.formFields[sender.tag]];
             break;
         }
-            
-        case 3: {
-            if (![sender.text isEqualToString:@""]) {
-                [self.detailsDictionary setObject:sender.text forKey:@"phone"];
-            } else
-               [self displayErrorMessageFor:self.formFields[sender.tag]];
-            break;
-        }
-            
-        case 4: {
+        case AddressTextField: {
             if (![sender.text isEqualToString:@""]) {
                 [self.detailsDictionary setObject:sender.text forKey:@"address"];
+                self.address.address = sender.text;
+                
             } else
                 [self displayErrorMessageFor:self.formFields[sender.tag]];
             break;
         }
             
-        case 5: {
+        case LandmarkTextField: {
             if (![sender.text isEqualToString:@""]) {
                 [self.detailsDictionary setObject:sender.text forKey:@"landmark"];
+                self.address.landmark = sender.text;
+                
             } else
                 [self displayErrorMessageFor:self.formFields[sender.tag]];
             break;
         }
             
-        case 6: {
+        case TownTextField: {
             if (![sender.text isEqualToString:@""]) {
                 [self.detailsDictionary setObject:sender.text forKey:@"town"];
+                self.address.town = sender.text;
+                
             } else
                 [self displayErrorMessageFor:self.formFields[sender.tag]];
             break;
         }
             
-        case 7: {
+        case CityTextField: {
             if (![sender.text isEqualToString:@""]) {
                 [self.detailsDictionary setObject:sender.text forKey:@"city"];
+                self.address.city = sender.text;
+                
             } else
                 [self displayErrorMessageFor:self.formFields[sender.tag]];
             break;
         }
             
-        case 8: {
+        case StateTextField: {
             if (![sender.text isEqualToString:@""]) {
                 [self.detailsDictionary setObject:sender.text forKey:@"state"];
+                self.address.state = sender.text;
+                
             } else
                 [self displayErrorMessageFor:self.formFields[sender.tag]];
             break;
@@ -554,14 +588,15 @@ NSString *cellIdentifier;
     NSLog(@"dismiss");
     
     if ([alertView isEqual:self.orderConfirmation]) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+#warning push to confirmation page.
+
     }
 }
 
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (textField.tag == 2) {
+    if (textField.tag == PincodeTextField) {
         int limit = 5;
         return !([textField.text length]>limit && [string length] > range.length);
     }

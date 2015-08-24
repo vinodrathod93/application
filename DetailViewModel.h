@@ -24,12 +24,14 @@
 
 -(id)initWithArray:(NSArray *)array;
 
-+(NSArray *)productsFromJSON:(NSDictionary *)objectNotation;
+//+(NSArray *)productsFromJSON:(NSDictionary *)objectNotation;
+//-(NSString *)imageAtIndex:(NSInteger)index;
+
 -(NSInteger)numberOfProducts;
--(NSString *)imageAtIndex:(NSInteger)index;
 -(NSString *)nameAtIndex:(NSInteger)index;
 -(NSString *)summaryAtIndex:(NSInteger)index;
 -(NSString *)priceAtIndex:(NSInteger)index;
+-(NSString *)productIDAtIndex:(NSInteger)index;
 
 +(NSArray *)infiniteProductsFromJSON:(NSDictionary *)dictionary;
 -(NSString *)infiniteImageAtIndex:(NSInteger)index;

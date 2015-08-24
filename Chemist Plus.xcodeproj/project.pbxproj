@@ -50,6 +50,8 @@
 		827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632831B4A3DB800230833 /* FBSDKLoginKit.framework */; };
 		827632891B4A629600230833 /* UploadPrescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827632881B4A629600230833 /* UploadPrescriptionViewController.m */; };
 		827A80181B85E15C008085F1 /* AddressesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827A80171B85E15C008085F1 /* AddressesViewController.m */; };
+		827DD3171B8AD32900714985 /* ProductOrderConfirmationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD3161B8AD32900714985 /* ProductOrderConfirmationViewController.m */; };
+		827DD31A1B8AE39F00714985 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD3191B8AE39F00714985 /* Address.m */; };
 		82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CDA1B58F81000FCCACC /* DetailsProductViewController.m */; };
 		82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CDD1B58F92600FCCACC /* ProductImageViewCell.m */; };
 		82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CE01B590B8600FCCACC /* DetailViewModel.m */; };
@@ -163,6 +165,10 @@
 		827632881B4A629600230833 /* UploadPrescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadPrescriptionViewController.m; sourceTree = "<group>"; };
 		827A80161B85E15C008085F1 /* AddressesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressesViewController.h; sourceTree = "<group>"; };
 		827A80171B85E15C008085F1 /* AddressesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressesViewController.m; sourceTree = "<group>"; };
+		827DD3151B8AD32900714985 /* ProductOrderConfirmationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductOrderConfirmationViewController.h; sourceTree = "<group>"; };
+		827DD3161B8AD32900714985 /* ProductOrderConfirmationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductOrderConfirmationViewController.m; sourceTree = "<group>"; };
+		827DD3181B8AE39F00714985 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
+		827DD3191B8AE39F00714985 /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
 		82842CD91B58F81000FCCACC /* DetailsProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsProductViewController.h; sourceTree = "<group>"; };
 		82842CDA1B58F81000FCCACC /* DetailsProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsProductViewController.m; sourceTree = "<group>"; };
 		82842CDC1B58F92600FCCACC /* ProductImageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductImageViewCell.h; sourceTree = "<group>"; };
@@ -239,8 +245,7 @@
 		82327F6F1B60B23800D92889 /* Products VC */ = {
 			isa = PBXGroup;
 			children = (
-				82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */,
-				82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */,
+				827DD31B1B8AF53300714985 /* Infinite Scrolling */,
 				8250A32B1B55142E0026ADCE /* ProductsViewController.h */,
 				8250A32C1B55142E0026ADCE /* ProductsViewController.m */,
 				8238A7021B5E2F43005CC0A5 /* Product Cell */,
@@ -418,6 +423,8 @@
 		825692CD1B6B776400B5D1D3 /* Add Shipping Details */ = {
 			isa = PBXGroup;
 			children = (
+				827DD3181B8AE39F00714985 /* Address.h */,
+				827DD3191B8AE39F00714985 /* Address.m */,
 				825567161B68E6D4009F013A /* AddShippingDetailsViewController.h */,
 				825567171B68E6D4009F013A /* AddShippingDetailsViewController.m */,
 				825692CE1B6B777C00B5D1D3 /* Cell */,
@@ -468,6 +475,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		827DD31B1B8AF53300714985 /* Infinite Scrolling */ = {
+			isa = PBXGroup;
+			children = (
+				82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */,
+				82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */,
+			);
+			name = "Infinite Scrolling";
+			sourceTree = "<group>";
+		};
 		82BD027F1B46A73C00108A0B = {
 			isa = PBXGroup;
 			children = (
@@ -513,6 +529,8 @@
 				82C722F91B7B42EF00E0C5EF /* Register VC */,
 				823C46AA1B73327E00E37DBE /* Doctors VC */,
 				82BD02951B46A73C00108A0B /* Main.storyboard */,
+				827DD3151B8AD32900714985 /* ProductOrderConfirmationViewController.h */,
+				827DD3161B8AD32900714985 /* ProductOrderConfirmationViewController.m */,
 				8233CE0E1B873B8B00B5279B /* PaymentViewController.h */,
 				8233CE0F1B873B8B00B5279B /* PaymentViewController.m */,
 				827A80161B85E15C008085F1 /* AddressesViewController.h */,
@@ -753,6 +771,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				827DD3171B8AD32900714985 /* ProductOrderConfirmationViewController.m in Sources */,
 				82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */,
 				82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */,
 				8250A3321B553B000026ADCE /* ProductViewCell.m in Sources */,
@@ -781,6 +800,7 @@
 				8246FE651B74B53D001D1CFF /* LogSignViewController.m in Sources */,
 				825567181B68E6D4009F013A /* AddShippingDetailsViewController.m in Sources */,
 				82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */,
+				827DD31A1B8AE39F00714985 /* Address.m in Sources */,
 				8255671B1B68E6F0009F013A /* AddShippingViewCell.m in Sources */,
 				82C722F61B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m in Sources */,
 				82C175951B66371000AD26DB /* OrderInputsViewController.m in Sources */,

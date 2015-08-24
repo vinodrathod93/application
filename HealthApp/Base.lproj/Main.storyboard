@@ -1563,7 +1563,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="paymentCell" textLabel="zBi-PI-n6H" style="IBUITableViewCellStyleDefault" id="13N-ex-2MK">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="paymentCell" textLabel="zBi-PI-n6H" style="IBUITableViewCellStyleDefault" id="13N-ex-2MK">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="13N-ex-2MK" id="4wx-8h-KHJ">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -1576,6 +1576,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="JXY-T7-svI" kind="push" identifier="placeOrderConfirmationVC" id="fND-um-ghX"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="customPayCell" id="csp-Va-wDW" customClass="PaymentViewCell">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1623,10 +1626,10 @@
             </objects>
             <point key="canvasLocation" x="4442" y="-2205"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Product Order Confirmation View Controller-->
         <scene sceneID="eZE-nc-amQ">
             <objects>
-                <tableViewController id="JXY-T7-svI" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="productOrderConfirmationVC" id="JXY-T7-svI" customClass="ProductOrderConfirmationViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="248" sectionHeaderHeight="10" sectionFooterHeight="10" id="8Da-KS-S7z">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1674,6 +1677,7 @@
                             <outlet property="delegate" destination="JXY-T7-svI" id="0oF-jU-eCj"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="NGr-zj-FOR"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X7j-qs-vQ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

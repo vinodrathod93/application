@@ -18,8 +18,9 @@
 -(NSString *)name;
 -(NSString *)price;
 -(NSString *)image;
+-(NSString *)productID;
+-(NSString *)quantity;
 
 -(CGFloat)heightForSummaryTextInTableViewCellWithWidth:(CGFloat)width;
--(void)pushToCart;
 
 @end

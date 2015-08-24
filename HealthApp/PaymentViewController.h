@@ -10,5 +10,6 @@
 
 @interface PaymentViewController : UITableViewController
 
-@property (nonatomic, strong) NSString *amount;
+
+@property (nonatomic, strong) NSDictionary *orderDetails;
 @end
