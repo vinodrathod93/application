@@ -22,6 +22,7 @@
 		823C46AD1B7374C100E37DBE /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 823C46AC1B7374C100E37DBE /* SignUpViewController.m */; };
 		823C46B01B7392FE00E37DBE /* ProfileViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 823C46AF1B7392FE00E37DBE /* ProfileViewCell.m */; };
 		823C46B31B73934F00E37DBE /* MyAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 823C46B21B73934F00E37DBE /* MyAccountViewController.m */; };
+		823D06621B8C458600640F45 /* CODInputViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 823D06611B8C458600640F45 /* CODInputViewCell.m */; };
 		8246FE621B748382001D1CFF /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 8246FE611B748382001D1CFF /* User.m */; };
 		8246FE651B74B53D001D1CFF /* LogSignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8246FE641B74B53D001D1CFF /* LogSignViewController.m */; };
 		8246FE681B74B70A001D1CFF /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8246FE671B74B70A001D1CFF /* SignInViewController.m */; };
@@ -116,6 +117,8 @@
 		823C46AF1B7392FE00E37DBE /* ProfileViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewCell.m; sourceTree = "<group>"; };
 		823C46B11B73934F00E37DBE /* MyAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAccountViewController.h; sourceTree = "<group>"; };
 		823C46B21B73934F00E37DBE /* MyAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAccountViewController.m; sourceTree = "<group>"; };
+		823D06601B8C458600640F45 /* CODInputViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CODInputViewCell.h; sourceTree = "<group>"; };
+		823D06611B8C458600640F45 /* CODInputViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CODInputViewCell.m; sourceTree = "<group>"; };
 		8246FE601B748382001D1CFF /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		8246FE611B748382001D1CFF /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		8246FE631B74B53D001D1CFF /* LogSignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogSignViewController.h; sourceTree = "<group>"; };
@@ -370,6 +373,36 @@
 			name = "Doctors VC";
 			sourceTree = "<group>";
 		};
+		823D06951B8C750A00640F45 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				827DD3181B8AE39F00714985 /* Address.h */,
+				827DD3191B8AE39F00714985 /* Address.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		823D06961B8C755200640F45 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				823D06601B8C458600640F45 /* CODInputViewCell.h */,
+				823D06611B8C458600640F45 /* CODInputViewCell.m */,
+				8233CE141B874FB200B5279B /* PaymentViewCell.h */,
+				8233CE151B874FB200B5279B /* PaymentViewCell.m */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		823D06971B8C755B00640F45 /* Payment VC */ = {
+			isa = PBXGroup;
+			children = (
+				8233CE0E1B873B8B00B5279B /* PaymentViewController.h */,
+				8233CE0F1B873B8B00B5279B /* PaymentViewController.m */,
+				823D06961B8C755200640F45 /* Cell */,
+			);
+			name = "Payment VC";
+			sourceTree = "<group>";
+		};
 		8246FE691B74BB8B001D1CFF /* MyAccount VC */ = {
 			isa = PBXGroup;
 			children = (
@@ -423,10 +456,9 @@
 		825692CD1B6B776400B5D1D3 /* Add Shipping Details */ = {
 			isa = PBXGroup;
 			children = (
-				827DD3181B8AE39F00714985 /* Address.h */,
-				827DD3191B8AE39F00714985 /* Address.m */,
 				825567161B68E6D4009F013A /* AddShippingDetailsViewController.h */,
 				825567171B68E6D4009F013A /* AddShippingDetailsViewController.m */,
+				823D06951B8C750A00640F45 /* Model */,
 				825692CE1B6B777C00B5D1D3 /* Cell */,
 				825692CF1B6B778400B5D1D3 /* ViewModel */,
 			);
@@ -531,14 +563,11 @@
 				82BD02951B46A73C00108A0B /* Main.storyboard */,
 				827DD3151B8AD32900714985 /* ProductOrderConfirmationViewController.h */,
 				827DD3161B8AD32900714985 /* ProductOrderConfirmationViewController.m */,
-				8233CE0E1B873B8B00B5279B /* PaymentViewController.h */,
-				8233CE0F1B873B8B00B5279B /* PaymentViewController.m */,
+				823D06971B8C755B00640F45 /* Payment VC */,
 				827A80161B85E15C008085F1 /* AddressesViewController.h */,
 				827A80171B85E15C008085F1 /* AddressesViewController.m */,
 				8233CE111B873EF200B5279B /* OrderSummaryViewCell.h */,
 				8233CE121B873EF200B5279B /* OrderSummaryViewCell.m */,
-				8233CE141B874FB200B5279B /* PaymentViewCell.h */,
-				8233CE151B874FB200B5279B /* PaymentViewCell.m */,
 				82BD02981B46A73C00108A0B /* Images.xcassets */,
 				823C46A41B73226900E37DBE /* DoctorDetailsViewController.h */,
 				823C46A51B73226900E37DBE /* DoctorDetailsViewController.m */,
@@ -773,6 +802,7 @@
 			files = (
 				827DD3171B8AD32900714985 /* ProductOrderConfirmationViewController.m in Sources */,
 				82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */,
+				823D06621B8C458600640F45 /* CODInputViewCell.m in Sources */,
 				82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */,
 				8250A3321B553B000026ADCE /* ProductViewCell.m in Sources */,
 				825567151B68D3A9009F013A /* InputFormViewController.m in Sources */,

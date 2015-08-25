@@ -160,17 +160,20 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    
     UIButton *placeOrderbutton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
-    [placeOrderbutton setTitle:@"Place Order" forState:UIControlStateNormal];
+    [placeOrderbutton setTitle:@"Proceed to Submit Order" forState:UIControlStateNormal];
     [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:16.0f]];
     [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
-    [placeOrderbutton setEnabled:NO];
     
     if (self.cartFetchedResultsController.fetchedObjects.count != 0) {
         [placeOrderbutton setEnabled:YES];
         [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:102/255.0f green:169/255.0f blue:127/255.0f alpha:1.0f]];
         [placeOrderbutton addTarget:self action:@selector(placeOrderPressed) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else {
+        
+        [placeOrderbutton setEnabled:NO];
+        [placeOrderbutton setHidden:YES];
     }
     
     return placeOrderbutton;

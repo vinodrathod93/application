@@ -11,7 +11,6 @@
 
 @interface AddShippingDetailsViewController : UITableViewController
 
-
 @property (nonatomic, strong) NSDictionary *cartDetails;
 
 

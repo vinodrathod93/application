@@ -12,4 +12,6 @@
 
 
 @property (nonatomic, strong) NSDictionary *orderDetails;
+@property (nonatomic, strong) NSDictionary *addressDetails;
+
 @end

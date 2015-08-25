@@ -11,7 +11,7 @@
 #import "AddressViewCell.h"
 #import "User.h"
 #import "Address.h"
-#import "ProductOrderConfirmationViewController.h"
+#import "PaymentViewController.h"
 
 
 #define GET_STATES_URL @"http://chemistplus.in/getStates.php"
@@ -65,17 +65,8 @@ NSString *cellIdentifier;
     
     [self checkToVerifyPincode];
     
-    self.cartProducts = [self.cartDetails valueForKey:@"products"];
-    self.totalAmount = [self.cartDetails valueForKey:@"total_amount"];
-    
-    NSLog(@"%@",self.cartDetails);
-    NSLog(@"%@",self.cartProducts);
-    
-    
     self.address = [[Address alloc] init];
     self.user = [User savedUser];
-    
-    
     
 }
 
@@ -84,8 +75,11 @@ NSString *cellIdentifier;
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    self.cartProducts = [self.cartDetails valueForKey:@"products"];
+    self.totalAmount = [self.cartDetails valueForKey:@"total_amount"];
     
     
 }
@@ -126,7 +120,6 @@ NSString *cellIdentifier;
     
     if (cell.textField.tag == NameTextField) {
         cell.textField.text = self.user.fullName;
-        [cell.textField becomeFirstResponder];
     }
     
     if (cell.textField.tag == PincodeTextField) {
@@ -152,7 +145,7 @@ NSString *cellIdentifier;
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIButton *proceedButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    [proceedButton setTitle:@"Proceed & Place Order" forState:UIControlStateNormal];
+    [proceedButton setTitle:@"Proceed to Payment" forState:UIControlStateNormal];
     [proceedButton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:16.0f]];
     [proceedButton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
     [proceedButton addTarget:self action:@selector(proceedButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -212,6 +205,8 @@ NSString *cellIdentifier;
             return NO;
         }
         else if (![sender.text isEqualToString:@""]) {
+            NSLog(@"Sending Pincode = %@",sender.text);
+            
             [self requestPincodeTask:sender completion:^{
                 status = [self checkAvailablePincode:sender];
                 
@@ -355,7 +350,7 @@ NSString *cellIdentifier;
                 }
                 
             } else {
-                UIAlertView *networkError = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Try again" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                UIAlertView *networkError = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Try again - while loading city, town, state" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [networkError show];
             }
             
@@ -367,13 +362,73 @@ NSString *cellIdentifier;
 
 
 -(void)requestPincodeTask:(UITextField *)pincode completion:(void (^)(void))completionBlock {
+    NSLog(@"Requesting Pincode: %@",pincode.text);
     NSURLSession *session = [NSURLSession sharedSession];
     NSString *postString = [NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?components=postal_code:%@%%7Ccountry:IN&sensor=false",pincode.text];
     
+    NSLog(@"%@",postString);
+    
     //        http://maps.google.com/maps/api/geocode/json?components=postal_code:421306%7Ccountry:IN&sensor=false
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:postString]];
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:postString]];
+    NSURL *url = [NSURL URLWithString:postString];
+    
+    
+    NSURLSessionDataTask *task1 = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSError *pincodeError;
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&pincodeError];
+            
+            if (dict != nil) {
+                
+                NSArray *results = dict[@"results"];
+                NSLog(@"%@",results);
+                
+                if (results.count != 0) {
+                    NSDictionary *address = results[0];
+                    NSLog(@"%@",address);
+                    
+                    self.latitude = [address valueForKeyPath:@"geometry.location.lat"];
+                    self.longitude = [address valueForKeyPath:@"geometry.location.lng"];
+                    
+                    UITextField *town = (UITextField *)[self.view viewWithTag:TownTextField];
+                    UITextField *city = (UITextField *)[self.view viewWithTag:CityTextField];
+                    UITextField *state = (UITextField *)[self.view viewWithTag:StateTextField];
+                    
+                    self.isCorrectPincode = YES;
+                    
+                    if (self.isCorrectPincode) {
+                        completionBlock();
+                        
+                        if (self.isPincodeAvailable) {
+                            [self loadJSONForTown:town forCity:city andForState:state];
+                        }
+                        
+                    }
+                    
+                } else {
+                    UIAlertView *pincodeAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter the correct pincode" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [pincodeAlert show];
+                    
+                    pincode.text = @"";
+                }
+                
+            }
+            else {
+                UIAlertView *networkError = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Try again - while requesting Pincode" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [networkError show];
+                
+                pincode.text =@"";
+            }
+            
+        });
+    }];
+    
+    /*
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSError *pincodeError;
@@ -415,7 +470,7 @@ NSString *cellIdentifier;
                 
             }
             else {
-                UIAlertView *networkError = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Try again" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                UIAlertView *networkError = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Try again - while requesting Pincode" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [networkError show];
                 
                 pincode.text =@"";
@@ -423,8 +478,10 @@ NSString *cellIdentifier;
             
         });
     }];
+     
+    */
     
-    [task resume];
+    [task1 resume];
 }
 
 -(void)displayError:(UITextField *)sender {
@@ -445,9 +502,18 @@ NSString *cellIdentifier;
     
     [self.address save];
     NSLog(@"%@",self.address.name);
-    
+    NSLog(@"%@",self.cartDetails);
     
     if (self.detailsDictionary.count == self.formFields.count) {
+        
+        
+        PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
+        paymentVC.addressDetails = self.detailsDictionary;
+        paymentVC.orderDetails = self.cartDetails;
+        [self.navigationController pushViewController:paymentVC animated:YES];
+        
+        
+        /*
         NSDictionary *json = [NSDictionary dictionaryWithObjectsAndKeys:self.cartProducts, @"products",
                               self.detailsDictionary, @"userInfo", self.totalAmount, @"orderAmount", nil];
         
@@ -473,7 +539,7 @@ NSString *cellIdentifier;
 //                self.orderConfirmation = [[UIAlertView alloc]initWithTitle:@"Success" message:[NSString stringWithFormat:@"Yeah! Order has been placed and Order ID is \"%@\"",string] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
 //                self.orderConfirmation.delegate = self;
 //                [self.orderConfirmation show];
-                ProductOrderConfirmationViewController *orderConfirmationVC = [self.storyboard instantiateViewControllerWithIdentifier:@""];
+                
                 
                 
             });
@@ -481,6 +547,8 @@ NSString *cellIdentifier;
             
         }];
         [task resume];
+         
+         */
     } else
         [self displayErrorMessageFor:@"inputs"];
     
@@ -501,20 +569,9 @@ NSString *cellIdentifier;
                 
             } else
                 [self displayErrorMessageFor:self.formFields[sender.tag]];
-        }
-            break;
             
-//        case EmailTextField: {
-//            if (![sender.text isEqualToString:@""]) {
-//                [self.detailsDictionary setObject:sender.text forKey:@"email"];
-//                self.address.email = sender.text;
-//                
-//            } else
-//                [self displayErrorMessageFor:self.formFields[sender.tag]];
-//            
-//            break;
-//        }
-        
+            break;
+        }
         case PincodeTextField: {
             if (![sender.text isEqualToString:@""]) {
                 [self.detailsDictionary setObject:sender.text forKey:@"pincode"];
@@ -522,6 +579,7 @@ NSString *cellIdentifier;
                 
             } else
                 [self displayErrorMessageFor:self.formFields[sender.tag]];
+            
             break;
         }
         case AddressTextField: {
@@ -584,14 +642,6 @@ NSString *cellIdentifier;
     [view becomeFirstResponder];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSLog(@"dismiss");
-    
-    if ([alertView isEqual:self.orderConfirmation]) {
-#warning push to confirmation page.
-
-    }
-}
 
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string

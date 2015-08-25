@@ -8,19 +8,29 @@
 
 #import "PaymentViewController.h"
 #import "PaymentViewCell.h"
+#import "CODInputViewCell.h"
 #import "ProductOrderConfirmationViewController.h"
 #import "User.h"
 #import "Address.h"
 
 
-#define kCELLIDENTIFIER @"paymentCell"
+#define kOPTIONS_CELLIDENTIFIER @"paymentCell"
 #define kPAY_CELLIDENTIFIER @"customPayCell"
+#define kPHONE_CELLIDENTIFIER @"phonenoCell"
 #define kPLACE_ORDER_URL @"http://chemistplus.in/storePurchaseDetails.php"
+
+enum TABLEVIEWCELL {
+    PAY_SECTION = 0,
+    PAYMENT_OPTION_SECTION,
+    PHONE_NUMBER_SECTION
+};
 
 @interface PaymentViewController ()
 
 @property (nonatomic, strong) NSArray *order_products;
 @property (nonatomic, strong) NSString *amount;
+@property (nonatomic, assign) NSInteger section_count;
+@property (nonatomic, assign) BOOL isOptionSelected;
 
 @end
 
@@ -35,7 +45,10 @@
     User *user = [User savedUser];
     Address *address = [Address savedAddress];
     
+    self.section_count = 2;
     
+//    UITapGestureRecognizer *keyboardDismissTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissCellKeyboard)];
+//    [self.view addGestureRecognizer:keyboardDismissTapGesture];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,7 +60,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 2;
+    return self.section_count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -57,14 +70,19 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *cellIdentifier = (indexPath.section == 0) ? kPAY_CELLIDENTIFIER: kCELLIDENTIFIER;
+    NSString *cellIdentifier = (indexPath.section == 0) ? kPAY_CELLIDENTIFIER: (indexPath.section == 1)? kOPTIONS_CELLIDENTIFIER:kPHONE_CELLIDENTIFIER;
     
     id cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == PAY_SECTION) {
         [self configurePayCell:cell forIndexPath:indexPath];
-    } else
+    }
+    else if(indexPath.section == PAYMENT_OPTION_SECTION) {
         [self configurePaymentOptionsCell:cell forIndexPath:indexPath];
+    }
+    else
+        [self configurePhoneTextFieldCell:cell forIndexPath:indexPath];
+    
     
     return cell;
 }
@@ -78,9 +96,38 @@
     cell.textLabel.text = @"Cash on Delivery";
 }
 
+-(void)configurePhoneTextFieldCell:(CODInputViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    cell.phoneTextField.placeholder = @"Mobile no.";
+}
+
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *selectOptions = @"Select Payment Options";
-    return (section == 0) ? @"": selectOptions;
+    NSString *payHeader = @"";
+    NSString *paymentOptionsHeader = @"Select Payment Options";
+    NSString *phoneNumberHeader = @"Enter Mobile Number";
+    
+    return (section == PAY_SECTION) ? payHeader: (section == PAYMENT_OPTION_SECTION) ? paymentOptionsHeader: phoneNumberHeader;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return (section == PHONE_NUMBER_SECTION )? 60.0f : 0.0f;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc]initWithFrame:CGRectZero];
+    
+    if (section == PHONE_NUMBER_SECTION) {
+        view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 60);
+        
+        UIButton *placeOrderbutton = [[UIButton alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
+        [placeOrderbutton setTitle:@"Place Order" forState:UIControlStateNormal];
+        [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:16.0f]];
+        [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
+        
+        [view addSubview:placeOrderbutton];
+    }
+    
+    return view;
+    
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -88,6 +135,34 @@
 //        ProductOrderConfirmationViewController *orderConfirmVC = segue.destinationViewController;
         
         
+    }
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == PAYMENT_OPTION_SECTION) {
+
+        if (self.isOptionSelected) {
+            self.section_count -= 1;
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:PHONE_NUMBER_SECTION] withRowAnimation:UITableViewRowAnimationAutomatic];
+            
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            self.isOptionSelected = NO;
+            
+            UITableViewCell *unSelectCell = [tableView cellForRowAtIndexPath:indexPath];
+            unSelectCell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        else {
+            self.section_count += 1;
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:PHONE_NUMBER_SECTION] withRowAnimation:UITableViewRowAnimationAutomatic];
+            
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            
+            UITableViewCell *paymentCell = [tableView cellForRowAtIndexPath:indexPath];
+            paymentCell.accessoryType = UITableViewCellAccessoryCheckmark;
+            
+            self.isOptionSelected = YES;
+        }
     }
 }
 
@@ -121,5 +196,11 @@
     [task resume];
 }
 */
+
+-(void)dismissCellKeyboard {
+    UITextField *textField = (UITextField *)[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:PHONE_NUMBER_SECTION]] viewWithTag:100];
+    
+    [textField resignFirstResponder];
+}
 
 @end
