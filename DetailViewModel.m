@@ -14,6 +14,7 @@ static NSString *name = @"im:name";
 static NSString *image = @"im:image";
 static NSString *price = @"im:price";
 static NSString *summary = @"summary"; */
+
 @interface DetailViewModel()
 
 @property (nonatomic, assign) int items_count;
@@ -42,7 +43,7 @@ static NSString *summary = @"summary"; */
 
 -(NSString *)priceAtIndex:(NSInteger)index {
     ProductDetail *details = self.viewModelProducts[index];
-    return details.price;
+    return details.displayPrice;
 }
 
 -(NSString *)summaryAtIndex:(NSInteger)index {
@@ -66,17 +67,53 @@ static NSString *summary = @"summary"; */
 +(NSArray *)infiniteProductsFromJSON:(NSDictionary *)dictionary {
     NSMutableArray *products = [[NSMutableArray alloc]init];
     
-    NSArray *array = [dictionary valueForKey:@"all_products"];
+//    NSArray *array = [dictionary valueForKey:@"all_products"];
+//    
+//    
+//    [array enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+//        ProductDetail *detail = [[ProductDetail alloc]init];
+//        
+//        [detail setValue:[obj valueForKey:@"product_id"] forKey:@"productID"];
+//        [detail setValue:[obj valueForKey:@"product_name"] forKey:@"name"];
+//        [detail setValue:[obj valueForKey:@"product_image"] forKey:@"image"];
+//        [detail setValue:[obj valueForKey:@"price"] forKey:@"price"];
+//        [detail setValue:[obj valueForKey:@"summary"] forKey:@"summary"];
+//        
+//        [products addObject:detail];
+//    }];
     
     
-    [array enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+    NSArray *array = [dictionary valueForKey:@"products"];
+    [array enumerateObjectsUsingBlock:^(NSDictionary *product, NSUInteger idx, BOOL *stop) {
         ProductDetail *detail = [[ProductDetail alloc]init];
+        [detail setValue:[product valueForKey:@"id"] forKey:@"productID"];
+        [detail setValue:[product valueForKey:@"name"] forKey:@"name"];
+        NSMutableArray *smallImages = [NSMutableArray array];
+        NSMutableArray *productImages = [NSMutableArray array];
+        NSMutableArray *largeImages = [NSMutableArray array];
         
-        [detail setValue:[obj valueForKey:@"product_id"] forKey:@"productID"];
-        [detail setValue:[obj valueForKey:@"product_name"] forKey:@"name"];
-        [detail setValue:[obj valueForKey:@"product_image"] forKey:@"image"];
-        [detail setValue:[obj valueForKey:@"price"] forKey:@"price"];
-        [detail setValue:[obj valueForKey:@"summary"] forKey:@"summary"];
+        NSArray *imagesArray = [product valueForKeyPath:@"master.images"];
+        [imagesArray enumerateObjectsUsingBlock:^(NSDictionary *images, NSUInteger idx, BOOL *stop) {
+            NSLog(@"%@",images);
+            
+//            [smallImages setValue:[images valueForKey:@"small_url"] forKey:@"small_img"];
+//            [productImages setValue:[images valueForKey:@"product_url"] forKey:@"product_img"];
+//            [largeImages setValue:[images valueForKey:@"large_url"] forKey:@"large_img"];
+            [smallImages addObject:[images valueForKey:@"small_url"]];
+            [productImages addObject:[images valueForKey:@"product_url"]];
+            [largeImages addObject:[images valueForKey:@"large_url"]];
+        }];
+        
+//        [detail setValue:smallImages forKey:@"small_img"];
+//        [detail setValue:productImages forKey:@"product_img"];
+//        [detail setValue:largeImages forKey:@"large_img"];
+        detail.small_img = smallImages;
+        detail.product_img = productImages;
+        detail.large_img = largeImages;
+        
+        [detail setValue:[product valueForKey:@"display_price"] forKey:@"displayPrice"];
+        [detail setValue:[product valueForKey:@"price"] forKey:@"price"];
+        [detail setValue:[product valueForKey:@"description"] forKey:@"summary"];
         
         [products addObject:detail];
     }];
@@ -86,7 +123,10 @@ static NSString *summary = @"summary"; */
 
 -(NSString *)infiniteImageAtIndex:(NSInteger)index {
     ProductDetail *details = self.viewModelProducts[index];
-    return details.image;
+    NSArray *product = details.small_img;
+    NSLog(@"%@",product);
+    
+    return product[0];
 }
 
 -(NSString *)getItemsCount:(NSDictionary *)dictionary {
@@ -101,10 +141,9 @@ static NSString *summary = @"summary"; */
     return [dictionary valueForKey:@"current_page"];
 }
 
--(NSString *)nextPage:(NSDictionary *)dictionary {
-    return [dictionary valueForKey:@"next_page"];
+-(int)nextPage:(NSDictionary *)dictionary {
+    return [self currentPage:dictionary].intValue + 1;
 }
-
 
 
 

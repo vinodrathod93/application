@@ -81,7 +81,6 @@ NSString *cellIdentifier;
     self.cartProducts = [self.cartDetails valueForKey:@"products"];
     self.totalAmount = [self.cartDetails valueForKey:@"total_amount"];
     
-    
 }
 
 #pragma mark - Table view data source
@@ -506,7 +505,6 @@ NSString *cellIdentifier;
     
     if (self.detailsDictionary.count == self.formFields.count) {
         
-        
         PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
         paymentVC.addressDetails = self.detailsDictionary;
         paymentVC.orderDetails = self.cartDetails;
@@ -641,8 +639,6 @@ NSString *cellIdentifier;
     UIView *view = [self.view viewWithTag:sender.tag + 1];
     [view becomeFirstResponder];
 }
-
-
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {

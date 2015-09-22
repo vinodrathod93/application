@@ -20,7 +20,8 @@
 //static NSString *price = @"im:price";
 //static NSString *summary = @"summary";
 
-#define kPRODUCTS_DATA_LINK @"http://chemistplus.in/getProducts_test.php"
+//#define kPRODUCTS_DATA_LINK @"http://chemistplus.in/getProducts_test.php"
+#define kSPREE_PRODUCTS_URL @"http://www.elnuur.com/api/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
 #define kFIRST_PAGE 1
 
 @interface ProductsViewController ()<viewModelDelegate>
@@ -106,12 +107,12 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     ProductViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:productsReuseIdentifier forIndexPath:indexPath];
     
     NSString *string = [self.viewModel infiniteImageAtIndex:indexPath.item];
+    NSLog(@"%@",string);
     
     NSURL *url = [NSURL URLWithString:string];
     [cell.productImageView sd_setImageWithURL:url];
     cell.productLabel.text = [self.viewModel nameAtIndex:indexPath.item];
-    cell.productPrice.text = [NSString stringWithFormat:@"Rs. %@",[self.viewModel priceAtIndex:indexPath.item]];
-    
+    cell.productPrice.text = [self.viewModel priceAtIndex:indexPath.item];
     
     return cell;
 }
@@ -169,15 +170,10 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     NSLog(@"loadProducts");
     NSURLSession *session = [NSURLSession sharedSession];
-    NSString *post_string = [NSString stringWithFormat:@"page=%d&category=%@&sub_category=%@",page, self.categoryID, self.subCategoryID];
-    NSURL *url = [NSURL URLWithString:kPRODUCTS_DATA_LINK];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    request.HTTPMethod = @"POST";
-    request.HTTPBody = [NSData dataWithBytes:[post_string UTF8String] length:[post_string length]];
-    [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     
+    NSURLRequest *spree_request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:kSPREE_PRODUCTS_URL]];
     
-    self.task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    self.task = [session dataTaskWithRequest:spree_request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             
             NSError *jsonError;
@@ -223,7 +219,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                 }
                 
                 self.currentPage = [self.viewModel currentPage:dictionary];
-                self.nextPage = [self.viewModel nextPage:dictionary];
+                self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
                 
             }
             

@@ -17,7 +17,7 @@
 -(NSString *)summary;
 -(NSString *)name;
 -(NSString *)price;
--(NSString *)image;
+-(NSArray *)images;
 -(NSString *)productID;
 -(NSString *)quantity;
 

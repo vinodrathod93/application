@@ -10,7 +10,7 @@
 #import "DetailProductViewModel.h"
 #import "ProductDetail.h"
 
-@interface DetailsProductViewController : UITableViewController
+@interface DetailsProductViewController : UITableViewController<UIScrollViewDelegate>
 
 @property (nonatomic, strong) DetailProductViewModel *viewModel;
 @property (nonatomic,strong) ProductDetail *detail;

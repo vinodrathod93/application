@@ -97,6 +97,38 @@
             endingLineNumber = "208"
             landmarkName = "-textFieldShouldEndEditing:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AddShippingDetailsViewController textFieldShouldEndEditing:]"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/AddShippingDetailsViewController.m"
+                  timestampString = "464607180.990313"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "209"
+                  endingLineNumber = "209"
+                  offsetFromSymbolStart = "1107">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__62-[AddShippingDetailsViewController textFieldShouldEndEditing:]_block_invoke"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/AddShippingDetailsViewController.m"
+                  timestampString = "464607180.990459"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "209"
+                  endingLineNumber = "209"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -129,6 +161,38 @@
             endingLineNumber = "378"
             landmarkName = "-requestPincodeTask:completion:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__66-[AddShippingDetailsViewController requestPincodeTask:completion:]_block_invoke"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/AddShippingDetailsViewController.m"
+                  timestampString = "464607180.992053"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "379"
+                  endingLineNumber = "379"
+                  offsetFromSymbolStart = "212">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__66-[AddShippingDetailsViewController requestPincodeTask:completion:]_block_invoke_2"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/AddShippingDetailsViewController.m"
+                  timestampString = "464607180.992211"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "379"
+                  endingLineNumber = "379"
+                  offsetFromSymbolStart = "27">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -176,6 +240,70 @@
             startingLineNumber = "419"
             endingLineNumber = "419"
             landmarkName = "-requestPincodeTask:completion:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DetailViewModel.m"
+            timestampString = "464522065.679078"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "+infiniteProductsFromJSON:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[DetailViewModel infiniteProductsFromJSON:]"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/DetailViewModel.m"
+                  timestampString = "464522078.631772"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "129">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__44+[DetailViewModel infiniteProductsFromJSON:]_block_invoke"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/DetailViewModel.m"
+                  timestampString = "464522078.631916"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "78">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HealthApp/DetailsProductViewController.m"
+            timestampString = "464607121.583532"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "-drawImageView:forIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

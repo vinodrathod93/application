@@ -42,6 +42,13 @@ NSString *cellReuseIdentifier;
     [super viewDidLayoutSubviews];
     
     self.tableView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    cell.productImage.delegate = self;
+    
+    cell.productImage.contentSize = CGSizeMake(CGRectGetWidth(cell.productImage.frame) * self.viewModel.images.count, CGRectGetHeight(cell.productImage.frame));
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,18 +96,77 @@ NSString *cellReuseIdentifier;
 
 -(void)configureImageViewCell:(ProductImageViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
 
-    [cell.productImage sd_setImageWithURL:[NSURL URLWithString:[self.viewModel image]]];
-    
-    UIImage *image = cell.productImage.image;
-    
-    CGSize size = CGSizeMake(image.size.width, image.size.height);
-    NSLog(@"Size is %@",NSStringFromCGSize(size));
+    [self prepareImageView:cell forIndexPath:indexPath];
     
     cell.productLabel.text = [self.viewModel name];
     cell.summaryLabel.text = [self.viewModel summary];
     cell.priceLabel.text = [self.viewModel price];
 }
 
+
+-(void)prepareImageView:(ProductImageViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    
+    CGRect scrollViewFrame = cell.productImage.frame;
+    CGRect currentFrame = self.view.frame;
+    
+    scrollViewFrame.size.width = currentFrame.size.width;
+    cell.productImage.frame = scrollViewFrame;
+    
+    [self.viewModel.images enumerateObjectsUsingBlock:^(NSString *image_url, NSUInteger idx, BOOL *stop) {
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.productImage.frame) * idx, 0, CGRectGetWidth(cell.productImage.frame), CGRectGetHeight(cell.productImage.frame))];
+        
+        NSLog(@"%@", NSStringFromCGRect(imageView.frame));
+        
+        imageView.tag = idx;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:image_url]];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        [cell.productImage addSubview:imageView];
+    }];
+    
+    
+    cell.pageControl.numberOfPages = self.viewModel.images.count;
+    
+}
+
+
+
+-(void)drawImageView:(ProductImageViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    __block CGRect cRect = cell.productImage.bounds;
+    
+    [self.viewModel.images enumerateObjectsUsingBlock:^(NSString *imageURL, NSUInteger idx, BOOL *stop) {
+        UIImageView *imageView = [[UIImageView alloc]init];
+        imageView.frame = cRect;
+        imageView.tag   = idx;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
+        [imageView setContentMode:UIViewContentModeScaleAspectFit];
+        
+        [cell.productImage addSubview:imageView];
+        
+        cRect.origin.x += cRect.size.width;
+    }];
+    
+    NSLog(@"%@",NSStringFromCGSize(CGSizeMake(cRect.origin.x, cell.productImage.bounds.size.height)));
+    
+    cell.productImage.contentSize = CGSizeMake(cRect.origin.x, cell.productImage.bounds.size.height);
+    cell.productImage.contentOffset = CGPointMake(cell.productImage.bounds.size.width, 0);
+    cell.pageControl.numberOfPages = self.viewModel.images.count;
+}
+
+
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    if (scrollView == cell.productImage) {
+        NSInteger index = cell.productImage.contentOffset.x / CGRectGetWidth(cell.productImage.frame);
+        
+        cell.pageControl.currentPage = index;
+    }
+}
+
+ 
 
 -(void)configureProductDetail:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = [self.viewModel name];
@@ -181,7 +247,7 @@ NSString *cellReuseIdentifier;
         self.addToCartModel.productPrice = [self.viewModel price];
         self.addToCartModel.addedDate = [NSDate date];
         
-        self.addToCartModel.productImage = [self.viewModel image];
+        self.addToCartModel.productImage = [self.viewModel images][0];
         self.addToCartModel.quantity = [self.viewModel quantity];
         self.addToCartModel.totalPrice = [self.viewModel price];
         
@@ -195,10 +261,9 @@ NSString *cellReuseIdentifier;
         [self.cartButton setBackgroundColor:[UIColor colorWithRed:52/255.0f green:152/255.0f blue:219/255.0f alpha:1.0f]];
     }
     [self updateBadgeValue];
-    
-    
 
 }
+
 
 -(void)buyButtonPressed {
     

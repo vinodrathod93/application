@@ -10,4 +10,19 @@
 
 @implementation ProductDetail
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.productID      = nil;
+        self.name           = nil;
+        self.summary        = nil;
+        self.price          = nil;
+        self.displayPrice   = nil;
+        
+        
+    }
+    return self;
+}
+
 @end

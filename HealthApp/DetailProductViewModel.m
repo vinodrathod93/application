@@ -38,11 +38,13 @@
 }
 
 -(NSString *)price {
-    return [self.model valueForKey:@"price"];
+    return [self.model valueForKey:@"displayPrice"];
 }
 
--(NSString *)image {
-    return [self.model valueForKey:@"image"];
+-(NSArray *)images {
+    NSArray *allImages = self.model.product_img;
+    
+    return allImages;
 }
 
 -(NSString *)productID {

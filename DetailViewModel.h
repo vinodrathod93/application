@@ -39,6 +39,6 @@
 -(NSString *)getItemsCount:(NSDictionary *)dictionary;
 -(NSString *)getPagesCount:(NSDictionary *)dictionary;
 -(NSString *)currentPage:(NSDictionary *)dictionary;
--(NSString *)nextPage:(NSDictionary *)dictionary;
+-(int)nextPage:(NSDictionary *)dictionary;
 
 @end
