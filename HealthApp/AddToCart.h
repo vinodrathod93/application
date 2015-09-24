@@ -2,22 +2,21 @@
 //  AddToCart.h
 //  
 //
-//  Created by adverto on 24/07/15.
+//  Created by adverto on 24/09/15.
 //
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface AddToCart : NSManagedObject
 
-@property (nonatomic, retain) NSDate * addedDate;
-@property (nonatomic, retain) NSString * productID;
-@property (nonatomic, retain) NSString * productImage;
-@property (nonatomic, retain) NSString * productName;
-@property (nonatomic, retain) NSString * productPrice;
-@property (nonatomic, retain) NSString * quantity;
-@property (nonatomic, retain) NSString * totalPrice;
+// Insert code here to declare functionality of your managed object subclass
 
 @end
+
+NS_ASSUME_NONNULL_END
+
+#import "AddToCart+CoreDataProperties.h"

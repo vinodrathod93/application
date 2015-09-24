@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14C109" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8195" systemVersion="14F27" minimumToolsVersion="Xcode 4.3">
     <entity name="AddToCart" representedClassName="AddToCart" syncable="YES">
         <attribute name="addedDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="productID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="productID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="productImage" optional="YES" attributeType="String" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="productName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="productPrice" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="productPrice" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="quantity" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="totalPrice" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalPrice" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
         <element name="AddToCart" positionX="-63" positionY="-18" width="128" height="150"/>

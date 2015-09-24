@@ -242,14 +242,14 @@ NSString *cellReuseIdentifier;
     
     if (fetchedArray.count == 0) {
         self.addToCartModel = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-        self.addToCartModel.productID = [self.viewModel productID];
+        self.addToCartModel.productID = [NSNumber numberWithInt:[self.viewModel productID].intValue];
         self.addToCartModel.productName = [self.viewModel name];
-        self.addToCartModel.productPrice = [self.viewModel price];
+        self.addToCartModel.productPrice = [NSNumber numberWithInt:[self.viewModel price].intValue];
         self.addToCartModel.addedDate = [NSDate date];
         
         self.addToCartModel.productImage = [self.viewModel images][0];
         self.addToCartModel.quantity = [self.viewModel quantity];
-        self.addToCartModel.totalPrice = [self.viewModel price];
+        self.addToCartModel.totalPrice = [NSNumber numberWithInt:[self.viewModel price].intValue];
         
         [self.managedObjectContext save:nil];
         
