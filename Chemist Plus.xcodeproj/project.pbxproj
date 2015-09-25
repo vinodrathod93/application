@@ -45,7 +45,6 @@
 		82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82559A611B623F9B0064E994 /* HeaderLabel.m */; };
 		825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825692CB1B6B771700B5D1D3 /* DoctorViewCell.m */; };
 		825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825692D21B6B77E200B5D1D3 /* DoctorViewController.m */; };
-		827080261B5D24B200302227 /* Cart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 827080241B5D24B200302227 /* Cart.xcdatamodeld */; };
 		827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632821B4A3DB800230833 /* FBSDKCoreKit.framework */; };
 		827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632831B4A3DB800230833 /* FBSDKLoginKit.framework */; };
 		827632891B4A629600230833 /* UploadPrescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827632881B4A629600230833 /* UploadPrescriptionViewController.m */; };
@@ -55,8 +54,7 @@
 		82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CDA1B58F81000FCCACC /* DetailsProductViewController.m */; };
 		82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CDD1B58F92600FCCACC /* ProductImageViewCell.m */; };
 		82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CE01B590B8600FCCACC /* DetailViewModel.m */; };
-		8287D51B1BB42F8B008764A8 /* AddToCart+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 8287D5181BB42F8B008764A8 /* AddToCart+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
-		8287D51C1BB42F8B008764A8 /* AddToCart.m in Sources */ = {isa = PBXBuildFile; fileRef = 8287D51A1BB42F8B008764A8 /* AddToCart.m */; settings = {ASSET_TAGS = (); }; };
+		8287D5611BB431B9008764A8 /* Cart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8287D55F1BB431B9008764A8 /* Cart.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
 		829CE90A1B4BCB2200304088 /* PlaceOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829CE9091B4BCB2200304088 /* PlaceOrderViewController.m */; };
 		82BD028E1B46A73C00108A0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD028D1B46A73C00108A0B /* main.m */; };
 		82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02901B46A73C00108A0B /* AppDelegate.m */; };
@@ -72,6 +70,8 @@
 		82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */; };
 		82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
+		82E3DAD51BB53C3800808C94 /* AddToCart+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E3DAD21BB53C3800808C94 /* AddToCart+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
+		82E3DAD61BB53C3800808C94 /* AddToCart.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E3DAD41BB53C3800808C94 /* AddToCart.m */; settings = {ASSET_TAGS = (); }; };
 		82FB87AC1B4D18C500CAD5F7 /* OrderConfirmationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FB87AB1B4D18C500CAD5F7 /* OrderConfirmationViewController.m */; };
 		C1F05C0A84FFC31F75338C27 /* libPods-Chemist Plus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */; };
 /* End PBXBuildFile section */
@@ -160,7 +160,6 @@
 		825692CB1B6B771700B5D1D3 /* DoctorViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoctorViewCell.m; sourceTree = "<group>"; };
 		825692D11B6B77E200B5D1D3 /* DoctorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoctorViewController.h; sourceTree = "<group>"; };
 		825692D21B6B77E200B5D1D3 /* DoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoctorViewController.m; sourceTree = "<group>"; };
-		827080251B5D24B200302227 /* Cart.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cart.xcdatamodel; sourceTree = "<group>"; };
 		827632821B4A3DB800230833 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		827632831B4A3DB800230833 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		827632871B4A629600230833 /* UploadPrescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadPrescriptionViewController.h; sourceTree = "<group>"; };
@@ -177,10 +176,7 @@
 		82842CDD1B58F92600FCCACC /* ProductImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductImageViewCell.m; sourceTree = "<group>"; };
 		82842CDF1B590B8600FCCACC /* DetailViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailViewModel.h; path = ../DetailViewModel.h; sourceTree = "<group>"; };
 		82842CE01B590B8600FCCACC /* DetailViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailViewModel.m; path = ../DetailViewModel.m; sourceTree = "<group>"; };
-		8287D5171BB42F8B008764A8 /* AddToCart+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AddToCart+CoreDataProperties.h"; sourceTree = "<group>"; };
-		8287D5181BB42F8B008764A8 /* AddToCart+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AddToCart+CoreDataProperties.m"; sourceTree = "<group>"; };
-		8287D5191BB42F8B008764A8 /* AddToCart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToCart.h; sourceTree = "<group>"; };
-		8287D51A1BB42F8B008764A8 /* AddToCart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToCart.m; sourceTree = "<group>"; };
+		8287D5601BB431B9008764A8 /* Cart.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cart.xcdatamodel; sourceTree = "<group>"; };
 		829CE9081B4BCB2200304088 /* PlaceOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceOrderViewController.h; sourceTree = "<group>"; };
 		829CE9091B4BCB2200304088 /* PlaceOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceOrderViewController.m; sourceTree = "<group>"; };
 		82BD02881B46A73C00108A0B /* Chemist Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chemist Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +206,10 @@
 		82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
 		82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+InfiniteScroll.h"; sourceTree = "<group>"; };
 		82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+InfiniteScroll.m"; sourceTree = "<group>"; };
+		82E3DAD11BB53C3800808C94 /* AddToCart+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AddToCart+CoreDataProperties.h"; sourceTree = "<group>"; };
+		82E3DAD21BB53C3800808C94 /* AddToCart+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AddToCart+CoreDataProperties.m"; sourceTree = "<group>"; };
+		82E3DAD31BB53C3800808C94 /* AddToCart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToCart.h; sourceTree = "<group>"; };
+		82E3DAD41BB53C3800808C94 /* AddToCart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToCart.m; sourceTree = "<group>"; };
 		82FB87AA1B4D18C500CAD5F7 /* OrderConfirmationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderConfirmationViewController.h; sourceTree = "<group>"; };
 		82FB87AB1B4D18C500CAD5F7 /* OrderConfirmationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderConfirmationViewController.m; sourceTree = "<group>"; };
 		D1F400F2EC7F15D32196CDE1 /* Pods-Chemist Plus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.release.xcconfig"; sourceTree = "<group>"; };
@@ -547,11 +547,11 @@
 				82BD02901B46A73C00108A0B /* AppDelegate.m */,
 				82C722F41B7B1B7600E0C5EF /* RootTabBarControllerDelegate.h */,
 				82C722F51B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m */,
-				827080241B5D24B200302227 /* Cart.xcdatamodeld */,
-				8287D5171BB42F8B008764A8 /* AddToCart+CoreDataProperties.h */,
-				8287D5181BB42F8B008764A8 /* AddToCart+CoreDataProperties.m */,
-				8287D5191BB42F8B008764A8 /* AddToCart.h */,
-				8287D51A1BB42F8B008764A8 /* AddToCart.m */,
+				8287D55F1BB431B9008764A8 /* Cart.xcdatamodeld */,
+				82E3DAD11BB53C3800808C94 /* AddToCart+CoreDataProperties.h */,
+				82E3DAD21BB53C3800808C94 /* AddToCart+CoreDataProperties.m */,
+				82E3DAD31BB53C3800808C94 /* AddToCart.h */,
+				82E3DAD41BB53C3800808C94 /* AddToCart.m */,
 				82C723001B7B4EC800E0C5EF /* TPKeyboardAvoiding */,
 				825692D01B6B77B600B5D1D3 /* Optionals */,
 				825266CB1B4F832400C635F7 /* Upload Prescription */,
@@ -805,7 +805,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8287D51B1BB42F8B008764A8 /* AddToCart+CoreDataProperties.m in Sources */,
+				82E3DAD51BB53C3800808C94 /* AddToCart+CoreDataProperties.m in Sources */,
+				8287D5611BB431B9008764A8 /* Cart.xcdatamodeld in Sources */,
 				827DD3171B8AD32900714985 /* ProductOrderConfirmationViewController.m in Sources */,
 				82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */,
 				823D06621B8C458600640F45 /* CODInputViewCell.m in Sources */,
@@ -816,8 +817,8 @@
 				82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				82327F741B60C86B00D92889 /* CartViewController.m in Sources */,
 				823C46B31B73934F00E37DBE /* MyAccountViewController.m in Sources */,
+				82E3DAD61BB53C3800808C94 /* AddToCart.m in Sources */,
 				82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */,
-				8287D51C1BB42F8B008764A8 /* AddToCart.m in Sources */,
 				8250A32A1B55000B0026ADCE /* SubCategoryViewController.m in Sources */,
 				825266D31B4F93C900C635F7 /* HeaderView.m in Sources */,
 				82327F771B60F9A800D92889 /* CartViewCell.m in Sources */,
@@ -831,7 +832,6 @@
 				82395A9C1B53A77300581EB4 /* CategoryViewCell.m in Sources */,
 				827A80181B85E15C008085F1 /* AddressesViewController.m in Sources */,
 				8246FE681B74B70A001D1CFF /* SignInViewController.m in Sources */,
-				827080261B5D24B200302227 /* Cart.xcdatamodeld in Sources */,
 				829CE90A1B4BCB2200304088 /* PlaceOrderViewController.m in Sources */,
 				8246FE651B74B53D001D1CFF /* LogSignViewController.m in Sources */,
 				825567181B68E6D4009F013A /* AddShippingDetailsViewController.m in Sources */,
@@ -1088,12 +1088,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		827080241B5D24B200302227 /* Cart.xcdatamodeld */ = {
+		8287D55F1BB431B9008764A8 /* Cart.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				827080251B5D24B200302227 /* Cart.xcdatamodel */,
+				8287D5601BB431B9008764A8 /* Cart.xcdatamodel */,
 			);
-			currentVersion = 827080251B5D24B200302227 /* Cart.xcdatamodel */;
+			currentVersion = 8287D5601BB431B9008764A8 /* Cart.xcdatamodel */;
 			path = Cart.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

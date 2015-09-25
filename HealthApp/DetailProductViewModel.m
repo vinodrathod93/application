@@ -37,7 +37,11 @@
     return [self.model valueForKey:@"name"];
 }
 
--(NSString *)price {
+-(NSNumber *)price {
+    return [self.model valueForKey:@"price"];
+}
+
+-(NSString *)display_price {
     return [self.model valueForKey:@"displayPrice"];
 }
 
@@ -47,12 +51,12 @@
     return allImages;
 }
 
--(NSString *)productID {
+-(NSNumber *)productID {
     return [self.model valueForKey:@"productID"];
 }
 
--(NSString *)quantity {
-    return @(1).stringValue;
+-(NSNumber *)quantity {
+    return @(1);
 }
 
 

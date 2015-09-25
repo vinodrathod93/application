@@ -96,23 +96,19 @@ static NSString *summary = @"summary"; */
         [imagesArray enumerateObjectsUsingBlock:^(NSDictionary *images, NSUInteger idx, BOOL *stop) {
             NSLog(@"%@",images);
             
-//            [smallImages setValue:[images valueForKey:@"small_url"] forKey:@"small_img"];
-//            [productImages setValue:[images valueForKey:@"product_url"] forKey:@"product_img"];
-//            [largeImages setValue:[images valueForKey:@"large_url"] forKey:@"large_img"];
             [smallImages addObject:[images valueForKey:@"small_url"]];
             [productImages addObject:[images valueForKey:@"product_url"]];
             [largeImages addObject:[images valueForKey:@"large_url"]];
         }];
         
-//        [detail setValue:smallImages forKey:@"small_img"];
-//        [detail setValue:productImages forKey:@"product_img"];
-//        [detail setValue:largeImages forKey:@"large_img"];
         detail.small_img = smallImages;
         detail.product_img = productImages;
         detail.large_img = largeImages;
         
+        NSString *price = [product valueForKey:@"price"];
+        
         [detail setValue:[product valueForKey:@"display_price"] forKey:@"displayPrice"];
-        [detail setValue:[product valueForKey:@"price"] forKey:@"price"];
+        [detail setValue:[NSNumber numberWithInt:price.intValue] forKey:@"price"];
         [detail setValue:[product valueForKey:@"description"] forKey:@"summary"];
         
         [products addObject:detail];

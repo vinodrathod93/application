@@ -36,7 +36,7 @@
     return model.productName;
 }
 
--(NSString *)priceAtIndex:(NSInteger)index {
+-(NSNumber *)priceAtIndex:(NSInteger)index {
     AddToCart *model = [self modelAtIndex:index];
     
     return model.productPrice;

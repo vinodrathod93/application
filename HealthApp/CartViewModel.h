@@ -19,7 +19,7 @@
 
 -(NSString *)imageAtIndex:(NSInteger)index;
 -(NSString *)nameAtIndex:(NSInteger)index;
--(NSString *)priceAtIndex:(NSInteger)index;
+-(NSNumber *)priceAtIndex:(NSInteger)index;
 -(NSInteger)numberOfCartProducts;
 
 @end

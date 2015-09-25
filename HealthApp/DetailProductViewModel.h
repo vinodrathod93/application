@@ -16,10 +16,12 @@
 -(NSInteger)numberOfRows;
 -(NSString *)summary;
 -(NSString *)name;
--(NSString *)price;
 -(NSArray *)images;
--(NSString *)productID;
--(NSString *)quantity;
+
+-(NSNumber *)price;
+-(NSString *)display_price;
+-(NSNumber *)productID;
+-(NSNumber *)quantity;
 
 -(CGFloat)heightForSummaryTextInTableViewCellWithWidth:(CGFloat)width;
 

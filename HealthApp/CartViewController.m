@@ -96,10 +96,10 @@ static NSString *cellIdentifier = @"cartCell";
         cell.c_name.lineBreakMode = NSLineBreakByWordWrapping;
         [cell.c_name sizeToFit];
         
-        cell.singlePrice.text = model.productPrice;
-        [cell.quantity setTitle:model.quantity forState:UIControlStateNormal];
+        cell.singlePrice.text = model.productPrice.stringValue;
+        [cell.quantity setTitle:model.quantity.stringValue forState:UIControlStateNormal];
         
-        cell.quantityPrice.text = model.totalPrice;
+        cell.quantityPrice.text = model.totalPrice.stringValue;
     }
     
     
@@ -358,8 +358,8 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(void)saveQuantity:(NSInteger)quantity andTotalPrice:(NSInteger)totalPrice {
     AddToCart *model = self.cartFetchedResultsController.fetchedObjects[self.selectIndexPath.row];
-    model.quantity = @(quantity).stringValue;
-    model.totalPrice = @(totalPrice).stringValue;
+    model.quantity = @(quantity);
+    model.totalPrice = @(totalPrice);
     
     
     NSError *error = nil;
@@ -396,7 +396,8 @@ static NSString *cellIdentifier = @"cartCell";
     
     [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart *model, NSUInteger idx, BOOL *stop) {
         NSInteger quantity = model.quantity.integerValue;
-        CGFloat singlePrice = [self convertToDoubleFromString:model.productPrice];
+//        CGFloat singlePrice = [self convertToDoubleFromString:model.productPrice];
+        CGFloat singlePrice = model.productPrice.floatValue;
         
         priceInTotal = priceInTotal + [self calculateTotalPriceWithQuantity:quantity andSinglePrice:singlePrice];
     }];
