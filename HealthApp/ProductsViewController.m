@@ -107,7 +107,6 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     ProductViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:productsReuseIdentifier forIndexPath:indexPath];
     
     NSString *string = [self.viewModel infiniteImageAtIndex:indexPath.item];
-    NSLog(@"%@",string);
     
     NSURL *url = [NSURL URLWithString:string];
     [cell.productImageView sd_setImageWithURL:url];
@@ -186,7 +185,6 @@ static NSString * const productsReuseIdentifier = @"productsCell";
             }
             else if(![dictionary isEqual:nil])
             {
-                NSLog(@"%@",dictionary);
                 NSArray *array = [DetailViewModel infiniteProductsFromJSON:dictionary];
                 if (page == 1) {
                     

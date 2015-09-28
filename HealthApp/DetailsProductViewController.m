@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "AddToCart.h"
 #import "OrderInputsViewController.h"
+#import "VariantsViewController.h"
 
 
 #define FOOTER_HEIGHT 35
@@ -35,6 +36,11 @@ NSString *cellReuseIdentifier;
     
     self.title = @"Product Detail";
     self.viewModel = [[DetailProductViewModel alloc]initWithModel:self.detail];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedLabelButton) name:@"updateAdded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alreadyLabelButton) name:@"updateAlreadyAdded" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAlpha) name:@"updateAlpha" object:nil];
     
 }
 
@@ -238,30 +244,64 @@ NSString *cellReuseIdentifier;
     [fetch setPredicate:predicate];
     NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
     
-    NSLog(@"%@",fetchedArray);
-    
-    if (fetchedArray.count == 0) {
-        self.addToCartModel = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-        self.addToCartModel.productID = [self.viewModel productID];
-        self.addToCartModel.productName = [self.viewModel name];
-        self.addToCartModel.productPrice = [self.viewModel price];
-        self.addToCartModel.addedDate = [NSDate date];
+    if (self.detail.hasVariant) {
         
-        self.addToCartModel.productImage = [self.viewModel images][0];
-        self.addToCartModel.quantity = [self.viewModel quantity];
-        self.addToCartModel.totalPrice = [self.viewModel price];
         
-        [self.managedObjectContext save:nil];
+        VariantsViewController *variantVC = [self.storyboard instantiateViewControllerWithIdentifier:@"variantVC"];
         
-        [self.cartButton setTitle:@"Added" forState:UIControlStateNormal];
-        [self.cartButton setBackgroundColor:[UIColor colorWithRed:26/255.0f green:188/255.0f blue:156/255.0f alpha:1.0f]];
+        variantVC.providesPresentationContextTransitionStyle = YES;
+        variantVC.definesPresentationContext = YES;
+        [variantVC setModalPresentationStyle:UIModalPresentationOverCurrentContext];
+        
+        variantVC.variants = [self.detail variants];
+        variantVC.productTitle = [self.detail name];
+        variantVC.productImage = [self.viewModel images][0];
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.view.alpha = 0.5f;
+        }];
+        
+        [self presentViewController:variantVC animated:YES completion:nil];
+        
     }
     else {
-        [self.cartButton setTitle:@"Already Added" forState:UIControlStateNormal];
-        [self.cartButton setBackgroundColor:[UIColor colorWithRed:52/255.0f green:152/255.0f blue:219/255.0f alpha:1.0f]];
+        
+        NSLog(@"%@",fetchedArray);
+        
+        if (fetchedArray.count == 0) {
+            self.addToCartModel = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
+            self.addToCartModel.productID = [self.viewModel productID];
+            self.addToCartModel.productName = [self.viewModel name];
+            self.addToCartModel.productPrice = [self.viewModel price];
+            self.addToCartModel.addedDate = [NSDate date];
+            self.addToCartModel.productImage = [self.viewModel images][0];
+            self.addToCartModel.quantity = [self.viewModel quantity];
+            self.addToCartModel.totalPrice = [self.viewModel price];
+            
+            [self.managedObjectContext save:nil];
+            [self addedLabelButton];
+        }
+        else {
+            [self alreadyLabelButton];
+        }
+        
     }
-    [self updateBadgeValue];
+}
 
+
+-(void)addedLabelButton {
+    [self updateAlpha];
+    [self updateBadgeValue];
+    
+    [self.cartButton setTitle:@"Added" forState:UIControlStateNormal];
+    [self.cartButton setBackgroundColor:[UIColor colorWithRed:26/255.0f green:188/255.0f blue:156/255.0f alpha:1.0f]];
+}
+
+-(void)alreadyLabelButton {
+    [self updateAlpha];
+    
+    [self.cartButton setTitle:@"Already Added" forState:UIControlStateNormal];
+    [self.cartButton setBackgroundColor:[UIColor colorWithRed:52/255.0f green:152/255.0f blue:219/255.0f alpha:1.0f]];
 }
 
 
@@ -308,5 +348,13 @@ NSString *cellReuseIdentifier;
     return _pd_cartFetchedResultsController;
 }
 
+
+-(void)updateAlpha {
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.view.alpha = 1.0f;
+    }];
+    
+}
 
 @end

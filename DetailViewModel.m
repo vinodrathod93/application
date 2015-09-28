@@ -67,34 +67,22 @@ static NSString *summary = @"summary"; */
 +(NSArray *)infiniteProductsFromJSON:(NSDictionary *)dictionary {
     NSMutableArray *products = [[NSMutableArray alloc]init];
     
-//    NSArray *array = [dictionary valueForKey:@"all_products"];
-//    
-//    
-//    [array enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
-//        ProductDetail *detail = [[ProductDetail alloc]init];
-//        
-//        [detail setValue:[obj valueForKey:@"product_id"] forKey:@"productID"];
-//        [detail setValue:[obj valueForKey:@"product_name"] forKey:@"name"];
-//        [detail setValue:[obj valueForKey:@"product_image"] forKey:@"image"];
-//        [detail setValue:[obj valueForKey:@"price"] forKey:@"price"];
-//        [detail setValue:[obj valueForKey:@"summary"] forKey:@"summary"];
-//        
-//        [products addObject:detail];
-//    }];
-    
     
     NSArray *array = [dictionary valueForKey:@"products"];
     [array enumerateObjectsUsingBlock:^(NSDictionary *product, NSUInteger idx, BOOL *stop) {
         ProductDetail *detail = [[ProductDetail alloc]init];
-        [detail setValue:[product valueForKey:@"id"] forKey:@"productID"];
-        [detail setValue:[product valueForKey:@"name"] forKey:@"name"];
+        
+        detail.productID =  [product valueForKeyPath:@"master.id"];
+        detail.name =       [product valueForKeyPath:@"master.name"];
+        detail.hasVariant = [[product objectForKey:@"has_variants"] boolValue];
+        
+        // Master Images
         NSMutableArray *smallImages = [NSMutableArray array];
         NSMutableArray *productImages = [NSMutableArray array];
         NSMutableArray *largeImages = [NSMutableArray array];
         
         NSArray *imagesArray = [product valueForKeyPath:@"master.images"];
         [imagesArray enumerateObjectsUsingBlock:^(NSDictionary *images, NSUInteger idx, BOOL *stop) {
-            NSLog(@"%@",images);
             
             [smallImages addObject:[images valueForKey:@"small_url"]];
             [productImages addObject:[images valueForKey:@"product_url"]];
@@ -105,11 +93,14 @@ static NSString *summary = @"summary"; */
         detail.product_img = productImages;
         detail.large_img = largeImages;
         
-        NSString *price = [product valueForKey:@"price"];
+        if (detail.hasVariant) {
+            detail.variants = [product objectForKey:@"variants"];
+        }
         
-        [detail setValue:[product valueForKey:@"display_price"] forKey:@"displayPrice"];
+        NSString *price = [product valueForKeyPath:@"master.price"];
+        [detail setValue:[product valueForKeyPath:@"master.display_price"] forKey:@"displayPrice"];
         [detail setValue:[NSNumber numberWithInt:price.intValue] forKey:@"price"];
-        [detail setValue:[product valueForKey:@"description"] forKey:@"summary"];
+        [detail setValue:[product valueForKeyPath:@"master.description"] forKey:@"summary"];
         
         [products addObject:detail];
     }];

@@ -96,10 +96,11 @@ static NSString *cellIdentifier = @"cartCell";
         cell.c_name.lineBreakMode = NSLineBreakByWordWrapping;
         [cell.c_name sizeToFit];
         
-        cell.singlePrice.text = model.productPrice.stringValue;
+        cell.singlePrice.text = model.displayPrice;
         [cell.quantity setTitle:model.quantity.stringValue forState:UIControlStateNormal];
         
         cell.quantityPrice.text = model.totalPrice.stringValue;
+        cell.variant.text = model.variant;
     }
     
     
@@ -111,7 +112,7 @@ static NSString *cellIdentifier = @"cartCell";
 #pragma mark - Table view Delegate
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 156.0f;
+    return 135.0f;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -146,7 +147,7 @@ static NSString *cellIdentifier = @"cartCell";
         
         
         HeaderLabel *totalAmount = [[HeaderLabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 , 0, self.view.frame.size.width/2, 40)];
-        totalAmount.text = [NSString stringWithFormat:@"Total Amount: $%ld",(long)[self totalAmount]];
+        totalAmount.text = [NSString stringWithFormat:@"Rs.%ld",(long)[self totalAmount]];
         totalAmount.textAlignment = NSTextAlignmentRight;
         totalAmount.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
         totalAmount.backgroundColor = [UIColor whiteColor];
@@ -296,6 +297,8 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(void)placeOrderPressed {
     
+    NSLog(@"%@", [self prepareCartProductsArray]);
+    
     self.hasCheckedOut = YES;
     
     User *user = [User savedUser];
@@ -315,6 +318,7 @@ static NSString *cellIdentifier = @"cartCell";
         self.hasCheckedOut = NO;
         
         [self showAddressesVC];
+        
         
     }
 }
@@ -439,8 +443,29 @@ static NSString *cellIdentifier = @"cartCell";
         
     }];
     
+    NSLog(@"Array is %@", jsonarray);
    
     return jsonarray;
+    
+}
+
+-(NSArray *)getLineItemsArray {
+    
+    NSMutableArray *lineItemsArray = [[NSMutableArray alloc]init];
+    
+    [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart  * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+        
+        for (NSAttributeDescription *attribute in [[model entity] properties]) {
+            NSString *attribute_name = attribute.name;
+            
+            id attribute_value = [model valueForKey:attribute_name];
+            
+            
+        }
+    }];
+    
+    return lineItemsArray;
     
 }
 
@@ -455,6 +480,25 @@ static NSString *cellIdentifier = @"cartCell";
     NSDictionary *dictionary = @{
                                  @"products": [self prepareCartProductsArray],
                                  @"total_amount":@([self totalAmount]).stringValue
+                                 };
+    
+    return dictionary;
+}
+
+-(NSDictionary *)getLineItems {
+    
+//    {
+//        "order": {
+//            "line_items": [
+//                           { "variant_id": 1, "quantity": 5 }
+//                           ]
+//        }
+//    }
+    
+    NSDictionary *dictionary = @{
+                                 @"order": @{
+                                         @"line_items": @"array"
+                                         }
                                  };
     
     return dictionary;

@@ -2,7 +2,7 @@
 //  AddToCart+CoreDataProperties.h
 //  
 //
-//  Created by adverto on 25/09/15.
+//  Created by adverto on 28/09/15.
 //
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber *quantity;
 @property (nullable, nonatomic, retain) NSNumber *totalPrice;
 @property (nullable, nonatomic, retain) NSDate *addedDate;
+@property (nullable, nonatomic, retain) NSString *variant;
+@property (nullable, nonatomic, retain) NSString *displayPrice;
 
 @end
 

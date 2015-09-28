@@ -15,10 +15,14 @@
 @property (nonatomic, strong) NSString *summary;
 @property (nonatomic, strong) NSString *price;
 @property (nonatomic, strong) NSString *displayPrice;
+@property (nonatomic, assign) BOOL hasVariant;
+@property (nonatomic, strong) NSString *variantID;
 
 @property (nonatomic, strong) NSArray *small_img;
 @property (nonatomic, strong) NSArray *product_img;
 @property (nonatomic, strong) NSArray *large_img;
+
+@property (nonatomic, strong) NSArray *variants;
 
 
 @end

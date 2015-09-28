@@ -2,7 +2,7 @@
 //  AddToCart+CoreDataProperties.m
 //  
 //
-//  Created by adverto on 25/09/15.
+//  Created by adverto on 28/09/15.
 //
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -20,5 +20,7 @@
 @dynamic quantity;
 @dynamic totalPrice;
 @dynamic addedDate;
+@dynamic variant;
+@dynamic displayPrice;
 
 @end

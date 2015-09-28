@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *singlePrice;
 @property (weak, nonatomic) IBOutlet UILabel *quantityPrice;
 
-@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
+@property (weak, nonatomic) IBOutlet UILabel *variant;
 @property (weak, nonatomic) IBOutlet UIButton *quantity;
 
 
