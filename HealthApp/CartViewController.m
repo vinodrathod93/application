@@ -11,6 +11,7 @@
 #import "CartViewCell.h"
 #import "CartViewModel.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 #import "AppDelegate.h"
 #import "HeaderLabel.h"
 #import "OrderInputsViewController.h"
@@ -20,14 +21,16 @@
 #import "LogSignViewController.h"
 #import "AddressesViewController.h"
 
+#define kcreateOrderURL @"http://www.elnuur.com/api/orders"
 static NSString *cellIdentifier = @"cartCell";
 
 @interface CartViewController ()<NSFetchedResultsControllerDelegate,UIActionSheetDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *cartFetchedResultsController;
 @property (nonatomic, strong) NSIndexPath *selectIndexPath;
-@property (nonatomic, assign) BOOL hasCheckedOut;
+//@property (nonatomic, assign) BOOL hasCheckedOut;
 @property (nonatomic, assign) BOOL isAlreadyLoggedIn;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -52,9 +55,9 @@ static NSString *cellIdentifier = @"cartCell";
     
     [self.tableView reloadData];
     
-    User *didLoggedIn = [User savedUser];
+//    User *didLoggedIn = [User savedUser];
     
-    didLoggedIn ? (self.hasCheckedOut) ? [self showAddressesVC]: NSLog(@"Did not logged in"):NSLog(@"Not Checked out");
+//    didLoggedIn ? (self.hasCheckedOut) ? [self showAddressesVC]: NSLog(@"Did not logged in"):NSLog(@"Not Checked out");
     
 }
 
@@ -89,7 +92,10 @@ static NSString *cellIdentifier = @"cartCell";
     
     if (indexPath.section == 0) {
         AddToCart *model = [self.cartFetchedResultsController objectAtIndexPath:indexPath];
+        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
         
+        NSString *quantity_price_string = [numberFormatter stringFromNumber:model.totalPrice];
         
         [cell.c_imageView sd_setImageWithURL:[NSURL URLWithString:model.productImage]];
         cell.c_name.text = model.productName;
@@ -99,7 +105,7 @@ static NSString *cellIdentifier = @"cartCell";
         cell.singlePrice.text = model.displayPrice;
         [cell.quantity setTitle:model.quantity.stringValue forState:UIControlStateNormal];
         
-        cell.quantityPrice.text = model.totalPrice.stringValue;
+        cell.quantityPrice.text = quantity_price_string;
         cell.variant.text = model.variant;
     }
     
@@ -147,7 +153,12 @@ static NSString *cellIdentifier = @"cartCell";
         
         
         HeaderLabel *totalAmount = [[HeaderLabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 , 0, self.view.frame.size.width/2, 40)];
-        totalAmount.text = [NSString stringWithFormat:@"Rs.%ld",(long)[self totalAmount]];
+        
+        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        NSString *total_price_string = [numberFormatter stringFromNumber:[NSNumber numberWithInteger:[self totalAmount]]];
+        
+        totalAmount.text = [NSString stringWithFormat:@"%@",total_price_string];
         totalAmount.textAlignment = NSTextAlignmentRight;
         totalAmount.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
         totalAmount.backgroundColor = [UIColor whiteColor];
@@ -297,13 +308,9 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(void)placeOrderPressed {
     
-    NSLog(@"%@", [self prepareCartProductsArray]);
-    
-    self.hasCheckedOut = YES;
-    
     User *user = [User savedUser];
     
-    if (user == nil) {
+    if (user.access_token == nil) {
         LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
         [self presentViewController:logSignVC animated:YES completion:nil];
         
@@ -315,10 +322,56 @@ static NSString *cellIdentifier = @"cartCell";
 //        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:shippingDetails];
 //        [self presentViewController:nav animated:YES completion:nil];
         
-        self.hasCheckedOut = NO;
+//        [self showAddressesVC];
         
-        [self showAddressesVC];
         
+        NSArray *lineItems = [self getCartProducts];
+        NSDictionary *order = [self createOrdersDictionary:lineItems];
+        
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:order options:NSJSONWritingPrettyPrinted error:&error];
+        
+        
+        NSString *url = [NSString stringWithFormat:@"%@?token=%@",kcreateOrderURL, user.access_token];
+        NSLog(@"URL is --> %@", url);
+        NSLog(@"Dictionary is -> %@",order);
+        
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+        request.HTTPMethod = @"POST";
+        request.HTTPBody = jsonData;
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
+        
+        
+        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"%@",response);
+                NSError *jsonError;
+                
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+                [self.hud hide:YES];
+                if (jsonError) {
+                    NSLog(@"Error %@",[jsonError localizedDescription]);
+                } else {
+                    
+                    NSLog(@"Order initiated");
+                    [self showAddressesVC];
+                    
+                }
+                
+                
+                
+            });
+            
+            
+        }];
+        
+        [task resume];
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.hud.color = self.view.tintColor;
         
     }
 }
@@ -346,12 +399,17 @@ static NSString *cellIdentifier = @"cartCell";
     } else {
         NSInteger quantity = buttonIndex + 1;
         
+        AddToCart *model = self.cartFetchedResultsController.fetchedObjects[self.selectIndexPath.row];
         CartViewCell *cell = (CartViewCell *)[self.tableView cellForRowAtIndexPath:self.selectIndexPath];
-        CGFloat singlePrice = [self convertToDoubleFromString:cell.singlePrice.text];
-        NSInteger totalPrice = [self calculateTotalPriceWithQuantity:quantity andSinglePrice:singlePrice];
-        [cell.quantity setTitle:@(quantity).stringValue forState:UIControlStateNormal];
-        cell.quantityPrice.text = [NSString stringWithFormat:@"%ld",(long)totalPrice];
+        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
         
+        
+        NSInteger totalPrice = [self calculateTotalPrice:quantity andSinglePrice:model.productPrice.intValue];
+        [cell.quantity setTitle:@(quantity).stringValue forState:UIControlStateNormal];
+        
+        NSString *total_price_string = [numberFormatter stringFromNumber:[NSNumber numberWithInteger:totalPrice]];
+        cell.quantityPrice.text = total_price_string;
         
         [self saveQuantity:quantity andTotalPrice:totalPrice];
         
@@ -373,22 +431,9 @@ static NSString *cellIdentifier = @"cartCell";
     }
 }
 
--(CGFloat)convertToDoubleFromString:(NSString *)string {
-    NSLog(@"%@",string);
-    
-    NSString *priceString;
-    NSScanner *scanner = [NSScanner scannerWithString:string];
-    NSCharacterSet *priceValue = [NSCharacterSet characterSetWithCharactersInString:@".0123456789"];
-    
-    [scanner scanUpToCharactersFromSet:priceValue intoString:NULL];
-    [scanner scanCharactersFromSet:priceValue intoString:&priceString];
-    
-    NSLog(@"%ld",(long)[priceString doubleValue]);
-    
-    return ceil([priceString doubleValue]);
-}
 
--(CGFloat)calculateTotalPriceWithQuantity:(NSInteger)quantity andSinglePrice:(CGFloat)price {
+
+-(CGFloat)calculateTotalPrice:(NSInteger)quantity andSinglePrice:(CGFloat)price {
     CGFloat total = quantity * price;
     
     return ceil(total);
@@ -400,10 +445,9 @@ static NSString *cellIdentifier = @"cartCell";
     
     [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart *model, NSUInteger idx, BOOL *stop) {
         NSInteger quantity = model.quantity.integerValue;
-//        CGFloat singlePrice = [self convertToDoubleFromString:model.productPrice];
         CGFloat singlePrice = model.productPrice.floatValue;
         
-        priceInTotal = priceInTotal + [self calculateTotalPriceWithQuantity:quantity andSinglePrice:singlePrice];
+        priceInTotal = priceInTotal + [self calculateTotalPrice:quantity andSinglePrice:singlePrice];
     }];
     
     return priceInTotal;
@@ -416,92 +460,43 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
--(NSArray *)prepareCartProductsArray {
+-(NSArray *)getCartProducts {
     
     NSMutableArray *jsonarray = [[NSMutableArray alloc] init];
     
     [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart *model, NSUInteger idx, BOOL *stop) {
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        for (NSAttributeDescription *attribute in [[model entity] properties]) {
-            NSString *attributeName = attribute.name;
-            
-            id attributeValue = [model valueForKey:attributeName];
-            if ([attributeValue isKindOfClass:[NSDate class]]) {
-                NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date]
-                                                                      dateStyle:NSDateFormatterShortStyle
-                                                                      timeStyle:NSDateFormatterFullStyle];
-                
-                [dict setObject:dateString forKey:attributeName];
-            } else {
-                [dict setObject:attributeValue forKey:attributeName];
-            }
-        }
-        
+        NSDictionary *dict  = @{
+                 @"variant_id"  : model.productID,
+                 @"quantity"    : model.quantity
+                 };
         
         [jsonarray addObject:dict];
         
-        
     }];
-    
-    NSLog(@"Array is %@", jsonarray);
    
     return jsonarray;
     
 }
 
--(NSArray *)getLineItemsArray {
-    
-    NSMutableArray *lineItemsArray = [[NSMutableArray alloc]init];
-    
-    [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart  * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-        
-        for (NSAttributeDescription *attribute in [[model entity] properties]) {
-            NSString *attribute_name = attribute.name;
-            
-            id attribute_value = [model valueForKey:attribute_name];
-            
-            
-        }
-    }];
-    
-    return lineItemsArray;
-    
-}
 
 -(void)showAddressesVC {
     AddressesViewController *addressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
-    addressVC.cartDetails = [self getCartDetails];
+//    addressVC.cartDetails = [self getCartDetails];
     
     [self.navigationController pushViewController:addressVC animated:YES];
 }
 
--(NSDictionary *)getCartDetails {
-    NSDictionary *dictionary = @{
-                                 @"products": [self prepareCartProductsArray],
-                                 @"total_amount":@([self totalAmount]).stringValue
-                                 };
-    
-    return dictionary;
-}
 
--(NSDictionary *)getLineItems {
+-(NSDictionary *)createOrdersDictionary:(NSArray *)array {
+
     
-//    {
-//        "order": {
-//            "line_items": [
-//                           { "variant_id": 1, "quantity": 5 }
-//                           ]
-//        }
-//    }
-    
-    NSDictionary *dictionary = @{
+    NSDictionary *orders = @{
                                  @"order": @{
-                                         @"line_items": @"array"
+                                         @"line_items": array
                                          }
                                  };
     
-    return dictionary;
+    return orders;
 }
 
 @end

@@ -240,12 +240,11 @@ NSString *cellReuseIdentifier;
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"productName == %@",[self.viewModel name]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"productID == %@",[self.viewModel productID]];
     [fetch setPredicate:predicate];
     NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
     
     if (self.detail.hasVariant) {
-        
         
         VariantsViewController *variantVC = [self.storyboard instantiateViewControllerWithIdentifier:@"variantVC"];
         
@@ -273,6 +272,7 @@ NSString *cellReuseIdentifier;
             self.addToCartModel.productID = [self.viewModel productID];
             self.addToCartModel.productName = [self.viewModel name];
             self.addToCartModel.productPrice = [self.viewModel price];
+            self.addToCartModel.displayPrice = [self.viewModel display_price];
             self.addToCartModel.addedDate = [NSDate date];
             self.addToCartModel.productImage = [self.viewModel images][0];
             self.addToCartModel.quantity = [self.viewModel quantity];

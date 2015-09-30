@@ -21,7 +21,10 @@
     [encoder encodeObject:self.email forKey:@"Email"];
     [encoder encodeObject:self.fullName forKey:@"FullName"];
     [encoder encodeObject:self.profilePic forKey:@"ProfilePicture"];
-    
+    [encoder encodeObject:self.access_token forKey:@"AccessToken"];
+    [encoder encodeObject:self.default_country_id forKey:@"defaultCountry"];
+    [encoder encodeObject:self.bill_address forKey:@"billAddress"];
+    [encoder encodeObject:self.ship_address forKey:@"shipAddress"];
 }
 
 #pragma mark - Decoding
@@ -30,12 +33,16 @@
     self = [super init];
     if (self)
     {
-        _userID       = [decoder decodeObjectForKey:@"userID"];
-        _firstName   = [decoder decodeObjectForKey:@"FirstName"];
-        _lastName   = [decoder decodeObjectForKey:@"LastName"];
-        _email     = [decoder decodeObjectForKey:@"Email"];
-        _fullName  = [decoder decodeObjectForKey:@"FullName"];
-        _profilePic  = [decoder decodeObjectForKey:@"ProfilePicture"];
+        _userID         = [decoder decodeObjectForKey:@"userID"];
+        _firstName      = [decoder decodeObjectForKey:@"FirstName"];
+        _lastName       = [decoder decodeObjectForKey:@"LastName"];
+        _email          = [decoder decodeObjectForKey:@"Email"];
+        _fullName       = [decoder decodeObjectForKey:@"FullName"];
+        _profilePic     = [decoder decodeObjectForKey:@"ProfilePicture"];
+        _access_token   = [decoder decodeObjectForKey:@"AccessToken"];
+        _default_country_id = [decoder decodeObjectForKey:@"defaultCountry"];
+        _bill_address       = [decoder decodeObjectForKey:@"billAddress"];
+        _ship_address       = [decoder decodeObjectForKey:@"shipAddress"];
         
     }
     return self;

@@ -12,7 +12,8 @@
 #import "NSString+SignupValidation.h"
 
 
-#define kSIGN_IN_URL @"http://chemistplus.in/sign_in_test.php"
+//#define kSIGN_IN_URL @"http://chemistplus.in/sign_in_test.php"
+#define kSign_in_url @"http://www.elnuur.com/api/users/sign_in"
 
 @interface SignInViewController ()
 
@@ -20,6 +21,8 @@
 @property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
+
+typedef void(^completion)(BOOL finished);
 
 @implementation SignInViewController
 
@@ -49,15 +52,21 @@
     if (errorMessage) {
         [self alertWithTitle:@"Error" message:errorMessage];
     } else {
-        [self submitInfo];
+        [self submitInfoWithCompletion:^(BOOL finished) {
+            if (finished) {
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            } else
+                NSLog(@"Could not login");
+        }];
     }
     
 }
 
 
--(void)submitInfo {
-    NSURL *url = [NSURL URLWithString:kSIGN_IN_URL];
-    NSString *user_data = [NSString stringWithFormat:@"email=%@&password=%@",self.emailField.text, self.passwordField.text];
+-(void)submitInfoWithCompletion:(completion)isLoggedIn {
+    
+    NSURL *url = [NSURL URLWithString:kSign_in_url];
+    NSString *user_data = [NSString stringWithFormat:@"user[email]=%@&user[password]=%@",self.emailField.text, self.passwordField.text];
     NSData *post_data = [NSData dataWithBytes:[user_data UTF8String] length:[user_data length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
@@ -79,30 +88,31 @@
                 NSLog(@"Error %@",[jsonError localizedDescription]);
             } else {
                 
-                NSString *message = [json valueForKey:@"Message"];
-                NSString *status = [json valueForKey:@"Status"];
-                NSString *name = [json valueForKey:@"username"];
-                NSString *email = [json valueForKey:@"email"];
-                NSString *userID = [json valueForKey:@"userID"];
+                NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
+                NSLog(@"Response %ld", (long)[url_response statusCode]);
                 
-                
-                if ([status isEqualToString:@"Success"]) {
-                    self.isLoggedIn = YES;
+                if (url_response.statusCode == 401) {
+                    NSString *error = [json valueForKey:@"error"];
                     
-                    User *user = [[User alloc]init];
-                    user.fullName = name;
-                    user.email = email;
-                    user.userID = userID;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self alertWithTitle:@"Error" message:error];
+                    });
+                    
+                    isLoggedIn(NO);
+                    
+                } else if (url_response.statusCode == 200) {
+                    
+                    User *user              = [[User alloc]init];
+                    user.userID             = [json valueForKey:@"id"];
+                    user.access_token       = [json valueForKey:@"access_token"];
+                    user.email              = [json valueForKey:@"email"];
+                    user.default_country_id = [json valueForKey:@"default_country_id"];
+                    user.bill_address       = [json valueForKey:@"bill_address"];
+                    user.ship_address       = [json valueForKey:@"ship_address"];
                     
                     [user save];
                     
-                    [self alertWithTitle:status message:message];
-                    
-                }
-                else if ([status isEqualToString:@"Error"]) {
-                    self.isLoggedIn = NO;
-                    
-                    [self alertWithTitle:status message:message];
+                    isLoggedIn(YES);
                 }
             }
             

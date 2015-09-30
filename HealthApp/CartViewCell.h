@@ -18,5 +18,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *variant;
 @property (weak, nonatomic) IBOutlet UIButton *quantity;
 
+@property (weak, nonatomic) IBOutlet UILabel *currencySymbolLabel;
 
 @end

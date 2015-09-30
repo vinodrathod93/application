@@ -16,6 +16,10 @@
 @property (nonatomic, copy) NSString *fullName;
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, copy) NSString *profilePic;
+@property (nonatomic, copy) NSString *access_token;
+@property (nonatomic, copy) NSString *default_country_id;
+@property (nonatomic, copy) NSDictionary *bill_address;
+@property (nonatomic, copy) NSDictionary *ship_address;
 
 -(void)save;
 + (id)savedUser;
