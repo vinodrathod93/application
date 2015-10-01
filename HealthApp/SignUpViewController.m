@@ -11,14 +11,16 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "NSString+SignupValidation.h"
 
-#define kREGISTER_URL @"http://chemistplus.in/register_test.php"
+//#define kREGISTER_URL @"http://chemistplus.in/register_test.php"
+#define kSign_up_url @"http://www.elnuur.com/api/users/sign_up"
 
 @interface SignUpViewController ()<UITextFieldDelegate,UIAlertViewDelegate>
 
-@property (nonatomic, assign)BOOL isLoggedIn;
 @property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
+
+typedef void(^completion)(BOOL finished);
 
 @implementation SignUpViewController
 
@@ -43,6 +45,19 @@
     [super viewDidAppear:animated];
     
     [self.userName becomeFirstResponder];
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    NSLog(@"viewWillDisappear");
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    NSLog(@"viewDidDisappear");
 }
 
 -(void)viewDidLayoutSubviews {
@@ -84,13 +99,26 @@
         [self alertWithTitle:@"Error" message:errorMessage];
     }
     else if (![self.userName.text isEqualToString:@""] || ![self.emailField.text isEqualToString:@""]) {
-        [self submitInfo];
+        [self submitSignupDataWithCompletion:^(BOOL finished) {
+            if (finished) {
+                [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                    NSLog(@"Placing Order");
+                    
+                    if (self.isPlacingOrder) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
+                    }
+                    
+                }];
+            } else
+                NSLog(@"Could not login");
+        }];
     }
 }
 
--(void)submitInfo {
-    NSURL *url = [NSURL URLWithString:kREGISTER_URL];
-    NSString *user_data = [NSString stringWithFormat:@"username=%@&email=%@&password=%@",self.userName.text,self.emailField.text, self.confirmPasswordField.text];
+
+-(void)submitSignupDataWithCompletion:(completion)isLoggedIn {
+    NSURL *url = [NSURL URLWithString:kSign_up_url];
+    NSString *user_data = [NSString stringWithFormat:@"user[email]=%@&user[password]=%@&user[password_confirmation]=%@",self.emailField.text,self.passwordField.text, self.confirmPasswordField.text];
     NSData *post_data = [NSData dataWithBytes:[user_data UTF8String] length:[user_data length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
@@ -105,9 +133,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             NSError *jsonError;
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            NSString *message = [json valueForKey:@"Message"];
-            NSString *status = [json valueForKey:@"Status"];
-            NSString *userID = [json valueForKey:@"userID"];
             
             // Hide the HUD
             [self.hud hide:YES];
@@ -115,23 +140,33 @@
             if (jsonError) {
                 NSLog(@"Error %@",[jsonError localizedDescription]);
             } else {
+                NSLog(@"JSON is =====> %@",json);
                 
-                if ([status isEqualToString:@"Success"]) {
-                    self.isLoggedIn = YES;
+                NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
+                NSLog(@"Response %ld", (long)[url_response statusCode]);
+                
+                if (url_response.statusCode == 401) {
+                    NSString *error = [json valueForKey:@"error"];
                     
-                    User *user = [[User alloc]init];
-                    user.fullName = self.userName.text;
-                    user.email = self.emailField.text;
-                    user.userID = userID;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self alertWithTitle:@"Error" message:error];
+                    });
+                    
+                    isLoggedIn(NO);
+                    
+                } else if (url_response.statusCode == 200) {
+                    
+                    User *user              = [[User alloc]init];
+                    user.userID             = [json valueForKey:@"id"];
+                    user.access_token       = [json valueForKey:@"access_token"];
+                    user.email              = [json valueForKey:@"email"];
+                    user.default_country_id = [json valueForKey:@"default_country_id"];
+                    user.bill_address       = [json valueForKey:@"bill_address"];
+                    user.ship_address       = [json valueForKey:@"ship_address"];
+                    
                     [user save];
                     
-                    [self alertWithTitle:status message:message];
-                    
-                }
-                else if ([status isEqualToString:@"Error"]) {
-                    self.isLoggedIn = NO;
-                    
-                    [self alertWithTitle:status message:message];
+                    isLoggedIn(YES);
                 }
             }
             
@@ -153,15 +188,6 @@
 }
 
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        NSLog(@"Cancel pressed");
-        if (self.isLoggedIn) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-        
-    }
-}
 
 
 -(NSString *)validateForm {

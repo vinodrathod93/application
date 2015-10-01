@@ -13,4 +13,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
+
+@property (nonatomic, assign) BOOL isPlacingOrder;
+
 @end

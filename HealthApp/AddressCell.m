@@ -1,14 +1,14 @@
 //
-//  OrderSummaryViewCell.m
+//  AddressCell.m
 //  Chemist Plus
 //
-//  Created by adverto on 21/08/15.
-//  Copyright (c) 2015 adverto. All rights reserved.
+//  Created by adverto on 01/10/15.
+//  Copyright © 2015 adverto. All rights reserved.
 //
 
-#import "OrderSummaryViewCell.h"
+#import "AddressCell.h"
 
-@implementation OrderSummaryViewCell
+@implementation AddressCell
 
 - (void)awakeFromNib {
     // Initialization code

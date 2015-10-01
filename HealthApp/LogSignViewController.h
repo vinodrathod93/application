@@ -15,5 +15,6 @@
 @property (weak, nonatomic) IBOutlet FBSDKLoginButton *login_fb_button;
 @property (weak, nonatomic) IBOutlet UIButton *registerButton;
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
+@property (nonatomic, assign)BOOL isPlacingOrder;
 
 @end

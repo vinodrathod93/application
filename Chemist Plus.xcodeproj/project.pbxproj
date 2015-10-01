@@ -13,7 +13,6 @@
 		82327F771B60F9A800D92889 /* CartViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F761B60F9A800D92889 /* CartViewCell.m */; };
 		82327F7A1B61027B00D92889 /* CartViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F791B61027B00D92889 /* CartViewModel.m */; };
 		8233CE101B873B8B00B5279B /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8233CE0F1B873B8B00B5279B /* PaymentViewController.m */; };
-		8233CE131B873EF200B5279B /* OrderSummaryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8233CE121B873EF200B5279B /* OrderSummaryViewCell.m */; };
 		8233CE161B874FB200B5279B /* PaymentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8233CE151B874FB200B5279B /* PaymentViewCell.m */; };
 		8238A7061B5E4538005CC0A5 /* ProductDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 8238A7051B5E4538005CC0A5 /* ProductDetail.m */; };
 		82395A9C1B53A77300581EB4 /* CategoryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82395A9B1B53A77300581EB4 /* CategoryViewCell.m */; };
@@ -73,6 +72,7 @@
 		82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */; };
 		82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
+		82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82ECD1251BBD5A91004B0BEB /* AddressCell.m */; settings = {ASSET_TAGS = (); }; };
 		82FB87AC1B4D18C500CAD5F7 /* OrderConfirmationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FB87AB1B4D18C500CAD5F7 /* OrderConfirmationViewController.m */; };
 		C1F05C0A84FFC31F75338C27 /* libPods-Chemist Plus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */; };
 /* End PBXBuildFile section */
@@ -101,8 +101,6 @@
 		82327F791B61027B00D92889 /* CartViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CartViewModel.m; sourceTree = "<group>"; };
 		8233CE0E1B873B8B00B5279B /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentViewController.h; sourceTree = "<group>"; };
 		8233CE0F1B873B8B00B5279B /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentViewController.m; sourceTree = "<group>"; };
-		8233CE111B873EF200B5279B /* OrderSummaryViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderSummaryViewCell.h; sourceTree = "<group>"; };
-		8233CE121B873EF200B5279B /* OrderSummaryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderSummaryViewCell.m; sourceTree = "<group>"; };
 		8233CE141B874FB200B5279B /* PaymentViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewCell.h; path = ../PaymentViewCell.h; sourceTree = "<group>"; };
 		8233CE151B874FB200B5279B /* PaymentViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewCell.m; path = ../PaymentViewCell.m; sourceTree = "<group>"; };
 		8238A7041B5E4538005CC0A5 /* ProductDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetail.h; sourceTree = "<group>"; };
@@ -213,6 +211,8 @@
 		82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
 		82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+InfiniteScroll.h"; sourceTree = "<group>"; };
 		82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+InfiniteScroll.m"; sourceTree = "<group>"; };
+		82ECD1241BBD5A91004B0BEB /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
+		82ECD1251BBD5A91004B0BEB /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
 		82FB87AA1B4D18C500CAD5F7 /* OrderConfirmationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderConfirmationViewController.h; sourceTree = "<group>"; };
 		82FB87AB1B4D18C500CAD5F7 /* OrderConfirmationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderConfirmationViewController.m; sourceTree = "<group>"; };
 		D1F400F2EC7F15D32196CDE1 /* Pods-Chemist Plus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.release.xcconfig"; sourceTree = "<group>"; };
@@ -576,8 +576,8 @@
 				823D06971B8C755B00640F45 /* Payment VC */,
 				827A80161B85E15C008085F1 /* AddressesViewController.h */,
 				827A80171B85E15C008085F1 /* AddressesViewController.m */,
-				8233CE111B873EF200B5279B /* OrderSummaryViewCell.h */,
-				8233CE121B873EF200B5279B /* OrderSummaryViewCell.m */,
+				82ECD1241BBD5A91004B0BEB /* AddressCell.h */,
+				82ECD1251BBD5A91004B0BEB /* AddressCell.m */,
 				82BD02981B46A73C00108A0B /* Images.xcassets */,
 				823C46A41B73226900E37DBE /* DoctorDetailsViewController.h */,
 				823C46A51B73226900E37DBE /* DoctorDetailsViewController.m */,
@@ -864,7 +864,7 @@
 				8238A7061B5E4538005CC0A5 /* ProductDetail.m in Sources */,
 				8255671E1B68EC5E009F013A /* AddShippingViewModel.m in Sources */,
 				825266CE1B4F881600C635F7 /* HomeViewController.m in Sources */,
-				8233CE131B873EF200B5279B /* OrderSummaryViewCell.m in Sources */,
+				82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

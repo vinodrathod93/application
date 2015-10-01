@@ -18,4 +18,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 
 - (IBAction)signUpPressed:(id)sender;
+
+@property (nonatomic, assign)BOOL isPlacingOrder;
 @end

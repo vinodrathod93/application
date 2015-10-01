@@ -12,7 +12,6 @@
 @interface CartViewController : UITableViewController
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-- (IBAction)deleteCartProduct:(id)sender;
 - (IBAction)quantityPressed:(id)sender;
 
 @end

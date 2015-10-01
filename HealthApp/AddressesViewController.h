@@ -10,5 +10,6 @@
 
 @interface AddressesViewController : UITableViewController
 
-@property (nonatomic, strong) NSDictionary *cartDetails;
+@property (nonatomic, strong) NSDictionary *addresses;
+@property (nonatomic, strong) NSString     *order_id;
 @end

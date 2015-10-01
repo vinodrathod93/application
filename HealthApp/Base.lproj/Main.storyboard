@@ -1588,70 +1588,31 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="availabeAddressCell" textLabel="run-2l-B9f" rowHeight="78" style="IBUITableViewCellStyleDefault" id="ujq-KE-Ont">
-                                <rect key="frame" x="0.0" y="158" width="320" height="78"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="availabeAddressCell" rowHeight="120" id="ujq-KE-Ont" customClass="AddressCell">
+                                <rect key="frame" x="0.0" y="158" width="320" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ujq-KE-Ont" id="dW8-HY-ddd">
-                                    <rect key="frame" x="0.0" y="0.0" width="287" height="77"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="119"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="run-2l-B9f">
-                                            <rect key="frame" x="15" y="0.0" width="270" height="77"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6yU-xd-p8c">
+                                            <rect key="frame" x="15" y="17" width="272" height="30"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mzs-NZ-tep">
+                                            <rect key="frame" x="15" y="55" width="264" height="56"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="completeAddress" destination="Mzs-NZ-tep" id="ndI-zH-u2E"/>
+                                    <outlet property="full_name" destination="6yU-xd-p8c" id="418-KJ-UtW"/>
                                     <segue destination="V4h-mD-Quy" kind="push" identifier="paymentSegue" id="27e-Fa-v9F"/>
-                                </connections>
-                            </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="orderSummaryCell" rowHeight="82" id="i83-Uy-uvU" customClass="OrderSummaryViewCell">
-                                <rect key="frame" x="0.0" y="236" width="320" height="82"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i83-Uy-uvU" id="Dos-Es-mx4">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="81"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwI-dg-637">
-                                            <rect key="frame" x="13" y="49" width="85" height="22"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="85" id="d5n-o4-V7A"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="amount" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hl7-IW-aya">
-                                            <rect key="frame" x="208" y="49" width="104" height="22"/>
-                                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Items" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gj9-XV-ucc">
-                                            <rect key="frame" x="13" y="13" width="270" height="22"/>
-                                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="uwI-dg-637" firstAttribute="top" secondItem="gj9-XV-ucc" secondAttribute="bottom" constant="14" id="Nqy-QI-GC7"/>
-                                        <constraint firstItem="gj9-XV-ucc" firstAttribute="leading" secondItem="Dos-Es-mx4" secondAttribute="leadingMargin" constant="5" id="WOc-oM-fCd"/>
-                                        <constraint firstItem="uwI-dg-637" firstAttribute="leading" secondItem="Dos-Es-mx4" secondAttribute="leadingMargin" constant="5" id="fow-Wl-aTb"/>
-                                        <constraint firstItem="Hl7-IW-aya" firstAttribute="leading" secondItem="uwI-dg-637" secondAttribute="trailing" constant="110" id="hnX-hq-f2q"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="gj9-XV-ucc" secondAttribute="trailing" constant="29" id="r6e-ru-wf7"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="Hl7-IW-aya" secondAttribute="bottom" constant="2" id="r75-Ic-liN"/>
-                                        <constraint firstItem="Hl7-IW-aya" firstAttribute="trailing" secondItem="Dos-Es-mx4" secondAttribute="trailingMargin" id="uW3-ws-imr"/>
-                                        <constraint firstItem="gj9-XV-ucc" firstAttribute="top" secondItem="Dos-Es-mx4" secondAttribute="topMargin" constant="5" id="xzv-pD-xbB"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="amountLabel" destination="Hl7-IW-aya" id="gWt-Qt-AQm"/>
-                                    <outlet property="itemsLabel" destination="gj9-XV-ucc" id="B8K-Cw-9vD"/>
-                                    <outlet property="orderTotalLabel" destination="uwI-dg-637" id="2uq-h6-0l2"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

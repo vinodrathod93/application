@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "AddToCart.h"
 
 @interface CartViewModel : NSObject
@@ -21,5 +22,6 @@
 -(NSString *)nameAtIndex:(NSInteger)index;
 -(NSNumber *)priceAtIndex:(NSInteger)index;
 -(NSInteger)numberOfCartProducts;
+
 
 @end

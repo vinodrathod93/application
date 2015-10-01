@@ -17,7 +17,6 @@
 
 @interface LogSignViewController ()
 
-@property (nonatomic, assign)BOOL isLoggedIn;
 
 @end
 
@@ -85,11 +84,13 @@
 
 - (IBAction)signInButtonPressed:(id)sender {
     SignInViewController *signInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"signInVC"];
+    signInVC.isPlacingOrder = self.isPlacingOrder;
     [self.navigationController pushViewController:signInVC animated:YES];
 }
 
 - (IBAction)registerButtonPressed:(id)sender {
     SignUpViewController *signUpVC = [self.storyboard instantiateViewControllerWithIdentifier:@"registerVC"];
+    signUpVC.isPlacingOrder = self.isPlacingOrder;
     [self.navigationController pushViewController:signUpVC animated:YES];
 }
 

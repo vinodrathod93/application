@@ -17,7 +17,6 @@
 
 @interface SignInViewController ()
 
-@property (nonatomic, assign) BOOL isLoggedIn;
 @property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
@@ -52,9 +51,16 @@ typedef void(^completion)(BOOL finished);
     if (errorMessage) {
         [self alertWithTitle:@"Error" message:errorMessage];
     } else {
-        [self submitInfoWithCompletion:^(BOOL finished) {
+        [self submitSigninDataWithCompletion:^(BOOL finished) {
             if (finished) {
-                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                    NSLog(@"Placing Order");
+                    
+                    if (self.isPlacingOrder) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
+                    }
+                    
+                }];
             } else
                 NSLog(@"Could not login");
         }];
@@ -63,7 +69,7 @@ typedef void(^completion)(BOOL finished);
 }
 
 
--(void)submitInfoWithCompletion:(completion)isLoggedIn {
+-(void)submitSigninDataWithCompletion:(completion)isLoggedIn {
     
     NSURL *url = [NSURL URLWithString:kSign_in_url];
     NSString *user_data = [NSString stringWithFormat:@"user[email]=%@&user[password]=%@",self.emailField.text, self.passwordField.text];
@@ -92,7 +98,7 @@ typedef void(^completion)(BOOL finished);
                 NSLog(@"Response %ld", (long)[url_response statusCode]);
                 
                 if (url_response.statusCode == 401) {
-                    NSString *error = [json valueForKey:@"error"];
+                    NSString *error = [json valueForKey:@"errors"];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self alertWithTitle:@"Error" message:error];
@@ -134,15 +140,6 @@ typedef void(^completion)(BOOL finished);
 }
 
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        NSLog(@"Cancel pressed");
-        if (self.isLoggedIn) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-        
-    }
-}
 
 -(NSString *)validateForm {
     NSString *errorMessage;
