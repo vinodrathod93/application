@@ -122,6 +122,7 @@ enum TABLEVIEWCELL {
         [placeOrderbutton setTitle:@"Place Order" forState:UIControlStateNormal];
         [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:16.0f]];
         [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
+        [placeOrderbutton addTarget:self action:@selector(createPayment) forControlEvents:UIControlEventTouchUpInside];
         
         [view addSubview:placeOrderbutton];
     }

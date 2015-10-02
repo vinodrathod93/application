@@ -44,6 +44,7 @@
 		82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82559A611B623F9B0064E994 /* HeaderLabel.m */; };
 		825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825692CB1B6B771700B5D1D3 /* DoctorViewCell.m */; };
 		825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825692D21B6B77E200B5D1D3 /* DoctorViewController.m */; };
+		825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825892811BBEB21C0032B0A3 /* DeliveryViewController.m */; settings = {ASSET_TAGS = (); }; };
 		827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632821B4A3DB800230833 /* FBSDKCoreKit.framework */; };
 		827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632831B4A3DB800230833 /* FBSDKLoginKit.framework */; };
 		827632891B4A629600230833 /* UploadPrescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827632881B4A629600230833 /* UploadPrescriptionViewController.m */; };
@@ -159,6 +160,8 @@
 		825692CB1B6B771700B5D1D3 /* DoctorViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoctorViewCell.m; sourceTree = "<group>"; };
 		825692D11B6B77E200B5D1D3 /* DoctorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoctorViewController.h; sourceTree = "<group>"; };
 		825692D21B6B77E200B5D1D3 /* DoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoctorViewController.m; sourceTree = "<group>"; };
+		825892801BBEB21C0032B0A3 /* DeliveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeliveryViewController.h; path = ../DeliveryViewController.h; sourceTree = "<group>"; };
+		825892811BBEB21C0032B0A3 /* DeliveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeliveryViewController.m; path = ../DeliveryViewController.m; sourceTree = "<group>"; };
 		827632821B4A3DB800230833 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		827632831B4A3DB800230833 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		827632871B4A629600230833 /* UploadPrescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadPrescriptionViewController.h; sourceTree = "<group>"; };
@@ -571,6 +574,8 @@
 				82C722F91B7B42EF00E0C5EF /* Register VC */,
 				823C46AA1B73327E00E37DBE /* Doctors VC */,
 				82BD02951B46A73C00108A0B /* Main.storyboard */,
+				825892801BBEB21C0032B0A3 /* DeliveryViewController.h */,
+				825892811BBEB21C0032B0A3 /* DeliveryViewController.m */,
 				827DD3151B8AD32900714985 /* ProductOrderConfirmationViewController.h */,
 				827DD3161B8AD32900714985 /* ProductOrderConfirmationViewController.m */,
 				823D06971B8C755B00640F45 /* Payment VC */,
@@ -863,6 +868,7 @@
 				8250A32D1B55142E0026ADCE /* ProductsViewController.m in Sources */,
 				8238A7061B5E4538005CC0A5 /* ProductDetail.m in Sources */,
 				8255671E1B68EC5E009F013A /* AddShippingViewModel.m in Sources */,
+				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,
 				825266CE1B4F881600C635F7 /* HomeViewController.m in Sources */,
 				82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,
