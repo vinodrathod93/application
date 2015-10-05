@@ -17,7 +17,6 @@
 
 @interface LogSignViewController ()
 
-
 @end
 
 @implementation LogSignViewController

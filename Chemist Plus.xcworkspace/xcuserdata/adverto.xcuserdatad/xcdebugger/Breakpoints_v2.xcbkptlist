@@ -106,7 +106,7 @@
                   moduleName = "Chemist Plus"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/AddShippingDetailsViewController.m"
-                  timestampString = "465483730.481815"
+                  timestampString = "465744164.656741"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "209"
@@ -121,7 +121,7 @@
                   moduleName = "Chemist Plus"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/AddShippingDetailsViewController.m"
-                  timestampString = "465483730.481991"
+                  timestampString = "465744164.656911"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "209"
@@ -170,7 +170,7 @@
                   moduleName = "Chemist Plus"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/AddShippingDetailsViewController.m"
-                  timestampString = "465483730.483571"
+                  timestampString = "465744164.658458"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "379"
@@ -185,7 +185,7 @@
                   moduleName = "Chemist Plus"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/AddShippingDetailsViewController.m"
-                  timestampString = "465483730.48373"
+                  timestampString = "465744164.658615"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "379"
@@ -320,6 +320,54 @@
             startingLineNumber = "58"
             endingLineNumber = "58"
             landmarkName = "-numberOfSectionsInTableView:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HealthApp/OrderReviewViewController.m"
+            timestampString = "465744163.601854"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HealthApp/PaymentViewController.m"
+            timestampString = "465743977.940286"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "-sendPaymentOptionToServer"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DeliveryViewController.m"
+            timestampString = "465744104.46982"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "-proceedToPayment"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -106,7 +106,6 @@ typedef void(^completion)(BOOL finished);
         [self.navigationController pushViewController:addShippingVC animated:YES];
     }
     else if (indexPath.section == 1) {
-//        PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
         DeliveryViewController *deliveryVC = [self.storyboard instantiateViewControllerWithIdentifier:@"deliveryVC"];
         
         [self sendAddressToServerWithCompletion:^(BOOL finished) {
@@ -192,6 +191,8 @@ typedef void(^completion)(BOOL finished);
     NSLog(@"URL is --> %@", url);
     
     NSDictionary *order_address = [self addressJSON:user];
+    
+    NSLog(@"Address ===> %@",order_address);
     
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:order_address options:NSJSONWritingPrettyPrinted error:&error];

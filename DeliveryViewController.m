@@ -12,7 +12,7 @@
 #import "PaymentViewController.h"
 
 
-#define kCheckout_delivery_url @"http://www.elnuur.com/api/checkouts/"
+#define kCheckout_delivery_url @"http://www.elnuur.com/api/checkouts"
 
 @interface DeliveryViewController ()
 
@@ -26,11 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.title = @"Delivery";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,7 +69,7 @@
     [placeOrderbutton setTitle:@"Proceed" forState:UIControlStateNormal];
     [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:16.0f]];
     [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
-    [placeOrderbutton addTarget:self action:@selector(sendDeliveryDataToServer) forControlEvents:UIControlEventTouchUpInside];
+    [placeOrderbutton addTarget:self action:@selector(proceedToPayment) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:placeOrderbutton];
     
     
@@ -81,6 +77,56 @@
     
 }
 
+
+-(void)proceedToPayment {
+    User *user = [User savedUser];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/%@/next.json?token=%@",kCheckout_delivery_url, self.order_id, user.access_token];
+    NSLog(@"URL is --> %@", url);
+    
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    request.HTTPMethod = @"PUT";
+    [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"%@",response);
+            NSError *jsonError;
+            
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+            
+            
+            [self.hud hide:YES];
+            if (jsonError) {
+                NSLog(@"Error %@",[jsonError localizedDescription]);
+            } else {
+                
+                NSLog(@"JSON ==> %@",json);
+                
+                PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
+                paymentVC.order_id               = [json valueForKey:@"number"];
+                paymentVC.display_total          = [json valueForKey:@"display_total"];
+                paymentVC.total                  = [json valueForKey:@"total"];
+                paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
+                [self.navigationController pushViewController:paymentVC animated:YES];
+                
+            }
+            
+        });
+        
+    }];
+    
+    [task resume];
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = self.view.tintColor;
+}
+
+
+
+/*
 
 -(void)sendDeliveryDataToServer {
     User *user = [User savedUser];
@@ -119,6 +165,9 @@
                 NSLog(@"JSON ==> %@",json);
                 
                 PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
+                paymentVC.order_id               = [json valueForKey:@"number"];
+                paymentVC.display_total          = [json valueForKey:@"display_total"];
+                paymentVC.total                  = [json valueForKey:@"total"];
                 [self.navigationController pushViewController:paymentVC animated:YES];
                 
             }
@@ -149,6 +198,7 @@
     return delivery;
 }
 
+*/
 
 /*
 #pragma mark - Navigation

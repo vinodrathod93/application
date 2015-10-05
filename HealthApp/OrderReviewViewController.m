@@ -1,0 +1,195 @@
+//
+//  OrderReviewViewController.m
+//  Chemist Plus
+//
+//  Created by adverto on 05/10/15.
+//  Copyright © 2015 adverto. All rights reserved.
+//
+
+#import "OrderReviewViewController.h"
+#import "OrderReviewFooterView.h"
+#import "OrderCompleteViewController.h"
+#import "User.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <MBProgressHUD/MBProgressHUD.h>
+
+#define cellIdentifier @"reviewProductCell"
+#define kComplete_order_url @"http://www.elnuur.com/api/checkouts"
+
+@interface OrderReviewViewController ()
+
+@property (nonatomic, strong) MBProgressHUD *hud;
+
+@end
+
+typedef void (^completion)(BOOL finished);
+
+@implementation OrderReviewViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.title = @"Review Order";
+    
+    NSLog(@"%@",self.line_items);
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.line_items count];
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    OrderReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    
+    NSString *image = [self productImageForIndexPath:indexPath];
+    
+    // Configure the cell...
+    [cell.product_imageview sd_setImageWithURL:[NSURL URLWithString:image]];
+    cell.name.text              = [self productNameForIndexPath:indexPath];
+    cell.quantity.text          = [self productQtyForIndexPath:indexPath];
+    cell.variant.text           = [self productVariantForIndexPath:indexPath];
+    cell.total_price.text       = [self productAmountForIndexPath:indexPath];
+    
+    return cell;
+}
+
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 120.0f;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 165.0f;
+}
+
+
+#pragma mark - Table view delegate
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    OrderReviewFooterView *footerView = [[[NSBundle mainBundle] loadNibNamed:@"OrderReviewFooterView" owner:self options:nil] lastObject];
+    footerView.frame = CGRectMake(0, 0, self.view.frame.size.width, 165);
+    footerView.purchase_price_label.text = self.purchase_total;
+    footerView.shipping_price_label.text = self.shipping_total;
+    footerView.total_price_label.text    = self.complete_total;
+    
+    return footerView;
+}
+
+- (IBAction)proceedToCompletePressed:(id)sender {
+    
+    [self sendCompleteRequestWithCompletion:^(BOOL finished) {
+        if (finished) {
+            NSLog(@"finished");
+            OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+            orderCompleteVC.order_id = self.order_id;
+            
+            [self.navigationController pushViewController:orderCompleteVC animated:YES];
+            
+            
+        } else
+            NSLog(@"Could not send Complete Request");
+    }];
+    
+}
+
+
+
+
+#pragma mark - Helper Methods 
+
+
+-(void)sendCompleteRequestWithCompletion:(completion)isSend {
+    User *user = [User savedUser];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/%@.json?token=%@",kComplete_order_url, self.order_id, user.access_token];
+    NSLog(@"URL is --> %@", url);
+    
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    request.HTTPMethod = @"PUT";
+    [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"%@",response);
+            NSError *jsonError;
+            
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+            
+            
+            [self.hud hide:YES];
+            if (jsonError) {
+                isSend(NO);
+                NSLog(@"Error %@",[jsonError localizedDescription]);
+            } else {
+                
+                NSLog(@"JSON ==> %@",json);
+                isSend(YES);
+                
+            }
+            
+        });
+        
+    }];
+    
+    [task resume];
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = self.view.tintColor;
+}
+
+
+
+-(NSString *)productNameForIndexPath:(NSIndexPath *)indexPath {
+    
+    NSDictionary *variant   = [self.line_items[indexPath.row] valueForKey:@"variant"];
+    NSString *name          = [variant valueForKey:@"name"];
+    
+    return name;
+}
+
+-(NSString *)productVariantForIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *variant   = [self.line_items[indexPath.row] valueForKey:@"variant"];
+    NSString *option_value  = [variant valueForKey:@"options_text"];
+    
+    return option_value;
+}
+
+
+-(NSString *)productImageForIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *variant   = [self.line_items[indexPath.row] valueForKey:@"variant"];
+    
+    NSArray *images         = [variant valueForKey:@"images"];
+    NSString *small_image   = [images[0] valueForKey:@"small_url"];
+    
+    return small_image;
+}
+
+-(NSString *)productAmountForIndexPath:(NSIndexPath *)indexPath {
+    NSString *amount        = [self.line_items[indexPath.row] valueForKey:@"display_amount"];
+    
+    return amount;
+}
+
+
+-(NSString *)productQtyForIndexPath:(NSIndexPath *)indexPath {
+    NSString *quantity      = [self.line_items[indexPath.row] valueForKey:@"quantity"];
+    
+    return quantity;
+}
+
+@end

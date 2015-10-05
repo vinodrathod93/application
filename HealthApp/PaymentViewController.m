@@ -9,15 +9,17 @@
 #import "PaymentViewController.h"
 #import "PaymentViewCell.h"
 #import "CODInputViewCell.h"
-#import "ProductOrderConfirmationViewController.h"
 #import "User.h"
 #import "Address.h"
+#import "OrderReviewViewController.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 
 #define kOPTIONS_CELLIDENTIFIER @"paymentCell"
 #define kPAY_CELLIDENTIFIER @"customPayCell"
 #define kPHONE_CELLIDENTIFIER @"phonenoCell"
 #define kPLACE_ORDER_URL @"http://chemistplus.in/storePurchaseDetails.php"
+#define kPAYMENT_OPTIONS_URL @  "http://www.elnuur.com/api/checkouts"
 
 enum TABLEVIEWCELL {
     PAY_SECTION = 0,
@@ -27,28 +29,21 @@ enum TABLEVIEWCELL {
 
 @interface PaymentViewController ()
 
-@property (nonatomic, strong) NSArray *order_products;
-@property (nonatomic, strong) NSString *amount;
+@property (nonatomic, strong) NSString *payment_method_id;
 @property (nonatomic, assign) NSInteger section_count;
 @property (nonatomic, assign) BOOL isOptionSelected;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
+
+typedef void(^completion)(BOOL finished);
 
 @implementation PaymentViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.amount = [self.orderDetails valueForKey:@"total_amount"];
-    self.order_products = [self.orderDetails valueForKey:@"products"];
-    
-    User *user = [User savedUser];
-    Address *address = [Address savedAddress];
-    
     self.section_count = 2;
-    
-//    UITapGestureRecognizer *keyboardDismissTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissCellKeyboard)];
-//    [self.view addGestureRecognizer:keyboardDismissTapGesture];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -65,7 +60,7 @@ enum TABLEVIEWCELL {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return (section == 0)? 1:1;
+    return (section == 0)? 1: (section == 1)? [self.payment_methods count]: 1;
 }
 
 
@@ -89,11 +84,16 @@ enum TABLEVIEWCELL {
 
 -(void)configurePayCell:(PaymentViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     cell.payLabel.text = @"You Pay";
-    cell.amountLabel.text = [NSString stringWithFormat:@"Rs. %@",self.amount];
+    cell.amountLabel.text = self.display_total;
 }
 
 -(void)configurePaymentOptionsCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = @"Cash on Delivery";
+    if ([[self.payment_methods[indexPath.row] valueForKey:@"name"] isEqualToString:@"Check"]) {
+        cell.textLabel.text = @"Cash on Delivery";
+    }
+    else
+        cell.textLabel.text = [self.payment_methods[indexPath.row] valueForKey:@"name"];
+    
 }
 
 -(void)configurePhoneTextFieldCell:(CODInputViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
@@ -131,12 +131,11 @@ enum TABLEVIEWCELL {
     
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqualToString:@"placeOrderConfirmationVC"]) {
-//        ProductOrderConfirmationViewController *orderConfirmVC = segue.destinationViewController;
-        
-        
-    }
+
+
+-(void)createPayment {
+    
+    [self sendPaymentOptionToServer];
 }
 
 
@@ -144,64 +143,124 @@ enum TABLEVIEWCELL {
     if (indexPath.section == PAYMENT_OPTION_SECTION) {
 
         if (self.isOptionSelected) {
-            self.section_count -= 1;
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:PHONE_NUMBER_SECTION] withRowAnimation:UITableViewRowAnimationAutomatic];
-            
-            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-            self.isOptionSelected = NO;
-            
-            UITableViewCell *unSelectCell = [tableView cellForRowAtIndexPath:indexPath];
-            unSelectCell.accessoryType = UITableViewCellAccessoryNone;
+            [self deselectPaymentOptionForTableview:tableView forIndexPath:indexPath];
+            self.payment_method_id = nil;
         }
         else {
-            self.section_count += 1;
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:PHONE_NUMBER_SECTION] withRowAnimation:UITableViewRowAnimationAutomatic];
-            
-            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-            
-            UITableViewCell *paymentCell = [tableView cellForRowAtIndexPath:indexPath];
-            paymentCell.accessoryType = UITableViewCellAccessoryCheckmark;
-            
-            self.isOptionSelected = YES;
+            [self selectPaymentOptionForTableview:tableView forIndexPath:indexPath];
+            self.payment_method_id = [self.payment_methods[indexPath.row] valueForKey:@"id"];
         }
     }
 }
 
-/*
--(void)placeOrderAction {
-    NSDictionary *json = [NSDictionary dictionaryWithObjectsAndKeys:self.order_products, @"products",
-                          self.detailsDictionary, @"userInfo", self.amount, @"orderAmount", nil];
-    NSLog(@"%@",json);
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error];
+
+-(void)deselectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
+    self.section_count -= 1;
+    [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:PHONE_NUMBER_SECTION] withRowAnimation:UITableViewRowAnimationAutomatic];
     
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://chemistplus.in/storePurchaseDetails.php"]];
-    request.HTTPMethod = @"POST";
-    request.HTTPBody = jsonData;
-    [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.isOptionSelected = NO;
     
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSLog(@"%@",response);
-        
-        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"%@",string);
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-#warning push data to confirmation page
-        });
-        
-        
-    }];
-    [task resume];
+    UITableViewCell *unSelectCell = [tableView cellForRowAtIndexPath:indexPath];
+    unSelectCell.accessoryType = UITableViewCellAccessoryNone;
 }
-*/
+
+-(void)selectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
+    self.section_count += 1;
+    [self.tableView insertSections:[NSIndexSet indexSetWithIndex:PHONE_NUMBER_SECTION] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UITableViewCell *paymentCell = [tableView cellForRowAtIndexPath:indexPath];
+    paymentCell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
+    self.isOptionSelected = YES;
+}
+
+
 
 -(void)dismissCellKeyboard {
     UITextField *textField = (UITextField *)[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:PHONE_NUMBER_SECTION]] viewWithTag:100];
     
     [textField resignFirstResponder];
+}
+
+
+
+
+-(void)sendPaymentOptionToServer {
+    User *user = [User savedUser];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/%@/payments?token=%@",kPAYMENT_OPTIONS_URL, self.order_id, user.access_token];
+    NSLog(@"URL is --> %@", url);
+    
+    NSDictionary *payment_dictionary = [self createPaymentDictionary];
+    
+    NSLog(@"%@",payment_dictionary);
+    
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:payment_dictionary options:NSJSONWritingPrettyPrinted error:&error];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:url]];
+    request.HTTPMethod = @"PUT";
+    
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
+    
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"%@",response);
+            NSError *jsonError;
+            
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+            
+            NSLog(@"Payment JSON ==> %@",json);
+            
+            [self.hud hide:YES];
+            if (jsonError) {
+                NSLog(@"Error %@",[jsonError localizedDescription]);
+                
+            } else {
+                
+                NSLog(@"Payment Done");
+                OrderReviewViewController *orderReviewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderConfirmVC"];
+                orderReviewVC.line_items     = [json valueForKey:@"line_items"];
+                orderReviewVC.purchase_total = [json valueForKey:@"display_item_total"];
+                orderReviewVC.shipping_total = [json valueForKey:@"display_ship_total"];
+                orderReviewVC.complete_total = [json valueForKey:@"display_total"];
+                orderReviewVC.order_id       = self.order_id;
+                
+                [self.navigationController pushViewController:orderReviewVC animated:YES];
+                
+            }
+            
+        });
+        
+    }];
+    
+    [task resume];
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = self.view.tintColor;
+}
+
+
+-(NSDictionary *)createPaymentDictionary {
+    NSDictionary *payment = @{
+                              @"order" : @{
+                                            @"payments_attributes": @[
+                                                                        @{
+                                                                            @"payment_method_id": self.payment_method_id,
+                                                                            @"amount": self.total
+                                                                            }
+                                                                     ]
+                                            }
+                              };
+    
+    return payment;
 }
 
 @end

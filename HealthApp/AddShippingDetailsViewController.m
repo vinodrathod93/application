@@ -506,8 +506,8 @@ NSString *cellIdentifier;
     if (self.detailsDictionary.count == self.formFields.count) {
         
         PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
-        paymentVC.addressDetails = self.detailsDictionary;
-        paymentVC.orderDetails = self.cartDetails;
+//        paymentVC.addressDetails = self.detailsDictionary;
+//        paymentVC.orderDetails = self.cartDetails;
         [self.navigationController pushViewController:paymentVC animated:YES];
         
         

@@ -11,7 +11,9 @@
 @interface PaymentViewController : UITableViewController
 
 
-@property (nonatomic, strong) NSDictionary *orderDetails;
-@property (nonatomic, strong) NSDictionary *addressDetails;
+@property (nonatomic, strong) NSString *display_total;
+@property (nonatomic, strong) NSString *total;
+@property (nonatomic, strong) NSString *order_id;
+@property (nonatomic, strong) NSArray *payment_methods;
 
 @end
