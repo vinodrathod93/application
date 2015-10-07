@@ -191,7 +191,7 @@ typedef void(^completion)(BOOL finished);
 -(void)sendPaymentOptionToServer {
     User *user = [User savedUser];
     
-    NSString *url = [NSString stringWithFormat:@"%@/%@/payments?token=%@",kPAYMENT_OPTIONS_URL, self.order_id, user.access_token];
+    NSString *url = [NSString stringWithFormat:@"%@/%@?token=%@",kPAYMENT_OPTIONS_URL, self.order_id, user.access_token];
     NSLog(@"URL is --> %@", url);
     
     NSDictionary *payment_dictionary = [self createPaymentDictionary];
@@ -253,8 +253,7 @@ typedef void(^completion)(BOOL finished);
                               @"order" : @{
                                             @"payments_attributes": @[
                                                                         @{
-                                                                            @"payment_method_id": self.payment_method_id,
-                                                                            @"amount": self.total
+                                                                            @"payment_method_id": self.payment_method_id
                                                                             }
                                                                      ]
                                             }

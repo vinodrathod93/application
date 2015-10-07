@@ -12,7 +12,9 @@
 #import <CoreData/CoreData.h>
 #import "LogSignViewController.h"
 
+
 @interface AppDelegate ()
+
 
 @end
 
@@ -21,6 +23,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    // Initialize Reachability
+    self.googleReach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    // Start Monitoring
+    [self.googleReach startNotifier];
+    
+    
     [FBSDKLoginButton class];
     
     NSLog(@"%@",[self applicationDocumentsDirectory]);

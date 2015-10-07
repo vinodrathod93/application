@@ -13,6 +13,8 @@
 #import "DetailsProductViewController.h"
 #import "DetailViewModel.h"
 #import "UIScrollView+InfiniteScroll.h"
+#import "Reachability.h"
+#import "AppDelegate.h"
 
 //static NSString * const PRODUCTS_DATA_URL = @"https://itunes.apple.com/us/rss/toppaidebooks/limit=100/explicit=true/json";
 //static NSString *name = @"im:name";
@@ -49,6 +51,8 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     NSLog(@"%@",self.subCategoryID);
     NSLog(@"%@",self.categoryID);
+    
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
@@ -63,15 +67,28 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     [self.collectionView addInfiniteScrollWithHandler:^(UICollectionView *collectionView) {
         
-        [weakSelf loadProductsPage:weakSelf.nextPage.intValue completion:^{
-            [collectionView finishInfiniteScroll];
-        }];
+        if ([appDelegate.googleReach isReachable]) {
+            [weakSelf loadProductsPage:weakSelf.nextPage.intValue completion:^{
+                [collectionView finishInfiniteScroll];
+            }];
+        }
+        else
+            [weakSelf displayNoConnection];
+        
         
     }];
     
-    [self loadProductsPage:kFIRST_PAGE completion:nil];
     
     
+    
+    if ([appDelegate.googleReach isReachable]) {
+        [self loadProductsPage:kFIRST_PAGE completion:nil];
+    }
+    else
+        [self displayNoConnection];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     // Do any additional setup after loading the view.
 }
 
@@ -173,55 +190,64 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     NSURLRequest *spree_request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:kSPREE_PRODUCTS_URL]];
     
     self.task = [session dataTaskWithRequest:spree_request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            
-            NSError *jsonError;
-            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            
-            if (jsonError != nil) {
-                NSLog(@"Error %@",[jsonError localizedDescription]);
+        
+        if (data != nil) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 
-                finish();
-            }
-            else if(![dictionary isEqual:nil])
-            {
-                NSArray *array = [DetailViewModel infiniteProductsFromJSON:dictionary];
-                if (page == 1) {
+                NSError *jsonError;
+                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+                
+                if (jsonError != nil) {
+                    NSLog(@"Error %@",[jsonError localizedDescription]);
                     
-                    self.viewModel = [[DetailViewModel alloc]initWithArray:array];
+                    finish();
+                }
+                else if(![dictionary isEqual:nil])
+                {
+                    NSArray *array = [DetailViewModel infiniteProductsFromJSON:dictionary];
+                    if (page == 1) {
+                        
+                        self.viewModel = [[DetailViewModel alloc]initWithArray:array];
+                        
+                        self.pages = [self.viewModel getPagesCount:dictionary];
+                        self.itemsCount = [self.viewModel getItemsCount:dictionary];
+                        [self.navigationItem setTitleView:[self titleViewWithCount:self.itemsCount]];
+                        
+                        [self.hud hide:YES];
+                        [self.collectionView reloadData];
+                        
+                    } else {
+                        [self.collectionView performBatchUpdates:^{
+                            int resultSize = @([self.viewModel numberOfProducts]).intValue;
+                            [self.viewModel addProducts:array];
+                            
+                            NSMutableArray *arrayWithIndexPath = [NSMutableArray array];
+                            
+                            for (int i=resultSize; i < resultSize + array.count; i++) {
+                                [arrayWithIndexPath addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+                            }
+                            
+                            [self.collectionView insertItemsAtIndexPaths:arrayWithIndexPath];
+                            
+                        } completion:^(BOOL finished) {
+                            finish();
+                        }];
+                        
+                    }
                     
-                    self.pages = [self.viewModel getPagesCount:dictionary];
-                    self.itemsCount = [self.viewModel getItemsCount:dictionary];
-                    [self.navigationItem setTitleView:[self titleViewWithCount:self.itemsCount]];
-                    
-                    [self.hud hide:YES];
-                    [self.collectionView reloadData];
-                    
-                } else {
-                    [self.collectionView performBatchUpdates:^{
-                        int resultSize = @([self.viewModel numberOfProducts]).intValue;
-                        [self.viewModel addProducts:array];
-                        
-                        NSMutableArray *arrayWithIndexPath = [NSMutableArray array];
-                        
-                        for (int i=resultSize; i < resultSize + array.count; i++) {
-                            [arrayWithIndexPath addObject:[NSIndexPath indexPathForItem:i inSection:0]];
-                        }
-                        
-                        [self.collectionView insertItemsAtIndexPaths:arrayWithIndexPath];
-                        
-                    } completion:^(BOOL finished) {
-                        finish();
-                    }];
+                    self.currentPage = [self.viewModel currentPage:dictionary];
+                    self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
                     
                 }
                 
-                self.currentPage = [self.viewModel currentPage:dictionary];
-                self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
-                
-            }
-            
-        }];
+            }];
+        }
+        else {
+            [self.hud hide:YES];
+            NSLog(@"No connection");
+        }
+        
+        
     }];
     
     if (self.currentPage != nil && (self.currentPage.intValue == self.pages.intValue)) {
@@ -324,5 +350,21 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 */
 
+-(void)reachabilityChanged:(NSNotification*)note
+{
+    Reachability * reach = [note object];
+    
+    if([reach isReachable]) {
+        NSLog(@"Reachable");
+    } else {
+        [self displayNoConnection];
+    }
+}
+
+-(void)displayNoConnection {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"No Connection" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [alert show];
+}
 
 @end

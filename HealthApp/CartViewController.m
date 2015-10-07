@@ -31,6 +31,7 @@ static NSString *cellIdentifier = @"cartCell";
 @property (nonatomic, strong) CartViewModel *viewModel;
 @property (nonatomic, assign) BOOL isAlreadyLoggedIn;
 @property (nonatomic, strong) MBProgressHUD *hud;
+@property (strong) AppDelegate *appDelegate;
 
 @end
 
@@ -39,8 +40,8 @@ static NSString *cellIdentifier = @"cartCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContext = appDelegate.managedObjectContext;
+    self.appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContext = self.appDelegate.managedObjectContext;
     
     [self.cartFetchedResultsController performFetch:nil];
     
@@ -133,7 +134,7 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIButton *placeOrderbutton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
-    [placeOrderbutton setTitle:@"Proceed to Submit Order" forState:UIControlStateNormal];
+    [placeOrderbutton setTitle:@"Create Order" forState:UIControlStateNormal];
     [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:16.0f]];
     [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
     
@@ -370,7 +371,12 @@ static NSString *cellIdentifier = @"cartCell";
         
     } else {
         
-        [self sendOrderToServer];
+        if ([self.appDelegate.googleReach isReachable]) {
+            [self sendOrderToServer];
+        }
+        else {
+            [self displayNoConnection];
+        }
     }
 }
 
@@ -435,6 +441,8 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 -(void)showAddressWithOrderID:(NSString *)order_id {
+    NSLog(@"order_id %@",order_id);
+    
     User *user = [User savedUser];
     AddressesViewController *addressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
     addressVC.addresses = user.ship_address;
@@ -482,25 +490,34 @@ static NSString *cellIdentifier = @"cartCell";
         
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"%@",response);
-                NSError *jsonError;
-                
-                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-                
-                NSString *order_id = [json valueForKey:@"number"];
-                
-                [self.hud hide:YES];
-                if (jsonError) {
-                    NSLog(@"Error %@",[jsonError localizedDescription]);
-                } else {
+            if (data != nil) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"%@",response);
+                    NSError *jsonError;
                     
-                    NSLog(@"Order initiated");
-                    [self showAddressWithOrderID:order_id];
+                    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                     
-                }
-                
-            });
+                    
+                    [self.hud hide:YES];
+                    if (jsonError) {
+                        NSLog(@"Error %@",[jsonError localizedDescription]);
+                    } else {
+                        
+                        NSLog(@"Json Cart ===> %@",json);
+                        
+                        NSLog(@"Order initiated");
+                        
+                        NSString *order_id = [json valueForKey:@"number"];
+                        [self showAddressWithOrderID:order_id];
+                        
+                    }
+                    
+                });
+            }
+            else {
+                [self displayNoConnection];
+            }
+            
             
         }];
         
@@ -512,5 +529,14 @@ static NSString *cellIdentifier = @"cartCell";
         NSLog(@"Cart is Empty");
     
 }
+
+
+-(void)displayNoConnection {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"No Connection" message:@"Their is no Internet Connection" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+    [alert show];
+}
+
+
+
 
 @end
