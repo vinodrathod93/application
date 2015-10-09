@@ -10,6 +10,7 @@
 #import "User.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "NSString+SignupValidation.h"
+#import "AppDelegate.h"
 
 
 //#define kSIGN_IN_URL @"http://chemistplus.in/sign_in_test.php"
@@ -29,7 +30,7 @@ typedef void(^completion)(BOOL finished);
     [super viewDidLoad];
     
     self.title = @"Sign In";
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
     // Do any additional setup after loading the view.
 }
@@ -47,23 +48,32 @@ typedef void(^completion)(BOOL finished);
 
 - (IBAction)loginButtonPressed:(id)sender {
     
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
+    
     NSString *errorMessage = [self validateForm];
     if (errorMessage) {
         [self alertWithTitle:@"Error" message:errorMessage];
     } else {
-        [self submitSigninDataWithCompletion:^(BOOL finished) {
-            if (finished) {
-                [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                    NSLog(@"Placing Order");
-                    
-                    if (self.isPlacingOrder) {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
-                    }
-                    
-                }];
-            } else
-                NSLog(@"Could not login");
-        }];
+        if (netStatus != NotReachable) {
+            [self submitSigninDataWithCompletion:^(BOOL finished) {
+                if (finished) {
+                    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                        NSLog(@"Placing Order");
+                        
+                        if (self.isPlacingOrder) {
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
+                        }
+                        
+                    }];
+                } else
+                    NSLog(@"Could not login");
+            }];
+
+        } else {
+            [self displayNoConnection];
+        }
+        
     }
     
 }
@@ -84,46 +94,51 @@ typedef void(^completion)(BOOL finished);
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSError *jsonError;
-            
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            [self.hud hide:YES];
-            
-            if (jsonError) {
-                NSLog(@"Error %@",[jsonError localizedDescription]);
-            } else {
+        if (data != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSError *jsonError;
                 
-                NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
-                NSLog(@"Response %ld", (long)[url_response statusCode]);
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+                [self.hud hide:YES];
                 
-                if (url_response.statusCode == 401) {
-                    NSString *error = [json valueForKey:@"errors"];
+                if (jsonError) {
+                    NSLog(@"Error %@",[jsonError localizedDescription]);
+                } else {
                     
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self alertWithTitle:@"Error" message:error];
-                    });
+                    NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
+                    NSLog(@"Response %ld", (long)[url_response statusCode]);
                     
-                    isLoggedIn(NO);
-                    
-                } else if (url_response.statusCode == 200) {
-                    
-                    User *user              = [[User alloc]init];
-                    user.userID             = [json valueForKey:@"id"];
-                    user.access_token       = [json valueForKey:@"access_token"];
-                    user.email              = [json valueForKey:@"email"];
-                    user.default_country_id = [json valueForKey:@"default_country_id"];
-                    user.bill_address       = [json valueForKey:@"bill_address"];
-                    user.ship_address       = [json valueForKey:@"ship_address"];
-                    
-                    [user save];
-                    
-                    isLoggedIn(YES);
+                    if (url_response.statusCode == 401) {
+                        NSString *error = [json valueForKey:@"errors"];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self alertWithTitle:@"Error" message:error];
+                        });
+                        
+                        isLoggedIn(NO);
+                        
+                    } else if (url_response.statusCode == 200) {
+                        
+                        User *user              = [[User alloc]init];
+                        user.userID             = [json valueForKey:@"id"];
+                        user.access_token       = [json valueForKey:@"access_token"];
+                        user.email              = [json valueForKey:@"email"];
+                        user.default_country_id = [json valueForKey:@"default_country_id"];
+                        user.bill_address       = [json valueForKey:@"bill_address"];
+                        user.ship_address       = [json valueForKey:@"ship_address"];
+                        
+                        [user save];
+                        
+                        isLoggedIn(YES);
+                    }
                 }
-            }
-            
-            
-        });
+                
+                
+            });
+        } else {
+            [self displayConnectionFailed];
+        }
+        
         
     }];
     
@@ -152,5 +167,32 @@ typedef void(^completion)(BOOL finished);
     
     return errorMessage;
 }
+
+-(void)displayConnectionFailed {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [failed_alert show];
+    });
+}
+
+-(void)displayNoConnection {
+    UIAlertView *connection_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [connection_alert show];
+}
+
+-(void)reachabilityChanged:(NSNotification*)note
+{
+    Reachability * reach = [note object];
+    NetworkStatus netStatus = [reach currentReachabilityStatus];
+    
+    if(netStatus != NotReachable) {
+        NSLog(@"Reachable");
+    } else {
+        [self displayNoConnection];
+    }
+}
+
 
 @end

@@ -8,6 +8,7 @@
 
 #import "SignUpViewController.h"
 #import "User.h"
+#import "AppDelegate.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "NSString+SignupValidation.h"
 
@@ -94,24 +95,35 @@ typedef void(^completion)(BOOL finished);
 
 - (IBAction)signUpPressed:(id)sender {
     
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
+    
     NSString *errorMessage = [self validateForm];
     if (errorMessage) {
         [self alertWithTitle:@"Error" message:errorMessage];
     }
     else if (![self.userName.text isEqualToString:@""] || ![self.emailField.text isEqualToString:@""]) {
-        [self submitSignupDataWithCompletion:^(BOOL finished) {
-            if (finished) {
-                [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                    NSLog(@"Placing Order");
-                    
-                    if (self.isPlacingOrder) {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
-                    }
-                    
-                }];
-            } else
-                NSLog(@"Could not login");
-        }];
+        if (netStatus != NotReachable) {
+            [self submitSignupDataWithCompletion:^(BOOL finished) {
+                if (finished) {
+                    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                        NSLog(@"Placing Order");
+                        
+                        if (self.isPlacingOrder) {
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
+                        }
+                        
+                    }];
+                } else
+                    NSLog(@"Could not login");
+                [self displayConnectionFailed];
+            }];
+        }
+        else {
+            [self displayNoConnection];
+        }
+        
+        
     }
 }
 
@@ -130,47 +142,52 @@ typedef void(^completion)(BOOL finished);
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSError *jsonError;
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            
-            // Hide the HUD
-            [self.hud hide:YES];
-            
-            if (jsonError) {
-                NSLog(@"Error %@",[jsonError localizedDescription]);
-            } else {
-                NSLog(@"JSON is =====> %@",json);
+        if (data != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSError *jsonError;
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                 
-                NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
-                NSLog(@"Response %ld", (long)[url_response statusCode]);
+                // Hide the HUD
+                [self.hud hide:YES];
                 
-                if (url_response.statusCode == 401) {
-                    NSString *error = [json valueForKey:@"error"];
+                if (jsonError) {
+                    NSLog(@"Error %@",[jsonError localizedDescription]);
+                } else {
+                    NSLog(@"JSON is =====> %@",json);
                     
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self alertWithTitle:@"Error" message:error];
-                    });
+                    NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
+                    NSLog(@"Response %ld", (long)[url_response statusCode]);
                     
-                    isLoggedIn(NO);
-                    
-                } else if (url_response.statusCode == 200) {
-                    
-                    User *user              = [[User alloc]init];
-                    user.userID             = [json valueForKey:@"id"];
-                    user.access_token       = [json valueForKey:@"access_token"];
-                    user.email              = [json valueForKey:@"email"];
-                    user.default_country_id = [json valueForKey:@"default_country_id"];
-                    user.bill_address       = [json valueForKey:@"bill_address"];
-                    user.ship_address       = [json valueForKey:@"ship_address"];
-                    
-                    [user save];
-                    
-                    isLoggedIn(YES);
+                    if (url_response.statusCode == 401) {
+                        NSString *error = [json valueForKey:@"error"];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self alertWithTitle:@"Error" message:error];
+                        });
+                        
+                        isLoggedIn(NO);
+                        
+                    } else if (url_response.statusCode == 200) {
+                        
+                        User *user              = [[User alloc]init];
+                        user.userID             = [json valueForKey:@"id"];
+                        user.access_token       = [json valueForKey:@"access_token"];
+                        user.email              = [json valueForKey:@"email"];
+                        user.default_country_id = [json valueForKey:@"default_country_id"];
+                        user.bill_address       = [json valueForKey:@"bill_address"];
+                        user.ship_address       = [json valueForKey:@"ship_address"];
+                        
+                        [user save];
+                        
+                        isLoggedIn(YES);
+                    }
                 }
-            }
-            
-        });
+                
+            });
+        }
+        else {
+            isLoggedIn(NO);
+        }
         
     }];
     
@@ -206,5 +223,18 @@ typedef void(^completion)(BOOL finished);
     return errorMessage;
     
 }
+
+-(void)displayConnectionFailed {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [alert show];
+}
+
+-(void)displayNoConnection {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [alert show];
+}
+
 
 @end

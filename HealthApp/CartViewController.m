@@ -20,6 +20,7 @@
 #import "User.h"
 #import "LogSignViewController.h"
 #import "AddressesViewController.h"
+#import "OrderReviewViewController.h"
 
 #define kcreateOrderURL @"http://www.elnuur.com/api/orders"
 static NSString *cellIdentifier = @"cartCell";
@@ -357,7 +358,7 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 -(void)placeOrderButtonPressed {
-    
+    NetworkStatus netStatus = [self.appDelegate.googleReach currentReachabilityStatus];
     User *user = [User savedUser];
     
     if (user.access_token == nil) {
@@ -371,7 +372,7 @@ static NSString *cellIdentifier = @"cartCell";
         
     } else {
         
-        if ([self.appDelegate.googleReach isReachable]) {
+        if (netStatus != NotReachable) {
             [self sendOrderToServer];
         }
         else {
@@ -472,6 +473,8 @@ static NSString *cellIdentifier = @"cartCell";
         
         NSDictionary *order = [self createOrdersDictionary:lineItems];
         
+        
+        
         NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:order options:NSJSONWritingPrettyPrinted error:&error];
         
@@ -506,16 +509,14 @@ static NSString *cellIdentifier = @"cartCell";
                         NSLog(@"Json Cart ===> %@",json);
                         
                         NSLog(@"Order initiated");
-                        
-                        NSString *order_id = [json valueForKey:@"number"];
-                        [self showAddressWithOrderID:order_id];
+                        [self showOrderReviewPage:json];
                         
                     }
                     
                 });
             }
             else {
-                [self displayNoConnection];
+                [self displayConnectionFailed];
             }
             
             
@@ -536,6 +537,32 @@ static NSString *cellIdentifier = @"cartCell";
     [alert show];
 }
 
+-(void)displayConnectionFailed {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    });
+    
+    
+}
+
+
+-(void)showOrderReviewPage:(NSDictionary *)json {
+    OrderReviewViewController *orderReviewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderReviewVC"];
+    orderReviewVC.line_items     = [json objectForKey:@"line_items"];
+    orderReviewVC.purchase_total = [json valueForKey:@"display_item_total"];
+    
+    
+    orderReviewVC.tax_total = [json valueForKey:@"display_tax_total"];
+    
+    
+    
+    orderReviewVC.complete_total = [json valueForKey:@"display_total"];
+    orderReviewVC.order_id       = [json valueForKey:@"number"];
+    
+    [self.navigationController pushViewController:orderReviewVC animated:YES];
+}
 
 
 

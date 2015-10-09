@@ -10,6 +10,7 @@
 #import "User.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "PaymentViewController.h"
+#import "AppDelegate.h"
 
 
 #define kCheckout_delivery_url @"http://www.elnuur.com/api/checkouts"
@@ -78,7 +79,7 @@
 }
 
 
--(void)proceedToPayment {
+-(void)showPaymentPage {
     User *user = [User savedUser];
     
     NSString *url = [NSString stringWithFormat:@"%@/%@/next.json?token=%@",kCheckout_delivery_url, self.order_id, user.access_token];
@@ -92,30 +93,43 @@
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"%@",response);
-            NSError *jsonError;
-            
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            
-            
-            [self.hud hide:YES];
-            if (jsonError) {
-                NSLog(@"Error %@",[jsonError localizedDescription]);
-            } else {
+        if (data != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"%@",response);
+                NSError *jsonError;
                 
-                NSLog(@"JSON ==> %@",json);
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                 
-                PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
-                paymentVC.order_id               = [json valueForKey:@"number"];
-                paymentVC.display_total          = [json valueForKey:@"display_total"];
-                paymentVC.total                  = [json valueForKey:@"total"];
-                paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
-                [self.navigationController pushViewController:paymentVC animated:YES];
                 
-            }
+                [self.hud hide:YES];
+                if (jsonError) {
+                    NSLog(@"Error %@",[jsonError localizedDescription]);
+                } else {
+                    
+                    NSLog(@"JSON ==> %@",json);
+                    
+                    PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
+                    paymentVC.order_id               = [json valueForKey:@"number"];
+                    paymentVC.display_total          = [json valueForKey:@"display_total"];
+                    paymentVC.total                  = [json valueForKey:@"total"];
+                    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
+                    [self.navigationController pushViewController:paymentVC animated:YES];
+                    
+                }
+                
+            });
             
-        });
+        } else {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.hud hide:YES];
+                [self displayConnectionFailed];
+            });
+            
+        }
+            
+        
+        
         
     }];
     
@@ -124,6 +138,35 @@
     self.hud.color = self.view.tintColor;
 }
 
+
+-(void)proceedToPayment {
+    
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
+    
+    if (netStatus != NotReachable) {
+        [self showPaymentPage];
+    } else
+        [self displayNoConnection];
+    
+}
+
+
+
+
+-(void)displayNoConnection {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [alert show];
+}
+
+-(void)displayConnectionFailed {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [alert show];
+    
+    
+}
 
 
 /*

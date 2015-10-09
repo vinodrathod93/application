@@ -12,6 +12,8 @@
 #import "User.h"
 #import "Address.h"
 #import "OrderReviewViewController.h"
+#import "AppDelegate.h"
+#import "OrderCompleteViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
 
@@ -29,7 +31,7 @@ enum TABLEVIEWCELL {
 
 @interface PaymentViewController ()
 
-@property (nonatomic, strong) NSString *payment_method_id;
+@property (nonatomic, strong) NSNumber *payment_method_id;
 @property (nonatomic, assign) NSInteger section_count;
 @property (nonatomic, assign) BOOL isOptionSelected;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -134,8 +136,14 @@ typedef void(^completion)(BOOL finished);
 
 
 -(void)createPayment {
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
     
-    [self sendPaymentOptionToServer];
+    if (netStatus != NotReachable) {
+        [self sendPaymentOptionToServer];
+    } else
+        [self displayNoConnection];
+    
 }
 
 
@@ -195,50 +203,75 @@ typedef void(^completion)(BOOL finished);
     NSLog(@"URL is --> %@", url);
     
     NSDictionary *payment_dictionary = [self createPaymentDictionary];
-    
-    NSLog(@"%@",payment_dictionary);
-    
+    NSLog(@"Payment Dictionary ==> %@",payment_dictionary);
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:payment_dictionary options:NSJSONWritingPrettyPrinted error:&error];
     
+    NSLog(@"%@",[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding]);
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:url]];
     request.HTTPMethod = @"PUT";
-    
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
+    [request setHTTPBody:jsonData];
     
+//    [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"%@",response);
-            NSError *jsonError;
-            
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            
-            NSLog(@"Payment JSON ==> %@",json);
-            
-            [self.hud hide:YES];
-            if (jsonError) {
-                NSLog(@"Error %@",[jsonError localizedDescription]);
+        if (data != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"%@",response);
+                NSError *jsonError;
                 
-            } else {
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                 
-                NSLog(@"Payment Done");
-                OrderReviewViewController *orderReviewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderConfirmVC"];
-                orderReviewVC.line_items     = [json valueForKey:@"line_items"];
-                orderReviewVC.purchase_total = [json valueForKey:@"display_item_total"];
-                orderReviewVC.shipping_total = [json valueForKey:@"display_ship_total"];
-                orderReviewVC.complete_total = [json valueForKey:@"display_total"];
-                orderReviewVC.order_id       = self.order_id;
+                NSLog(@"Payment JSON ==> %@",json);
                 
-                [self.navigationController pushViewController:orderReviewVC animated:YES];
+                [self.hud hide:YES];
+                if (jsonError) {
+                    NSLog(@"Error %@",[jsonError localizedDescription]);
+                    
+                } else {
+                    
+                    
+                    NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
+                    NSLog(@"Response %ld", (long)[url_response statusCode]);
+                    
+                    if (url_response.statusCode == 422) {
+                        NSString *error = [json valueForKey:@"error"];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self alertWithTitle:@"Error" message:error];
+                        });
+                        
+                    } else if (url_response.statusCode == 200) {
+                        NSLog(@"Payment Done");
+                        
+                        if ([[json valueForKey:@"state"] isEqualToString:@"complete"]) {
+                            OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+                            orderCompleteVC.order_id = self.order_id;
+                            
+                            [self.navigationController pushViewController:orderCompleteVC animated:YES];
+                        } else {
+                            [self alertWithTitle:@"Oops" message:@"We currently don't accept Credit Card & Paypal Payments"];
+                        }
+                        
+                        
+                    }
+
+                    
+                }
                 
-            }
-            
-        });
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.hud hide:YES];
+                [self displayConnectionFailed];
+            });
+        }
+        
         
     }];
     
@@ -248,18 +281,69 @@ typedef void(^completion)(BOOL finished);
 }
 
 
+
+
 -(NSDictionary *)createPaymentDictionary {
+    
+    
     NSDictionary *payment = @{
                               @"order" : @{
                                             @"payments_attributes": @[
                                                                         @{
-                                                                            @"payment_method_id": self.payment_method_id
+                                                                            @"payment_method_id": self.payment_method_id.stringValue
                                                                             }
-                                                                     ]
+                                                                     ],
+                                            @"payment_source": @{
+                                                    self.payment_method_id.stringValue : @{
+                                                            
+                                                            }
+                                                    },
+                                            @"use_existing_card": @NO,
+                                            @"state": @"payment"
                                             }
                               };
     
+    
+//    NSArray *payment_attributes = @[ @{
+//                                         @"payment_method_id": @"2"
+//                                         }
+//                                         
+//                                         ];
+//    
+//    NSDictionary *payment_source = @{
+//                                         @"2": @{
+//                                             
+//                                         }
+//                                 
+//                                     };
+//    
+//    NSDictionary *payment = [NSDictionary dictionaryWithObjects:@[payment_attributes, payment_source] forKeys:@[@"payment_attributes", @"payment_source"]];
+//    
+//    NSDictionary *payment_dictionary = [NSDictionary dictionaryWithObject:payment forKey:@"order"];
+    
+    
+    
     return payment;
+}
+
+
+-(void)displayNoConnection {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [alert show];
+}
+
+-(void)displayConnectionFailed {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [alert show];
+    
+    
+}
+
+-(void)alertWithTitle:(NSString *)status message:(NSString *)message {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:status message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alert show];
 }
 
 @end

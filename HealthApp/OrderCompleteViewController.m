@@ -16,6 +16,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    self.order_number.text = self.order_id;
     // Do any additional setup after loading the view.
 }
 

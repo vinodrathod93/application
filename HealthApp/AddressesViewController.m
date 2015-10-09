@@ -11,6 +11,7 @@
 #import "DeliveryViewController.h"
 #import "PaymentViewController.h"
 #import "AddressCell.h"
+#import "AppDelegate.h"
 #import "User.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
@@ -106,19 +107,26 @@ typedef void(^completion)(BOOL finished);
         [self.navigationController pushViewController:addShippingVC animated:YES];
     }
     else if (indexPath.section == 1) {
+        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
         DeliveryViewController *deliveryVC = [self.storyboard instantiateViewControllerWithIdentifier:@"deliveryVC"];
         
-        [self sendAddressToServerWithCompletion:^(BOOL finished) {
-            if (finished) {
-                deliveryVC.shipping_data = self.shipping_data;
-                deliveryVC.order_id      = self.order_id;
-                
-                [self.navigationController pushViewController:deliveryVC animated:YES];
-            }
-            else
-                NSLog(@"Could not send address");
-            
-        }];
+        if (netStatus != NotReachable) {
+            [self sendAddressToServerWithCompletion:^(BOOL finished) {
+                if (finished) {
+                    deliveryVC.shipping_data = self.shipping_data;
+                    deliveryVC.order_id      = self.order_id;
+                    
+                    [self.navigationController pushViewController:deliveryVC animated:YES];
+                }
+                else
+                    NSLog(@"Could not send address");
+                [self displayConnectionFailed];
+            }];
+        }
+        else {
+            [self displayNoConnection];
+        }
         
         
     }
@@ -208,26 +216,30 @@ typedef void(^completion)(BOOL finished);
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"%@",response);
-            NSError *jsonError;
-            
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            
-            NSLog(@"JSON ==> %@",json);
-            
-            [self.hud hide:YES];
-            if (jsonError) {
-                NSLog(@"Error %@",[jsonError localizedDescription]);
-            } else {
+        if (data != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"%@",response);
+                NSError *jsonError;
                 
-                NSDictionary *shippment = [json valueForKey:@"shipments"][0];
-                self.shipping_data = [shippment valueForKey:@"selected_shipping_rate"];
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                 
-                isComplete(YES);
-            }
-            
-        });
+                NSLog(@"JSON ==> %@",json);
+                
+                [self.hud hide:YES];
+                if (jsonError) {
+                    NSLog(@"Error %@",[jsonError localizedDescription]);
+                } else {
+                    
+                    NSDictionary *shippment = [json valueForKey:@"shipments"][0];
+                    self.shipping_data = [shippment valueForKey:@"selected_shipping_rate"];
+                    
+                    isComplete(YES);
+                }
+                
+            });
+        } else {
+            isComplete(NO);
+        }
         
     }];
     
@@ -265,6 +277,18 @@ typedef void(^completion)(BOOL finished);
                                    };
     
     return orderAddress;
+}
+
+-(void)displayConnectionFailed {
+    UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [failed_alert show];
+}
+
+-(void)displayNoConnection {
+    UIAlertView *connection_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [connection_alert show];
 }
 
 @end

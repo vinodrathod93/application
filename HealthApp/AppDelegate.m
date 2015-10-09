@@ -24,7 +24,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     // Initialize Reachability
-    self.googleReach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    self.googleReach = [Reachability reachabilityWithHostName:@"www.google.com"];
     
     // Start Monitoring
     [self.googleReach startNotifier];

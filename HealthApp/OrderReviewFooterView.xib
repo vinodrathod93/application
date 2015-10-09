@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -16,6 +16,7 @@
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Purchase" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EIA-0y-6CS">
                             <rect key="frame" x="8" y="14" width="72" height="21"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="72" id="QCi-vd-QCt"/>
                                 <constraint firstAttribute="height" constant="21" id="RR6-hM-lJN"/>
@@ -26,6 +27,7 @@
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Rs. 4,586" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRc-xo-jiv">
                             <rect key="frame" x="192" y="14" width="120" height="21"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="XQq-sR-FQy"/>
                             </constraints>
@@ -35,12 +37,14 @@
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rs. 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGO-iY-qa0">
                             <rect key="frame" x="192" y="43" width="120" height="21"/>
+                            <animations/>
                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Shipping" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NVG-Ls-x1F">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Tax" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NVG-Ls-x1F">
                             <rect key="frame" x="8" y="43" width="72" height="21"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="72" id="1VZ-ce-EC2"/>
                             </constraints>
@@ -49,6 +53,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="NVG-Ls-x1F" firstAttribute="leading" secondItem="0ku-sZ-UdM" secondAttribute="leading" constant="8" id="DWS-Ls-8Kd"/>
@@ -67,10 +72,11 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NW5-JY-PGA">
-                    <rect key="frame" x="1" y="76" width="318" height="40"/>
+                    <rect key="frame" x="0.0" y="76" width="320" height="41"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FgB-cx-kk8">
-                            <rect key="frame" x="8" y="8" width="72" height="21"/>
+                            <rect key="frame" x="8" y="10" width="72" height="21"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="OSY-ON-48I"/>
                                 <constraint firstAttribute="width" constant="72" id="ThN-Jf-tWD"/>
@@ -80,56 +86,60 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rs. 4,586" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fC-Jx-uae">
-                            <rect key="frame" x="192" y="8" width="120" height="21"/>
+                            <rect key="frame" x="192" y="10" width="120" height="21"/>
+                            <animations/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="FgB-cx-kk8" firstAttribute="leading" secondItem="NW5-JY-PGA" secondAttribute="leading" constant="8" id="3d6-0D-Rf1"/>
-                        <constraint firstAttribute="height" constant="40" id="9o0-N0-TIg"/>
-                        <constraint firstItem="FgB-cx-kk8" firstAttribute="top" secondItem="NW5-JY-PGA" secondAttribute="top" constant="8" id="QfF-nX-OYU"/>
-                        <constraint firstAttribute="trailing" secondItem="2fC-Jx-uae" secondAttribute="trailing" constant="6" id="Svx-WV-nrB"/>
-                        <constraint firstAttribute="bottom" secondItem="2fC-Jx-uae" secondAttribute="bottom" constant="11" id="Yqu-4F-DIF"/>
+                        <constraint firstAttribute="height" constant="41" id="9o0-N0-TIg"/>
+                        <constraint firstItem="FgB-cx-kk8" firstAttribute="top" secondItem="NW5-JY-PGA" secondAttribute="top" constant="10" id="QfF-nX-OYU"/>
+                        <constraint firstAttribute="trailing" secondItem="2fC-Jx-uae" secondAttribute="trailing" constant="8" id="Svx-WV-nrB"/>
+                        <constraint firstAttribute="bottom" secondItem="2fC-Jx-uae" secondAttribute="bottom" constant="10" id="Yqu-4F-DIF"/>
                         <constraint firstItem="2fC-Jx-uae" firstAttribute="leading" secondItem="FgB-cx-kk8" secondAttribute="trailing" constant="112" id="dpG-7y-nT0"/>
-                        <constraint firstItem="2fC-Jx-uae" firstAttribute="top" secondItem="NW5-JY-PGA" secondAttribute="top" constant="8" id="pTk-yW-c74"/>
+                        <constraint firstItem="2fC-Jx-uae" firstAttribute="top" secondItem="NW5-JY-PGA" secondAttribute="top" constant="10" id="pTk-yW-c74"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uhc-nk-M6h">
                     <rect key="frame" x="0.0" y="117" width="320" height="48"/>
+                    <animations/>
                     <color key="backgroundColor" red="0.086274509799999996" green="0.62745098040000002" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
-                    <state key="normal" title="Proceed To Complete">
+                    <state key="normal" title="Proceed To Checkout">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="proceedToCompletePressed:" destination="-1" eventType="touchUpInside" id="tON-Bd-Adx"/>
+                        <action selector="proceedToCheckoutPressed:" destination="-1" eventType="touchUpInside" id="zYR-fE-X3M"/>
                     </connections>
                 </button>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="0ku-sZ-UdM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6vg-dm-zNf"/>
                 <constraint firstItem="0ku-sZ-UdM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="GJd-GE-Sug"/>
                 <constraint firstAttribute="trailing" secondItem="Uhc-nk-M6h" secondAttribute="trailing" id="Jte-2Y-VM4"/>
-                <constraint firstItem="Uhc-nk-M6h" firstAttribute="top" secondItem="NW5-JY-PGA" secondAttribute="bottom" constant="1" id="cFT-DP-53N"/>
+                <constraint firstItem="Uhc-nk-M6h" firstAttribute="top" secondItem="NW5-JY-PGA" secondAttribute="bottom" id="cFT-DP-53N"/>
                 <constraint firstAttribute="bottom" secondItem="Uhc-nk-M6h" secondAttribute="bottom" id="dvD-rA-lQq"/>
                 <constraint firstItem="Uhc-nk-M6h" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kvQ-9o-kQB"/>
                 <constraint firstItem="NW5-JY-PGA" firstAttribute="top" secondItem="0ku-sZ-UdM" secondAttribute="bottom" constant="1" id="llt-yw-tjm"/>
                 <constraint firstAttribute="trailing" secondItem="0ku-sZ-UdM" secondAttribute="trailing" id="moH-5K-4MU"/>
-                <constraint firstItem="NW5-JY-PGA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="1" id="oLf-iu-Vqc"/>
-                <constraint firstAttribute="trailing" secondItem="NW5-JY-PGA" secondAttribute="trailing" constant="1" id="sx6-u6-uby"/>
+                <constraint firstItem="NW5-JY-PGA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="oLf-iu-Vqc"/>
+                <constraint firstAttribute="trailing" secondItem="NW5-JY-PGA" secondAttribute="trailing" id="sx6-u6-uby"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="purchase_price_label" destination="rRc-xo-jiv" id="QYP-mM-YX9"/>
-                <outlet property="shipping_price_label" destination="yGO-iY-qa0" id="vzf-K5-r6l"/>
+                <outlet property="tax_label" destination="yGO-iY-qa0" id="zCU-mm-Hzy"/>
                 <outlet property="total_price_label" destination="2fC-Jx-uae" id="lCg-Lk-r6k"/>
             </connections>
-            <point key="canvasLocation" x="516" y="396.5"/>
+            <point key="canvasLocation" x="99" y="372.5"/>
         </view>
     </objects>
 </document>

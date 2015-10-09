@@ -53,6 +53,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     NSLog(@"%@",self.categoryID);
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
@@ -67,22 +68,24 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     [self.collectionView addInfiniteScrollWithHandler:^(UICollectionView *collectionView) {
         
-        if ([appDelegate.googleReach isReachable]) {
+        if (netStatus != NotReachable) {
             [weakSelf loadProductsPage:weakSelf.nextPage.intValue completion:^{
                 [collectionView finishInfiniteScroll];
             }];
         }
-        else
+        else {
             [weakSelf displayNoConnection];
-        
+        }
         
     }];
     
     
     
     
-    if ([appDelegate.googleReach isReachable]) {
-        [self loadProductsPage:kFIRST_PAGE completion:nil];
+    if (netStatus != NotReachable) {
+        [self loadProductsPage:kFIRST_PAGE completion:^{
+            [self.hud hide:YES];
+        }];
     }
     else
         [self displayNoConnection];
@@ -243,8 +246,10 @@ static NSString * const productsReuseIdentifier = @"productsCell";
             }];
         }
         else {
-            [self.hud hide:YES];
-            NSLog(@"No connection");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.hud hide:YES];
+                [self displayConnectionFailed];
+            });
         }
         
         
@@ -353,8 +358,9 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 -(void)reachabilityChanged:(NSNotification*)note
 {
     Reachability * reach = [note object];
+    NetworkStatus netStatus = [reach currentReachabilityStatus];
     
-    if([reach isReachable]) {
+    if(netStatus != NotReachable) {
         NSLog(@"Reachable");
     } else {
         [self displayNoConnection];
@@ -362,9 +368,17 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 
 -(void)displayNoConnection {
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"No Connection" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     
     [alert show];
+}
+
+-(void)displayConnectionFailed {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [alert show];
+    
+    
 }
 
 @end

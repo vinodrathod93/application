@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8200C95B1BC5348100D8A32C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200C95A1BC5348100D8A32C /* Reachability.m */; settings = {ASSET_TAGS = (); }; };
-		8200C95F1BC538FE00D8A32C /* ReachabiltyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200C95E1BC538FE00D8A32C /* ReachabiltyManager.m */; settings = {ASSET_TAGS = (); }; };
 		820F0E1C1B5FD00800AE81F4 /* pharma.png in Resources */ = {isa = PBXBuildFile; fileRef = 820F0E1B1B5FD00800AE81F4 /* pharma.png */; };
 		82327F6E1B60B0EB00D92889 /* DetailProductViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F6D1B60B0EB00D92889 /* DetailProductViewModel.m */; };
 		82327F741B60C86B00D92889 /* CartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F731B60C86B00D92889 /* CartViewController.m */; };
@@ -52,6 +50,7 @@
 		826B14261BC2904700B6A1C3 /* OrderReviewFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B14251BC2904700B6A1C3 /* OrderReviewFooterView.m */; settings = {ASSET_TAGS = (); }; };
 		826B14281BC2906800B6A1C3 /* OrderReviewFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 826B14271BC2906800B6A1C3 /* OrderReviewFooterView.xib */; settings = {ASSET_TAGS = (); }; };
 		826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B142D1BC2A01E00B6A1C3 /* OrderCompleteViewController.m */; settings = {ASSET_TAGS = (); }; };
+		827026DE1BC650840054E16F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 827026DD1BC650840054E16F /* Reachability.m */; settings = {ASSET_TAGS = (); }; };
 		827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632821B4A3DB800230833 /* FBSDKCoreKit.framework */; };
 		827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632831B4A3DB800230833 /* FBSDKLoginKit.framework */; };
 		827632891B4A629600230833 /* UploadPrescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827632881B4A629600230833 /* UploadPrescriptionViewController.m */; };
@@ -97,10 +96,6 @@
 /* Begin PBXFileReference section */
 		26E4DE3B6A3BA531177D5ECA /* Pods-Chemist Plus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.debug.xcconfig"; sourceTree = "<group>"; };
 		34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8200C9591BC5348100D8A32C /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		8200C95A1BC5348100D8A32C /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		8200C95D1BC538FE00D8A32C /* ReachabiltyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReachabiltyManager.h; sourceTree = "<group>"; };
-		8200C95E1BC538FE00D8A32C /* ReachabiltyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReachabiltyManager.m; sourceTree = "<group>"; };
 		820F0E1B1B5FD00800AE81F4 /* pharma.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pharma.png; sourceTree = "<group>"; };
 		82327F6C1B60B0EB00D92889 /* DetailProductViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailProductViewModel.h; sourceTree = "<group>"; };
 		82327F6D1B60B0EB00D92889 /* DetailProductViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailProductViewModel.m; sourceTree = "<group>"; };
@@ -181,6 +176,8 @@
 		826B14271BC2906800B6A1C3 /* OrderReviewFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderReviewFooterView.xib; sourceTree = "<group>"; };
 		826B142C1BC2A01E00B6A1C3 /* OrderCompleteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderCompleteViewController.h; sourceTree = "<group>"; };
 		826B142D1BC2A01E00B6A1C3 /* OrderCompleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCompleteViewController.m; sourceTree = "<group>"; };
+		827026DC1BC650840054E16F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		827026DD1BC650840054E16F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		827632821B4A3DB800230833 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		827632831B4A3DB800230833 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		827632871B4A629600230833 /* UploadPrescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadPrescriptionViewController.h; sourceTree = "<group>"; };
@@ -274,10 +271,8 @@
 		8200C95C1BC5348600D8A32C /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
-				8200C9591BC5348100D8A32C /* Reachability.h */,
-				8200C95A1BC5348100D8A32C /* Reachability.m */,
-				8200C95D1BC538FE00D8A32C /* ReachabiltyManager.h */,
-				8200C95E1BC538FE00D8A32C /* ReachabiltyManager.m */,
+				827026DC1BC650840054E16F /* Reachability.h */,
+				827026DD1BC650840054E16F /* Reachability.m */,
 			);
 			name = Reachability;
 			sourceTree = "<group>";
@@ -892,7 +887,6 @@
 				825266D31B4F93C900C635F7 /* HeaderView.m in Sources */,
 				82327F771B60F9A800D92889 /* CartViewCell.m in Sources */,
 				82FB87AC1B4D18C500CAD5F7 /* OrderConfirmationViewController.m in Sources */,
-				8200C95F1BC538FE00D8A32C /* ReachabiltyManager.m in Sources */,
 				8233CE161B874FB200B5279B /* PaymentViewCell.m in Sources */,
 				823C46B01B7392FE00E37DBE /* ProfileViewCell.m in Sources */,
 				82BD02B61B46A7BA00108A0B /* LoginPageViewController.m in Sources */,
@@ -926,7 +920,7 @@
 				825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */,
 				826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */,
 				82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */,
-				8200C95B1BC5348100D8A32C /* Reachability.m in Sources */,
+				827026DE1BC650840054E16F /* Reachability.m in Sources */,
 				823C46A61B73226900E37DBE /* DoctorDetailsViewController.m in Sources */,
 				8233CE101B873B8B00B5279B /* PaymentViewController.m in Sources */,
 				825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */,

@@ -10,6 +10,8 @@
 #import "OrderReviewFooterView.h"
 #import "OrderCompleteViewController.h"
 #import "User.h"
+#import "AddressesViewController.h"
+#import "AppDelegate.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 
@@ -58,7 +60,7 @@ typedef void (^completion)(BOOL finished);
     // Configure the cell...
     [cell.product_imageview sd_setImageWithURL:[NSURL URLWithString:image]];
     cell.name.text              = [self productNameForIndexPath:indexPath];
-    cell.quantity.text          = [self productQtyForIndexPath:indexPath];
+    cell.quantity.text          = [NSString stringWithFormat:@"Qty: %@",[self productQtyForIndexPath:indexPath]];
     cell.variant.text           = [self productVariantForIndexPath:indexPath];
     cell.total_price.text       = [self productAmountForIndexPath:indexPath];
     
@@ -82,26 +84,35 @@ typedef void (^completion)(BOOL finished);
     OrderReviewFooterView *footerView = [[[NSBundle mainBundle] loadNibNamed:@"OrderReviewFooterView" owner:self options:nil] lastObject];
     footerView.frame = CGRectMake(0, 0, self.view.frame.size.width, 165);
     footerView.purchase_price_label.text = self.purchase_total;
-    footerView.shipping_price_label.text = self.shipping_total;
+    footerView.tax_label.text = self.tax_total;
     footerView.total_price_label.text    = self.complete_total;
     
     return footerView;
 }
 
-- (IBAction)proceedToCompletePressed:(id)sender {
+- (IBAction)proceedToCheckoutPressed:(id)sender {
     
-    [self sendCompleteRequestWithCompletion:^(BOOL finished) {
-        if (finished) {
-            NSLog(@"finished");
-            OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
-            orderCompleteVC.order_id = self.order_id;
-            
-            [self.navigationController pushViewController:orderCompleteVC animated:YES];
-            
-            
-        } else
-            NSLog(@"Could not send Complete Request");
-    }];
+//    [self sendCompleteRequestWithCompletion:^(BOOL finished) {
+//        if (finished) {
+//            NSLog(@"finished");
+//            OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+//            orderCompleteVC.order_id = self.order_id;
+//            
+//            [self.navigationController pushViewController:orderCompleteVC animated:YES];
+//
+//            
+//        } else
+//            NSLog(@"Could not send Complete Request");
+//    }];
+    
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
+    
+    if (netStatus != NotReachable) {
+        [self sendCheckoutRequestToServer];
+    } else
+        [self displayNoConnection];
+    
     
 }
 
@@ -111,10 +122,10 @@ typedef void (^completion)(BOOL finished);
 #pragma mark - Helper Methods 
 
 
--(void)sendCompleteRequestWithCompletion:(completion)isSend {
+-(void)sendCheckoutRequestToServer {
     User *user = [User savedUser];
     
-    NSString *url = [NSString stringWithFormat:@"%@/%@.json?token=%@",kComplete_order_url, self.order_id, user.access_token];
+    NSString *url = [NSString stringWithFormat:@"%@/%@/next.json?token=%@",kComplete_order_url, self.order_id, user.access_token];
     NSLog(@"URL is --> %@", url);
     
     
@@ -125,25 +136,29 @@ typedef void (^completion)(BOOL finished);
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"%@",response);
-            NSError *jsonError;
-            
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            
-            
-            [self.hud hide:YES];
-            if (jsonError) {
-                isSend(NO);
-                NSLog(@"Error %@",[jsonError localizedDescription]);
-            } else {
+        if (data != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"%@",response);
+                NSError *jsonError;
                 
-                NSLog(@"JSON ==> %@",json);
-                isSend(YES);
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                 
-            }
-            
-        });
+                [self.hud hide:YES];
+                if (jsonError) {
+                    NSLog(@"Error %@",[jsonError localizedDescription]);
+                } else {
+                    
+                    NSLog(@"JSON ==> %@",json);
+                    NSString *order_id = [json valueForKey:@"number"];
+                    [self showAddressesPageWithOrderID:order_id];
+                    
+                }
+                
+            });
+
+        } else {
+            [self displayConnectionFailed];
+        }
         
     }];
     
@@ -174,9 +189,8 @@ typedef void (^completion)(BOOL finished);
     NSDictionary *variant   = [self.line_items[indexPath.row] valueForKey:@"variant"];
     
     NSArray *images         = [variant valueForKey:@"images"];
-    NSString *small_image   = [images[0] valueForKey:@"small_url"];
     
-    return small_image;
+    return (images.count != 0)? [images[0] valueForKey:@"small_url"]: @"";
 }
 
 -(NSString *)productAmountForIndexPath:(NSIndexPath *)indexPath {
@@ -187,9 +201,35 @@ typedef void (^completion)(BOOL finished);
 
 
 -(NSString *)productQtyForIndexPath:(NSIndexPath *)indexPath {
-    NSString *quantity      = [self.line_items[indexPath.row] valueForKey:@"quantity"];
+    NSNumber *quantity      = [self.line_items[indexPath.row] valueForKey:@"quantity"];
     
-    return quantity;
+    return quantity.stringValue;
+}
+
+-(void)showAddressesPageWithOrderID:(NSString *)order_id {
+    NSLog(@"order_id %@",order_id);
+    
+    User *user = [User savedUser];
+    AddressesViewController *addressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
+    addressVC.addresses = user.ship_address;
+    addressVC.order_id  = order_id;
+    
+    [self.navigationController pushViewController:addressVC animated:YES];
+}
+
+
+-(void)displayConnectionFailed {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [failed_alert show];
+    });
+}
+
+-(void)displayNoConnection {
+    UIAlertView *connection_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [connection_alert show];
 }
 
 @end

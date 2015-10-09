@@ -15,7 +15,7 @@
 @property (nonatomic, strong) NSString *order_id;
 
 @property (nonatomic, strong) NSString *purchase_total;
-@property (nonatomic, strong) NSString *shipping_total;
+@property (nonatomic, strong) NSString *tax_total;
 @property (nonatomic, strong) NSString *complete_total;
 
 @end
