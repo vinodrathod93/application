@@ -293,12 +293,8 @@ typedef void(^completion)(BOOL finished);
                                                                             @"payment_method_id": self.payment_method_id.stringValue
                                                                             }
                                                                      ],
-                                            @"payment_source": @{
-                                                    self.payment_method_id.stringValue : @{
-                                                            
-                                                            }
-                                                    },
-                                            @"use_existing_card": @NO,
+                                            
+                                            @"use_existing_card": @"no",
                                             @"state": @"payment"
                                             }
                               };
@@ -321,7 +317,11 @@ typedef void(^completion)(BOOL finished);
 //    
 //    NSDictionary *payment_dictionary = [NSDictionary dictionaryWithObject:payment forKey:@"order"];
     
-    
+//    @"payment_source": @{
+//                         self.payment_method_id.stringValue : @{
+//                                 
+//                                 }
+//                         },
     
     return payment;
 }

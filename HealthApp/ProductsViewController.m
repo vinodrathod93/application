@@ -26,7 +26,7 @@
 #define kSPREE_PRODUCTS_URL @"http://www.elnuur.com/api/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
 #define kFIRST_PAGE 1
 
-@interface ProductsViewController ()<viewModelDelegate>
+@interface ProductsViewController ()<UISearchResultsUpdating, UISearchBarDelegate>
 
 @property (nonatomic, strong) NSURLSessionDataTask *task;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -39,6 +39,9 @@
 @property (nonatomic, strong) NSString *currentPage;
 @property (nonatomic, strong) NSString *nextPage;
 @property (nonatomic, strong) NSString *pages;
+
+@property (nonatomic, strong) UISearchController *searchController;
+
 
 @end
 
@@ -93,6 +96,10 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     // Do any additional setup after loading the view.
+}
+
+-(void)displaySearchBar {
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -158,6 +165,32 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     [self.navigationController pushViewController:details animated:YES];
 }
 
+-(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *headerView = nil;
+    if (kind == UICollectionElementKindSectionHeader) {
+        
+        headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerSearchBar" forIndexPath:indexPath];
+        
+        UINavigationController *searchResultsController = [[self storyboard] instantiateViewControllerWithIdentifier:@"ProductSearchResultsNavController"];
+        
+        self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+        
+        self.searchController.searchResultsUpdater = self;
+        
+        self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
+        
+        [headerView addSubview:self.searchController.searchBar];
+        self.definesPresentationContext = YES;
+        
+        [self.searchController.searchBar sizeToFit];
+    }
+    
+    return headerView;
+}
+
+
+
+#pragma mark - Helper Methods
 
 -(BOOL)tabBarIsVisible {
     return self.tabBarController.tabBar.frame.origin.y < CGRectGetMaxY(self.view.frame);
