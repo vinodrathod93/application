@@ -134,8 +134,6 @@ static NSString *summary = @"summary"; */
 
 
 
-
-
 /*
  +(NSArray *)productsFromJSON:(NSDictionary *)objectNotation {
  NSMutableArray *products = [[NSMutableArray alloc] init];
@@ -171,5 +169,78 @@ static NSString *summary = @"summary"; */
  }
  
  */
+
+
+
+
+
++(NSArray *)secondVersionInfiniteProductsFromJSON:(NSArray *)allProducts {
+    NSMutableArray *products = [[NSMutableArray alloc]init];
+    
+    if ([allProducts isKindOfClass:[NSArray class]]) {
+        [allProducts enumerateObjectsUsingBlock:^(NSDictionary *product, NSUInteger idx, BOOL * _Nonnull stop) {
+            ProductDetail *detail = [[ProductDetail alloc]init];
+            
+            detail.productID =  [product valueForKey:@"id"];
+            detail.name =       [product valueForKeyPath:@"master.name"];
+            
+            NSArray *variants = [product objectForKey:@"variants"];
+            if (variants.count == 0) {
+                detail.hasVariant = NO;
+            } else
+                detail.hasVariant = YES;
+            
+            
+//            NSArray *imagesArray = [product objectForKey:@"images"];
+//            
+//            if (imagesArray.count != 0) {
+//                NSDictionary *images = imagesArray[0];
+//                
+//                detail.smallImage = [images valueForKeyPath:@"links.small"];
+//                detail.productImage = [images valueForKeyPath:@"links.product"];
+//                detail.largeImage = [images valueForKeyPath:@"links.large"];
+//            }
+            
+            
+            // Master Images
+            NSMutableArray *smallImages = [NSMutableArray array];
+            NSMutableArray *productImages = [NSMutableArray array];
+            NSMutableArray *largeImages = [NSMutableArray array];
+            
+            NSArray *imagesArray = [product objectForKey:@"images"];
+            [imagesArray enumerateObjectsUsingBlock:^(NSDictionary *images, NSUInteger idx, BOOL *stop) {
+                
+                [smallImages addObject:[images valueForKeyPath:@"links.small"]];
+                [productImages addObject:[images valueForKeyPath:@"links.product"]];
+                [largeImages addObject:[images valueForKeyPath:@"links.large"]];
+            }];
+            
+            detail.small_img = smallImages;
+            detail.product_img = productImages;
+            detail.large_img = largeImages;
+            
+            
+            
+            
+            if (detail.hasVariant) {
+                detail.variants = [product objectForKey:@"variants"];
+            }
+            
+            NSString *price = [product valueForKeyPath:@"master.price"];
+            [detail setValue:[product valueForKeyPath:@"master.display_price"] forKey:@"displayPrice"];
+            [detail setValue:[NSNumber numberWithInt:price.intValue] forKey:@"price"];
+            [detail setValue:[product valueForKey:@"description"] forKey:@"summary"];
+            
+            [products addObject:detail];
+        }];
+    }
+    
+    
+    
+    
+    return products;
+}
+
+
 
 @end

@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSArray *product_img;
 @property (nonatomic, strong) NSArray *large_img;
 
+
 @property (nonatomic, strong) NSArray *variants;
 
 

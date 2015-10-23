@@ -41,4 +41,7 @@
 -(NSString *)currentPage:(NSDictionary *)dictionary;
 -(int)nextPage:(NSDictionary *)dictionary;
 
++(NSArray *)secondVersionInfiniteProductsFromJSON:(NSArray *)allProducts;
+-(NSString *)secondVersionInfiniteImageAtIndex:(NSInteger)index;
+
 @end

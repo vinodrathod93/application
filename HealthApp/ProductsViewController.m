@@ -13,17 +13,12 @@
 #import "DetailsProductViewController.h"
 #import "DetailViewModel.h"
 #import "UIScrollView+InfiniteScroll.h"
+#import "SearchResultsProductViewController.h"
 #import "Reachability.h"
 #import "AppDelegate.h"
 
-//static NSString * const PRODUCTS_DATA_URL = @"https://itunes.apple.com/us/rss/toppaidebooks/limit=100/explicit=true/json";
-//static NSString *name = @"im:name";
-//static NSString *image = @"im:image";
-//static NSString *price = @"im:price";
-//static NSString *summary = @"summary";
-
 //#define kPRODUCTS_DATA_LINK @"http://chemistplus.in/getProducts_test.php"
-#define kSPREE_PRODUCTS_URL @"http://www.elnuur.com/api/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
+#define kSPREE_PRODUCTS_URL @"http://www.elnuur.com/api/v2/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
 #define kFIRST_PAGE 1
 
 @interface ProductsViewController ()<UISearchResultsUpdating, UISearchBarDelegate>
@@ -38,9 +33,12 @@
 
 @property (nonatomic, strong) NSString *currentPage;
 @property (nonatomic, strong) NSString *nextPage;
-@property (nonatomic, strong) NSString *pages;
+
+// version api 1
+//@property (nonatomic, strong) NSString *pages;
 
 @property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic)        float          searchBarBoundsY;
 
 
 @end
@@ -52,13 +50,32 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLog(@"%@",self.subCategoryID);
-    NSLog(@"%@",self.categoryID);
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+   
+
+    
+    
+    
+    // Reachablity code
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
-
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    if (netStatus != NotReachable) {
+        [self loadProductsPage:kFIRST_PAGE completion:^{
+            [self.hud hide:YES];
+        }];
+    }
+    else
+        [self displayNoConnection];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    
+    
+    // Infinite Products block
     
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"loadingCell"];
     
@@ -66,9 +83,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     self.collectionView.infiniteScrollIndicatorView = activityIndicator;
     self.collectionView.infiniteScrollIndicatorMargin = 40.0f;
     
-    
     __weak typeof(self) weakSelf = self;
-    
     [self.collectionView addInfiniteScrollWithHandler:^(UICollectionView *collectionView) {
         
         if (netStatus != NotReachable) {
@@ -81,25 +96,29 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         }
         
     }];
-    
-    
-    
-    
-    if (netStatus != NotReachable) {
-        [self loadProductsPage:kFIRST_PAGE completion:^{
-            [self.hud hide:YES];
-        }];
-    }
-    else
-        [self displayNoConnection];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    // Do any additional setup after loading the view.
 }
 
 -(void)displaySearchBar {
+    UINavigationController *searchResultsController = [[self storyboard] instantiateViewControllerWithIdentifier:@"ProductSearchResultsNavController"];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+    self.searchController.searchResultsUpdater = self;
     
+    
+//    self.searchBarBoundsY = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    
+//    self.searchController.searchBar.frame = CGRectMake(0,self.searchBarBoundsY, [UIScreen mainScreen].bounds.size.width, 44);
+    
+//    [self addObservers];
+    
+//    if (![self.searchController.searchBar isDescendantOfView:self.view]) {
+        [self.view addSubview:self.searchController.searchBar];
+//    }
+    
+    self.definesPresentationContext = YES;
+}
+
+- (IBAction)searchBarButtonPressed:(id)sender {
+    [self displaySearchBar];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -165,30 +184,30 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     [self.navigationController pushViewController:details animated:YES];
 }
 
--(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    UICollectionReusableView *headerView = nil;
-    if (kind == UICollectionElementKindSectionHeader) {
-        
-        headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerSearchBar" forIndexPath:indexPath];
-        
-        UINavigationController *searchResultsController = [[self storyboard] instantiateViewControllerWithIdentifier:@"ProductSearchResultsNavController"];
-        
-        self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
-        
-        self.searchController.searchResultsUpdater = self;
-        
-        self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
-        
-        [headerView addSubview:self.searchController.searchBar];
-        self.definesPresentationContext = YES;
-        
-        [self.searchController.searchBar sizeToFit];
-    }
-    
-    return headerView;
+
+#pragma mark -  <UICollectionViewDelegateFlowLayout>
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout*)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section{
+    return UIEdgeInsetsMake(self.searchController.searchBar.frame.size.height, 0, 0, 0);
 }
 
 
+#pragma mark - UISearchResultsUpdating
+
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    NSString *searchString = [self.searchController.searchBar text];
+    
+    NSString *scope = nil;
+    
+    if (self.searchController.searchResultsController) {
+        UINavigationController *navController = (UINavigationController *)self.searchController.searchResultsController;
+        
+        SearchResultsProductViewController *vc = (SearchResultsProductViewController *)navController.topViewController;
+//        vc.searchResults = self.searchResults;
+//        [vc.collectionView reloadData];
+    }
+}
 
 #pragma mark - Helper Methods
 
@@ -231,7 +250,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 
                 NSError *jsonError;
-                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+                id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                 
                 if (jsonError != nil) {
                     NSLog(@"Error %@",[jsonError localizedDescription]);
@@ -240,7 +259,9 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                 }
                 else if(![dictionary isEqual:nil])
                 {
-                    NSArray *array = [DetailViewModel infiniteProductsFromJSON:dictionary];
+                    NSLog(@"%@",dictionary);
+//                    NSArray *array = [DetailViewModel infiniteProductsFromJSON:dictionary];
+                    NSArray *array = [DetailViewModel secondVersionInfiniteProductsFromJSON:dictionary];
                     if (page == 1) {
                         
                         self.viewModel = [[DetailViewModel alloc]initWithArray:array];
@@ -271,8 +292,8 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                         
                     }
                     
-                    self.currentPage = [self.viewModel currentPage:dictionary];
-                    self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
+//                    self.currentPage = [self.viewModel currentPage:dictionary];
+//                    self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
                     
                 }
                 
@@ -412,6 +433,35 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     [alert show];
     
     
+}
+
+
+#pragma mark - observer
+- (void)addObservers{
+    [self.collectionView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+}
+- (void)removeObservers{
+    [self.collectionView removeObserver:self forKeyPath:@"contentOffset" context:Nil];
+}
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(UICollectionView *)object change:(NSDictionary *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"contentOffset"] && object == self.collectionView ) {
+        if (self.searchController.isActive) {
+            NSLog(@"Bounds %f, offset %f minus %f and equals to %f",self.searchBarBoundsY, (-1* object.contentOffset.y), self.searchBarBoundsY, self.searchBarBoundsY + ((-1* object.contentOffset.y)-self.searchBarBoundsY));
+            
+            self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x,
+                                                               0,
+                                                               self.searchController.searchBar.frame.size.width,
+                                                               self.searchController.searchBar.frame.size.height);
+        } else {
+            NSLog(@"Bounds %f, offset %f minus %f and equals to %f",self.searchBarBoundsY, (-1* object.contentOffset.y), self.searchBarBoundsY, self.searchBarBoundsY + ((-1* object.contentOffset.y)-self.searchBarBoundsY));
+            
+            self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x,
+                                                               self.searchBarBoundsY + ((-1* object.contentOffset.y)-self.searchBarBoundsY),
+                                                               self.searchController.searchBar.frame.size.width,
+                                                               self.searchController.searchBar.frame.size.height);
+        }
+        
+    }
 }
 
 @end

@@ -19,6 +19,7 @@
         self.summary        = nil;
         self.price          = nil;
         self.displayPrice   = nil;
+        
         self.hasVariant = NO;
         
     }
