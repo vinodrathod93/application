@@ -4,10 +4,10 @@
 <dict>
 	<key>Category</key>
 	<array>
-		<string>Pharmaceutical</string>
-		<string>Medical Equipments</string>
-		<string>General Items</string>
-		<string>Hospitals</string>
+		<string>Stores</string>
+		<string>Doctors</string>
+		<string>Restaurants</string>
+		<string>Ice-Cream Parlours</string>
 		<string>Doctors</string>
 		<string>Diagnostics</string>
 		<string>Wellness</string>

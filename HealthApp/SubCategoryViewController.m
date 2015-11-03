@@ -55,13 +55,27 @@ static NSString * const SUBCAT_DATA_URL = @"http://chemistplus.in/subCategory.ph
     NSURLSession *session = [NSURLSession sharedSession];
     self.task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self getJSONDataWithData:data andError:error];
-            [self.tableView reloadData];
-            [self hideHUD];
+        if (data != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self getJSONDataWithData:data andError:error];
+                [self.tableView reloadData];
+                [self hideHUD];
+                
+            });
+        } else {
             
-        });
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self hideHUD];
+                
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:@"Could not fetch data" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+            });
+            
+            
+            
+        }
+        
+        
     }];
     
     [self showHUD];

@@ -39,7 +39,9 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"variantCell"];
     
-    cell.textLabel.text = [self.variants[indexPath.row] valueForKey:@"sku"];
+    NSLog(@"%@",self.variants[indexPath.row]);
+    
+    cell.textLabel.text = [self.variants[indexPath.row] valueForKey:@"options_text"];
     cell.detailTextLabel.text = [self.variants[indexPath.row ] valueForKey:@"display_price"];
     
     return cell;

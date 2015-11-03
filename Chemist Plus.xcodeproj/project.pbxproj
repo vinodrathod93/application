@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		820F0E1C1B5FD00800AE81F4 /* pharma.png in Resources */ = {isa = PBXBuildFile; fileRef = 820F0E1B1B5FD00800AE81F4 /* pharma.png */; };
-		822D15C61BCBE02700FE2E7E /* SearchResultsProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 822D15C51BCBE02700FE2E7E /* SearchResultsProductViewController.m */; settings = {ASSET_TAGS = (); }; };
-		822D15C91BCBE04000FE2E7E /* SearchResultsProductViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 822D15C81BCBE04000FE2E7E /* SearchResultsProductViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		822D15C61BCBE02700FE2E7E /* SearchResultsProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 822D15C51BCBE02700FE2E7E /* SearchResultsProductViewController.m */; };
+		822D15C91BCBE04000FE2E7E /* SearchResultsProductViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 822D15C81BCBE04000FE2E7E /* SearchResultsProductViewCell.m */; };
 		82327F6E1B60B0EB00D92889 /* DetailProductViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F6D1B60B0EB00D92889 /* DetailProductViewModel.m */; };
 		82327F741B60C86B00D92889 /* CartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F731B60C86B00D92889 /* CartViewController.m */; };
 		82327F771B60F9A800D92889 /* CartViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F761B60F9A800D92889 /* CartViewCell.m */; };
@@ -29,7 +29,6 @@
 		8246FE681B74B70A001D1CFF /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8246FE671B74B70A001D1CFF /* SignInViewController.m */; };
 		824C25531B56374900C58F97 /* Categories.plist in Resources */ = {isa = PBXBuildFile; fileRef = 824C25521B56374900C58F97 /* Categories.plist */; };
 		824D00371B6F2EBF000F1825 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824D00361B6F2EBF000F1825 /* CoreLocation.framework */; };
-		824D003A1B6F68AF000F1825 /* AddressViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 824D00391B6F68AF000F1825 /* AddressViewCell.m */; };
 		8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250A3261B54E9D70026ADCE /* HeaderSliderView.m */; };
 		8250A32A1B55000B0026ADCE /* SubCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250A3291B55000B0026ADCE /* SubCategoryViewController.m */; };
 		8250A32D1B55142E0026ADCE /* ProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250A32C1B55142E0026ADCE /* ProductsViewController.m */; };
@@ -46,13 +45,13 @@
 		82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82559A611B623F9B0064E994 /* HeaderLabel.m */; };
 		825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825692CB1B6B771700B5D1D3 /* DoctorViewCell.m */; };
 		825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825692D21B6B77E200B5D1D3 /* DoctorViewController.m */; };
-		825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825892811BBEB21C0032B0A3 /* DeliveryViewController.m */; settings = {ASSET_TAGS = (); }; };
-		826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B141F1BC28C9100B6A1C3 /* OrderReviewViewController.m */; settings = {ASSET_TAGS = (); }; };
-		826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B14221BC28D4800B6A1C3 /* OrderReviewCell.m */; settings = {ASSET_TAGS = (); }; };
-		826B14261BC2904700B6A1C3 /* OrderReviewFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B14251BC2904700B6A1C3 /* OrderReviewFooterView.m */; settings = {ASSET_TAGS = (); }; };
-		826B14281BC2906800B6A1C3 /* OrderReviewFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 826B14271BC2906800B6A1C3 /* OrderReviewFooterView.xib */; settings = {ASSET_TAGS = (); }; };
-		826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B142D1BC2A01E00B6A1C3 /* OrderCompleteViewController.m */; settings = {ASSET_TAGS = (); }; };
-		827026DE1BC650840054E16F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 827026DD1BC650840054E16F /* Reachability.m */; settings = {ASSET_TAGS = (); }; };
+		825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825892811BBEB21C0032B0A3 /* DeliveryViewController.m */; };
+		826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B141F1BC28C9100B6A1C3 /* OrderReviewViewController.m */; };
+		826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B14221BC28D4800B6A1C3 /* OrderReviewCell.m */; };
+		826B14261BC2904700B6A1C3 /* OrderReviewFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B14251BC2904700B6A1C3 /* OrderReviewFooterView.m */; };
+		826B14281BC2906800B6A1C3 /* OrderReviewFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 826B14271BC2906800B6A1C3 /* OrderReviewFooterView.xib */; };
+		826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B142D1BC2A01E00B6A1C3 /* OrderCompleteViewController.m */; };
+		827026DE1BC650840054E16F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 827026DD1BC650840054E16F /* Reachability.m */; };
 		827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632821B4A3DB800230833 /* FBSDKCoreKit.framework */; };
 		827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632831B4A3DB800230833 /* FBSDKLoginKit.framework */; };
 		827632891B4A629600230833 /* UploadPrescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827632881B4A629600230833 /* UploadPrescriptionViewController.m */; };
@@ -61,10 +60,10 @@
 		82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CDA1B58F81000FCCACC /* DetailsProductViewController.m */; };
 		82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CDD1B58F92600FCCACC /* ProductImageViewCell.m */; };
 		82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CE01B590B8600FCCACC /* DetailViewModel.m */; };
-		829113C11BB90746000DA995 /* Cart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 829113BF1BB90746000DA995 /* Cart.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
-		829113D71BB93A63000DA995 /* VariantsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829113D61BB93A63000DA995 /* VariantsViewController.m */; settings = {ASSET_TAGS = (); }; };
-		829113E21BB973AA000DA995 /* AddToCart+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 829113DF1BB973AA000DA995 /* AddToCart+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
-		829113E31BB973AA000DA995 /* AddToCart.m in Sources */ = {isa = PBXBuildFile; fileRef = 829113E11BB973AA000DA995 /* AddToCart.m */; settings = {ASSET_TAGS = (); }; };
+		829113C11BB90746000DA995 /* Cart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 829113BF1BB90746000DA995 /* Cart.xcdatamodeld */; };
+		829113D71BB93A63000DA995 /* VariantsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829113D61BB93A63000DA995 /* VariantsViewController.m */; };
+		829113E21BB973AA000DA995 /* AddToCart+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 829113DF1BB973AA000DA995 /* AddToCart+CoreDataProperties.m */; };
+		829113E31BB973AA000DA995 /* AddToCart.m in Sources */ = {isa = PBXBuildFile; fileRef = 829113E11BB973AA000DA995 /* AddToCart.m */; };
 		829CE90A1B4BCB2200304088 /* PlaceOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829CE9091B4BCB2200304088 /* PlaceOrderViewController.m */; };
 		82BD028E1B46A73C00108A0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD028D1B46A73C00108A0B /* main.m */; };
 		82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02901B46A73C00108A0B /* AppDelegate.m */; };
@@ -80,7 +79,9 @@
 		82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */; };
 		82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
-		82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82ECD1251BBD5A91004B0BEB /* AddressCell.m */; settings = {ASSET_TAGS = (); }; };
+		82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82ECD1251BBD5A91004B0BEB /* AddressCell.m */; };
+		82EF2DE11BE8C67B00D87DE2 /* StoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE01BE8C67B00D87DE2 /* StoresViewController.m */; };
+		82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */; };
 		82FB87AC1B4D18C500CAD5F7 /* OrderConfirmationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FB87AB1B4D18C500CAD5F7 /* OrderConfirmationViewController.m */; };
 		C1F05C0A84FFC31F75338C27 /* libPods-Chemist Plus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */; };
 /* End PBXBuildFile section */
@@ -139,8 +140,6 @@
 		8246FE671B74B70A001D1CFF /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		824C25521B56374900C58F97 /* Categories.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Categories.plist; sourceTree = "<group>"; };
 		824D00361B6F2EBF000F1825 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		824D00381B6F68AF000F1825 /* AddressViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressViewCell.h; sourceTree = "<group>"; };
-		824D00391B6F68AF000F1825 /* AddressViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressViewCell.m; sourceTree = "<group>"; };
 		8250A3251B54E9D70026ADCE /* HeaderSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderSliderView.h; sourceTree = "<group>"; };
 		8250A3261B54E9D70026ADCE /* HeaderSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderSliderView.m; sourceTree = "<group>"; };
 		8250A3281B55000B0026ADCE /* SubCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryViewController.h; sourceTree = "<group>"; };
@@ -236,6 +235,10 @@
 		82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+InfiniteScroll.m"; sourceTree = "<group>"; };
 		82ECD1241BBD5A91004B0BEB /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
 		82ECD1251BBD5A91004B0BEB /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
+		82EF2DDF1BE8C67B00D87DE2 /* StoresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoresViewController.h; sourceTree = "<group>"; };
+		82EF2DE01BE8C67B00D87DE2 /* StoresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoresViewController.m; sourceTree = "<group>"; };
+		82EF2DE31BE8ECD400D87DE2 /* SessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionManager.h; sourceTree = "<group>"; };
+		82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionManager.m; sourceTree = "<group>"; };
 		82FB87AA1B4D18C500CAD5F7 /* OrderConfirmationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderConfirmationViewController.h; sourceTree = "<group>"; };
 		82FB87AB1B4D18C500CAD5F7 /* OrderConfirmationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderConfirmationViewController.m; sourceTree = "<group>"; };
 		D1F400F2EC7F15D32196CDE1 /* Pods-Chemist Plus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.release.xcconfig"; sourceTree = "<group>"; };
@@ -283,177 +286,6 @@
 			name = Reachability;
 			sourceTree = "<group>";
 		};
-		82327F6F1B60B23800D92889 /* Products VC */ = {
-			isa = PBXGroup;
-			children = (
-				827DD31B1B8AF53300714985 /* Infinite Scrolling */,
-				8250A32B1B55142E0026ADCE /* ProductsViewController.h */,
-				8250A32C1B55142E0026ADCE /* ProductsViewController.m */,
-				8238A7021B5E2F43005CC0A5 /* Product Cell */,
-				8238A7031B5E44FC005CC0A5 /* Products ViewModel */,
-			);
-			name = "Products VC";
-			sourceTree = "<group>";
-		};
-		82327F701B60B24C00D92889 /* SubCategory VC */ = {
-			isa = PBXGroup;
-			children = (
-				8250A3281B55000B0026ADCE /* SubCategoryViewController.h */,
-				8250A3291B55000B0026ADCE /* SubCategoryViewController.m */,
-			);
-			name = "SubCategory VC";
-			sourceTree = "<group>";
-		};
-		82327F711B60C84A00D92889 /* ProductDetails VC */ = {
-			isa = PBXGroup;
-			children = (
-				82842CD91B58F81000FCCACC /* DetailsProductViewController.h */,
-				82842CDA1B58F81000FCCACC /* DetailsProductViewController.m */,
-				829113D51BB93A63000DA995 /* VariantsViewController.h */,
-				829113D61BB93A63000DA995 /* VariantsViewController.m */,
-				823689431B67436900361086 /* Cell */,
-				823689441B67437C00361086 /* View Model */,
-				823689451B67439000361086 /* Model */,
-			);
-			name = "ProductDetails VC";
-			sourceTree = "<group>";
-		};
-		823689431B67436900361086 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				82842CDC1B58F92600FCCACC /* ProductImageViewCell.h */,
-				82842CDD1B58F92600FCCACC /* ProductImageViewCell.m */,
-			);
-			name = Cell;
-			sourceTree = "<group>";
-		};
-		823689441B67437C00361086 /* View Model */ = {
-			isa = PBXGroup;
-			children = (
-				82327F6C1B60B0EB00D92889 /* DetailProductViewModel.h */,
-				82327F6D1B60B0EB00D92889 /* DetailProductViewModel.m */,
-			);
-			name = "View Model";
-			sourceTree = "<group>";
-		};
-		823689451B67439000361086 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				8238A7041B5E4538005CC0A5 /* ProductDetail.h */,
-				8238A7051B5E4538005CC0A5 /* ProductDetail.m */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
-		823689461B6743B300361086 /* View Model */ = {
-			isa = PBXGroup;
-			children = (
-				82327F781B61027B00D92889 /* CartViewModel.h */,
-				82327F791B61027B00D92889 /* CartViewModel.m */,
-			);
-			name = "View Model";
-			sourceTree = "<group>";
-		};
-		823689471B6743BC00361086 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				82327F751B60F9A800D92889 /* CartViewCell.h */,
-				82327F761B60F9A800D92889 /* CartViewCell.m */,
-			);
-			name = Cell;
-			sourceTree = "<group>";
-		};
-		823689481B6743C800361086 /* Cart VC */ = {
-			isa = PBXGroup;
-			children = (
-				82327F721B60C86B00D92889 /* CartViewController.h */,
-				82327F731B60C86B00D92889 /* CartViewController.m */,
-				823689491B6743DE00361086 /* Custom Class */,
-				823689461B6743B300361086 /* View Model */,
-				823689471B6743BC00361086 /* Cell */,
-			);
-			name = "Cart VC";
-			sourceTree = "<group>";
-		};
-		823689491B6743DE00361086 /* Custom Class */ = {
-			isa = PBXGroup;
-			children = (
-				82559A601B623F9B0064E994 /* HeaderLabel.h */,
-				82559A611B623F9B0064E994 /* HeaderLabel.m */,
-			);
-			name = "Custom Class";
-			sourceTree = "<group>";
-		};
-		8238A7021B5E2F43005CC0A5 /* Product Cell */ = {
-			isa = PBXGroup;
-			children = (
-				8250A3301B553B000026ADCE /* ProductViewCell.h */,
-				8250A3311B553B000026ADCE /* ProductViewCell.m */,
-			);
-			name = "Product Cell";
-			sourceTree = "<group>";
-		};
-		8238A7031B5E44FC005CC0A5 /* Products ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				82842CDF1B590B8600FCCACC /* DetailViewModel.h */,
-				82842CE01B590B8600FCCACC /* DetailViewModel.m */,
-			);
-			name = "Products ViewModel";
-			sourceTree = "<group>";
-		};
-		823C46AA1B73327E00E37DBE /* Doctors VC */ = {
-			isa = PBXGroup;
-			children = (
-				825692CA1B6B771700B5D1D3 /* DoctorViewCell.h */,
-				825692CB1B6B771700B5D1D3 /* DoctorViewCell.m */,
-				825692D11B6B77E200B5D1D3 /* DoctorViewController.h */,
-				825692D21B6B77E200B5D1D3 /* DoctorViewController.m */,
-			);
-			name = "Doctors VC";
-			sourceTree = "<group>";
-		};
-		823D06951B8C750A00640F45 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				827DD3181B8AE39F00714985 /* Address.h */,
-				827DD3191B8AE39F00714985 /* Address.m */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
-		823D06961B8C755200640F45 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				823D06601B8C458600640F45 /* CODInputViewCell.h */,
-				823D06611B8C458600640F45 /* CODInputViewCell.m */,
-				8233CE141B874FB200B5279B /* PaymentViewCell.h */,
-				8233CE151B874FB200B5279B /* PaymentViewCell.m */,
-			);
-			name = Cell;
-			sourceTree = "<group>";
-		};
-		823D06971B8C755B00640F45 /* Payment VC */ = {
-			isa = PBXGroup;
-			children = (
-				8233CE0E1B873B8B00B5279B /* PaymentViewController.h */,
-				8233CE0F1B873B8B00B5279B /* PaymentViewController.m */,
-				823D06961B8C755200640F45 /* Cell */,
-			);
-			name = "Payment VC";
-			sourceTree = "<group>";
-		};
-		8246FE691B74BB8B001D1CFF /* MyAccount VC */ = {
-			isa = PBXGroup;
-			children = (
-				823C46B11B73934F00E37DBE /* MyAccountViewController.h */,
-				823C46B21B73934F00E37DBE /* MyAccountViewController.m */,
-				823C46AE1B7392FE00E37DBE /* ProfileViewCell.h */,
-				823C46AF1B7392FE00E37DBE /* ProfileViewCell.m */,
-			);
-			name = "MyAccount VC";
-			sourceTree = "<group>";
-		};
 		8250A32E1B5516E60026ADCE /* Home Page - old */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,20 +296,6 @@
 				825266CF1B4F8B8900C635F7 /* HeaderView.xib */,
 			);
 			name = "Home Page - old";
-			sourceTree = "<group>";
-		};
-		8250A32F1B5517010026ADCE /* Category VC */ = {
-			isa = PBXGroup;
-			children = (
-				825266DD1B50002600C635F7 /* HomeCategoryViewController.h */,
-				825266DE1B50002600C635F7 /* HomeCategoryViewController.m */,
-				8250A3251B54E9D70026ADCE /* HeaderSliderView.h */,
-				8250A3261B54E9D70026ADCE /* HeaderSliderView.m */,
-				82395A9A1B53A77300581EB4 /* CategoryViewCell.h */,
-				82395A9B1B53A77300581EB4 /* CategoryViewCell.m */,
-				824C25521B56374900C58F97 /* Categories.plist */,
-			);
-			name = "Category VC";
 			sourceTree = "<group>";
 		};
 		825266CB1B4F832400C635F7 /* Upload Prescription */ = {
@@ -493,41 +311,10 @@
 			name = "Upload Prescription";
 			sourceTree = "<group>";
 		};
-		825692CD1B6B776400B5D1D3 /* Add Shipping Details */ = {
-			isa = PBXGroup;
-			children = (
-				825567161B68E6D4009F013A /* AddShippingDetailsViewController.h */,
-				825567171B68E6D4009F013A /* AddShippingDetailsViewController.m */,
-				823D06951B8C750A00640F45 /* Model */,
-				825692CE1B6B777C00B5D1D3 /* Cell */,
-				825692CF1B6B778400B5D1D3 /* ViewModel */,
-			);
-			name = "Add Shipping Details";
-			sourceTree = "<group>";
-		};
-		825692CE1B6B777C00B5D1D3 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				825567191B68E6F0009F013A /* AddShippingViewCell.h */,
-				8255671A1B68E6F0009F013A /* AddShippingViewCell.m */,
-				824D00381B6F68AF000F1825 /* AddressViewCell.h */,
-				824D00391B6F68AF000F1825 /* AddressViewCell.m */,
-			);
-			name = Cell;
-			sourceTree = "<group>";
-		};
-		825692CF1B6B778400B5D1D3 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				8255671C1B68EC5E009F013A /* AddShippingViewModel.h */,
-				8255671D1B68EC5E009F013A /* AddShippingViewModel.m */,
-			);
-			name = ViewModel;
-			sourceTree = "<group>";
-		};
 		825692D01B6B77B600B5D1D3 /* Optionals */ = {
 			isa = PBXGroup;
 			children = (
+				8250A32E1B5516E60026ADCE /* Home Page - old */,
 				82BD02B41B46A7BA00108A0B /* LoginPageViewController.h */,
 				82BD02B51B46A7BA00108A0B /* LoginPageViewController.m */,
 				825567131B68D3A9009F013A /* InputFormViewController.h */,
@@ -538,40 +325,6 @@
 			name = Optionals;
 			sourceTree = "<group>";
 		};
-		826B14291BC29FBF00B6A1C3 /* Order Review VC */ = {
-			isa = PBXGroup;
-			children = (
-				826B14211BC28D4800B6A1C3 /* OrderReviewCell.h */,
-				826B14221BC28D4800B6A1C3 /* OrderReviewCell.m */,
-				826B14241BC2904700B6A1C3 /* OrderReviewFooterView.h */,
-				826B14251BC2904700B6A1C3 /* OrderReviewFooterView.m */,
-				826B14271BC2906800B6A1C3 /* OrderReviewFooterView.xib */,
-				826B141E1BC28C9100B6A1C3 /* OrderReviewViewController.h */,
-				826B141F1BC28C9100B6A1C3 /* OrderReviewViewController.m */,
-			);
-			name = "Order Review VC";
-			sourceTree = "<group>";
-		};
-		826B142A1BC29FCE00B6A1C3 /* Delivery VC */ = {
-			isa = PBXGroup;
-			children = (
-				825892801BBEB21C0032B0A3 /* DeliveryViewController.h */,
-				825892811BBEB21C0032B0A3 /* DeliveryViewController.m */,
-			);
-			name = "Delivery VC";
-			sourceTree = "<group>";
-		};
-		826B142B1BC29FDD00B6A1C3 /* Address VC */ = {
-			isa = PBXGroup;
-			children = (
-				827A80161B85E15C008085F1 /* AddressesViewController.h */,
-				827A80171B85E15C008085F1 /* AddressesViewController.m */,
-				82ECD1241BBD5A91004B0BEB /* AddressCell.h */,
-				82ECD1251BBD5A91004B0BEB /* AddressCell.m */,
-			);
-			name = "Address VC";
-			sourceTree = "<group>";
-		};
 		827632861B4A3DC900230833 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -579,15 +332,6 @@
 				827632831B4A3DB800230833 /* FBSDKLoginKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		827DD31B1B8AF53300714985 /* Infinite Scrolling */ = {
-			isa = PBXGroup;
-			children = (
-				82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */,
-				82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */,
-			);
-			name = "Infinite Scrolling";
 			sourceTree = "<group>";
 		};
 		82BD027F1B46A73C00108A0B = {
@@ -614,46 +358,24 @@
 			isa = PBXGroup;
 			children = (
 				820F0E1B1B5FD00800AE81F4 /* pharma.png */,
-				82BD028F1B46A73C00108A0B /* AppDelegate.h */,
-				82BD02901B46A73C00108A0B /* AppDelegate.m */,
-				82C722F41B7B1B7600E0C5EF /* RootTabBarControllerDelegate.h */,
-				82C722F51B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m */,
-				829113BF1BB90746000DA995 /* Cart.xcdatamodeld */,
-				829113DE1BB973AA000DA995 /* AddToCart+CoreDataProperties.h */,
-				829113DF1BB973AA000DA995 /* AddToCart+CoreDataProperties.m */,
-				829113E01BB973AA000DA995 /* AddToCart.h */,
-				829113E11BB973AA000DA995 /* AddToCart.m */,
-				8200C95C1BC5348600D8A32C /* Reachability */,
-				82C723001B7B4EC800E0C5EF /* TPKeyboardAvoiding */,
-				825692D01B6B77B600B5D1D3 /* Optionals */,
 				825266CB1B4F832400C635F7 /* Upload Prescription */,
-				8250A32E1B5516E60026ADCE /* Home Page - old */,
-				8250A32F1B5517010026ADCE /* Category VC */,
-				82327F701B60B24C00D92889 /* SubCategory VC */,
-				82327F6F1B60B23800D92889 /* Products VC */,
-				82327F711B60C84A00D92889 /* ProductDetails VC */,
-				823689481B6743C800361086 /* Cart VC */,
-				825692CD1B6B776400B5D1D3 /* Add Shipping Details */,
-				8246FE691B74BB8B001D1CFF /* MyAccount VC */,
-				82C722F91B7B42EF00E0C5EF /* Register VC */,
-				823C46AA1B73327E00E37DBE /* Doctors VC */,
-				826B14291BC29FBF00B6A1C3 /* Order Review VC */,
-				826B142A1BC29FCE00B6A1C3 /* Delivery VC */,
-				823D06971B8C755B00640F45 /* Payment VC */,
-				826B142B1BC29FDD00B6A1C3 /* Address VC */,
-				82BD02981B46A73C00108A0B /* Images.xcassets */,
-				826B142C1BC2A01E00B6A1C3 /* OrderCompleteViewController.h */,
+				825692D01B6B77B600B5D1D3 /* Optionals */,
+				82EF2DB71BE8BD8F00D87DE2 /* Libraries */,
+				82EF2DDB1BE8C55E00D87DE2 /* AppDelegate */,
+				82EF2DDA1BE8C46900D87DE2 /* Custom CollectionViews */,
+				82EF2DD71BE8C3BE00D87DE2 /* View Models */,
+				82EF2DD51BE8C2BC00D87DE2 /* Categories */,
+				82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */,
+				82EF2DB81BE8BDCF00D87DE2 /* Controllers */,
+				82C722F91B7B42EF00E0C5EF /* Models */,
+				82EF2DE21BE8EC3E00D87DE2 /* Network */,
 				822D15C41BCBE02700FE2E7E /* SearchResultsProductViewController.h */,
 				822D15C51BCBE02700FE2E7E /* SearchResultsProductViewController.m */,
 				822D15C71BCBE04000FE2E7E /* SearchResultsProductViewCell.h */,
 				822D15C81BCBE04000FE2E7E /* SearchResultsProductViewCell.m */,
-				826B142D1BC2A01E00B6A1C3 /* OrderCompleteViewController.m */,
 				82BD02951B46A73C00108A0B /* Main.storyboard */,
-				823C46A41B73226900E37DBE /* DoctorDetailsViewController.h */,
-				823C46A51B73226900E37DBE /* DoctorDetailsViewController.m */,
-				823C46A71B73327600E37DBE /* DoctorDetailsViewCell.h */,
-				823C46A81B73327600E37DBE /* DoctorDetailsViewCell.m */,
 				82BD029A1B46A73C00108A0B /* LaunchScreen.xib */,
+				82BD02981B46A73C00108A0B /* Images.xcassets */,
 				827632861B4A3DC900230833 /* Frameworks */,
 				82BD028B1B46A73C00108A0B /* Supporting Files */,
 			);
@@ -686,37 +408,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		82C722F71B7B42BA00E0C5EF /* Sign_in VC */ = {
+		82C722F71B7B42BA00E0C5EF /* LogIn */ = {
 			isa = PBXGroup;
 			children = (
 				8246FE661B74B70A001D1CFF /* SignInViewController.h */,
 				8246FE671B74B70A001D1CFF /* SignInViewController.m */,
 			);
-			name = "Sign_in VC";
+			name = LogIn;
 			sourceTree = "<group>";
 		};
-		82C722F81B7B42CD00E0C5EF /* Sign_up VC */ = {
+		82C722F91B7B42EF00E0C5EF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				823C46AB1B7374C100E37DBE /* SignUpViewController.h */,
-				823C46AC1B7374C100E37DBE /* SignUpViewController.m */,
-				82C723061B7B58C800E0C5EF /* NSString+SignupValidation.h */,
-				82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */,
-			);
-			name = "Sign_up VC";
-			sourceTree = "<group>";
-		};
-		82C722F91B7B42EF00E0C5EF /* Register VC */ = {
-			isa = PBXGroup;
-			children = (
+				829113BF1BB90746000DA995 /* Cart.xcdatamodeld */,
+				829113DE1BB973AA000DA995 /* AddToCart+CoreDataProperties.h */,
+				829113DF1BB973AA000DA995 /* AddToCart+CoreDataProperties.m */,
+				829113E01BB973AA000DA995 /* AddToCart.h */,
+				829113E11BB973AA000DA995 /* AddToCart.m */,
+				824C25521B56374900C58F97 /* Categories.plist */,
+				8238A7041B5E4538005CC0A5 /* ProductDetail.h */,
+				8238A7051B5E4538005CC0A5 /* ProductDetail.m */,
+				827DD3181B8AE39F00714985 /* Address.h */,
+				827DD3191B8AE39F00714985 /* Address.m */,
 				8246FE601B748382001D1CFF /* User.h */,
 				8246FE611B748382001D1CFF /* User.m */,
-				8246FE631B74B53D001D1CFF /* LogSignViewController.h */,
-				8246FE641B74B53D001D1CFF /* LogSignViewController.m */,
-				82C722F81B7B42CD00E0C5EF /* Sign_up VC */,
-				82C722F71B7B42BA00E0C5EF /* Sign_in VC */,
 			);
-			name = "Register VC";
+			name = Models;
 			sourceTree = "<group>";
 		};
 		82C723001B7B4EC800E0C5EF /* TPKeyboardAvoiding */ = {
@@ -730,6 +447,406 @@
 				82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */,
 			);
 			name = TPKeyboardAvoiding;
+			sourceTree = "<group>";
+		};
+		82EF2DB71BE8BD8F00D87DE2 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				8200C95C1BC5348600D8A32C /* Reachability */,
+				82C723001B7B4EC800E0C5EF /* TPKeyboardAvoiding */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				82EF2DDE1BE8C63300D87DE2 /* Stores */,
+				82EF2DC91BE8C08800D87DE2 /* SubCategories */,
+				82EF2DC81BE8C07200D87DE2 /* Home Category */,
+				82EF2DC71BE8C05300D87DE2 /* Products List */,
+				82EF2DC51BE8C02700D87DE2 /* Product Details */,
+				82EF2DC61BE8C03B00D87DE2 /* Variants Overlay */,
+				82EF2DC41BE8C00600D87DE2 /* Cart */,
+				82EF2DC31BE8BFD500D87DE2 /* Add Address */,
+				82EF2DC21BE8BFB400D87DE2 /* My Account */,
+				82EF2DC01BE8BEDA00D87DE2 /* SignUp */,
+				82EF2DBF1BE8BEA300D87DE2 /* Doctors List */,
+				82EF2DBE1BE8BE8D00D87DE2 /* Order Review */,
+				82EF2DBD1BE8BE7600D87DE2 /* Delivery */,
+				82EF2DBC1BE8BE6300D87DE2 /* Payment */,
+				82EF2DBB1BE8BE5000D87DE2 /* Addresses */,
+				82EF2DB91BE8BDFB00D87DE2 /* Order Complete */,
+				82EF2DBA1BE8BE0500D87DE2 /* Doctor Details */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		82EF2DB91BE8BDFB00D87DE2 /* Order Complete */ = {
+			isa = PBXGroup;
+			children = (
+				826B142C1BC2A01E00B6A1C3 /* OrderCompleteViewController.h */,
+				826B142D1BC2A01E00B6A1C3 /* OrderCompleteViewController.m */,
+			);
+			name = "Order Complete";
+			sourceTree = "<group>";
+		};
+		82EF2DBA1BE8BE0500D87DE2 /* Doctor Details */ = {
+			isa = PBXGroup;
+			children = (
+				823C46A41B73226900E37DBE /* DoctorDetailsViewController.h */,
+				823C46A51B73226900E37DBE /* DoctorDetailsViewController.m */,
+			);
+			name = "Doctor Details";
+			sourceTree = "<group>";
+		};
+		82EF2DBB1BE8BE5000D87DE2 /* Addresses */ = {
+			isa = PBXGroup;
+			children = (
+				827A80161B85E15C008085F1 /* AddressesViewController.h */,
+				827A80171B85E15C008085F1 /* AddressesViewController.m */,
+			);
+			name = Addresses;
+			sourceTree = "<group>";
+		};
+		82EF2DBC1BE8BE6300D87DE2 /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+				8233CE0E1B873B8B00B5279B /* PaymentViewController.h */,
+				8233CE0F1B873B8B00B5279B /* PaymentViewController.m */,
+			);
+			name = Payment;
+			sourceTree = "<group>";
+		};
+		82EF2DBD1BE8BE7600D87DE2 /* Delivery */ = {
+			isa = PBXGroup;
+			children = (
+				825892801BBEB21C0032B0A3 /* DeliveryViewController.h */,
+				825892811BBEB21C0032B0A3 /* DeliveryViewController.m */,
+			);
+			name = Delivery;
+			sourceTree = "<group>";
+		};
+		82EF2DBE1BE8BE8D00D87DE2 /* Order Review */ = {
+			isa = PBXGroup;
+			children = (
+				826B141E1BC28C9100B6A1C3 /* OrderReviewViewController.h */,
+				826B141F1BC28C9100B6A1C3 /* OrderReviewViewController.m */,
+			);
+			name = "Order Review";
+			sourceTree = "<group>";
+		};
+		82EF2DBF1BE8BEA300D87DE2 /* Doctors List */ = {
+			isa = PBXGroup;
+			children = (
+				825692D11B6B77E200B5D1D3 /* DoctorViewController.h */,
+				825692D21B6B77E200B5D1D3 /* DoctorViewController.m */,
+			);
+			name = "Doctors List";
+			sourceTree = "<group>";
+		};
+		82EF2DC01BE8BEDA00D87DE2 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				82EF2DC11BE8BF8F00D87DE2 /* Register */,
+				82C722F71B7B42BA00E0C5EF /* LogIn */,
+				8246FE631B74B53D001D1CFF /* LogSignViewController.h */,
+				8246FE641B74B53D001D1CFF /* LogSignViewController.m */,
+			);
+			name = SignUp;
+			sourceTree = "<group>";
+		};
+		82EF2DC11BE8BF8F00D87DE2 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				823C46AB1B7374C100E37DBE /* SignUpViewController.h */,
+				823C46AC1B7374C100E37DBE /* SignUpViewController.m */,
+			);
+			name = Register;
+			sourceTree = "<group>";
+		};
+		82EF2DC21BE8BFB400D87DE2 /* My Account */ = {
+			isa = PBXGroup;
+			children = (
+				823C46B11B73934F00E37DBE /* MyAccountViewController.h */,
+				823C46B21B73934F00E37DBE /* MyAccountViewController.m */,
+			);
+			name = "My Account";
+			sourceTree = "<group>";
+		};
+		82EF2DC31BE8BFD500D87DE2 /* Add Address */ = {
+			isa = PBXGroup;
+			children = (
+				825567161B68E6D4009F013A /* AddShippingDetailsViewController.h */,
+				825567171B68E6D4009F013A /* AddShippingDetailsViewController.m */,
+			);
+			name = "Add Address";
+			sourceTree = "<group>";
+		};
+		82EF2DC41BE8C00600D87DE2 /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				82327F721B60C86B00D92889 /* CartViewController.h */,
+				82327F731B60C86B00D92889 /* CartViewController.m */,
+			);
+			name = Cart;
+			sourceTree = "<group>";
+		};
+		82EF2DC51BE8C02700D87DE2 /* Product Details */ = {
+			isa = PBXGroup;
+			children = (
+				82842CD91B58F81000FCCACC /* DetailsProductViewController.h */,
+				82842CDA1B58F81000FCCACC /* DetailsProductViewController.m */,
+			);
+			name = "Product Details";
+			sourceTree = "<group>";
+		};
+		82EF2DC61BE8C03B00D87DE2 /* Variants Overlay */ = {
+			isa = PBXGroup;
+			children = (
+				829113D51BB93A63000DA995 /* VariantsViewController.h */,
+				829113D61BB93A63000DA995 /* VariantsViewController.m */,
+			);
+			name = "Variants Overlay";
+			sourceTree = "<group>";
+		};
+		82EF2DC71BE8C05300D87DE2 /* Products List */ = {
+			isa = PBXGroup;
+			children = (
+				8250A32B1B55142E0026ADCE /* ProductsViewController.h */,
+				8250A32C1B55142E0026ADCE /* ProductsViewController.m */,
+			);
+			name = "Products List";
+			sourceTree = "<group>";
+		};
+		82EF2DC81BE8C07200D87DE2 /* Home Category */ = {
+			isa = PBXGroup;
+			children = (
+				825266DD1B50002600C635F7 /* HomeCategoryViewController.h */,
+				825266DE1B50002600C635F7 /* HomeCategoryViewController.m */,
+			);
+			name = "Home Category";
+			sourceTree = "<group>";
+		};
+		82EF2DC91BE8C08800D87DE2 /* SubCategories */ = {
+			isa = PBXGroup;
+			children = (
+				8250A3281B55000B0026ADCE /* SubCategoryViewController.h */,
+				8250A3291B55000B0026ADCE /* SubCategoryViewController.m */,
+			);
+			name = SubCategories;
+			sourceTree = "<group>";
+		};
+		82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				82EF2DD41BE8C27100D87DE2 /* Add Address */,
+				82EF2DD31BE8C1D200D87DE2 /* Order Review */,
+				82EF2DD21BE8C18200D87DE2 /* Product List */,
+				82EF2DD11BE8C16B00D87DE2 /* Product Details */,
+				82EF2DD01BE8C14E00D87DE2 /* Cart */,
+				82EF2DCF1BE8C13A00D87DE2 /* My Account */,
+				82EF2DCE1BE8C12A00D87DE2 /* Doctor List */,
+				82EF2DCD1BE8C0F200D87DE2 /* Payment */,
+				82EF2DCB1BE8C0D100D87DE2 /* Addresses */,
+				82EF2DCC1BE8C0DA00D87DE2 /* Doctor Details */,
+			);
+			name = "Custom Views";
+			sourceTree = "<group>";
+		};
+		82EF2DCB1BE8C0D100D87DE2 /* Addresses */ = {
+			isa = PBXGroup;
+			children = (
+				82ECD1241BBD5A91004B0BEB /* AddressCell.h */,
+				82ECD1251BBD5A91004B0BEB /* AddressCell.m */,
+			);
+			name = Addresses;
+			sourceTree = "<group>";
+		};
+		82EF2DCC1BE8C0DA00D87DE2 /* Doctor Details */ = {
+			isa = PBXGroup;
+			children = (
+				823C46A71B73327600E37DBE /* DoctorDetailsViewCell.h */,
+				823C46A81B73327600E37DBE /* DoctorDetailsViewCell.m */,
+			);
+			name = "Doctor Details";
+			sourceTree = "<group>";
+		};
+		82EF2DCD1BE8C0F200D87DE2 /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+				823D06601B8C458600640F45 /* CODInputViewCell.h */,
+				823D06611B8C458600640F45 /* CODInputViewCell.m */,
+				8233CE141B874FB200B5279B /* PaymentViewCell.h */,
+				8233CE151B874FB200B5279B /* PaymentViewCell.m */,
+			);
+			name = Payment;
+			sourceTree = "<group>";
+		};
+		82EF2DCE1BE8C12A00D87DE2 /* Doctor List */ = {
+			isa = PBXGroup;
+			children = (
+				825692CA1B6B771700B5D1D3 /* DoctorViewCell.h */,
+				825692CB1B6B771700B5D1D3 /* DoctorViewCell.m */,
+			);
+			name = "Doctor List";
+			sourceTree = "<group>";
+		};
+		82EF2DCF1BE8C13A00D87DE2 /* My Account */ = {
+			isa = PBXGroup;
+			children = (
+				823C46AE1B7392FE00E37DBE /* ProfileViewCell.h */,
+				823C46AF1B7392FE00E37DBE /* ProfileViewCell.m */,
+			);
+			name = "My Account";
+			sourceTree = "<group>";
+		};
+		82EF2DD01BE8C14E00D87DE2 /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				82327F751B60F9A800D92889 /* CartViewCell.h */,
+				82327F761B60F9A800D92889 /* CartViewCell.m */,
+				82559A601B623F9B0064E994 /* HeaderLabel.h */,
+				82559A611B623F9B0064E994 /* HeaderLabel.m */,
+			);
+			name = Cart;
+			sourceTree = "<group>";
+		};
+		82EF2DD11BE8C16B00D87DE2 /* Product Details */ = {
+			isa = PBXGroup;
+			children = (
+				82842CDC1B58F92600FCCACC /* ProductImageViewCell.h */,
+				82842CDD1B58F92600FCCACC /* ProductImageViewCell.m */,
+			);
+			name = "Product Details";
+			sourceTree = "<group>";
+		};
+		82EF2DD21BE8C18200D87DE2 /* Product List */ = {
+			isa = PBXGroup;
+			children = (
+				8250A3301B553B000026ADCE /* ProductViewCell.h */,
+				8250A3311B553B000026ADCE /* ProductViewCell.m */,
+			);
+			name = "Product List";
+			sourceTree = "<group>";
+		};
+		82EF2DD31BE8C1D200D87DE2 /* Order Review */ = {
+			isa = PBXGroup;
+			children = (
+				826B14211BC28D4800B6A1C3 /* OrderReviewCell.h */,
+				826B14221BC28D4800B6A1C3 /* OrderReviewCell.m */,
+				826B14241BC2904700B6A1C3 /* OrderReviewFooterView.h */,
+				826B14251BC2904700B6A1C3 /* OrderReviewFooterView.m */,
+				826B14271BC2906800B6A1C3 /* OrderReviewFooterView.xib */,
+			);
+			name = "Order Review";
+			sourceTree = "<group>";
+		};
+		82EF2DD41BE8C27100D87DE2 /* Add Address */ = {
+			isa = PBXGroup;
+			children = (
+				825567191B68E6F0009F013A /* AddShippingViewCell.h */,
+				8255671A1B68E6F0009F013A /* AddShippingViewCell.m */,
+			);
+			name = "Add Address";
+			sourceTree = "<group>";
+		};
+		82EF2DD51BE8C2BC00D87DE2 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */,
+				82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */,
+				82C723061B7B58C800E0C5EF /* NSString+SignupValidation.h */,
+				82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		82EF2DD71BE8C3BE00D87DE2 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				82EF2DD81BE8C3F200D87DE2 /* Products List */,
+				82EF2DD91BE8C3FB00D87DE2 /* Product Details */,
+				82EF2DDC1BE8C59800D87DE2 /* Cart */,
+				82EF2DDD1BE8C59F00D87DE2 /* Add Address */,
+			);
+			name = "View Models";
+			sourceTree = "<group>";
+		};
+		82EF2DD81BE8C3F200D87DE2 /* Products List */ = {
+			isa = PBXGroup;
+			children = (
+				82842CDF1B590B8600FCCACC /* DetailViewModel.h */,
+				82842CE01B590B8600FCCACC /* DetailViewModel.m */,
+			);
+			name = "Products List";
+			sourceTree = "<group>";
+		};
+		82EF2DD91BE8C3FB00D87DE2 /* Product Details */ = {
+			isa = PBXGroup;
+			children = (
+				82327F6C1B60B0EB00D92889 /* DetailProductViewModel.h */,
+				82327F6D1B60B0EB00D92889 /* DetailProductViewModel.m */,
+			);
+			name = "Product Details";
+			sourceTree = "<group>";
+		};
+		82EF2DDA1BE8C46900D87DE2 /* Custom CollectionViews */ = {
+			isa = PBXGroup;
+			children = (
+				8250A3251B54E9D70026ADCE /* HeaderSliderView.h */,
+				8250A3261B54E9D70026ADCE /* HeaderSliderView.m */,
+				82395A9A1B53A77300581EB4 /* CategoryViewCell.h */,
+				82395A9B1B53A77300581EB4 /* CategoryViewCell.m */,
+			);
+			name = "Custom CollectionViews";
+			sourceTree = "<group>";
+		};
+		82EF2DDB1BE8C55E00D87DE2 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				82BD028F1B46A73C00108A0B /* AppDelegate.h */,
+				82BD02901B46A73C00108A0B /* AppDelegate.m */,
+				82C722F41B7B1B7600E0C5EF /* RootTabBarControllerDelegate.h */,
+				82C722F51B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		82EF2DDC1BE8C59800D87DE2 /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				82327F781B61027B00D92889 /* CartViewModel.h */,
+				82327F791B61027B00D92889 /* CartViewModel.m */,
+			);
+			name = Cart;
+			sourceTree = "<group>";
+		};
+		82EF2DDD1BE8C59F00D87DE2 /* Add Address */ = {
+			isa = PBXGroup;
+			children = (
+				8255671C1B68EC5E009F013A /* AddShippingViewModel.h */,
+				8255671D1B68EC5E009F013A /* AddShippingViewModel.m */,
+			);
+			name = "Add Address";
+			sourceTree = "<group>";
+		};
+		82EF2DDE1BE8C63300D87DE2 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				82EF2DDF1BE8C67B00D87DE2 /* StoresViewController.h */,
+				82EF2DE01BE8C67B00D87DE2 /* StoresViewController.m */,
+			);
+			name = Stores;
+			sourceTree = "<group>";
+		};
+		82EF2DE21BE8EC3E00D87DE2 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				82EF2DE31BE8ECD400D87DE2 /* SessionManager.h */,
+				82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */,
+			);
+			name = Network;
 			sourceTree = "<group>";
 		};
 		95BE41776404844E9379F46C /* Pods */ = {
@@ -753,6 +870,7 @@
 				82BD02851B46A73C00108A0B /* Frameworks */,
 				82BD02861B46A73C00108A0B /* Resources */,
 				BCEB34B768A8987F3544B538 /* Copy Pods Resources */,
+				25D35F44936B9F253036DFF3 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -844,6 +962,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		25D35F44936B9F253036DFF3 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3C6AD88314DA89E7BD82063D /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -891,7 +1024,9 @@
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
 				82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */,
+				82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */,
 				82327F741B60C86B00D92889 /* CartViewController.m in Sources */,
+				82EF2DE11BE8C67B00D87DE2 /* StoresViewController.m in Sources */,
 				823C46B31B73934F00E37DBE /* MyAccountViewController.m in Sources */,
 				82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */,
 				8250A32A1B55000B0026ADCE /* SubCategoryViewController.m in Sources */,
@@ -918,7 +1053,6 @@
 				829113E21BB973AA000DA995 /* AddToCart+CoreDataProperties.m in Sources */,
 				82C722F61B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m in Sources */,
 				82C175951B66371000AD26DB /* OrderInputsViewController.m in Sources */,
-				824D003A1B6F68AF000F1825 /* AddressViewCell.m in Sources */,
 				826B14261BC2904700B6A1C3 /* OrderReviewFooterView.m in Sources */,
 				82BD028E1B46A73C00108A0B /* main.m in Sources */,
 				82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */,

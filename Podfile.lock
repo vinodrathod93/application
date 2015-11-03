@@ -1,21 +1,54 @@
 PODS:
+  - AFNetworking (2.6.1):
+    - AFNetworking/NSURLConnection (= 2.6.1)
+    - AFNetworking/NSURLSession (= 2.6.1)
+    - AFNetworking/Reachability (= 2.6.1)
+    - AFNetworking/Security (= 2.6.1)
+    - AFNetworking/Serialization (= 2.6.1)
+    - AFNetworking/UIKit (= 2.6.1)
+  - AFNetworking/NSURLConnection (2.6.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.1)
+  - AFNetworking/Security (2.6.1)
+  - AFNetworking/Serialization (2.6.1)
+  - AFNetworking/UIKit (2.6.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
   - libPhoneNumber-iOS (0.8.5)
+  - Mantle (2.0.5):
+    - Mantle/extobjc (= 2.0.5)
+  - Mantle/extobjc (2.0.5)
   - MBProgressHUD (0.9.1)
+  - Realm (0.96.2):
+    - Realm/Headers (= 0.96.2)
+  - Realm/Headers (0.96.2)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
   - XLForm (3.0.0)
 
 DEPENDENCIES:
+  - AFNetworking
   - libPhoneNumber-iOS (~> 0.8)
+  - Mantle
   - MBProgressHUD (~> 0.9.1)
+  - Realm
   - SDWebImage (~> 3.7)
   - XLForm (~> 3.0.0)
 
 SPEC CHECKSUMS:
+  AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
   libPhoneNumber-iOS: b8ccd23576379caca37c7cbdd554addf384459ed
+  Mantle: 1912395033f601de5adc8ee91e48f46e4c7051ad
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  Realm: 3ce8448151c571e90b85002d984d7f93f54fc8a3
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   XLForm: 10fc7eb9e2d5df21a515fa3a794f4e26319abd0e
 
-COCOAPODS: 0.37.2
+COCOAPODS: 0.39.0

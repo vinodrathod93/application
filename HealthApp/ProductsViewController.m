@@ -18,7 +18,7 @@
 #import "AppDelegate.h"
 
 //#define kPRODUCTS_DATA_LINK @"http://chemistplus.in/getProducts_test.php"
-#define kSPREE_PRODUCTS_URL @"http://www.elnuur.com/api/v2/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
+#define kSPREE_PRODUCTS_URL @"http://www.elnuur.com/api/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
 #define kFIRST_PAGE 1
 
 @interface ProductsViewController ()<UISearchResultsUpdating, UISearchBarDelegate>
@@ -35,7 +35,7 @@
 @property (nonatomic, strong) NSString *nextPage;
 
 // version api 1
-//@property (nonatomic, strong) NSString *pages;
+@property (nonatomic, strong) NSString *pages;
 
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic)        float          searchBarBoundsY;
@@ -195,19 +195,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 #pragma mark - UISearchResultsUpdating
 
--(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-    NSString *searchString = [self.searchController.searchBar text];
-    
-    NSString *scope = nil;
-    
-    if (self.searchController.searchResultsController) {
-        UINavigationController *navController = (UINavigationController *)self.searchController.searchResultsController;
-        
-        SearchResultsProductViewController *vc = (SearchResultsProductViewController *)navController.topViewController;
-//        vc.searchResults = self.searchResults;
-//        [vc.collectionView reloadData];
-    }
-}
+
 
 #pragma mark - Helper Methods
 
@@ -260,8 +248,8 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                 else if(![dictionary isEqual:nil])
                 {
                     NSLog(@"%@",dictionary);
-//                    NSArray *array = [DetailViewModel infiniteProductsFromJSON:dictionary];
-                    NSArray *array = [DetailViewModel secondVersionInfiniteProductsFromJSON:dictionary];
+                    NSArray *array = [DetailViewModel infiniteProductsFromJSON:dictionary];
+//                    NSArray *array = [DetailViewModel secondVersionInfiniteProductsFromJSON:dictionary];
                     if (page == 1) {
                         
                         self.viewModel = [[DetailViewModel alloc]initWithArray:array];
@@ -292,8 +280,8 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                         
                     }
                     
-//                    self.currentPage = [self.viewModel currentPage:dictionary];
-//                    self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
+                    self.currentPage = [self.viewModel currentPage:dictionary];
+                    self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
                     
                 }
                 
