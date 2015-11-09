@@ -7,8 +7,18 @@
 //
 
 #import "StoresViewController.h"
+#import "APIManager.h"
+#import <Realm/Realm.h>
+#import "StoreRealm.h"
+#import "StoresViewCell.h"
+#import <MBProgressHUD/MBProgressHUD.h>
+#import "TaxonsViewController.h"
 
 @interface StoresViewController ()
+
+//@property (nonatomic, strong) RLMResults *stores;
+@property (nonatomic, strong) NSArray *array_stores;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -17,11 +27,48 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    StoreListRequestModel *requestModel = [StoreListRequestModel new];
+    requestModel.location = @"19.012156,72.832355";
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self showHUD];
+    [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {
+        
+        
+        
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            RLMRealm *realm = [RLMRealm defaultRealm];
+//            [realm beginWriteTransaction];
+//            [realm deleteAllObjects];
+//            [realm commitWriteTransaction];
+//            
+//            [realm beginWriteTransaction];
+//            for (StoresModel *store in responseModel.stores) {
+//                StoreRealm *storeRealm = [[StoreRealm alloc] initWithMantleModel:store];
+//                [realm addObject:storeRealm];
+//            }
+//            [realm commitWriteTransaction];
+//            
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
+//                RLMResults *stores = [StoreRealm allObjectsInRealm:realmMainThread];
+//                self.stores = stores;
+//                [self.tableView reloadData];
+//                [self hideHUD];
+//            });
+//        });
+        
+        self.array_stores = responseModel.stores;
+        
+        [self.tableView reloadData];
+        [self hideHUD];
+        
+    } failure:^(NSError *error) {
+        
+        [self hideHUD];
+        
+        UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertError show];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -32,65 +79,40 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return [self.array_stores count];
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    StoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storeCell" forIndexPath:indexPath];
+//    StoreRealm *store = self.stores[indexPath.row];
+    StoresModel *store = self.array_stores[indexPath.row];
     
-    // Configure the cell...
+    cell.storeNameLabel.text = store.storeName;
+    cell.distance.text = [NSString stringWithFormat:@"%f km",store.storeDistance.floatValue];
+    cell.localityAddress.text = [NSString stringWithFormat:@"%@, %@, %@", store.storeStreetAddress, store.storeState, store.storeCountry];
     
     return cell;
 }
-*/
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+-(void)showHUD {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = self.tableView.tintColor;
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+-(void)hideHUD {
+    [self.hud hide:YES];
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    TaxonsViewController *taxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"taxonsVC"];
+    
+    [self.navigationController pushViewController:taxonsVC animated:YES];
 }
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

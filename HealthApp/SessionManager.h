@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AFNetworking/AFHTTPSessionManager.h>
+#import "AFHTTPSessionManager.h"
 
 @interface SessionManager : AFHTTPSessionManager
+
++ (id)sharedManager;
 
 @end

@@ -17,6 +17,7 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "SignUpViewController.h"
+#import "StoresViewController.h"
 
 
 @interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate>
@@ -136,11 +137,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    SubCategoryViewController *subCategoryVC  = [self.storyboard instantiateViewControllerWithIdentifier:@"subCatViewController"];
-    subCategoryVC.title = self.categoriesArray[indexPath.item];
-    subCategoryVC.categoryID = [NSString stringWithFormat:@"%ld",(long)indexPath.item + 1];
+    StoresViewController *storesVC  = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
+    storesVC.title = self.categoriesArray[indexPath.item];
+//    storesVC.categoryID = [NSString stringWithFormat:@"%ld",(long)indexPath.item + 1];
     
-    [self.navigationController pushViewController:subCategoryVC animated:YES];
+    [self.navigationController pushViewController:storesVC animated:YES];
     
 }
 
@@ -169,6 +170,10 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     return reusableView;
     
 }
+
+
+
+
 
 
 
