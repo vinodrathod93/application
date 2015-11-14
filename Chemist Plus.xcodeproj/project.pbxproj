@@ -46,6 +46,7 @@
 		825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825692CB1B6B771700B5D1D3 /* DoctorViewCell.m */; };
 		825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825692D21B6B77E200B5D1D3 /* DoctorViewController.m */; };
 		825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825892811BBEB21C0032B0A3 /* DeliveryViewController.m */; };
+		8266ECEA1BF7543A0085F515 /* TaxonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8266ECE91BF7543A0085F515 /* TaxonsViewController.m */; };
 		826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B141F1BC28C9100B6A1C3 /* OrderReviewViewController.m */; };
 		826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B14221BC28D4800B6A1C3 /* OrderReviewCell.m */; };
 		826B14261BC2904700B6A1C3 /* OrderReviewFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B14251BC2904700B6A1C3 /* OrderReviewFooterView.m */; };
@@ -64,10 +65,6 @@
 		8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2531BF08A7F00AFC533 /* StoreListResponseModel.m */; };
 		8286B2581BF08F3F00AFC533 /* StoreRealm.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2571BF08F3F00AFC533 /* StoreRealm.m */; };
 		8286B25C1BF0A2BA00AFC533 /* StoresViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B25B1BF0A2BA00AFC533 /* StoresViewCell.m */; };
-		8286B2621BF0C83500AFC533 /* RRNCollapsableSectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2611BF0C83500AFC533 /* RRNCollapsableSectionTableViewController.m */; };
-		8286B2661BF0C86D00AFC533 /* TaxonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2651BF0C86D00AFC533 /* TaxonsViewController.m */; };
-		8286B26A1BF0C9F300AFC533 /* TaxonTaxonomyHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2691BF0C9F300AFC533 /* TaxonTaxonomyHeaderView.m */; };
-		8286B26C1BF0CA1A00AFC533 /* TaxonTaxonomyHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8286B26B1BF0CA1A00AFC533 /* TaxonTaxonomyHeaderView.xib */; };
 		8286B2711BF0CF6A00AFC533 /* TaxonomyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2701BF0CF6A00AFC533 /* TaxonomyModel.m */; };
 		8286B2741BF0CF7500AFC533 /* TaxonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2731BF0CF7500AFC533 /* TaxonModel.m */; };
 		8286B2771BF0CFB400AFC533 /* TaxonomyListRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2761BF0CFB400AFC533 /* TaxonomyListRequestModel.m */; };
@@ -186,6 +183,8 @@
 		825692D21B6B77E200B5D1D3 /* DoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoctorViewController.m; sourceTree = "<group>"; };
 		825892801BBEB21C0032B0A3 /* DeliveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeliveryViewController.h; path = ../DeliveryViewController.h; sourceTree = "<group>"; };
 		825892811BBEB21C0032B0A3 /* DeliveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeliveryViewController.m; path = ../DeliveryViewController.m; sourceTree = "<group>"; };
+		8266ECE81BF7543A0085F515 /* TaxonsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxonsViewController.h; sourceTree = "<group>"; };
+		8266ECE91BF7543A0085F515 /* TaxonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonsViewController.m; sourceTree = "<group>"; };
 		826B141E1BC28C9100B6A1C3 /* OrderReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderReviewViewController.h; sourceTree = "<group>"; };
 		826B141F1BC28C9100B6A1C3 /* OrderReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderReviewViewController.m; sourceTree = "<group>"; };
 		826B14211BC28D4800B6A1C3 /* OrderReviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderReviewCell.h; sourceTree = "<group>"; };
@@ -219,16 +218,6 @@
 		8286B2571BF08F3F00AFC533 /* StoreRealm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreRealm.m; sourceTree = "<group>"; };
 		8286B25A1BF0A2BA00AFC533 /* StoresViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoresViewCell.h; sourceTree = "<group>"; };
 		8286B25B1BF0A2BA00AFC533 /* StoresViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoresViewCell.m; sourceTree = "<group>"; };
-		8286B25D1BF0C83500AFC533 /* RRNCollapsableSectionHeaderProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRNCollapsableSectionHeaderProtocol.h; sourceTree = "<group>"; };
-		8286B25E1BF0C83500AFC533 /* RRNCollapsableSectionHeaderReactiveProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRNCollapsableSectionHeaderReactiveProtocol.h; sourceTree = "<group>"; };
-		8286B25F1BF0C83500AFC533 /* RRNCollapsableSectionItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRNCollapsableSectionItemProtocol.h; sourceTree = "<group>"; };
-		8286B2601BF0C83500AFC533 /* RRNCollapsableSectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRNCollapsableSectionTableViewController.h; sourceTree = "<group>"; };
-		8286B2611BF0C83500AFC533 /* RRNCollapsableSectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRNCollapsableSectionTableViewController.m; sourceTree = "<group>"; };
-		8286B2641BF0C86D00AFC533 /* TaxonsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxonsViewController.h; sourceTree = "<group>"; };
-		8286B2651BF0C86D00AFC533 /* TaxonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonsViewController.m; sourceTree = "<group>"; };
-		8286B2681BF0C9F300AFC533 /* TaxonTaxonomyHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxonTaxonomyHeaderView.h; sourceTree = "<group>"; };
-		8286B2691BF0C9F300AFC533 /* TaxonTaxonomyHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonTaxonomyHeaderView.m; sourceTree = "<group>"; };
-		8286B26B1BF0CA1A00AFC533 /* TaxonTaxonomyHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaxonTaxonomyHeaderView.xib; sourceTree = "<group>"; };
 		8286B26F1BF0CF6A00AFC533 /* TaxonomyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxonomyModel.h; sourceTree = "<group>"; };
 		8286B2701BF0CF6A00AFC533 /* TaxonomyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonomyModel.m; sourceTree = "<group>"; };
 		8286B2721BF0CF7500AFC533 /* TaxonModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxonModel.h; sourceTree = "<group>"; };
@@ -397,24 +386,9 @@
 			name = Stores;
 			sourceTree = "<group>";
 		};
-		8286B2631BF0C83C00AFC533 /* RRNCollapsable */ = {
-			isa = PBXGroup;
-			children = (
-				8286B25D1BF0C83500AFC533 /* RRNCollapsableSectionHeaderProtocol.h */,
-				8286B25E1BF0C83500AFC533 /* RRNCollapsableSectionHeaderReactiveProtocol.h */,
-				8286B25F1BF0C83500AFC533 /* RRNCollapsableSectionItemProtocol.h */,
-				8286B2601BF0C83500AFC533 /* RRNCollapsableSectionTableViewController.h */,
-				8286B2611BF0C83500AFC533 /* RRNCollapsableSectionTableViewController.m */,
-			);
-			name = RRNCollapsable;
-			sourceTree = "<group>";
-		};
 		8286B2671BF0C9B900AFC533 /* Taxons */ = {
 			isa = PBXGroup;
 			children = (
-				8286B2681BF0C9F300AFC533 /* TaxonTaxonomyHeaderView.h */,
-				8286B2691BF0C9F300AFC533 /* TaxonTaxonomyHeaderView.m */,
-				8286B26B1BF0CA1A00AFC533 /* TaxonTaxonomyHeaderView.xib */,
 			);
 			name = Taxons;
 			sourceTree = "<group>";
@@ -601,7 +575,6 @@
 		82EF2DB71BE8BD8F00D87DE2 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				8286B2631BF0C83C00AFC533 /* RRNCollapsable */,
 				8200C95C1BC5348600D8A32C /* Reachability */,
 				82C723001B7B4EC800E0C5EF /* TPKeyboardAvoiding */,
 			);
@@ -611,8 +584,8 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8286B2641BF0C86D00AFC533 /* TaxonsViewController.h */,
-				8286B2651BF0C86D00AFC533 /* TaxonsViewController.m */,
+				8266ECE81BF7543A0085F515 /* TaxonsViewController.h */,
+				8266ECE91BF7543A0085F515 /* TaxonsViewController.m */,
 				82EF2DDE1BE8C63300D87DE2 /* Stores */,
 				82EF2DC91BE8C08800D87DE2 /* SubCategories */,
 				82EF2DC81BE8C07200D87DE2 /* Home Category */,
@@ -1099,7 +1072,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				824C25531B56374900C58F97 /* Categories.plist in Resources */,
-				8286B26C1BF0CA1A00AFC533 /* TaxonTaxonomyHeaderView.xib in Resources */,
 				82BD02971B46A73C00108A0B /* Main.storyboard in Resources */,
 				820F0E1C1B5FD00800AE81F4 /* pharma.png in Resources */,
 				82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */,
@@ -1218,6 +1190,7 @@
 				82C175951B66371000AD26DB /* OrderInputsViewController.m in Sources */,
 				8286B25C1BF0A2BA00AFC533 /* StoresViewCell.m in Sources */,
 				826B14261BC2904700B6A1C3 /* OrderReviewFooterView.m in Sources */,
+				8266ECEA1BF7543A0085F515 /* TaxonsViewController.m in Sources */,
 				8286B27A1BF0CFCE00AFC533 /* TaxonomyListResponseModel.m in Sources */,
 				82BD028E1B46A73C00108A0B /* main.m in Sources */,
 				82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */,
@@ -1235,7 +1208,6 @@
 				8233CE101B873B8B00B5279B /* PaymentViewController.m in Sources */,
 				825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */,
 				826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */,
-				8286B2621BF0C83500AFC533 /* RRNCollapsableSectionTableViewController.m in Sources */,
 				822D15C91BCBE04000FE2E7E /* SearchResultsProductViewCell.m in Sources */,
 				8250A32D1B55142E0026ADCE /* ProductsViewController.m in Sources */,
 				8238A7061B5E4538005CC0A5 /* ProductDetail.m in Sources */,
@@ -1243,9 +1215,7 @@
 				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,
 				8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */,
 				825266CE1B4F881600C635F7 /* HomeViewController.m in Sources */,
-				8286B26A1BF0C9F300AFC533 /* TaxonTaxonomyHeaderView.m in Sources */,
 				82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */,
-				8286B2661BF0C86D00AFC533 /* TaxonsViewController.m in Sources */,
 				8286B2581BF08F3F00AFC533 /* StoreRealm.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,
 			);

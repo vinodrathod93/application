@@ -7,9 +7,10 @@ pod 'SDWebImage', '~>3.7'
 pod 'MBProgressHUD', '~> 0.9.1'
 pod 'XLForm', '~> 3.0.0'
 pod 'libPhoneNumber-iOS', '~> 0.8'
-pod "AFNetworking"
-pod "Mantle"
-pod "Realm"
+pod 'AFNetworking'
+pod 'Mantle'
+pod 'Realm'
+pod 'SLExpandableTableView'
 
 end
 

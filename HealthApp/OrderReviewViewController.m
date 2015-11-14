@@ -32,6 +32,7 @@ typedef void (^completion)(BOOL finished);
     [super viewDidLoad];
     
     self.title = @"Review Order";
+    self.navigationItem.hidesBackButton = YES;
     
     NSLog(@"%@",self.line_items);
 }

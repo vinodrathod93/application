@@ -13,6 +13,8 @@
 #import "StoresViewCell.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "TaxonsViewController.h"
+#import "User.h"
+#import "LogSignViewController.h"
 
 @interface StoresViewController ()
 
@@ -110,9 +112,22 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    TaxonsViewController *taxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"taxonsVC"];
+    User *user = [User savedUser];
+    if (user.access_token == nil) {
+        LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
+        logSignVC.isPlacingOrder = NO;
+        
+        UINavigationController *logSignNav = [[UINavigationController alloc]initWithRootViewController:logSignVC];
+        logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+        
+        [self presentViewController:logSignNav animated:YES completion:nil];
+    } else {
+        TaxonsViewController *taxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"taxonsVC"];
+        
+        [self.navigationController pushViewController:taxonsVC animated:YES];
+    }
+
     
-    [self.navigationController pushViewController:taxonsVC animated:YES];
 }
 
 @end

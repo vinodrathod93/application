@@ -1165,55 +1165,35 @@
             <point key="canvasLocation" x="3121" y="-1441"/>
         </scene>
         <!--Taxons View Controller-->
-        <scene sceneID="FIm-kP-k4y">
+        <scene sceneID="kAV-V4-gpx">
             <objects>
-                <viewController storyboardIdentifier="taxonsVC" id="JfI-PW-nIu" customClass="TaxonsViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="bA3-Z7-v20"/>
-                        <viewControllerLayoutGuide type="bottom" id="94V-rq-ujt"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="VsB-UW-fXF">
+                <tableViewController storyboardIdentifier="taxonsVC" id="Yqj-ke-uix" customClass="TaxonsViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="5Ok-yf-I8O">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="got-hg-dVe">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="YfM-hX-Zxb">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YfM-hX-Zxb" id="boW-pf-WUe">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <animations/>
-                                        </tableViewCellContentView>
-                                        <animations/>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="JfI-PW-nIu" id="Rp8-AI-Lqi"/>
-                                    <outlet property="delegate" destination="JfI-PW-nIu" id="rZS-LJ-jXP"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="got-hg-dVe" firstAttribute="top" secondItem="VsB-UW-fXF" secondAttribute="top" id="3sa-rF-iFY"/>
-                            <constraint firstItem="94V-rq-ujt" firstAttribute="top" secondItem="got-hg-dVe" secondAttribute="bottom" id="DG1-Cq-DjZ"/>
-                            <constraint firstItem="got-hg-dVe" firstAttribute="leading" secondItem="VsB-UW-fXF" secondAttribute="leading" id="PUq-39-v8P"/>
-                            <constraint firstAttribute="trailing" secondItem="got-hg-dVe" secondAttribute="trailing" id="zj4-HG-knp"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="tableView" destination="got-hg-dVe" id="Xq5-U4-Rjo"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rC9-TD-RBX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="taxonomiesCell" id="LoT-lw-TDk">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LoT-lw-TDk" id="8DT-GF-rKM">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
+                                </tableViewCellContentView>
+                                <animations/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Yqj-ke-uix" id="BG6-Kd-llJ"/>
+                            <outlet property="delegate" destination="Yqj-ke-uix" id="sra-ZM-EhC"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iBd-kO-qqd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3525" y="-1440"/>
+            <point key="canvasLocation" x="3549" y="-1442"/>
         </scene>
         <!--Sub Category View Controller-->
         <scene sceneID="JSA-LL-YSY">

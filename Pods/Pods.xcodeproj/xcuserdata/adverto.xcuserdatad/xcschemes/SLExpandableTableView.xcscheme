@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '74B8A8F8D550022524DB7807'
-               BlueprintName = 'XLForm'
+               BlueprintIdentifier = '2137DFAA3630122B3FAB1D52'
+               BlueprintName = 'SLExpandableTableView'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libXLForm.a'>
+               BuildableName = 'libSLExpandableTableView.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

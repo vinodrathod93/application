@@ -107,9 +107,9 @@ typedef void(^completion)(BOOL finished);
             [self submitSignupDataWithCompletion:^(BOOL finished) {
                 if (finished) {
                     [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                        NSLog(@"Placing Order");
                         
                         if (self.isPlacingOrder) {
+                            NSLog(@"Placing Order");
                             [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
                         }
                         

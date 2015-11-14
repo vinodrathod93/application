@@ -12,5 +12,5 @@
 @interface TaxonomyModel : MTLModel<MTLJSONSerializing>
 
 @property (nonatomic, copy) NSString *taxonomyName;
-@property (nonatomic, copy) TaxonModel *taxons;
+@property (nonatomic, copy) NSArray *taxons;
 @end

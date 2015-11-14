@@ -18,7 +18,8 @@
 #import "AppDelegate.h"
 
 //#define kPRODUCTS_DATA_LINK @"http://chemistplus.in/getProducts_test.php"
-#define kSPREE_PRODUCTS_URL @"http://www.elnuur.com/api/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
+//#define kSPREE_PRODUCTS_URL @"http://manish.elnuur.com/api/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
+#define kSPREE_PRODUCTS_URL @"https://neediator.herokuapp.com/api/products.json?token=2b5059e887dd58048eca5069d4f56b690611e0f80d5e1ef6"
 #define kFIRST_PAGE 1
 
 @interface ProductsViewController ()<UISearchResultsUpdating, UISearchBarDelegate>

@@ -8,8 +8,8 @@
 
 #import <Mantle/Mantle.h>
 
-@interface TaxonModel : MTLModel
+@interface TaxonModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic, copy) NSString *taxonId;
+@property (nonatomic, copy) NSNumber *taxonId;
 @property (nonatomic, copy) NSString *taxonName;
 @end

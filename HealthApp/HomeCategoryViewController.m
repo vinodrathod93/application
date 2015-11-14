@@ -138,8 +138,10 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     StoresViewController *storesVC  = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
+    
+//    SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCatViewController"];
     storesVC.title = self.categoriesArray[indexPath.item];
-//    storesVC.categoryID = [NSString stringWithFormat:@"%ld",(long)indexPath.item + 1];
+//    subCatVC.categoryID = [NSString stringWithFormat:@"%ld",(long)indexPath.item + 1];
     
     [self.navigationController pushViewController:storesVC animated:YES];
     

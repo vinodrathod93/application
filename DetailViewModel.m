@@ -113,7 +113,7 @@ static NSString *summary = @"summary"; */
     NSArray *product = details.small_img;
     NSLog(@"%@",product);
     
-    return product[0];
+    return (product.count == 0) ? nil : product[0];
 }
 
 -(NSString *)getItemsCount:(NSDictionary *)dictionary {
