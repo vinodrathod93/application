@@ -39,9 +39,12 @@ static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef81
     }];
 }
 
--(NSURLSessionDataTask *)getTaxonomiesWithSuccess:(void (^)(TaxonomyListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure {
+-(NSURLSessionDataTask *)getTaxonomiesForStore:(NSString *)store WithSuccess:(void (^)(TaxonomyListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure {
     
     User *user = [User savedUser];
+    
+    NSString *kStoreURL = [NSString stringWithFormat:@"http://%@",store];
+    SessionManager *manager = [[SessionManager alloc]initWithBaseURL:[NSURL URLWithString:kStoreURL]];
     
     if (user.access_token == nil) {
         
@@ -51,7 +54,7 @@ static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef81
         NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc]init];
         [parametersWithKey setObject:user.access_token forKey:@"token"];
         
-        return [self GET:kTaxonomiesListPath parameters:parametersWithKey success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        return [manager GET:kTaxonomiesListPath parameters:parametersWithKey success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
             NSDictionary *responseDictionary = (NSDictionary *)responseObject;
             NSError *error;
             

@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString *displayPrice;
 @property (nonatomic, assign) BOOL hasVariant;
 @property (nonatomic, strong) NSString *variantID;
+@property (nonatomic, strong) NSNumber *total_on_hand;
 
 @property (nonatomic, strong) NSArray *small_img;
 @property (nonatomic, strong) NSArray *product_img;

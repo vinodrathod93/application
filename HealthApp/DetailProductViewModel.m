@@ -60,6 +60,13 @@
 }
 
 
+-(BOOL)isOutOfStock {
+    if ([[self.model valueForKey:@"total_on_hand"] isEqual: @(0)]) {
+        return true;
+    } else
+        return false;
+}
+
 -(CGFloat)heightForSummaryTextInTableViewCellWithWidth:(CGFloat)width {
     NSString *string = [self summary];
     CGFloat height = [string boundingRectWithSize:CGSizeMake(width, 2000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f]} context:nil].size.height;

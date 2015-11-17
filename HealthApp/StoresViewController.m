@@ -13,6 +13,7 @@
 #import "StoresViewCell.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "TaxonsViewController.h"
+#import "StoreTaxonsViewController.h"
 #import "User.h"
 #import "LogSignViewController.h"
 
@@ -113,6 +114,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     User *user = [User savedUser];
+    StoresModel *store = self.array_stores[indexPath.row];
+    
     if (user.access_token == nil) {
         LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
         logSignVC.isPlacingOrder = NO;
@@ -122,9 +125,37 @@
         
         [self presentViewController:logSignNav animated:YES completion:nil];
     } else {
-        TaxonsViewController *taxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"taxonsVC"];
         
-        [self.navigationController pushViewController:taxonsVC animated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
+                @autoreleasepool {
+                    RLMRealm *realm = [RLMRealm defaultRealm];
+                    [realm beginWriteTransaction];
+                    [realm deleteAllObjects];
+                    [realm commitWriteTransaction];
+                    
+                    [realm beginWriteTransaction];
+                    
+                    StoreRealm *storeRealm = [[StoreRealm alloc] initWithMantleModel:store];
+                    [realm addObject:storeRealm];
+                    
+                    [realm commitWriteTransaction];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        RLMRealm *realmMainThread = [RLMRealm defaultRealm];
+                        RLMResults *stores = [StoreRealm allObjectsInRealm:realmMainThread];
+                        
+                        NSLog(@"%@",stores);
+                    });
+                }
+                
+             });
+        
+        
+        StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
+        storeTaxonsVC.title = [store.storeName capitalizedString];
+        storeTaxonsVC.storeURL = store.storeUrl;
+        [self.navigationController pushViewController:storeTaxonsVC animated:YES];
     }
 
     

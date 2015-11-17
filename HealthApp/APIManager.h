@@ -14,6 +14,6 @@
 @interface APIManager : SessionManager
 
 -(NSURLSessionDataTask *)getStoresWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^)(StoreListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure;
--(NSURLSessionDataTask *)getTaxonomiesWithSuccess:(void (^)(TaxonomyListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure;
+-(NSURLSessionDataTask *)getTaxonomiesForStore:(NSString *)store WithSuccess:(void (^)(TaxonomyListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure;
 
 @end

@@ -14,8 +14,8 @@
 @interface SLExpandableTableViewControllerHeaderCell : UITableViewCell <UIExpandingTableViewCell>
 
 @property (nonatomic, assign, getter = isLoading) BOOL loading;
-
 @property (nonatomic, readonly) UIExpansionStyle expansionStyle;
+
 - (void)setExpansionStyle:(UIExpansionStyle)expansionStyle animated:(BOOL)animated;
 
 @end
@@ -47,7 +47,7 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self _updateDetailTextLabel];
-        self.backgroundColor = [UIColor yellowColor];
+        self.backgroundColor = [UIColor colorWithRed:241/255.0f green:241/255.0f blue:241/255.0f alpha:1.0f];
     }
     return self;
 }
@@ -101,7 +101,7 @@
     
     _expandableSections = [NSMutableIndexSet indexSet];
     
-    [[APIManager sharedManager] getTaxonomiesWithSuccess:^(TaxonomyListResponseModel *responseModel) {
+    [[APIManager sharedManager] getTaxonomiesForStore:self.storeURL WithSuccess:^(TaxonomyListResponseModel *responseModel) {
         self.taxonomies = responseModel.taxonomies;
         
         NSLog(@"%@",self.taxonomies);

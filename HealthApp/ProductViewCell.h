@@ -13,5 +13,6 @@
 @property (nonatomic, weak) IBOutlet UIImageView *productImageView;
 @property (nonatomic, weak) IBOutlet UILabel * productLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productPrice;
+@property (weak, nonatomic) IBOutlet UIImageView *soldOutView;
 
 @end

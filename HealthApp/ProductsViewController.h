@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString *subCategoryID;
 @property (nonatomic, strong) NSString *categoryID;
 @property (nonatomic, strong) NSString *navigationTitleString;
+@property (nonatomic, strong) NSString *taxonProductsURL;
 
 @end
 

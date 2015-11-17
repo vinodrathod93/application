@@ -9,15 +9,18 @@
 #import "DetailsProductViewController.h"
 #import "ProductImageViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <MBProgressHUD.h>
 #import "AppDelegate.h"
 #import "AddToCart.h"
 #import "OrderInputsViewController.h"
 #import "VariantsViewController.h"
+#import "YSLTransitionAnimator.h"
+#import "UIViewController+YSLTransition.h"
 
 
 #define FOOTER_HEIGHT 35
 
-@interface DetailsProductViewController ()<NSFetchedResultsControllerDelegate>
+@interface DetailsProductViewController ()<NSFetchedResultsControllerDelegate,YSLTransitionAnimatorDataSource>
 
 @property (nonatomic, strong) UIView *footerView;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -36,6 +39,10 @@ NSString *cellReuseIdentifier;
     
     self.title = @"Product Detail";
     self.viewModel = [[DetailProductViewModel alloc]initWithModel:self.detail];
+    
+    UIBarButtonItem *cartItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cart"] style:UIBarButtonItemStylePlain target:self action:@selector(showCartView:)];
+    self.navigationItem.rightBarButtonItem = cartItem;
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedLabelButton) name:@"updateAdded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alreadyLabelButton) name:@"updateAlreadyAdded" object:nil];
@@ -57,10 +64,30 @@ NSString *cellReuseIdentifier;
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self ysl_removeTransitionDelegate];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self ysl_addTransitionDelegate:self];
+    [self ysl_popTransitionAnimationWithCurrentScrollView:nil
+                                    cancelAnimationPointY:0
+                                        animationDuration:0.3
+                                  isInteractiveTransition:YES];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+-(void)showCartView:(UIBarButtonItem *)sender {
+    
+}
+
 
 #pragma mark - Table view data source
 
@@ -205,7 +232,6 @@ NSString *cellReuseIdentifier;
         self.footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, FOOTER_HEIGHT)];
         
         [self addToCartButton];
-        [self buyButton];
         
         return self.footerView;
     }
@@ -216,24 +242,35 @@ NSString *cellReuseIdentifier;
 
 
 -(void)addToCartButton {
-    self.cartButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/2, FOOTER_HEIGHT)];
+    
+    
+    self.cartButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, FOOTER_HEIGHT)];
     self.cartButton.backgroundColor = [UIColor lightGrayColor];
-    [self.cartButton setTitle:@"Add to Cart" forState:UIControlStateNormal];
     [self.cartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.cartButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
     [self.cartButton addTarget:self action:@selector(addToCartButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    if ([self.viewModel isOutOfStock]) {
+        [self.cartButton setTitle:@"Out of Stock" forState:UIControlStateNormal];
+        self.cartButton.userInteractionEnabled = NO;
+    } else {
+        [self.cartButton setTitle:@"Add to Cart" forState:UIControlStateNormal];
+        self.cartButton.userInteractionEnabled = YES;
+    }
+    
+    
     [self.footerView addSubview:self.cartButton];
 }
 
--(void)buyButton {
-    UIButton *buyButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, self.view.frame.size.width/2, FOOTER_HEIGHT)];
-    buyButton.backgroundColor = [UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f];
-    [buyButton setTitle:@"Buy Now" forState:UIControlStateNormal];
-    [buyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    buyButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
-    [buyButton addTarget:self action:@selector(buyButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [self.footerView addSubview:buyButton];
-}
+//-(void)buyButton {
+//    UIButton *buyButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, self.view.frame.size.width/2, FOOTER_HEIGHT)];
+//    buyButton.backgroundColor = [UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f];
+//    [buyButton setTitle:@"Buy Now" forState:UIControlStateNormal];
+//    [buyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    buyButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
+//    [buyButton addTarget:self action:@selector(buyButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+//    [self.footerView addSubview:buyButton];
+//}
 
 -(void)addToCartButtonPressed {
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
@@ -280,6 +317,7 @@ NSString *cellReuseIdentifier;
             
             [self.managedObjectContext save:nil];
             [self addedLabelButton];
+            
         }
         else {
             [self alreadyLabelButton];
@@ -295,6 +333,11 @@ NSString *cellReuseIdentifier;
     
     [self.cartButton setTitle:@"Added" forState:UIControlStateNormal];
     [self.cartButton setBackgroundColor:[UIColor colorWithRed:26/255.0f green:188/255.0f blue:156/255.0f alpha:1.0f]];
+    
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"addedToCartNotification" object:nil];
+    
 }
 
 -(void)alreadyLabelButton {
@@ -356,5 +399,28 @@ NSString *cellReuseIdentifier;
     }];
     
 }
+
+#pragma mark -- YSLTransitionAnimatorDataSource
+- (UIImageView *)popTransitionImageView
+{
+    ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    
+    for (UIView *view in cell.productImage.subviews) {
+        if ([view isKindOfClass:[UIImageView class]]) {
+            UIImageView *image = (UIImageView *)view;
+            
+            return image;
+        }
+    }
+    
+    return nil;
+}
+
+- (UIImageView *)pushTransitionImageView
+{
+    return nil;
+}
+
 
 @end

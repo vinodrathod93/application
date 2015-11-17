@@ -16,13 +16,15 @@
 #import "SearchResultsProductViewController.h"
 #import "Reachability.h"
 #import "AppDelegate.h"
+#import "YSLTransitionAnimator.h"
+#import "UIViewController+YSLTransition.h"
 
 //#define kPRODUCTS_DATA_LINK @"http://chemistplus.in/getProducts_test.php"
 //#define kSPREE_PRODUCTS_URL @"http://manish.elnuur.com/api/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
-#define kSPREE_PRODUCTS_URL @"https://neediator.herokuapp.com/api/products.json?token=2b5059e887dd58048eca5069d4f56b690611e0f80d5e1ef6"
+//#define kSPREE_PRODUCTS_URL @"https://neediator.herokuapp.com/api/products.json?token=2b5059e887dd58048eca5069d4f56b690611e0f80d5e1ef6"
 #define kFIRST_PAGE 1
 
-@interface ProductsViewController ()<UISearchResultsUpdating, UISearchBarDelegate>
+@interface ProductsViewController ()<YSLTransitionAnimatorDataSource>
 
 @property (nonatomic, strong) NSURLSessionDataTask *task;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -54,7 +56,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAddedToCart) name:@"addedToCartNotification" object:nil];
 
     
     
@@ -130,9 +132,19 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [self ysl_removeTransitionDelegate];
     [self.task suspend];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    float statusHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    float navigationHeight = self.navigationController.navigationBar.frame.size.height;
+    
+    [self ysl_addTransitionDelegate:self];
+    [self ysl_pushTransitionAnimationWithToViewControllerImagePointY:statusHeight + navigationHeight
+                                                   animationDuration:0.3];
+}
 
 
 #pragma mark <UICollectionViewDataSource>
@@ -159,6 +171,13 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     [cell.productImageView sd_setImageWithURL:url];
     cell.productLabel.text = [self.viewModel nameAtIndex:indexPath.item];
     cell.productPrice.text = [self.viewModel priceAtIndex:indexPath.item];
+    
+    if ([self.viewModel isProductOutOfStock:indexPath.item]) {
+        
+        [cell.soldOutView setImage:[UIImage imageNamed:@"soldout"]];
+        
+        
+    }
     
     return cell;
 }
@@ -231,7 +250,9 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     NSLog(@"loadProducts");
     NSURLSession *session = [NSURLSession sharedSession];
     
-    NSURLRequest *spree_request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:kSPREE_PRODUCTS_URL]];
+    NSLog(@"URL is %@",self.taxonProductsURL);
+    
+    NSURLRequest *spree_request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:self.taxonProductsURL]];
     
     self.task = [session dataTaskWithRequest:spree_request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
@@ -375,6 +396,23 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     return containerView;
 }
 
+
+-(void)showAddedToCart {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.45 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cart"]];
+        hud.labelText = @"Added to Cart";
+        hud.tintColor = self.collectionView.tintColor;
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [hud hide:YES];
+        });
+    });
+}
+
+
+
 /*
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
 //    NSLog(@"%f",[scrollView contentOffset].y + scrollView.frame.size.height - 49);
@@ -429,9 +467,11 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 - (void)addObservers{
     [self.collectionView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 }
+
 - (void)removeObservers{
     [self.collectionView removeObserver:self forKeyPath:@"contentOffset" context:Nil];
 }
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(UICollectionView *)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"contentOffset"] && object == self.collectionView ) {
         if (self.searchController.isActive) {
@@ -451,6 +491,18 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         }
         
     }
+}
+
+#pragma mark -- YSLTransitionAnimatorDataSource
+- (UIImageView *)pushTransitionImageView
+{
+    ProductViewCell *cell = (ProductViewCell *)[self.collectionView cellForItemAtIndexPath:[[self.collectionView indexPathsForSelectedItems] firstObject]];
+    return cell.productImageView;
+}
+
+- (UIImageView *)popTransitionImageView
+{
+    return nil;
 }
 
 @end

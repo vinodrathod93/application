@@ -60,6 +60,15 @@ static NSString *summary = @"summary"; */
     [self.viewModelProducts addObjectsFromArray:array];
 }
 
+-(BOOL)isProductOutOfStock:(NSInteger)index {
+    ProductDetail *details = self.viewModelProducts[index];
+    
+    if (details.total_on_hand.intValue != 0) {
+        return false;
+    } else
+        return true;
+}
+
 
 
 /************ Infinite series **************/
@@ -75,6 +84,7 @@ static NSString *summary = @"summary"; */
         detail.productID =  [product valueForKeyPath:@"master.id"];
         detail.name =       [product valueForKeyPath:@"master.name"];
         detail.hasVariant = [[product objectForKey:@"has_variants"] boolValue];
+        detail.total_on_hand = [product valueForKey:@"total_on_hand"];
         
         // Master Images
         NSMutableArray *smallImages = [NSMutableArray array];
@@ -110,7 +120,7 @@ static NSString *summary = @"summary"; */
 
 -(NSString *)infiniteImageAtIndex:(NSInteger)index {
     ProductDetail *details = self.viewModelProducts[index];
-    NSArray *product = details.small_img;
+    NSArray *product = details.product_img;
     NSLog(@"%@",product);
     
     return (product.count == 0) ? nil : product[0];

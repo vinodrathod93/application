@@ -23,6 +23,8 @@
 -(NSNumber *)productID;
 -(NSNumber *)quantity;
 
+-(BOOL)isOutOfStock;
+
 -(CGFloat)heightForSummaryTextInTableViewCellWithWidth:(CGFloat)width;
 
 @end

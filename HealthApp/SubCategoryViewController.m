@@ -70,11 +70,7 @@ static NSString * const SUBCAT_DATA_URL = @"http://chemistplus.in/subCategory.ph
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:@"Could not fetch data" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
                 [alert show];
             });
-            
-            
-            
         }
-        
         
     }];
     

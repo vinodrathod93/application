@@ -32,6 +32,7 @@
 -(NSString *)summaryAtIndex:(NSInteger)index;
 -(NSString *)priceAtIndex:(NSInteger)index;
 -(NSString *)productIDAtIndex:(NSInteger)index;
+-(BOOL)isProductOutOfStock:(NSInteger)index;
 
 +(NSArray *)infiniteProductsFromJSON:(NSDictionary *)dictionary;
 -(NSString *)infiniteImageAtIndex:(NSInteger)index;
