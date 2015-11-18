@@ -11,6 +11,7 @@ pod 'AFNetworking'
 pod 'Mantle'
 pod 'Realm'
 pod 'SLExpandableTableView'
+pod 'MWPhotoBrowser'
 
 end
 

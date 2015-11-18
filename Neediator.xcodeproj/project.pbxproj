@@ -645,10 +645,7 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				824AE07E1BF9B1D4008A49A9 /* StoreTaxonsViewController.h */,
-				824AE07F1BF9B1D4008A49A9 /* StoreTaxonsViewController.m */,
-				8266ECE81BF7543A0085F515 /* TaxonsViewController.h */,
-				8266ECE91BF7543A0085F515 /* TaxonsViewController.m */,
+				82F1DD4E1BFC9B0F0056FBB3 /* Taxons */,
 				82EF2DDE1BE8C63300D87DE2 /* Stores */,
 				82EF2DC91BE8C08800D87DE2 /* SubCategories */,
 				82EF2DC81BE8C07200D87DE2 /* Home Category */,
@@ -1043,6 +1040,17 @@
 				824AE08F1BF9EB46008A49A9 /* StoreAPIManager.m */,
 			);
 			name = Network;
+			sourceTree = "<group>";
+		};
+		82F1DD4E1BFC9B0F0056FBB3 /* Taxons */ = {
+			isa = PBXGroup;
+			children = (
+				824AE07E1BF9B1D4008A49A9 /* StoreTaxonsViewController.h */,
+				824AE07F1BF9B1D4008A49A9 /* StoreTaxonsViewController.m */,
+				8266ECE81BF7543A0085F515 /* TaxonsViewController.h */,
+				8266ECE91BF7543A0085F515 /* TaxonsViewController.m */,
+			);
+			name = Taxons;
 			sourceTree = "<group>";
 		};
 		95BE41776404844E9379F46C /* Pods */ = {

@@ -51,6 +51,18 @@
     return allImages;
 }
 
+-(NSArray *)largeImages {
+    NSArray *largeImages = self.model.large_img;
+    
+    return largeImages;
+}
+
+-(NSArray *)smallImages {
+    NSArray *smallImages = self.model.small_img;
+    
+    return smallImages;
+}
+
 -(NSNumber *)productID {
     return [self.model valueForKey:@"productID"];
 }

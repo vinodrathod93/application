@@ -16,17 +16,21 @@
 #import "VariantsViewController.h"
 #import "YSLTransitionAnimator.h"
 #import "UIViewController+YSLTransition.h"
+#import <MWPhotoBrowser.h>
 
 
 #define FOOTER_HEIGHT 35
 
-@interface DetailsProductViewController ()<NSFetchedResultsControllerDelegate,YSLTransitionAnimatorDataSource>
+@interface DetailsProductViewController ()<NSFetchedResultsControllerDelegate,YSLTransitionAnimatorDataSource,MWPhotoBrowserDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIView *footerView;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) AddToCart *addToCartModel;
 @property (nonatomic, strong) NSFetchedResultsController *pd_cartFetchedResultsController;
 @property (nonatomic, strong) UIButton *cartButton;
+@property (nonatomic, strong) NSMutableArray *largePhotos;
+@property (nonatomic, strong) NSMutableArray *thumbs;
+@property (nonatomic, strong) UITapGestureRecognizer *imageViewTapGestureRecognizer;
 
 @end
 
@@ -37,12 +41,13 @@ NSString *cellReuseIdentifier;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Product Detail";
     self.viewModel = [[DetailProductViewModel alloc]initWithModel:self.detail];
     
     UIBarButtonItem *cartItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cart"] style:UIBarButtonItemStylePlain target:self action:@selector(showCartView:)];
     self.navigationItem.rightBarButtonItem = cartItem;
     
+    _imageViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleLargeImage:)];
+    _imageViewTapGestureRecognizer.numberOfTapsRequired = 1;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedLabelButton) name:@"updateAdded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alreadyLabelButton) name:@"updateAlreadyAdded" object:nil];
@@ -54,18 +59,20 @@ NSString *cellReuseIdentifier;
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
+    
+    
     self.tableView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     cell.productImage.delegate = self;
-    
     cell.productImage.contentSize = CGSizeMake(CGRectGetWidth(cell.productImage.frame) * self.viewModel.images.count, CGRectGetHeight(cell.productImage.frame));
     
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    
     [self ysl_removeTransitionDelegate];
 }
 
@@ -76,6 +83,15 @@ NSString *cellReuseIdentifier;
                                     cancelAnimationPointY:0
                                         animationDuration:0.3
                                   isInteractiveTransition:YES];
+}
+
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    return UIStatusBarAnimationNone;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -128,7 +144,7 @@ NSString *cellReuseIdentifier;
 }
 
 -(void)configureImageViewCell:(ProductImageViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-
+    
     [self prepareImageView:cell forIndexPath:indexPath];
     
     cell.productLabel.text = [self.viewModel name];
@@ -138,6 +154,8 @@ NSString *cellReuseIdentifier;
 
 
 -(void)prepareImageView:(ProductImageViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    
+    
     
     CGRect scrollViewFrame = cell.productImage.frame;
     CGRect currentFrame = self.view.frame;
@@ -151,10 +169,29 @@ NSString *cellReuseIdentifier;
         NSLog(@"%@", NSStringFromCGRect(imageView.frame));
         
         imageView.tag = idx;
-        [imageView sd_setImageWithURL:[NSURL URLWithString:image_url]];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
+        imageView.translatesAutoresizingMaskIntoConstraints = NO;
         
+        [cell.productImage addGestureRecognizer:_imageViewTapGestureRecognizer];
         [cell.productImage addSubview:imageView];
+        
+//        id views = @{@"image": imageView};
+        [cell.productImage addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0.f]];
+//        [cell.productImage addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[image]-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
+        
+//        NSLayoutConstraint *width =[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth relatedBy:0 toItem:cell.productImage attribute:NSLayoutAttributeWidth multiplier:1.f constant:0.f];
+//        NSLayoutConstraint *height =[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:0 toItem:cell.productImage attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
+//        NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.f];
+//        NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeLeading multiplier:1.0f constant:0.f];
+//        [cell.productImage addConstraint:width];
+//        [cell.productImage addConstraint:height];
+//        [cell.productImage addConstraint:top];
+//        [cell.productImage addConstraint:leading];
+//        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [imageView sd_setImageWithURL:[NSURL URLWithString:image_url]];
+        });
+        
     }];
     
     
@@ -210,7 +247,7 @@ NSString *cellReuseIdentifier;
         if (indexPath.row == 0) {
             
             CGFloat summaryHeight = [self.viewModel heightForSummaryTextInTableViewCellWithWidth:self.tableView.frame.size.width];
-            return 350 + summaryHeight;
+            return 400 + summaryHeight;
             
         }
     }
@@ -400,7 +437,79 @@ NSString *cellReuseIdentifier;
     
 }
 
+-(void)getPhotosArray {
+    
+    self.largePhotos = [NSMutableArray array];
+    self.thumbs = [NSMutableArray array];
+    
+    NSArray *largePhotos = [self.viewModel largeImages];
+    
+    if (largePhotos.count != 0) {
+        for (NSString *largeImageString in largePhotos) {
+            [self.largePhotos addObject:[MWPhoto photoWithURL:[NSURL URLWithString:largeImageString]]];
+        }
+    }
+    
+    NSArray *thumbPhotos = [self.viewModel smallImages];
+    
+    if (thumbPhotos.count != 0) {
+        for (NSString *smallImageString in thumbPhotos) {
+            [self.thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:smallImageString]]];
+        }
+    }
+}
+
+
+- (void)handleLargeImage:(UITapGestureRecognizer *)recognizer
+{
+    [self getPhotosArray];
+    
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc]initWithDelegate:self];
+    browser.displayActionButton = NO;
+    browser.zoomPhotosToFill = YES;
+    
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
+    nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:nc animated:YES completion:nil];
+    
+    
+}
+
+
+#pragma mark - MWPhotoBrowserDelegate
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return _largePhotos.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < _largePhotos.count)
+        return [_largePhotos objectAtIndex:index];
+    return nil;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
+    if (index < _thumbs.count)
+        return [_thumbs objectAtIndex:index];
+    return nil;
+}
+
+
+
+- (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
+    // If we subscribe to this method we must dismiss the view controller ourselves
+    NSLog(@"Did finish modal presentation");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (NSString *)photoBrowser:(MWPhotoBrowser *)photoBrowser titleForPhotoAtIndex:(NSUInteger)index {
+    
+    return [self.viewModel name];
+}
+
+
 #pragma mark -- YSLTransitionAnimatorDataSource
+
 - (UIImageView *)popTransitionImageView
 {
     ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -421,6 +530,8 @@ NSString *cellReuseIdentifier;
 {
     return nil;
 }
+
+
 
 
 @end

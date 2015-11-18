@@ -25,6 +25,9 @@
 
 -(BOOL)isOutOfStock;
 
+-(NSArray *)largeImages;
+-(NSArray *)smallImages;
+
 -(CGFloat)heightForSummaryTextInTableViewCellWithWidth:(CGFloat)width;
 
 @end
