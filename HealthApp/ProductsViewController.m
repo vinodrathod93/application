@@ -187,9 +187,21 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSUInteger width = self.view.frame.size.width / 2;
+    NSUInteger width;
+    NSUInteger height;
     
-    return CGSizeMake(width-1, width-1);
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        width = self.view.frame.size.width / 4;
+        height = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height) / 3;
+        
+        return CGSizeMake(width-1, height-1);
+    } else {
+        
+        width = self.view.frame.size.width / 2;
+        height = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height) / 2;
+        
+        return CGSizeMake(width-1, width-1);
+    }
 }
 
 

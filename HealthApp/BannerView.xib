@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -8,33 +8,50 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StoreTaxonsViewController"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BannerView">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="130"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMx-Zc-eA2">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="130"/>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMx-Zc-eA2">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
                     <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="130" id="oLP-rH-zzg"/>
+                    </constraints>
                 </scrollView>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZqI-Cs-8vT">
-                    <rect key="frame" x="0.0" y="110" width="320" height="20"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZqI-Cs-8vT">
+                    <rect key="frame" x="0.0" y="110" width="600" height="20"/>
                     <animations/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="0.3003325591216216" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="zHq-9w-LVe"/>
+                    </constraints>
                 </view>
-                <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0ht-bb-pVD">
-                    <rect key="frame" x="141" y="101" width="39" height="37"/>
+                <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0ht-bb-pVD">
+                    <rect key="frame" x="280" y="102" width="39" height="37"/>
                     <animations/>
                     <color key="pageIndicatorTintColor" red="0.086274509799999996" green="0.62745098040000002" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </pageControl>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="0ht-bb-pVD" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="16e-wk-Pzp"/>
+                <constraint firstAttribute="bottom" secondItem="0ht-bb-pVD" secondAttribute="bottom" constant="-9" id="6lC-Uq-97Q"/>
+                <constraint firstAttribute="bottom" secondItem="NMx-Zc-eA2" secondAttribute="bottom" id="Fm6-UO-ThA"/>
+                <constraint firstItem="NMx-Zc-eA2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Gli-8g-L6e"/>
+                <constraint firstItem="NMx-Zc-eA2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="GsS-Pc-oer"/>
+                <constraint firstAttribute="bottom" secondItem="ZqI-Cs-8vT" secondAttribute="bottom" id="QVZ-oW-f2k"/>
+                <constraint firstAttribute="trailing" secondItem="NMx-Zc-eA2" secondAttribute="trailing" id="epC-eU-Exx"/>
+                <constraint firstAttribute="trailing" secondItem="ZqI-Cs-8vT" secondAttribute="trailing" id="vT0-p5-luH"/>
+                <constraint firstItem="ZqI-Cs-8vT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="vap-ZA-lhX"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="blurView" destination="ZqI-Cs-8vT" id="otB-Bb-0mt"/>
                 <outlet property="pageControl" destination="0ht-bb-pVD" id="y8Q-2r-rnT"/>
                 <outlet property="scrollView" destination="NMx-Zc-eA2" id="0eC-0A-OfV"/>
             </connections>
-            <point key="canvasLocation" x="432" y="264"/>
+            <point key="canvasLocation" x="534" y="101"/>
         </view>
     </objects>
 </document>

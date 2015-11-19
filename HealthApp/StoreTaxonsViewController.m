@@ -53,6 +53,7 @@
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -66,6 +67,18 @@
 
 -(void)layoutBannerHeaderView {
     _bannerView = [[[NSBundle mainBundle] loadNibNamed:@"BannerView" owner:self options:nil] lastObject];
+    _bannerView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    
+//    CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, 130);
+//    _bannerView.frame = frame;
+//    [_bannerView layoutIfNeeded];
+//    
+//    UIGraphicsBeginImageContextWithOptions(frame.size, NO, 0.0);
+//    [_bannerView.layer renderInContext:UIGraphicsGetCurrentContext()];
+//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+    
     _bannerView.scrollView.delegate = self;
     
     CGRect scrollViewFrame = _bannerView.scrollView.frame;

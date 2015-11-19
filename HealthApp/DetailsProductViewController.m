@@ -22,7 +22,9 @@
 #define FOOTER_HEIGHT 35
 
 @interface DetailsProductViewController ()<NSFetchedResultsControllerDelegate,YSLTransitionAnimatorDataSource,MWPhotoBrowserDelegate, UIGestureRecognizerDelegate>
-
+{
+    int currentIndex;
+}
 @property (nonatomic, strong) UIView *footerView;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) AddToCart *addToCartModel;
@@ -41,6 +43,8 @@ NSString *cellReuseIdentifier;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    currentIndex = 0;
+    
     self.viewModel = [[DetailProductViewModel alloc]initWithModel:self.detail];
     
     UIBarButtonItem *cartItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cart"] style:UIBarButtonItemStylePlain target:self action:@selector(showCartView:)];
@@ -51,7 +55,6 @@ NSString *cellReuseIdentifier;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedLabelButton) name:@"updateAdded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alreadyLabelButton) name:@"updateAlreadyAdded" object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAlpha) name:@"updateAlpha" object:nil];
     
 }
@@ -59,13 +62,12 @@ NSString *cellReuseIdentifier;
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    
-    
     self.tableView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     cell.productImage.delegate = self;
+    
     cell.productImage.contentSize = CGSizeMake(CGRectGetWidth(cell.productImage.frame) * self.viewModel.images.count, CGRectGetHeight(cell.productImage.frame));
     
 }
@@ -163,6 +165,8 @@ NSString *cellReuseIdentifier;
     scrollViewFrame.size.width = currentFrame.size.width;
     cell.productImage.frame = scrollViewFrame;
     
+    __block UIImageView *previousImageView;
+    
     [self.viewModel.images enumerateObjectsUsingBlock:^(NSString *image_url, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.productImage.frame) * idx, 0, CGRectGetWidth(cell.productImage.frame), CGRectGetHeight(cell.productImage.frame))];
         
@@ -175,19 +179,25 @@ NSString *cellReuseIdentifier;
         [cell.productImage addGestureRecognizer:_imageViewTapGestureRecognizer];
         [cell.productImage addSubview:imageView];
         
-//        id views = @{@"image": imageView};
-        [cell.productImage addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0.f]];
-//        [cell.productImage addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[image]-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
+        if (idx == 0) {
+            [cell.productImage addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
+        } else {
+            [cell.productImage addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:previousImageView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+            
+            if (idx == [self.viewModel.images indexOfObject:[self.viewModel.images lastObject]]) {
+                [cell.productImage addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+            }
+            
+        }
         
-//        NSLayoutConstraint *width =[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth relatedBy:0 toItem:cell.productImage attribute:NSLayoutAttributeWidth multiplier:1.f constant:0.f];
-//        NSLayoutConstraint *height =[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:0 toItem:cell.productImage attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
-//        NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.f];
-//        NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeLeading multiplier:1.0f constant:0.f];
-//        [cell.productImage addConstraint:width];
-//        [cell.productImage addConstraint:height];
-//        [cell.productImage addConstraint:top];
-//        [cell.productImage addConstraint:leading];
-//        
+        [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeWidth multiplier:1.f constant:0.f]];
+        [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:self.view.frame.size.height/2]];
+        
+        [cell.productImage addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
+        
+        previousImageView = imageView;
+        
+
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [imageView sd_setImageWithURL:[NSURL URLWithString:image_url]];
         });
@@ -228,12 +238,24 @@ NSString *cellReuseIdentifier;
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+//
+//    if (scrollView == cell.productImage) {
+//        NSInteger index = cell.productImage.contentOffset.x / CGRectGetWidth(cell.productImage.frame);
+//        
+//        cell.pageControl.currentPage = index;
+//        [cell.pageControl updateCurrentPageDisplay];
+//    }
     
-    if (scrollView == cell.productImage) {
-        NSInteger index = cell.productImage.contentOffset.x / CGRectGetWidth(cell.productImage.frame);
+    if ([scrollView isEqual:cell.productImage]) {
+        float pageWith = scrollView.frame.size.width;
+        int page = (int)floorf(((scrollView.contentOffset.x * 2.0 + pageWith) / (pageWith * 2.0)));
         
-        cell.pageControl.currentPage = index;
+        currentIndex = page;
+        cell.pageControl.currentPage = currentIndex;
+        [cell.pageControl updateCurrentPageDisplay];
     }
+    
+    
 }
 
  
@@ -243,11 +265,13 @@ NSString *cellReuseIdentifier;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             
             CGFloat summaryHeight = [self.viewModel heightForSummaryTextInTableViewCellWithWidth:self.tableView.frame.size.width];
-            return 400 + summaryHeight;
+            return (self.view.frame.size.height/2) + summaryHeight;
             
         }
     }
@@ -467,11 +491,11 @@ NSString *cellReuseIdentifier;
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc]initWithDelegate:self];
     browser.displayActionButton = NO;
     browser.zoomPhotosToFill = YES;
+    browser.enableSwipeToDismiss = NO;
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
     nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:nc animated:YES completion:nil];
-    
     
 }
 
