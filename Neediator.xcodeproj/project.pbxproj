@@ -87,6 +87,7 @@
 		82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E911BEB1D0100F0EDE3 /* APIManager.m */; };
 		82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E981BEB1D9300F0EDE3 /* StoresModel.m */; };
 		829CE90A1B4BCB2200304088 /* PlaceOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829CE9091B4BCB2200304088 /* PlaceOrderViewController.m */; };
+		82AD69021BFF4FBF00478C5A /* ProductDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD69011BFF4FBF00478C5A /* ProductDetailsViewController.m */; };
 		82BD028E1B46A73C00108A0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD028D1B46A73C00108A0B /* main.m */; };
 		82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02901B46A73C00108A0B /* AppDelegate.m */; };
 		82BD02971B46A73C00108A0B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82BD02951B46A73C00108A0B /* Main.storyboard */; };
@@ -271,6 +272,8 @@
 		82999E9B1BEB44CA00F0EDE3 /* ChemistPlus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChemistPlus-Prefix.pch"; sourceTree = "<group>"; };
 		829CE9081B4BCB2200304088 /* PlaceOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceOrderViewController.h; sourceTree = "<group>"; };
 		829CE9091B4BCB2200304088 /* PlaceOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceOrderViewController.m; sourceTree = "<group>"; };
+		82AD69001BFF4FBF00478C5A /* ProductDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailsViewController.h; sourceTree = "<group>"; };
+		82AD69011BFF4FBF00478C5A /* ProductDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailsViewController.m; sourceTree = "<group>"; };
 		82BD02881B46A73C00108A0B /* Chemist Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chemist Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82BD028C1B46A73C00108A0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82BD028D1B46A73C00108A0B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -780,6 +783,8 @@
 		82EF2DC51BE8C02700D87DE2 /* Product Details */ = {
 			isa = PBXGroup;
 			children = (
+				82AD69001BFF4FBF00478C5A /* ProductDetailsViewController.h */,
+				82AD69011BFF4FBF00478C5A /* ProductDetailsViewController.m */,
 				82842CD91B58F81000FCCACC /* DetailsProductViewController.h */,
 				82842CDA1B58F81000FCCACC /* DetailsProductViewController.m */,
 			);
@@ -1269,6 +1274,7 @@
 				8255671B1B68E6F0009F013A /* AddShippingViewCell.m in Sources */,
 				829113E21BB973AA000DA995 /* AddToCart+CoreDataProperties.m in Sources */,
 				82C722F61B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m in Sources */,
+				82AD69021BFF4FBF00478C5A /* ProductDetailsViewController.m in Sources */,
 				82C175951B66371000AD26DB /* OrderInputsViewController.m in Sources */,
 				826213001BFB532800F75254 /* UIViewController+YSLTransition.m in Sources */,
 				8286B25C1BF0A2BA00AFC533 /* StoresViewCell.m in Sources */,

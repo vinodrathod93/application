@@ -18,6 +18,7 @@
 #import "AppDelegate.h"
 #import "YSLTransitionAnimator.h"
 #import "UIViewController+YSLTransition.h"
+#import "ProductDetailsViewController.h"
 
 //#define kPRODUCTS_DATA_LINK @"http://chemistplus.in/getProducts_test.php"
 //#define kSPREE_PRODUCTS_URL @"http://manish.elnuur.com/api/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
@@ -206,7 +207,10 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    DetailsProductViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsVC"];
+//    DetailsProductViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsVC"];
+//    details.detail = self.viewModel.viewModelProducts[indexPath.item];
+    
+    ProductDetailsViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsViewController"];
     details.detail = self.viewModel.viewModelProducts[indexPath.item];
     
     [self setTabBarVisible:[self tabBarIsVisible] animated:YES completion:^(BOOL finished) {

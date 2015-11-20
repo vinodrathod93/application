@@ -62,7 +62,7 @@ NSString *cellReuseIdentifier;
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    self.tableView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
+//    self.tableView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
@@ -133,9 +133,8 @@ NSString *cellReuseIdentifier;
     }
     
     id cell = [tableView dequeueReusableCellWithIdentifier:cellReuseIdentifier forIndexPath:indexPath];
+   
     
-    
-    // Configure the cell...
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             [self configureImageViewCell:cell forIndexPath:indexPath];
@@ -190,8 +189,13 @@ NSString *cellReuseIdentifier;
             
         }
         
+        [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:cell.productImage attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:self.view.frame.size.height/2]];
+        
+        
+        // Imageview constraints
         [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeWidth multiplier:1.f constant:0.f]];
-        [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:self.view.frame.size.height/2]];
+        [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:cell.productImage.frame.size.height]];
+        
         
         [cell.productImage addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
         
