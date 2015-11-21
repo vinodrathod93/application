@@ -119,6 +119,7 @@ typedef void(^completion)(BOOL finished);
                         isLoggedIn(NO);
                         
                     } else if (url_response.statusCode == 200) {
+                        NSLog(@"JSON %@",json);
                         
                         User *user              = [[User alloc]init];
                         user.userID             = [json valueForKey:@"id"];

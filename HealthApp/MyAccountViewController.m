@@ -51,24 +51,6 @@ enum MyAccountCells {
     
     [self.tableView reloadData];
     
-    
-    User *user = [User savedUser];
-    NSLog(@"%@",user.userID);
-    
-    if (!user) {
-        NSLog(@"not user");
-    } else if (user != nil) {
-        NSLog(@"correctly not user");
-    }
-    
-//    ![FBSDKAccessToken currentAccessToken]
-    
-    if (user == nil) {
-//        LogSignViewController *logSignupVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
-//        [self presentViewController:logSignupVC animated:YES completion:nil];
-    }
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -159,6 +141,7 @@ enum MyAccountCells {
     }
     else if (indexPath.row == MyAddressesCell) {
         AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
+        addressesVC.isGettingOrder = NO;
         [self.navigationController pushViewController:addressesVC animated:YES];
     }
 }

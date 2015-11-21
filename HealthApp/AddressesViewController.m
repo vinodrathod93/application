@@ -27,6 +27,7 @@
 }
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) NSDictionary *shipping_data;
+@property (nonatomic, strong) User *user;
 
 @end
 
@@ -36,6 +37,9 @@ typedef void(^completion)(BOOL finished);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.user = [User savedUser];
+    self.title = @"My Addresses";
     
 }
 
@@ -68,16 +72,20 @@ typedef void(^completion)(BOOL finished);
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    
     cellIdentifier = (indexPath.section == 0) ? kADD_ADDRESS_CELL:  kAVAILABLE_ADDRESS_CELL;
     
     id cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier  forIndexPath:indexPath];
+    
+    
     NSLog(@"Sections = %ld",(long)[self numberOfSectionsInTableView:tableView]);
     
-    if (indexPath.section == 0)
+    if (indexPath.section == 0) {
         [self configureAddAddressCell:cell forIndexPath:indexPath];
-    
-    else if(indexPath.section == 1)
+    }
+    else if(indexPath.section == 1) {
         [self configureAvailableAddressCell:cell forIndexPath:indexPath];
+    }
     
     
     return cell;
@@ -90,6 +98,11 @@ typedef void(^completion)(BOOL finished);
 
 
 -(void)configureAvailableAddressCell:(AddressCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    
+    if (_user.bill_address != nil) {
+        self.addresses = _user.bill_address;
+    }
+    
     cell.full_name.text = [[self.addresses valueForKey:@"full_name"] capitalizedString];
     
     NSString *address1 = [[self.addresses valueForKey:@"address1"] capitalizedString];
@@ -103,15 +116,19 @@ typedef void(^completion)(BOOL finished);
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
-        [self.navigationController pushViewController:addShippingVC animated:YES];
+        if (self.isGettingOrder) {
+            AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
+            [self.navigationController pushViewController:addShippingVC animated:YES];
+        } else {
+            NSLog(@"Does not support multiple addresses");
+        }
+        
     }
     else if (indexPath.section == 1) {
-        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-        NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
-        DeliveryViewController *deliveryVC = [self.storyboard instantiateViewControllerWithIdentifier:@"deliveryVC"];
         
-        if (netStatus != NotReachable) {
+        if (self.isGettingOrder) {
+            DeliveryViewController *deliveryVC = [self.storyboard instantiateViewControllerWithIdentifier:@"deliveryVC"];
+            
             [self sendAddressToServerWithCompletion:^(BOOL finished) {
                 if (finished) {
                     deliveryVC.shipping_data = self.shipping_data;
@@ -121,16 +138,15 @@ typedef void(^completion)(BOOL finished);
                 }
                 else
                     NSLog(@"Could not send address");
-                [self displayConnectionFailed];
             }];
+        } else {
+            NSLog(@" Showing Address ");
         }
-        else {
-            [self displayNoConnection];
-        }
+        
         
         
     }
-        
+    
 }
 
 
@@ -138,7 +154,11 @@ typedef void(^completion)(BOOL finished);
     NSString *selectAddress = @"Select Delivery Address";
     NSString *orderSummary = @"Order Summary";
     
-    return (section == 0)? @"": (section == 1)? selectAddress: orderSummary;
+    if (self.isGettingOrder) {
+        return (section == 0)? @"": (section == 1)? selectAddress: orderSummary;
+    } else
+        return nil;
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

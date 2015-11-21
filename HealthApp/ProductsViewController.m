@@ -207,11 +207,11 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    DetailsProductViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsVC"];
-//    details.detail = self.viewModel.viewModelProducts[indexPath.item];
-    
-    ProductDetailsViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsViewController"];
+    DetailsProductViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsVC"];
     details.detail = self.viewModel.viewModelProducts[indexPath.item];
+    
+//    ProductDetailsViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsViewController"];
+//    details.detail = self.viewModel.viewModelProducts[indexPath.item];
     
     [self setTabBarVisible:[self tabBarIsVisible] animated:YES completion:^(BOOL finished) {
         NSLog(@"Finished");

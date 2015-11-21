@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) NSDictionary *addresses;
 @property (nonatomic, strong) NSString     *order_id;
+@property (nonatomic, assign) BOOL isGettingOrder;
+
 @end

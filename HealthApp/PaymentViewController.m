@@ -15,13 +15,15 @@
 #import "AppDelegate.h"
 #import "OrderCompleteViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "AppDelegate.h"
+#import "AddToCart.h"
 
 
 #define kOPTIONS_CELLIDENTIFIER @"paymentCell"
 #define kPAY_CELLIDENTIFIER @"customPayCell"
 #define kPHONE_CELLIDENTIFIER @"phonenoCell"
 #define kPLACE_ORDER_URL @"http://chemistplus.in/storePurchaseDetails.php"
-#define kPAYMENT_OPTIONS_URL @  "http://www.elnuur.com/api/checkouts"
+#define kPAYMENT_OPTIONS_URL @  "http://manish.elnuur.com/api/checkouts"
 
 enum TABLEVIEWCELL {
     PAY_SECTION = 0,
@@ -35,6 +37,10 @@ enum TABLEVIEWCELL {
 @property (nonatomic, assign) NSInteger section_count;
 @property (nonatomic, assign) BOOL isOptionSelected;
 @property (nonatomic, strong) MBProgressHUD *hud;
+
+@property (strong) AppDelegate *appDelegate;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSFetchedResultsController *cartFetchedResultsController;
 
 @end
 
@@ -253,6 +259,10 @@ typedef void(^completion)(BOOL finished);
                             OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
                             orderCompleteVC.order_id = self.order_id;
                             
+                            
+                            [self deleteCartProducts];
+                            
+                            
                             [self.navigationController pushViewController:orderCompleteVC animated:YES];
                         } else {
                             [self alertWithTitle:@"Oops" message:@"We currently don't accept Credit Card & Paypal Payments"];
@@ -281,7 +291,20 @@ typedef void(^completion)(BOOL finished);
 }
 
 
-
+-(void)deleteCartProducts {
+    
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContext = appDelegate.managedObjectContext;
+    
+    NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
+    NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
+    
+    for (NSManagedObject *product in fetchedArray) {
+        [self.managedObjectContext deleteObject:product];
+    }
+    NSError *error = nil;
+    [self.managedObjectContext save:&error];
+}
 
 -(NSDictionary *)createPaymentDictionary {
     
