@@ -9,11 +9,19 @@
 #import "VariantsViewController.h"
 #import "AddToCart.h"
 #import "AppDelegate.h"
+#import "Order.h"
+#import "User.h"
+#import "StoreRealm.h"
+#import <MBProgressHUD.h>
 
-@interface VariantsViewController ()
+
+@interface VariantsViewController ()<NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) NSFetchedResultsController *orderFetchedResultsController;
+@property (nonatomic, strong) NSFetchedResultsController *cartFetchedResultsController;
 @property (nonatomic, strong) AddToCart *addToCartModel;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -52,32 +60,31 @@
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
     
+    
     NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"productID == %@",[self.variants[indexPath.row] valueForKey:@"id"]];
     [fetch setPredicate:predicate];
     NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
     
     if (fetchedArray.count == 0) {
-        self.addToCartModel = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-        self.addToCartModel.productID = [self.variants[indexPath.row] valueForKey:@"id"];
-        self.addToCartModel.productName = [self.variants[indexPath.row] valueForKey:@"name"];
+        self.addToCartModel                 = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
+        self.addToCartModel.productID       = [self.variants[indexPath.row] valueForKey:@"id"];
+        self.addToCartModel.productName     = [self.variants[indexPath.row] valueForKey:@"name"];
         
-        NSString *price = [self.variants[indexPath.row] valueForKey:@"price"];
-        NSLog(@"Selected Variant Price %@",price);
+        NSString *price                     = [self.variants[indexPath.row] valueForKey:@"price"];
         
-        self.addToCartModel.productPrice = [NSNumber numberWithInt:price.intValue];
-        self.addToCartModel.addedDate = [NSDate date];
+        self.addToCartModel.productPrice    = [NSNumber numberWithInt:price.intValue];
+        self.addToCartModel.addedDate       = [NSDate date];
         
-        self.addToCartModel.productImage = self.productImage;
-        self.addToCartModel.quantity = @(1);
-        self.addToCartModel.totalPrice = [NSNumber numberWithInt:price.intValue];
-        self.addToCartModel.displayPrice = [self.variants[indexPath.row] valueForKey:@"display_price"];
-        self.addToCartModel.variant = [self.variants[indexPath.row] valueForKey:@"options_text"];
+        self.addToCartModel.productImage    = self.productImage;
+        self.addToCartModel.quantity        = @(1);
+        self.addToCartModel.totalPrice      = [NSNumber numberWithInt:price.intValue];
+        self.addToCartModel.displayPrice    = [self.variants[indexPath.row] valueForKey:@"display_price"];
+        self.addToCartModel.variant         = [self.variants[indexPath.row] valueForKey:@"options_text"];
+//        self.addToCartModel.lineItemID      = [self.variants[indexPath.row] valueForKey:@"id"];
         
-        [self.managedObjectContext save:nil];
-        [self dismissViewControllerAnimated:YES completion:^{
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAdded" object:nil];
-        }];
+        NSDictionary *line_item             = [self lineItemDictionaryWithVariantID:self.addToCartModel.productID quantity:self.addToCartModel.quantity];
+        [self sendLineItem:line_item];
         
     }
     else {
@@ -85,6 +92,11 @@
             [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAlreadyAdded" object:nil];
         }];
     }
+    
+    
+    
+    
+    
     
     
 }
@@ -102,4 +114,224 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"updateAlpha" object:nil];
     }];
 }
+
+
+
+
+#pragma mark - Helper methods
+
+
+-(void)sendLineItem:(NSDictionary *)lineItem {
+    
+    User *user = [User savedUser];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
+    
+    NSDictionary *objectData;
+    NSString *kOrderURL;
+    
+    
+    if (self.orderFetchedResultsController.fetchedObjects.count == 0) {
+        
+        // create order
+        NSArray *lineItemArray = [self getCartProductsArray:lineItem];
+        NSDictionary *order = [self getOrdersDictionary:lineItemArray];
+        
+        objectData = order;
+        kOrderURL = @"/api/orders";
+    } else {
+        
+        // add line items
+        NSLog(@"Adding line items to existing order");
+        
+        Order *orderModel = self.orderFetchedResultsController.fetchedObjects.lastObject;
+        
+        if (orderModel.number != nil) {
+            kOrderURL  = [NSString stringWithFormat:@"/api/orders/%@/line_items.json",orderModel.number];
+        }
+        
+        
+        objectData = [self getLineItemDictionaryWithLineItem:lineItem];
+        
+    }
+    
+    
+    
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:objectData options:NSJSONWritingPrettyPrinted error:&error];
+    
+    NSString *url = [NSString stringWithFormat:@"http://%@%@?token=%@", store.storeUrl, kOrderURL, user.access_token];
+    NSLog(@"URL is --> %@", url);
+    NSLog(@"Dictionary is -> %@",objectData);
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    request.HTTPMethod = @"POST";
+    request.HTTPBody = jsonData;
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
+    
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        if (data != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"%@",response);
+                NSError *jsonError;
+                
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+                
+                
+                [self.hud hide:YES];
+                if (jsonError) {
+                    NSLog(@"Error %@",[jsonError localizedDescription]);
+                } else {
+                    
+                    NSLog(@"Json Cart ===> %@",json);
+                    
+                    if (self.orderFetchedResultsController.fetchedObjects.count == 0) {
+                        NSEntityDescription *orderEntityDescription = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
+                        
+                        Order *orderModel = (Order *)[[NSManagedObject alloc] initWithEntity:orderEntityDescription
+                                                                  insertIntoManagedObjectContext:self.managedObjectContext];
+                        
+                        orderModel.number = [json valueForKey:@"number"];
+                        
+                        [orderModel addItemsObject:self.addToCartModel];
+                        
+                    } else {
+                        Order *orderModel = [self.orderFetchedResultsController.fetchedObjects lastObject];
+                        orderModel.number = [json valueForKey:@"number"];
+                        [orderModel addItemsObject:self.addToCartModel];
+    
+                    }
+                    
+                    
+                    [self.managedObjectContext save:nil];
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAdded" object:nil];
+                    }];
+                    
+                }
+                
+            });
+        }
+        else {
+               [self displayConnectionFailed];
+        }
+        
+        
+    }];
+    
+    [task resume];
+    UIWindow *window = [[UIApplication sharedApplication] delegate].window;
+    self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+    self.hud.color = self.view.tintColor;
+    
+    
+}
+
+
+
+-(NSArray *)getCartProductsArray:(NSDictionary *)lineItem {
+    
+    NSMutableArray *jsonarray = [[NSMutableArray alloc] init];
+    
+    [jsonarray addObject:lineItem];
+    
+    return jsonarray;
+    
+}
+
+
+
+-(NSDictionary *)getOrdersDictionary:(NSArray *)array {
+    NSDictionary *orders = @{
+                             @"order": @{
+                                     @"line_items": array
+                                     }
+                             };
+    return orders;
+}
+
+-(NSDictionary *)getLineItemDictionaryWithLineItem:(NSDictionary *)item {
+    NSDictionary *line_items = @{
+                                 @"line_item": item
+                                 };
+    
+    return line_items;
+}
+
+
+-(NSDictionary *)lineItemDictionaryWithVariantID:(NSNumber *)variantID quantity:(NSNumber *)quantity {
+    return @{
+             @"variant_id": variantID,
+             @"quantity"  : quantity
+             };
+}
+
+
+-(void)displayConnectionFailed {
+    UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [failed_alert show];
+}
+
+
+#pragma mark Feteched Results Controller
+
+-(NSFetchedResultsController *)cartFetchedResultsController {
+    if (_cartFetchedResultsController) {
+        return _cartFetchedResultsController;
+    }
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
+                                        initWithKey:@"addedDate"
+                                        ascending:NO];
+    
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    _cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    _cartFetchedResultsController.delegate = self;
+    
+    NSError *error = nil;
+    if (![self.cartFetchedResultsController performFetch:&error]) {
+        NSLog(@"Core data error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    return _cartFetchedResultsController;
+}
+
+
+-(NSFetchedResultsController *)orderFetchedResultsController {
+    if (_orderFetchedResultsController) {
+        return _orderFetchedResultsController;
+    }
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Order"];
+    NSString *cacheName = @"OrderCache";
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    self.orderFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:cacheName];
+    NSError *error;
+    if(![self.orderFetchedResultsController performFetch:&error])
+    {
+        
+        NSLog(@"Order Model Fetch Failure: %@",error);
+    }
+    
+    return _orderFetchedResultsController;
+}
+
+
+
 @end

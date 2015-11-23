@@ -18,16 +18,27 @@
 #import "InputFormViewController.h"
 #import "AddShippingDetailsViewController.h"
 #import "User.h"
+#import "StoreRealm.h"
 #import "LogSignViewController.h"
 #import "AddressesViewController.h"
 #import "OrderReviewViewController.h"
+#import "PaymentViewController.h"
+#import "Order.h"
+#import "LineItems.h"
 
-#define kcreateOrderURL @"http://www.elnuur.com/api/orders"
+#define kCheckoutURL @"/api/checkouts"
+#define kOrderDetailsURL @"/api/orders"
+
 static NSString *cellIdentifier = @"cartCell";
 
 @interface CartViewController ()<NSFetchedResultsControllerDelegate,UIActionSheetDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *cartFetchedResultsController;
+@property (nonatomic, strong) NSFetchedResultsController *orderNumFetchedResultsController;
+@property (nonatomic, strong) NSFetchedResultsController *lineItemsFetchedResultsController;
+
+@property (nonatomic, strong) LineItems *lineItemModel;
+
 @property (nonatomic, strong) NSIndexPath *selectIndexPath;
 @property (nonatomic, strong) CartViewModel *viewModel;
 @property (nonatomic, assign) BOOL isAlreadyLoggedIn;
@@ -47,12 +58,14 @@ static NSString *cellIdentifier = @"cartCell";
     [self.cartFetchedResultsController performFetch:nil];
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendOrderToServer) name:@"loggedInSendOrderNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendCheckoutRequestToServer) name:@"loggedInSendOrderNotification" object:nil];
     
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self getOrderLineItemDetails];
     
     [self.tableView reloadData];
     
@@ -135,14 +148,14 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIButton *placeOrderbutton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
-    [placeOrderbutton setTitle:@"Create Order" forState:UIControlStateNormal];
+    [placeOrderbutton setTitle:@"Checkout" forState:UIControlStateNormal];
     [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:16.0f]];
     [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
     
     if (self.cartFetchedResultsController.fetchedObjects.count != 0) {
         [placeOrderbutton setEnabled:YES];
         [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:102/255.0f green:169/255.0f blue:127/255.0f alpha:1.0f]];
-        [placeOrderbutton addTarget:self action:@selector(placeOrderButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        [placeOrderbutton addTarget:self action:@selector(checkoutButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     else {
         
@@ -252,7 +265,7 @@ static NSString *cellIdentifier = @"cartCell";
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
                                         initWithKey:@"addedDate"
-                                        ascending:NO];
+                                        ascending:YES];
     
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
     [fetchRequest setSortDescriptors:sortDescriptors];
@@ -267,6 +280,52 @@ static NSString *cellIdentifier = @"cartCell";
     }
     
     return _cartFetchedResultsController;
+}
+
+-(NSFetchedResultsController *)orderNumFetchedResultsController {
+    if (_orderNumFetchedResultsController) {
+        return _orderNumFetchedResultsController;
+    }
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Order"];
+    NSString *cacheName = @"cartOrderCache";
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    self.orderNumFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:cacheName];
+    NSError *error;
+    if(![self.orderNumFetchedResultsController performFetch:&error])
+    {
+        
+        NSLog(@"Order Model Fetch Failure: %@",error);
+    }
+    
+    return _orderNumFetchedResultsController;
+}
+
+
+-(NSFetchedResultsController *)lineItemsFetchedResultsController {
+    if (_lineItemsFetchedResultsController) {
+        return _lineItemsFetchedResultsController;
+    }
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"LineItems"];
+    NSString *cacheName = @"lineItemsCache";
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"id" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    self.lineItemsFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:cacheName];
+    NSError *error;
+    if(![self.lineItemsFetchedResultsController performFetch:&error])
+    {
+        
+        NSLog(@"Order Model Fetch Failure: %@",error);
+    }
+    
+    return _lineItemsFetchedResultsController;
+    
 }
 
 
@@ -357,9 +416,10 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
--(void)placeOrderButtonPressed {
+-(void)checkoutButtonPressed:(UIButton *)sender {
     NetworkStatus netStatus = [self.appDelegate.googleReach currentReachabilityStatus];
     User *user = [User savedUser];
+    
     
     if (user.access_token == nil) {
         LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
@@ -373,7 +433,7 @@ static NSString *cellIdentifier = @"cartCell";
     } else {
         
         if (netStatus != NotReachable) {
-            [self sendOrderToServer];
+            [self sendCheckoutRequestToServer];
         }
         else {
             [self displayNoConnection];
@@ -422,73 +482,27 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
--(NSArray *)getCartProducts {
-    
-    NSMutableArray *jsonarray = [[NSMutableArray alloc] init];
-    
-    [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart *model, NSUInteger idx, BOOL *stop) {
-        NSDictionary *dict  = @{
-                 @"variant_id"  : model.productID,
-                 @"quantity"    : model.quantity
-                 };
-        
-        [jsonarray addObject:dict];
-        
-    }];
-   
-    return jsonarray;
-    
-}
 
 
--(void)showAddressWithOrderID:(NSString *)order_id {
-    NSLog(@"order_id %@",order_id);
+-(void)sendCheckoutRequestToServer {
     
     User *user = [User savedUser];
-    AddressesViewController *addressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
-    addressVC.addresses = user.ship_address;
-    addressVC.order_id  = order_id;
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
     
-    [self.navigationController pushViewController:addressVC animated:YES];
-}
-
-
--(NSDictionary *)createOrdersDictionary:(NSArray *)array {
-    NSDictionary *orders = @{
-                                 @"order": @{
-                                         @"line_items": array
-                                         }
-                                 };
-    return orders;
-}
-
-
--(void)sendOrderToServer {
+    Order *orderModel = self.orderNumFetchedResultsController.fetchedObjects.lastObject;
     
-    User *user = [User savedUser];
     
-    NSArray *lineItems = [self getCartProducts];
-    
-    if (lineItems.count != 0) {
-        
-        NSDictionary *order = [self createOrdersDictionary:lineItems];
+    if (orderModel.number != nil) {
         
         
-        
-        NSError *error;
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:order options:NSJSONWritingPrettyPrinted error:&error];
-        
-        NSString *url = [NSString stringWithFormat:@"%@?token=%@",kcreateOrderURL, user.access_token];
+        NSString *url = [NSString stringWithFormat:@"http://%@%@/%@?token=%@", store.storeUrl, kCheckoutURL, orderModel.number, user.access_token];
         NSLog(@"URL is --> %@", url);
-        NSLog(@"Dictionary is -> %@",order);
         
         NSURLSession *session = [NSURLSession sharedSession];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-        request.HTTPMethod = @"POST";
-        request.HTTPBody = jsonData;
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
+        request.HTTPMethod = @"PUT";
+        [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
         
         
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -507,10 +521,10 @@ static NSString *cellIdentifier = @"cartCell";
                     } else {
                         
                         NSLog(@"Json Cart ===> %@",json);
+                        NSLog(@"Checkout Initiated");
                         
-                        NSLog(@"Order initiated");
-                        [self showOrderReviewPage:json];
-                        
+                        // Proceed to payment page
+                        [self proceedToPaymentPage:json];
                     }
                     
                 });
@@ -527,7 +541,7 @@ static NSString *cellIdentifier = @"cartCell";
         self.hud.color = self.view.tintColor;
     }
     else
-        NSLog(@"Cart is Empty");
+        NSLog(@"No order & Cart is Empty");
     
 }
 
@@ -548,6 +562,151 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
+-(void)proceedToPaymentPage:(NSDictionary *)json {
+    PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
+    paymentVC.order_id               = [json valueForKey:@"number"];
+    paymentVC.display_total          = [json valueForKey:@"display_total"];
+    paymentVC.total                  = [json valueForKey:@"total"];
+    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
+    [self.navigationController pushViewController:paymentVC animated:YES];
+}
+
+
+
+-(void)getOrderLineItemDetails {
+    
+    User *user = [User savedUser];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
+    
+    Order *orderModel = self.orderNumFetchedResultsController.fetchedObjects.lastObject;
+    
+    if (orderModel.number != nil && user.access_token != nil) {
+        NSString *url = [NSString stringWithFormat:@"http://%@%@/%@?token=%@",store.storeUrl, kOrderDetailsURL, orderModel.number, user.access_token];
+        
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+        request.HTTPMethod = @"GET";
+        [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        
+        
+        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            
+            if (data != nil) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"%@",response);
+                    NSError *jsonError;
+                    
+                    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+                    [self.hud hide:YES];
+                    
+                    if (jsonError) {
+                        NSLog(@"Error %@",[jsonError localizedDescription]);
+                    } else {
+                        
+                        NSLog(@"Json Cart ===> %@",json);
+                        
+                        // store line items data
+                        
+                        if (self.lineItemsFetchedResultsController.fetchedObjects.count == 0) {
+                            
+                            NSArray *line_items = [json objectForKey:@"line_items"];
+                            
+                            for (int i=0; i< line_items.count; i++) {
+                                self.lineItemModel = [NSEntityDescription insertNewObjectForEntityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext];
+                                self.lineItemModel.lineItemID = [line_items[i] valueForKey:@"id"];
+                                self.lineItemModel.quantity   = [line_items[i] valueForKey:@"quantity"];
+                                self.lineItemModel.price      = [line_items[i] valueForKey:@"price"];
+                                self.lineItemModel.variantID  = [line_items[i] valueForKey:@"variant_id"];
+//                                self.lineItemModel.totalOnHand = [line_items[i] valueForKeyPath:@"variant.total_on_hand"];
+                                
+                                [self.managedObjectContext save:nil];
+                                
+                                [self.hud hide:YES];
+                            }
+                            
+                            
+                        } else
+                            NSLog(@"Line Items records are not empty");
+                        
+                        
+                    }
+                    
+                });
+            }
+            else {
+                [self displayConnectionFailed];
+            }
+            
+            
+        }];
+        
+        [task resume];
+        
+        UIWindow *window = [[UIApplication sharedApplication] delegate].window;
+        self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+        self.hud.color = self.view.tintColor;
+        
+    }
+    
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark - Not needed
+
+-(NSArray *)getCartProducts {
+    
+    NSMutableArray *jsonarray = [[NSMutableArray alloc] init];
+    
+    [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart *model, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dict  = @{
+                                @"variant_id"  : model.productID,
+                                @"quantity"    : model.quantity
+                                };
+        
+        [jsonarray addObject:dict];
+        
+    }];
+    
+    return jsonarray;
+    
+}
+
+
+-(void)showAddressWithOrderID:(NSString *)order_id {
+    NSLog(@"order_id %@",order_id);
+    
+    User *user = [User savedUser];
+    AddressesViewController *addressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
+    addressVC.addresses = user.ship_address;
+    addressVC.order_id  = order_id;
+    
+    [self.navigationController pushViewController:addressVC animated:YES];
+}
+
+
+-(NSDictionary *)createOrdersDictionary:(NSArray *)array {
+    NSDictionary *orders = @{
+                             @"order": @{
+                                     @"line_items": array
+                                     }
+                             };
+    return orders;
+}
+
 -(void)showOrderReviewPage:(NSDictionary *)json {
     OrderReviewViewController *orderReviewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderReviewVC"];
     orderReviewVC.line_items     = [json objectForKey:@"line_items"];
@@ -563,7 +722,6 @@ static NSString *cellIdentifier = @"cartCell";
     
     [self.navigationController pushViewController:orderReviewVC animated:YES];
 }
-
 
 
 @end

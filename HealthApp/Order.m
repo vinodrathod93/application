@@ -1,15 +1,16 @@
 //
-//  AddToCart.m
+//  Order.m
 //  
 //
 //  Created by adverto on 23/11/15.
 //
 //
 
-#import "AddToCart.h"
 #import "Order.h"
+#import "AddToCart.h"
+#import "LineItems.h"
 
-@implementation AddToCart
+@implementation Order
 
 // Insert code here to add functionality to your managed object subclass
 

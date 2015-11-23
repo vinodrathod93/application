@@ -1,5 +1,5 @@
 //
-//  AddToCart.h
+//  Order.h
 //  
 //
 //  Created by adverto on 23/11/15.
@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Order;
+@class AddToCart, LineItems;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AddToCart : NSManagedObject
+@interface Order : NSManagedObject
 
 // Insert code here to declare functionality of your managed object subclass
 
@@ -21,4 +21,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-#import "AddToCart+CoreDataProperties.h"
+#import "Order+CoreDataProperties.h"

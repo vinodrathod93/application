@@ -1,5 +1,5 @@
 //
-//  AddToCart.h
+//  LineItems.h
 //  
 //
 //  Created by adverto on 23/11/15.
@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AddToCart : NSManagedObject
+@interface LineItems : NSManagedObject
 
 // Insert code here to declare functionality of your managed object subclass
 
@@ -21,4 +21,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-#import "AddToCart+CoreDataProperties.h"
+#import "LineItems+CoreDataProperties.h"

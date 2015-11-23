@@ -82,8 +82,6 @@
 		8286B27A1BF0CFCE00AFC533 /* TaxonomyListResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2791BF0CFCE00AFC533 /* TaxonomyListResponseModel.m */; };
 		829113C11BB90746000DA995 /* Cart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 829113BF1BB90746000DA995 /* Cart.xcdatamodeld */; };
 		829113D71BB93A63000DA995 /* VariantsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829113D61BB93A63000DA995 /* VariantsViewController.m */; };
-		829113E21BB973AA000DA995 /* AddToCart+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 829113DF1BB973AA000DA995 /* AddToCart+CoreDataProperties.m */; };
-		829113E31BB973AA000DA995 /* AddToCart.m in Sources */ = {isa = PBXBuildFile; fileRef = 829113E11BB973AA000DA995 /* AddToCart.m */; };
 		82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E911BEB1D0100F0EDE3 /* APIManager.m */; };
 		82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E981BEB1D9300F0EDE3 /* StoresModel.m */; };
 		829CE90A1B4BCB2200304088 /* PlaceOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829CE9091B4BCB2200304088 /* PlaceOrderViewController.m */; };
@@ -102,6 +100,12 @@
 		82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */; };
 		82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
+		82E984C91C0351CF00C2EFCB /* Order+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E984BE1C0351CF00C2EFCB /* Order+CoreDataProperties.m */; };
+		82E984CA1C0351CF00C2EFCB /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E984C01C0351CF00C2EFCB /* Order.m */; };
+		82E984CB1C0351CF00C2EFCB /* LineItems+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E984C21C0351CF00C2EFCB /* LineItems+CoreDataProperties.m */; };
+		82E984CC1C0351CF00C2EFCB /* LineItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E984C41C0351CF00C2EFCB /* LineItems.m */; };
+		82E984CD1C0351CF00C2EFCB /* AddToCart+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E984C61C0351CF00C2EFCB /* AddToCart+CoreDataProperties.m */; };
+		82E984CE1C0351CF00C2EFCB /* AddToCart.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E984C81C0351CF00C2EFCB /* AddToCart.m */; };
 		82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82ECD1251BBD5A91004B0BEB /* AddressCell.m */; };
 		82EF2DE11BE8C67B00D87DE2 /* StoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE01BE8C67B00D87DE2 /* StoresViewController.m */; };
 		82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */; };
@@ -261,10 +265,6 @@
 		829113C01BB90746000DA995 /* Cart.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cart.xcdatamodel; sourceTree = "<group>"; };
 		829113D51BB93A63000DA995 /* VariantsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariantsViewController.h; sourceTree = "<group>"; };
 		829113D61BB93A63000DA995 /* VariantsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VariantsViewController.m; sourceTree = "<group>"; };
-		829113DE1BB973AA000DA995 /* AddToCart+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AddToCart+CoreDataProperties.h"; sourceTree = "<group>"; };
-		829113DF1BB973AA000DA995 /* AddToCart+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AddToCart+CoreDataProperties.m"; sourceTree = "<group>"; };
-		829113E01BB973AA000DA995 /* AddToCart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToCart.h; sourceTree = "<group>"; };
-		829113E11BB973AA000DA995 /* AddToCart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToCart.m; sourceTree = "<group>"; };
 		82999E901BEB1D0100F0EDE3 /* APIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		82999E911BEB1D0100F0EDE3 /* APIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		82999E971BEB1D9300F0EDE3 /* StoresModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoresModel.h; sourceTree = "<group>"; };
@@ -301,6 +301,18 @@
 		82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
 		82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+InfiniteScroll.h"; sourceTree = "<group>"; };
 		82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+InfiniteScroll.m"; sourceTree = "<group>"; };
+		82E984BD1C0351CF00C2EFCB /* Order+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Order+CoreDataProperties.h"; sourceTree = "<group>"; };
+		82E984BE1C0351CF00C2EFCB /* Order+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Order+CoreDataProperties.m"; sourceTree = "<group>"; };
+		82E984BF1C0351CF00C2EFCB /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
+		82E984C01C0351CF00C2EFCB /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
+		82E984C11C0351CF00C2EFCB /* LineItems+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LineItems+CoreDataProperties.h"; sourceTree = "<group>"; };
+		82E984C21C0351CF00C2EFCB /* LineItems+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LineItems+CoreDataProperties.m"; sourceTree = "<group>"; };
+		82E984C31C0351CF00C2EFCB /* LineItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineItems.h; sourceTree = "<group>"; };
+		82E984C41C0351CF00C2EFCB /* LineItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineItems.m; sourceTree = "<group>"; };
+		82E984C51C0351CF00C2EFCB /* AddToCart+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AddToCart+CoreDataProperties.h"; sourceTree = "<group>"; };
+		82E984C61C0351CF00C2EFCB /* AddToCart+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AddToCart+CoreDataProperties.m"; sourceTree = "<group>"; };
+		82E984C71C0351CF00C2EFCB /* AddToCart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToCart.h; sourceTree = "<group>"; };
+		82E984C81C0351CF00C2EFCB /* AddToCart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToCart.m; sourceTree = "<group>"; };
 		82ECD1241BBD5A91004B0BEB /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
 		82ECD1251BBD5A91004B0BEB /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
 		82EF2DDF1BE8C67B00D87DE2 /* StoresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoresViewController.h; sourceTree = "<group>"; };
@@ -514,10 +526,18 @@
 			isa = PBXGroup;
 			children = (
 				829113BF1BB90746000DA995 /* Cart.xcdatamodeld */,
-				829113DE1BB973AA000DA995 /* AddToCart+CoreDataProperties.h */,
-				829113DF1BB973AA000DA995 /* AddToCart+CoreDataProperties.m */,
-				829113E01BB973AA000DA995 /* AddToCart.h */,
-				829113E11BB973AA000DA995 /* AddToCart.m */,
+				82E984BD1C0351CF00C2EFCB /* Order+CoreDataProperties.h */,
+				82E984BE1C0351CF00C2EFCB /* Order+CoreDataProperties.m */,
+				82E984BF1C0351CF00C2EFCB /* Order.h */,
+				82E984C01C0351CF00C2EFCB /* Order.m */,
+				82E984C11C0351CF00C2EFCB /* LineItems+CoreDataProperties.h */,
+				82E984C21C0351CF00C2EFCB /* LineItems+CoreDataProperties.m */,
+				82E984C31C0351CF00C2EFCB /* LineItems.h */,
+				82E984C41C0351CF00C2EFCB /* LineItems.m */,
+				82E984C51C0351CF00C2EFCB /* AddToCart+CoreDataProperties.h */,
+				82E984C61C0351CF00C2EFCB /* AddToCart+CoreDataProperties.m */,
+				82E984C71C0351CF00C2EFCB /* AddToCart.h */,
+				82E984C81C0351CF00C2EFCB /* AddToCart.m */,
 			);
 			name = "Add to Cart CoreData";
 			sourceTree = "<group>";
@@ -1226,6 +1246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				829113C11BB90746000DA995 /* Cart.xcdatamodeld in Sources */,
+				82E984CA1C0351CF00C2EFCB /* Order.m in Sources */,
 				824AE0891BF9B386008A49A9 /* SKSTableViewCellIndicator.m in Sources */,
 				82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */,
 				823D06621B8C458600640F45 /* CODInputViewCell.m in Sources */,
@@ -1234,6 +1255,7 @@
 				8250A3321B553B000026ADCE /* ProductViewCell.m in Sources */,
 				822D15C61BCBE02700FE2E7E /* SearchResultsProductViewController.m in Sources */,
 				8286B2771BF0CFB400AFC533 /* TaxonomyListRequestModel.m in Sources */,
+				82E984CD1C0351CF00C2EFCB /* AddToCart+CoreDataProperties.m in Sources */,
 				825567151B68D3A9009F013A /* InputFormViewController.m in Sources */,
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
 				82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
@@ -1241,6 +1263,7 @@
 				826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */,
 				82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */,
 				82327F741B60C86B00D92889 /* CartViewController.m in Sources */,
+				82E984C91C0351CF00C2EFCB /* Order+CoreDataProperties.m in Sources */,
 				82EF2DE11BE8C67B00D87DE2 /* StoresViewController.m in Sources */,
 				823C46B31B73934F00E37DBE /* MyAccountViewController.m in Sources */,
 				82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */,
@@ -1251,6 +1274,7 @@
 				82327F771B60F9A800D92889 /* CartViewCell.m in Sources */,
 				8286B2741BF0CF7500AFC533 /* TaxonModel.m in Sources */,
 				82FB87AC1B4D18C500CAD5F7 /* OrderConfirmationViewController.m in Sources */,
+				82E984CC1C0351CF00C2EFCB /* LineItems.m in Sources */,
 				8233CE161B874FB200B5279B /* PaymentViewCell.m in Sources */,
 				823C46B01B7392FE00E37DBE /* ProfileViewCell.m in Sources */,
 				82BD02B61B46A7BA00108A0B /* LoginPageViewController.m in Sources */,
@@ -1265,14 +1289,13 @@
 				829113D71BB93A63000DA995 /* VariantsViewController.m in Sources */,
 				8246FE651B74B53D001D1CFF /* LogSignViewController.m in Sources */,
 				824AE0901BF9EB46008A49A9 /* StoreAPIManager.m in Sources */,
-				829113E31BB973AA000DA995 /* AddToCart.m in Sources */,
 				825567181B68E6D4009F013A /* AddShippingDetailsViewController.m in Sources */,
 				82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */,
 				827DD31A1B8AE39F00714985 /* Address.m in Sources */,
 				826213011BFB532800F75254 /* YSLTransitionAnimator.m in Sources */,
 				8286B2711BF0CF6A00AFC533 /* TaxonomyModel.m in Sources */,
 				8255671B1B68E6F0009F013A /* AddShippingViewCell.m in Sources */,
-				829113E21BB973AA000DA995 /* AddToCart+CoreDataProperties.m in Sources */,
+				82E984CB1C0351CF00C2EFCB /* LineItems+CoreDataProperties.m in Sources */,
 				82C722F61B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m in Sources */,
 				82AD69021BFF4FBF00478C5A /* ProductDetailsViewController.m in Sources */,
 				82C175951B66371000AD26DB /* OrderInputsViewController.m in Sources */,
@@ -1307,6 +1330,7 @@
 				8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */,
 				825266CE1B4F881600C635F7 /* HomeViewController.m in Sources */,
 				824AE08D1BF9EB2D008A49A9 /* StoreSessionManager.m in Sources */,
+				82E984CE1C0351CF00C2EFCB /* AddToCart.m in Sources */,
 				82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */,
 				8286B2581BF08F3F00AFC533 /* StoreRealm.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,

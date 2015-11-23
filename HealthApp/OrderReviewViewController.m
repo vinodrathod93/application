@@ -57,7 +57,7 @@ typedef void (^completion)(BOOL finished);
     
     [self.cartFetchedResultsController performFetch:nil];
     
-    [self sendOrderToServer];
+//    [self sendOrderToServer];
 }
 
 #pragma mark - Table view data source
