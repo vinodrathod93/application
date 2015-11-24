@@ -11,9 +11,6 @@
 @interface ProductImageViewCell : UITableViewCell
 
 @property (nonatomic,weak) IBOutlet UIScrollView *productImage;
-@property (weak, nonatomic) IBOutlet UILabel *productLabel;
-@property (weak, nonatomic) IBOutlet UILabel *summaryLabel;
-@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @end

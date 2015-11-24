@@ -2,7 +2,7 @@
 //  Order+CoreDataProperties.m
 //  
 //
-//  Created by adverto on 23/11/15.
+//  Created by adverto on 24/11/15.
 //
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -14,7 +14,7 @@
 @implementation Order (CoreDataProperties)
 
 @dynamic number;
-@dynamic items;
 @dynamic cartLineItems;
+@dynamic items;
 
 @end

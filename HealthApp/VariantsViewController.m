@@ -282,7 +282,7 @@
 #pragma mark Feteched Results Controller
 
 -(NSFetchedResultsController *)cartFetchedResultsController {
-    if (_cartFetchedResultsController) {
+    if (_cartFetchedResultsController != nil) {
         return _cartFetchedResultsController;
     }
     
@@ -311,7 +311,7 @@
 
 
 -(NSFetchedResultsController *)orderFetchedResultsController {
-    if (_orderFetchedResultsController) {
+    if (_orderFetchedResultsController != nil) {
         return _orderFetchedResultsController;
     }
     

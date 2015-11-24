@@ -8,6 +8,7 @@
 
 #import "DetailsProductViewController.h"
 #import "ProductImageViewCell.h"
+#import "ProductDetailsViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <MBProgressHUD.h>
 #import "AppDelegate.h"
@@ -67,7 +68,6 @@ NSString *cellReuseIdentifier;
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-//    self.tableView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
@@ -115,17 +115,13 @@ NSString *cellReuseIdentifier;
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 1;
+    
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
     
-    if (section == 0) {
-        return [self.viewModel numberOfRows];
-    }
-    return 0;
+    return [self.viewModel numberOfRows];
 }
 
 
@@ -135,6 +131,8 @@ NSString *cellReuseIdentifier;
         if (indexPath.row == 0) {
             cellReuseIdentifier = @"imageDetailsCell";
         }
+    } else {
+        cellReuseIdentifier     = @"productDetailsCell";
     }
     
     id cell = [tableView dequeueReusableCellWithIdentifier:cellReuseIdentifier forIndexPath:indexPath];
@@ -143,6 +141,8 @@ NSString *cellReuseIdentifier;
         if (indexPath.row == 0) {
             [self configureImageViewCell:cell forIndexPath:indexPath];
         }
+    } else if (indexPath.section == 1) {
+        [self configureProductDetailCell:cell forIndexPath:indexPath];
     }
     
     return cell;
@@ -151,10 +151,6 @@ NSString *cellReuseIdentifier;
 -(void)configureImageViewCell:(ProductImageViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     
     [self prepareImageView:cell forIndexPath:indexPath];
-    
-    cell.productLabel.text = [self.viewModel name];
-    cell.summaryLabel.text = [self.viewModel summary];
-    cell.priceLabel.text = [self.viewModel display_price];
 }
 
 
@@ -195,11 +191,11 @@ NSString *cellReuseIdentifier;
             
         }
         
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-            [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:cell.productImage attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:300.f]];
-        } else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:cell.productImage attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:450.f]];
-        }
+//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+//            [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:cell.productImage attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:300.f]];
+//        } else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+//            [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:cell.productImage attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:450.f]];
+//        }
         
         
         
@@ -275,27 +271,29 @@ NSString *cellReuseIdentifier;
 
  
 
--(void)configureProductDetail:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = [self.viewModel name];
+-(void)configureProductDetailCell:(ProductDetailsViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    cell.productLabel.text = [self.viewModel name];
+    cell.priceLabel.text   = [self.viewModel display_price];
+    cell.summaryLabel.text = [self.viewModel summary];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
     if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            
-            CGFloat summaryHeight = [self.viewModel heightForSummaryTextInTableViewCellWithWidth:self.tableView.frame.size.width];
-            return (self.view.frame.size.height/2) + summaryHeight;
-            
-        }
+        return self.view.frame.size.height/2;
+    }
+    
+    else if (indexPath.section == 1) {
+        CGFloat summaryHeight = [self.viewModel heightForSummaryTextInTableViewCellWithWidth:self.tableView.frame.size.width];
+        return 100.f + summaryHeight;
     }
     
     return 250.0f;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section == 1) {
         return FOOTER_HEIGHT;
     } else
         return 0.0f;
@@ -304,7 +302,7 @@ NSString *cellReuseIdentifier;
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
-    if (section == 0) {
+    if (section == 1) {
         self.footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, FOOTER_HEIGHT)];
         
         [self addToCartButton];
@@ -509,6 +507,7 @@ NSString *cellReuseIdentifier;
     
     UIWindow *window = [[UIApplication sharedApplication] delegate].window;
     self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+    self.hud.dimBackground = YES;
     self.hud.color = self.view.tintColor;
 
     
@@ -575,7 +574,7 @@ NSString *cellReuseIdentifier;
 #pragma mark - Fetched Results Controller
 
 -(NSFetchedResultsController *)pd_cartFetchedResultsController {
-    if (_pd_cartFetchedResultsController) {
+    if (_pd_cartFetchedResultsController != nil) {
         return _pd_cartFetchedResultsController;
     }
     
@@ -604,7 +603,7 @@ NSString *cellReuseIdentifier;
 
 
 -(NSFetchedResultsController *)pd_orderFetchedResultsController {
-    if (_pd_orderFetchedResultsController) {
+    if (_pd_orderFetchedResultsController != nil) {
         return _pd_orderFetchedResultsController;
     }
     

@@ -193,7 +193,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         width = self.view.frame.size.width / 4;
-        height = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height) / 3;
+        height = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height) / 3.5f;
         
         return CGSizeMake(width-1, height-1);
     } else {
@@ -353,7 +353,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 -(UIView *)titleViewWithCount:(NSString *)count {
     CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
-    CGFloat width = 0.95 * self.view.frame.size.width;
+    CGFloat width = 0.95 * self.navigationItem.titleView.frame.size.width;
     UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, navBarHeight)];
     
     
@@ -411,6 +411,9 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     return containerView;
 }
+
+
+
 
 
 -(void)showAddedToCart {
