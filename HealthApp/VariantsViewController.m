@@ -227,6 +227,8 @@
     [task resume];
     UIWindow *window = [[UIApplication sharedApplication] delegate].window;
     self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+    self.hud.dimBackground = YES;
+    self.hud.labelText = @"Adding To Cart...";
     self.hud.color = self.view.tintColor;
     
     

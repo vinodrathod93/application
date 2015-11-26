@@ -2,7 +2,7 @@
 //  LineItems+CoreDataProperties.m
 //  
 //
-//  Created by adverto on 24/11/15.
+//  Created by adverto on 25/11/15.
 //
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -13,17 +13,17 @@
 
 @implementation LineItems (CoreDataProperties)
 
+@dynamic image;
 @dynamic lineItemID;
+@dynamic name;
+@dynamic option;
 @dynamic price;
 @dynamic quantity;
+@dynamic singleDisplayPrice;
+@dynamic total;
+@dynamic totalDisplayPrice;
 @dynamic totalOnHand;
 @dynamic variantID;
-@dynamic name;
-@dynamic total;
-@dynamic singleDisplayPrice;
-@dynamic image;
-@dynamic option;
-@dynamic totalDisplayPrice;
 @dynamic order;
 
 @end

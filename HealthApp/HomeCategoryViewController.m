@@ -23,6 +23,7 @@
 @interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *h_cartFetchedResultsController;
+@property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSArray *categoriesArray;
 @property (nonatomic, strong) HeaderSliderView *headerView;
@@ -45,7 +46,9 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
-    NSString *count = [NSString stringWithFormat:@"%lu",(unsigned long)self.h_cartFetchedResultsController.fetchedObjects.count];
+//    NSString *count = [NSString stringWithFormat:@"%lu",(unsigned long)self.h_cartFetchedResultsController.fetchedObjects.count];
+    
+    NSString *count = [NSString stringWithFormat:@"%lu", self.h_lineItemsFetchedResultsController.fetchedObjects.count];
     [[self.tabBarController.tabBar.items objectAtIndex:1]setBadgeValue:count];
     
     
@@ -175,7 +178,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 
-
+//-(IBAction)unwindToThisViewController:(UIStoryboardSegue *)unwindSegue {
+//    NSLog(@"Rollback to Home VC");
+//    
+//    
+//}
 
 
 

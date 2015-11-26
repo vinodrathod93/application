@@ -131,7 +131,6 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
     
     [self ysl_removeTransitionDelegate];
     [self.task suspend];

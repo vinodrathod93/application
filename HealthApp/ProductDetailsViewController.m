@@ -83,6 +83,7 @@
 {
     
     [self ysl_removeTransitionDelegate];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated

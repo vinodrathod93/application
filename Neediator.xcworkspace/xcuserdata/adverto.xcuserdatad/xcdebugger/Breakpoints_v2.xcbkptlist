@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HealthApp/CartViewController.m"
-            timestampString = "470068745.421863"
+            filePath = "HealthApp/DetailsProductViewController.m"
+            timestampString = "470148549.099865"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "-removeAllLineItems"
+            startingLineNumber = "447"
+            endingLineNumber = "447"
+            landmarkName = "-sendLineItem:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthApp/CartViewController.m"
-            timestampString = "470068745.421863"
+            timestampString = "470236747.393318"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "-removeAllLineItems"
+            startingLineNumber = "483"
+            endingLineNumber = "483"
+            landmarkName = "-configureHeaderView:forSection:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,29 +42,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthApp/CartViewController.m"
-            timestampString = "470068745.421863"
+            timestampString = "470236749.019217"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
+            landmarkName = "-configureHeaderView:forSection:"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/CartViewController.m"
-            timestampString = "470068905.725688"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "-tableView:numberOfRowsInSection:"
-            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CartViewController configureHeaderView:forSection:]"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/CartViewController.m"
+                  timestampString = "470236925.69959"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "490"
+                  endingLineNumber = "490"
+                  offsetFromSymbolStart = "792">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CartViewController configureHeaderView:forSection:]"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/CartViewController.m"
+                  timestampString = "470236925.699754"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "490"
+                  endingLineNumber = "490"
+                  offsetFromSymbolStart = "796">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

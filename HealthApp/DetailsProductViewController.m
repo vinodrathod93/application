@@ -508,6 +508,7 @@ NSString *cellReuseIdentifier;
     UIWindow *window = [[UIApplication sharedApplication] delegate].window;
     self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     self.hud.dimBackground = YES;
+    self.hud.labelText = @"Adding To Cart...";
     self.hud.color = self.view.tintColor;
 
     
@@ -608,12 +609,12 @@ NSString *cellReuseIdentifier;
     }
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Order"];
-    NSString *cacheName = @"pdOrderCache";
+//    NSString *cacheName = @"pdOrderCache";
     
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES];
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
-    self.pd_orderFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:cacheName];
+    self.pd_orderFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
     NSError *error;
     if(![self.pd_orderFetchedResultsController performFetch:&error])
     {

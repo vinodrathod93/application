@@ -43,7 +43,7 @@ typedef void(^completion)(BOOL finished);
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.emailField becomeFirstResponder];
+//    [self.emailField becomeFirstResponder];
 }
 
 - (IBAction)loginButtonPressed:(id)sender {
@@ -63,7 +63,7 @@ typedef void(^completion)(BOOL finished);
                         if (self.isPlacingOrder) {
                             NSLog(@"Placing Order");
                             
-                            [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
+//                            [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
                         }
                         
                     }];
@@ -146,7 +146,11 @@ typedef void(^completion)(BOOL finished);
     
     [task resume];
     
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UIWindow *window = [[UIApplication sharedApplication] delegate].window;
+    self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+    self.hud.dimBackground = YES;
+    self.hud.labelText = @"Logging In...";
+    self.hud.detailsLabelText = @"Please wait...";
     self.hud.color = self.view.tintColor;
     
 }
@@ -172,6 +176,8 @@ typedef void(^completion)(BOOL finished);
 
 -(void)displayConnectionFailed {
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.hud hide:YES];
         UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [failed_alert show];
@@ -179,6 +185,8 @@ typedef void(^completion)(BOOL finished);
 }
 
 -(void)displayNoConnection {
+    
+    [self.hud hide:YES];
     UIAlertView *connection_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     
     [connection_alert show];

@@ -2349,21 +2349,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order no. 789397479" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WuR-kb-KQN">
-                                <rect key="frame" x="178" y="87" width="243" height="21"/>
+                                <rect key="frame" x="178" y="155" width="243" height="21"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="243" id="hjO-fc-wAq"/>
                                     <constraint firstAttribute="height" constant="21" id="xU2-Mc-bp7"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a0n-CV-ac7">
-                                <rect key="frame" x="159" y="130" width="281" height="99"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a0n-CV-ac7">
+                                <rect key="frame" x="61" y="184" width="477" height="99"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="281" id="Gy3-c2-UQa"/>
+                                    <constraint firstAttribute="width" constant="477" id="Gy3-c2-UQa"/>
                                     <constraint firstAttribute="height" constant="99" id="nXq-x3-LEa"/>
                                 </constraints>
                                 <string key="text">Your Order is currently being processed. You will receive an order confirmation email shortly with the expected delivery date for your item.</string>
@@ -2372,7 +2372,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="roz-2g-Rbx">
-                                <rect key="frame" x="182" y="280" width="237" height="30"/>
+                                <rect key="frame" x="182" y="331" width="237" height="30"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.086274509799999996" green="0.62745098040000002" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -2396,9 +2396,9 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="WuR-kb-KQN" firstAttribute="top" secondItem="d4W-my-Iqr" secondAttribute="bottom" constant="8" id="1Pw-6p-sPE"/>
-                            <constraint firstItem="roz-2g-Rbx" firstAttribute="top" secondItem="a0n-CV-ac7" secondAttribute="bottom" constant="51" id="1in-mJ-cQO"/>
-                            <constraint firstItem="a0n-CV-ac7" firstAttribute="top" secondItem="WuR-kb-KQN" secondAttribute="bottom" constant="22" id="40r-PG-ZfA"/>
+                            <constraint firstItem="WuR-kb-KQN" firstAttribute="top" secondItem="d4W-my-Iqr" secondAttribute="bottom" constant="76" id="1Pw-6p-sPE"/>
+                            <constraint firstItem="roz-2g-Rbx" firstAttribute="top" secondItem="a0n-CV-ac7" secondAttribute="bottom" constant="48" id="1in-mJ-cQO"/>
+                            <constraint firstItem="a0n-CV-ac7" firstAttribute="top" secondItem="WuR-kb-KQN" secondAttribute="bottom" constant="8" id="40r-PG-ZfA"/>
                             <constraint firstItem="WuR-kb-KQN" firstAttribute="centerX" secondItem="sDi-MG-iRf" secondAttribute="centerX" id="A7e-1H-X5q"/>
                             <constraint firstItem="roz-2g-Rbx" firstAttribute="centerX" secondItem="sDi-MG-iRf" secondAttribute="centerX" id="K9g-VR-u7s"/>
                             <constraint firstItem="a0n-CV-ac7" firstAttribute="centerX" secondItem="sDi-MG-iRf" secondAttribute="centerX" id="Nor-lF-m40"/>
@@ -2412,7 +2412,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eXR-MB-Vrq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="14668" y="-2327"/>
+            <point key="canvasLocation" x="14585" y="-2218"/>
         </scene>
         <!--Doctor View Controller-->
         <scene sceneID="5mz-Hw-EDr">

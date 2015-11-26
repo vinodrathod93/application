@@ -52,6 +52,9 @@ typedef void(^completion)(BOOL finished);
     [super viewDidLoad];
     
     self.section_count = 2;
+    
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContext = appDelegate.managedObjectContext;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -261,6 +264,7 @@ typedef void(^completion)(BOOL finished);
                             
                             
                             [self deleteCartProducts];
+                            [self deleteAllLineItems];
                             
                             
                             [self.navigationController pushViewController:orderCompleteVC animated:YES];
@@ -286,15 +290,17 @@ typedef void(^completion)(BOOL finished);
     }];
     
     [task resume];
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UIWindow *window = [[UIApplication sharedApplication] delegate].window;
+    self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+    self.hud.dimBackground = YES;
+    self.hud.labelText = @"Making Payment...";
     self.hud.color = self.view.tintColor;
 }
 
 
 -(void)deleteCartProducts {
     
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContext = appDelegate.managedObjectContext;
+    
     
     NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
     NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
@@ -304,6 +310,35 @@ typedef void(^completion)(BOOL finished);
     }
     NSError *error = nil;
     [self.managedObjectContext save:&error];
+}
+
+-(void)deleteAllLineItems {
+    
+    NSFetchRequest *allLineItems = [[NSFetchRequest alloc] init];
+    [allLineItems setEntity:[NSEntityDescription entityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext]];
+    
+    NSError *error = nil;
+    NSArray *lineItems = [self.managedObjectContext executeFetchRequest:allLineItems error:&error];
+    
+    for (NSManagedObject *lineItem in lineItems) {
+        [self.managedObjectContext deleteObject:lineItem];
+    }
+    
+    
+    // Order
+    NSFetchRequest *orderFetchRequest = [[NSFetchRequest alloc]init];
+    [orderFetchRequest setEntity:[NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext]];
+    
+    NSError *orderError = nil;
+    NSArray *orderArray = [self.managedObjectContext executeFetchRequest:orderFetchRequest error:&orderError];
+    
+    for (NSManagedObject *order in orderArray) {
+        [self.managedObjectContext deleteObject:order];
+    }
+    
+    NSError *saveError = nil;
+    [self.managedObjectContext save:&saveError];
+    
 }
 
 -(NSDictionary *)createPaymentDictionary {

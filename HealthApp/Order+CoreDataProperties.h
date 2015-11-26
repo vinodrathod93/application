@@ -2,7 +2,7 @@
 //  Order+CoreDataProperties.h
 //  
 //
-//  Created by adverto on 24/11/15.
+//  Created by adverto on 25/11/15.
 //
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Order (CoreDataProperties)
 
 @property (nullable, nonatomic, retain) NSString *number;
+@property (nullable, nonatomic, retain) NSString *total;
 @property (nullable, nonatomic, retain) NSSet<LineItems *> *cartLineItems;
 @property (nullable, nonatomic, retain) NSSet<AddToCart *> *items;
 

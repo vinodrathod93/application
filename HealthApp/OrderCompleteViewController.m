@@ -7,6 +7,7 @@
 //
 
 #import "OrderCompleteViewController.h"
+#import "PaymentViewController.h"
 
 @interface OrderCompleteViewController ()
 
@@ -19,12 +20,29 @@
     
     
     self.order_number.text = self.order_id;
+    
+    NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    for(UIViewController* vc in self.navigationController.viewControllers)
+    {
+        if ([vc isKindOfClass:[PaymentViewController class]]) {
+            [viewControllers removeObject:vc];
+            break;
+        }
+    }
+    self.navigationController.viewControllers = [NSArray arrayWithArray:viewControllers];
+    
     // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
 }
 
 /*
@@ -39,4 +57,10 @@
 
 - (IBAction)viewOrderPressed:(id)sender {
 }
+
+
+
+
+
+
 @end

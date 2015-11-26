@@ -45,7 +45,7 @@ typedef void(^completion)(BOOL finished);
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.userName becomeFirstResponder];
+//    [self.userName becomeFirstResponder];
 }
 
 
@@ -110,7 +110,7 @@ typedef void(^completion)(BOOL finished);
                         
                         if (self.isPlacingOrder) {
                             NSLog(@"Placing Order");
-                            [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
+//                            [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
                         }
                         
                     }];
@@ -194,7 +194,11 @@ typedef void(^completion)(BOOL finished);
     [task resume];
     
     // display HUD
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UIWindow *window = [[UIApplication sharedApplication] delegate].window;
+    self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+    self.hud.dimBackground = YES;
+    self.hud.labelText = @"Signing In...";
+    self.hud.detailsLabelText = @"Please wait...";
     self.hud.color = self.view.tintColor;
     
 }
