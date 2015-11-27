@@ -22,7 +22,7 @@
 
 @interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate>
 
-@property (nonatomic, strong) NSFetchedResultsController *h_cartFetchedResultsController;
+//@property (nonatomic, strong) NSFetchedResultsController *h_cartFetchedResultsController;
 @property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSArray *categoriesArray;
@@ -48,6 +48,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.managedObjectContext = appDelegate.managedObjectContext;
 //    NSString *count = [NSString stringWithFormat:@"%lu",(unsigned long)self.h_cartFetchedResultsController.fetchedObjects.count];
     
+    [self checkLineItems];
     NSString *count = [NSString stringWithFormat:@"%lu", self.h_lineItemsFetchedResultsController.fetchedObjects.count];
     [[self.tabBarController.tabBar.items objectAtIndex:1]setBadgeValue:count];
     
@@ -219,32 +220,47 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 }
 
 
--(NSFetchedResultsController *)h_cartFetchedResultsController {
-    if (_h_cartFetchedResultsController) {
-        return _h_cartFetchedResultsController;
+//-(NSFetchedResultsController *)h_cartFetchedResultsController {
+//    if (_h_cartFetchedResultsController) {
+//        return _h_cartFetchedResultsController;
+//    }
+//    
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
+//    [fetchRequest setEntity:entity];
+//    
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
+//                                        initWithKey:@"addedDate"
+//                                        ascending:NO];
+//    
+//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+//    [fetchRequest setSortDescriptors:sortDescriptors];
+//    
+//    _h_cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+//    _h_cartFetchedResultsController.delegate = self;
+//    
+//    NSError *error = nil;
+//    if (![self.h_cartFetchedResultsController performFetch:&error]) {
+//        NSLog(@"Core data error %@, %@", error, [error userInfo]);
+//        abort();
+//    }
+//    
+//    return _h_cartFetchedResultsController;
+//}
+
+
+
+-(void)checkLineItems {
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"LineItems"];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lineItemID" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    self.h_lineItemsFetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    NSError *error;
+    if (![self.h_lineItemsFetchedResultsController performFetch:&error]) {
+        NSLog(@"LineItems Model Fetch Failure: %@", [error localizedDescription]);
     }
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-                                        initWithKey:@"addedDate"
-                                        ascending:NO];
-    
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    _h_cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    _h_cartFetchedResultsController.delegate = self;
-    
-    NSError *error = nil;
-    if (![self.h_cartFetchedResultsController performFetch:&error]) {
-        NSLog(@"Core data error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    return _h_cartFetchedResultsController;
 }
 
 

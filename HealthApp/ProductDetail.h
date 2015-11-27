@@ -26,5 +26,4 @@
 
 @property (nonatomic, strong) NSArray *variants;
 
-
 @end

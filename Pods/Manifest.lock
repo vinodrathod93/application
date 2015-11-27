@@ -31,6 +31,7 @@ PODS:
     - MBProgressHUD (~> 0.8)
     - PSTCollectionView (~> 1.2)
     - SDWebImage (~> 3.7)
+  - pop (1.0.8)
   - PSTCollectionView (1.2.3)
   - Realm (0.96.2):
     - Realm/Headers (= 0.96.2)
@@ -47,6 +48,7 @@ DEPENDENCIES:
   - Mantle
   - MBProgressHUD (~> 0.9.1)
   - MWPhotoBrowser
+  - pop
   - Realm
   - SDWebImage (~> 3.7)
   - SLExpandableTableView
@@ -59,6 +61,7 @@ SPEC CHECKSUMS:
   Mantle: 1912395033f601de5adc8ee91e48f46e4c7051ad
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MWPhotoBrowser: 2531e682860d62b8a7ba8659de02eb9040e431e5
+  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   PSTCollectionView: 6749df92885353521f55279a7ce2b293762e2be4
   Realm: 3ce8448151c571e90b85002d984d7f93f54fc8a3
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29

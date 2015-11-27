@@ -143,7 +143,7 @@ static NSString *cellIdentifier = @"cartCell";
     
 //    id<NSFetchedResultsSectionInfo> sectionInfo = [self.lineItemsFetchedResultsController sections][section];
 //    NSLog(@"%lu",(unsigned long)[sectionInfo numberOfObjects]);
-//    [self updateBadgeValue];
+    [self updateBadgeValue];
     
 //    return [sectionInfo numberOfObjects];
     NSLog(@"Count is %lu",self.lineItemsFetchedResultsController.fetchedObjects.count);
@@ -361,7 +361,7 @@ static NSString *cellIdentifier = @"cartCell";
     if(![self.orderNumFetchedResultsController performFetch:&error])
     {
         
-        NSLog(@"Order Model Fetch Failure: %@",error);
+        NSLog(@"Order Model Fetch Failure: %@",[error localizedDescription]);
     }
     
 }
@@ -380,7 +380,7 @@ static NSString *cellIdentifier = @"cartCell";
     if(![self.lineItemsFetchedResultsController performFetch:&error])
     {
         
-        NSLog(@"Order Model Fetch Failure: %@",error);
+        NSLog(@"Order Model Fetch Failure: %@",[error localizedDescription]);
     }
     
     
@@ -554,6 +554,8 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 -(void)updateBadgeValue {
+    [self checkLineItems];
+    
     NSString *count = [NSString stringWithFormat:@"%lu", (unsigned long)self.lineItemsFetchedResultsController.fetchedObjects.count];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:count];
 }

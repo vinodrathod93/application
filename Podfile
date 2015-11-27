@@ -12,6 +12,7 @@ pod 'Mantle'
 pod 'Realm'
 pod 'SLExpandableTableView'
 pod 'MWPhotoBrowser'
+pod 'pop'
 
 end
 

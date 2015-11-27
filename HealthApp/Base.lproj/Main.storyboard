@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Login Page View Controller-->
@@ -1035,6 +1036,126 @@
             </objects>
             <point key="canvasLocation" x="4860" y="-1515.8450704225352"/>
         </scene>
+        <!--Popup Cart View Controller-->
+        <scene sceneID="C6b-en-8m9">
+            <objects>
+                <viewController storyboardIdentifier="popupCartViewController" id="dr0-cr-CuM" customClass="PopupCartViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="suT-N6-2o6"/>
+                        <viewControllerLayoutGuide type="bottom" id="2q3-a1-srR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SrI-IY-rZ6">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbf-em-vBX">
+                                <rect key="frame" x="0.0" y="356" width="150" height="44"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="a6V-sE-dO6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
+                                <state key="normal" title="Don't Need">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="emptyCart:" destination="dr0-cr-CuM" eventType="touchUpInside" id="z4T-ae-0go"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jFS-EY-0eD">
+                                <rect key="frame" x="150" y="356" width="150" height="44"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.40090459589999999" green="0.82203432445526314" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="ir0-7J-gX3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
+                                <state key="normal" title="Go To Cart">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="goToCart:" destination="dr0-cr-CuM" eventType="touchUpInside" id="fPc-Zx-Xwx"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Important" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BXr-Lm-Sl2">
+                                <rect key="frame" x="62" y="8" width="176" height="44"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="176" id="Juz-Tv-vLk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="32"/>
+                                <color key="textColor" red="0.97883130139999996" green="0.6421312968657894" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="37" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="mJ7-wN-ZPz">
+                                <rect key="frame" x="0.0" y="140" width="300" height="217"/>
+                                <animations/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="popupCartCell" rowHeight="37" id="XWF-z5-KbP">
+                                        <rect key="frame" x="0.0" y="50" width="300" height="37"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XWF-z5-KbP" id="QeK-zn-on4">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="36"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="dr0-cr-CuM" id="cam-F6-H20"/>
+                                    <outlet property="delegate" destination="dr0-cr-CuM" id="D5m-Gr-a0x"/>
+                                </connections>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have n Items in the Cart, Do checkout otherwise they will get lost" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gth-NT-GAE">
+                                <rect key="frame" x="7" y="63" width="285" height="72"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="285" id="TNB-XQ-8nh"/>
+                                    <constraint firstAttribute="height" constant="72" id="asg-Yg-Ms1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" red="0.0" green="0.67843137254901964" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="BXr-Lm-Sl2" firstAttribute="top" secondItem="suT-N6-2o6" secondAttribute="bottom" constant="8" id="1pX-l4-VHa"/>
+                            <constraint firstItem="mJ7-wN-ZPz" firstAttribute="top" secondItem="Gth-NT-GAE" secondAttribute="bottom" constant="5" id="1vn-Io-bZW"/>
+                            <constraint firstItem="Gth-NT-GAE" firstAttribute="centerX" secondItem="SrI-IY-rZ6" secondAttribute="centerX" id="7YM-0j-vf4"/>
+                            <constraint firstAttribute="trailing" secondItem="jFS-EY-0eD" secondAttribute="trailing" id="GbG-bm-vTJ"/>
+                            <constraint firstItem="2q3-a1-srR" firstAttribute="top" secondItem="jFS-EY-0eD" secondAttribute="bottom" id="OZx-k5-Cdh"/>
+                            <constraint firstItem="BXr-Lm-Sl2" firstAttribute="centerX" secondItem="SrI-IY-rZ6" secondAttribute="centerX" id="Wgs-PE-Nsz"/>
+                            <constraint firstItem="mJ7-wN-ZPz" firstAttribute="leading" secondItem="SrI-IY-rZ6" secondAttribute="leading" id="ZfA-yr-1sF"/>
+                            <constraint firstItem="hbf-em-vBX" firstAttribute="top" secondItem="mJ7-wN-ZPz" secondAttribute="bottom" constant="-1" id="asB-Vr-1d0"/>
+                            <constraint firstItem="Gth-NT-GAE" firstAttribute="top" secondItem="BXr-Lm-Sl2" secondAttribute="bottom" constant="11" id="ewh-bT-ZJy"/>
+                            <constraint firstItem="jFS-EY-0eD" firstAttribute="leading" secondItem="hbf-em-vBX" secondAttribute="trailing" id="hSg-WQ-hfZ"/>
+                            <constraint firstItem="hbf-em-vBX" firstAttribute="leading" secondItem="SrI-IY-rZ6" secondAttribute="leading" id="kXj-LL-Tuk"/>
+                            <constraint firstItem="hbf-em-vBX" firstAttribute="width" secondItem="SrI-IY-rZ6" secondAttribute="width" multiplier="0.5" id="lau-rH-l8c"/>
+                            <constraint firstItem="jFS-EY-0eD" firstAttribute="width" secondItem="SrI-IY-rZ6" secondAttribute="width" multiplier="0.5" id="mXx-SN-d66"/>
+                            <constraint firstItem="2q3-a1-srR" firstAttribute="top" secondItem="hbf-em-vBX" secondAttribute="bottom" id="sYo-1u-FeJ"/>
+                            <constraint firstAttribute="trailing" secondItem="mJ7-wN-ZPz" secondAttribute="trailing" id="suz-dl-h1e"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="300" height="400"/>
+                    <connections>
+                        <outlet property="emptyCartButton" destination="hbf-em-vBX" id="5Ch-XO-juA"/>
+                        <outlet property="goToCartButton" destination="jFS-EY-0eD" id="faR-I4-Hy2"/>
+                        <outlet property="importantLabel" destination="BXr-Lm-Sl2" id="uKf-fh-Y4a"/>
+                        <outlet property="tableView" destination="mJ7-wN-ZPz" id="bdW-vr-kB6"/>
+                        <outlet property="warningMessageLabel" destination="Gth-NT-GAE" id="GOm-ZO-ab0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xIt-te-KT8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6038" y="-2330"/>
+        </scene>
         <!--Stores-->
         <scene sceneID="UWy-MB-5Ke">
             <objects>
@@ -2001,7 +2122,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="puB-B2-foM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7417.5" y="-2340.8450704225352"/>
+            <point key="canvasLocation" x="8277" y="-2361"/>
         </scene>
         <!--Address-->
         <scene sceneID="2SA-1i-sMe">
@@ -2073,7 +2194,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VuA-lz-kSc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="11889" y="-2327"/>
+            <point key="canvasLocation" x="12917" y="-2443"/>
         </scene>
         <!--Delivery View Controller-->
         <scene sceneID="cFa-vl-Be0">
@@ -2122,7 +2243,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rBe-YT-a2W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="12723" y="-2327"/>
+            <point key="canvasLocation" x="13671" y="-2459"/>
         </scene>
         <!--Payment-->
         <scene sceneID="pk0-E6-Acr">
@@ -2231,7 +2352,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1MH-ha-E9V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="13592" y="-2327"/>
+            <point key="canvasLocation" x="14540" y="-2459"/>
         </scene>
         <!--Order Review View Controller-->
         <scene sceneID="jca-RC-Uyl">
@@ -2334,7 +2455,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3km-DK-9gZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9439" y="-2327"/>
+            <point key="canvasLocation" x="10963" y="-2459"/>
         </scene>
         <!--Order Complete View Controller-->
         <scene sceneID="WX8-dI-MRI">
@@ -2412,7 +2533,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eXR-MB-Vrq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="14585" y="-2218"/>
+            <point key="canvasLocation" x="15393" y="-2459"/>
         </scene>
         <!--Doctor View Controller-->
         <scene sceneID="5mz-Hw-EDr">
@@ -2778,7 +2899,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dl6-Bf-mY7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10892" y="-2327"/>
+            <point key="canvasLocation" x="11920" y="-2443"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7rp-S6-Oog">
@@ -2797,7 +2918,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dhH-17-gQZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6420" y="-2340.8450704225352"/>
+            <point key="canvasLocation" x="7280" y="-2361"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="y5r-dl-vqO">
@@ -2855,7 +2976,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B0q-Oj-obY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8627" y="-2327"/>
+            <point key="canvasLocation" x="10151" y="-2459"/>
         </scene>
     </scenes>
     <resources>

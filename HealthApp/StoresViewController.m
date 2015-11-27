@@ -16,8 +16,17 @@
 #import "StoreTaxonsViewController.h"
 #import "User.h"
 #import "LogSignViewController.h"
+#import "AppDelegate.h"
+#import "PresentingAnimator.h"
+#import "DismissingAnimator.h"
+#import "PopupCartViewController.h"
 
-@interface StoresViewController ()
+
+@interface StoresViewController ()<NSFetchedResultsControllerDelegate,UIViewControllerTransitioningDelegate>
+
+
+@property (nonatomic, strong) NSFetchedResultsController *s_lineItemsFetchedResultsController;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 //@property (nonatomic, strong) RLMResults *stores;
 @property (nonatomic, strong) NSArray *array_stores;
@@ -32,6 +41,9 @@
     
     StoreListRequestModel *requestModel = [StoreListRequestModel new];
     requestModel.location = @"19.012156,72.832355";
+    
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContext = appDelegate.managedObjectContext;
     
     [self showHUD];
     [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {
@@ -79,6 +91,21 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source
+{
+    return [PresentingAnimator new];
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    return [DismissingAnimator new];
+}
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -116,16 +143,31 @@
     User *user = [User savedUser];
     StoresModel *store = self.array_stores[indexPath.row];
     
-    if (user.access_token == nil) {
-        LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
-        logSignVC.isPlacingOrder = NO;
-        
-        UINavigationController *logSignNav = [[UINavigationController alloc]initWithRootViewController:logSignVC];
-        logSignNav.navigationBar.tintColor = self.tableView.tintColor;
-        
-        [self presentViewController:logSignNav animated:YES completion:nil];
-    } else {
-        
+    [self checkLineItems];
+    
+    if (store != nil) {
+        if (self.s_lineItemsFetchedResultsController.fetchedObjects.count != 0) {
+            // Show modal view controller
+            
+            PopupCartViewController *popupCartVC = [self.storyboard instantiateViewControllerWithIdentifier:@"popupCartViewController"];
+            popupCartVC.transitioningDelegate = self;
+            popupCartVC.modalPresentationStyle = UIModalPresentationCustom;
+            
+            [self.navigationController presentViewController:popupCartVC animated:YES completion:NULL];
+            
+            
+            
+        }
+        else if (user.access_token == nil) {
+            LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
+            logSignVC.isPlacingOrder = NO;
+            
+            UINavigationController *logSignNav = [[UINavigationController alloc]initWithRootViewController:logSignVC];
+            logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+            
+            [self presentViewController:logSignNav animated:YES completion:nil];
+        } else {
+            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 
                 @autoreleasepool {
@@ -149,18 +191,34 @@
                     });
                 }
                 
-             });
-        
-        
-        StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
-        storeTaxonsVC.title = [store.storeName capitalizedString];
-        storeTaxonsVC.storeURL = store.storeUrl;
-        [self.navigationController pushViewController:storeTaxonsVC animated:YES];
+            });
+            
+            
+            StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
+            storeTaxonsVC.title = [store.storeName capitalizedString];
+            storeTaxonsVC.storeURL = store.storeUrl;
+            [self.navigationController pushViewController:storeTaxonsVC animated:YES];
+        }
     }
+    
+    
 
     
 }
 
+
+-(void)checkLineItems {
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"LineItems"];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lineItemID" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    self.s_lineItemsFetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    NSError *error;
+    if (![self.s_lineItemsFetchedResultsController performFetch:&error]) {
+        NSLog(@"LineItems Model Fetch Failure: %@", [error localizedDescription]);
+    }
+}
 
 
 

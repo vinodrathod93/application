@@ -71,6 +71,11 @@
     return @(1);
 }
 
+-(NSNumber *)total_on_hand {
+    return [self.model valueForKey:@"total_on_hand"];
+}
+
+
 
 -(BOOL)isOutOfStock {
     if ([[self.model valueForKey:@"total_on_hand"] isEqual: @(0)]) {

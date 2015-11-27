@@ -100,6 +100,10 @@
 		82BD02A81B46A73C00108A0B /* HealthAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02A71B46A73C00108A0B /* HealthAppTests.m */; };
 		82BD02B61B46A7BA00108A0B /* LoginPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02B51B46A7BA00108A0B /* LoginPageViewController.m */; };
 		82C175951B66371000AD26DB /* OrderInputsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C175941B66371000AD26DB /* OrderInputsViewController.m */; };
+		82C38A821C0864D70006A73B /* PopupCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A811C0864D70006A73B /* PopupCartViewController.m */; };
+		82C38A871C086B5C0006A73B /* DismissingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A841C086B5C0006A73B /* DismissingAnimator.m */; };
+		82C38A881C086B5C0006A73B /* PresentingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A861C086B5C0006A73B /* PresentingAnimator.m */; };
+		82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A8D1C086BBE0006A73B /* UIColor+CustomColors.m */; };
 		82C722F61B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C722F51B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m */; };
 		82C722FC1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C722FB1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m */; };
 		82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C722FE1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
@@ -282,7 +286,6 @@
 		82999E911BEB1D0100F0EDE3 /* APIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		82999E971BEB1D9300F0EDE3 /* StoresModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoresModel.h; sourceTree = "<group>"; };
 		82999E981BEB1D9300F0EDE3 /* StoresModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoresModel.m; sourceTree = "<group>"; };
-		82999E9B1BEB44CA00F0EDE3 /* ChemistPlus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChemistPlus-Prefix.pch"; sourceTree = "<group>"; };
 		829CE9081B4BCB2200304088 /* PlaceOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceOrderViewController.h; sourceTree = "<group>"; };
 		829CE9091B4BCB2200304088 /* PlaceOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceOrderViewController.m; sourceTree = "<group>"; };
 		82AD69001BFF4FBF00478C5A /* ProductDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailsViewController.h; sourceTree = "<group>"; };
@@ -302,6 +305,15 @@
 		82BD02B51B46A7BA00108A0B /* LoginPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginPageViewController.m; sourceTree = "<group>"; };
 		82C175931B66371000AD26DB /* OrderInputsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderInputsViewController.h; sourceTree = "<group>"; };
 		82C175941B66371000AD26DB /* OrderInputsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderInputsViewController.m; sourceTree = "<group>"; };
+		82C38A801C0864D70006A73B /* PopupCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupCartViewController.h; sourceTree = "<group>"; };
+		82C38A811C0864D70006A73B /* PopupCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupCartViewController.m; sourceTree = "<group>"; };
+		82C38A831C086B5C0006A73B /* DismissingAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DismissingAnimator.h; sourceTree = "<group>"; };
+		82C38A841C086B5C0006A73B /* DismissingAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissingAnimator.m; sourceTree = "<group>"; };
+		82C38A851C086B5C0006A73B /* PresentingAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentingAnimator.h; sourceTree = "<group>"; };
+		82C38A861C086B5C0006A73B /* PresentingAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentingAnimator.m; sourceTree = "<group>"; };
+		82C38A8C1C086BBE0006A73B /* UIColor+CustomColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+CustomColors.h"; sourceTree = "<group>"; };
+		82C38A8D1C086BBE0006A73B /* UIColor+CustomColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CustomColors.m"; sourceTree = "<group>"; };
+		82C38A8F1C086CE20006A73B /* Neediator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Neediator-Prefix.pch"; sourceTree = "<group>"; };
 		82C722F41B7B1B7600E0C5EF /* RootTabBarControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootTabBarControllerDelegate.h; sourceTree = "<group>"; };
 		82C722F51B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootTabBarControllerDelegate.m; sourceTree = "<group>"; };
 		82C722FA1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
@@ -569,6 +581,7 @@
 			isa = PBXGroup;
 			children = (
 				820F0E1B1B5FD00800AE81F4 /* pharma.png */,
+				82C38A891C086B650006A73B /* Animator */,
 				825266CB1B4F832400C635F7 /* Upload Prescription */,
 				825692D01B6B77B600B5D1D3 /* Optionals */,
 				82EF2DB71BE8BD8F00D87DE2 /* Libraries */,
@@ -599,7 +612,7 @@
 			children = (
 				82BD028C1B46A73C00108A0B /* Info.plist */,
 				82BD028D1B46A73C00108A0B /* main.m */,
-				82999E9B1BEB44CA00F0EDE3 /* ChemistPlus-Prefix.pch */,
+				82C38A8F1C086CE20006A73B /* Neediator-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -619,6 +632,33 @@
 				82BD02A61B46A73C00108A0B /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		82C38A891C086B650006A73B /* Animator */ = {
+			isa = PBXGroup;
+			children = (
+				82C38A8B1C086B870006A73B /* PresentingAnimator */,
+				82C38A8A1C086B7E0006A73B /* DismissingAnimator */,
+			);
+			name = Animator;
+			sourceTree = "<group>";
+		};
+		82C38A8A1C086B7E0006A73B /* DismissingAnimator */ = {
+			isa = PBXGroup;
+			children = (
+				82C38A831C086B5C0006A73B /* DismissingAnimator.h */,
+				82C38A841C086B5C0006A73B /* DismissingAnimator.m */,
+			);
+			name = DismissingAnimator;
+			sourceTree = "<group>";
+		};
+		82C38A8B1C086B870006A73B /* PresentingAnimator */ = {
+			isa = PBXGroup;
+			children = (
+				82C38A851C086B5C0006A73B /* PresentingAnimator.h */,
+				82C38A861C086B5C0006A73B /* PresentingAnimator.m */,
+			);
+			name = PresentingAnimator;
 			sourceTree = "<group>";
 		};
 		82C722F71B7B42BA00E0C5EF /* LogIn */ = {
@@ -671,6 +711,8 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				82C38A801C0864D70006A73B /* PopupCartViewController.h */,
+				82C38A811C0864D70006A73B /* PopupCartViewController.m */,
 				82F1DD4E1BFC9B0F0056FBB3 /* Taxons */,
 				82EF2DDE1BE8C63300D87DE2 /* Stores */,
 				82EF2DC91BE8C08800D87DE2 /* SubCategories */,
@@ -971,6 +1013,8 @@
 		82EF2DD51BE8C2BC00D87DE2 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				82C38A8C1C086BBE0006A73B /* UIColor+CustomColors.h */,
+				82C38A8D1C086BBE0006A73B /* UIColor+CustomColors.m */,
 				82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */,
 				82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */,
 				82C723061B7B58C800E0C5EF /* NSString+SignupValidation.h */,
@@ -1253,6 +1297,7 @@
 				829113C11BB90746000DA995 /* Cart.xcdatamodeld in Sources */,
 				824AE0891BF9B386008A49A9 /* SKSTableViewCellIndicator.m in Sources */,
 				82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */,
+				82C38A821C0864D70006A73B /* PopupCartViewController.m in Sources */,
 				823D06621B8C458600640F45 /* CODInputViewCell.m in Sources */,
 				824AE0871BF9B386008A49A9 /* SKSTableView.m in Sources */,
 				82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */,
@@ -1273,6 +1318,7 @@
 				82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */,
 				82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */,
 				8250A32A1B55000B0026ADCE /* SubCategoryViewController.m in Sources */,
+				82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */,
 				825266D31B4F93C900C635F7 /* HeaderView.m in Sources */,
 				8286B2511BF089D600AFC533 /* StoreListRequestModel.m in Sources */,
 				82327F771B60F9A800D92889 /* CartViewCell.m in Sources */,
@@ -1281,6 +1327,7 @@
 				8233CE161B874FB200B5279B /* PaymentViewCell.m in Sources */,
 				823C46B01B7392FE00E37DBE /* ProfileViewCell.m in Sources */,
 				82BD02B61B46A7BA00108A0B /* LoginPageViewController.m in Sources */,
+				82C38A871C086B5C0006A73B /* DismissingAnimator.m in Sources */,
 				82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */,
 				823C46A91B73327600E37DBE /* DoctorDetailsViewCell.m in Sources */,
 				82C722FC1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m in Sources */,
@@ -1294,6 +1341,7 @@
 				824AE0901BF9EB46008A49A9 /* StoreAPIManager.m in Sources */,
 				825567181B68E6D4009F013A /* AddShippingDetailsViewController.m in Sources */,
 				82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */,
+				82C38A881C086B5C0006A73B /* PresentingAnimator.m in Sources */,
 				827DD31A1B8AE39F00714985 /* Address.m in Sources */,
 				826213011BFB532800F75254 /* YSLTransitionAnimator.m in Sources */,
 				8286B2711BF0CF6A00AFC533 /* TaxonomyModel.m in Sources */,
@@ -1474,6 +1522,8 @@
 					"$(PROJECT_DIR)/HealthApp",
 					/Users/adverto/Documents/FacebookSDK,
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
 				INFOPLIST_FILE = HealthApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1495,6 +1545,8 @@
 					"$(PROJECT_DIR)/HealthApp",
 					/Users/adverto/Documents/FacebookSDK,
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
 				INFOPLIST_FILE = HealthApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

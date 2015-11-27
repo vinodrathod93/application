@@ -30,4 +30,6 @@
 
 -(CGFloat)heightForSummaryTextInTableViewCellWithWidth:(CGFloat)width;
 
+-(NSNumber *)total_on_hand;
+
 @end

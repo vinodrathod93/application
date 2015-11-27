@@ -7,20 +7,23 @@
 //
 
 #import "VariantsViewController.h"
-#import "AddToCart.h"
 #import "AppDelegate.h"
 #import "Order.h"
 #import "User.h"
 #import "StoreRealm.h"
 #import <MBProgressHUD.h>
+#import "LineItems.h"
+//#import "AddToCart.h"
 
 
 @interface VariantsViewController ()<NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSFetchedResultsController *orderFetchedResultsController;
-@property (nonatomic, strong) NSFetchedResultsController *cartFetchedResultsController;
-@property (nonatomic, strong) AddToCart *addToCartModel;
+//@property (nonatomic, strong) NSFetchedResultsController *cartFetchedResultsController;
+//@property (nonatomic, strong) AddToCart *addToCartModel;
+
+@property (nonatomic, strong) LineItems *lineItemsModel;
 @property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
@@ -61,41 +64,74 @@
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     
-    NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"productID == %@",[self.variants[indexPath.row] valueForKey:@"id"]];
-    [fetch setPredicate:predicate];
-    NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
+//    NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"productID == %@",[self.variants[indexPath.row] valueForKey:@"id"]];
+//    [fetch setPredicate:predicate];
+//    NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
     
-    if (fetchedArray.count == 0) {
-        self.addToCartModel                 = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-        self.addToCartModel.productID       = [self.variants[indexPath.row] valueForKey:@"id"];
-        self.addToCartModel.productName     = [self.variants[indexPath.row] valueForKey:@"name"];
+//    if (fetchedArray.count == 0) {
+//        self.addToCartModel                 = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
+//        self.addToCartModel.productID       = [self.variants[indexPath.row] valueForKey:@"id"];
+//        self.addToCartModel.productName     = [self.variants[indexPath.row] valueForKey:@"name"];
+//        
+//        NSString *price                     = [self.variants[indexPath.row] valueForKey:@"price"];
+//        
+//        self.addToCartModel.productPrice    = [NSNumber numberWithInt:price.intValue];
+//        self.addToCartModel.addedDate       = [NSDate date];
+//        
+//        self.addToCartModel.productImage    = self.productImage;
+//        self.addToCartModel.quantity        = @(1);
+//        self.addToCartModel.totalPrice      = [NSNumber numberWithInt:price.intValue];
+//        self.addToCartModel.displayPrice    = [self.variants[indexPath.row] valueForKey:@"display_price"];
+//        self.addToCartModel.variant         = [self.variants[indexPath.row] valueForKey:@"options_text"];
+//        
+//        NSDictionary *line_item             = [self lineItemDictionaryWithVariantID:self.addToCartModel.productID quantity:self.addToCartModel.quantity];
+//        [self sendLineItem:line_item];
+//        
+//    }
+//    else {
+//        [self dismissViewControllerAnimated:YES completion:^{
+//            [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAlreadyAdded" object:nil];
+//        }];
+//    }
+    
+    NSNumber *productID                 = [self.variants[indexPath.row] valueForKey:@"id"];
+    NSNumber *quantity                  = @(1);
+    
+    NSFetchRequest *fetch   = [NSFetchRequest fetchRequestWithEntityName:@"LineItems"];
+    NSPredicate *predicate  = [NSPredicate predicateWithFormat:@"variantID == %@", [self.variants[indexPath.row] valueForKey:@"id"]];
+    [fetch setPredicate:predicate];
+    
+    NSError *lineItemCheckError;
+    NSArray *fetchedArray   = [self.managedObjectContext executeFetchRequest:fetch error:&lineItemCheckError];
+    if (lineItemCheckError != nil) {
+        NSLog(@"LineItems Check Error: %@", [lineItemCheckError localizedDescription]);
+    }
+    else if (fetchedArray.count == 0) {
+        
+        _lineItemsModel            = [NSEntityDescription insertNewObjectForEntityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext];
         
         NSString *price                     = [self.variants[indexPath.row] valueForKey:@"price"];
         
-        self.addToCartModel.productPrice    = [NSNumber numberWithInt:price.intValue];
-        self.addToCartModel.addedDate       = [NSDate date];
+        _lineItemsModel.image                 = self.productImage;
+        _lineItemsModel.quantity              = @(1);
+        _lineItemsModel.variantID             = [self.variants[indexPath.row] valueForKey:@"id"];
+        _lineItemsModel.name                  = [self.variants[indexPath.row] valueForKey:@"name"];
+        _lineItemsModel.price                 = [NSNumber numberWithInt:price.intValue];
+        _lineItemsModel.singleDisplayPrice    = [self.variants[indexPath.row] valueForKey:@"display_price"];
+        _lineItemsModel.total                 = [NSNumber numberWithInt:price.intValue];
+        _lineItemsModel.totalDisplayPrice     = [self.variants[indexPath.row] valueForKey:@"display_price"];
+        _lineItemsModel.totalOnHand           = [self.variants[indexPath.row] valueForKey:@"total_on_hand"];
+        _lineItemsModel.option                = [self.variants[indexPath.row] valueForKey:@"options_text"];;
         
-        self.addToCartModel.productImage    = self.productImage;
-        self.addToCartModel.quantity        = @(1);
-        self.addToCartModel.totalPrice      = [NSNumber numberWithInt:price.intValue];
-        self.addToCartModel.displayPrice    = [self.variants[indexPath.row] valueForKey:@"display_price"];
-        self.addToCartModel.variant         = [self.variants[indexPath.row] valueForKey:@"options_text"];
-//        self.addToCartModel.lineItemID      = [self.variants[indexPath.row] valueForKey:@"id"];
-        
-        NSDictionary *line_item             = [self lineItemDictionaryWithVariantID:self.addToCartModel.productID quantity:self.addToCartModel.quantity];
+        NSDictionary *line_item             = [self lineItemDictionaryWithVariantID:productID quantity:quantity];
         [self sendLineItem:line_item];
-        
     }
     else {
         [self dismissViewControllerAnimated:YES completion:^{
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAlreadyAdded" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"updateAlreadyAdded" object:nil];
         }];
     }
-    
-    
-    
-    
     
     
     
@@ -198,12 +234,12 @@
                         
                         orderModel.number = [json valueForKey:@"number"];
                         
-                        [orderModel addItemsObject:self.addToCartModel];
+                        [orderModel addCartLineItemsObject:_lineItemsModel];
                         
                     } else {
                         Order *orderModel = [self.orderFetchedResultsController.fetchedObjects lastObject];
                         orderModel.number = [json valueForKey:@"number"];
-                        [orderModel addItemsObject:self.addToCartModel];
+                        [orderModel addCartLineItemsObject:_lineItemsModel];
     
                     }
                     
@@ -283,33 +319,33 @@
 
 #pragma mark Feteched Results Controller
 
--(NSFetchedResultsController *)cartFetchedResultsController {
-    if (_cartFetchedResultsController != nil) {
-        return _cartFetchedResultsController;
-    }
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-                                        initWithKey:@"addedDate"
-                                        ascending:NO];
-    
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    _cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    _cartFetchedResultsController.delegate = self;
-    
-    NSError *error = nil;
-    if (![self.cartFetchedResultsController performFetch:&error]) {
-        NSLog(@"Core data error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    return _cartFetchedResultsController;
-}
+//-(NSFetchedResultsController *)cartFetchedResultsController {
+//    if (_cartFetchedResultsController != nil) {
+//        return _cartFetchedResultsController;
+//    }
+//    
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
+//    [fetchRequest setEntity:entity];
+//    
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
+//                                        initWithKey:@"addedDate"
+//                                        ascending:NO];
+//    
+//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+//    [fetchRequest setSortDescriptors:sortDescriptors];
+//    
+//    _cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+//    _cartFetchedResultsController.delegate = self;
+//    
+//    NSError *error = nil;
+//    if (![self.cartFetchedResultsController performFetch:&error]) {
+//        NSLog(@"Core data error %@, %@", error, [error userInfo]);
+//        abort();
+//    }
+//    
+//    return _cartFetchedResultsController;
+//}
 
 
 -(NSFetchedResultsController *)orderFetchedResultsController {
