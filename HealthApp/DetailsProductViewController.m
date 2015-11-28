@@ -453,7 +453,7 @@ NSString *cellReuseIdentifier;
     NSString *kOrderURL;
     
     
-    if (self.pd_orderFetchedResultsController.fetchedObjects.count == 0) {
+    if (_pd_orderFetchedResultsController.fetchedObjects.count == 0) {
         
         // create order
         NSArray *lineItemArray = [self getCartProductsArray:lineItem];
@@ -466,7 +466,7 @@ NSString *cellReuseIdentifier;
         // add line items
         NSLog(@"Adding line items to existing order");
         
-        Order *orderModel = self.pd_orderFetchedResultsController.fetchedObjects.lastObject;
+        Order *orderModel = _pd_orderFetchedResultsController.fetchedObjects.lastObject;
         
         if (orderModel.number != nil) {
             kOrderURL  = [NSString stringWithFormat:@"/api/orders/%@/line_items.json",orderModel.number];
@@ -512,7 +512,7 @@ NSString *cellReuseIdentifier;
                     
                     NSLog(@"Json Cart ===> %@",json);
                     
-                    if (self.pd_orderFetchedResultsController.fetchedObjects.count == 0) {
+                    if (_pd_orderFetchedResultsController.fetchedObjects.count == 0) {
                         NSEntityDescription *orderEntityDescription = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
                         
                         Order *orderModel = (Order *)[[NSManagedObject alloc] initWithEntity:orderEntityDescription
@@ -523,7 +523,7 @@ NSString *cellReuseIdentifier;
                         [orderModel addCartLineItemsObject:_lineItemsModel];
                         
                     } else {
-                        Order *orderModel = [self.pd_orderFetchedResultsController.fetchedObjects lastObject];
+                        Order *orderModel = [_pd_orderFetchedResultsController.fetchedObjects lastObject];
                         [orderModel addCartLineItemsObject:_lineItemsModel];
                         
                     }
@@ -561,9 +561,15 @@ NSString *cellReuseIdentifier;
 
 
 -(void)displayConnectionFailed {
-    UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     
-    [failed_alert show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.hud hide:YES];
+        
+        UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [failed_alert show];
+    });
+    
 }
 
 
@@ -638,7 +644,7 @@ NSString *cellReuseIdentifier;
 //        NSLog(@"Core data error %@, %@", error, [error userInfo]);
 //        abort();
 //    }
-//    
+//
 //    return _pd_cartFetchedResultsController;
 //}
 
@@ -649,7 +655,6 @@ NSString *cellReuseIdentifier;
     }
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Order"];
-//    NSString *cacheName = @"pdOrderCache";
     
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES];
     [fetchRequest setSortDescriptors:@[sortDescriptor]];

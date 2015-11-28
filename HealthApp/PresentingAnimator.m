@@ -24,11 +24,23 @@
     fromView.userInteractionEnabled = NO;
 
     UIView *dimmingView = [[UIView alloc] initWithFrame:fromView.bounds];
-    dimmingView.backgroundColor = [UIColor customGrayColor];
+    dimmingView.backgroundColor = [UIColor customWhiteColor];
     dimmingView.layer.opacity = 0.0;
+    
+    
+    UIBlurEffect *blur          = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVibrancyEffect *vibrancy  = [UIVibrancyEffect effectForBlurEffect:blur];
+    UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blur];
+    effectView.frame               = dimmingView.frame;
+    
+    UIVisualEffectView *vibrantView = [[UIVisualEffectView alloc] initWithEffect:vibrancy];
+    vibrantView.frame               = dimmingView.frame;
+    
+    [dimmingView addSubview:effectView];
+    [dimmingView addSubview:vibrantView];
+    
 
     UIView *toView = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey].view;
-    NSLog(@"Before Frame is %f, %f, %f, %f", toView.frame.origin.x, toView.frame.origin.y, toView.frame.size.width, toView.frame.size.height);
     
     CGFloat x = (transitionContext.containerView.bounds.size.width - 300)/2.f;
     toView.frame = CGRectMake(x, 0, 300, 400);

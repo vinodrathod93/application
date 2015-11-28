@@ -837,6 +837,12 @@ static NSString *cellIdentifier = @"cartCell";
                         
                         [self.tableView reloadData];
                         
+                    } else {
+                        [self.hud hide:YES];
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not delete Item. Please Try again..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                        [alert show];
+                        
+                        [self.tableView reloadData];
                     }
                 });
             }

@@ -163,6 +163,8 @@
     RLMRealm *realm = [RLMRealm defaultRealm];
     StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
     
+    [self checkOrders];
+    
     NSDictionary *objectData;
     NSString *kOrderURL;
     
@@ -311,9 +313,15 @@
 
 
 -(void)displayConnectionFailed {
-    UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     
-    [failed_alert show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.hud hide:YES];
+        
+        UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [failed_alert show];
+    });
+    
 }
 
 
@@ -348,26 +356,21 @@
 //}
 
 
--(NSFetchedResultsController *)orderFetchedResultsController {
-    if (_orderFetchedResultsController != nil) {
-        return _orderFetchedResultsController;
-    }
-    
+
+
+-(void)checkOrders {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Order"];
-    NSString *cacheName = @"OrderCache";
     
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES];
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
-    self.orderFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:cacheName];
+    self.orderFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
     NSError *error;
     if(![self.orderFetchedResultsController performFetch:&error])
     {
         
         NSLog(@"Order Model Fetch Failure: %@",error);
     }
-    
-    return _orderFetchedResultsController;
 }
 
 

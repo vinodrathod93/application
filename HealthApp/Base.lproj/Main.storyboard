@@ -1092,6 +1092,7 @@
                                 <rect key="frame" x="0.0" y="140" width="300" height="217"/>
                                 <animations/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="sectionIndexBackgroundColor" red="0.0" green="0.67843137249999996" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="popupCartCell" rowHeight="37" id="XWF-z5-KbP">
                                         <rect key="frame" x="0.0" y="50" width="300" height="37"/>
