@@ -18,9 +18,11 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "SignUpViewController.h"
 #import "StoresViewController.h"
+#import "DoctorViewController.h"
+#import <AFNetworking.h>
 
 
-@interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate>
+@interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate>
 
 //@property (nonatomic, strong) NSFetchedResultsController *h_cartFetchedResultsController;
 @property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
@@ -28,6 +30,10 @@
 @property (nonatomic, strong) NSArray *categoriesArray;
 @property (nonatomic, strong) HeaderSliderView *headerView;
 @property (nonatomic, strong) NSArray *imagesData;
+
+@property (nonatomic, strong) NSDictionary *xmlDictionary;
+@property (nonatomic, strong) NSMutableArray *xmlCategories;
+@property (nonatomic, strong) NSMutableString *jsonString;
 
 @end
 
@@ -43,10 +49,12 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
+//    [self getCategoriesWebService];
+    
+    
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
-//    NSString *count = [NSString stringWithFormat:@"%lu",(unsigned long)self.h_cartFetchedResultsController.fetchedObjects.count];
     
     [self checkLineItems];
     NSString *count = [NSString stringWithFormat:@"%lu", self.h_lineItemsFetchedResultsController.fetchedObjects.count];
@@ -100,8 +108,10 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    NSLog(@"%lu",(unsigned long)self.categoriesArray.count);
+//    NSLog(@"%lu",(unsigned long)self.categoriesArray.count);
     return self.categoriesArray.count;
+    
+//    return self.xmlCategories.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -120,6 +130,8 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     label.numberOfLines = 0;
     label.font = [UIFont fontWithName:@"AvenirNext-Regular" size:14];
     label.text = self.categoriesArray[indexPath.item];
+    
+//    label.text  = self.xmlCategories[indexPath.item];
     
     UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
     [backgroundView addSubview:imageView];
@@ -141,13 +153,24 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    StoresViewController *storesVC  = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
+    if (indexPath.item == 0) {
+        
+        StoresViewController *storesVC  = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
+        storesVC.title = self.categoriesArray[indexPath.item];
+        
+        //    SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCatViewController"];
+        //    subCatVC.categoryID = [NSString stringWithFormat:@"%ld",(long)indexPath.item + 1];
+        
+        [self.navigationController pushViewController:storesVC animated:YES];
+    }
+    else {
+        
+//        DoctorViewController *doctorsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"doctorsVC"];
+//        doctorsVC
+//        [self.navigationController pushViewController:doctorsVC animated:YES];
+        
+    }
     
-//    SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCatViewController"];
-    storesVC.title = self.categoriesArray[indexPath.item];
-//    subCatVC.categoryID = [NSString stringWithFormat:@"%ld",(long)indexPath.item + 1];
-    
-    [self.navigationController pushViewController:storesVC animated:YES];
     
 }
 
@@ -179,11 +202,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 
-//-(IBAction)unwindToThisViewController:(UIStoryboardSegue *)unwindSegue {
-//    NSLog(@"Rollback to Home VC");
-//    
-//    
-//}
 
 
 
@@ -220,34 +238,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 }
 
 
-//-(NSFetchedResultsController *)h_cartFetchedResultsController {
-//    if (_h_cartFetchedResultsController) {
-//        return _h_cartFetchedResultsController;
-//    }
-//    
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-//    [fetchRequest setEntity:entity];
-//    
-//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-//                                        initWithKey:@"addedDate"
-//                                        ascending:NO];
-//    
-//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-//    [fetchRequest setSortDescriptors:sortDescriptors];
-//    
-//    _h_cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-//    _h_cartFetchedResultsController.delegate = self;
-//    
-//    NSError *error = nil;
-//    if (![self.h_cartFetchedResultsController performFetch:&error]) {
-//        NSLog(@"Core data error %@, %@", error, [error userInfo]);
-//        abort();
-//    }
-//    
-//    return _h_cartFetchedResultsController;
-//}
-
 
 
 -(void)checkLineItems {
@@ -265,10 +255,146 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 
+
+
+
+
+-(void)getCategoriesWebService {
+    
+    
+    NSURL *url = [NSURL URLWithString:@"http://neediator.in/WebServiceNeediator.asmx/get_Maincategory?CategoryGroup=MG"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"GET";
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    operation.responseSerializer = [AFXMLParserResponseSerializer serializer];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSXMLParser *XMLParser = (NSXMLParser *)responseObject;
+        [XMLParser setShouldProcessNamespaces:YES];
+        
+        // These lines below were previously commented
+        XMLParser.delegate = self;
+        [XMLParser parse];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error Retrieving Categories"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        
+    }];
+    
+    [operation start];
+}
+
+#pragma mark - NSXMLParserDelegate
+
+- (void)parserDidStartDocument:(NSXMLParser *)parser
+{
+    self.xmlDictionary = [[NSDictionary alloc] init];
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
+{
+    if ([elementName isEqualToString:@"string"]) {
+        NSLog(@"Yeah! Found");
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
+{
+    NSLog(@"JSoN string %@",string);
+    if (!self.jsonString) {
+        self.jsonString = [[NSMutableString alloc] initWithString:string];
+    } else
+        [self.jsonString appendString:string];
+    
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
+{
+    if ([elementName isEqualToString:@"string"]) {
+        NSLog(@"Parsing Ended");
+    }
+}
+
+- (void) parserDidEndDocument:(NSXMLParser *)parser
+{
+    
+    
+    NSData *data = [self.jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+    NSLog(@"%@", json);
+    
+    self.xmlDictionary = json;
+    
+    self.xmlCategories = [NSMutableArray array];
+    
+    NSArray *allCategories = [json valueForKey:@"Table"];
+    
+    [allCategories enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull category, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.xmlCategories addObject:[category valueForKey:@"CategoryName"]];
+    }];
+    
+    [self.collectionView reloadData];
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark - Not Needed
+
+
+
+//-(NSFetchedResultsController *)h_cartFetchedResultsController {
+//    if (_h_cartFetchedResultsController) {
+//        return _h_cartFetchedResultsController;
+//    }
+//
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
+//    [fetchRequest setEntity:entity];
+//
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
+//                                        initWithKey:@"addedDate"
+//                                        ascending:NO];
+//
+//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+//    [fetchRequest setSortDescriptors:sortDescriptors];
+//
+//    _h_cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+//    _h_cartFetchedResultsController.delegate = self;
+//
+//    NSError *error = nil;
+//    if (![self.h_cartFetchedResultsController performFetch:&error]) {
+//        NSLog(@"Core data error %@, %@", error, [error userInfo]);
+//        abort();
+//    }
+//
+//    return _h_cartFetchedResultsController;
+//}
+
+
 - (IBAction)uploadPrescription:(id)sender {
     UploadPrescriptionViewController *uploadVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPrescriptionNVC"];
     
     [self.navigationController presentViewController:uploadVC animated:YES completion:nil];
     
 }
+
+
 @end

@@ -9,14 +9,25 @@
 #import "PopupCartViewController.h"
 #import "AppDelegate.h"
 #import "LineItems.h"
+#import "Order.h"
+#import "User.h"
+#import "StoreRealm.h"
 #import <CoreData/CoreData.h>
+#import <MBProgressHUD/MBProgressHUD.h>
+
+#define kEmptyCartURL @"/api/orders"
 
 @interface PopupCartViewController ()
 
 @property (nonatomic, strong) NSFetchedResultsController *pop_lineItemsFetchedResultsController;
+@property (nonatomic, strong) NSFetchedResultsController *pop_orderFetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) Order *orderModel;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
+
+typedef void(^completion)(BOOL finished);
 
 @implementation PopupCartViewController
 
@@ -29,8 +40,11 @@
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     [self checkLineItems];
+    [self checkOrders];
     
-    self.warningMessageLabel.text = [NSString stringWithFormat:@"You have %lu Items in the Cart, Do Checkout otherwise your Order will be lost", self.pop_lineItemsFetchedResultsController.fetchedObjects.count];
+    _orderModel = [self.pop_orderFetchedResultsController.fetchedObjects lastObject];
+    
+    self.warningMessageLabel.text = [NSString stringWithFormat:@"You have %lu Items in the Cart from %@, Do Checkout unless your Order gets lost", self.pop_lineItemsFetchedResultsController.fetchedObjects.count, _orderModel.store];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,15 +52,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -71,16 +78,45 @@
 }
 
 - (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Manish Store";
+    return _orderModel.store;
 }
 
 
 - (IBAction)emptyCart:(id)sender {
     
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    
+    [self emptyWholeCart:^(BOOL finished) {
+        
+        [self.hud hide:YES];
+        
+        if (finished) {
+            [self dismissViewControllerAnimated:YES completion:NULL];
+        } else {
+            [self dismissViewControllerAnimated:NO completion:^{
+                NSLog(@"Could not delete. Please try again");
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not Remove Items. Please Try again..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alert show];
+                
+            }];
+            
+        }
+        
+    }];
+    
+    
 }
 
 - (IBAction)goToCart:(id)sender {
+    
+    [self dismissViewControllerAnimated:NO completion:^{
+        // go to cart tab bar
+        
+        UITabBarController *tabBarVC = (UITabBarController *)self.view.window.rootViewController;
+        [tabBarVC setSelectedIndex:1];
+        
+    }];
+    
 }
 
 
@@ -95,6 +131,100 @@
     if (![self.pop_lineItemsFetchedResultsController performFetch:&error]) {
         NSLog(@"LineItems Model Fetch Failure: %@", [error localizedDescription]);
     }
+}
+
+
+-(void)checkOrders {
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Order"];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    self.pop_orderFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    NSError *error;
+    if(![self.pop_orderFetchedResultsController performFetch:&error])
+    {
+        
+        NSLog(@"Order Model Fetch Failure: %@",error);
+    }
+    
+}
+
+
+
+
+-(void)emptyWholeCart:(completion)success {
+    User *user = [User savedUser];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
+    
+    [self checkOrders];
+    self.orderModel = self.pop_orderFetchedResultsController.fetchedObjects.lastObject;
+    
+    if (user.access_token != nil) {
+        NSString *url = [NSString stringWithFormat:@"http://%@%@/%@/empty?token=%@",store.storeUrl, kEmptyCartURL, self.orderModel.number, user.access_token];
+        
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+        request.HTTPMethod = @"PUT";
+        [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        
+        
+        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            
+            if (data != nil) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"%@",response);
+                    
+                    
+                    NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
+                    NSLog(@"Response %ld", (long)[url_response statusCode]);
+                    
+                    if (url_response.statusCode == 204) {
+                        
+                        success(YES);
+                        
+                    } else {
+                        
+                        success(NO);
+                    }
+                });
+            }
+            else {
+                [self displayConnectionFailed];
+            }
+            
+        }];
+        
+        [task resume];
+        
+        UIWindow *window = [[UIApplication sharedApplication] delegate].window;
+        self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+        self.hud.labelText = @"Removing all...";
+        self.hud.center = self.view.center;
+        self.hud.dimBackground = YES;
+        self.hud.color = self.view.tintColor;
+        
+    } else {
+        
+        // login page.
+        
+        NSLog(@"Not logged in");
+    }
+}
+
+-(void)displayConnectionFailed {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.hud hide:YES];
+        
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    });
+    
+    
 }
 
 @end

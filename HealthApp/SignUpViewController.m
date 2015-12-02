@@ -64,7 +64,7 @@ typedef void(^completion)(BOOL finished);
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - self.topLayoutGuide.length - self.bottomLayoutGuide.length);
 }
 
 
@@ -110,7 +110,8 @@ typedef void(^completion)(BOOL finished);
                         
                         if (self.isPlacingOrder) {
                             NSLog(@"Placing Order");
-//                            [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
+                            
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
                         }
                         
                     }];

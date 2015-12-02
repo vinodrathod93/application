@@ -24,7 +24,7 @@
     fromView.userInteractionEnabled = NO;
 
     UIView *dimmingView = [[UIView alloc] initWithFrame:fromView.bounds];
-    dimmingView.backgroundColor = [UIColor customWhiteColor];
+    dimmingView.backgroundColor = [UIColor darkGrayColor];
     dimmingView.layer.opacity = 0.0;
     
     
@@ -42,8 +42,16 @@
 
     UIView *toView = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey].view;
     
-    CGFloat x = (transitionContext.containerView.bounds.size.width - 300)/2.f;
-    toView.frame = CGRectMake(x, 0, 300, 400);
+    
+    
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        CGFloat x = (transitionContext.containerView.bounds.size.width - 280)/2.f;
+        toView.frame = CGRectMake(x, 0, 280, 350);
+    } else {
+        CGFloat x = (transitionContext.containerView.bounds.size.width - 300)/2.f;
+        toView.frame = CGRectMake(x, 0, 300, 400);
+    }
     
 //    toView.center = CGPointMake(transitionContext.containerView.center.x, 0);
     toView.layer.cornerRadius = 10.f;

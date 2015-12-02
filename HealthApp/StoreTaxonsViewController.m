@@ -61,12 +61,6 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-        //        HomeCategoryViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@""];
-        
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-    
     
 }
 

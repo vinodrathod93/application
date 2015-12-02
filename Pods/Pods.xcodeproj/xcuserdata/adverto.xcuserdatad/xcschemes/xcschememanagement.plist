@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>HexColors.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -54,6 +59,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>TSMessages.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>XLForm.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -72,7 +82,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3971EC095157C963AE4A82743942A7C2</key>
+		<key>0B55234CC8D66FDAB572233EA9449C62</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2C32C4D0F9CF268C5A0E42255F9041CF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -87,11 +102,6 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>422C1B7D527C7397F726B5AB567B11AE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>426BC4549A625B5E1E4200D5261A98BF</key>
 		<dict>
 			<key>primary</key>
@@ -102,12 +112,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4EEE28A76F28BE030A5FB632459AF0B2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7A2DC9EFA013E3504EEBB02F29BB3741</key>
+		<key>69E0C54396F46EE8D5A0B7FF5076AFF2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -122,12 +127,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>CD1C4BE656658C19F61B7F5C9B1A370C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D5EEE78AC8944F71EBD84A7256BD920B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E79489672539403DC742ED2A7BFEDC40</key>
+		<key>DAB5A78929FE87BC6AD51D6118E3A7FD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E9EF397B95762DDB254C71DDCB4B1381</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FC07C3492E2366215999325032008928</key>
 		<dict>
 			<key>primary</key>
 			<true/>

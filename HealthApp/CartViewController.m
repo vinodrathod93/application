@@ -49,6 +49,8 @@ static NSString *cellIdentifier = @"cartCell";
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (strong) AppDelegate *appDelegate;
 
+@property (nonatomic, strong) UIView *dimmView;
+
 @end
 
 @implementation CartViewController
@@ -61,15 +63,36 @@ static NSString *cellIdentifier = @"cartCell";
     
 //    [self.cartFetchedResultsController performFetch:nil];
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     [self checkOrders];
     [self checkLineItems];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendCheckoutRequestToServer) name:@"loggedInSendOrderNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendCheckoutRequestToServer) name:@"loggedInSendOrderNotification" object:nil];
     
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    
+    self.dimmView = [[UIView alloc]initWithFrame:self.view.bounds];
+    self.dimmView.backgroundColor = [UIColor whiteColor];
+    [self.navigationController.view addSubview:self.dimmView];
+    
     
     if (self.task == nil) {
         [self getOrderLineItemDetails];
@@ -87,7 +110,14 @@ static NSString *cellIdentifier = @"cartCell";
         NSLog(@"State Suspended");
     }
     
+    
     [self.tableView reloadData];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.dimmView removeFromSuperview];
 }
 
 
@@ -317,34 +347,7 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 #pragma mark - Fetched Results Controller
-//
-//-(NSFetchedResultsController *)cartFetchedResultsController {
-//    if (_cartFetchedResultsController != nil) {
-//        return _cartFetchedResultsController;
-//    }
-//    
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-//    [fetchRequest setEntity:entity];
-//    
-//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-//                                        initWithKey:@"addedDate"
-//                                        ascending:YES];
-//    
-//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-//    [fetchRequest setSortDescriptors:sortDescriptors];
-//    
-//    _cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-//    _cartFetchedResultsController.delegate = self;
-//    
-//    NSError *error = nil;
-//    if (![self.cartFetchedResultsController performFetch:&error]) {
-//        NSLog(@"Core data error %@, %@", error, [error userInfo]);
-//        abort();
-//    }
-//    
-//    return _cartFetchedResultsController;
-//}
+
 
 
 
@@ -522,7 +525,7 @@ static NSString *cellIdentifier = @"cartCell";
     
     
     if (user.access_token == nil) {
-        [self showLoginPage];
+        [self showLoginPageAndIsPlacingOrder:YES];
         
     } else {
         
@@ -537,20 +540,6 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
-//-(void)saveQuantity:(NSInteger)quantity andTotalPrice:(NSInteger)totalPrice {
-//    AddToCart *model = self.cartFetchedResultsController.fetchedObjects[self.selectIndexPath.row];
-//    model.quantity = @(quantity);
-//    model.totalPrice = @(totalPrice);
-//    
-//    
-//    NSError *error = nil;
-//    if (![self.managedObjectContext save:&error]) {
-//        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-//        abort();
-//    }
-//}
-
-
 
 
 -(void)updateBadgeValue {
@@ -562,9 +551,10 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
--(void)showLoginPage {
+-(void)showLoginPageAndIsPlacingOrder:(BOOL)isPlacing {
+    
     LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
-    logSignVC.isPlacingOrder = YES;
+    logSignVC.isPlacingOrder = isPlacing;
     
     UINavigationController *logSignNav = [[UINavigationController alloc]initWithRootViewController:logSignVC];
     logSignNav.navigationBar.tintColor = self.tableView.tintColor;
@@ -722,6 +712,7 @@ static NSString *cellIdentifier = @"cartCell";
                             
                             self.orderModel.number = [json valueForKey:@"number"];
                             self.orderModel.total  = [json valueForKey:@"display_total"];
+                            self.orderModel.store  = [json valueForKeyPath:@"store.name"];
                             
                             [self.managedObjectContext save:nil];
                             
@@ -766,6 +757,8 @@ static NSString *cellIdentifier = @"cartCell";
                     }
                     
                     [self checkLineItems];
+                    [self.dimmView removeFromSuperview];
+                    
                     [self.tableView reloadData];
                     
                 });
@@ -779,7 +772,7 @@ static NSString *cellIdentifier = @"cartCell";
         [self.task resume];
         
         
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.hud = [MBProgressHUD showHUDAddedTo:self.dimmView animated:YES];
         self.hud.labelText = @"Loading...";
         self.hud.detailsLabelText = @"Cart Details";
         self.hud.center = self.view.center;
@@ -787,7 +780,7 @@ static NSString *cellIdentifier = @"cartCell";
         self.hud.color = self.view.tintColor;
         
     } else {
-        [self showLoginPage];
+        [self showLoginPageAndIsPlacingOrder:NO];
     }
     
     
@@ -862,7 +855,7 @@ static NSString *cellIdentifier = @"cartCell";
         self.hud.color = self.view.tintColor;
         
     } else {
-        [self showLoginPage];
+        [self showLoginPageAndIsPlacingOrder:NO];
     }
 }
 
@@ -953,9 +946,36 @@ static NSString *cellIdentifier = @"cartCell";
         self.hud.color = self.view.tintColor;
         
     } else {
-        [self showLoginPage];
+        [self showLoginPageAndIsPlacingOrder:NO];
     }
     
+}
+
+
+-(NSInteger)totalAmount {
+    __block NSInteger priceInTotal = 0;
+    
+    //    [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart *model, NSUInteger idx, BOOL *stop) {
+    //        NSInteger quantity = model.quantity.integerValue;
+    //        CGFloat singlePrice = model.productPrice.floatValue;
+    //
+    //        priceInTotal = priceInTotal + [self calculateTotalPrice:quantity andSinglePrice:singlePrice];
+    //    }];
+    
+    [self.lineItemsFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(LineItems *model, NSUInteger idx, BOOL *stop) {
+        NSInteger quantity = model.quantity.integerValue;
+        CGFloat singlePrice = model.price.floatValue;
+        
+        priceInTotal = priceInTotal + [self calculateTotalPrice:quantity andSinglePrice:singlePrice];
+    }];
+    
+    return priceInTotal;
+}
+
+-(CGFloat)calculateTotalPrice:(NSInteger)quantity andSinglePrice:(CGFloat)price {
+    CGFloat total = quantity * price;
+    
+    return ceil(total);
 }
 
 
@@ -964,24 +984,121 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
-#pragma mark - Not needed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark - Not Needed
+
+
+
+//-(void)saveQuantity:(NSInteger)quantity andTotalPrice:(NSInteger)totalPrice {
+//    AddToCart *model = self.cartFetchedResultsController.fetchedObjects[self.selectIndexPath.row];
+//    model.quantity = @(quantity);
+//    model.totalPrice = @(totalPrice);
+//
+//
+//    NSError *error = nil;
+//    if (![self.managedObjectContext save:&error]) {
+//        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+//        abort();
+//    }
+//}
+
+
+
+
+//
+//-(NSFetchedResultsController *)cartFetchedResultsController {
+//    if (_cartFetchedResultsController != nil) {
+//        return _cartFetchedResultsController;
+//    }
+//
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
+//    [fetchRequest setEntity:entity];
+//
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
+//                                        initWithKey:@"addedDate"
+//                                        ascending:YES];
+//
+//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+//    [fetchRequest setSortDescriptors:sortDescriptors];
+//
+//    _cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+//    _cartFetchedResultsController.delegate = self;
+//
+//    NSError *error = nil;
+//    if (![self.cartFetchedResultsController performFetch:&error]) {
+//        NSLog(@"Core data error %@, %@", error, [error userInfo]);
+//        abort();
+//    }
+//
+//    return _cartFetchedResultsController;
+//}
+
 
 //-(NSArray *)getCartProducts {
-//    
+//
 //    NSMutableArray *jsonarray = [[NSMutableArray alloc] init];
-//    
+//
 //    [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart *model, NSUInteger idx, BOOL *stop) {
 //        NSDictionary *dict  = @{
 //                                @"variant_id"  : model.productID,
 //                                @"quantity"    : model.quantity
 //                                };
-//        
+//
 //        [jsonarray addObject:dict];
-//        
+//
 //    }];
-//    
+//
 //    return jsonarray;
-//    
+//
 //}
 
 
@@ -1023,30 +1140,7 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
--(NSInteger)totalAmount {
-    __block NSInteger priceInTotal = 0;
-    
-    //    [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart *model, NSUInteger idx, BOOL *stop) {
-    //        NSInteger quantity = model.quantity.integerValue;
-    //        CGFloat singlePrice = model.productPrice.floatValue;
-    //
-    //        priceInTotal = priceInTotal + [self calculateTotalPrice:quantity andSinglePrice:singlePrice];
-    //    }];
-    
-    [self.lineItemsFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(LineItems *model, NSUInteger idx, BOOL *stop) {
-        NSInteger quantity = model.quantity.integerValue;
-        CGFloat singlePrice = model.price.floatValue;
-        
-        priceInTotal = priceInTotal + [self calculateTotalPrice:quantity andSinglePrice:singlePrice];
-    }];
-    
-    return priceInTotal;
-}
 
--(CGFloat)calculateTotalPrice:(NSInteger)quantity andSinglePrice:(CGFloat)price {
-    CGFloat total = quantity * price;
-    
-    return ceil(total);
-}
+
 
 @end

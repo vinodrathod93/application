@@ -422,6 +422,7 @@
 		825692D01B6B77B600B5D1D3 /* Optionals */ = {
 			isa = PBXGroup;
 			children = (
+				82EF2DC91BE8C08800D87DE2 /* SubCategories */,
 				8250A32E1B5516E60026ADCE /* Home Page - old */,
 				82BD02B41B46A7BA00108A0B /* LoginPageViewController.h */,
 				82BD02B51B46A7BA00108A0B /* LoginPageViewController.m */,
@@ -715,7 +716,6 @@
 				82C38A811C0864D70006A73B /* PopupCartViewController.m */,
 				82F1DD4E1BFC9B0F0056FBB3 /* Taxons */,
 				82EF2DDE1BE8C63300D87DE2 /* Stores */,
-				82EF2DC91BE8C08800D87DE2 /* SubCategories */,
 				82EF2DC81BE8C07200D87DE2 /* Home Category */,
 				82EF2DC71BE8C05300D87DE2 /* Products List */,
 				82EF2DC51BE8C02700D87DE2 /* Product Details */,

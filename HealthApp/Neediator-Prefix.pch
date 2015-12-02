@@ -17,6 +17,7 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <AFNetworking/AFHTTPSessionManager.h>
+    #import <TSMessage.h>
 #endif
 
 #endif /* Neediator_Prefix_pch */

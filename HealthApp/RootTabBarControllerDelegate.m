@@ -25,6 +25,7 @@
             
             [tabBarController setSelectedIndex:0];
             LogSignViewController *logsignVC = [tabBarController.selectedViewController.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
+            
             [tabBarController.selectedViewController presentViewController:logsignVC animated:YES completion:nil];
         }
     }

@@ -7,14 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
+//#import <FBSDKLoginKit/FBSDKLoginKit.h>
+//#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
-@interface LogSignViewController : UIViewController<FBSDKLoginButtonDelegate>
+@interface LogSignViewController : UIViewController
+//<FBSDKLoginButtonDelegate>
 
-@property (weak, nonatomic) IBOutlet FBSDKLoginButton *login_fb_button;
-@property (weak, nonatomic) IBOutlet UIButton *registerButton;
-@property (weak, nonatomic) IBOutlet UIButton *signInButton;
-@property (nonatomic, assign)BOOL isPlacingOrder;
+//@property (weak, nonatomic) IBOutlet FBSDKLoginButton *login_fb_button;
+//@property (weak, nonatomic) IBOutlet UIButton *registerButton;
+//@property (weak, nonatomic) IBOutlet UIButton *signInButton;
+//@property (nonatomic, assign)BOOL isPlacingOrder;
+
+@property (weak, nonatomic) IBOutlet UITextField *emailField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+@property (nonatomic, assign) BOOL isPlacingOrder;
 
 @end

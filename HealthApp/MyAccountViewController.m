@@ -137,6 +137,7 @@ enum MyAccountCells {
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
         
         LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
+        
         [self presentViewController:logSignVC animated:NO completion:nil];
     }
     else if (indexPath.row == MyAddressesCell) {

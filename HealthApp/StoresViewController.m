@@ -20,12 +20,14 @@
 #import "PresentingAnimator.h"
 #import "DismissingAnimator.h"
 #import "PopupCartViewController.h"
+#import "Order.h"
 
 
 @interface StoresViewController ()<NSFetchedResultsControllerDelegate,UIViewControllerTransitioningDelegate>
 
 
 @property (nonatomic, strong) NSFetchedResultsController *s_lineItemsFetchedResultsController;
+@property (nonatomic, strong) NSFetchedResultsController *s_orderFetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 //@property (nonatomic, strong) RLMResults *stores;
@@ -143,29 +145,33 @@
     User *user = [User savedUser];
     StoresModel *store = self.array_stores[indexPath.row];
     
+    [self checkOrders];
     [self checkLineItems];
     
     if (store != nil) {
         if (self.s_lineItemsFetchedResultsController.fetchedObjects.count != 0) {
             // Show modal view controller
             
-            PopupCartViewController *popupCartVC = [self.storyboard instantiateViewControllerWithIdentifier:@"popupCartViewController"];
-            popupCartVC.transitioningDelegate = self;
-            popupCartVC.modalPresentationStyle = UIModalPresentationCustom;
-            
-            [self.navigationController presentViewController:popupCartVC animated:YES completion:NULL];
-            
-            
-            
+            Order *orderModel = [self.s_orderFetchedResultsController.fetchedObjects lastObject];
+            if (![orderModel.store isEqualToString: store.storeName]) {
+                
+                PopupCartViewController *popupCartVC = [self.storyboard instantiateViewControllerWithIdentifier:@"popupCartViewController"];
+                popupCartVC.transitioningDelegate = self;
+                popupCartVC.modalPresentationStyle = UIModalPresentationCustom;
+                
+                [self.navigationController presentViewController:popupCartVC animated:YES completion:NULL];
+                
+            }
         }
         else if (user.access_token == nil) {
             LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
             logSignVC.isPlacingOrder = NO;
             
-            UINavigationController *logSignNav = [[UINavigationController alloc]initWithRootViewController:logSignVC];
+            UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
             logSignNav.navigationBar.tintColor = self.tableView.tintColor;
             
             [self presentViewController:logSignNav animated:YES completion:nil];
+            
         } else {
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -199,7 +205,9 @@
             storeTaxonsVC.storeURL = store.storeUrl;
             [self.navigationController pushViewController:storeTaxonsVC animated:YES];
         }
-    }
+            
+    } else
+        NSLog(@"No Stores");
     
     
 
@@ -220,7 +228,20 @@
     }
 }
 
-
+-(void)checkOrders {
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Order"];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    self.s_orderFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    NSError *error;
+    if(![self.s_orderFetchedResultsController performFetch:&error])
+    {
+        
+        NSLog(@"Order Model Fetch Failure: %@",error);
+    }
+}
 
 
 @end

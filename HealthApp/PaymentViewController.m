@@ -358,29 +358,6 @@ typedef void(^completion)(BOOL finished);
                               };
     
     
-//    NSArray *payment_attributes = @[ @{
-//                                         @"payment_method_id": @"2"
-//                                         }
-//                                         
-//                                         ];
-//    
-//    NSDictionary *payment_source = @{
-//                                         @"2": @{
-//                                             
-//                                         }
-//                                 
-//                                     };
-//    
-//    NSDictionary *payment = [NSDictionary dictionaryWithObjects:@[payment_attributes, payment_source] forKeys:@[@"payment_attributes", @"payment_source"]];
-//    
-//    NSDictionary *payment_dictionary = [NSDictionary dictionaryWithObject:payment forKey:@"order"];
-    
-//    @"payment_source": @{
-//                         self.payment_method_id.stringValue : @{
-//                                 
-//                                 }
-//                         },
-    
     return payment;
 }
 
