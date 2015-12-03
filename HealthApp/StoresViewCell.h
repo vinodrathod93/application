@@ -13,4 +13,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *localityAddress;
 @property (weak, nonatomic) IBOutlet UILabel *distance;
+@property (weak, nonatomic) IBOutlet UIImageView *storeImageView;
 @end

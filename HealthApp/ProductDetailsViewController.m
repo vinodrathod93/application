@@ -13,11 +13,9 @@
 #import "AddToCart.h"
 #import "OrderInputsViewController.h"
 #import "VariantsViewController.h"
-#import "YSLTransitionAnimator.h"
-#import "UIViewController+YSLTransition.h"
 #import <MWPhotoBrowser.h>
 
-@interface ProductDetailsViewController ()<NSFetchedResultsControllerDelegate,YSLTransitionAnimatorDataSource,MWPhotoBrowserDelegate, UIGestureRecognizerDelegate>
+@interface ProductDetailsViewController ()<NSFetchedResultsControllerDelegate,MWPhotoBrowserDelegate, UIGestureRecognizerDelegate>
 {
     int currentIndex;
 }
@@ -79,21 +77,6 @@
     
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    
-    [self ysl_removeTransitionDelegate];
-    
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [self ysl_addTransitionDelegate:self];
-    [self ysl_popTransitionAnimationWithCurrentScrollView:nil
-                                    cancelAnimationPointY:0
-                                        animationDuration:0.3
-                                  isInteractiveTransition:YES];
-}
 
 
 - (BOOL)prefersStatusBarHidden {

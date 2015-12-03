@@ -188,6 +188,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         scrollViewFrame.size.width = currentFrame.size.width;
         
         self.headerView.scrollView.frame = scrollViewFrame;
+        self.headerView.scrollView.backgroundColor = [UIColor whiteColor];
         
         
         [self setupScrollViewImages];
@@ -228,6 +229,10 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         NSLog(@"%@",NSStringFromCGRect(self.headerView.scrollView.frame));
         NSLog(@"%lu",(unsigned long)idx);
         imageView.tag = idx;
+        
+       
+        
+        
         [imageView sd_setImageWithURL:[NSURL URLWithString:imageName]];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         

@@ -14,11 +14,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>HexColors.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -44,6 +39,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>RMPZoomTransitionAnimator-RMPZoomTransitionAnimator.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>RMPZoomTransitionAnimator.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Realm.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -55,11 +60,6 @@
 			<false/>
 		</dict>
 		<key>SLExpandableTableView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>TSMessages.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -82,12 +82,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0B55234CC8D66FDAB572233EA9449C62</key>
+		<key>03D63EBCFFD81A18817A55B1189BE228</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2C32C4D0F9CF268C5A0E42255F9041CF</key>
+		<key>2451390AE1D78C94A7B24F8B1EBF131E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2D1E40E6D44A5B996C2820854C64884B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -112,7 +117,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>69E0C54396F46EE8D5A0B7FF5076AFF2</key>
+		<key>71D8B10F0B49EE51E2723ABAEA93D505</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -122,32 +127,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>8BAFE03B05171C3331C89277D25AFBCE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>9775596B3CA16905FC8F66DA8E2A3C67</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CD1C4BE656658C19F61B7F5C9B1A370C</key>
+		<key>BB18E27AD488BCA6D8C868AB9A3A18EB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D2A9A7E981B38BCDE0D687EF0BDE9984</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>D5EEE78AC8944F71EBD84A7256BD920B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DAB5A78929FE87BC6AD51D6118E3A7FD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E9EF397B95762DDB254C71DDCB4B1381</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FC07C3492E2366215999325032008928</key>
 		<dict>
 			<key>primary</key>
 			<true/>

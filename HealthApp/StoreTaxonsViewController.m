@@ -220,7 +220,7 @@
         NSLog(@"Taxon ID %d", taxon.taxonId.intValue);
         
         ProductsViewController *productsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"productsVC"];
-        productsVC.navigationTitleString = [taxon.taxonName capitalizedString];
+        productsVC.navigationTitleString = taxon.taxonName;
         productsVC.taxonProductsURL = [NSString stringWithFormat:@"http://%@/api/taxons/%d/products?token=%@",store.storeUrl,taxon.taxonId.intValue,user.access_token];
         [self.navigationController pushViewController:productsVC animated:YES];
     }

@@ -9,10 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "DetailProductViewModel.h"
 #import "ProductDetail.h"
+#import "RMPZoomTransitionAnimator.h"
 
-@interface DetailsProductViewController : UITableViewController<UIScrollViewDelegate>
+
+@interface DetailsProductViewController : UITableViewController<UIScrollViewDelegate, RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
 
 @property (nonatomic, strong) DetailProductViewModel *viewModel;
 @property (nonatomic,strong) ProductDetail *detail;
 
 @end
+
+

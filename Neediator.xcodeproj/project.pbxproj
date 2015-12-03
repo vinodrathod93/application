@@ -54,9 +54,6 @@
 		825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825892811BBEB21C0032B0A3 /* DeliveryViewController.m */; };
 		826212F61BFB25BC00F75254 /* BannerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 826212F51BFB25BC00F75254 /* BannerView.xib */; };
 		826212F91BFB25CE00F75254 /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826212F81BFB25CE00F75254 /* BannerView.m */; };
-		826213001BFB532800F75254 /* UIViewController+YSLTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 826212FD1BFB532800F75254 /* UIViewController+YSLTransition.m */; };
-		826213011BFB532800F75254 /* YSLTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 826212FF1BFB532800F75254 /* YSLTransitionAnimator.m */; };
-		826213031BFB533200F75254 /* ysl_navi_back_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 826213021BFB533200F75254 /* ysl_navi_back_btn@2x.png */; };
 		8266ECEA1BF7543A0085F515 /* TaxonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8266ECE91BF7543A0085F515 /* TaxonsViewController.m */; };
 		826A83AD1C09786700F15544 /* AddToCart+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 826A83A21C09786700F15544 /* AddToCart+CoreDataProperties.m */; };
 		826A83AE1C09786700F15544 /* AddToCart.m in Sources */ = {isa = PBXBuildFile; fileRef = 826A83A41C09786700F15544 /* AddToCart.m */; };
@@ -219,11 +216,6 @@
 		826212F51BFB25BC00F75254 /* BannerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BannerView.xib; sourceTree = "<group>"; };
 		826212F71BFB25CE00F75254 /* BannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerView.h; sourceTree = "<group>"; };
 		826212F81BFB25CE00F75254 /* BannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
-		826212FC1BFB532800F75254 /* UIViewController+YSLTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+YSLTransition.h"; sourceTree = "<group>"; };
-		826212FD1BFB532800F75254 /* UIViewController+YSLTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+YSLTransition.m"; sourceTree = "<group>"; };
-		826212FE1BFB532800F75254 /* YSLTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSLTransitionAnimator.h; sourceTree = "<group>"; };
-		826212FF1BFB532800F75254 /* YSLTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSLTransitionAnimator.m; sourceTree = "<group>"; };
-		826213021BFB533200F75254 /* ysl_navi_back_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ysl_navi_back_btn@2x.png"; sourceTree = "<group>"; };
 		8266ECE81BF7543A0085F515 /* TaxonsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxonsViewController.h; sourceTree = "<group>"; };
 		8266ECE91BF7543A0085F515 /* TaxonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonsViewController.m; sourceTree = "<group>"; };
 		826A83A11C09786700F15544 /* AddToCart+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AddToCart+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -432,18 +424,6 @@
 				82C175941B66371000AD26DB /* OrderInputsViewController.m */,
 			);
 			name = Optionals;
-			sourceTree = "<group>";
-		};
-		826213041BFB534400F75254 /* YSLTransitionAnimator */ = {
-			isa = PBXGroup;
-			children = (
-				826213021BFB533200F75254 /* ysl_navi_back_btn@2x.png */,
-				826212FC1BFB532800F75254 /* UIViewController+YSLTransition.h */,
-				826212FD1BFB532800F75254 /* UIViewController+YSLTransition.m */,
-				826212FE1BFB532800F75254 /* YSLTransitionAnimator.h */,
-				826212FF1BFB532800F75254 /* YSLTransitionAnimator.m */,
-			);
-			name = YSLTransitionAnimator;
 			sourceTree = "<group>";
 		};
 		827632861B4A3DC900230833 /* Frameworks */ = {
@@ -701,7 +681,6 @@
 		82EF2DB71BE8BD8F00D87DE2 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				826213041BFB534400F75254 /* YSLTransitionAnimator */,
 				824AE08A1BF9B393008A49A9 /* SKTableView */,
 				8200C95C1BC5348600D8A32C /* Reachability */,
 				82C723001B7B4EC800E0C5EF /* TPKeyboardAvoiding */,
@@ -1224,7 +1203,6 @@
 				824C25531B56374900C58F97 /* Categories.plist in Resources */,
 				82BD02971B46A73C00108A0B /* Main.storyboard in Resources */,
 				820F0E1C1B5FD00800AE81F4 /* pharma.png in Resources */,
-				826213031BFB533200F75254 /* ysl_navi_back_btn@2x.png in Resources */,
 				82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */,
 				82BD02991B46A73C00108A0B /* Images.xcassets in Resources */,
 				826B14281BC2906800B6A1C3 /* OrderReviewFooterView.xib in Resources */,
@@ -1344,13 +1322,11 @@
 				82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */,
 				82C38A881C086B5C0006A73B /* PresentingAnimator.m in Sources */,
 				827DD31A1B8AE39F00714985 /* Address.m in Sources */,
-				826213011BFB532800F75254 /* YSLTransitionAnimator.m in Sources */,
 				8286B2711BF0CF6A00AFC533 /* TaxonomyModel.m in Sources */,
 				8255671B1B68E6F0009F013A /* AddShippingViewCell.m in Sources */,
 				82C722F61B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m in Sources */,
 				82AD69021BFF4FBF00478C5A /* ProductDetailsViewController.m in Sources */,
 				82C175951B66371000AD26DB /* OrderInputsViewController.m in Sources */,
-				826213001BFB532800F75254 /* UIViewController+YSLTransition.m in Sources */,
 				8286B25C1BF0A2BA00AFC533 /* StoresViewCell.m in Sources */,
 				826A83B11C09786700F15544 /* Order+CoreDataProperties.m in Sources */,
 				826B14261BC2904700B6A1C3 /* OrderReviewFooterView.m in Sources */,

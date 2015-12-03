@@ -92,7 +92,7 @@ typedef void(^completion)(BOOL finished);
         if (finished) {
             [self dismissViewControllerAnimated:YES completion:NULL];
         } else {
-            [self dismissViewControllerAnimated:NO completion:^{
+            [self dismissViewControllerAnimated:YES completion:^{
                 NSLog(@"Could not delete. Please try again");
                 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not Remove Items. Please Try again..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -109,11 +109,13 @@ typedef void(^completion)(BOOL finished);
 
 - (IBAction)goToCart:(id)sender {
     
-    [self dismissViewControllerAnimated:NO completion:^{
+    [self dismissViewControllerAnimated:YES completion:^{
         // go to cart tab bar
         
-        UITabBarController *tabBarVC = (UITabBarController *)self.view.window.rootViewController;
-        [tabBarVC setSelectedIndex:1];
+        UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
+        [tabBarController setSelectedIndex:1];
+        
+        
         
     }];
     
@@ -183,6 +185,13 @@ typedef void(^completion)(BOOL finished);
                     
                     if (url_response.statusCode == 204) {
                         
+                        
+                        // Remove from core data.
+                        [self deleteAllObjects:@"Order"];
+                        
+                        [self deleteAllObjects:@"LineItems"];
+                        
+                        
                         success(YES);
                         
                     } else {
@@ -224,6 +233,27 @@ typedef void(^completion)(BOOL finished);
         [alert show];
     });
     
+    
+}
+
+
+
+- (void) deleteAllObjects: (NSString *) entityDescription  {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityDescription inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error;
+    NSArray *items = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    
+    for (NSManagedObject *managedObject in items) {
+        [self.managedObjectContext deleteObject:managedObject];
+        NSLog(@"%@ object deleted",entityDescription);
+    }
+    if (![self.managedObjectContext save:&error]) {
+        NSLog(@"Error deleting %@ - error:%@",entityDescription,error);
+    }
     
 }
 

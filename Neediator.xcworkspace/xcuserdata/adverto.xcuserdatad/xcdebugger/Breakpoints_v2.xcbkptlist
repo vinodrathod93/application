@@ -25,29 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HealthApp/StoresViewController.m"
-            timestampString = "470751476.817291"
+            filePath = "HealthApp/DetailsProductViewController.m"
+            timestampString = "470842391.130901"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/StoresViewController.m"
-            timestampString = "470751476.817291"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "852"
+            endingLineNumber = "852"
+            landmarkName = "-transitionDestinationImageViewFrame"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

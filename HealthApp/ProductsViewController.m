@@ -16,16 +16,18 @@
 #import "SearchResultsProductViewController.h"
 #import "Reachability.h"
 #import "AppDelegate.h"
-#import "YSLTransitionAnimator.h"
-#import "UIViewController+YSLTransition.h"
 #import "ProductDetailsViewController.h"
+
+#import "RMPZoomTransitionAnimator.h"
 
 //#define kPRODUCTS_DATA_LINK @"http://chemistplus.in/getProducts_test.php"
 //#define kSPREE_PRODUCTS_URL @"http://manish.elnuur.com/api/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
 //#define kSPREE_PRODUCTS_URL @"https://neediator.herokuapp.com/api/products.json?token=2b5059e887dd58048eca5069d4f56b690611e0f80d5e1ef6"
 #define kFIRST_PAGE 1
+#define kPhoneTitleViewWidth 160
+#define kPadTitleViewWidth 250
 
-@interface ProductsViewController ()<YSLTransitionAnimatorDataSource>
+@interface ProductsViewController ()<RMPZoomTransitionAnimating>
 
 @property (nonatomic, strong) NSURLSessionDataTask *task;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -132,18 +134,12 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 -(void)viewWillDisappear:(BOOL)animated {
     
-    [self ysl_removeTransitionDelegate];
     [self.task suspend];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    float statusHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
-    float navigationHeight = self.navigationController.navigationBar.frame.size.height;
     
-    [self ysl_addTransitionDelegate:self];
-    [self ysl_pushTransitionAnimationWithToViewControllerImagePointY:statusHeight + navigationHeight
-                                                   animationDuration:0.3];
 }
 
 
@@ -293,7 +289,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                         
                         self.pages = [self.viewModel getPagesCount:dictionary];
                         self.itemsCount = [self.viewModel getItemsCount:dictionary];
-                        [self.navigationItem setTitleView:[self titleViewWithCount:self.itemsCount]];
+                        [self showCustomTitleViewWithCount:self.itemsCount];
                         
                         [self.hud hide:YES];
                         [self.collectionView reloadData];
@@ -350,67 +346,43 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 
 
--(UIView *)titleViewWithCount:(NSString *)count {
-    CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
-    CGFloat width = 0.95 * self.navigationItem.titleView.frame.size.width;
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, navBarHeight)];
+
+
+
+-(void)showCustomTitleViewWithCount:(NSString *)countText {
+    
+    NSLog(@"Width %f", CGRectGetWidth(self.navigationItem.titleView.frame));
+    
+    float width;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        width = kPadTitleViewWidth;
+    } else {
+        width = kPhoneTitleViewWidth;
+    }
+    
+    UILabel *taxon = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, width, 22)];
+    taxon.font = [UIFont fontWithName:@"AvenirNext-Medium" size:17.0f];
+    taxon.text     = self.navigationTitleString;
+    taxon.textAlignment = NSTextAlignmentCenter;
+    
+    UILabel *count = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, width, 24)];
+    count.font = [UIFont fontWithName:@"AvenirNext-Regular" size:13.0f];
+    count.text = [NSString stringWithFormat:@"( %@ Products )",countText];
+    count.textColor = [UIColor darkGrayColor];
+    count.textAlignment = NSTextAlignmentCenter;
     
     
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, width-70, 20)];
-    titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
-    titleLabel.text = self.navigationTitleString;
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 44)];
+    [titleView addSubview:taxon];
+    [titleView addSubview:count];
     
-    UILabel *countLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 25, width-70, 20)];
-    countLabel.font = [UIFont fontWithName:@"AvenirNext-UltraLight" size:12.0f];
-    countLabel.text = [NSString stringWithFormat:@"%@ Products",count];
     
-    [titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [countLabel setTextAlignment:NSTextAlignmentCenter];
+    self.navigationItem.titleView = titleView;
     
-    [containerView addSubview:titleLabel];
-    [containerView addSubview:countLabel];
+
     
-    return containerView;
 }
-
-
--(UIView *)customTitleViewWithCount:(NSString *)count {
-    
-    CGFloat titleHeight = self.navigationController.navigationBar.frame.size.height;
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectZero];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    
-    titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
-    
-    CGFloat desiredWidth = [self.navigationTitleString boundingRectWithSize:CGSizeMake([[UIScreen mainScreen] applicationFrame].size.width, titleLabel.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{
-                                                                                                                                                                                                                     NSFontAttributeName:titleLabel.font
-                                                                                                                                                                                                                     }context:nil].size.width;
-    CGRect frame;
-    
-    frame = titleLabel.frame;
-    frame.size.height = titleHeight;
-    frame.size.width = desiredWidth;
-    titleLabel.frame = frame;
-    
-    frame = containerView.frame;
-    frame.size.height = titleHeight;
-    frame.size.width = desiredWidth;
-    containerView.frame = frame;
-    
-    titleLabel.numberOfLines = 1;
-    titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    
-    containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    containerView.autoresizesSubviews = YES;
-    titleLabel.autoresizingMask = containerView.autoresizingMask;
-    
-    titleLabel.text = self.navigationTitleString;
-    
-    [containerView addSubview:titleLabel];
-    
-    return containerView;
-}
-
 
 
 
@@ -431,28 +403,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 
 
-/*
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    NSLog(@"%f",[scrollView contentOffset].y + scrollView.frame.size.height - 49);
-//    NSLog(@"isEqual to%f",[scrollView contentSize].height);
-    
-    if (([scrollView contentOffset].y + scrollView.frame.size.height - 49) == [scrollView contentSize].height) {
-        
-        NSLog(@"Page is %@",self.nextPage);
-        self.show = YES;
-        
-        if (![self.nextPage isEqual:@""]) {
-            
-            [self loadProductsWithPage:self.nextPage.intValue];
-        }
-        else if(self.currentPage.intValue == self.pages.intValue){
-            
-            [self.activityIndicator stopAnimating];
-            self.no_items.hidden = NO;
-        }
-    }
-}
-*/
+
 
 -(void)reachabilityChanged:(NSNotification*)note
 {
@@ -511,16 +462,153 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     }
 }
 
-#pragma mark -- YSLTransitionAnimatorDataSource
-- (UIImageView *)pushTransitionImageView
+
+#pragma mark <RMPZoomTransitionAnimating>
+
+- (UIImageView *)transitionSourceImageView
 {
-    ProductViewCell *cell = (ProductViewCell *)[self.collectionView cellForItemAtIndexPath:[[self.collectionView indexPathsForSelectedItems] firstObject]];
-    return cell.productImageView;
+    NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
+    ProductViewCell *cell = (ProductViewCell *)[self.collectionView cellForItemAtIndexPath:selectedIndexPath];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:cell.productImageView.image];
+    imageView.contentMode = cell.productImageView.contentMode;
+    imageView.clipsToBounds = YES;
+    imageView.userInteractionEnabled = NO;
+    imageView.frame = [cell.productImageView convertRect:cell.productImageView.frame toView:self.collectionView.superview];
+    
+    return imageView;
 }
 
-- (UIImageView *)popTransitionImageView
+- (UIColor *)transitionSourceBackgroundColor
 {
-    return nil;
+    return self.collectionView.backgroundColor;
 }
+
+- (CGRect)transitionDestinationImageViewFrame
+{
+    NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
+    ProductViewCell *cell = (ProductViewCell *)[self.collectionView cellForItemAtIndexPath:selectedIndexPath];
+    CGRect cellFrameInSuperview = [cell.productImageView convertRect:cell.productImageView.frame toView:self.collectionView.superview];
+    
+    return cellFrameInSuperview;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma Not Needed 
+
+/*
+-(UIView *)titleViewWithCount:(NSString *)count {
+    CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
+    CGFloat width = 0.95 * self.navigationItem.titleView.frame.size.width;
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, navBarHeight)];
+    
+    
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, width-70, 20)];
+    titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
+    titleLabel.text = self.navigationTitleString;
+    
+    UILabel *countLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 25, width-70, 20)];
+    countLabel.font = [UIFont fontWithName:@"AvenirNext-UltraLight" size:12.0f];
+    countLabel.text = [NSString stringWithFormat:@"%@ Products",count];
+    
+    [titleLabel setTextAlignment:NSTextAlignmentCenter];
+    [countLabel setTextAlignment:NSTextAlignmentCenter];
+    
+    [containerView addSubview:titleLabel];
+    [containerView addSubview:countLabel];
+    
+    return containerView;
+}
+
+
+-(UIView *)customTitleViewWithCount:(NSString *)count {
+    
+    CGFloat titleHeight = self.navigationController.navigationBar.frame.size.height;
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectZero];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    
+    titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
+    
+    CGFloat desiredWidth = [self.navigationTitleString boundingRectWithSize:CGSizeMake([[UIScreen mainScreen] applicationFrame].size.width, titleLabel.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{
+                                                                                                                                                                                                                                     NSFontAttributeName:titleLabel.font
+                                                                                                                                                                                                                                     }context:nil].size.width;
+    CGRect frame;
+    
+    frame = titleLabel.frame;
+    frame.size.height = titleHeight;
+    frame.size.width = desiredWidth;
+    titleLabel.frame = frame;
+    
+    frame = containerView.frame;
+    frame.size.height = titleHeight;
+    frame.size.width = desiredWidth;
+    containerView.frame = frame;
+    
+    titleLabel.numberOfLines = 1;
+    titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    
+    containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    containerView.autoresizesSubviews = YES;
+    titleLabel.autoresizingMask = containerView.autoresizingMask;
+    
+    titleLabel.text = self.navigationTitleString;
+    
+    [containerView addSubview:titleLabel];
+    
+    return containerView;
+}
+*/
+
+/*
+ -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+ //    NSLog(@"%f",[scrollView contentOffset].y + scrollView.frame.size.height - 49);
+ //    NSLog(@"isEqual to%f",[scrollView contentSize].height);
+ 
+ if (([scrollView contentOffset].y + scrollView.frame.size.height - 49) == [scrollView contentSize].height) {
+ 
+ NSLog(@"Page is %@",self.nextPage);
+ self.show = YES;
+ 
+ if (![self.nextPage isEqual:@""]) {
+ 
+ [self loadProductsWithPage:self.nextPage.intValue];
+ }
+ else if(self.currentPage.intValue == self.pages.intValue){
+ 
+ [self.activityIndicator stopAnimating];
+ self.no_items.hidden = NO;
+ }
+ }
+ }
+ */
 
 @end

@@ -17,8 +17,6 @@
 #import "LineItems.h"
 #import "OrderInputsViewController.h"
 #import "VariantsViewController.h"
-#import "YSLTransitionAnimator.h"
-#import "UIViewController+YSLTransition.h"
 #import <MWPhotoBrowser.h>
 #import "User.h"
 #import "StoreRealm.h"
@@ -26,7 +24,7 @@
 
 #define FOOTER_HEIGHT 35
 
-@interface DetailsProductViewController ()<NSFetchedResultsControllerDelegate,YSLTransitionAnimatorDataSource,MWPhotoBrowserDelegate, UIGestureRecognizerDelegate>
+@interface DetailsProductViewController ()<NSFetchedResultsControllerDelegate,MWPhotoBrowserDelegate, UIGestureRecognizerDelegate>
 {
     int currentIndex;
 }
@@ -81,20 +79,6 @@ NSString *cellReuseIdentifier;
     
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    
-    [self ysl_removeTransitionDelegate];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [self ysl_addTransitionDelegate:self];
-    [self ysl_popTransitionAnimationWithCurrentScrollView:nil
-                                    cancelAnimationPointY:0
-                                        animationDuration:0.3
-                                  isInteractiveTransition:YES];
-}
 
 
 - (BOOL)prefersStatusBarHidden {
@@ -833,6 +817,76 @@ NSString *cellReuseIdentifier;
     return nil;
 }
 
+
+#pragma mark - <RMPZoomTransitionAnimating>
+
+- (UIImageView *)transitionSourceImageView
+{
+    ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    
+    
+    for (UIView *view in cell.productImage.subviews) {
+        if ([view isKindOfClass:[UIImageView class]]) {
+            UIImageView *firstImage = (UIImageView *)view;
+            
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:firstImage.image];
+            imageView.contentMode = firstImage.contentMode;
+            imageView.clipsToBounds = YES;
+            imageView.userInteractionEnabled = NO;
+            imageView.frame = firstImage.frame;
+            
+            return imageView;
+        }
+    }
+    
+    
+    
+    return nil;
+}
+
+- (UIColor *)transitionSourceBackgroundColor
+{
+    return self.view.backgroundColor;
+}
+
+- (CGRect)transitionDestinationImageViewFrame
+{
+    
+    ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    
+    for (UIView *view in cell.productImage.subviews) {
+        if ([view isKindOfClass:[UIImageView class]]) {
+            UIImageView *firstImage = (UIImageView *)view;
+            
+            return firstImage.frame;
+        }
+    }
+    
+    
+    return CGRectZero;
+}
+
+#pragma mark - <RMPZoomTransitionDelegate>
+
+- (void)zoomTransitionAnimator:(RMPZoomTransitionAnimator *)animator
+         didCompleteTransition:(BOOL)didComplete
+      animatingSourceImageView:(UIImageView *)imageView
+{
+    
+    ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    
+    for (UIView *view in cell.productImage.subviews) {
+        if ([view isKindOfClass:[UIImageView class]]) {
+            UIImageView *firstImage = (UIImageView *)view;
+            
+            firstImage.image = imageView.image;
+        }
+    }
+    
+}
 
 
 

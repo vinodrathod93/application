@@ -13,7 +13,7 @@ pod 'Realm'
 pod 'SLExpandableTableView'
 pod 'MWPhotoBrowser'
 pod 'pop'
-pod 'TSMessages'
+pod 'RMPZoomTransitionAnimator'
 
 end
 

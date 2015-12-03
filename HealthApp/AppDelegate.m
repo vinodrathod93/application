@@ -23,6 +23,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
     // Initialize Reachability
     self.googleReach = [Reachability reachabilityWithHostName:@"www.google.com"];
     
@@ -45,6 +46,10 @@
     // UITabBar appearance
     [[UITabBar appearance] setTintColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0]];
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                          [UIColor blackColor], NSForegroundColorAttributeName,
+                                                          [UIFont fontWithName:@"AvenirNext-Medium" size:19.f], NSFontAttributeName , nil]];
     
     // Facebook Method
     [FBSDKLoginButton class];
@@ -153,6 +158,7 @@
     }
     _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    
     return _managedObjectContext;
 }
 

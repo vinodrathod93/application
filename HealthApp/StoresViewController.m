@@ -12,6 +12,7 @@
 #import "StoreRealm.h"
 #import "StoresViewCell.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "TaxonsViewController.h"
 #import "StoreTaxonsViewController.h"
 #import "User.h"
@@ -124,9 +125,10 @@
 //    StoreRealm *store = self.stores[indexPath.row];
     StoresModel *store = self.array_stores[indexPath.row];
     
-    cell.storeNameLabel.text = store.storeName;
-    cell.distance.text = [NSString stringWithFormat:@"%f km",store.storeDistance.floatValue];
-    cell.localityAddress.text = [NSString stringWithFormat:@"%@, %@, %@", store.storeStreetAddress, store.storeState, store.storeCountry];
+    [cell.storeImageView sd_setImageWithURL:[NSURL URLWithString:store.storeImage] placeholderImage:nil];
+    cell.storeNameLabel.text = [store.storeName capitalizedString];
+    cell.distance.text = [NSString stringWithFormat:@"%.02f KM",store.storeDistance.floatValue];
+    cell.localityAddress.text = [NSString stringWithFormat:@"%@, %@, %@", [store.storeStreetAddress capitalizedString], store.storeState, store.storeCountry];
     
     return cell;
 }
@@ -161,6 +163,9 @@
                 
                 [self.navigationController presentViewController:popupCartVC animated:YES completion:NULL];
                 
+            } else {
+                
+                [self saveAndProceedWithCurrentStore:store];
             }
         }
         else if (user.access_token == nil) {
@@ -174,36 +179,7 @@
             
         } else {
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                
-                @autoreleasepool {
-                    RLMRealm *realm = [RLMRealm defaultRealm];
-                    [realm beginWriteTransaction];
-                    [realm deleteAllObjects];
-                    [realm commitWriteTransaction];
-                    
-                    [realm beginWriteTransaction];
-                    
-                    StoreRealm *storeRealm = [[StoreRealm alloc] initWithMantleModel:store];
-                    [realm addObject:storeRealm];
-                    
-                    [realm commitWriteTransaction];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        RLMRealm *realmMainThread = [RLMRealm defaultRealm];
-                        RLMResults *stores = [StoreRealm allObjectsInRealm:realmMainThread];
-                        
-                        NSLog(@"%@",stores);
-                    });
-                }
-                
-            });
-            
-            
-            StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
-            storeTaxonsVC.title = [store.storeName capitalizedString];
-            storeTaxonsVC.storeURL = store.storeUrl;
-            [self.navigationController pushViewController:storeTaxonsVC animated:YES];
+            [self saveAndProceedWithCurrentStore:store];
         }
             
     } else
@@ -211,6 +187,42 @@
     
     
 
+    
+}
+
+
+-(void)saveAndProceedWithCurrentStore:(StoresModel *)store {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        @autoreleasepool {
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            [realm beginWriteTransaction];
+            [realm deleteAllObjects];
+            [realm commitWriteTransaction];
+            
+            [realm beginWriteTransaction];
+            
+            StoreRealm *storeRealm = [[StoreRealm alloc] initWithMantleModel:store];
+            [realm addObject:storeRealm];
+            
+            [realm commitWriteTransaction];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
+                RLMResults *stores = [StoreRealm allObjectsInRealm:realmMainThread];
+                
+                NSLog(@"%@",stores);
+            });
+        }
+        
+    });
+    
+    
+    StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
+    storeTaxonsVC.title = [store.storeName capitalizedString];
+    storeTaxonsVC.storeURL = store.storeUrl;
+    [self.navigationController pushViewController:storeTaxonsVC animated:YES];
     
 }
 
