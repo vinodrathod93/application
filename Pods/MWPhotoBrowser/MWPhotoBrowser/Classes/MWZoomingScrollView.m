@@ -39,19 +39,22 @@
 		_tapView = [[MWTapDetectingView alloc] initWithFrame:self.bounds];
 		_tapView.tapDelegate = self;
 		_tapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		_tapView.backgroundColor = [UIColor blackColor];
+		_tapView.backgroundColor = browser.backgroundColor;
 		[self addSubview:_tapView];
 		
 		// Image view
 		_photoImageView = [[MWTapDetectingImageView alloc] initWithFrame:CGRectZero];
 		_photoImageView.tapDelegate = self;
-		_photoImageView.contentMode = UIViewContentModeCenter;
-		_photoImageView.backgroundColor = [UIColor blackColor];
+		_photoImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _photoImageView.backgroundColor = browser.backgroundColor;
 		[self addSubview:_photoImageView];
 		
 		// Loading indicator
 		_loadingIndicator = [[DACircularProgressView alloc] initWithFrame:CGRectMake(140.0f, 30.0f, 40.0f, 40.0f)];
         _loadingIndicator.userInteractionEnabled = NO;
+        _loadingIndicator.progressTintColor = [UIColor blackColor];
+        _loadingIndicator.trackTintColor    = browser.navBarTintColor;
+        
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7")) {
             _loadingIndicator.thicknessRatio = 0.1;
             _loadingIndicator.roundedCorners = NO;
@@ -70,7 +73,7 @@
                                                    object:nil];
         
 		// Setup
-		self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = browser.backgroundColor;
 		self.delegate = self;
 		self.showsHorizontalScrollIndicator = NO;
 		self.showsVerticalScrollIndicator = NO;

@@ -10,7 +10,7 @@
 
 @interface ProductImageViewCell : UITableViewCell
 
-@property (nonatomic,weak) IBOutlet UIScrollView *productImage;
+@property (nonatomic,weak) IBOutlet UIScrollView *productImageScrollView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @end

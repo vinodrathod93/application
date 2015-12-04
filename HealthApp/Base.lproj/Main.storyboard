@@ -1464,6 +1464,7 @@
                                     <outlet property="productLabel" destination="GUo-3Z-OoY" id="XU3-6f-9Zm"/>
                                     <outlet property="productPrice" destination="5pk-0e-NEV" id="0hf-YC-PJf"/>
                                     <outlet property="soldOutView" destination="f5N-Xm-wp8" id="G6A-JN-r8M"/>
+                                    <segue destination="pMj-vE-z7R" kind="show" id="Ljl-iS-guB"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -1496,7 +1497,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="imageDetailsCell" rowHeight="300" id="1cF-YZ-axr" customClass="ProductImageViewCell">
-                                <rect key="frame" x="0.0" y="22" width="600" height="300"/>
+                                <rect key="frame" x="0.0" y="86" width="600" height="300"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1cF-YZ-axr" id="vUF-zs-9Cj">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="299"/>
@@ -1526,11 +1527,11 @@
                                 <animations/>
                                 <connections>
                                     <outlet property="pageControl" destination="96f-HN-GxM" id="Eai-jP-L0V"/>
-                                    <outlet property="productImage" destination="uyk-Wc-2tR" id="ikR-13-La0"/>
+                                    <outlet property="productImageScrollView" destination="uyk-Wc-2tR" id="sGB-qL-9WR"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="productDetailsCell" rowHeight="140" id="ccl-gx-pk7" customClass="ProductDetailsViewCell">
-                                <rect key="frame" x="0.0" y="322" width="600" height="140"/>
+                                <rect key="frame" x="0.0" y="386" width="600" height="140"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ccl-gx-pk7" id="mOo-J8-cf0">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="139"/>
@@ -1597,7 +1598,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tiO-HW-h5x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="12397" y="-1523"/>
+            <point key="canvasLocation" x="10599" y="-1521"/>
         </scene>
         <!--Product Details View Controller-->
         <scene sceneID="UDF-6V-kk5">
@@ -1761,7 +1762,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q2H-Hi-NFP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10453" y="-596"/>
+            <point key="canvasLocation" x="10137" y="-504"/>
         </scene>
         <!--Variants View Controller-->
         <scene sceneID="ULS-6L-TAM">
@@ -1870,7 +1871,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ibw-3U-7Cp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10848.75" y="-1513.732394366197"/>
+            <point key="canvasLocation" x="10942" y="-554"/>
         </scene>
         <!--Add Details-->
         <scene sceneID="4AP-A9-ZMp">
@@ -3022,10 +3023,10 @@
             </objects>
             <point key="canvasLocation" x="6463" y="-653"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Navigation View Controller-->
         <scene sceneID="XUE-Fr-EyC">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CrL-uo-Iya" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CrL-uo-Iya" customClass="NavigationViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="X8e-Nz-F2c">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

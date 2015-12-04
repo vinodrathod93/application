@@ -18,7 +18,7 @@
 #import "AppDelegate.h"
 #import "ProductDetailsViewController.h"
 
-#import "RMPZoomTransitionAnimator.h"
+
 
 //#define kPRODUCTS_DATA_LINK @"http://chemistplus.in/getProducts_test.php"
 //#define kSPREE_PRODUCTS_URL @"http://manish.elnuur.com/api/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
@@ -27,7 +27,7 @@
 #define kPhoneTitleViewWidth 160
 #define kPadTitleViewWidth 250
 
-@interface ProductsViewController ()<RMPZoomTransitionAnimating>
+@interface ProductsViewController ()<UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) NSURLSessionDataTask *task;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -201,19 +201,35 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    DetailsProductViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsVC"];
-    details.detail = self.viewModel.viewModelProducts[indexPath.item];
-    
-//    ProductDetailsViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsViewController"];
+//-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+//    DetailsProductViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsVC"];
 //    details.detail = self.viewModel.viewModelProducts[indexPath.item];
+//    
+////    ProductDetailsViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsViewController"];
+////    details.detail = self.viewModel.viewModelProducts[indexPath.item];
+//    
+//    [self setTabBarVisible:[self tabBarIsVisible] animated:YES completion:^(BOOL finished) {
+//        NSLog(@"Finished");
+//    }];
+//    
+//    [self.navigationController pushViewController:details animated:YES];
+//}
+
+
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    DetailsProductViewController *detailsVC = segue.destinationViewController;
+    
+    NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
+    detailsVC.detail = self.viewModel.viewModelProducts[selectedIndexPath.row];
     
     [self setTabBarVisible:[self tabBarIsVisible] animated:YES completion:^(BOOL finished) {
-        NSLog(@"Finished");
+        NSLog(@"Finished Pushed");
     }];
-    
-    [self.navigationController pushViewController:details animated:YES];
 }
+
+
+
 
 
 #pragma mark -  <UICollectionViewDelegateFlowLayout>

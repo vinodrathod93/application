@@ -22,6 +22,7 @@
 #import "AddressesViewController.h"
 #import "OrderReviewViewController.h"
 #import "PaymentViewController.h"
+#import "StoresViewController.h"
 #import "Order.h"
 #import "LineItems.h"
 
@@ -89,9 +90,9 @@ static NSString *cellIdentifier = @"cartCell";
     [super viewWillAppear:animated];
     
     
-    self.dimmView = [[UIView alloc]initWithFrame:self.view.bounds];
+    self.dimmView = [[UIView alloc]initWithFrame:self.tableView.frame];
     self.dimmView.backgroundColor = [UIColor whiteColor];
-    [self.navigationController.view addSubview:self.dimmView];
+    [self.navigationController.view insertSubview:self.dimmView belowSubview:self.navigationController.navigationBar];
     
     
     if (self.task == nil) {
@@ -127,34 +128,7 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
--(void)removeAllLineItems {
-    
-    // Line Items
-    NSFetchRequest *allLineItems = [[NSFetchRequest alloc] init];
-    [allLineItems setEntity:[NSEntityDescription entityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext]];
-    
-    NSError *error = nil;
-    NSArray *lineItems = [self.managedObjectContext executeFetchRequest:allLineItems error:&error];
 
-    for (NSManagedObject *lineItem in lineItems) {
-        [self.managedObjectContext deleteObject:lineItem];
-    }
-    
-    
-    // Order
-    NSFetchRequest *orderFetchRequest = [[NSFetchRequest alloc]init];
-    [orderFetchRequest setEntity:[NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext]];
-    
-    NSError *orderError = nil;
-    NSArray *orderArray = [self.managedObjectContext executeFetchRequest:orderFetchRequest error:&orderError];
-    
-    for (NSManagedObject *order in orderArray) {
-        [self.managedObjectContext deleteObject:order];
-    }
-    
-    NSError *saveError = nil;
-    [self.managedObjectContext save:&saveError];
-}
 
 
 
@@ -237,6 +211,7 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+    
     return [self configureHeaderView:headerView forSection:section];
 }
 
@@ -461,19 +436,6 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
--(NSArray *)getQuantityArrayWithCount:(NSNumber *)count {
-    NSMutableArray *quantity = [NSMutableArray array];
-    
-    for (int i=0; i< count.intValue; i++) {
-        NSString *value = [NSString stringWithFormat:@"%d", i + 1];
-        
-        [quantity addObject:value];
-    }
-    
-    NSLog(@"Quantity Array %@",quantity);
-    
-    return quantity;
-}
 
 #pragma mark - Helper Methods
 
@@ -539,7 +501,19 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
-
+-(NSArray *)getQuantityArrayWithCount:(NSNumber *)count {
+    NSMutableArray *quantity = [NSMutableArray array];
+    
+    for (int i=0; i< count.intValue; i++) {
+        NSString *value = [NSString stringWithFormat:@"%d", i + 1];
+        
+        [quantity addObject:value];
+    }
+    
+    NSLog(@"Quantity Array %@",quantity);
+    
+    return quantity;
+}
 
 
 -(void)updateBadgeValue {
@@ -550,18 +524,97 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
-
--(void)showLoginPageAndIsPlacingOrder:(BOOL)isPlacing {
+-(NSInteger)totalAmount {
+    __block NSInteger priceInTotal = 0;
     
-    LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
-    logSignVC.isPlacingOrder = isPlacing;
+    //    [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart *model, NSUInteger idx, BOOL *stop) {
+    //        NSInteger quantity = model.quantity.integerValue;
+    //        CGFloat singlePrice = model.productPrice.floatValue;
+    //
+    //        priceInTotal = priceInTotal + [self calculateTotalPrice:quantity andSinglePrice:singlePrice];
+    //    }];
     
-    UINavigationController *logSignNav = [[UINavigationController alloc]initWithRootViewController:logSignVC];
-    logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+    [self.lineItemsFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(LineItems *model, NSUInteger idx, BOOL *stop) {
+        NSInteger quantity = model.quantity.integerValue;
+        CGFloat singlePrice = model.price.floatValue;
+        
+        priceInTotal = priceInTotal + [self calculateTotalPrice:quantity andSinglePrice:singlePrice];
+    }];
     
-    [self presentViewController:logSignNav animated:YES completion:nil];
+    return priceInTotal;
 }
 
+-(CGFloat)calculateTotalPrice:(NSInteger)quantity andSinglePrice:(CGFloat)price {
+    CGFloat total = quantity * price;
+    
+    return ceil(total);
+}
+
+
+-(void)removeAllLineItems {
+    
+    // Line Items
+    NSFetchRequest *allLineItems = [[NSFetchRequest alloc] init];
+    [allLineItems setEntity:[NSEntityDescription entityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext]];
+    
+    NSError *error = nil;
+    NSArray *lineItems = [self.managedObjectContext executeFetchRequest:allLineItems error:&error];
+    
+    for (NSManagedObject *lineItem in lineItems) {
+        [self.managedObjectContext deleteObject:lineItem];
+    }
+    
+    
+    // Order
+    NSFetchRequest *orderFetchRequest = [[NSFetchRequest alloc]init];
+    [orderFetchRequest setEntity:[NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext]];
+    
+    NSError *orderError = nil;
+    NSArray *orderArray = [self.managedObjectContext executeFetchRequest:orderFetchRequest error:&orderError];
+    
+    for (NSManagedObject *order in orderArray) {
+        [self.managedObjectContext deleteObject:order];
+    }
+    
+    NSError *saveError = nil;
+    [self.managedObjectContext save:&saveError];
+}
+
+
+-(void)displayNoConnection {
+    
+    [self.hud hide:YES];
+    
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"No Connection" message:@"Their is no Internet Connection" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+    [alert show];
+}
+
+-(void)displayConnectionFailed {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.hud hide:YES];
+        
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    });
+    
+    
+}
+
+
+
+-(void)goToStoresPage:(UIButton *)sender {
+    
+    
+    StoresViewController *storesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
+    [self.navigationController pushViewController:storesVC animated:YES];
+    
+}
+
+
+
+#pragma mark - Network
 
 -(void)sendCheckoutRequestToServer {
     
@@ -632,37 +685,6 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
--(void)displayNoConnection {
-    
-    [self.hud hide:YES];
-    
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"No Connection" message:@"Their is no Internet Connection" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
-    [alert show];
-}
-
--(void)displayConnectionFailed {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [self.hud hide:YES];
-        
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        
-        [alert show];
-    });
-    
-    
-}
-
-
--(void)proceedToPaymentPage:(NSDictionary *)json {
-    PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
-    paymentVC.order_id               = [json valueForKey:@"number"];
-    paymentVC.display_total          = [json valueForKey:@"display_total"];
-    paymentVC.total                  = [json valueForKey:@"total"];
-    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
-    [self.navigationController pushViewController:paymentVC animated:YES];
-}
-
 
 
 -(void)getOrderLineItemDetails {
@@ -697,7 +719,7 @@ static NSString *cellIdentifier = @"cartCell";
                         NSLog(@"Error %@",[jsonError localizedDescription]);
                     } else {
                         
-                        NSLog(@"Json Cart ===> %@",json);
+                        NSLog(@"JSON RECEIVED ===> %@",json);
                         
                         if (self.orderNumFetchedResultsController.fetchedObjects.count != 0) {
                             [self removeAllLineItems];
@@ -705,7 +727,9 @@ static NSString *cellIdentifier = @"cartCell";
                         
                         [self checkOrders];
                         [self checkLineItems];
-                        // store line items data
+                        
+                        
+                        // FIRST STORE ORDER
                         
                         if (self.orderNumFetchedResultsController.fetchedObjects.count == 0) {
                             self.orderModel = [NSEntityDescription insertNewObjectForEntityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
@@ -718,37 +742,74 @@ static NSString *cellIdentifier = @"cartCell";
                             
                             NSArray *line_items = [json objectForKey:@"line_items"];
                             
-                            if (self.lineItemsFetchedResultsController.fetchedObjects.count == 0) {
+                            // IF LINEITEMS ARE EMPTY THEN SHOW CART MESSAGE
+                            
+                            if (line_items.count == 0) {
                                 
-                                for (int i=0; i< line_items.count; i++) {
-                                    self.lineItemModel = [NSEntityDescription insertNewObjectForEntityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext];
-                                    self.lineItemModel.lineItemID = [line_items[i] valueForKey:@"id"];
-                                    self.lineItemModel.quantity   = [line_items[i] valueForKey:@"quantity"];
-                                    self.lineItemModel.price      = [NSNumber numberWithFloat:[[line_items[i] valueForKey:@"price"] floatValue]];
-                                    self.lineItemModel.variantID  = [line_items[i] valueForKey:@"variant_id"];
-                                    self.lineItemModel.singleDisplayPrice   = [line_items[i] valueForKey:@"single_display_amount"];
-                                    self.lineItemModel.totalDisplayPrice    = [line_items[i] valueForKey:@"display_total"];
-                                    self.lineItemModel.total                = [NSNumber numberWithFloat:[[line_items[i] valueForKey:@"total"] floatValue]];
-                                    self.lineItemModel.name                 = [line_items[i] valueForKeyPath:@"variant.name"];
-                                    self.lineItemModel.option               = [line_items[i] valueForKeyPath:@"variant.options_text"];
-                                    self.lineItemModel.totalOnHand          = [line_items[i] valueForKeyPath:@"variant.total_on_hand"];
+                                UIImageView *shoppingCartImageView = [[UIImageView alloc]initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 50, self.dimmView.frame.size.height/3, 100, 100)];
+                                UIImage *cartImage                 = [UIImage imageNamed:@"ShoppingCart"];
+                                shoppingCartImageView.image        = cartImage;
+                                shoppingCartImageView.alpha        = 0.5f;
+                                [self.dimmView addSubview:shoppingCartImageView];
+                                
+                                UILabel *cartLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 150, shoppingCartImageView.frame.origin.y + shoppingCartImageView.frame.size.height + 30, 300, 30)];
+                                cartLabel.text     = @"Your Shopping Cart is Empty";
+                                cartLabel.textAlignment = NSTextAlignmentCenter;
+                                cartLabel.textColor     = [UIColor darkGrayColor];
+                                cartLabel.font          = [UIFont fontWithName:@"AvenirNext-Regular" size:17.f];
+                                [self.dimmView addSubview:cartLabel];
+                                
+                                UIButton *shoppingButton = [[UIButton alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 100, cartLabel.frame.origin.y + cartLabel.frame.size.height + 50, 200, 30)];
+                                [shoppingButton setTitle:@"Let's go Shopping" forState:UIControlStateNormal];
+                                [shoppingButton setTitleColor:self.tableView.tintColor forState:UIControlStateNormal];
+                                [shoppingButton addTarget:self action:@selector(goToStoresPage:) forControlEvents:UIControlEventTouchUpInside];
+                                shoppingButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:19.f];
+                                [self.dimmView addSubview:shoppingButton];
+                                
+                                
+                                
+                                
+                                
+                            } else {
+                                [self.dimmView removeFromSuperview];
+                                
+                                
+                                // SECOND STORE LINEITEMS
+                                
+                                if (self.lineItemsFetchedResultsController.fetchedObjects.count == 0) {
                                     
-                                    NSArray *images                         = [line_items[i] valueForKeyPath:@"variant.images"];
-                                    if (images.count != 0) {
-                                        self.lineItemModel.image            = [images[0] valueForKey:@"small_url"];
-                                    } else
-                                        self.lineItemModel.image            = @"";
+                                    for (int i=0; i< line_items.count; i++) {
+                                        self.lineItemModel = [NSEntityDescription insertNewObjectForEntityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext];
+                                        self.lineItemModel.lineItemID = [line_items[i] valueForKey:@"id"];
+                                        self.lineItemModel.quantity   = [line_items[i] valueForKey:@"quantity"];
+                                        self.lineItemModel.price      = [NSNumber numberWithFloat:[[line_items[i] valueForKey:@"price"] floatValue]];
+                                        self.lineItemModel.variantID  = [line_items[i] valueForKey:@"variant_id"];
+                                        self.lineItemModel.singleDisplayPrice   = [line_items[i] valueForKey:@"single_display_amount"];
+                                        self.lineItemModel.totalDisplayPrice    = [line_items[i] valueForKey:@"display_total"];
+                                        self.lineItemModel.total                = [NSNumber numberWithFloat:[[line_items[i] valueForKey:@"total"] floatValue]];
+                                        self.lineItemModel.name                 = [line_items[i] valueForKeyPath:@"variant.name"];
+                                        self.lineItemModel.option               = [line_items[i] valueForKeyPath:@"variant.options_text"];
+                                        self.lineItemModel.totalOnHand          = [line_items[i] valueForKeyPath:@"variant.total_on_hand"];
+                                        
+                                        NSArray *images                         = [line_items[i] valueForKeyPath:@"variant.images"];
+                                        if (images.count != 0) {
+                                            self.lineItemModel.image            = [images[0] valueForKey:@"small_url"];
+                                        } else
+                                            self.lineItemModel.image            = @"";
+                                        
+                                        [self.orderModel addCartLineItemsObject:self.lineItemModel];
+                                    }
                                     
-                                    [self.orderModel addCartLineItemsObject:self.lineItemModel];
-                                }
-                                
-                                [self.managedObjectContext save:nil];
-                                [self.hud hide:YES];
-                                
-                                
-                                
-                            } else
-                                NSLog(@"Line Item records are not empty");
+                                    [self.managedObjectContext save:nil];
+                                    [self.hud hide:YES];
+                                    
+                                    
+                                    
+                                } else
+                                    NSLog(@"Line Item records are not empty");
+                            }
+                            
+                            
                             
                             
                         } else
@@ -757,7 +818,7 @@ static NSString *cellIdentifier = @"cartCell";
                     }
                     
                     [self checkLineItems];
-                    [self.dimmView removeFromSuperview];
+                    
                     
                     [self.tableView reloadData];
                     
@@ -952,34 +1013,30 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
--(NSInteger)totalAmount {
-    __block NSInteger priceInTotal = 0;
-    
-    //    [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart *model, NSUInteger idx, BOOL *stop) {
-    //        NSInteger quantity = model.quantity.integerValue;
-    //        CGFloat singlePrice = model.productPrice.floatValue;
-    //
-    //        priceInTotal = priceInTotal + [self calculateTotalPrice:quantity andSinglePrice:singlePrice];
-    //    }];
-    
-    [self.lineItemsFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(LineItems *model, NSUInteger idx, BOOL *stop) {
-        NSInteger quantity = model.quantity.integerValue;
-        CGFloat singlePrice = model.price.floatValue;
-        
-        priceInTotal = priceInTotal + [self calculateTotalPrice:quantity andSinglePrice:singlePrice];
-    }];
-    
-    return priceInTotal;
-}
 
--(CGFloat)calculateTotalPrice:(NSInteger)quantity andSinglePrice:(CGFloat)price {
-    CGFloat total = quantity * price;
-    
-    return ceil(total);
+#pragma mark - Navigation
+
+-(void)proceedToPaymentPage:(NSDictionary *)json {
+    PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
+    paymentVC.order_id               = [json valueForKey:@"number"];
+    paymentVC.display_total          = [json valueForKey:@"display_total"];
+    paymentVC.total                  = [json valueForKey:@"total"];
+    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
+    [self.navigationController pushViewController:paymentVC animated:YES];
 }
 
 
 
+-(void)showLoginPageAndIsPlacingOrder:(BOOL)isPlacing {
+    
+    LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
+    logSignVC.isPlacingOrder = isPlacing;
+    
+    UINavigationController *logSignNav = [[UINavigationController alloc]initWithRootViewController:logSignVC];
+    logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+    
+    [self presentViewController:logSignNav animated:YES completion:nil];
+}
 
 
 
@@ -1033,6 +1090,12 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
+
+
+
+
+
+#pragma mark -
 #pragma mark - Not Needed
 
 

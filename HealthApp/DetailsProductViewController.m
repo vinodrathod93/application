@@ -73,9 +73,9 @@ NSString *cellReuseIdentifier;
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    cell.productImage.delegate = self;
+    cell.productImageScrollView.delegate = self;
     
-    cell.productImage.contentSize = CGSizeMake(CGRectGetWidth(cell.productImage.frame) * self.viewModel.images.count, CGRectGetHeight(cell.productImage.frame));
+    cell.productImageScrollView.contentSize = CGSizeMake(CGRectGetWidth(cell.productImageScrollView.frame) * self.viewModel.images.count, CGRectGetHeight(cell.productImageScrollView.frame));
     
 }
 
@@ -146,16 +146,16 @@ NSString *cellReuseIdentifier;
     
     
     
-    CGRect scrollViewFrame = cell.productImage.frame;
+    CGRect scrollViewFrame = cell.productImageScrollView.frame;
     CGRect currentFrame = self.view.frame;
     
     scrollViewFrame.size.width = currentFrame.size.width;
-    cell.productImage.frame = scrollViewFrame;
+    cell.productImageScrollView.frame = scrollViewFrame;
     
     __block UIImageView *previousImageView;
     
     [self.viewModel.images enumerateObjectsUsingBlock:^(NSString *image_url, NSUInteger idx, BOOL *stop) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.productImage.frame) * idx, 0, CGRectGetWidth(cell.productImage.frame), CGRectGetHeight(cell.productImage.frame))];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.productImageScrollView.frame) * idx, 0, CGRectGetWidth(cell.productImageScrollView.frame), CGRectGetHeight(cell.productImageScrollView.frame))];
         
         NSLog(@"%@", NSStringFromCGRect(imageView.frame));
         
@@ -163,18 +163,19 @@ NSString *cellReuseIdentifier;
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         imageView.translatesAutoresizingMaskIntoConstraints = NO;
         
-        [cell.productImage addGestureRecognizer:_imageViewTapGestureRecognizer];
-        [cell.productImage addSubview:imageView];
+        [cell.productImageScrollView addGestureRecognizer:_imageViewTapGestureRecognizer];
+        [cell.productImageScrollView addSubview:imageView];
         
         if (idx == 0) {
-            [cell.productImage addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
+            
+            [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.productImageScrollView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
+            
         } else {
-            [cell.productImage addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:previousImageView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+            [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:previousImageView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
             
             if (idx == [self.viewModel.images indexOfObject:[self.viewModel.images lastObject]]) {
                 
-                
-                [cell.productImage addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+                [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.productImageScrollView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
             }
             
         }
@@ -189,10 +190,10 @@ NSString *cellReuseIdentifier;
         
         // Imageview constraints
         [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeWidth multiplier:1.f constant:0.f]];
-        [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:cell.productImage.frame.size.height]];
+        [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:cell.productImageScrollView.frame.size.height]];
         
         
-        [cell.productImage addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.productImage attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
+        [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.productImageScrollView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
         
         previousImageView = imageView;
         
@@ -211,7 +212,7 @@ NSString *cellReuseIdentifier;
 
 
 -(void)drawImageView:(ProductImageViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-    __block CGRect cRect = cell.productImage.bounds;
+    __block CGRect cRect = cell.productImageScrollView.bounds;
     
     [self.viewModel.images enumerateObjectsUsingBlock:^(NSString *imageURL, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc]init];
@@ -220,15 +221,15 @@ NSString *cellReuseIdentifier;
         [imageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
         [imageView setContentMode:UIViewContentModeScaleAspectFit];
         
-        [cell.productImage addSubview:imageView];
+        [cell.productImageScrollView addSubview:imageView];
         
         cRect.origin.x += cRect.size.width;
     }];
     
-    NSLog(@"%@",NSStringFromCGSize(CGSizeMake(cRect.origin.x, cell.productImage.bounds.size.height)));
+    NSLog(@"%@",NSStringFromCGSize(CGSizeMake(cRect.origin.x, cell.productImageScrollView.bounds.size.height)));
     
-    cell.productImage.contentSize = CGSizeMake(cRect.origin.x, cell.productImage.bounds.size.height);
-    cell.productImage.contentOffset = CGPointMake(cell.productImage.bounds.size.width, 0);
+    cell.productImageScrollView.contentSize = CGSizeMake(cRect.origin.x, cell.productImageScrollView.bounds.size.height);
+    cell.productImageScrollView.contentOffset = CGPointMake(cell.productImageScrollView.bounds.size.width, 0);
     cell.pageControl.numberOfPages = self.viewModel.images.count;
 }
 
@@ -245,7 +246,7 @@ NSString *cellReuseIdentifier;
 //        [cell.pageControl updateCurrentPageDisplay];
 //    }
     
-    if ([scrollView isEqual:cell.productImage]) {
+    if ([scrollView isEqual:cell.productImageScrollView]) {
         float pageWith = scrollView.frame.size.width;
         int page = (int)floorf(((scrollView.contentOffset.x * 2.0 + pageWith) / (pageWith * 2.0)));
         
@@ -324,15 +325,7 @@ NSString *cellReuseIdentifier;
     [self.footerView addSubview:self.cartButton];
 }
 
-//-(void)buyButton {
-//    UIButton *buyButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, self.view.frame.size.width/2, FOOTER_HEIGHT)];
-//    buyButton.backgroundColor = [UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f];
-//    [buyButton setTitle:@"Buy Now" forState:UIControlStateNormal];
-//    [buyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    buyButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
-//    [buyButton addTarget:self action:@selector(buyButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-//    [self.footerView addSubview:buyButton];
-//}
+
 
 -(void)addToCartButtonPressed {
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
@@ -359,33 +352,6 @@ NSString *cellReuseIdentifier;
         
     }
     else {
-        
-//        NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
-//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"productID == %@",[self.viewModel productID]];
-//        [fetch setPredicate:predicate];
-//        NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
-//
-//        
-//        NSLog(@"%@",fetchedArray);
-//        
-//        if (fetchedArray.count == 0) {
-//            self.addToCartModel = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-//            self.addToCartModel.productID = [self.viewModel productID];
-//            self.addToCartModel.productName = [self.viewModel name];
-//            self.addToCartModel.productPrice = [self.viewModel price];
-//            self.addToCartModel.displayPrice = [self.viewModel display_price];
-//            self.addToCartModel.addedDate = [NSDate date];
-//            self.addToCartModel.productImage = [self.viewModel images][0];
-//            self.addToCartModel.quantity = [self.viewModel quantity];
-//            self.addToCartModel.totalPrice = [self.viewModel price];
-//            
-//            NSDictionary *line_item = [self lineItemDictionaryWithVariantID:self.addToCartModel.productID quantity:self.addToCartModel.quantity];
-//            [self sendLineItem:line_item];
-//            
-//        }
-//        else {
-//            [self alreadyLabelButton];
-//        }
         
         NSNumber *productID                 = [self.viewModel productID];
         NSNumber *quantity                  = [self.viewModel quantity];
@@ -598,39 +564,9 @@ NSString *cellReuseIdentifier;
 
 
 
-
-
-
-
 #pragma mark - Fetched Results Controller
 
-//-(NSFetchedResultsController *)pd_cartFetchedResultsController {
-//    if (_pd_cartFetchedResultsController != nil) {
-//        return _pd_cartFetchedResultsController;
-//    }
-//    
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-//    [fetchRequest setEntity:entity];
-//    
-//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-//                                        initWithKey:@"addedDate"
-//                                        ascending:NO];
-//    
-//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-//    [fetchRequest setSortDescriptors:sortDescriptors];
-//    
-//    _pd_cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-//    _pd_cartFetchedResultsController.delegate = self;
-//    
-//    NSError *error = nil;
-//    if (![self.pd_cartFetchedResultsController performFetch:&error]) {
-//        NSLog(@"Core data error %@, %@", error, [error userInfo]);
-//        abort();
-//    }
-//
-//    return _pd_cartFetchedResultsController;
-//}
+
 
 
 -(NSFetchedResultsController *)pd_orderFetchedResultsController {
@@ -751,13 +687,18 @@ NSString *cellReuseIdentifier;
     [self getPhotosArray];
     
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc]initWithDelegate:self];
+    browser.backgroundColor = [UIColor whiteColor];
+    browser.navBarTintColor = self.tableView.tintColor;
+    browser.barStyle        = UIBarStyleDefault;
     browser.displayActionButton = NO;
     browser.zoomPhotosToFill = YES;
     browser.enableSwipeToDismiss = NO;
     
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
-    nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:nc animated:YES completion:nil];
+//    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
+//    nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    [self presentViewController:nc animated:YES completion:nil];
+    
+    [self.navigationController pushViewController:browser animated:YES];
     
 }
 
@@ -788,10 +729,10 @@ NSString *cellReuseIdentifier;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (NSString *)photoBrowser:(MWPhotoBrowser *)photoBrowser titleForPhotoAtIndex:(NSUInteger)index {
-    
-    return [self.viewModel name];
-}
+//- (NSString *)photoBrowser:(MWPhotoBrowser *)photoBrowser titleForPhotoAtIndex:(NSUInteger)index {
+//    
+//    return [self.viewModel name];
+//}
 
 
 #pragma mark -- YSLTransitionAnimatorDataSource
@@ -801,7 +742,7 @@ NSString *cellReuseIdentifier;
     ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
     
-    for (UIView *view in cell.productImage.subviews) {
+    for (UIView *view in cell.productImageScrollView.subviews) {
         if ([view isKindOfClass:[UIImageView class]]) {
             UIImageView *image = (UIImageView *)view;
             
@@ -826,7 +767,7 @@ NSString *cellReuseIdentifier;
     
     
     
-    for (UIView *view in cell.productImage.subviews) {
+    for (UIView *view in cell.productImageScrollView.subviews) {
         if ([view isKindOfClass:[UIImageView class]]) {
             UIImageView *firstImage = (UIImageView *)view;
             
@@ -856,7 +797,7 @@ NSString *cellReuseIdentifier;
     ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
     
-    for (UIView *view in cell.productImage.subviews) {
+    for (UIView *view in cell.productImageScrollView.subviews) {
         if ([view isKindOfClass:[UIImageView class]]) {
             UIImageView *firstImage = (UIImageView *)view;
             
@@ -878,7 +819,7 @@ NSString *cellReuseIdentifier;
     ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
     
-    for (UIView *view in cell.productImage.subviews) {
+    for (UIView *view in cell.productImageScrollView.subviews) {
         if ([view isKindOfClass:[UIImageView class]]) {
             UIImageView *firstImage = (UIImageView *)view;
             
@@ -889,5 +830,135 @@ NSString *cellReuseIdentifier;
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark - Not needed
+
+//-(void)buyButton {
+//    UIButton *buyButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, self.view.frame.size.width/2, FOOTER_HEIGHT)];
+//    buyButton.backgroundColor = [UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f];
+//    [buyButton setTitle:@"Buy Now" forState:UIControlStateNormal];
+//    [buyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    buyButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
+//    [buyButton addTarget:self action:@selector(buyButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+//    [self.footerView addSubview:buyButton];
+//}
+
+
+//-(NSFetchedResultsController *)pd_cartFetchedResultsController {
+//    if (_pd_cartFetchedResultsController != nil) {
+//        return _pd_cartFetchedResultsController;
+//    }
+//
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
+//    [fetchRequest setEntity:entity];
+//
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
+//                                        initWithKey:@"addedDate"
+//                                        ascending:NO];
+//
+//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+//    [fetchRequest setSortDescriptors:sortDescriptors];
+//
+//    _pd_cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+//    _pd_cartFetchedResultsController.delegate = self;
+//
+//    NSError *error = nil;
+//    if (![self.pd_cartFetchedResultsController performFetch:&error]) {
+//        NSLog(@"Core data error %@, %@", error, [error userInfo]);
+//        abort();
+//    }
+//
+//    return _pd_cartFetchedResultsController;
+//}
+
+
+// ADD TO CART BUTTON PRESSED METHOD.
+
+//        NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"productID == %@",[self.viewModel productID]];
+//        [fetch setPredicate:predicate];
+//        NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
+//
+//
+//        NSLog(@"%@",fetchedArray);
+//
+//        if (fetchedArray.count == 0) {
+//            self.addToCartModel = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
+//            self.addToCartModel.productID = [self.viewModel productID];
+//            self.addToCartModel.productName = [self.viewModel name];
+//            self.addToCartModel.productPrice = [self.viewModel price];
+//            self.addToCartModel.displayPrice = [self.viewModel display_price];
+//            self.addToCartModel.addedDate = [NSDate date];
+//            self.addToCartModel.productImage = [self.viewModel images][0];
+//            self.addToCartModel.quantity = [self.viewModel quantity];
+//            self.addToCartModel.totalPrice = [self.viewModel price];
+//
+//            NSDictionary *line_item = [self lineItemDictionaryWithVariantID:self.addToCartModel.productID quantity:self.addToCartModel.quantity];
+//            [self sendLineItem:line_item];
+//
+//        }
+//        else {
+//            [self alreadyLabelButton];
+//        }
 
 @end

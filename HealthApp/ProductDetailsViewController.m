@@ -106,7 +106,7 @@
         NSLog(@"%@", NSStringFromCGRect(imageView.frame));
         
         imageView.tag = idx;
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        imageView.contentMode = UIViewContentModeCenter;
         imageView.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self.imagesScrollView addGestureRecognizer:_imageViewTapGestureRecognizer];
@@ -320,8 +320,8 @@
     
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc]initWithDelegate:self];
     browser.displayActionButton = NO;
-    browser.zoomPhotosToFill = YES;
     browser.enableSwipeToDismiss = NO;
+    browser.view.backgroundColor = [UIColor whiteColor];
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
     nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
