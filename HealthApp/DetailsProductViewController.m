@@ -402,6 +402,7 @@ NSString *cellReuseIdentifier;
     NSDictionary *objectData;
     NSString *kOrderURL;
     
+    [self checkOrders];
     
     if (_pd_orderFetchedResultsController.fetchedObjects.count == 0) {
         
@@ -460,19 +461,9 @@ NSString *cellReuseIdentifier;
                     NSLog(@"Error %@",[jsonError localizedDescription]);
                 } else {
                     
-                    NSLog(@"Json Cart ===> %@",json);
                     
-                    if (_pd_orderFetchedResultsController.fetchedObjects.count == 0) {
-                        NSEntityDescription *orderEntityDescription = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
+                    if (_pd_orderFetchedResultsController.fetchedObjects.count != 0) {
                         
-                        Order *orderModel = (Order *)[[NSManagedObject alloc] initWithEntity:orderEntityDescription
-                                                              insertIntoManagedObjectContext:self.managedObjectContext];
-                        
-                        orderModel.number = [json valueForKey:@"number"];
-                        
-                        [orderModel addCartLineItemsObject:_lineItemsModel];
-                        
-                    } else {
                         Order *orderModel = [_pd_orderFetchedResultsController.fetchedObjects lastObject];
                         [orderModel addCartLineItemsObject:_lineItemsModel];
                         
@@ -566,14 +557,7 @@ NSString *cellReuseIdentifier;
 
 #pragma mark - Fetched Results Controller
 
-
-
-
--(NSFetchedResultsController *)pd_orderFetchedResultsController {
-    if (_pd_orderFetchedResultsController != nil) {
-        return _pd_orderFetchedResultsController;
-    }
-    
+-(void)checkOrders {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Order"];
     
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES];
@@ -586,15 +570,10 @@ NSString *cellReuseIdentifier;
         
         NSLog(@"Order Model Fetch Failure: %@",error);
     }
-    
-    return _pd_orderFetchedResultsController;
 }
 
 
--(NSFetchedResultsController *)pd_lineItemFetchedResultsController {
-    if (_pd_lineItemFetchedResultsController != nil) {
-        return _pd_lineItemFetchedResultsController;
-    }
+-(void)checkLineItems {
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"LineItems"];
     
@@ -607,7 +586,6 @@ NSString *cellReuseIdentifier;
         NSLog(@"LineItems Model Fetch Failure: %@", [error localizedDescription]);
     }
     
-    return _pd_lineItemFetchedResultsController;
 }
 
 
@@ -644,7 +622,7 @@ NSString *cellReuseIdentifier;
 }
 
 -(void)updateBadgeValue {
-    [self.pd_lineItemFetchedResultsController performFetch:nil];
+    [self checkLineItems];
     
     NSString *count = [NSString stringWithFormat:@"%lu", (unsigned long)self.pd_lineItemFetchedResultsController.fetchedObjects.count];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:count];
@@ -735,28 +713,7 @@ NSString *cellReuseIdentifier;
 //}
 
 
-#pragma mark -- YSLTransitionAnimatorDataSource
 
-- (UIImageView *)popTransitionImageView
-{
-    ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    
-    
-    for (UIView *view in cell.productImageScrollView.subviews) {
-        if ([view isKindOfClass:[UIImageView class]]) {
-            UIImageView *image = (UIImageView *)view;
-            
-            return image;
-        }
-    }
-    
-    return nil;
-}
-
-- (UIImageView *)pushTransitionImageView
-{
-    return nil;
-}
 
 
 #pragma mark - <RMPZoomTransitionAnimating>
@@ -960,5 +917,33 @@ NSString *cellReuseIdentifier;
 //        else {
 //            [self alreadyLabelButton];
 //        }
+
+
+
+
+//#pragma mark -- YSLTransitionAnimatorDataSource
+//
+//- (UIImageView *)popTransitionImageView
+//{
+//    ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+//    
+//    
+//    for (UIView *view in cell.productImageScrollView.subviews) {
+//        if ([view isKindOfClass:[UIImageView class]]) {
+//            UIImageView *image = (UIImageView *)view;
+//            
+//            return image;
+//        }
+//    }
+//    
+//    return nil;
+//}
+//
+//- (UIImageView *)pushTransitionImageView
+//{
+//    return nil;
+//}
+
+
 
 @end

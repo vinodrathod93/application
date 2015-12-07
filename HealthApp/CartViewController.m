@@ -150,7 +150,7 @@ static NSString *cellIdentifier = @"cartCell";
     [self updateBadgeValue];
     
 //    return [sectionInfo numberOfObjects];
-    NSLog(@"Count is %lu",self.lineItemsFetchedResultsController.fetchedObjects.count);
+    NSLog(@"Count is %lu", self.lineItemsFetchedResultsController.fetchedObjects.count);
     
     return self.lineItemsFetchedResultsController.fetchedObjects.count;
 }
@@ -160,32 +160,25 @@ static NSString *cellIdentifier = @"cartCell";
     CartViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
     if (indexPath.section == 0) {
-//        AddToCart *model = [self.cartFetchedResultsController objectAtIndexPath:indexPath];
         LineItems *model = [self.lineItemsFetchedResultsController objectAtIndexPath:indexPath];
         
         NSNumberFormatter *cellCurrencyFormatter = [[NSNumberFormatter alloc] init];
         [cellCurrencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
         [cellCurrencyFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_IN"]];
         
-//        NSString *quantity_price_string = [cellCurrencyFormatter stringFromNumber:model.totalPrice];
         NSString *quantity_price_string = [cellCurrencyFormatter stringFromNumber:model.total];
         
-//        [cell.c_imageView sd_setImageWithURL:[NSURL URLWithString:model.productImage]];
         [cell.c_imageView sd_setImageWithURL:[NSURL URLWithString:model.image]];
-        
-//        cell.c_name.text = model.productName;
         cell.c_name.text = model.name;
         cell.c_name.lineBreakMode = NSLineBreakByWordWrapping;
         [cell.c_name sizeToFit];
         
-//        cell.singlePrice.text = model.displayPrice;
         cell.singlePrice.text  = model.singleDisplayPrice;
         [cell.quantity setTitle:model.quantity.stringValue forState:UIControlStateNormal];
         
         cell.quantity.tag = indexPath.row;
         
         cell.quantityPrice.text = quantity_price_string;
-//        cell.variant.text = model.variant;
         cell.variant.text = model.option;
     }
     
@@ -527,12 +520,6 @@ static NSString *cellIdentifier = @"cartCell";
 -(NSInteger)totalAmount {
     __block NSInteger priceInTotal = 0;
     
-    //    [self.cartFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(AddToCart *model, NSUInteger idx, BOOL *stop) {
-    //        NSInteger quantity = model.quantity.integerValue;
-    //        CGFloat singlePrice = model.productPrice.floatValue;
-    //
-    //        priceInTotal = priceInTotal + [self calculateTotalPrice:quantity andSinglePrice:singlePrice];
-    //    }];
     
     [self.lineItemsFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(LineItems *model, NSUInteger idx, BOOL *stop) {
         NSInteger quantity = model.quantity.integerValue;
@@ -604,11 +591,28 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
--(void)goToStoresPage:(UIButton *)sender {
+
+-(void)decorateNoCartItemsView {
     
+    UIImageView *shoppingCartImageView = [[UIImageView alloc]initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 50, self.dimmView.frame.size.height/3, 100, 100)];
+    UIImage *cartImage                 = [UIImage imageNamed:@"ShoppingCart"];
+    shoppingCartImageView.image        = cartImage;
+    shoppingCartImageView.alpha        = 0.5f;
+    [self.dimmView addSubview:shoppingCartImageView];
     
-    StoresViewController *storesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
-    [self.navigationController pushViewController:storesVC animated:YES];
+    UILabel *cartLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 150, shoppingCartImageView.frame.origin.y + shoppingCartImageView.frame.size.height + 30, 300, 30)];
+    cartLabel.text     = @"Your Shopping Cart is Empty";
+    cartLabel.textAlignment = NSTextAlignmentCenter;
+    cartLabel.textColor     = [UIColor lightGrayColor];
+    cartLabel.font          = [UIFont fontWithName:@"AvenirNext-Regular" size:17.f];
+    [self.dimmView addSubview:cartLabel];
+    
+    UIButton *shoppingButton = [[UIButton alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 100, cartLabel.frame.origin.y + cartLabel.frame.size.height + 50, 200, 30)];
+    [shoppingButton setTitle:@"Let's go Shopping" forState:UIControlStateNormal];
+    [shoppingButton setTitleColor:self.tableView.tintColor forState:UIControlStateNormal];
+    [shoppingButton addTarget:self action:@selector(goToStoresPage:) forControlEvents:UIControlEventTouchUpInside];
+    shoppingButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:19.f];
+    [self.dimmView addSubview:shoppingButton];
     
 }
 
@@ -707,119 +711,111 @@ static NSString *cellIdentifier = @"cartCell";
         
         self.task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             
+            NSLog(@"RESPONSE is %@", response);
+            
+            NSLog(@"Error is %@", [error localizedDescription]);
+            
             if (data != nil) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    NSLog(@"%@",response);
                     NSError *jsonError;
                     
                     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                     [self.hud hide:YES];
                     
-                    if (jsonError) {
-                        NSLog(@"Error %@",[jsonError localizedDescription]);
+                    
+                    NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
+                    NSLog(@"Response %ld", (long)[url_response statusCode]);
+                    
+                    
+                    // If new user logins then -
+                    if (url_response.statusCode == 204) {
+                        
+                        [self decorateNoCartItemsView];
+                        
                     } else {
                         
-                        NSLog(@"JSON RECEIVED ===> %@",json);
+                        // if existing user logins then -
                         
-                        if (self.orderNumFetchedResultsController.fetchedObjects.count != 0) {
-                            [self removeAllLineItems];
-                        }
-                        
-                        [self checkOrders];
-                        [self checkLineItems];
-                        
-                        
-                        // FIRST STORE ORDER
-                        
-                        if (self.orderNumFetchedResultsController.fetchedObjects.count == 0) {
-                            self.orderModel = [NSEntityDescription insertNewObjectForEntityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
+                        if (jsonError) {
+                            NSLog(@"Error %@",[jsonError localizedDescription]);
+                        } else {
                             
-                            self.orderModel.number = [json valueForKey:@"number"];
-                            self.orderModel.total  = [json valueForKey:@"display_total"];
-                            self.orderModel.store  = [json valueForKeyPath:@"store.name"];
                             
-                            [self.managedObjectContext save:nil];
-                            
-                            NSArray *line_items = [json objectForKey:@"line_items"];
-                            
-                            // IF LINEITEMS ARE EMPTY THEN SHOW CART MESSAGE
-                            
-                            if (line_items.count == 0) {
-                                
-                                UIImageView *shoppingCartImageView = [[UIImageView alloc]initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 50, self.dimmView.frame.size.height/3, 100, 100)];
-                                UIImage *cartImage                 = [UIImage imageNamed:@"ShoppingCart"];
-                                shoppingCartImageView.image        = cartImage;
-                                shoppingCartImageView.alpha        = 0.5f;
-                                [self.dimmView addSubview:shoppingCartImageView];
-                                
-                                UILabel *cartLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 150, shoppingCartImageView.frame.origin.y + shoppingCartImageView.frame.size.height + 30, 300, 30)];
-                                cartLabel.text     = @"Your Shopping Cart is Empty";
-                                cartLabel.textAlignment = NSTextAlignmentCenter;
-                                cartLabel.textColor     = [UIColor darkGrayColor];
-                                cartLabel.font          = [UIFont fontWithName:@"AvenirNext-Regular" size:17.f];
-                                [self.dimmView addSubview:cartLabel];
-                                
-                                UIButton *shoppingButton = [[UIButton alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 100, cartLabel.frame.origin.y + cartLabel.frame.size.height + 50, 200, 30)];
-                                [shoppingButton setTitle:@"Let's go Shopping" forState:UIControlStateNormal];
-                                [shoppingButton setTitleColor:self.tableView.tintColor forState:UIControlStateNormal];
-                                [shoppingButton addTarget:self action:@selector(goToStoresPage:) forControlEvents:UIControlEventTouchUpInside];
-                                shoppingButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:19.f];
-                                [self.dimmView addSubview:shoppingButton];
-                                
-                                
-                                
-                                
-                                
-                            } else {
-                                [self.dimmView removeFromSuperview];
-                                
-                                
-                                // SECOND STORE LINEITEMS
-                                
-                                if (self.lineItemsFetchedResultsController.fetchedObjects.count == 0) {
-                                    
-                                    for (int i=0; i< line_items.count; i++) {
-                                        self.lineItemModel = [NSEntityDescription insertNewObjectForEntityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext];
-                                        self.lineItemModel.lineItemID = [line_items[i] valueForKey:@"id"];
-                                        self.lineItemModel.quantity   = [line_items[i] valueForKey:@"quantity"];
-                                        self.lineItemModel.price      = [NSNumber numberWithFloat:[[line_items[i] valueForKey:@"price"] floatValue]];
-                                        self.lineItemModel.variantID  = [line_items[i] valueForKey:@"variant_id"];
-                                        self.lineItemModel.singleDisplayPrice   = [line_items[i] valueForKey:@"single_display_amount"];
-                                        self.lineItemModel.totalDisplayPrice    = [line_items[i] valueForKey:@"display_total"];
-                                        self.lineItemModel.total                = [NSNumber numberWithFloat:[[line_items[i] valueForKey:@"total"] floatValue]];
-                                        self.lineItemModel.name                 = [line_items[i] valueForKeyPath:@"variant.name"];
-                                        self.lineItemModel.option               = [line_items[i] valueForKeyPath:@"variant.options_text"];
-                                        self.lineItemModel.totalOnHand          = [line_items[i] valueForKeyPath:@"variant.total_on_hand"];
-                                        
-                                        NSArray *images                         = [line_items[i] valueForKeyPath:@"variant.images"];
-                                        if (images.count != 0) {
-                                            self.lineItemModel.image            = [images[0] valueForKey:@"small_url"];
-                                        } else
-                                            self.lineItemModel.image            = @"";
-                                        
-                                        [self.orderModel addCartLineItemsObject:self.lineItemModel];
-                                    }
-                                    
-                                    [self.managedObjectContext save:nil];
-                                    [self.hud hide:YES];
-                                    
-                                    
-                                    
-                                } else
-                                    NSLog(@"Line Item records are not empty");
+                            if (self.orderNumFetchedResultsController.fetchedObjects.count != 0) {
+                                [self removeAllLineItems];
                             }
                             
+                            [self checkOrders];
+                            [self checkLineItems];
                             
                             
+                            //  SAVE ORDER
                             
-                        } else
-                            NSLog(@"Order records are not empty");
+                            if (self.orderNumFetchedResultsController.fetchedObjects.count == 0) {
+                                
+                                self.orderModel = [NSEntityDescription insertNewObjectForEntityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
+                                self.orderModel.number = [json valueForKey:@"number"];
+                                self.orderModel.total  = [json valueForKey:@"display_total"];
+                                self.orderModel.store  = [json valueForKeyPath:@"store.name"];
+                                
+                                [self.managedObjectContext save:nil];
+                                
+                                NSArray *line_items = [json objectForKey:@"line_items"];
+                                
+                                // IF LINEITEMS ARE EMPTY THEN SHOW CART MESSAGE
+                                
+                                if (line_items.count == 0) {
+                                    
+                                    [self decorateNoCartItemsView];
+                                    
+                                    
+                                } else {
+                                    [self.dimmView removeFromSuperview];
+                                    
+                                    
+                                    // SAVE LINEITEMS
+                                    
+                                    if (self.lineItemsFetchedResultsController.fetchedObjects.count == 0) {
+                                        
+                                        for (int i=0; i< line_items.count; i++) {
+                                            self.lineItemModel = [NSEntityDescription insertNewObjectForEntityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext];
+                                            self.lineItemModel.lineItemID = [line_items[i] valueForKey:@"id"];
+                                            self.lineItemModel.quantity   = [line_items[i] valueForKey:@"quantity"];
+                                            self.lineItemModel.price      = [NSNumber numberWithFloat:[[line_items[i] valueForKey:@"price"] floatValue]];
+                                            self.lineItemModel.variantID  = [line_items[i] valueForKey:@"variant_id"];
+                                            self.lineItemModel.singleDisplayPrice   = [line_items[i] valueForKey:@"single_display_amount"];
+                                            self.lineItemModel.totalDisplayPrice    = [line_items[i] valueForKey:@"display_total"];
+                                            self.lineItemModel.total                = [NSNumber numberWithFloat:[[line_items[i] valueForKey:@"total"] floatValue]];
+                                            self.lineItemModel.name                 = [line_items[i] valueForKeyPath:@"variant.name"];
+                                            self.lineItemModel.option               = [line_items[i] valueForKeyPath:@"variant.options_text"];
+                                            self.lineItemModel.totalOnHand          = [line_items[i] valueForKeyPath:@"variant.total_on_hand"];
+                                            
+                                            NSArray *images                         = [line_items[i] valueForKeyPath:@"variant.images"];
+                                            if (images.count != 0) {
+                                                self.lineItemModel.image            = [images[0] valueForKey:@"small_url"];
+                                            } else
+                                                self.lineItemModel.image            = @"";
+                                            
+                                            [self.orderModel addCartLineItemsObject:self.lineItemModel];
+                                        }
+                                        
+                                        [self.managedObjectContext save:nil];
+                                        [self.hud hide:YES];
+                                        
+                                        
+                                        
+                                    } else
+                                        NSLog(@"Line Item records are not empty");
+                                }
+                                
+                            } else
+                                NSLog(@"Order records are not empty");
+                            
+                        }
                         
                     }
                     
                     [self checkLineItems];
-                    
-                    
                     [self.tableView reloadData];
                     
                 });
@@ -1040,7 +1036,15 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
-
+-(void)goToStoresPage:(UIButton *)sender {
+    
+    
+    StoresViewController *storesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
+    storesVC.hidesBottomBarWhenPushed = YES;
+    
+    [self.navigationController pushViewController:storesVC animated:YES];
+    
+}
 
 
 

@@ -107,6 +107,8 @@
 		82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C722FE1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */; };
 		82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */; };
+		82CE35DF1C159425003744C9 /* CartOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE35DE1C159425003744C9 /* CartOrderModel.m */; };
+		82CE35E41C15B7E1003744C9 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE35E31C15B7E1003744C9 /* SearchViewController.m */; };
 		82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE513D1C0443020073EF3A /* ProductDetailsViewCell.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
 		82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82ECD1251BBD5A91004B0BEB /* AddressCell.m */; };
@@ -319,6 +321,10 @@
 		82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SignupValidation.m"; sourceTree = "<group>"; };
 		82C723091B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
 		82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
+		82CE35DD1C159425003744C9 /* CartOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartOrderModel.h; sourceTree = "<group>"; };
+		82CE35DE1C159425003744C9 /* CartOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CartOrderModel.m; sourceTree = "<group>"; };
+		82CE35E21C15B7E1003744C9 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		82CE35E31C15B7E1003744C9 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		82CE513C1C0443020073EF3A /* ProductDetailsViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailsViewCell.h; sourceTree = "<group>"; };
 		82CE513D1C0443020073EF3A /* ProductDetailsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailsViewCell.m; sourceTree = "<group>"; };
 		82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+InfiniteScroll.h"; sourceTree = "<group>"; };
@@ -565,11 +571,11 @@
 			isa = PBXGroup;
 			children = (
 				820F0E1B1B5FD00800AE81F4 /* pharma.png */,
-				82C38A891C086B650006A73B /* Animator */,
 				825266CB1B4F832400C635F7 /* Upload Prescription */,
 				825692D01B6B77B600B5D1D3 /* Optionals */,
-				82EF2DB71BE8BD8F00D87DE2 /* Libraries */,
 				82EF2DDB1BE8C55E00D87DE2 /* AppDelegate */,
+				82C38A891C086B650006A73B /* Animator */,
+				82EF2DB71BE8BD8F00D87DE2 /* Libraries */,
 				82EF2DDA1BE8C46900D87DE2 /* Custom CollectionViews */,
 				82EF2DD71BE8C3BE00D87DE2 /* View Models */,
 				82EF2DD51BE8C2BC00D87DE2 /* Categories */,
@@ -577,7 +583,6 @@
 				82EF2DB81BE8BDCF00D87DE2 /* Controllers */,
 				82C722F91B7B42EF00E0C5EF /* Models */,
 				82EF2DE21BE8EC3E00D87DE2 /* Network */,
-				8286B2551BF08F1100AFC533 /* Realm */,
 				822D15C41BCBE02700FE2E7E /* SearchResultsProductViewController.h */,
 				822D15C51BCBE02700FE2E7E /* SearchResultsProductViewController.m */,
 				822D15C71BCBE04000FE2E7E /* SearchResultsProductViewCell.h */,
@@ -657,8 +662,10 @@
 		82C722F91B7B42EF00E0C5EF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8286B26E1BF0CE5E00AFC533 /* Taxons */,
+				8286B2551BF08F1100AFC533 /* Realm */,
 				824C25521B56374900C58F97 /* Categories.plist */,
+				82CE35DC1C1593FD003744C9 /* Orders */,
+				8286B26E1BF0CE5E00AFC533 /* Taxons */,
 				82999E961BEB1D4E00F0EDE3 /* Add to Cart CoreData */,
 				82999E951BEB1D4000F0EDE3 /* Products Detail */,
 				82999E941BEB1D3700F0EDE3 /* Address */,
@@ -681,6 +688,33 @@
 			name = TPKeyboardAvoiding;
 			sourceTree = "<group>";
 		};
+		82CE35DC1C1593FD003744C9 /* Orders */ = {
+			isa = PBXGroup;
+			children = (
+				82CE35DD1C159425003744C9 /* CartOrderModel.h */,
+				82CE35DE1C159425003744C9 /* CartOrderModel.m */,
+			);
+			name = Orders;
+			sourceTree = "<group>";
+		};
+		82CE35E01C15B552003744C9 /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				82C38A801C0864D70006A73B /* PopupCartViewController.h */,
+				82C38A811C0864D70006A73B /* PopupCartViewController.m */,
+			);
+			name = Popup;
+			sourceTree = "<group>";
+		};
+		82CE35E11C15B568003744C9 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				8230D4551C11686400F585D1 /* NavigationViewController.h */,
+				8230D4561C11686400F585D1 /* NavigationViewController.m */,
+			);
+			name = Navigation;
+			sourceTree = "<group>";
+		};
 		82EF2DB71BE8BD8F00D87DE2 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -694,10 +728,8 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8230D4551C11686400F585D1 /* NavigationViewController.h */,
-				8230D4561C11686400F585D1 /* NavigationViewController.m */,
-				82C38A801C0864D70006A73B /* PopupCartViewController.h */,
-				82C38A811C0864D70006A73B /* PopupCartViewController.m */,
+				82CE35E11C15B568003744C9 /* Navigation */,
+				82CE35E01C15B552003744C9 /* Popup */,
 				82F1DD4E1BFC9B0F0056FBB3 /* Taxons */,
 				82EF2DDE1BE8C63300D87DE2 /* Stores */,
 				82EF2DC81BE8C07200D87DE2 /* Home Category */,
@@ -715,6 +747,8 @@
 				82EF2DBB1BE8BE5000D87DE2 /* Addresses */,
 				82EF2DB91BE8BDFB00D87DE2 /* Order Complete */,
 				82EF2DBA1BE8BE0500D87DE2 /* Doctor Details */,
+				82CE35E21C15B7E1003744C9 /* SearchViewController.h */,
+				82CE35E31C15B7E1003744C9 /* SearchViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1285,6 +1319,7 @@
 				824AE0871BF9B386008A49A9 /* SKSTableView.m in Sources */,
 				82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */,
 				8250A3321B553B000026ADCE /* ProductViewCell.m in Sources */,
+				82CE35DF1C159425003744C9 /* CartOrderModel.m in Sources */,
 				822D15C61BCBE02700FE2E7E /* SearchResultsProductViewController.m in Sources */,
 				8286B2771BF0CFB400AFC533 /* TaxonomyListRequestModel.m in Sources */,
 				825567151B68D3A9009F013A /* InputFormViewController.m in Sources */,
@@ -1358,6 +1393,7 @@
 				826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */,
 				826A83B21C09786700F15544 /* Order.m in Sources */,
 				822D15C91BCBE04000FE2E7E /* SearchResultsProductViewCell.m in Sources */,
+				82CE35E41C15B7E1003744C9 /* SearchViewController.m in Sources */,
 				8250A32D1B55142E0026ADCE /* ProductsViewController.m in Sources */,
 				8238A7061B5E4538005CC0A5 /* ProductDetail.m in Sources */,
 				8255671E1B68EC5E009F013A /* AddShippingViewModel.m in Sources */,

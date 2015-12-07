@@ -136,6 +136,8 @@
 -(void)showHUD {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.color = self.tableView.tintColor;
+    self.hud.labelText = @"Loading Stores...";
+    self.hud.detailsLabelText = @"(This could take a few minutes)";
 }
 
 -(void)hideHUD {

@@ -357,6 +357,9 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     if (page == 1) {
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.color = self.collectionView.tintColor;
+        self.hud.labelText = @"Loading items...";
+        self.hud.detailsLabelText = @"(This could take a few minutes)";
+        self.hud.dimBackground = YES;
     }
     
 }

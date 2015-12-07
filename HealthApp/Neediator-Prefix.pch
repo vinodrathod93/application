@@ -16,7 +16,7 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
-    #import <AFNetworking/AFHTTPSessionManager.h>
+    #import <AFNetworking/AFNetworking.h>
 #endif
 
 #endif /* Neediator_Prefix_pch */

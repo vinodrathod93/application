@@ -165,7 +165,7 @@
     
     [self checkOrders];
     
-    NSDictionary *objectData;
+    NSDictionary *parameter;
     NSString *kOrderURL;
     
     
@@ -175,7 +175,7 @@
         NSArray *lineItemArray = [self getCartProductsArray:lineItem];
         NSDictionary *order = [self getOrdersDictionary:lineItemArray];
         
-        objectData = order;
+        parameter = order;
         kOrderURL = @"/api/orders";
     } else {
         
@@ -184,24 +184,93 @@
         
         Order *orderModel = self.orderFetchedResultsController.fetchedObjects.lastObject;
         
-        if (orderModel.number != nil) {
+        if (orderModel.number == nil) {
+            
+            [self checkOrders];
+            
             kOrderURL  = [NSString stringWithFormat:@"/api/orders/%@/line_items.json",orderModel.number];
-        }
+        } else
+            kOrderURL  = [NSString stringWithFormat:@"/api/orders/%@/line_items.json",orderModel.number];
         
         
-        objectData = [self getLineItemDictionaryWithLineItem:lineItem];
+        parameter = [self getLineItemDictionaryWithLineItem:lineItem];
         
     }
     
     
     
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:objectData options:NSJSONWritingPrettyPrinted error:&error];
+//    NSError *error;
+//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameter options:NSJSONWritingPrettyPrinted error:&error];
     
     NSString *url = [NSString stringWithFormat:@"http://%@%@?token=%@", store.storeUrl, kOrderURL, user.access_token];
     NSLog(@"URL is --> %@", url);
-    NSLog(@"Dictionary is -> %@",objectData);
+    NSLog(@"Dictionary is -> %@",parameter);
     
+    UIWindow *window = [[UIApplication sharedApplication] delegate].window;
+    self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+    self.hud.dimBackground = YES;
+    self.hud.labelText = @"Adding To Cart...";
+    self.hud.color = self.view.tintColor;
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer              = [AFJSONRequestSerializer serializer];
+    
+    [manager POST:url parameters:parameter success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSLog(@"Posted");
+        
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            
+            
+            [self.hud hide:YES];
+                
+            NSLog(@"Json Cart ===> %@",responseObject);
+            
+            if (self.orderFetchedResultsController.fetchedObjects.count == 0) {
+                NSEntityDescription *orderEntityDescription = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
+                
+                
+                if ([responseObject valueForKey:@"number"] != NULL) {
+                    Order *orderModel = (Order *)[[NSManagedObject alloc] initWithEntity:orderEntityDescription
+                                                          insertIntoManagedObjectContext:self.managedObjectContext];
+                    
+                    orderModel.number = [responseObject valueForKey:@"number"];
+                    
+                    [orderModel addCartLineItemsObject:_lineItemsModel];
+                }
+                
+                
+            } else {
+                Order *orderModel = [self.orderFetchedResultsController.fetchedObjects lastObject];
+                
+                if ([responseObject valueForKey:@"number"] != nil) {
+                    orderModel.number = [responseObject valueForKey:@"number"];
+                }
+                
+                [orderModel addCartLineItemsObject:_lineItemsModel];
+                
+            }
+            
+            
+            [self.managedObjectContext save:nil];
+            [self dismissViewControllerAnimated:YES completion:^{
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAdded" object:nil];
+            }];
+            
+        }
+        
+        
+        
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        
+        
+        NSLog(@"Status code is %ld & ERROR %@",operation.response.statusCode, [error localizedDescription]);
+        
+        [self displayConnectionFailed];
+    }];
+    
+    
+    
+    /*
     NSURLSession *session = [NSURLSession sharedSession];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     request.HTTPMethod = @"POST";
@@ -263,11 +332,10 @@
     }];
     
     [task resume];
-    UIWindow *window = [[UIApplication sharedApplication] delegate].window;
-    self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
-    self.hud.dimBackground = YES;
-    self.hud.labelText = @"Adding To Cart...";
-    self.hud.color = self.view.tintColor;
+     
+    */
+     
+    
     
     
 }
@@ -318,13 +386,13 @@
 
 -(void)displayConnectionFailed {
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_main_queue(), ^{
         [self.hud hide:YES];
         
         UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [failed_alert show];
-    });
+//    });
     
 }
 

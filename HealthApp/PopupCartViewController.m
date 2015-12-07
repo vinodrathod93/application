@@ -191,6 +191,7 @@ typedef void(^completion)(BOOL finished);
                         
                         [self deleteAllObjects:@"LineItems"];
                         
+                        [self updateTabBarBadge];
                         
                         success(YES);
                         
@@ -255,6 +256,11 @@ typedef void(^completion)(BOOL finished);
         NSLog(@"Error deleting %@ - error:%@",entityDescription,error);
     }
     
+}
+
+
+-(void)updateTabBarBadge {
+    [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:nil];
 }
 
 @end
