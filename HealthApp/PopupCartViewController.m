@@ -260,7 +260,7 @@ typedef void(^completion)(BOOL finished);
 
 
 -(void)updateTabBarBadge {
-    [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:nil];
+    [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:nil];
 }
 
 @end

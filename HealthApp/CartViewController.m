@@ -90,9 +90,7 @@ static NSString *cellIdentifier = @"cartCell";
     [super viewWillAppear:animated];
     
     
-    self.dimmView = [[UIView alloc]initWithFrame:self.tableView.frame];
-    self.dimmView.backgroundColor = [UIColor whiteColor];
-    [self.navigationController.view insertSubview:self.dimmView belowSubview:self.navigationController.navigationBar];
+    [self decorateNoCartDimmView];
     
     
     if (self.task == nil) {
@@ -118,7 +116,17 @@ static NSString *cellIdentifier = @"cartCell";
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [self.dimmView removeFromSuperview];
+    
+    
+    if (self.dimmView) {
+        
+        NSLog(@"DimmView removeFromSuperview");
+        
+        
+        [self.dimmView removeFromSuperview];
+        self.dimmView = nil;
+    }
+    
 }
 
 
@@ -137,7 +145,6 @@ static NSString *cellIdentifier = @"cartCell";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    NSLog(@"%lu",(unsigned long)self.lineItemsFetchedResultsController.sections.count);
     
     return self.lineItemsFetchedResultsController.sections.count;
 }
@@ -150,7 +157,6 @@ static NSString *cellIdentifier = @"cartCell";
     [self updateBadgeValue];
     
 //    return [sectionInfo numberOfObjects];
-    NSLog(@"Count is %lu", self.lineItemsFetchedResultsController.fetchedObjects.count);
     
     return self.lineItemsFetchedResultsController.fetchedObjects.count;
 }
@@ -368,13 +374,12 @@ static NSString *cellIdentifier = @"cartCell";
     NSIndexPath *indexpath = [self.tableView indexPathForCell:cell];
     self.selectIndexPath = indexpath;
     
-    NSLog(@"Select indexpath %ld and tag %ld", (long)self.selectIndexPath.row, (long)sender.tag);
     
     LineItems *line_item = [self.lineItemsFetchedResultsController.fetchedObjects objectAtIndex:self.selectIndexPath.row];
     int availableQuantity;
     
     if (line_item.totalOnHand.intValue <= 10) {
-        NSLog(@"Proceed with same line items count");
+        
         availableQuantity = line_item.totalOnHand.intValue;
         
     } else {
@@ -395,7 +400,6 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSLog(@"%ld",(long)buttonIndex);
     
     
     LineItems *line_item = [self.lineItemsFetchedResultsController.fetchedObjects objectAtIndex:self.selectIndexPath.row];
@@ -438,13 +442,21 @@ static NSString *cellIdentifier = @"cartCell";
     [self checkLineItems];
     [self checkOrders];
     
-    if (self.orderNumFetchedResultsController.fetchedObjects.count == 0) {
-        HeaderLabel *noItems = [[HeaderLabel alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
-        noItems.text = @"No Products in Cart";
-        noItems.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
-        noItems.backgroundColor = [UIColor whiteColor];
+    if (self.lineItemsFetchedResultsController.fetchedObjects.count == 0) {
+//        HeaderLabel *noItems = [[HeaderLabel alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+//        noItems.text = @"No Products in Cart";
+//        noItems.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
+//        noItems.backgroundColor = [UIColor whiteColor];
+//        
+//        [header addSubview:noItems];
         
-        [header addSubview:noItems];
+        [self decorateNoCartDimmView];
+        
+        
+        
+        
+        
+        
     } else {
         HeaderLabel *items = [[HeaderLabel alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/2, 40)];
         items.text = [NSString stringWithFormat:@"Products: %lu",(unsigned long)self.lineItemsFetchedResultsController.fetchedObjects.count];
@@ -460,8 +472,6 @@ static NSString *cellIdentifier = @"cartCell";
         NSString *total_price_string = [headerCurrencyFormatter stringFromNumber:[NSNumber numberWithInteger:[self totalAmount]]];
         
         totalAmount.text = [NSString stringWithFormat:@"%@",total_price_string];
-        
-//        totalAmount.text = self.orderModel.total;
         totalAmount.textAlignment = NSTextAlignmentRight;
         totalAmount.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
         totalAmount.backgroundColor = [UIColor whiteColor];
@@ -503,7 +513,6 @@ static NSString *cellIdentifier = @"cartCell";
         [quantity addObject:value];
     }
     
-    NSLog(@"Quantity Array %@",quantity);
     
     return quantity;
 }
@@ -513,7 +522,12 @@ static NSString *cellIdentifier = @"cartCell";
     [self checkLineItems];
     
     NSString *count = [NSString stringWithFormat:@"%lu", (unsigned long)self.lineItemsFetchedResultsController.fetchedObjects.count];
-    [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:count];
+    
+    if ([count isEqualToString:@"0"]) {
+        [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:nil];
+    } else
+        [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:count];
+    
 }
 
 
@@ -592,27 +606,51 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
--(void)decorateNoCartItemsView {
+-(void)decorateNoCartDimmView {
     
-    UIImageView *shoppingCartImageView = [[UIImageView alloc]initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 50, self.dimmView.frame.size.height/3, 100, 100)];
-    UIImage *cartImage                 = [UIImage imageNamed:@"ShoppingCart"];
-    shoppingCartImageView.image        = cartImage;
-    shoppingCartImageView.alpha        = 0.5f;
-    [self.dimmView addSubview:shoppingCartImageView];
+    if (self.dimmView) {
+        NSLog(@"1. Dimm Already exists");
+        
+        
+    } else {
+        self.dimmView = [[UIView alloc]initWithFrame:self.tableView.frame];
+        self.dimmView.backgroundColor = [UIColor whiteColor];
+        [self.navigationController.view insertSubview:self.dimmView belowSubview:self.navigationController.navigationBar];
+    }
     
-    UILabel *cartLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 150, shoppingCartImageView.frame.origin.y + shoppingCartImageView.frame.size.height + 30, 300, 30)];
-    cartLabel.text     = @"Your Shopping Cart is Empty";
-    cartLabel.textAlignment = NSTextAlignmentCenter;
-    cartLabel.textColor     = [UIColor lightGrayColor];
-    cartLabel.font          = [UIFont fontWithName:@"AvenirNext-Regular" size:17.f];
-    [self.dimmView addSubview:cartLabel];
     
-    UIButton *shoppingButton = [[UIButton alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 100, cartLabel.frame.origin.y + cartLabel.frame.size.height + 50, 200, 30)];
-    [shoppingButton setTitle:@"Let's go Shopping" forState:UIControlStateNormal];
-    [shoppingButton setTitleColor:self.tableView.tintColor forState:UIControlStateNormal];
-    [shoppingButton addTarget:self action:@selector(goToStoresPage:) forControlEvents:UIControlEventTouchUpInside];
-    shoppingButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:19.f];
-    [self.dimmView addSubview:shoppingButton];
+    
+    if (self.lineItemsFetchedResultsController.fetchedObjects.count == 0) {
+        
+        
+        if (self.dimmView.subviews.count > 1) {
+            NSLog(@"3. Subviews already exists in dimm View %@", self.dimmView.subviews);
+            
+            
+        } else {
+            
+            UIImageView *shoppingCartImageView = [[UIImageView alloc]initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 50, self.dimmView.frame.size.height/3, 100, 100)];
+            UIImage *cartImage                 = [UIImage imageNamed:@"ShoppingCart"];
+            shoppingCartImageView.image        = cartImage;
+            shoppingCartImageView.alpha        = 0.5f;
+            [self.dimmView addSubview:shoppingCartImageView];
+            
+            UILabel *cartLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 150, shoppingCartImageView.frame.origin.y + shoppingCartImageView.frame.size.height + 30, 300, 30)];
+            cartLabel.text     = @"Your Shopping Cart is Empty";
+            cartLabel.textAlignment = NSTextAlignmentCenter;
+            cartLabel.textColor     = [UIColor lightGrayColor];
+            cartLabel.font          = [UIFont fontWithName:@"AvenirNext-Regular" size:17.f];
+            [self.dimmView addSubview:cartLabel];
+            
+            UIButton *shoppingButton = [[UIButton alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 100, cartLabel.frame.origin.y + cartLabel.frame.size.height + 50, 200, 30)];
+            [shoppingButton setTitle:@"Let's go Shopping" forState:UIControlStateNormal];
+            [shoppingButton setTitleColor:self.tableView.tintColor forState:UIControlStateNormal];
+            [shoppingButton addTarget:self action:@selector(goToStoresPage:) forControlEvents:UIControlEventTouchUpInside];
+            shoppingButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:19.f];
+            [self.dimmView addSubview:shoppingButton];
+        }
+        
+    }
     
 }
 
@@ -658,7 +696,6 @@ static NSString *cellIdentifier = @"cartCell";
                         NSLog(@"Error %@",[jsonError localizedDescription]);
                     } else {
                         
-                        NSLog(@"Json Cart ===> %@",json);
                         NSLog(@"Checkout Initiated");
                         
                         // Proceed to payment page
@@ -730,7 +767,10 @@ static NSString *cellIdentifier = @"cartCell";
                     // If new user logins then -
                     if (url_response.statusCode == 204) {
                         
-                        [self decorateNoCartItemsView];
+                        if (!self.dimmView) {
+                            [self decorateNoCartDimmView];
+                        }
+                        
                         
                     } else {
                         
@@ -766,12 +806,17 @@ static NSString *cellIdentifier = @"cartCell";
                                 
                                 if (line_items.count == 0) {
                                     
-                                    [self decorateNoCartItemsView];
+                                    if (!self.dimmView) {
+                                        [self decorateNoCartDimmView];
+                                    }
+                                    
                                     
                                     
                                 } else {
                                     [self.dimmView removeFromSuperview];
+                                    self.dimmView = nil;
                                     
+                                    NSLog(@"GetlineItems DimmView removeFromSuperview");
                                     
                                     // SAVE LINEITEMS
                                     
@@ -981,8 +1026,6 @@ static NSString *cellIdentifier = @"cartCell";
                             [self.tableView reloadData];
                         }
                         
-                        
-                        
                     }
                     
                     
@@ -1018,6 +1061,9 @@ static NSString *cellIdentifier = @"cartCell";
     paymentVC.display_total          = [json valueForKey:@"display_total"];
     paymentVC.total                  = [json valueForKey:@"total"];
     paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
+    paymentVC.title                  = [[json valueForKey:@"state"] capitalizedString];
+    paymentVC.store                  = [[json valueForKeyPath:@"store.name"] capitalizedString];
+    
     [self.navigationController pushViewController:paymentVC animated:YES];
 }
 

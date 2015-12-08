@@ -11,6 +11,7 @@
 @interface SearchViewController ()<UISearchResultsUpdating, UISearchBarDelegate>
 
 @property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, assign) BOOL isTapped;
 
 @end
 
@@ -20,6 +21,7 @@
     [super viewDidLoad];
     
     [self initializeSearchController];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,7 +51,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -73,6 +75,15 @@
 }
 
 
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return @"Category";
+    }
+    else
+        return @"Stores";
+    
+}
+
 
 #pragma mark - UISearchResultsUpdating
 
@@ -90,5 +101,36 @@
     
 }
 
+- (IBAction)nearByButtonPressed:(UIBarButtonItem *)sender {
+    
+    if (!self.isTapped) {
+        self.isTapped = YES;
+        
+        [self.nearByButton setImage:[UIImage imageNamed:@"near_me_filled"]];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.navigationController.navigationItem.title = @"Current Location";
+            
+            
+        } completion:^(BOOL finished) {
+            NSLog(@"Finished");
+        }];
+        
+        
+    } else {
+        self.isTapped = NO;
+        
+        [self.nearByButton setImage:[UIImage imageNamed:@"near_me"]];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.navigationController.navigationItem.title = @"Neediator";
+        } completion:^(BOOL finished) {
+            NSLog(@"Finished");
+        }];
+    }
+    
+    
+    
+}
 
 @end

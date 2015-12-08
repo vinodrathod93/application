@@ -112,7 +112,7 @@ typedef void(^completion)(BOOL finished);
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *payHeader = @"";
+    NSString *payHeader = self.store;
     NSString *paymentOptionsHeader = @"Select Payment Options";
     NSString *phoneNumberHeader = @"Enter Mobile Number";
     

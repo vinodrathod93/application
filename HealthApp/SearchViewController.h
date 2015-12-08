@@ -10,4 +10,5 @@
 
 @interface SearchViewController : UITableViewController
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *nearByButton;
 @end

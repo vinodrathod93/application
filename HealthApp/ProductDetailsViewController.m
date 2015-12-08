@@ -250,7 +250,10 @@
     [self.pd_cartFetchedResultsController performFetch:nil];
     
     NSString *count = [NSString stringWithFormat:@"%lu", (unsigned long)self.pd_cartFetchedResultsController.fetchedObjects.count];
-    [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:count];
+    if ([count isEqualToString:@"0"]) {
+        [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:nil];
+    } else
+        [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:count];
 }
 
 

@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthApp/DetailsProductViewController.m"
-            timestampString = "471179578.028098"
+            timestampString = "471265716.974663"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "750"
-            endingLineNumber = "750"
+            startingLineNumber = "755"
+            endingLineNumber = "755"
             landmarkName = "-transitionDestinationImageViewFrame"
             landmarkType = "5">
          </BreakpointContent>
@@ -57,13 +57,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HealthApp/VariantsViewController.m"
-            timestampString = "471179622.54831"
+            filePath = "HealthApp/PopupCartViewController.m"
+            timestampString = "471254240.39635"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
-            landmarkName = "-sendLineItem:"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
+            landmarkName = "-updateTabBarBadge"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HealthApp/ProductDetailsViewController.m"
+            timestampString = "471265716.974663"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "-updateBadgeValue"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

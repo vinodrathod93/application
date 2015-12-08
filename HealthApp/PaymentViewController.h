@@ -15,5 +15,6 @@
 @property (nonatomic, strong) NSString *total;
 @property (nonatomic, strong) NSString *order_id;
 @property (nonatomic, strong) NSArray *payment_methods;
+@property (nonatomic, strong) NSString *store;
 
 @end
