@@ -99,6 +99,10 @@
 		82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82BD029A1B46A73C00108A0B /* LaunchScreen.xib */; };
 		82BD02A81B46A73C00108A0B /* HealthAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02A71B46A73C00108A0B /* HealthAppTests.m */; };
 		82BD02B61B46A7BA00108A0B /* LoginPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02B51B46A7BA00108A0B /* LoginPageViewController.m */; };
+		82BF08511C1F07E90093B8CD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BF08501C1F07E90093B8CD /* MessageUI.framework */; };
+		82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BF08531C1F0B790093B8CD /* WebViewController.m */; };
+		82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82BF08571C1F18AD0093B8CD /* about_us.txt */; };
+		82BF085A1C1F1BF10093B8CD /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 82BF08591C1F1BF10093B8CD /* .gitignore */; };
 		82C175951B66371000AD26DB /* OrderInputsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C175941B66371000AD26DB /* OrderInputsViewController.m */; };
 		82C38A821C0864D70006A73B /* PopupCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A811C0864D70006A73B /* PopupCartViewController.m */; };
 		82C38A871C086B5C0006A73B /* DismissingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A841C086B5C0006A73B /* DismissingAnimator.m */; };
@@ -117,6 +121,7 @@
 		82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82ECD1251BBD5A91004B0BEB /* AddressCell.m */; };
 		82EF2DE11BE8C67B00D87DE2 /* StoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE01BE8C67B00D87DE2 /* StoresViewController.m */; };
 		82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */; };
+		82F80CD61C1EE01100C8E076 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F80CD51C1EE01100C8E076 /* MoreViewController.m */; };
 		82FB87AC1B4D18C500CAD5F7 /* OrderConfirmationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FB87AB1B4D18C500CAD5F7 /* OrderConfirmationViewController.m */; };
 		C1F05C0A84FFC31F75338C27 /* libPods-Chemist Plus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */; };
 /* End PBXBuildFile section */
@@ -306,6 +311,11 @@
 		82BD02A71B46A73C00108A0B /* HealthAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HealthAppTests.m; sourceTree = "<group>"; };
 		82BD02B41B46A7BA00108A0B /* LoginPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginPageViewController.h; sourceTree = "<group>"; };
 		82BD02B51B46A7BA00108A0B /* LoginPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginPageViewController.m; sourceTree = "<group>"; };
+		82BF08501C1F07E90093B8CD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		82BF08521C1F0B790093B8CD /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		82BF08531C1F0B790093B8CD /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		82BF08571C1F18AD0093B8CD /* about_us.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = about_us.txt; sourceTree = "<group>"; };
+		82BF08591C1F1BF10093B8CD /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		82C175931B66371000AD26DB /* OrderInputsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderInputsViewController.h; sourceTree = "<group>"; };
 		82C175941B66371000AD26DB /* OrderInputsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderInputsViewController.m; sourceTree = "<group>"; };
 		82C38A801C0864D70006A73B /* PopupCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupCartViewController.h; sourceTree = "<group>"; };
@@ -344,6 +354,8 @@
 		82EF2DE01BE8C67B00D87DE2 /* StoresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoresViewController.m; sourceTree = "<group>"; };
 		82EF2DE31BE8ECD400D87DE2 /* SessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionManager.h; sourceTree = "<group>"; };
 		82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionManager.m; sourceTree = "<group>"; };
+		82F80CD41C1EE01100C8E076 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
+		82F80CD51C1EE01100C8E076 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
 		82FB87AA1B4D18C500CAD5F7 /* OrderConfirmationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderConfirmationViewController.h; sourceTree = "<group>"; };
 		82FB87AB1B4D18C500CAD5F7 /* OrderConfirmationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderConfirmationViewController.m; sourceTree = "<group>"; };
 		D1F400F2EC7F15D32196CDE1 /* Pods-Chemist Plus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.release.xcconfig"; sourceTree = "<group>"; };
@@ -354,6 +366,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82BF08511C1F07E90093B8CD /* MessageUI.framework in Frameworks */,
 				824D00371B6F2EBF000F1825 /* CoreLocation.framework in Frameworks */,
 				825567201B68F9B6009F013A /* CoreTelephony.framework in Frameworks */,
 				827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */,
@@ -375,6 +388,7 @@
 		4D432D975D494ECD94D11A09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82BF08501C1F07E90093B8CD /* MessageUI.framework */,
 				824D00361B6F2EBF000F1825 /* CoreLocation.framework */,
 				8255671F1B68F9B6009F013A /* CoreTelephony.framework */,
 				34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */,
@@ -579,6 +593,7 @@
 		82BD028A1B46A73C00108A0B /* HealthApp */ = {
 			isa = PBXGroup;
 			children = (
+				82BF08591C1F1BF10093B8CD /* .gitignore */,
 				820F0E1B1B5FD00800AE81F4 /* pharma.png */,
 				825266CB1B4F832400C635F7 /* Upload Prescription */,
 				825692D01B6B77B600B5D1D3 /* Optionals */,
@@ -597,6 +612,7 @@
 				822D15C51BCBE02700FE2E7E /* SearchResultsProductViewController.m */,
 				822D15C71BCBE04000FE2E7E /* SearchResultsProductViewCell.h */,
 				822D15C81BCBE04000FE2E7E /* SearchResultsProductViewCell.m */,
+				82BF08571C1F18AD0093B8CD /* about_us.txt */,
 				82BD02951B46A73C00108A0B /* Main.storyboard */,
 				82BD029A1B46A73C00108A0B /* LaunchScreen.xib */,
 				82BD02981B46A73C00108A0B /* Images.xcassets */,
@@ -775,8 +791,11 @@
 				82EF2DBB1BE8BE5000D87DE2 /* Addresses */,
 				82EF2DB91BE8BDFB00D87DE2 /* Order Complete */,
 				82EF2DBA1BE8BE0500D87DE2 /* Doctor Details */,
-				82CE35E21C15B7E1003744C9 /* SearchViewController.h */,
-				82CE35E31C15B7E1003744C9 /* SearchViewController.m */,
+				82F80CD31C1EDD3200C8E076 /* Search */,
+				82F80CD41C1EE01100C8E076 /* MoreViewController.h */,
+				82F80CD51C1EE01100C8E076 /* MoreViewController.m */,
+				82BF08521C1F0B790093B8CD /* WebViewController.h */,
+				82BF08531C1F0B790093B8CD /* WebViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -953,9 +972,7 @@
 				82EF2DCD1BE8C0F200D87DE2 /* Payment */,
 				82EF2DCB1BE8C0D100D87DE2 /* Addresses */,
 				82EF2DCC1BE8C0DA00D87DE2 /* Doctor Details */,
-				823F71B01C1B206E00E43731 /* NoStores.xib */,
-				823F71B21C1B21F500E43731 /* NoStores.h */,
-				823F71B31C1B21F500E43731 /* NoStores.m */,
+				82F80CD21C1ED8A600C8E076 /* No Stores View */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1176,6 +1193,25 @@
 			name = Taxons;
 			sourceTree = "<group>";
 		};
+		82F80CD21C1ED8A600C8E076 /* No Stores View */ = {
+			isa = PBXGroup;
+			children = (
+				823F71B01C1B206E00E43731 /* NoStores.xib */,
+				823F71B21C1B21F500E43731 /* NoStores.h */,
+				823F71B31C1B21F500E43731 /* NoStores.m */,
+			);
+			name = "No Stores View";
+			sourceTree = "<group>";
+		};
+		82F80CD31C1EDD3200C8E076 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				82CE35E21C15B7E1003744C9 /* SearchViewController.h */,
+				82CE35E31C15B7E1003744C9 /* SearchViewController.m */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
 		95BE41776404844E9379F46C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1237,7 +1273,6 @@
 				TargetAttributes = {
 					82BD02871B46A73C00108A0B = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = KMK576W42B;
 					};
 					82BD02A01B46A73C00108A0B = {
 						CreatedOnToolsVersion = 6.4;
@@ -1273,8 +1308,10 @@
 				824C25531B56374900C58F97 /* Categories.plist in Resources */,
 				823F71B11C1B206E00E43731 /* NoStores.xib in Resources */,
 				82BD02971B46A73C00108A0B /* Main.storyboard in Resources */,
+				82BF085A1C1F1BF10093B8CD /* .gitignore in Resources */,
 				820F0E1C1B5FD00800AE81F4 /* pharma.png in Resources */,
 				82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */,
+				82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */,
 				82BD02991B46A73C00108A0B /* Images.xcassets in Resources */,
 				826B14281BC2906800B6A1C3 /* OrderReviewFooterView.xib in Resources */,
 				825266D01B4F8B8900C635F7 /* HeaderView.xib in Resources */,
@@ -1356,6 +1393,7 @@
 				8286B2771BF0CFB400AFC533 /* TaxonomyListRequestModel.m in Sources */,
 				825567151B68D3A9009F013A /* InputFormViewController.m in Sources */,
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
+				82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */,
 				82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */,
 				82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */,
@@ -1432,6 +1470,7 @@
 				8255671E1B68EC5E009F013A /* AddShippingViewModel.m in Sources */,
 				826A83AD1C09786700F15544 /* AddToCart+CoreDataProperties.m in Sources */,
 				826A83AE1C09786700F15544 /* AddToCart.m in Sources */,
+				82F80CD61C1EE01100C8E076 /* MoreViewController.m in Sources */,
 				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,
 				8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */,
 				825266CE1B4F881600C635F7 /* HomeViewController.m in Sources */,

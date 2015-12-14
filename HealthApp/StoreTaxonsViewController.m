@@ -73,7 +73,7 @@
 
 -(void)layoutBannerHeaderView {
     _bannerView = [[[NSBundle mainBundle] loadNibNamed:@"BannerView" owner:self options:nil] lastObject];
-    _bannerView.translatesAutoresizingMaskIntoConstraints = NO;
+//    _bannerView.translatesAutoresizingMaskIntoConstraints = NO;
     
     
 //    CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, 130);

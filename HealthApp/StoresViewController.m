@@ -23,6 +23,7 @@
 #import "PopupCartViewController.h"
 #import "Order.h"
 #import "Location.h"
+#import "NoStores.h"
 
 
 @interface StoresViewController ()<NSFetchedResultsControllerDelegate,UIViewControllerTransitioningDelegate>
@@ -36,12 +37,11 @@
 @property (nonatomic, strong) NSArray *array_stores;
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (strong, nonatomic) UIView *headerContentView;
+@property (nonatomic, strong) NoStores *noStoresView;
 
 @end
 
-@implementation StoresViewController {
-    Location *_location_store;
-}
+@implementation StoresViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -51,9 +51,19 @@
     self.headerContentView.translatesAutoresizingMaskIntoConstraints = NO;
     
     
-    _location_store = [Location savedLocation];
     
-    if (_location_store == nil) {
+    
+    
+}
+
+
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    Location *location_store = [Location savedLocation];
+    
+    if (location_store == nil) {
         UIAlertView *select_location = [[UIAlertView alloc] initWithTitle:@"" message:@"Please select the location in Search Menu to browse the stores" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
         [select_location show];
         
@@ -62,7 +72,7 @@
     } else {
         
         StoreListRequestModel *requestModel = [StoreListRequestModel new];
-        requestModel.location = [NSString stringWithFormat:@"%@,%@", _location_store.latitude, _location_store.longitude];
+        requestModel.location = [NSString stringWithFormat:@"%@,%@", location_store.latitude, location_store.longitude];
         
         AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
         self.managedObjectContext = appDelegate.managedObjectContext;
@@ -96,6 +106,10 @@
             
             self.array_stores = responseModel.stores;
             
+            if (self.array_stores.count == 0) {
+                [self showNoStoresView:location_store];
+            }
+            
             self.navigationItem.title = [NSString stringWithFormat:@"Stores (%lu)", (unsigned long)self.array_stores.count];
             [self.tableView reloadData];
             [self hideHUD];
@@ -110,9 +124,14 @@
         
     }
     
-    
 }
 
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.noStoresView removeFromSuperview];
+}
 
 -(void)dismissAlertView:(UIAlertView *)alertView {
     [alertView dismissWithClickedButtonIndex:0 animated:YES];
@@ -288,9 +307,9 @@
     location.font     = [UIFont fontWithName:@"AvenirNext-Medium" size:14.f];
     location.textColor= [UIColor darkGrayColor];
     
-    _location_store = [Location savedLocation];
-    if (_location_store) {
-        location.text = _location_store.location_name;
+    Location *location_header = [Location savedLocation];
+    if (location_header) {
+        location.text = location_header.location_name;
     }
     
     location.translatesAutoresizingMaskIntoConstraints = NO;
@@ -334,6 +353,7 @@
 
 - (UIView *)headerView {
     UIView *headerView = [[UIView alloc] init];
+    headerView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:self.headerContentView];
     
     NSDictionary *views = @{@"headerContentView" : self.headerContentView};
@@ -434,6 +454,21 @@
     [self.tabBarController setSelectedIndex:1];
     
     
+}
+
+
+
+-(void)showNoStoresView:(Location *)location {
+    
+    self.noStoresView = [[[NSBundle mainBundle] loadNibNamed:@"NoStores" owner:self options:nil] lastObject];
+    self.noStoresView.frame = self.tableView.frame;
+    
+    self.noStoresView.location.text = location.location_name;
+    
+    
+    [self.noStoresView.changeButton addTarget:self action:@selector(goToSearchTab) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.navigationController.view insertSubview:self.noStoresView belowSubview:self.navigationController.navigationBar];
 }
 
 

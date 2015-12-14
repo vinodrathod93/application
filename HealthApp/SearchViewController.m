@@ -32,7 +32,6 @@
     CLLocationManager *_locationManager;
     CLGeocoder *_geocoder;
     CLPlacemark *_placemark;
-    Location *_location;
 }
 
 - (void)viewDidLoad {
@@ -42,7 +41,6 @@
     
     _locationManager = [[CLLocationManager alloc] init];
     _geocoder = [[CLGeocoder alloc] init];
-    _location = [[Location alloc] init];
     
     _storesArray = [NSMutableArray array];
     [_storesArray addObject:@"Searching..."];
@@ -53,13 +51,13 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    _location = [Location savedLocation];
+    Location *location = [Location savedLocation];
     
-    if (_location != nil) {
+    if (location != nil) {
         
         if ([CLLocationManager locationServicesEnabled]) {
             
-            if (_location.isCurrentLocation) {
+            if (location.isCurrentLocation) {
                 
                 [self decorateSelectCurrentLocation];
                 
@@ -68,8 +66,8 @@
             
         }
         
-        [self loadStoresWithLocation:_location];
-        self.currentPlace = _location.location_name;
+        [self loadStoresWithLocation:location];
+        self.currentPlace = location.location_name;
         [self.tableView reloadData];
         
     }
@@ -156,6 +154,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LocationCellReuseId];
         }
         
+        cell.imageView.image = [UIImage imageNamed:@"location_marker"];
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.textColor    = [UIColor darkGrayColor];
@@ -189,6 +188,7 @@
         else
             cell.textLabel.text      = [self.storesArray objectAtIndex:indexPath.row];
         
+        cell.imageView.image    = [UIImage imageNamed:@"shop"];
         cell.textLabel.textColor = [UIColor darkGrayColor];
         cell.backgroundColor = [UIColor clearColor];
         
@@ -228,48 +228,54 @@
     }
     
     
-    _location = [Location savedLocation];
-    if (_location == nil) {
+    Location *location = [Location savedLocation];
+    if (location == nil) {
+        
+        location = [[Location alloc] init];
         
         self.currentPlace = kDefaultLocationMessage;
     }
-    else {
-        
-        NSArray *trimmedLocation        = [place.formattedAddress componentsSeparatedByString:@","];
-        
-        NSInteger count = trimmedLocation.count;
-        NSString *currentPlaceString;
-        
-        if (count == 1) {
-            currentPlaceString          = [NSString stringWithFormat:@"%@", trimmedLocation[count-1]];
-        }
-        else if (count == 2) {
-            currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-1 ], trimmedLocation[count]];
-        }
-        else if (count == 3) {
-            currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-2 ], trimmedLocation[count-1]];
-        }
-        else if (count == 4) {
-            currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-3 ], trimmedLocation[count-2]];
-        }
-        else if (count > 4) {
-            currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-4 ], trimmedLocation[count-3]];
-        }
-        
-        self.currentPlace               = currentPlaceString;
-        
-        
-        _location.location_name          = self.currentPlace;
-        _location.latitude               = [NSString stringWithFormat:@"%f", place.coordinate.latitude];
-        _location.longitude              = [NSString stringWithFormat:@"%f", place.coordinate.longitude];
-        _location.isCurrentLocation      = NO;
-        [_location save];
-        
-        
-        
-        [self loadStoresWithLocation:_location];
-        
+    
+    
+    NSArray *trimmedLocation        = [place.formattedAddress componentsSeparatedByString:@","];
+    
+    NSInteger count = trimmedLocation.count;
+    NSString *currentPlaceString;
+    
+    if (count == 1) {
+        currentPlaceString          = [NSString stringWithFormat:@"%@", trimmedLocation[count-1]];
     }
+    else if (count == 2) {
+        currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-2 ], trimmedLocation[count-1]];
+    }
+    else if (count == 3) {
+        currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-2 ], trimmedLocation[count-1]];
+    }
+    else if (count == 4) {
+        currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-3 ], trimmedLocation[count-2]];
+    }
+    else if (count > 4) {
+        currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-4 ], trimmedLocation[count-3]];
+    }
+    
+    
+    if (self.currentPlace) {
+        self.currentPlace = nil;
+    }
+    
+    self.currentPlace               = currentPlaceString;
+    
+    
+    location.location_name          = self.currentPlace;
+    location.latitude               = [NSString stringWithFormat:@"%f", place.coordinate.latitude];
+    location.longitude              = [NSString stringWithFormat:@"%f", place.coordinate.longitude];
+    location.isCurrentLocation      = NO;
+    [location save];
+    
+    
+    
+    [self loadStoresWithLocation:location];
+    
     
     if (self.storesArray.count != 0) {
         [self.storesArray removeAllObjects];
@@ -394,13 +400,15 @@ didFailAutocompleteWithError:(NSError *)error {
         
     }
     
-    _location = [Location savedLocation];
-    if (_location != nil) {
+    Location *location = [Location savedLocation];
+    if (location != nil) {
         
         if ([oldLocation isEqual:newLocation]) {
             [self decorateSelectCurrentLocation];
         }
         
+    } else {
+        location = [[Location alloc] init];
     }
     
     
@@ -415,15 +423,19 @@ didFailAutocompleteWithError:(NSError *)error {
                                  _placemark.administrativeArea,
                                  _placemark.country);
             
+            if (self.currentPlace) {
+                self.currentPlace = nil;
+            }
+            
             self.currentPlace = [NSString stringWithFormat:@"%@, %@", _placemark.subLocality, _placemark.locality];
             
             
-            _location.latitude = [NSString stringWithFormat:@"%.8f",currentLocation.coordinate.latitude];
-            _location.longitude = [NSString stringWithFormat:@"%.8f",currentLocation.coordinate.longitude];
-            _location.location_name = self.currentPlace;
-            _location.isCurrentLocation = YES;
+            location.latitude = [NSString stringWithFormat:@"%.8f",currentLocation.coordinate.latitude];
+            location.longitude = [NSString stringWithFormat:@"%.8f",currentLocation.coordinate.longitude];
+            location.location_name = self.currentPlace;
+            location.isCurrentLocation = YES;
             
-            [_location save];
+            [location save];
             
             [self decorateSelectCurrentLocation];
             
@@ -435,7 +447,7 @@ didFailAutocompleteWithError:(NSError *)error {
             [self.tableView reloadData];
             
             
-            [self loadStoresWithLocation:_location];
+            [self loadStoresWithLocation:location];
             
             
             

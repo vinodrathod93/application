@@ -1,0 +1,14 @@
+<div class="row">
+<div class="col-xs-12 col-md-8">
+<p>
+<strong>Neediator</strong>, is a product developed by Linkcube Corporation.</p>
+ 
+<p>We firmly believe that without the strength of a brilliant idea and an eye for detailed follow through, an experience never realizes its full potential.</p>
+<p> Currently, a Sole Proprietorship firm, Linkcube Corporation is owned by Mr. Ronak Shah. Following his love for Mobiles and IT and a passion to create something useful for mass population, he, along with the help & guidance of Mr. Kanhaiya Gupta of Adverto Technology, has invented a new word for the dictionaries, Neediator. For the definition, Neediator means a Mediator of Needs.</p>
+ 
+<p>Neediator aims to provide a real-time online platform to the retail shop owners and individual service providers to come and do their business in the most modern manner today, E-Commerce. Neediator will help the buyers to buy products like personal care, cakes, ice-creams, etc., from the nearest shop available around his location thus providing the fastest delivery that would be possible ever. Also nearest service providers like Doctors, Diagnostic Centres, Ambulances, etc. would be available on Neediator.</p>
+ 
+<p>Launched in 2015, in Mumbai, Neediator aims to reach each and every corner of India within 3 years and bring a mass revolution to the currently booming IT world.</p>
+ 
+</div>
+</div>
