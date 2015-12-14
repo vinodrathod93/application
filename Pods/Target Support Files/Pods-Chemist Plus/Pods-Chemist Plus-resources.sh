@@ -58,12 +58,14 @@ install_resource()
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "GoogleMaps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle"
   install_resource "MWPhotoBrowser/MWPhotoBrowser/MWPhotoBrowser.bundle"
   install_resource "XLForm/XLForm/XLForm.bundle"
   install_resource "libPhoneNumber-iOS/libPhoneNumber/NBPhoneNumberMetadata.plist"
   install_resource "${BUILT_PRODUCTS_DIR}/RMPZoomTransitionAnimator.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "GoogleMaps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle"
   install_resource "MWPhotoBrowser/MWPhotoBrowser/MWPhotoBrowser.bundle"
   install_resource "XLForm/XLForm/XLForm.bundle"
   install_resource "libPhoneNumber-iOS/libPhoneNumber/NBPhoneNumberMetadata.plist"

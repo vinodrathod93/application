@@ -10,6 +10,8 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <CoreData/CoreData.h>
+#import <GoogleMaps/GoogleMaps.h>
+#import "NeediatorAPIKey.h"
 #import "LogSignViewController.h"
 
 
@@ -55,6 +57,12 @@
     
     // Facebook Method
     [FBSDKLoginButton class];
+    
+    
+    
+    
+    [GMSServices provideAPIKey:kGoogleAPIKey];
+    
     
     return [[FBSDKApplicationDelegate sharedInstance] application:application
                                     didFinishLaunchingWithOptions:launchOptions];

@@ -718,7 +718,6 @@ static NSString *cellIdentifier = @"cartCell";
         [self.hud setCenter:self.view.center];
         self.hud.dimBackground = YES;
         self.hud.labelText = @"Checking out...";
-        self.hud.color = self.view.tintColor;
     }
     else
         NSLog(@"No order & Cart is Empty");
@@ -879,7 +878,6 @@ static NSString *cellIdentifier = @"cartCell";
         self.hud.detailsLabelText = @"Cart Details";
         self.hud.center = self.view.center;
         self.hud.dimBackground = YES;
-        self.hud.color = self.view.tintColor;
         
     } else {
         [self showLoginPageAndIsPlacingOrder:NO];
@@ -950,11 +948,14 @@ static NSString *cellIdentifier = @"cartCell";
         [self.task resume];
         
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.hud.activityIndicatorColor = [UIColor blackColor];
         self.hud.labelText = @"Removing...";
+        self.hud.labelColor = [UIColor darkGrayColor];
         self.hud.detailsLabelText = item.name;
+        self.hud.detailsLabelColor = [UIColor darkGrayColor];
         self.hud.center = self.view.center;
         self.hud.dimBackground = YES;
-        self.hud.color = self.view.tintColor;
+        self.hud.color = [UIColor clearColor];
         
     } else {
         [self showLoginPageAndIsPlacingOrder:NO];

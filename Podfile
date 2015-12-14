@@ -15,6 +15,10 @@ pod 'MWPhotoBrowser'
 pod 'pop'
 pod 'RMPZoomTransitionAnimator'
 
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.1'
+pod 'GoogleMaps'
+
 end
 
 target 'Chemist PlusTests' do

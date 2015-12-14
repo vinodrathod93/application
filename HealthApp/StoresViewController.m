@@ -22,6 +22,7 @@
 #import "DismissingAnimator.h"
 #import "PopupCartViewController.h"
 #import "Order.h"
+#import "Location.h"
 
 
 @interface StoresViewController ()<NSFetchedResultsControllerDelegate,UIViewControllerTransitioningDelegate>
@@ -34,59 +35,87 @@
 //@property (nonatomic, strong) RLMResults *stores;
 @property (nonatomic, strong) NSArray *array_stores;
 @property (nonatomic, strong) MBProgressHUD *hud;
+@property (strong, nonatomic) UIView *headerContentView;
 
 @end
 
-@implementation StoresViewController
+@implementation StoresViewController {
+    Location *_location_store;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    StoreListRequestModel *requestModel = [StoreListRequestModel new];
-    requestModel.location = @"19.012156,72.832355";
+    // Header Content View.
+    self.headerContentView = [self loadHeaderContentView];
+    self.headerContentView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    self.managedObjectContext = appDelegate.managedObjectContext;
     
-    [self showHUD];
-    [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {
+    _location_store = [Location savedLocation];
+    
+    if (_location_store == nil) {
+        UIAlertView *select_location = [[UIAlertView alloc] initWithTitle:@"" message:@"Please select the location in Search Menu to browse the stores" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [select_location show];
         
+        [self performSelector:@selector(dismissAlertView:) withObject:select_location afterDelay:2];
         
+    } else {
         
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            RLMRealm *realm = [RLMRealm defaultRealm];
-//            [realm beginWriteTransaction];
-//            [realm deleteAllObjects];
-//            [realm commitWriteTransaction];
-//            
-//            [realm beginWriteTransaction];
-//            for (StoresModel *store in responseModel.stores) {
-//                StoreRealm *storeRealm = [[StoreRealm alloc] initWithMantleModel:store];
-//                [realm addObject:storeRealm];
-//            }
-//            [realm commitWriteTransaction];
-//            
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
-//                RLMResults *stores = [StoreRealm allObjectsInRealm:realmMainThread];
-//                self.stores = stores;
-//                [self.tableView reloadData];
-//                [self hideHUD];
-//            });
-//        });
+        StoreListRequestModel *requestModel = [StoreListRequestModel new];
+        requestModel.location = [NSString stringWithFormat:@"%@,%@", _location_store.latitude, _location_store.longitude];
         
-        self.array_stores = responseModel.stores;
+        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        self.managedObjectContext = appDelegate.managedObjectContext;
         
-        [self.tableView reloadData];
-        [self hideHUD];
+        [self showHUD];
+        [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {
+            
+            
+            
+            //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            //            RLMRealm *realm = [RLMRealm defaultRealm];
+            //            [realm beginWriteTransaction];
+            //            [realm deleteAllObjects];
+            //            [realm commitWriteTransaction];
+            //
+            //            [realm beginWriteTransaction];
+            //            for (StoresModel *store in responseModel.stores) {
+            //                StoreRealm *storeRealm = [[StoreRealm alloc] initWithMantleModel:store];
+            //                [realm addObject:storeRealm];
+            //            }
+            //            [realm commitWriteTransaction];
+            //
+            //            dispatch_async(dispatch_get_main_queue(), ^{
+            //                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
+            //                RLMResults *stores = [StoreRealm allObjectsInRealm:realmMainThread];
+            //                self.stores = stores;
+            //                [self.tableView reloadData];
+            //                [self hideHUD];
+            //            });
+            //        });
+            
+            self.array_stores = responseModel.stores;
+            
+            self.navigationItem.title = [NSString stringWithFormat:@"Stores (%lu)", (unsigned long)self.array_stores.count];
+            [self.tableView reloadData];
+            [self hideHUD];
+            
+        } failure:^(NSError *error) {
+            
+            [self hideHUD];
+            
+            UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alertError show];
+        }];
         
-    } failure:^(NSError *error) {
-        
-        [self hideHUD];
-        
-        UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertError show];
-    }];
+    }
+    
+    
+}
+
+
+-(void)dismissAlertView:(UIAlertView *)alertView {
+    [alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -135,9 +164,14 @@
 
 -(void)showHUD {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.color = self.tableView.tintColor;
+//    self.hud.color = self.tableView.tintColor;
+    self.hud.dimBackground = YES;
+    self.hud.color = [UIColor clearColor];
     self.hud.labelText = @"Loading Stores...";
+    self.hud.labelColor = [UIColor darkGrayColor];
+    self.hud.activityIndicatorColor = [UIColor blackColor];
     self.hud.detailsLabelText = @"(This could take a few minutes)";
+    self.hud.detailsLabelColor = [UIColor darkGrayColor];
 }
 
 -(void)hideHUD {
@@ -191,6 +225,143 @@
 
     
 }
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 35.f;
+    } else
+        return 0.f;
+}
+
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        /*
+        UIView *locationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 25)];
+        
+        UILabel *location_name = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, locationView.frame.size.width/2, 25)];
+        location_name.font     = [UIFont fontWithName:@"AvenirNext-Medium" size:15.f];
+        
+        _location_store = [Location savedLocation];
+        if (_location_store) {
+            location_name.text = _location_store.location_name;
+        }
+        
+        location_name.textAlignment = NSTextAlignmentCenter;
+        
+        UIButton *changeLocation = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, location_name.frame.size.width/2, 25)];
+        changeLocation.titleLabel.text = @"Change";
+        changeLocation.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:13.f];
+        
+        [locationView addSubview:location_name];
+        [locationView addSubview:changeLocation];
+        
+        */
+        
+        
+        return [self headerView];
+    }
+    else
+        return nil;
+}
+
+
+
+
+
+
+
+- (UIView *)loadHeaderContentView {
+    
+    
+    
+    UIButton *changeLocation = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [changeLocation setTitle:@"Change" forState:UIControlStateNormal];
+    changeLocation.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:13.f];
+    changeLocation.translatesAutoresizingMaskIntoConstraints = NO;
+    [changeLocation setContentHuggingPriority:252 forAxis:UILayoutConstraintAxisHorizontal];
+    [changeLocation setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
+    [changeLocation addTarget:self action:@selector(goToSearchTab) forControlEvents:UIControlEventTouchUpInside];
+    
+    UILabel *location = [[UILabel alloc] init];
+    location.font     = [UIFont fontWithName:@"AvenirNext-Medium" size:14.f];
+    location.textColor= [UIColor darkGrayColor];
+    
+    _location_store = [Location savedLocation];
+    if (_location_store) {
+        location.text = _location_store.location_name;
+    }
+    
+    location.translatesAutoresizingMaskIntoConstraints = NO;
+    location.adjustsFontSizeToFitWidth = YES;
+    
+    UIView *headerContentView = [[UIView alloc] init];
+    [headerContentView addSubview:changeLocation];
+    [headerContentView addSubview:location];
+    
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(location, changeLocation);
+    
+    
+    [headerContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[location]-[changeLocation]-|"
+                                                                              options:NSLayoutFormatAlignAllCenterY
+                                                                              metrics:nil
+                                                                                views:viewsDictionary]];
+    [headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:location
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:headerContentView
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                 multiplier:1
+                                                                   constant:0]];
+    // Here setting the heights of the subviews
+    [headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:location
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:headerContentView
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                 multiplier:1.f
+                                                                   constant:0]];
+    [headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:changeLocation
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:headerContentView
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                 multiplier:1.f
+                                                                   constant:0]];
+    return headerContentView;
+}
+
+- (UIView *)headerView {
+    UIView *headerView = [[UIView alloc] init];
+    [headerView addSubview:self.headerContentView];
+    
+    NSDictionary *views = @{@"headerContentView" : self.headerContentView};
+    NSArray *hConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[headerContentView]|" options:0 metrics:nil views:views];
+    NSArray *vConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[headerContentView]|" options:0 metrics:nil views:views];
+    [headerView addConstraints:hConstraints];
+    [headerView addConstraints:vConstraints];
+    
+    return headerView;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -(void)saveAndProceedWithCurrentStore:(StoresModel *)store {
@@ -255,6 +426,14 @@
         
         NSLog(@"Order Model Fetch Failure: %@",error);
     }
+}
+
+
+-(void)goToSearchTab {
+    
+    [self.tabBarController setSelectedIndex:1];
+    
+    
 }
 
 

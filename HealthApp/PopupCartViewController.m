@@ -113,9 +113,7 @@ typedef void(^completion)(BOOL finished);
         // go to cart tab bar
         
         UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
-        [tabBarController setSelectedIndex:1];
-        
-        
+        [tabBarController setSelectedIndex:3];
         
     }];
     

@@ -27,7 +27,7 @@
 //@property (nonatomic, strong) NSFetchedResultsController *h_cartFetchedResultsController;
 @property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-//@property (nonatomic, strong) NSArray *categoriesArray;
+@property (nonatomic, strong) NSArray *categoriesArray;
 @property (nonatomic, strong) HeaderSliderView *headerView;
 @property (nonatomic, strong) NSArray *imagesData;
 
@@ -49,7 +49,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    [self getCategoriesWebService];
+//    [self getCategoriesWebService];
     
     
     
@@ -82,7 +82,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     self.imagesData = @[@"http://sonuspa.com/_imgstore/6/1763516/page_products_f3TjqUdDHPzkPxaNuSr6c/WVYFA9KEJ3I5d_O74U7j72ypUg8.png", @"http://www.cimg.in/images/2010/05/14/10/5242691_20100517541_large.jpg", @"http://4.bp.blogspot.com/-E4VpMa6zZMo/TcLt9mEFuMI/AAAAAAAAAmQ/mvCHbz1YWGk/s320/1.jpg",@"http://img.click.in/classifieds/images/75/5_8_2011_18_45_6599_Nutrilite.jpg"];
-//    self.categoriesArray = [self getPListCategoriesArray];
+    self.categoriesArray = [self getPListCategoriesArray];
     
 }
 
@@ -113,9 +113,9 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 //    NSLog(@"%lu",(unsigned long)self.categoriesArray.count);
-//    return self.categoriesArray.count;
+    return self.categoriesArray.count;
     
-    return self.xmlCategories.count;
+//    return self.xmlCategories.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -133,9 +133,9 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
     label.font = [UIFont fontWithName:@"AvenirNext-Regular" size:14];
-//    label.text = self.categoriesArray[indexPath.item];
+    label.text = self.categoriesArray[indexPath.item];
     
-    label.text  = self.xmlCategories[indexPath.item];
+//    label.text  = self.xmlCategories[indexPath.item];
     
     UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
     [backgroundView addSubview:imageView];
@@ -160,7 +160,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     if (indexPath.item == 0) {
         
         StoresViewController *storesVC  = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
-        storesVC.title = self.xmlCategories[indexPath.item];
+        storesVC.title = self.categoriesArray[indexPath.item];
         
         //    SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCatViewController"];
         //    subCatVC.categoryID = [NSString stringWithFormat:@"%ld",(long)indexPath.item + 1];
