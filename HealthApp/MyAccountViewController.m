@@ -15,38 +15,49 @@
 #import "LogSignViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "AddressesViewController.h"
+#import "AppDelegate.h"
 
 enum MyAccountCells {
     MyOrdersCell = 0,
     MyAddressesCell,
-    TrackOrdersCell,
-    AccountSettingsCell,
-    SignOutCell
+    TrackOrdersCell
 };
 
 @interface MyAccountViewController ()
 {
     NSString *cellIdentifier;
+    
 }
-@property (nonatomic, strong) NSMutableArray *options;
+
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @end
 
-@implementation MyAccountViewController
+@implementation MyAccountViewController {
+    NSArray  *_iconsArray;
+    NSArray  *_options;
+}
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"viewDidLoad");
     
-    
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContext = appDelegate.managedObjectContext;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     NSLog(@"viewWillAppear");
-    self.options = [[NSMutableArray alloc]initWithArray:@[@"My Orders", @"My Addresses", @"Track Order", @"Account Settings", @"Sign Out"]];
+    _options = @[ @"", @[@"My Orders", @"My Addresses", @"Track Order"],
+                  @"Sign Out"];
+    _iconsArray  = @[
+                     @"",
+                     @[@"my_orders", @"address", @"track"],
+                     @"signout"
+                     ];
     
     
     [self.tableView reloadData];
@@ -61,16 +72,21 @@ enum MyAccountCells {
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 2;
+    
+    return _options.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    if (section == 0) {
-        return 1;
+
+    if ([_options[section] isKindOfClass:[NSArray class]]) {
+        
+        NSArray *array = _options[section];
+        
+        return array.count;
+        
     }
-    return [self.options count];
+    else
+        return 1;
 }
 
 
@@ -112,7 +128,22 @@ enum MyAccountCells {
 
 
 -(void)configureBasicViewCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = self.options[indexPath.row];
+    
+    
+    if ([_options[indexPath.section] isKindOfClass:[NSArray class]]) {
+        
+        NSArray *array = _options[indexPath.section];
+        NSArray *icons = _iconsArray[indexPath.section];
+        
+        cell.textLabel.text = array[indexPath.row];
+        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", icons[indexPath.row]]];
+    }
+    else if(indexPath.section != 0) {
+        cell.textLabel.text = _options[indexPath.section];
+        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", _iconsArray[indexPath.section]]];
+    }
+    
+    
 }
 
 
@@ -124,21 +155,13 @@ enum MyAccountCells {
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == SignOutCell) {
-        FBSDKLoginManager *manager = [[FBSDKLoginManager alloc]init];
-        [manager logOut];
+    
+    if (indexPath.section == 2) {
         
-        User *user = [User savedUser];
-        NSLog(@"%@",user);
+//        FBSDKLoginManager *manager = [[FBSDKLoginManager alloc]init];
+//        [manager logOut];
         
-        [User clearUser];
-        
-        [self.options removeLastObject];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-        LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
-        
-        [self presentViewController:logSignVC animated:NO completion:nil];
+        [self showWarningBeforeSignout];
     }
     else if (indexPath.row == MyAddressesCell) {
         AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
@@ -147,5 +170,86 @@ enum MyAccountCells {
     }
 }
 
+
+-(void)removeLastObject {
+    _options = @[
+                  @[@"My Orders", @"My Addresses", @"Track Order"]
+                 ];
+}
+
+
+
+-(void)showWarningBeforeSignout {
+    UIAlertController *alertController  = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *signoutAction = [UIAlertAction actionWithTitle:@"Yes, Signout" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        // Remove all user data here
+        [self removeAllUserData];
+        
+        [alertController dismissViewControllerAnimated:YES completion:^{
+            // Remove Signout Cell.
+            [self removeLastObject];
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
+            
+            LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
+            
+            [self presentViewController:logSignVC animated:NO completion:nil];
+        }];
+        
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // dismiss alertController
+        
+        [alertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [alertController addAction:signoutAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+}
+
+
+-(void)removeAllUserData {
+    
+    // Clear all orders & lineItems
+    [self deleteAllObjects:@"Order"];
+    [self deleteAllObjects:@"LineItems"];
+    
+    
+    
+    User *user = [User savedUser];
+    NSLog(@"%@",user);
+    
+    [User clearUser];
+    
+    
+    
+    
+}
+
+
+
+- (void) deleteAllObjects: (NSString *) entityDescription  {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityDescription inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error;
+    NSArray *items = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    
+    for (NSManagedObject *managedObject in items) {
+        [self.managedObjectContext deleteObject:managedObject];
+        NSLog(@"%@ object deleted",entityDescription);
+    }
+    if (![self.managedObjectContext save:&error]) {
+        NSLog(@"Error deleting %@ - error:%@",entityDescription,error);
+    }
+    
+}
 
 @end

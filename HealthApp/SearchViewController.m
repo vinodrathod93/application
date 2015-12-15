@@ -158,6 +158,7 @@
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.textColor    = [UIColor darkGrayColor];
+        cell.textLabel.font         = [UIFont fontWithName:@"AvenirNext-Regular" size:15.f];
         
         if (self.currentPlace == nil) {
             cell.textLabel.text = kDefaultLocationMessage;
@@ -191,6 +192,7 @@
         cell.imageView.image    = [UIImage imageNamed:@"shop"];
         cell.textLabel.textColor = [UIColor darkGrayColor];
         cell.backgroundColor = [UIColor clearColor];
+        cell.textLabel.font         = [UIFont fontWithName:@"AvenirNext-Regular" size:15.f];
         
     }
     
@@ -200,14 +202,38 @@
 }
 
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        
-        return @"Location";
-        
-    } else
-        return @"Browse By Stores";
+//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//    if (section == 0) {
+//        
+//        return @"Location";
+//        
+//    } else
+//        return @"Browse By Stores";
+//    
+//}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 40.f;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 40)];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(25, 10, 200, 20)];
+    label.textColor = [UIColor blackColor];
+    label.font      = [UIFont fontWithName:@"AvenirNext-Medium" size:14.f];
+    
+    if (section == 0) {
+        label.text = [NSString stringWithFormat:@"LOCATION"];
+    }
+    else
+        label.text = @"BROWSE BY STORES";
+    
+    [headerView addSubview:label];
+    
+    return headerView;
 }
 
 

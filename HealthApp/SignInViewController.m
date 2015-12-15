@@ -32,6 +32,8 @@ typedef void(^completion)(BOOL finished);
     self.title = @"Sign In";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
+    
+    self.loginButton.layer.cornerRadius = 3.0f;
     // Do any additional setup after loading the view.
 }
 

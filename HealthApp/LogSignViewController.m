@@ -39,6 +39,14 @@ typedef void(^completion)(BOOL finished);
 //    self.login_fb_button.delegate = self;
 //    self.login_fb_button.readPermissions = @[@"email", @"public_profile"];
     
+    self.loginButton.layer.cornerRadius = 3.f;
+    
+    self.emailImageView.image = [self.emailImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.emailImageView setTintColor:[UIColor whiteColor]];
+    
+    self.passwordImageView.image = [self.passwordImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.passwordImageView setTintColor:[UIColor whiteColor]];
+    
     
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -47,6 +55,8 @@ typedef void(^completion)(BOOL finished);
     self.navigationController.view.backgroundColor = [UIColor clearColor];
     self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
     
+    
+//    self.emailField
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 }

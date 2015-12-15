@@ -102,7 +102,6 @@
 		82BF08511C1F07E90093B8CD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BF08501C1F07E90093B8CD /* MessageUI.framework */; };
 		82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BF08531C1F0B790093B8CD /* WebViewController.m */; };
 		82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82BF08571C1F18AD0093B8CD /* about_us.txt */; };
-		82BF085A1C1F1BF10093B8CD /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 82BF08591C1F1BF10093B8CD /* .gitignore */; };
 		82C175951B66371000AD26DB /* OrderInputsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C175941B66371000AD26DB /* OrderInputsViewController.m */; };
 		82C38A821C0864D70006A73B /* PopupCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A811C0864D70006A73B /* PopupCartViewController.m */; };
 		82C38A871C086B5C0006A73B /* DismissingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A841C086B5C0006A73B /* DismissingAnimator.m */; };
@@ -315,7 +314,6 @@
 		82BF08521C1F0B790093B8CD /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		82BF08531C1F0B790093B8CD /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		82BF08571C1F18AD0093B8CD /* about_us.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = about_us.txt; sourceTree = "<group>"; };
-		82BF08591C1F1BF10093B8CD /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		82C175931B66371000AD26DB /* OrderInputsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderInputsViewController.h; sourceTree = "<group>"; };
 		82C175941B66371000AD26DB /* OrderInputsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderInputsViewController.m; sourceTree = "<group>"; };
 		82C38A801C0864D70006A73B /* PopupCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupCartViewController.h; sourceTree = "<group>"; };
@@ -593,7 +591,6 @@
 		82BD028A1B46A73C00108A0B /* HealthApp */ = {
 			isa = PBXGroup;
 			children = (
-				82BF08591C1F1BF10093B8CD /* .gitignore */,
 				820F0E1B1B5FD00800AE81F4 /* pharma.png */,
 				825266CB1B4F832400C635F7 /* Upload Prescription */,
 				825692D01B6B77B600B5D1D3 /* Optionals */,
@@ -1308,7 +1305,6 @@
 				824C25531B56374900C58F97 /* Categories.plist in Resources */,
 				823F71B11C1B206E00E43731 /* NoStores.xib in Resources */,
 				82BD02971B46A73C00108A0B /* Main.storyboard in Resources */,
-				82BF085A1C1F1BF10093B8CD /* .gitignore in Resources */,
 				820F0E1C1B5FD00800AE81F4 /* pharma.png in Resources */,
 				82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */,
 				82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */,

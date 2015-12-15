@@ -12,14 +12,19 @@
 
 @end
 
-@implementation WebViewController
+@implementation WebViewController {
+    MBProgressHUD *_hud;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.webView.delegate = self;
     
-    
+    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud.center = self.view.center;
+    _hud.labelText = @"Loading...";
     
     if (self.htmlString) {
         
@@ -41,20 +46,9 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-//    self.webView.frame = CGRectMake(0, self.topLayoutGuide.length, CGRectGetWidth(self.view.frame), self.view.frame.size.height - self.topLayoutGuide.length - self.bottomLayoutGuide.length);
+-(void)webViewDidFinishLoad:(UIWebView *)webView {
+    [_hud hide:YES];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

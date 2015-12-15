@@ -13,6 +13,7 @@
 @interface MoreViewController ()<MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) NSArray *moreData;
+@property (nonatomic, strong) NSArray *moreDataIcons;
 @end
 
 @implementation MoreViewController
@@ -28,6 +29,13 @@
                     @"Contact us",
                     @"About us"
                     ];
+    
+    _moreDataIcons = @[
+                       @[@"rate", @"share"],
+                       @[@"privacy", @"terms_condition"],
+                       @"contact_us",
+                       @"about_us"
+                       ];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,11 +66,14 @@
     if ([_moreData[indexPath.section] isKindOfClass:[NSArray class]]) {
         
         NSArray *array = _moreData[indexPath.section];
+        NSArray *icons = _moreDataIcons[indexPath.section];
         
         cell.textLabel.text = array[indexPath.row];
+        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", icons[indexPath.row]]];
     }
     else {
         cell.textLabel.text = _moreData[indexPath.section];
+        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", _moreDataIcons[indexPath.section]]];
     }
     
     cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
@@ -75,7 +86,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if ([_moreData indexOfObject:_moreData.lastObject] == section) {
-        return 100.f;
+        return 120.f;
     }
     else
         return 0.f;
@@ -88,13 +99,13 @@
         
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 80.f)];
         
-        UIImageView *appIcon    = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame)/2 - 25, 10, 50, 50)];
+        UIImageView *appIcon    = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame)/2 - 25, 20, 50, 50)];
         appIcon.image           = [UIImage imageNamed:@"icon"];
         
         
         [footerView addSubview:appIcon];
         
-        UILabel *appVersion = [[UILabel alloc] initWithFrame:CGRectMake(0, 65, CGRectGetWidth(self.view.frame), 15)];
+        UILabel *appVersion = [[UILabel alloc] initWithFrame:CGRectMake(0, 75, CGRectGetWidth(self.view.frame), 15)];
         appVersion.textAlignment = NSTextAlignmentCenter;
         appVersion.textColor     = [UIColor darkGrayColor];
         appVersion.font          = [UIFont fontWithName:@"AvenirNext-Regular" size:15.f];
@@ -122,13 +133,19 @@
         
         if (indexPath.row == 0) {
             WebViewController *privacyWebViewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewVC"];
-            privacyWebViewVC.urlString = [NSString stringWithFormat:@"http://www.elnuur.com/privacy_policy"];
+            privacyWebViewVC.urlString = [NSString stringWithFormat:@"http://neediator.in/privacy_policy.html"];
+            privacyWebViewVC.hidesBottomBarWhenPushed = YES;
+            privacyWebViewVC.title = @"Privacy Policy";
+            
             [self.navigationController pushViewController:privacyWebViewVC animated:YES];
             
         }
         else if (indexPath.row == 1) {
             WebViewController *termsConditionWebViewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewVC"];
-            termsConditionWebViewVC.urlString = [NSString stringWithFormat:@"http://www.elnuur.com/terms_conditions"];
+            termsConditionWebViewVC.urlString = [NSString stringWithFormat:@"http://neediator.in/terms_of_usage.html"];
+            termsConditionWebViewVC.hidesBottomBarWhenPushed = YES;
+            termsConditionWebViewVC.title = @"Terms & Conditions";
+            
             [self.navigationController pushViewController:termsConditionWebViewVC animated:YES];
             
         }
@@ -138,6 +155,8 @@
         NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
         
         WebViewController *aboutUsWebViewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewVC"];
+        aboutUsWebViewVC.hidesBottomBarWhenPushed = YES;
+        aboutUsWebViewVC.title = @"About us";
         
         aboutUsWebViewVC.htmlString = htmlString;
         

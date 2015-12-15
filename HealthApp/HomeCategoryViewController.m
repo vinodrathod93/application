@@ -48,6 +48,12 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [super viewDidLoad];
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.titleView    = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]];
+    
+    
+    
+    
+    
     
 //    [self getCategoriesWebService];
     
@@ -64,14 +70,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     } else
         [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:count];
     
-    
-//    // Is Logged with facebook.
-//    if (![FBSDKAccessToken currentAccessToken]) {
-//        NSLog(@"Not logged in");
-//        SignUpViewController *signupVC = [self.storyboard instantiateViewControllerWithIdentifier:@"signupVC"];
-//        [self presentViewController:signupVC animated:YES completion:nil];
-//        
-//    }
     
     
     // Register cell classes
@@ -161,6 +159,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         StoresViewController *storesVC  = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
         storesVC.title = self.categoriesArray[indexPath.item];
+        storesVC.hidesBottomBarWhenPushed = YES;
         
         //    SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCatViewController"];
         //    subCatVC.categoryID = [NSString stringWithFormat:@"%ld",(long)indexPath.item + 1];

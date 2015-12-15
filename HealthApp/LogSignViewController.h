@@ -26,4 +26,6 @@
 
 @property (nonatomic, assign) BOOL isPlacingOrder;
 
+@property (weak, nonatomic) IBOutlet UIImageView *emailImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *passwordImageView;
 @end

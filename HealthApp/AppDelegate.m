@@ -48,12 +48,22 @@
     NSLog(@"%@",[self applicationDocumentsDirectory]);
     
     // UITabBar appearance
-    [[UITabBar appearance] setTintColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0]];
+    [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+//    [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:55/255.0f green:52/255.0f blue:53/255.0f alpha:1.0]];
+    [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
+    
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-Medium" size:9.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-Medium" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
+    
+    
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
     
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                           [UIColor blackColor], NSForegroundColorAttributeName,
                                                           [UIFont fontWithName:@"AvenirNext-Medium" size:19.f], NSFontAttributeName , nil]];
+    
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:246/255.f green:235/255.f blue:0/255.f alpha:1.0]];
+//    [[UINavigationBar appearance] setTranslucent:NO];
     
     // Facebook Method
     [FBSDKLoginButton class];
