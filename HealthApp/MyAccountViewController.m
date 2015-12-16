@@ -36,6 +36,7 @@ enum MyAccountCells {
 @implementation MyAccountViewController {
     NSArray  *_iconsArray;
     NSArray  *_options;
+    MBProgressHUD *_hud;
 }
 
 
@@ -51,6 +52,9 @@ enum MyAccountCells {
     [super viewWillAppear:animated];
     
     NSLog(@"viewWillAppear");
+    
+    
+    
     _options = @[ @"", @[@"My Orders", @"My Addresses", @"Track Order"],
                   @"Sign Out"];
     _iconsArray  = @[
@@ -161,7 +165,9 @@ enum MyAccountCells {
 //        FBSDKLoginManager *manager = [[FBSDKLoginManager alloc]init];
 //        [manager logOut];
         
-        [self showWarningBeforeSignout];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        [self showWarningBeforeSignoutForCell:cell];
     }
     else if (indexPath.row == MyAddressesCell) {
         AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
@@ -179,23 +185,30 @@ enum MyAccountCells {
 
 
 
--(void)showWarningBeforeSignout {
-    UIAlertController *alertController  = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+-(void)showWarningBeforeSignoutForCell: (UITableViewCell *)cell {
+    UIAlertController *alertController  = [UIAlertController alertControllerWithTitle:nil message:@"Are you Sure ?" preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction *signoutAction = [UIAlertAction actionWithTitle:@"Yes, Signout" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        
+        
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud.dimBackground = YES;
+        
         // Remove all user data here
         [self removeAllUserData];
         
-        [alertController dismissViewControllerAnimated:YES completion:^{
-            // Remove Signout Cell.
-            [self removeLastObject];
-            
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
-            
-            LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
-            
-            [self presentViewController:logSignVC animated:NO completion:nil];
-        }];
+        [self removeLastObject];
+        
+        [self.tableView reloadData];
+        
+        [_hud hide:YES];
+        
+        
+//        LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
+//        
+//        [self presentViewController:logSignVC animated:NO completion:nil];
+        
+        
         
     }];
     
@@ -208,6 +221,8 @@ enum MyAccountCells {
     [alertController addAction:signoutAction];
     [alertController addAction:cancelAction];
     
+    alertController.popoverPresentationController.sourceView = cell;
+    alertController.popoverPresentationController.sourceRect = cell.bounds;
     [self presentViewController:alertController animated:YES completion:nil];
     
 }

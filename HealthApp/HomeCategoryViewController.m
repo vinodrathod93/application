@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSArray *categoriesArray;
+@property (nonatomic, strong) NSArray *categoryIcons;
 @property (nonatomic, strong) HeaderSliderView *headerView;
 @property (nonatomic, strong) NSArray *imagesData;
 
@@ -80,7 +81,9 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     self.imagesData = @[@"http://sonuspa.com/_imgstore/6/1763516/page_products_f3TjqUdDHPzkPxaNuSr6c/WVYFA9KEJ3I5d_O74U7j72ypUg8.png", @"http://www.cimg.in/images/2010/05/14/10/5242691_20100517541_large.jpg", @"http://4.bp.blogspot.com/-E4VpMa6zZMo/TcLt9mEFuMI/AAAAAAAAAmQ/mvCHbz1YWGk/s320/1.jpg",@"http://img.click.in/classifieds/images/75/5_8_2011_18_45_6599_Nutrilite.jpg"];
+    
     self.categoriesArray = [self getPListCategoriesArray];
+    self.categoryIcons   = [self getPListIconsArray];
     
 }
 
@@ -90,6 +93,15 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     NSArray *categoryArray = rootDictionary[@"Category"];
     return categoryArray;
+}
+
+-(NSArray *)getPListIconsArray {
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Categories" ofType:@"plist"];
+    NSDictionary *rootDictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    
+    NSArray *iconsArray = rootDictionary[@"Icons"];
+    
+    return iconsArray;
 }
 
 
@@ -122,8 +134,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     // Configure the cell
     cell.backgroundColor = [UIColor clearColor];
     
+    
+//    imageView.image = [UIImage imageNamed:@"pharma.png"];
+    
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(25, 0, 50, 50)];
-    imageView.image = [UIImage imageNamed:@"pharma.png"];
+    imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.categoryIcons[indexPath.item]]];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, cell.frame.size.width, 40)];

@@ -91,6 +91,9 @@
 		82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E911BEB1D0100F0EDE3 /* APIManager.m */; };
 		82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E981BEB1D9300F0EDE3 /* StoresModel.m */; };
 		829CE90A1B4BCB2200304088 /* PlaceOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829CE9091B4BCB2200304088 /* PlaceOrderViewController.m */; };
+		82A2659C1C2169B50031BDC9 /* NTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A2659B1C2169B50031BDC9 /* NTextField.m */; };
+		82A265A01C2195830031BDC9 /* MyOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */; };
+		82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A265A31C2195D00031BDC9 /* MyOrdersCell.m */; };
 		82AD69021BFF4FBF00478C5A /* ProductDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD69011BFF4FBF00478C5A /* ProductDetailsViewController.m */; };
 		82BD028E1B46A73C00108A0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD028D1B46A73C00108A0B /* main.m */; };
 		82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02901B46A73C00108A0B /* AppDelegate.m */; };
@@ -295,6 +298,12 @@
 		82999E981BEB1D9300F0EDE3 /* StoresModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoresModel.m; sourceTree = "<group>"; };
 		829CE9081B4BCB2200304088 /* PlaceOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceOrderViewController.h; sourceTree = "<group>"; };
 		829CE9091B4BCB2200304088 /* PlaceOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceOrderViewController.m; sourceTree = "<group>"; };
+		82A2659A1C2169B50031BDC9 /* NTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextField.h; sourceTree = "<group>"; };
+		82A2659B1C2169B50031BDC9 /* NTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTextField.m; sourceTree = "<group>"; };
+		82A2659E1C2195830031BDC9 /* MyOrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersViewController.h; sourceTree = "<group>"; };
+		82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersViewController.m; sourceTree = "<group>"; };
+		82A265A21C2195D00031BDC9 /* MyOrdersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersCell.h; sourceTree = "<group>"; };
+		82A265A31C2195D00031BDC9 /* MyOrdersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersCell.m; sourceTree = "<group>"; };
 		82AD69001BFF4FBF00478C5A /* ProductDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailsViewController.h; sourceTree = "<group>"; };
 		82AD69011BFF4FBF00478C5A /* ProductDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailsViewController.m; sourceTree = "<group>"; };
 		82BD02881B46A73C00108A0B /* Chemist Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chemist Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -568,6 +577,35 @@
 			name = "Add to Cart CoreData";
 			sourceTree = "<group>";
 		};
+		82A265991C21473B0031BDC9 /* More */ = {
+			isa = PBXGroup;
+			children = (
+				82F80CD41C1EE01100C8E076 /* MoreViewController.h */,
+				82F80CD51C1EE01100C8E076 /* MoreViewController.m */,
+				82BF08521C1F0B790093B8CD /* WebViewController.h */,
+				82BF08531C1F0B790093B8CD /* WebViewController.m */,
+			);
+			name = More;
+			sourceTree = "<group>";
+		};
+		82A2659D1C21848A0031BDC9 /* Custom TextField */ = {
+			isa = PBXGroup;
+			children = (
+				82A2659A1C2169B50031BDC9 /* NTextField.h */,
+				82A2659B1C2169B50031BDC9 /* NTextField.m */,
+			);
+			name = "Custom TextField";
+			sourceTree = "<group>";
+		};
+		82A265A11C2195B10031BDC9 /* My Orders */ = {
+			isa = PBXGroup;
+			children = (
+				82A265A21C2195D00031BDC9 /* MyOrdersCell.h */,
+				82A265A31C2195D00031BDC9 /* MyOrdersCell.m */,
+			);
+			name = "My Orders";
+			sourceTree = "<group>";
+		};
 		82BD027F1B46A73C00108A0B = {
 			isa = PBXGroup;
 			children = (
@@ -602,6 +640,8 @@
 				82EF2DD51BE8C2BC00D87DE2 /* Categories */,
 				82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */,
 				82EF2DB81BE8BDCF00D87DE2 /* Controllers */,
+				82A2659E1C2195830031BDC9 /* MyOrdersViewController.h */,
+				82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */,
 				82C722F91B7B42EF00E0C5EF /* Models */,
 				82EF2DE21BE8EC3E00D87DE2 /* Network */,
 				82D6EE311C1802C2007CE5F2 /* Constants */,
@@ -609,7 +649,6 @@
 				822D15C51BCBE02700FE2E7E /* SearchResultsProductViewController.m */,
 				822D15C71BCBE04000FE2E7E /* SearchResultsProductViewCell.h */,
 				822D15C81BCBE04000FE2E7E /* SearchResultsProductViewCell.m */,
-				82BF08571C1F18AD0093B8CD /* about_us.txt */,
 				82BD02951B46A73C00108A0B /* Main.storyboard */,
 				82BD029A1B46A73C00108A0B /* LaunchScreen.xib */,
 				82BD02981B46A73C00108A0B /* Images.xcassets */,
@@ -622,6 +661,7 @@
 		82BD028B1B46A73C00108A0B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				82BF08571C1F18AD0093B8CD /* about_us.txt */,
 				82BD028C1B46A73C00108A0B /* Info.plist */,
 				82BD028D1B46A73C00108A0B /* main.m */,
 				82C38A8F1C086CE20006A73B /* Neediator-Prefix.pch */,
@@ -789,10 +829,7 @@
 				82EF2DB91BE8BDFB00D87DE2 /* Order Complete */,
 				82EF2DBA1BE8BE0500D87DE2 /* Doctor Details */,
 				82F80CD31C1EDD3200C8E076 /* Search */,
-				82F80CD41C1EE01100C8E076 /* MoreViewController.h */,
-				82F80CD51C1EE01100C8E076 /* MoreViewController.m */,
-				82BF08521C1F0B790093B8CD /* WebViewController.h */,
-				82BF08531C1F0B790093B8CD /* WebViewController.m */,
+				82A265991C21473B0031BDC9 /* More */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -957,6 +994,7 @@
 		82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				82A265A11C2195B10031BDC9 /* My Orders */,
 				8286B2671BF0C9B900AFC533 /* Taxons */,
 				8286B2591BF0A2A400AFC533 /* Stores */,
 				82EF2DD41BE8C27100D87DE2 /* Add Address */,
@@ -970,6 +1008,7 @@
 				82EF2DCB1BE8C0D100D87DE2 /* Addresses */,
 				82EF2DCC1BE8C0DA00D87DE2 /* Doctor Details */,
 				82F80CD21C1ED8A600C8E076 /* No Stores View */,
+				82A2659D1C21848A0031BDC9 /* Custom TextField */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1446,6 +1485,7 @@
 				825266DF1B50002600C635F7 /* HomeCategoryViewController.m in Sources */,
 				827632891B4A629600230833 /* UploadPrescriptionViewController.m in Sources */,
 				823C46AD1B7374C100E37DBE /* SignUpViewController.m in Sources */,
+				82A265A01C2195830031BDC9 /* MyOrdersViewController.m in Sources */,
 				82327F6E1B60B0EB00D92889 /* DetailProductViewModel.m in Sources */,
 				825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */,
 				826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */,
@@ -1466,6 +1506,7 @@
 				8255671E1B68EC5E009F013A /* AddShippingViewModel.m in Sources */,
 				826A83AD1C09786700F15544 /* AddToCart+CoreDataProperties.m in Sources */,
 				826A83AE1C09786700F15544 /* AddToCart.m in Sources */,
+				82A2659C1C2169B50031BDC9 /* NTextField.m in Sources */,
 				82F80CD61C1EE01100C8E076 /* MoreViewController.m in Sources */,
 				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,
 				8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */,
@@ -1474,6 +1515,7 @@
 				82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */,
 				8286B2581BF08F3F00AFC533 /* StoreRealm.m in Sources */,
 				82C97ED01C19939C00E6ED4C /* Location.m in Sources */,
+				82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

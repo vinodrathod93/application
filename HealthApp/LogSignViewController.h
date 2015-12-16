@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NTextField.h"
+
 //#import <FBSDKLoginKit/FBSDKLoginKit.h>
 //#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
-@interface LogSignViewController : UIViewController
+@interface LogSignViewController : UIViewController<UITextFieldDelegate>
 //<FBSDKLoginButtonDelegate>
 
 //@property (weak, nonatomic) IBOutlet FBSDKLoginButton *login_fb_button;
@@ -18,8 +20,8 @@
 //@property (weak, nonatomic) IBOutlet UIButton *signInButton;
 //@property (nonatomic, assign)BOOL isPlacingOrder;
 
-@property (weak, nonatomic) IBOutlet UITextField *emailField;
-@property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet NTextField *emailField;
+@property (weak, nonatomic) IBOutlet NTextField *passwordField;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;

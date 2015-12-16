@@ -451,7 +451,9 @@
 
 -(void)goToSearchTab {
     
-    [self.tabBarController setSelectedIndex:1];
+    UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
+    
+    [tabBarController setSelectedIndex:1];
     
     
 }

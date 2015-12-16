@@ -32,14 +32,9 @@ typedef void(^completion)(BOOL finished);
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-//    self.signInButton.layer.cornerRadius = 3.0f;
-//    self.registerButton.layer.cornerRadius = 3.0f;
-//    
-//    
-//    self.login_fb_button.delegate = self;
-//    self.login_fb_button.readPermissions = @[@"email", @"public_profile"];
     
     self.loginButton.layer.cornerRadius = 3.f;
+    
     
     self.emailImageView.image = [self.emailImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [self.emailImageView setTintColor:[UIColor whiteColor]];
@@ -263,6 +258,8 @@ typedef void(^completion)(BOOL finished);
 
 
 
+
+#pragma mark - UITextFieldDelegate
 
 
 

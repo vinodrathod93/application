@@ -2,17 +2,45 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Icons</key>
+	<array>
+		<string>general_store</string>
+		<string>chemist</string>
+		<string>doctor_specialist</string>
+		<string>hospital</string>
+		<string>ambulance</string>
+		<string>diagnostic_centre</string>
+		<string>insurance</string>
+		<string>salon</string>
+		<string>restaurant_cafe</string>
+		<string>banquet</string>
+		<string>ice_cream_parlor</string>
+		<string>sweet_shop</string>
+		<string>motorcycle</string>
+		<string>bar_shop</string>
+		<string>laundary</string>
+		<string>courier</string>
+		<string>home_service</string>
+	</array>
 	<key>Category</key>
 	<array>
-		<string>Stores</string>
+		<string>General Stores</string>
+		<string>Chemists</string>
 		<string>Doctors</string>
-		<string>Restaurants</string>
-		<string>Ice-Cream Parlours</string>
-		<string>Doctors</string>
-		<string>Diagnostics</string>
-		<string>Wellness</string>
-		<string>Fitness</string>
+		<string>Hospitals</string>
+		<string>Ambulance</string>
+		<string>Diagnotic Centres</string>
 		<string>Insurance</string>
+		<string>Wellness</string>
+		<string>Restaurants &amp; Cafe</string>
+		<string>Banquets</string>
+		<string>Ice-Cream Parlours</string>
+		<string>Sweet Shop</string>
+		<string>Vehicle Showrooms</string>
+		<string>Bar Shop</string>
+		<string>Laundry</string>
+		<string>Courier</string>
+		<string>Home Services</string>
 	</array>
 </dict>
 </plist>

@@ -63,7 +63,7 @@
                                                           [UIFont fontWithName:@"AvenirNext-Medium" size:19.f], NSFontAttributeName , nil]];
     
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:246/255.f green:235/255.f blue:0/255.f alpha:1.0]];
-//    [[UINavigationBar appearance] setTranslucent:NO];
+    [[UINavigationBar appearance] setTranslucent:NO];
     
     // Facebook Method
     [FBSDKLoginButton class];
