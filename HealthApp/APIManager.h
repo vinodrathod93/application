@@ -10,10 +10,12 @@
 #import "StoreListRequestModel.h"
 #import "StoreListResponseModel.h"
 #import "TaxonomyListResponseModel.h"
+#import "MyOrdersResponseModel.h"
 
 @interface APIManager : SessionManager
 
 -(NSURLSessionDataTask *)getStoresWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^)(StoreListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)getTaxonomiesForStore:(NSString *)store WithSuccess:(void (^)(TaxonomyListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure;
+-(NSURLSessionDataTask *)getMyOrdersWithSuccess:(void (^)(MyOrdersResponseModel *))success failure:(void (^)(NSError *))failure;
 
 @end

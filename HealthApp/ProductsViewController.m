@@ -289,6 +289,8 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                 NSError *jsonError;
                 id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                 
+                
+                
                 if (jsonError != nil) {
                     NSLog(@"Error %@",[jsonError localizedDescription]);
                     

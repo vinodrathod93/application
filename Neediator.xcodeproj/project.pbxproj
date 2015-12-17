@@ -94,6 +94,10 @@
 		82A2659C1C2169B50031BDC9 /* NTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A2659B1C2169B50031BDC9 /* NTextField.m */; };
 		82A265A01C2195830031BDC9 /* MyOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */; };
 		82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A265A31C2195D00031BDC9 /* MyOrdersCell.m */; };
+		82A542831C229ECF00383253 /* MyOrdersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A542821C229ECF00383253 /* MyOrdersModel.m */; };
+		82A542861C22B00800383253 /* LineItemsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A542851C22B00800383253 /* LineItemsModel.m */; };
+		82A542891C22B3A100383253 /* VariantImagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A542881C22B3A100383253 /* VariantImagesModel.m */; };
+		82A5428D1C22BB1A00383253 /* MyOrdersResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A5428C1C22BB1A00383253 /* MyOrdersResponseModel.m */; };
 		82AD69021BFF4FBF00478C5A /* ProductDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD69011BFF4FBF00478C5A /* ProductDetailsViewController.m */; };
 		82BD028E1B46A73C00108A0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD028D1B46A73C00108A0B /* main.m */; };
 		82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02901B46A73C00108A0B /* AppDelegate.m */; };
@@ -304,6 +308,14 @@
 		82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersViewController.m; sourceTree = "<group>"; };
 		82A265A21C2195D00031BDC9 /* MyOrdersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersCell.h; sourceTree = "<group>"; };
 		82A265A31C2195D00031BDC9 /* MyOrdersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersCell.m; sourceTree = "<group>"; };
+		82A542811C229ECF00383253 /* MyOrdersModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersModel.h; sourceTree = "<group>"; };
+		82A542821C229ECF00383253 /* MyOrdersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersModel.m; sourceTree = "<group>"; };
+		82A542841C22B00800383253 /* LineItemsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineItemsModel.h; sourceTree = "<group>"; };
+		82A542851C22B00800383253 /* LineItemsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineItemsModel.m; sourceTree = "<group>"; };
+		82A542871C22B3A100383253 /* VariantImagesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariantImagesModel.h; sourceTree = "<group>"; };
+		82A542881C22B3A100383253 /* VariantImagesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VariantImagesModel.m; sourceTree = "<group>"; };
+		82A5428B1C22BB1A00383253 /* MyOrdersResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersResponseModel.h; sourceTree = "<group>"; };
+		82A5428C1C22BB1A00383253 /* MyOrdersResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersResponseModel.m; sourceTree = "<group>"; };
 		82AD69001BFF4FBF00478C5A /* ProductDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailsViewController.h; sourceTree = "<group>"; };
 		82AD69011BFF4FBF00478C5A /* ProductDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailsViewController.m; sourceTree = "<group>"; };
 		82BD02881B46A73C00108A0B /* Chemist Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chemist Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -606,6 +618,37 @@
 			name = "My Orders";
 			sourceTree = "<group>";
 		};
+		82A542801C229E9E00383253 /* My Orders */ = {
+			isa = PBXGroup;
+			children = (
+				82A542811C229ECF00383253 /* MyOrdersModel.h */,
+				82A542821C229ECF00383253 /* MyOrdersModel.m */,
+				82A5428B1C22BB1A00383253 /* MyOrdersResponseModel.h */,
+				82A5428C1C22BB1A00383253 /* MyOrdersResponseModel.m */,
+			);
+			name = "My Orders";
+			sourceTree = "<group>";
+		};
+		82A5428A1C22B98400383253 /* Variant Model */ = {
+			isa = PBXGroup;
+			children = (
+				82A542871C22B3A100383253 /* VariantImagesModel.h */,
+				82A542881C22B3A100383253 /* VariantImagesModel.m */,
+				82A542841C22B00800383253 /* LineItemsModel.h */,
+				82A542851C22B00800383253 /* LineItemsModel.m */,
+			);
+			name = "Variant Model";
+			sourceTree = "<group>";
+		};
+		82A5428E1C22C17E00383253 /* My Orders */ = {
+			isa = PBXGroup;
+			children = (
+				82A2659E1C2195830031BDC9 /* MyOrdersViewController.h */,
+				82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */,
+			);
+			name = "My Orders";
+			sourceTree = "<group>";
+		};
 		82BD027F1B46A73C00108A0B = {
 			isa = PBXGroup;
 			children = (
@@ -640,9 +683,8 @@
 				82EF2DD51BE8C2BC00D87DE2 /* Categories */,
 				82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */,
 				82EF2DB81BE8BDCF00D87DE2 /* Controllers */,
-				82A2659E1C2195830031BDC9 /* MyOrdersViewController.h */,
-				82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */,
 				82C722F91B7B42EF00E0C5EF /* Models */,
+				8286B2551BF08F1100AFC533 /* Realm */,
 				82EF2DE21BE8EC3E00D87DE2 /* Network */,
 				82D6EE311C1802C2007CE5F2 /* Constants */,
 				822D15C41BCBE02700FE2E7E /* SearchResultsProductViewController.h */,
@@ -725,8 +767,9 @@
 		82C722F91B7B42EF00E0C5EF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8286B2551BF08F1100AFC533 /* Realm */,
 				824C25521B56374900C58F97 /* Categories.plist */,
+				82A5428A1C22B98400383253 /* Variant Model */,
+				82A542801C229E9E00383253 /* My Orders */,
 				82CE35DC1C1593FD003744C9 /* Orders */,
 				8286B26E1BF0CE5E00AFC533 /* Taxons */,
 				82999E961BEB1D4E00F0EDE3 /* Add to Cart CoreData */,
@@ -809,6 +852,7 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				82A5428E1C22C17E00383253 /* My Orders */,
 				82CE35E11C15B568003744C9 /* Navigation */,
 				82CE35E01C15B552003744C9 /* Popup */,
 				82F1DD4E1BFC9B0F0056FBB3 /* Taxons */,
@@ -1440,10 +1484,12 @@
 				82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */,
 				82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */,
 				8250A32A1B55000B0026ADCE /* SubCategoryViewController.m in Sources */,
+				82A542831C229ECF00383253 /* MyOrdersModel.m in Sources */,
 				82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */,
 				825266D31B4F93C900C635F7 /* HeaderView.m in Sources */,
 				8286B2511BF089D600AFC533 /* StoreListRequestModel.m in Sources */,
 				82327F771B60F9A800D92889 /* CartViewCell.m in Sources */,
+				82A542861C22B00800383253 /* LineItemsModel.m in Sources */,
 				8286B2741BF0CF7500AFC533 /* TaxonModel.m in Sources */,
 				82FB87AC1B4D18C500CAD5F7 /* OrderConfirmationViewController.m in Sources */,
 				8233CE161B874FB200B5279B /* PaymentViewCell.m in Sources */,
@@ -1467,6 +1513,7 @@
 				825567181B68E6D4009F013A /* AddShippingDetailsViewController.m in Sources */,
 				82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */,
 				82C38A881C086B5C0006A73B /* PresentingAnimator.m in Sources */,
+				82A542891C22B3A100383253 /* VariantImagesModel.m in Sources */,
 				827DD31A1B8AE39F00714985 /* Address.m in Sources */,
 				8286B2711BF0CF6A00AFC533 /* TaxonomyModel.m in Sources */,
 				8255671B1B68E6F0009F013A /* AddShippingViewCell.m in Sources */,
@@ -1499,6 +1546,7 @@
 				825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */,
 				826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */,
 				826A83B21C09786700F15544 /* Order.m in Sources */,
+				82A5428D1C22BB1A00383253 /* MyOrdersResponseModel.m in Sources */,
 				822D15C91BCBE04000FE2E7E /* SearchResultsProductViewCell.m in Sources */,
 				82CE35E41C15B7E1003744C9 /* SearchViewController.m in Sources */,
 				8250A32D1B55142E0026ADCE /* ProductsViewController.m in Sources */,

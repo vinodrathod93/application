@@ -1022,74 +1022,72 @@
             </objects>
             <point key="canvasLocation" x="4983" y="332"/>
         </scene>
-        <!--My Orders View Controller-->
+        <!--My Orders-->
         <scene sceneID="Fkg-hX-eMa">
             <objects>
-                <tableViewController storyboardIdentifier="myOrdersVC" id="8NJ-xs-vEn" customClass="MyOrdersViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="175" sectionHeaderHeight="28" sectionFooterHeight="28" id="fsS-Aa-UUM">
+                <tableViewController storyboardIdentifier="myOrdersVC" title="My Orders" id="8NJ-xs-vEn" customClass="MyOrdersViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="193" sectionHeaderHeight="18" sectionFooterHeight="18" id="fsS-Aa-UUM">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="175" id="3rW-ln-bRk" customClass="MyOrdersCell">
-                                <rect key="frame" x="0.0" y="28" width="600" height="175"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="myOrdersCell" rowHeight="193" id="3rW-ln-bRk" customClass="MyOrdersCell">
+                                <rect key="frame" x="0.0" y="50" width="600" height="193"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3rW-ln-bRk" id="Cht-ot-5VS">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="174"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="192"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v4Q-H0-TYo">
-                                            <rect key="frame" x="8" y="66" width="584" height="100"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5VN-Oc-QZ8" userLabel="Content View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="584" height="100"/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="5VN-Oc-QZ8" firstAttribute="centerX" secondItem="v4Q-H0-TYo" secondAttribute="centerX" id="9qM-IV-1H7"/>
-                                                <constraint firstAttribute="bottom" secondItem="5VN-Oc-QZ8" secondAttribute="bottom" id="Dxg-EY-MFV"/>
-                                                <constraint firstItem="5VN-Oc-QZ8" firstAttribute="centerY" secondItem="v4Q-H0-TYo" secondAttribute="centerY" id="J9o-QY-9sK"/>
-                                                <constraint firstAttribute="trailing" secondItem="5VN-Oc-QZ8" secondAttribute="trailing" id="JxC-NT-G0K"/>
-                                                <constraint firstItem="5VN-Oc-QZ8" firstAttribute="top" secondItem="v4Q-H0-TYo" secondAttribute="top" id="jcB-2F-PLi"/>
-                                                <constraint firstAttribute="height" constant="100" id="srN-zw-OX5"/>
-                                                <constraint firstItem="5VN-Oc-QZ8" firstAttribute="leading" secondItem="v4Q-H0-TYo" secondAttribute="leading" id="wZM-gA-yZ9"/>
-                                            </constraints>
-                                        </scrollView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pending" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eHE-IB-dmU">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pending" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eHE-IB-dmU">
                                             <rect key="frame" x="8" y="8" width="300" height="22"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order No: RK89378973" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsj-N3-Nlh">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order No: RK89378973" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsj-N3-Nlh">
                                             <rect key="frame" x="316" y="7" width="276" height="22"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Placed on Wednesday, December 16, 2016 / Rs. 9,345 / 6 Items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cCB-sL-aZI">
-                                            <rect key="frame" x="8" y="38" width="584" height="20"/>
-                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="751" misplaced="YES" text="Placed on Wednesday, December 16, 2016 / Rs. 9,345 / 6 Items" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cCB-sL-aZI">
+                                            <rect key="frame" x="8" y="38" width="584" height="38"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="d8R-jU-n4B">
+                                            <rect key="frame" x="8" y="84" width="584" height="100"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9Kj-Ag-dZK">
+                                                <size key="itemSize" width="75" height="100"/>
+                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            </collectionViewFlowLayout>
+                                            <cells>
+                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MyOrderCollectionViewCellIdentifier" id="amt-Mu-QPa">
+                                                    <rect key="frame" x="0.0" y="0.0" width="75" height="100"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                        <rect key="frame" x="0.0" y="0.0" width="75" height="100"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </view>
+                                                </collectionViewCell>
+                                            </cells>
+                                        </collectionView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="leadingMargin" secondItem="cCB-sL-aZI" secondAttribute="leading" id="20C-Z2-IZG"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="tsj-N3-Nlh" secondAttribute="trailing" id="406-Hj-xUb"/>
                                         <constraint firstItem="tsj-N3-Nlh" firstAttribute="top" secondItem="Cht-ot-5VS" secondAttribute="topMargin" constant="-1" id="6o9-sV-ERD"/>
-                                        <constraint firstAttribute="trailing" secondItem="v4Q-H0-TYo" secondAttribute="trailing" constant="8" id="ESL-EE-2cA"/>
                                         <constraint firstItem="eHE-IB-dmU" firstAttribute="width" secondItem="Cht-ot-5VS" secondAttribute="width" multiplier="0.5" id="GdR-xL-K7j"/>
                                         <constraint firstItem="tsj-N3-Nlh" firstAttribute="width" secondItem="eHE-IB-dmU" secondAttribute="width" id="QLb-Cc-7Bg"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="cCB-sL-aZI" secondAttribute="trailing" id="Xoy-Iq-USK"/>
                                         <constraint firstItem="cCB-sL-aZI" firstAttribute="top" secondItem="eHE-IB-dmU" secondAttribute="bottom" constant="8" id="av4-mD-BYo"/>
-                                        <constraint firstAttribute="bottom" secondItem="v4Q-H0-TYo" secondAttribute="bottom" constant="8" id="dfR-kq-5wm"/>
                                         <constraint firstAttribute="leadingMargin" secondItem="eHE-IB-dmU" secondAttribute="leading" id="pQS-ab-fiL"/>
                                         <constraint firstAttribute="topMargin" secondItem="eHE-IB-dmU" secondAttribute="top" id="ro0-MT-oYd"/>
-                                        <constraint firstItem="v4Q-H0-TYo" firstAttribute="top" secondItem="cCB-sL-aZI" secondAttribute="bottom" constant="8" id="t83-nh-tL3"/>
                                         <constraint firstItem="tsj-N3-Nlh" firstAttribute="leading" secondItem="eHE-IB-dmU" secondAttribute="trailing" constant="8" id="zfc-NH-f4U"/>
-                                        <constraint firstItem="v4Q-H0-TYo" firstAttribute="leading" secondItem="Cht-ot-5VS" secondAttribute="leading" constant="8" id="zzd-1w-fQ0"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -1098,11 +1096,10 @@
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="collectionView" destination="d8R-jU-n4B" id="aQE-Hv-aUR"/>
                                     <outlet property="orderDate" destination="cCB-sL-aZI" id="qBu-4p-WYr"/>
                                     <outlet property="orderNumber" destination="tsj-N3-Nlh" id="X7P-Ds-ubJ"/>
                                     <outlet property="orderState" destination="eHE-IB-dmU" id="uTa-b4-SVq"/>
-                                    <outlet property="scrollView" destination="v4Q-H0-TYo" id="1Xl-Hf-LFE"/>
-                                    <outlet property="scrollViewContentView" destination="5VN-Oc-QZ8" id="QZX-3T-qZZ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1114,7 +1111,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w87-SE-SV5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5875" y="325"/>
+            <point key="canvasLocation" x="6153" y="311"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="a3f-rV-sXS">

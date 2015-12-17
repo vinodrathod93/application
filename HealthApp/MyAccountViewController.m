@@ -16,6 +16,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "AddressesViewController.h"
 #import "AppDelegate.h"
+#import "MyOrdersViewController.h"
 
 enum MyAccountCells {
     MyOrdersCell = 0,
@@ -140,10 +141,12 @@ enum MyAccountCells {
         NSArray *icons = _iconsArray[indexPath.section];
         
         cell.textLabel.text = array[indexPath.row];
+        cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
         cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", icons[indexPath.row]]];
     }
     else if(indexPath.section != 0) {
         cell.textLabel.text = _options[indexPath.section];
+        cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
         cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", _iconsArray[indexPath.section]]];
     }
     
@@ -160,7 +163,23 @@ enum MyAccountCells {
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.section == 2) {
+    if (indexPath.section == 1) {
+        
+        
+        if (indexPath.row == MyOrdersCell) {
+            MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
+            
+            [self.navigationController pushViewController:myOrdersVC animated:YES];
+        }
+        else if (indexPath.row == MyAddressesCell) {
+            AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
+            addressesVC.isGettingOrder = NO;
+            [self.navigationController pushViewController:addressesVC animated:YES];
+        }
+        
+
+    }
+    else if (indexPath.section == 2) {
         
 //        FBSDKLoginManager *manager = [[FBSDKLoginManager alloc]init];
 //        [manager logOut];
@@ -169,11 +188,7 @@ enum MyAccountCells {
         
         [self showWarningBeforeSignoutForCell:cell];
     }
-    else if (indexPath.row == MyAddressesCell) {
-        AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
-        addressesVC.isGettingOrder = NO;
-        [self.navigationController pushViewController:addressesVC animated:YES];
-    }
+    
 }
 
 

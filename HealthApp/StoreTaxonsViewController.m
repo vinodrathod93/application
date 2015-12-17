@@ -43,6 +43,7 @@
         
         [self.tableView reloadData];
         [self hideHUD];
+        
     } failure:^(NSError *error) {
         
         [self hideHUD];
