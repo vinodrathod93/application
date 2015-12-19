@@ -1095,12 +1095,6 @@
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="collectionView" destination="d8R-jU-n4B" id="aQE-Hv-aUR"/>
-                                    <outlet property="orderDate" destination="cCB-sL-aZI" id="qBu-4p-WYr"/>
-                                    <outlet property="orderNumber" destination="tsj-N3-Nlh" id="X7P-Ds-ubJ"/>
-                                    <outlet property="orderState" destination="eHE-IB-dmU" id="uTa-b4-SVq"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

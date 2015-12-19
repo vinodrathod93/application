@@ -135,8 +135,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     cell.backgroundColor = [UIColor clearColor];
     
     
-//    imageView.image = [UIImage imageNamed:@"pharma.png"];
-    
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(25, 0, 50, 50)];
     imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.categoryIcons[indexPath.item]]];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -163,6 +161,17 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     return CGSizeMake(100, 100);
 }
 
+
+//- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+//    
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+//        if (self.view.frame.size.width < 1136) {
+//            return UIEdgeInsetsMake(30, 40, 0, 10);
+//        }
+//    }
+//    
+//    return UIEdgeInsetsMake(<#CGFloat top#>, <#CGFloat left#>, <#CGFloat bottom#>, <#CGFloat right#>)
+//}
 
 
 #pragma mark <UICollectionViewDelegate>

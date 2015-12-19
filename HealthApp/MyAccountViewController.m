@@ -165,13 +165,14 @@ enum MyAccountCells {
     
     if (indexPath.section == 1) {
         
-        
         if (indexPath.row == MyOrdersCell) {
-            MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
+//            MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
             
+            MyOrdersViewController *myOrdersVC = [[MyOrdersViewController alloc] initWithStyle:UITableViewStyleGrouped];
             [self.navigationController pushViewController:myOrdersVC animated:YES];
         }
         else if (indexPath.row == MyAddressesCell) {
+            
             AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
             addressesVC.isGettingOrder = NO;
             [self.navigationController pushViewController:addressesVC animated:YES];

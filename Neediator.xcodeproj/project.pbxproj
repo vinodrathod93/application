@@ -91,6 +91,7 @@
 		82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E911BEB1D0100F0EDE3 /* APIManager.m */; };
 		82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E981BEB1D9300F0EDE3 /* StoresModel.m */; };
 		829CE90A1B4BCB2200304088 /* PlaceOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829CE9091B4BCB2200304088 /* PlaceOrderViewController.m */; };
+		829F73941C257FEE001670A8 /* CustomCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 829F73931C257FEE001670A8 /* CustomCollectionViewCell.m */; };
 		82A2659C1C2169B50031BDC9 /* NTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A2659B1C2169B50031BDC9 /* NTextField.m */; };
 		82A265A01C2195830031BDC9 /* MyOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */; };
 		82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A265A31C2195D00031BDC9 /* MyOrdersCell.m */; };
@@ -302,6 +303,8 @@
 		82999E981BEB1D9300F0EDE3 /* StoresModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoresModel.m; sourceTree = "<group>"; };
 		829CE9081B4BCB2200304088 /* PlaceOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceOrderViewController.h; sourceTree = "<group>"; };
 		829CE9091B4BCB2200304088 /* PlaceOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceOrderViewController.m; sourceTree = "<group>"; };
+		829F73921C257FEE001670A8 /* CustomCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionViewCell.h; sourceTree = "<group>"; };
+		829F73931C257FEE001670A8 /* CustomCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewCell.m; sourceTree = "<group>"; };
 		82A2659A1C2169B50031BDC9 /* NTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextField.h; sourceTree = "<group>"; };
 		82A2659B1C2169B50031BDC9 /* NTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTextField.m; sourceTree = "<group>"; };
 		82A2659E1C2195830031BDC9 /* MyOrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersViewController.h; sourceTree = "<group>"; };
@@ -614,6 +617,8 @@
 			children = (
 				82A265A21C2195D00031BDC9 /* MyOrdersCell.h */,
 				82A265A31C2195D00031BDC9 /* MyOrdersCell.m */,
+				829F73921C257FEE001670A8 /* CustomCollectionViewCell.h */,
+				829F73931C257FEE001670A8 /* CustomCollectionViewCell.m */,
 			);
 			name = "My Orders";
 			sourceTree = "<group>";
@@ -1485,6 +1490,7 @@
 				82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */,
 				8250A32A1B55000B0026ADCE /* SubCategoryViewController.m in Sources */,
 				82A542831C229ECF00383253 /* MyOrdersModel.m in Sources */,
+				829F73941C257FEE001670A8 /* CustomCollectionViewCell.m in Sources */,
 				82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */,
 				825266D31B4F93C900C635F7 /* HeaderView.m in Sources */,
 				8286B2511BF089D600AFC533 /* StoreListRequestModel.m in Sources */,

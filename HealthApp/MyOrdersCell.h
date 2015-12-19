@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomCollectionViewCell.h"
 
 
 @interface HorizontalCollectionView : UICollectionView
@@ -17,13 +18,14 @@
 
 @interface MyOrdersCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *orderState;
-@property (weak, nonatomic) IBOutlet UILabel *orderNumber;
-@property (weak, nonatomic) IBOutlet UILabel *orderDate;
+@property (strong, nonatomic)  UILabel *orderState;
+@property (strong, nonatomic)  UILabel *orderNumber;
+@property (strong, nonatomic)  UILabel *orderDate;
 
-@property (weak, nonatomic) IBOutlet HorizontalCollectionView *collectionView;
+@property (strong, nonatomic)  HorizontalCollectionView *collectionView;
 
-@property (nonatomic, copy) NSArray *images;
+@property (nonatomic, strong) NSArray *images;
 
 - (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath;
+
 @end

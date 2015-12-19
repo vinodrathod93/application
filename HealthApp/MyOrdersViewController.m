@@ -12,6 +12,7 @@
 #import "MyOrdersModel.h"
 #import "LineItemsModel.h"
 #import "VariantImagesModel.h"
+#import "CustomCollectionViewCell.h"
 
 @interface MyOrdersViewController ()
 
@@ -28,7 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    /*
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText      = @"Loading...";
     hud.dimBackground  = YES;
@@ -52,8 +53,9 @@
         UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertError show];
     }];
-    */
     
+    
+    /*
     const NSInteger numberOfTableViewRows = 20;
     const NSInteger numberOfCollectionViewCells = 15;
     
@@ -80,7 +82,7 @@
     self.colorArray = [NSArray arrayWithArray:mutableArray];
     
     self.contentOffsetDictionary = [NSMutableDictionary dictionary];
-    
+    */
     
 }
 
@@ -92,27 +94,30 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return _orders.count;
+    return _orders.count;
     
-    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return 1;
+    return 1;
     
-    return self.colorArray.count;
+//    return self.colorArray.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MyOrdersCell *cell = [tableView dequeueReusableCellWithIdentifier:@"myOrdersCell" forIndexPath:indexPath];
+//    MyOrdersCell *cell = [tableView dequeueReusableCellWithIdentifier:@"myOrdersCell" forIndexPath:indexPath];
+    
+    MyOrdersCell *cell = (MyOrdersCell *)[tableView dequeueReusableCellWithIdentifier:@"myOrdersCell"];
     
     MyOrdersModel *model = _orders[indexPath.section];
     
-    
+    if (!cell) {
+        cell = [[MyOrdersCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"myOrdersCell"];
+    }
     
     cell.orderState.text         = [model.orderState capitalizedString];
-    cell.orderNumber.text        = model.orderNumber;
+    cell.orderNumber.text        = [NSString stringWithFormat:@"Order #%@",model.orderNumber];
     cell.orderDate.text          = [NSString stringWithFormat:@"%@/%@", [self getFormattedDate:model.completed_date], model.orderTotal];
     
     
@@ -135,7 +140,9 @@
 }
 
 
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 193.f;
+}
 
 
 
@@ -143,19 +150,27 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSArray *collectionViewArray = self.colorArray[[(HorizontalCollectionView *)collectionView indexPath].row];
-    return collectionViewArray.count;
+    
+    NSArray *images = [self getImagesForSection:section];
+    
+    return images.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MyOrderCollectionViewCellIdentifier" forIndexPath:indexPath];
+    CustomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MyOrderCollectionViewCellIdentifier" forIndexPath:indexPath];
     
-    NSArray *collectionViewArray = self.colorArray[[(HorizontalCollectionView *)collectionView indexPath].row];
-    cell.backgroundColor = collectionViewArray[indexPath.item];
+    NSArray *images = [self getImagesForSection:indexPath.section];
+    
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", images[indexPath.row]]];
+    
+    [cell.imageView sd_setImageWithURL:url];
+    cell.backgroundColor = [UIColor blackColor];
     
     return cell;
 }
+
 
 #pragma mark - UIScrollViewDelegate Methods
 
@@ -177,12 +192,11 @@
 
 
 
-/*
--(void)prepareVariantImageViewForCell:(MyOrdersCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+-(NSArray *)getImagesForSection:(NSInteger)section {
     
     [_itemsImages removeAllObjects];
     
-    MyOrdersModel *model = _orders[indexPath.section];
+    MyOrdersModel *model = _orders[section];
     NSArray *lineItems = model.line_items;
     
     [lineItems enumerateObjectsUsingBlock:^(LineItemsModel * _Nonnull line_item, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -198,6 +212,9 @@
         
     }];
     
+    
+    return _itemsImages;
+    /*
     
     // get scrollview & view frame
     CGRect scrollViewFrame = cell.scrollView.frame;
@@ -259,12 +276,16 @@
         
         [imageView sd_setImageWithURL:[NSURL URLWithString:image_url]];
         
+     
         
         
     }];
+     
+     */
 }
 
- */
+ 
+ 
 
 -(NSString *)getFormattedDate:(NSString *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
@@ -286,48 +307,6 @@
 
 
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
