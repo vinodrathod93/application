@@ -12,16 +12,16 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry, We Currently haven't reached here yet!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ji-RG-Qiy">
-                    <rect key="frame" x="8" y="355" width="584" height="24"/>
+                    <rect key="frame" x="8" y="288" width="584" height="24"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no_stores" translatesAutoresizingMaskIntoConstraints="NO" id="Mac-PJ-aiX">
-                    <rect key="frame" x="250" y="254" width="100" height="93"/>
+                    <rect key="frame" x="250" y="187" width="100" height="93"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dadar(West), Mumbai" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qBV-d8-D8f">
-                    <rect key="frame" x="167" y="428" width="266" height="21"/>
+                    <rect key="frame" x="167" y="361" width="266" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="266" id="0pb-QQ-ihk"/>
                     </constraints>
@@ -30,13 +30,14 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ai-Zc-49c">
-                    <rect key="frame" x="273" y="457" width="55" height="33"/>
+                    <rect key="frame" x="273" y="390" width="55" height="33"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                     <state key="normal" title="Change"/>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="2ji-RG-Qiy" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="3GX-wO-39C"/>
                 <constraint firstItem="qBV-d8-D8f" firstAttribute="top" secondItem="2ji-RG-Qiy" secondAttribute="bottom" constant="49" id="3ym-Ne-XvY"/>
                 <constraint firstItem="0ai-Zc-49c" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="4La-Ef-R74"/>
                 <constraint firstItem="2ji-RG-Qiy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Dha-jj-hCE"/>
@@ -48,6 +49,11 @@
                 <constraint firstItem="0ai-Zc-49c" firstAttribute="top" secondItem="qBV-d8-D8f" secondAttribute="bottom" constant="8" id="smt-u4-wOD"/>
                 <constraint firstItem="Mac-PJ-aiX" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="xgB-mk-f5A"/>
             </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="E3N-64-iS8"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="changeButton" destination="0ai-Zc-49c" id="OYC-ZK-LPZ"/>
                 <outlet property="imageView" destination="Mac-PJ-aiX" id="o82-Af-FYo"/>

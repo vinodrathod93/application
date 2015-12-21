@@ -45,6 +45,10 @@
         NSLog(@"%@", myOrdersModel.orders);
         
         _orders = myOrdersModel.orders;
+        
+        
+        [self getImagesForAll];
+        
         [self.tableView reloadData];
         
     } failure:^(NSError *error) {
@@ -99,14 +103,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
     
-//    return self.colorArray.count;
+    return 1;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    MyOrdersCell *cell = [tableView dequeueReusableCellWithIdentifier:@"myOrdersCell" forIndexPath:indexPath];
     
     MyOrdersCell *cell = (MyOrdersCell *)[tableView dequeueReusableCellWithIdentifier:@"myOrdersCell"];
     
@@ -116,27 +118,23 @@
         cell = [[MyOrdersCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"myOrdersCell"];
     }
     
+    
+    NSArray *lineItems = model.line_items;
+    
     cell.orderState.text         = [model.orderState capitalizedString];
     cell.orderNumber.text        = [NSString stringWithFormat:@"Order #%@",model.orderNumber];
-    cell.orderDate.text          = [NSString stringWithFormat:@"%@/%@", [self getFormattedDate:model.completed_date], model.orderTotal];
+    cell.orderDate.text          = [NSString stringWithFormat:@"%@/%lu/%@", [self getFormattedDate:model.completed_date], (unsigned long)lineItems.count, model.orderTotal];
     
-    
-    
-    
-//    [self prepareVariantImageViewForCell:cell forIndexPath:indexPath];
     
     return cell;
 }
 
 
 
+
 -(void)tableView:(UITableView *)tableView willDisplayCell:(MyOrdersCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
-    NSInteger index = cell.collectionView.tag;
-    
-    CGFloat horizontalOffset = [self.contentOffsetDictionary[[@(index) stringValue]] floatValue];
-    [cell.collectionView setContentOffset:CGPointMake(horizontalOffset, 0)];
 }
 
 
@@ -151,24 +149,33 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     
-    NSArray *images = [self getImagesForSection:section];
+    NSArray *collectionImages = _itemsImages[[(HorizontalCollectionView *)collectionView indexPath].section];
     
-    return images.count;
+    return collectionImages.count;
+    
+//    return _collectionImages.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CustomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MyOrderCollectionViewCellIdentifier" forIndexPath:indexPath];
+    cell.tag    = indexPath.item;
     
-    NSArray *images = [self getImagesForSection:indexPath.section];
+    NSLog(@"%@",_itemsImages[[(HorizontalCollectionView *)collectionView indexPath].section]);
     
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", images[indexPath.row]]];
+    NSArray *collectionImages = _itemsImages[[(HorizontalCollectionView *)collectionView indexPath].section];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", collectionImages[indexPath.item]]];
+    
     
     [cell.imageView sd_setImageWithURL:url];
-    cell.backgroundColor = [UIColor blackColor];
+    
+    
     
     return cell;
+    
+    
 }
 
 
@@ -192,26 +199,34 @@
 
 
 
--(NSArray *)getImagesForSection:(NSInteger)section {
+-(NSArray *)getImagesForAll {
     
-    [_itemsImages removeAllObjects];
-    
-    MyOrdersModel *model = _orders[section];
-    NSArray *lineItems = model.line_items;
-    
-    [lineItems enumerateObjectsUsingBlock:^(LineItemsModel * _Nonnull line_item, NSUInteger idx, BOOL * _Nonnull stop) {
+    for (int i=0; i< _orders.count; i++) {
         
+        NSMutableArray *imagesParticularOrder = [NSMutableArray array];
         
+        MyOrdersModel *model = _orders[i];
+        NSArray *lineItems = model.line_items;
         
-        if (line_item.images.count != 0) {
-            VariantImagesModel *image = line_item.images[0];
+        [lineItems enumerateObjectsUsingBlock:^(LineItemsModel * _Nonnull line_item, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            [_itemsImages addObject:image.small_url];
-        }
+            if (line_item.images.count != 0) {
+                VariantImagesModel *image = line_item.images[0];
+                
+                [imagesParticularOrder addObject:image.small_url];
+            }
+            
+        }];
+        
+        [_itemsImages addObject:imagesParticularOrder];
         
         
-    }];
+        
+        
+        
+    }
     
+    NSLog(@"%@", _itemsImages);
     
     return _itemsImages;
     /*

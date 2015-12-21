@@ -25,6 +25,7 @@
 #import "Location.h"
 #import "NoStores.h"
 
+#define kNoStoresTag 10
 
 @interface StoresViewController ()<NSFetchedResultsControllerDelegate,UIViewControllerTransitioningDelegate>
 
@@ -130,7 +131,14 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [self.noStoresView removeFromSuperview];
+    
+    NSLog(@"%@", self.navigationController.view.subviews);
+    
+    [[self.navigationController.view viewWithTag:kNoStoresTag] removeFromSuperview];
+    
+    
+    
+    
 }
 
 -(void)dismissAlertView:(UIAlertView *)alertView {
@@ -451,6 +459,9 @@
 
 -(void)goToSearchTab {
     
+    
+    [_noStoresView removeFromSuperview];
+    
     UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
     
     [tabBarController setSelectedIndex:1];
@@ -464,7 +475,7 @@
     
     self.noStoresView = [[[NSBundle mainBundle] loadNibNamed:@"NoStores" owner:self options:nil] lastObject];
     self.noStoresView.frame = self.tableView.frame;
-    
+    self.noStoresView.tag = kNoStoresTag;
     self.noStoresView.location.text = location.location_name;
     
     

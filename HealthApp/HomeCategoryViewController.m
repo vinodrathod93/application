@@ -64,7 +64,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     [self checkLineItems];
-    NSString *count = [NSString stringWithFormat:@"%u", self.h_lineItemsFetchedResultsController.fetchedObjects.count];
+    NSString *count = [NSString stringWithFormat:@"%lu", self.h_lineItemsFetchedResultsController.fetchedObjects.count];
     
     if ([count isEqualToString:@"0"]) {
         [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:nil];
@@ -158,7 +158,17 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(100, 100);
+    
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+//        if (self.view.frame.size.width < 1136) {
+//            return CGSizeMake(75, 75);
+//        }
+//        else
+//            return CGSizeMake(100, 100);
+//    }
+//    else
+        return CGSizeMake(100, 100);
+    
 }
 
 
@@ -166,11 +176,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 //    
 //    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
 //        if (self.view.frame.size.width < 1136) {
-//            return UIEdgeInsetsMake(30, 40, 0, 10);
+//            return UIEdgeInsetsMake(30, 35, 0, 35);
 //        }
 //    }
 //    
-//    return UIEdgeInsetsMake(<#CGFloat top#>, <#CGFloat left#>, <#CGFloat bottom#>, <#CGFloat right#>)
+//    return UIEdgeInsetsMake(30, 10, 0, 10);
 //}
 
 
@@ -239,7 +249,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     if (scrollView == self.headerView.scrollView) {
         NSInteger index = self.headerView.scrollView.contentOffset.x / CGRectGetWidth(self.headerView.scrollView.frame);
-        NSLog(@"%ld",(long)index);
         
         self.headerView.pageControl.currentPage = index;
     }
@@ -253,8 +262,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     [self.imagesData enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
-        NSLog(@"%@",NSStringFromCGRect(self.headerView.scrollView.frame));
-        NSLog(@"%lu",(unsigned long)idx);
         imageView.tag = idx;
         
        

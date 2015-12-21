@@ -129,6 +129,8 @@
 		82EF2DE11BE8C67B00D87DE2 /* StoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE01BE8C67B00D87DE2 /* StoresViewController.m */; };
 		82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */; };
 		82F80CD61C1EE01100C8E076 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F80CD51C1EE01100C8E076 /* MoreViewController.m */; };
+		82FB520C1C281B2500E19626 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FB520B1C281B2500E19626 /* LoginView.m */; };
+		82FB520E1C281B3300E19626 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82FB520D1C281B3300E19626 /* LoginView.xib */; };
 		82FB87AC1B4D18C500CAD5F7 /* OrderConfirmationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FB87AB1B4D18C500CAD5F7 /* OrderConfirmationViewController.m */; };
 		C1F05C0A84FFC31F75338C27 /* libPods-Chemist Plus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */; };
 /* End PBXBuildFile section */
@@ -378,6 +380,9 @@
 		82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionManager.m; sourceTree = "<group>"; };
 		82F80CD41C1EE01100C8E076 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
 		82F80CD51C1EE01100C8E076 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
+		82FB520A1C281B2500E19626 /* LoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginView.h; sourceTree = "<group>"; };
+		82FB520B1C281B2500E19626 /* LoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
+		82FB520D1C281B3300E19626 /* LoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
 		82FB87AA1B4D18C500CAD5F7 /* OrderConfirmationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderConfirmationViewController.h; sourceTree = "<group>"; };
 		82FB87AB1B4D18C500CAD5F7 /* OrderConfirmationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderConfirmationViewController.m; sourceTree = "<group>"; };
 		D1F400F2EC7F15D32196CDE1 /* Pods-Chemist Plus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.release.xcconfig"; sourceTree = "<group>"; };
@@ -1043,6 +1048,7 @@
 		82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				82FB52091C281B0800E19626 /* Login View */,
 				82A265A11C2195B10031BDC9 /* My Orders */,
 				8286B2671BF0C9B900AFC533 /* Taxons */,
 				8286B2591BF0A2A400AFC533 /* Stores */,
@@ -1297,6 +1303,16 @@
 			name = Search;
 			sourceTree = "<group>";
 		};
+		82FB52091C281B0800E19626 /* Login View */ = {
+			isa = PBXGroup;
+			children = (
+				82FB520D1C281B3300E19626 /* LoginView.xib */,
+				82FB520A1C281B2500E19626 /* LoginView.h */,
+				82FB520B1C281B2500E19626 /* LoginView.m */,
+			);
+			name = "Login View";
+			sourceTree = "<group>";
+		};
 		95BE41776404844E9379F46C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1392,6 +1408,7 @@
 				826212F61BFB25BC00F75254 /* BannerView.xib in Resources */,
 				824C25531B56374900C58F97 /* Categories.plist in Resources */,
 				823F71B11C1B206E00E43731 /* NoStores.xib in Resources */,
+				82FB520E1C281B3300E19626 /* LoginView.xib in Resources */,
 				82BD02971B46A73C00108A0B /* Main.storyboard in Resources */,
 				820F0E1C1B5FD00800AE81F4 /* pharma.png in Resources */,
 				82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */,
@@ -1494,6 +1511,7 @@
 				82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */,
 				825266D31B4F93C900C635F7 /* HeaderView.m in Sources */,
 				8286B2511BF089D600AFC533 /* StoreListRequestModel.m in Sources */,
+				82FB520C1C281B2500E19626 /* LoginView.m in Sources */,
 				82327F771B60F9A800D92889 /* CartViewCell.m in Sources */,
 				82A542861C22B00800383253 /* LineItemsModel.m in Sources */,
 				8286B2741BF0CF7500AFC533 /* TaxonModel.m in Sources */,

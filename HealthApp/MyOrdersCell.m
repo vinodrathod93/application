@@ -52,8 +52,8 @@
     
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.sectionInset = UIEdgeInsetsMake(2, 2, 0, 2);
-    layout.itemSize = CGSizeMake(75, 100);
+//    layout.sectionInset = UIEdgeInsetsMake(2, 2, 0, 2);
+    layout.itemSize = CGSizeMake(75, 90);
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     self.collectionView = [[HorizontalCollectionView alloc] initWithFrame:CGRectMake(8, 84, CGRectGetWidth(self.frame) - (2 * 8), 100) collectionViewLayout:layout];
     self.collectionView.backgroundColor = [UIColor whiteColor];

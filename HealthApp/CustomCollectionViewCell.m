@@ -16,9 +16,12 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 100)];
+        self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.contentView.frame), CGRectGetHeight(self.contentView.frame))];
+        self.imageView.tag   = self.tag;
         [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        
         [self.contentView addSubview:self.imageView];
+        
     }
     return self;
 }

@@ -17,12 +17,15 @@
 #import "AddressesViewController.h"
 #import "AppDelegate.h"
 #import "MyOrdersViewController.h"
+#import "LoginView.h"
 
 enum MyAccountCells {
     MyOrdersCell = 0,
     MyAddressesCell,
     TrackOrdersCell
 };
+
+#define kLoginViewTag 20
 
 @interface MyAccountViewController ()
 {
@@ -38,6 +41,7 @@ enum MyAccountCells {
     NSArray  *_iconsArray;
     NSArray  *_options;
     MBProgressHUD *_hud;
+    LoginView *_loginView;
 }
 
 
@@ -54,20 +58,45 @@ enum MyAccountCells {
     
     NSLog(@"viewWillAppear");
     
+    User *user = [User savedUser];
+    
+    if (user != nil) {
+        _options = @[ @"", @[@"My Orders", @"My Addresses", @"Track Order"],
+                      @"Sign Out"];
+        _iconsArray  = @[
+                         @"",
+                         @[@"my_orders", @"address", @"track"],
+                         @"signout"
+                         ];
+        
+        
+        [self.tableView reloadData];
+    }
+    else {
+        
+        // Show login view
+        
+        [self displayLoginView];
+    }
     
     
-    _options = @[ @"", @[@"My Orders", @"My Addresses", @"Track Order"],
-                  @"Sign Out"];
-    _iconsArray  = @[
-                     @"",
-                     @[@"my_orders", @"address", @"track"],
-                     @"signout"
-                     ];
     
     
-    [self.tableView reloadData];
+    
     
 }
+
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [[self.navigationController.view viewWithTag:kLoginViewTag] removeFromSuperview];
+    
+}
+
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -166,7 +195,6 @@ enum MyAccountCells {
     if (indexPath.section == 1) {
         
         if (indexPath.row == MyOrdersCell) {
-//            MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
             
             MyOrdersViewController *myOrdersVC = [[MyOrdersViewController alloc] initWithStyle:UITableViewStyleGrouped];
             [self.navigationController pushViewController:myOrdersVC animated:YES];
@@ -182,22 +210,13 @@ enum MyAccountCells {
     }
     else if (indexPath.section == 2) {
         
-//        FBSDKLoginManager *manager = [[FBSDKLoginManager alloc]init];
-//        [manager logOut];
-        
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        
         [self showWarningBeforeSignoutForCell:cell];
+        
     }
     
 }
 
-
--(void)removeLastObject {
-    _options = @[
-                  @[@"My Orders", @"My Addresses", @"Track Order"]
-                 ];
-}
 
 
 
@@ -212,24 +231,16 @@ enum MyAccountCells {
         
         // Remove all user data here
         [self removeAllUserData];
-        
-        [self removeLastObject];
-        
         [self.tableView reloadData];
-        
         [_hud hide:YES];
         
-        
-//        LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
-//        
-//        [self presentViewController:logSignVC animated:NO completion:nil];
-        
+        // present login view or show login view.
+        [self displayLoginView];
         
         
     }];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        // dismiss alertController
         
         [alertController dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -280,6 +291,26 @@ enum MyAccountCells {
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"Error deleting %@ - error:%@",entityDescription,error);
     }
+    
+}
+
+
+-(void)showLoginPageVC {
+    LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
+    [self presentViewController:logSignVC animated:YES completion:nil];
+}
+
+
+
+-(void)displayLoginView {
+    
+    _loginView = [[[NSBundle mainBundle] loadNibNamed:@"LoginView" owner:self options:nil] lastObject];
+    _loginView.frame = self.tableView.frame;
+    _loginView.tag = kLoginViewTag;
+    
+    [_loginView.signinButton addTarget:self action:@selector(showLoginPageVC) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.navigationController.view insertSubview:_loginView belowSubview:self.navigationController.navigationBar];
     
 }
 
