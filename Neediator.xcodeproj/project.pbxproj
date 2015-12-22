@@ -125,6 +125,8 @@
 		82CE35E41C15B7E1003744C9 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE35E31C15B7E1003744C9 /* SearchViewController.m */; };
 		82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE513D1C0443020073EF3A /* ProductDetailsViewCell.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
+		82EA19881C297639001EBA16 /* NoConnectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82EA19871C297639001EBA16 /* NoConnectionView.xib */; };
+		82EA198B1C29775F001EBA16 /* NoConnectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EA198A1C29775F001EBA16 /* NoConnectionView.m */; };
 		82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82ECD1251BBD5A91004B0BEB /* AddressCell.m */; };
 		82EF2DE11BE8C67B00D87DE2 /* StoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE01BE8C67B00D87DE2 /* StoresViewController.m */; };
 		82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */; };
@@ -372,6 +374,9 @@
 		82D6EE301C1802B6007CE5F2 /* NeediatorAPIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorAPIKey.h; sourceTree = "<group>"; };
 		82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+InfiniteScroll.h"; sourceTree = "<group>"; };
 		82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+InfiniteScroll.m"; sourceTree = "<group>"; };
+		82EA19871C297639001EBA16 /* NoConnectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoConnectionView.xib; sourceTree = "<group>"; };
+		82EA19891C29775F001EBA16 /* NoConnectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionView.h; sourceTree = "<group>"; };
+		82EA198A1C29775F001EBA16 /* NoConnectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoConnectionView.m; sourceTree = "<group>"; };
 		82ECD1241BBD5A91004B0BEB /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
 		82ECD1251BBD5A91004B0BEB /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
 		82EF2DDF1BE8C67B00D87DE2 /* StoresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoresViewController.h; sourceTree = "<group>"; };
@@ -849,6 +854,16 @@
 			name = Constants;
 			sourceTree = "<group>";
 		};
+		82EA19861C297610001EBA16 /* Connection Error */ = {
+			isa = PBXGroup;
+			children = (
+				82EA19871C297639001EBA16 /* NoConnectionView.xib */,
+				82EA19891C29775F001EBA16 /* NoConnectionView.h */,
+				82EA198A1C29775F001EBA16 /* NoConnectionView.m */,
+			);
+			name = "Connection Error";
+			sourceTree = "<group>";
+		};
 		82EF2DB71BE8BD8F00D87DE2 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -1048,6 +1063,7 @@
 		82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				82EA19861C297610001EBA16 /* Connection Error */,
 				82FB52091C281B0800E19626 /* Login View */,
 				82A265A11C2195B10031BDC9 /* My Orders */,
 				8286B2671BF0C9B900AFC533 /* Taxons */,
@@ -1415,6 +1431,7 @@
 				82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */,
 				82BD02991B46A73C00108A0B /* Images.xcassets in Resources */,
 				826B14281BC2906800B6A1C3 /* OrderReviewFooterView.xib in Resources */,
+				82EA19881C297639001EBA16 /* NoConnectionView.xib in Resources */,
 				825266D01B4F8B8900C635F7 /* HeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1486,6 +1503,7 @@
 				82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */,
 				82C38A821C0864D70006A73B /* PopupCartViewController.m in Sources */,
 				823D06621B8C458600640F45 /* CODInputViewCell.m in Sources */,
+				82EA198B1C29775F001EBA16 /* NoConnectionView.m in Sources */,
 				824AE0871BF9B386008A49A9 /* SKSTableView.m in Sources */,
 				82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */,
 				8250A3321B553B000026ADCE /* ProductViewCell.m in Sources */,

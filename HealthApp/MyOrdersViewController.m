@@ -123,8 +123,7 @@
     
     cell.orderState.text         = [model.orderState capitalizedString];
     cell.orderNumber.text        = [NSString stringWithFormat:@"Order #%@",model.orderNumber];
-    cell.orderDate.text          = [NSString stringWithFormat:@"%@/%lu/%@", [self getFormattedDate:model.completed_date], (unsigned long)lineItems.count, model.orderTotal];
-    
+    cell.orderDate.text          = [NSString stringWithFormat:@"%@/%lu Items/%@", [self getFormattedDate:model.completed_date], (unsigned long)lineItems.count, model.orderTotal];
     
     return cell;
 }
@@ -148,12 +147,10 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    
     NSArray *collectionImages = _itemsImages[[(HorizontalCollectionView *)collectionView indexPath].section];
     
     return collectionImages.count;
     
-//    return _collectionImages.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -166,15 +163,21 @@
     
     NSArray *collectionImages = _itemsImages[[(HorizontalCollectionView *)collectionView indexPath].section];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", collectionImages[indexPath.item]]];
-    
-    
-    [cell.imageView sd_setImageWithURL:url];
-    
-    
+    if (collectionImages[indexPath.item] != nil) {
+        
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", collectionImages[indexPath.item]]];
+        [cell.imageView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if(error) {
+                NSLog(@"Image error %@", [error localizedDescription]);
+            }
+        }];
+        
+    }
+    else {
+        [cell.imageView setImage:[UIImage imageNamed:@"small_no_image"]];
+    }
     
     return cell;
-    
     
 }
 
@@ -219,10 +222,6 @@
         }];
         
         [_itemsImages addObject:imagesParticularOrder];
-        
-        
-        
-        
         
     }
     

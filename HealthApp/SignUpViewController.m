@@ -28,7 +28,7 @@ typedef void(^completion)(BOOL finished);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.signUpButton.layer.cornerRadius = 3.0f;
+    self.signUpButton.layer.cornerRadius = 5.0f;
     
     self.userName.delegate = self;
     self.passwordField.delegate = self;

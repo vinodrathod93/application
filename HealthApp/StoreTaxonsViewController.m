@@ -38,6 +38,8 @@
     
     [self setupScrollViewImages];
     
+    [self showHUD];
+    
     [[APIManager sharedManager] getTaxonomiesForStore:self.storeURL WithSuccess:^(TaxonomyListResponseModel *responseModel) {
         self.taxonomies = responseModel.taxonomies;
         
@@ -74,7 +76,7 @@
 
 -(void)layoutBannerHeaderView {
     _bannerView = [[[NSBundle mainBundle] loadNibNamed:@"BannerView" owner:self options:nil] lastObject];
-//    _bannerView.translatesAutoresizingMaskIntoConstraints = NO;
+    _bannerView.translatesAutoresizingMaskIntoConstraints = NO;
     
     
 //    CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, 130);
@@ -96,7 +98,28 @@
     
     _bannerView.pageControl.numberOfPages = self.bannerImages.count;
     
+//    [self.tableView.tableFooterView addSubview:_bannerView];
     self.tableView.tableHeaderView = _bannerView;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    [self.tableView.tableHeaderView addConstraint:[NSLayoutConstraint constraintWithItem:_bannerView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.tableView.tableHeaderView attribute:NSLayoutAttributeLeading multiplier:1.0f constant:0.f]];
+    [self.tableView.tableHeaderView addConstraint:[NSLayoutConstraint constraintWithItem:_bannerView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.tableView.tableHeaderView attribute:NSLayoutAttributeTrailing multiplier:1.0f constant:0.f]];
+    
+    [self.tableView.tableHeaderView addConstraint:[NSLayoutConstraint constraintWithItem:_bannerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.tableView.tableHeaderView attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.f]];
+    [self.tableView.tableHeaderView addConstraint:[NSLayoutConstraint constraintWithItem:_bannerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.tableView.tableHeaderView attribute:NSLayoutAttributeBottom multiplier:1.0f constant:0.f]];
+    
+    
+    
+    
+    
 }
 
 

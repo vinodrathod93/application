@@ -24,8 +24,10 @@
 #import "Order.h"
 #import "Location.h"
 #import "NoStores.h"
+#import "NoConnectionView.h"
 
 #define kNoStoresTag 10
+#define kConnectionViewTag 11
 
 @interface StoresViewController ()<NSFetchedResultsControllerDelegate,UIViewControllerTransitioningDelegate>
 
@@ -42,7 +44,9 @@
 
 @end
 
-@implementation StoresViewController
+@implementation StoresViewController {
+    NoConnectionView *_connectionView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -62,6 +66,19 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [self requestStores];
+    
+}
+
+
+
+
+-(void)requestStores {
+    
+    
+    [self removeConnectionView];
+    
+    
     Location *location_store = [Location savedLocation];
     
     if (location_store == nil) {
@@ -71,6 +88,11 @@
         [self performSelector:@selector(dismissAlertView:) withObject:select_location afterDelay:2];
         
     } else {
+        
+        
+        
+        
+        
         
         StoreListRequestModel *requestModel = [StoreListRequestModel new];
         requestModel.location = [NSString stringWithFormat:@"%@,%@", location_store.latitude, location_store.longitude];
@@ -115,17 +137,36 @@
             [self.tableView reloadData];
             [self hideHUD];
             
+            
         } failure:^(NSError *error) {
             
             [self hideHUD];
             
-            UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alertError show];
+            
+            _connectionView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionView" owner:self options:nil] lastObject];
+            _connectionView.tag = kConnectionViewTag;
+            _connectionView.frame = self.tableView.frame;
+            _connectionView.label.text = [error localizedDescription];
+            [_connectionView.retryButton addTarget:self action:@selector(requestStores) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.navigationController.view insertSubview:_connectionView belowSubview:self.navigationController.navigationBar];
         }];
         
     }
     
+    
 }
+
+
+
+-(void)removeConnectionView {
+    
+    if (_connectionView) {
+        [[self.navigationController.view viewWithTag:kConnectionViewTag] removeFromSuperview];
+    }
+    
+}
+
 
 
 -(void)viewWillDisappear:(BOOL)animated {
