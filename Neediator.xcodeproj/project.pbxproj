@@ -124,6 +124,8 @@
 		82CE35DF1C159425003744C9 /* CartOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE35DE1C159425003744C9 /* CartOrderModel.m */; };
 		82CE35E41C15B7E1003744C9 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE35E31C15B7E1003744C9 /* SearchViewController.m */; };
 		82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE513D1C0443020073EF3A /* ProductDetailsViewCell.m */; };
+		82D3840C1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D3840B1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m */; };
+		82D3840F1C2C0DB700D05FB7 /* PaymentDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D3840E1C2C0DB700D05FB7 /* PaymentDetailViewCell.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
 		82EA19881C297639001EBA16 /* NoConnectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82EA19871C297639001EBA16 /* NoConnectionView.xib */; };
 		82EA198B1C29775F001EBA16 /* NoConnectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EA198A1C29775F001EBA16 /* NoConnectionView.m */; };
@@ -371,6 +373,10 @@
 		82CE35E31C15B7E1003744C9 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		82CE513C1C0443020073EF3A /* ProductDetailsViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailsViewCell.h; sourceTree = "<group>"; };
 		82CE513D1C0443020073EF3A /* ProductDetailsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailsViewCell.m; sourceTree = "<group>"; };
+		82D3840A1C2BF22F00D05FB7 /* AddressInPaymentViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressInPaymentViewCell.h; sourceTree = "<group>"; };
+		82D3840B1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressInPaymentViewCell.m; sourceTree = "<group>"; };
+		82D3840D1C2C0DB700D05FB7 /* PaymentDetailViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentDetailViewCell.h; sourceTree = "<group>"; };
+		82D3840E1C2C0DB700D05FB7 /* PaymentDetailViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentDetailViewCell.m; sourceTree = "<group>"; };
 		82D6EE301C1802B6007CE5F2 /* NeediatorAPIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorAPIKey.h; sourceTree = "<group>"; };
 		82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+InfiniteScroll.h"; sourceTree = "<group>"; };
 		82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+InfiniteScroll.m"; sourceTree = "<group>"; };
@@ -1109,6 +1115,10 @@
 				823D06611B8C458600640F45 /* CODInputViewCell.m */,
 				8233CE141B874FB200B5279B /* PaymentViewCell.h */,
 				8233CE151B874FB200B5279B /* PaymentViewCell.m */,
+				82D3840A1C2BF22F00D05FB7 /* AddressInPaymentViewCell.h */,
+				82D3840B1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m */,
+				82D3840D1C2C0DB700D05FB7 /* PaymentDetailViewCell.h */,
+				82D3840E1C2C0DB700D05FB7 /* PaymentDetailViewCell.m */,
 			);
 			name = Payment;
 			sourceTree = "<group>";
@@ -1523,6 +1533,7 @@
 				823C46B31B73934F00E37DBE /* MyAccountViewController.m in Sources */,
 				82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */,
 				82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */,
+				82D3840C1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m in Sources */,
 				8250A32A1B55000B0026ADCE /* SubCategoryViewController.m in Sources */,
 				82A542831C229ECF00383253 /* MyOrdersModel.m in Sources */,
 				829F73941C257FEE001670A8 /* CustomCollectionViewCell.m in Sources */,
@@ -1584,6 +1595,7 @@
 				8233CE101B873B8B00B5279B /* PaymentViewController.m in Sources */,
 				823F71B41C1B21F500E43731 /* NoStores.m in Sources */,
 				824AE0801BF9B1D4008A49A9 /* StoreTaxonsViewController.m in Sources */,
+				82D3840F1C2C0DB700D05FB7 /* PaymentDetailViewCell.m in Sources */,
 				824AE0881BF9B386008A49A9 /* SKSTableViewCell.m in Sources */,
 				825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */,
 				826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */,

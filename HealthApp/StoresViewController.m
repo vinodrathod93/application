@@ -63,13 +63,12 @@
 
 
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     [self requestStores];
-    
 }
-
 
 
 
@@ -87,11 +86,8 @@
         
         [self performSelector:@selector(dismissAlertView:) withObject:select_location afterDelay:2];
         
+        
     } else {
-        
-        
-        
-        
         
         
         StoreListRequestModel *requestModel = [StoreListRequestModel new];
@@ -173,11 +169,9 @@
     [super viewWillDisappear:animated];
     
     
-    NSLog(@"%@", self.navigationController.view.subviews);
-    
     [[self.navigationController.view viewWithTag:kNoStoresTag] removeFromSuperview];
     
-    
+    [self removeConnectionView];
     
     
 }

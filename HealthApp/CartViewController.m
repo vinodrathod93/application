@@ -113,6 +113,11 @@ static NSString *cellIdentifier = @"cartCell";
     [self.tableView reloadData];
 }
 
+
+
+
+
+
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
@@ -217,8 +222,8 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIButton *placeOrderbutton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
-    [placeOrderbutton setTitle:@"Checkout" forState:UIControlStateNormal];
-    [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:16.0f]];
+    [placeOrderbutton setTitle:@"CHECKOUT" forState:UIControlStateNormal];
+    [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-DemiBold" size:16.0f]];
     [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
     
     if (self.lineItemsFetchedResultsController.fetchedObjects.count != 0) {
@@ -1060,10 +1065,14 @@ static NSString *cellIdentifier = @"cartCell";
     PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
     paymentVC.order_id               = [json valueForKey:@"number"];
     paymentVC.display_total          = [json valueForKey:@"display_total"];
+    paymentVC.display_item_total     = [json valueForKey:@"display_item_total"];
+    paymentVC.display_delivery_total = [json valueForKey:@"display_ship_total"];
     paymentVC.total                  = [json valueForKey:@"total"];
     paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
     paymentVC.title                  = [[json valueForKey:@"state"] capitalizedString];
     paymentVC.store                  = [[json valueForKeyPath:@"store.name"] capitalizedString];
+    paymentVC.shipAddress            = [json valueForKey:@"ship_address"];
+    paymentVC.hidesBottomBarWhenPushed = YES;
     
     [self.navigationController pushViewController:paymentVC animated:YES];
 }

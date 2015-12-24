@@ -17,25 +17,32 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "AppDelegate.h"
 #import "AddToCart.h"
+#import "AddressInPaymentViewCell.h"
+#import "PaymentDetailViewCell.h"
+#import "AddShippingDetailsViewController.h"
 
 
 #define kOPTIONS_CELLIDENTIFIER @"paymentCell"
+#define kPAYMENT_SUMMARY_CELLIDENTIFIER @"paymentSummaryCell"
 #define kPAY_CELLIDENTIFIER @"customPayCell"
-#define kPHONE_CELLIDENTIFIER @"phonenoCell"
+#define kADDRESS_CELLIDENTIFIER @"addressInPaymentCell"
+
 #define kPLACE_ORDER_URL @"http://chemistplus.in/storePurchaseDetails.php"
 #define kPAYMENT_OPTIONS_URL @  "http://manish.elnuur.com/api/checkouts"
 
+#define kSECTION_COUNT 3
+
 enum TABLEVIEWCELL {
     PAY_SECTION = 0,
-    PAYMENT_OPTION_SECTION,
-    PHONE_NUMBER_SECTION
+    ADDRESS_OPTION_SECTION,
+    PAYMENT_OPTION_SECTION
+    
 };
 
 @interface PaymentViewController ()
 
 @property (nonatomic, strong) NSNumber *payment_method_id;
-@property (nonatomic, assign) NSInteger section_count;
-@property (nonatomic, assign) BOOL isOptionSelected;
+@property (nonatomic, assign) BOOL isPaymentOptionSelected;
 @property (nonatomic, strong) MBProgressHUD *hud;
 
 @property (strong) AppDelegate *appDelegate;
@@ -46,12 +53,13 @@ enum TABLEVIEWCELL {
 
 typedef void(^completion)(BOOL finished);
 
-@implementation PaymentViewController
+@implementation PaymentViewController {
+    UIButton *_placeOrderButton;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.section_count = 2;
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
@@ -66,37 +74,60 @@ typedef void(^completion)(BOOL finished);
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return self.section_count;
+    return kSECTION_COUNT;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return (section == 0)? 1: (section == 1)? [self.payment_methods count]: 1;
+    return (section == PAY_SECTION)? 2: (section == PAYMENT_OPTION_SECTION)? [self.payment_methods count]: 1;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *cellIdentifier = (indexPath.section == 0) ? kPAY_CELLIDENTIFIER: (indexPath.section == 1)? kOPTIONS_CELLIDENTIFIER:kPHONE_CELLIDENTIFIER;
+    NSString *cellIdentifier = (indexPath.section == 0) ? ((indexPath.row == 0) ? kPAYMENT_SUMMARY_CELLIDENTIFIER: kPAY_CELLIDENTIFIER): (indexPath.section == 1)? kADDRESS_CELLIDENTIFIER:kOPTIONS_CELLIDENTIFIER;
     
     id cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
     if (indexPath.section == PAY_SECTION) {
-        [self configurePayCell:cell forIndexPath:indexPath];
+        if (indexPath.row == 0)
+            [self configurePaymentSummaryCell:cell forIndexPath:indexPath];
+        else
+            [self configurePayCell:cell forIndexPath:indexPath];
+        
     }
-    else if(indexPath.section == PAYMENT_OPTION_SECTION) {
+    else if (indexPath.section == ADDRESS_OPTION_SECTION)
+        [self configureAddressOptionsCell:cell forIndexPath:indexPath];
+    
+    else if(indexPath.section == PAYMENT_OPTION_SECTION)
         [self configurePaymentOptionsCell:cell forIndexPath:indexPath];
-    }
-    else
-        [self configurePhoneTextFieldCell:cell forIndexPath:indexPath];
+    
     
     
     return cell;
 }
 
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == ADDRESS_OPTION_SECTION)
+        return 90.f;
+    else if (indexPath.section == PAY_SECTION) {
+        if (indexPath.row == 0)
+            return 66.f;
+        else
+            return 44.f;
+    }
+    else
+        return 44.f;
+}
+
+
 -(void)configurePayCell:(PaymentViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    
     cell.payLabel.text = @"You Pay";
     cell.amountLabel.text = self.display_total;
 }
+
 
 -(void)configurePaymentOptionsCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     if ([[self.payment_methods[indexPath.row] valueForKey:@"name"] isEqualToString:@"Check"]) {
@@ -107,35 +138,67 @@ typedef void(^completion)(BOOL finished);
     
 }
 
--(void)configurePhoneTextFieldCell:(CODInputViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-    cell.phoneTextField.placeholder = @"Mobile no.";
+
+-(void)configurePaymentSummaryCell:(PaymentDetailViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    
+    cell.subTotalValueLabel.text = self.display_item_total;
+    cell.deliveryValueLabel.text = self.display_delivery_total;
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *payHeader = self.store;
-    NSString *paymentOptionsHeader = @"Select Payment Options";
-    NSString *phoneNumberHeader = @"Enter Mobile Number";
+
+-(void)configureAddressOptionsCell:(AddressInPaymentViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+
+    NSString *address1 = [[self.shipAddress valueForKey:@"address1"] capitalizedString];
+    NSString *address2 = [[self.shipAddress valueForKey:@"address2"] capitalizedString];
+    NSString *city     = [[self.shipAddress valueForKey:@"city"] capitalizedString];
+    NSString *zipcode  = [self.shipAddress valueForKey:@"zipcode"];
     
-    return (section == PAY_SECTION) ? payHeader: (section == PAYMENT_OPTION_SECTION) ? paymentOptionsHeader: phoneNumberHeader;
+    
+    cell.name.text                  = self.shipAddress[@"full_name"];
+    cell.addressDetailLabel.text    = [NSString stringWithFormat:@"%@, %@, %@ - %@",address1, address2, city, zipcode];
+    cell.mobileNumber.text          = self.shipAddress[@"phone"];
+    
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    UIButton *edit = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    [edit setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
+    [edit addTarget:self action:@selector(editShippingDetails) forControlEvents:UIControlEventTouchUpInside];
+    
+    cell.accessoryView = edit;
+}
+
+
+
+
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *storeName = self.store;
+    NSString *paymentOptionsHeader = @"Select Payment Options";
+    NSString *selectedAddressHeader = @"Delivery Address";
+    
+    return (section == PAY_SECTION) ? storeName: (section == PAYMENT_OPTION_SECTION) ? paymentOptionsHeader: selectedAddressHeader;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return (section == PHONE_NUMBER_SECTION )? 60.0f : 0.0f;
+    return (section == PAYMENT_OPTION_SECTION )? 60.0f : 0.0f;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIView *view = [[UIView alloc]initWithFrame:CGRectZero];
     
-    if (section == PHONE_NUMBER_SECTION) {
+    if (section == PAYMENT_OPTION_SECTION) {
         view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 60);
         
-        UIButton *placeOrderbutton = [[UIButton alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
-        [placeOrderbutton setTitle:@"Place Order" forState:UIControlStateNormal];
-        [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:16.0f]];
-        [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
-        [placeOrderbutton addTarget:self action:@selector(createPayment) forControlEvents:UIControlEventTouchUpInside];
+        _placeOrderButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
+        [_placeOrderButton setTitle:@"PLACE ORDER" forState:UIControlStateNormal];
+        [_placeOrderButton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-DemiBold" size:16.0f]];
+        _placeOrderButton.titleLabel.textColor = [UIColor whiteColor];
+        [_placeOrderButton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
+        [_placeOrderButton addTarget:self action:@selector(createPayment) forControlEvents:UIControlEventTouchUpInside];
+        _placeOrderButton.alpha = 0.5f;
+        _placeOrderButton.enabled = NO;
         
-        [view addSubview:placeOrderbutton];
+        [view addSubview:_placeOrderButton];
     }
     
     return view;
@@ -159,48 +222,28 @@ typedef void(^completion)(BOOL finished);
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == PAYMENT_OPTION_SECTION) {
 
-        if (self.isOptionSelected) {
+        if (self.isPaymentOptionSelected) {
             [self deselectPaymentOptionForTableview:tableView forIndexPath:indexPath];
+            
             self.payment_method_id = nil;
         }
         else {
             [self selectPaymentOptionForTableview:tableView forIndexPath:indexPath];
+            
             self.payment_method_id = [self.payment_methods[indexPath.row] valueForKey:@"id"];
         }
     }
 }
 
 
--(void)deselectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
-    self.section_count -= 1;
-    [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:PHONE_NUMBER_SECTION] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    self.isOptionSelected = NO;
-    
-    UITableViewCell *unSelectCell = [tableView cellForRowAtIndexPath:indexPath];
-    unSelectCell.accessoryType = UITableViewCellAccessoryNone;
-}
 
--(void)selectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
-    self.section_count += 1;
-    [self.tableView insertSections:[NSIndexSet indexSetWithIndex:PHONE_NUMBER_SECTION] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    UITableViewCell *paymentCell = [tableView cellForRowAtIndexPath:indexPath];
-    paymentCell.accessoryType = UITableViewCellAccessoryCheckmark;
-    
-    self.isOptionSelected = YES;
+
+-(void)editShippingDetails {
+    AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
+    [self presentViewController:addShippingVC animated:YES completion:nil];
 }
 
 
-
--(void)dismissCellKeyboard {
-    UITextField *textField = (UITextField *)[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:PHONE_NUMBER_SECTION]] viewWithTag:100];
-    
-    [textField resignFirstResponder];
-}
 
 
 
@@ -216,7 +259,6 @@ typedef void(^completion)(BOOL finished);
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:payment_dictionary options:NSJSONWritingPrettyPrinted error:&error];
     
-    NSLog(@"%@",[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding]);
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:url]];
     request.HTTPMethod = @"PUT";
@@ -224,7 +266,6 @@ typedef void(^completion)(BOOL finished);
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setHTTPBody:jsonData];
     
-//    [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -380,5 +421,64 @@ typedef void(^completion)(BOOL finished);
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:status message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alert show];
 }
+
+
+
+-(void)deselectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [_placeOrderButton setEnabled:NO];
+    _placeOrderButton.alpha = 0.5f;
+    
+    self.isPaymentOptionSelected = NO;
+    
+    UITableViewCell *unSelectCell = [tableView cellForRowAtIndexPath:indexPath];
+    unSelectCell.accessoryType = UITableViewCellAccessoryNone;
+}
+
+-(void)selectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [_placeOrderButton setEnabled:YES];
+    _placeOrderButton.alpha = 1.f;
+    
+    UITableViewCell *paymentCell = [tableView cellForRowAtIndexPath:indexPath];
+    paymentCell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
+    self.isPaymentOptionSelected = YES;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark - Not Required 
+
+/*
+ 
+ 
+ -(void)configurePhoneTextFieldCell:(CODInputViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+ cell.phoneTextField.placeholder = @"Mobile no.";
+ }
+ 
+ -(void)dismissCellKeyboard {
+ UITextField *textField = (UITextField *)[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:PHONE_NUMBER_SECTION]] viewWithTag:100];
+ 
+ [textField resignFirstResponder];
+ }
+ 
+ 
+ 
+*/
 
 @end

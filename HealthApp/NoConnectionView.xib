@@ -12,13 +12,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO CONNECTION" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ziJ-pf-YN1">
-                    <rect key="frame" x="229" y="289" width="142" height="22"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="16"/>
+                    <rect key="frame" x="8" y="290" width="584" height="20"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="14"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sup-Tm-aEf">
-                    <rect key="frame" x="200" y="371" width="200" height="35"/>
+                    <rect key="frame" x="200" y="370" width="200" height="35"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="200" id="Iy4-Ke-OHC"/>
@@ -30,10 +30,11 @@
                     </state>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="ziJ-pf-YN1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="7aS-qN-onE"/>
                 <constraint firstItem="ziJ-pf-YN1" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="BzR-EK-HVy"/>
                 <constraint firstItem="sup-Tm-aEf" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="h5T-5y-q97"/>
+                <constraint firstAttribute="trailing" secondItem="ziJ-pf-YN1" secondAttribute="trailing" constant="8" id="j6y-LW-hcf"/>
                 <constraint firstItem="sup-Tm-aEf" firstAttribute="top" secondItem="ziJ-pf-YN1" secondAttribute="bottom" constant="60" id="tax-xk-IaO"/>
                 <constraint firstItem="ziJ-pf-YN1" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="zdP-oL-KLU"/>
             </constraints>
