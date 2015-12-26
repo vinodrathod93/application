@@ -19,6 +19,7 @@
     #import <AFNetworking/AFNetworking.h>
     #import <MBProgressHUD/MBProgressHUD.h>
     #import <SDWebImage/UIImageView+WebCache.h>
+    #import "NeediatorConstants.h"
 #endif
 
 #endif /* Neediator_Prefix_pch */

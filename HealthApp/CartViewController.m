@@ -25,11 +25,13 @@
 #import "StoresViewController.h"
 #import "Order.h"
 #import "LineItems.h"
+#import "NoConnectionView.h"
 
 #define kCheckoutURL @"/api/checkouts"
 #define kCurrentOrderDetailsURL @"/api/orders/current"
 #define kDeleteLineItemURL @"/api/orders"
 #define kUpdateLineItemURL @"/api/orders"
+
 
 static NSString *cellIdentifier = @"cartCell";
 
@@ -51,6 +53,7 @@ static NSString *cellIdentifier = @"cartCell";
 @property (strong) AppDelegate *appDelegate;
 
 @property (nonatomic, strong) UIView *dimmView;
+@property (nonatomic, strong) NoConnectionView *connectionErrorView;
 
 @end
 
@@ -591,7 +594,7 @@ static NSString *cellIdentifier = @"cartCell";
     
     [self.hud hide:YES];
     
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"No Connection" message:@"Their is no Internet Connection" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"No Connection" message:@"Their is no Internet Connection" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alert show];
 }
 
@@ -620,6 +623,7 @@ static NSString *cellIdentifier = @"cartCell";
     } else {
         self.dimmView = [[UIView alloc]initWithFrame:self.tableView.frame];
         self.dimmView.backgroundColor = [UIColor whiteColor];
+        self.dimmView.tag = kCartEmptyViewTag;
         [self.navigationController.view insertSubview:self.dimmView belowSubview:self.navigationController.navigationBar];
     }
     
@@ -666,8 +670,8 @@ static NSString *cellIdentifier = @"cartCell";
 -(void)sendCheckoutRequestToServer {
     
     User *user = [User savedUser];
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
+//    RLMRealm *realm = [RLMRealm defaultRealm];
+//    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
     
     [self checkOrders];
     
@@ -677,7 +681,7 @@ static NSString *cellIdentifier = @"cartCell";
     if (self.orderModel.number != nil) {
         
         
-        NSString *url = [NSString stringWithFormat:@"http://%@%@/%@/advance?token=%@", store.storeUrl, kCheckoutURL, self.orderModel.number, user.access_token];
+        NSString *url = [NSString stringWithFormat:@"http://%@%@/%@/advance?token=%@", self.orderModel.store_url, kCheckoutURL, self.orderModel.number, user.access_token];
         NSLog(@"URL is --> %@", url);
         
         NSURLSession *session = [NSURLSession sharedSession];
@@ -734,15 +738,20 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(void)getOrderLineItemDetails {
     
+    // Remove Error view
+    [self removeConnectionErrorView];
+    
+    // Remove Empty Cart View
+    [self removeEmptyCartView];
     
     User *user = [User savedUser];
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
+//    RLMRealm *realm = [RLMRealm defaultRealm];
+//    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
     
     [self checkOrders];
     
     if (user.access_token != nil) {
-        NSString *url = [NSString stringWithFormat:@"http://%@%@?token=%@",store.storeUrl, kCurrentOrderDetailsURL, user.access_token];
+        NSString *url = [NSString stringWithFormat:@"%@%@?token=%@",kCartBaseURL, kCurrentOrderDetailsURL, user.access_token];
         
         NSURLSession *session = [NSURLSession sharedSession];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
@@ -801,6 +810,7 @@ static NSString *cellIdentifier = @"cartCell";
                                 self.orderModel.number = [json valueForKey:@"number"];
                                 self.orderModel.total  = [json valueForKey:@"display_total"];
                                 self.orderModel.store  = [json valueForKeyPath:@"store.name"];
+                                self.orderModel.store_url = [json valueForKeyPath:@"store.url"];
                                 
                                 [self.managedObjectContext save:nil];
                                 
@@ -817,8 +827,11 @@ static NSString *cellIdentifier = @"cartCell";
                                     
                                     
                                 } else {
-                                    [self.dimmView removeFromSuperview];
-                                    self.dimmView = nil;
+//                                    [self.dimmView removeFromSuperview];
+//                                    self.dimmView = nil;
+                                    
+                                    
+                                    [self removeEmptyCartView];
                                     
                                     NSLog(@"GetlineItems DimmView removeFromSuperview");
                                     
@@ -870,7 +883,16 @@ static NSString *cellIdentifier = @"cartCell";
                 });
             }
             else {
-                [self displayConnectionFailed];
+//                [self displayConnectionFailed];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self.hud hide:YES];
+                    [self showConnectionErrorView:error];
+                    
+                });
+                
+                
+                
             }
             
         }];
@@ -1071,6 +1093,7 @@ static NSString *cellIdentifier = @"cartCell";
     paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
     paymentVC.title                  = [[json valueForKey:@"state"] capitalizedString];
     paymentVC.store                  = [[json valueForKeyPath:@"store.name"] capitalizedString];
+    paymentVC.store_url              = [json valueForKeyPath:@"store.url"];
     paymentVC.shipAddress            = [json valueForKey:@"ship_address"];
     paymentVC.hidesBottomBarWhenPushed = YES;
     
@@ -1104,12 +1127,30 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
+-(void)showConnectionErrorView:(NSError *)error {
+    self.connectionErrorView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionView" owner:self options:nil] lastObject];
+    self.connectionErrorView.tag = kCartConnectionErrorViewTag;
+    self.connectionErrorView.frame = self.tableView.frame;
+    self.connectionErrorView.label.text = [error localizedDescription];
+    [self.connectionErrorView.retryButton addTarget:self action:@selector(getOrderLineItemDetails) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.navigationController.view insertSubview:self.connectionErrorView belowSubview:self.navigationController.navigationBar];
+}
 
 
+-(void)removeConnectionErrorView {
+    
+    if (self.connectionErrorView) {
+        [[self.navigationController.view viewWithTag:kCartConnectionErrorViewTag] removeFromSuperview];
+    }
+    
+}
 
-
-
-
+-(void)removeEmptyCartView {
+    if (self.dimmView) {
+        [[self.navigationController.view viewWithTag:kCartEmptyViewTag] removeFromSuperview];
+    }
+}
 
 
 

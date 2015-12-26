@@ -20,5 +20,6 @@
 @property (nonatomic, strong) NSString *order_id;
 @property (nonatomic, strong) NSArray *payment_methods;
 @property (nonatomic, strong) NSString *store;
+@property (nonatomic, strong) NSString *store_url;
 
 @end

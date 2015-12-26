@@ -30,6 +30,7 @@
                     </state>
                 </button>
             </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="ziJ-pf-YN1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="7aS-qN-onE"/>
                 <constraint firstItem="ziJ-pf-YN1" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="BzR-EK-HVy"/>

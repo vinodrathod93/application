@@ -26,8 +26,7 @@
 #import "NoStores.h"
 #import "NoConnectionView.h"
 
-#define kNoStoresTag 10
-#define kConnectionViewTag 11
+
 
 @interface StoresViewController ()<NSFetchedResultsControllerDelegate,UIViewControllerTransitioningDelegate>
 
@@ -140,7 +139,7 @@
             
             
             _connectionView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionView" owner:self options:nil] lastObject];
-            _connectionView.tag = kConnectionViewTag;
+            _connectionView.tag = kStoresConnectionViewTag;
             _connectionView.frame = self.tableView.frame;
             _connectionView.label.text = [error localizedDescription];
             [_connectionView.retryButton addTarget:self action:@selector(requestStores) forControlEvents:UIControlEventTouchUpInside];
@@ -158,7 +157,7 @@
 -(void)removeConnectionView {
     
     if (_connectionView) {
-        [[self.navigationController.view viewWithTag:kConnectionViewTag] removeFromSuperview];
+        [[self.navigationController.view viewWithTag:kStoresConnectionViewTag] removeFromSuperview];
     }
     
 }
@@ -169,7 +168,7 @@
     [super viewWillDisappear:animated];
     
     
-    [[self.navigationController.view viewWithTag:kNoStoresTag] removeFromSuperview];
+    [[self.navigationController.view viewWithTag:kStoresNoStoresTag] removeFromSuperview];
     
     [self removeConnectionView];
     
@@ -510,7 +509,7 @@
     
     self.noStoresView = [[[NSBundle mainBundle] loadNibNamed:@"NoStores" owner:self options:nil] lastObject];
     self.noStoresView.frame = self.tableView.frame;
-    self.noStoresView.tag = kNoStoresTag;
+    self.noStoresView.tag = kStoresNoStoresTag;
     self.noStoresView.location.text = location.location_name;
     
     

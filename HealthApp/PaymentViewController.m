@@ -20,6 +20,7 @@
 #import "AddressInPaymentViewCell.h"
 #import "PaymentDetailViewCell.h"
 #import "AddShippingDetailsViewController.h"
+#import "EditAddressViewController.h"
 
 
 #define kOPTIONS_CELLIDENTIFIER @"paymentCell"
@@ -28,7 +29,7 @@
 #define kADDRESS_CELLIDENTIFIER @"addressInPaymentCell"
 
 #define kPLACE_ORDER_URL @"http://chemistplus.in/storePurchaseDetails.php"
-#define kPAYMENT_OPTIONS_URL @  "http://manish.elnuur.com/api/checkouts"
+#define kPAYMENT_OPTIONS_URL @  "/api/checkouts"
 
 #define kSECTION_COUNT 3
 
@@ -157,6 +158,7 @@ typedef void(^completion)(BOOL finished);
     cell.name.text                  = self.shipAddress[@"full_name"];
     cell.addressDetailLabel.text    = [NSString stringWithFormat:@"%@, %@, %@ - %@",address1, address2, city, zipcode];
     cell.mobileNumber.text          = self.shipAddress[@"phone"];
+    cell.selectionStyle             = UITableViewCellSelectionStyleNone;
     
     cell.accessoryType = UITableViewCellAccessoryNone;
     
@@ -239,8 +241,19 @@ typedef void(^completion)(BOOL finished);
 
 
 -(void)editShippingDetails {
-    AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
-    [self presentViewController:addShippingVC animated:YES completion:nil];
+//    AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
+//    [self.navigationController pushViewController:addShippingVC animated:YES];
+    
+    
+    EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
+//    editAddressVC.firstNameTextField.text    = 
+    
+    
+    
+    [self.navigationController pushViewController:editAddressVC animated:YES];
+    
+    
+    
 }
 
 
@@ -251,7 +264,7 @@ typedef void(^completion)(BOOL finished);
 -(void)sendPaymentOptionToServer {
     User *user = [User savedUser];
     
-    NSString *url = [NSString stringWithFormat:@"%@/%@?token=%@",kPAYMENT_OPTIONS_URL, self.order_id, user.access_token];
+    NSString *url = [NSString stringWithFormat:@"http://%@%@/%@?token=%@", self.store_url, kPAYMENT_OPTIONS_URL, self.order_id, user.access_token];
     NSLog(@"URL is --> %@", url);
     
     NSDictionary *payment_dictionary = [self createPaymentDictionary];
