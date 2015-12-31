@@ -103,5 +103,36 @@ static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef81
 }
 
 
+-(NSURLSessionDataTask *)putEditedAddressOfStore:(NSString *)storeURL andParameters:(NSDictionary *)parameters WithSuccess:(void (^)(NSString *))success failure:(void (^)(NSError *))failure {
+    
+    NSString *kStoreURL = [NSString stringWithFormat:@"http://%@",storeURL];
+    SessionManager *manager = [[SessionManager alloc]initWithBaseURL:[NSURL URLWithString:kStoreURL]];
+    
+    User *user = [User savedUser];
+    
+    if (user.access_token == nil) {
+        NSLog(@"User not logged in");
+        
+        return nil;
+    } else {
+        
+        NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] init];
+        [parametersWithKey addEntriesFromDictionary:parameters];
+        [parametersWithKey setObject:user.access_token forKey:@"token"];
+        
+        return [manager PUT:kStoreURL parameters:parametersWithKey success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+            NSLog(@"%@", responseObject);
+            
+            success(@"YES");
+            
+            
+        } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+            failure(error);
+        }];
+        
+    }
+    
+}
+
 
 @end

@@ -246,9 +246,8 @@ typedef void(^completion)(BOOL finished);
     
     
     EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
-//    editAddressVC.firstNameTextField.text    = 
-    
-    
+    editAddressVC.title       = @"Edit Address";
+    editAddressVC.shipAddress = self.shipAddress;
     
     [self.navigationController pushViewController:editAddressVC animated:YES];
     

@@ -742,7 +742,8 @@ static NSString *cellIdentifier = @"cartCell";
     [self removeConnectionErrorView];
     
     // Remove Empty Cart View
-    [self removeEmptyCartView];
+//    [self removeEmptyCartView];
+    [self removeDecoratedNoCartDimView];
     
     User *user = [User savedUser];
 //    RLMRealm *realm = [RLMRealm defaultRealm];
@@ -827,8 +828,6 @@ static NSString *cellIdentifier = @"cartCell";
                                     
                                     
                                 } else {
-//                                    [self.dimmView removeFromSuperview];
-//                                    self.dimmView = nil;
                                     
                                     
                                     [self removeEmptyCartView];
@@ -1148,7 +1147,34 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(void)removeEmptyCartView {
     if (self.dimmView) {
+        
         [[self.navigationController.view viewWithTag:kCartEmptyViewTag] removeFromSuperview];
+    }
+}
+
+
+-(void)removeDecoratedNoCartDimView {
+    if (self.dimmView) {
+        
+        [self.dimmView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:[UIButton class]]) {
+                
+                [obj removeFromSuperview];
+            }
+            
+            if ([obj isKindOfClass:[UIImageView class]]) {
+                
+                [obj removeFromSuperview];
+            }
+            
+            if ([obj isKindOfClass:[UILabel class]]) {
+                
+                [obj removeFromSuperview];
+            }
+            
+        }];
+        
+        
     }
 }
 
