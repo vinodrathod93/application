@@ -13,6 +13,7 @@
 static NSString *const kStoresListPath = @"/api/stores";
 static NSString *const kTaxonomiesListPath = @"/api/taxonomies";
 static NSString *const kMyOrdersPath       = @"/api/orders/mine";
+static NSString *const kStatesPathOfIndia  = @"/api/countries/105/states";
 static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef815605374dbc";
 
 @implementation APIManager
@@ -103,7 +104,7 @@ static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef81
 }
 
 
--(NSURLSessionDataTask *)putEditedAddressOfStore:(NSString *)storeURL andParameters:(NSDictionary *)parameters WithSuccess:(void (^)(NSString *))success failure:(void (^)(NSError *))failure {
+-(NSURLSessionDataTask *)putEditedAddressOfStore:(NSString *)storeURL ofPath:(NSString *)path Parameters:(NSDictionary *)parameters WithSuccess:(void (^)(NSString *response))success failure:(void (^)(NSError *error))failure {
     
     NSString *kStoreURL = [NSString stringWithFormat:@"http://%@",storeURL];
     SessionManager *manager = [[SessionManager alloc]initWithBaseURL:[NSURL URLWithString:kStoreURL]];
@@ -120,7 +121,10 @@ static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef81
         [parametersWithKey addEntriesFromDictionary:parameters];
         [parametersWithKey setObject:user.access_token forKey:@"token"];
         
-        return [manager PUT:kStoreURL parameters:parametersWithKey success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        NSLog(@"%@", path);
+        NSLog(@"%@", parametersWithKey);
+        
+        return [manager PUT:path parameters:parametersWithKey success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
             NSLog(@"%@", responseObject);
             
             success(@"YES");
@@ -130,6 +134,70 @@ static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef81
             failure(error);
         }];
         
+    }
+    
+}
+
+
+
+-(NSURLSessionDataTask *)getStatesWithSuccess:(void (^)(NSArray *states))success failure:(void (^)(NSError *error))failure {
+    
+    
+    User *user = [User savedUser];
+    
+    if (user.access_token == nil) {
+        NSLog(@"User not logged in");
+        
+        return nil;
+    } else {
+        
+        NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
+        [parameter setObject:user.access_token forKey:@"token"];
+        [parameter setValue:@"50" forKey:@"per_page"];
+        
+        
+        return [self GET:kStatesPathOfIndia parameters:parameter success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+            /* get all data */
+            
+            NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+            
+            NSArray *array = [responseDictionary objectForKey:@"states"];
+            
+            success(array);
+            
+        } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+            failure(error);
+        }];
+    }
+}
+
+
+-(NSURLSessionDataTask *)putNewAddressForPath:(NSString *)path andParameter:(NSDictionary *)addressParameter WithSuccess:(void (^)(NSDictionary *response))success failure:(void (^)(NSError *error))failure {
+    
+    
+    User *user = [User savedUser];
+    
+    if (user.access_token == nil) {
+        NSLog(@"User not logged in");
+        
+        return nil;
+    } else {
+        
+        NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
+        [parameter addEntriesFromDictionary:addressParameter];
+        [parameter setObject:user.access_token forKey:@"token"];
+        
+        NSLog(@"%@", parameter);
+        
+        
+        return [self PUT:path parameters:parameter success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+            NSLog(@"%@",responseObject);
+            
+            success(responseObject);
+            
+        } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+            failure(error);
+        }];
     }
     
 }

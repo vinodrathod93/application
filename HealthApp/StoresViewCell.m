@@ -12,6 +12,8 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
+    self.storeImageView.layer.cornerRadius = self.storeImageView.frame.size.width / 2.f;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

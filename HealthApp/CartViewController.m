@@ -27,7 +27,6 @@
 #import "LineItems.h"
 #import "NoConnectionView.h"
 
-#define kCheckoutURL @"/api/checkouts"
 #define kCurrentOrderDetailsURL @"/api/orders/current"
 #define kDeleteLineItemURL @"/api/orders"
 #define kUpdateLineItemURL @"/api/orders"
@@ -669,7 +668,6 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(void)sendCheckoutRequestToServer {
     
-    User *user = [User savedUser];
 //    RLMRealm *realm = [RLMRealm defaultRealm];
 //    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
     
@@ -680,53 +678,8 @@ static NSString *cellIdentifier = @"cartCell";
     
     if (self.orderModel.number != nil) {
         
+        [self proceedToPaymentPage:self.orderModel];
         
-        NSString *url = [NSString stringWithFormat:@"http://%@%@/%@/advance?token=%@", self.orderModel.store_url, kCheckoutURL, self.orderModel.number, user.access_token];
-        NSLog(@"URL is --> %@", url);
-        
-        NSURLSession *session = [NSURLSession sharedSession];
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-        request.HTTPMethod = @"PUT";
-        [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-        
-        
-        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            
-            if (data != nil) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSLog(@"%@",response);
-                    NSError *jsonError;
-                    
-                    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-                    
-                    
-                    [self.hud hide:YES];
-                    if (jsonError) {
-                        NSLog(@"Error %@",[jsonError localizedDescription]);
-                    } else {
-                        
-                        NSLog(@"Checkout Initiated");
-                        
-                        // Proceed to payment page
-                        [self proceedToPaymentPage:json];
-                    }
-                    
-                });
-            }
-            else {
-                [self displayConnectionFailed];
-            }
-            
-            
-        }];
-        
-        [task resume];
-        
-        UIWindow *window = [[UIApplication sharedApplication] delegate].window;
-        self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
-        [self.hud setCenter:self.view.center];
-        self.hud.dimBackground = YES;
-        self.hud.labelText = @"Checking out...";
     }
     else
         NSLog(@"No order & Cart is Empty");
@@ -1082,18 +1035,20 @@ static NSString *cellIdentifier = @"cartCell";
 
 #pragma mark - Navigation
 
--(void)proceedToPaymentPage:(NSDictionary *)json {
+-(void)proceedToPaymentPage:(Order *)order {
     PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
-    paymentVC.order_id               = [json valueForKey:@"number"];
-    paymentVC.display_total          = [json valueForKey:@"display_total"];
-    paymentVC.display_item_total     = [json valueForKey:@"display_item_total"];
-    paymentVC.display_delivery_total = [json valueForKey:@"display_ship_total"];
-    paymentVC.total                  = [json valueForKey:@"total"];
-    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
-    paymentVC.title                  = [[json valueForKey:@"state"] capitalizedString];
-    paymentVC.store                  = [[json valueForKeyPath:@"store.name"] capitalizedString];
-    paymentVC.store_url              = [json valueForKeyPath:@"store.url"];
-    paymentVC.shipAddress            = [json valueForKey:@"ship_address"];
+    paymentVC.orderModel               = order;
+    
+//    paymentVC.order_id               = [json valueForKey:@"number"];
+//    paymentVC.display_total          = [json valueForKey:@"display_total"];
+//    paymentVC.display_item_total     = [json valueForKey:@"display_item_total"];
+//    paymentVC.display_delivery_total = [json valueForKey:@"display_ship_total"];
+//    paymentVC.total                  = [json valueForKey:@"total"];
+//    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
+//    paymentVC.title                  = [[json valueForKey:@"state"] capitalizedString];
+//    paymentVC.store                  = [[json valueForKeyPath:@"store.name"] capitalizedString];
+//    paymentVC.store_url              = [json valueForKeyPath:@"store.url"];
+//    paymentVC.shipAddress            = [json valueForKey:@"ship_address"];
     paymentVC.hidesBottomBarWhenPushed = YES;
     
     [self.navigationController pushViewController:paymentVC animated:YES];

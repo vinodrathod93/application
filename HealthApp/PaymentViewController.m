@@ -28,7 +28,7 @@
 #define kPAY_CELLIDENTIFIER @"customPayCell"
 #define kADDRESS_CELLIDENTIFIER @"addressInPaymentCell"
 
-#define kPLACE_ORDER_URL @"http://chemistplus.in/storePurchaseDetails.php"
+#define kCheckoutURL @"/api/checkouts"
 #define kPAYMENT_OPTIONS_URL @  "/api/checkouts"
 
 #define kSECTION_COUNT 3
@@ -42,6 +42,18 @@ enum TABLEVIEWCELL {
 
 @interface PaymentViewController ()
 
+// Data source Properties
+@property (nonatomic, strong) NSString *display_total;
+@property (nonatomic, strong) NSString *display_item_total;
+@property (nonatomic, strong) NSString *display_delivery_total;
+@property (nonatomic, strong) NSDictionary *shipAddress;
+@property (nonatomic, strong) NSString *total;
+@property (nonatomic, strong) NSString *order_id;
+@property (nonatomic, strong) NSArray *payment_methods;
+@property (nonatomic, strong) NSString *store;
+@property (nonatomic, strong) NSString *store_url;
+
+// Helper Properties
 @property (nonatomic, strong) NSNumber *payment_method_id;
 @property (nonatomic, assign) BOOL isPaymentOptionSelected;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -56,6 +68,7 @@ typedef void(^completion)(BOOL finished);
 
 @implementation PaymentViewController {
     UIButton *_placeOrderButton;
+    NSInteger _sectionCount;
 }
 
 - (void)viewDidLoad {
@@ -71,11 +84,22 @@ typedef void(^completion)(BOOL finished);
     // Dispose of any resources that can be recreated.
 }
 
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    _sectionCount = 0;
+    
+    [self loadCheckoutProcess];
+}
+
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return kSECTION_COUNT;
+    return _sectionCount;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -110,14 +134,21 @@ typedef void(^completion)(BOOL finished);
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == ADDRESS_OPTION_SECTION)
-        return 90.f;
+    if (indexPath.section == ADDRESS_OPTION_SECTION) {
+        
+        if ([self.shipAddress isEqual:[NSNull null]])
+            return 44.f;
+        else
+            return 90.f;
+        
+    }
     else if (indexPath.section == PAY_SECTION) {
         if (indexPath.row == 0)
             return 66.f;
         else
             return 44.f;
     }
+    
     else
         return 44.f;
 }
@@ -149,24 +180,47 @@ typedef void(^completion)(BOOL finished);
 
 -(void)configureAddressOptionsCell:(AddressInPaymentViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
 
-    NSString *address1 = [[self.shipAddress valueForKey:@"address1"] capitalizedString];
-    NSString *address2 = [[self.shipAddress valueForKey:@"address2"] capitalizedString];
-    NSString *city     = [[self.shipAddress valueForKey:@"city"] capitalizedString];
-    NSString *zipcode  = [self.shipAddress valueForKey:@"zipcode"];
+    if (![self.shipAddress isEqual:[NSNull null]]) {
+        NSString *address1 = [[self.shipAddress valueForKey:@"address1"] capitalizedString];
+        NSString *address2 = [[self.shipAddress valueForKey:@"address2"] capitalizedString];
+        NSString *city     = [[self.shipAddress valueForKey:@"city"] capitalizedString];
+        NSString *zipcode  = [self.shipAddress valueForKey:@"zipcode"];
+        
+        
+        cell.name.text                  = self.shipAddress[@"full_name"];
+        cell.addressDetailLabel.text    = [NSString stringWithFormat:@"%@, %@, %@ - %@",address1, address2, city, zipcode];
+        cell.mobileNumber.text          = self.shipAddress[@"phone"];
+        cell.selectionStyle             = UITableViewCellSelectionStyleNone;
+        
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        
+        UIButton *edit = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
+        [edit setImage:[UIImage imageNamed:@"edit2"] forState:UIControlStateNormal];
+        [edit addTarget:self action:@selector(editShippingDetails) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.accessoryView = edit;
+    }
+    else {
+        
+        cell.name.text                  = nil;
+        cell.addressDetailLabel.text    = nil;
+        cell.mobileNumber.text          = nil;
+        
+        cell.textLabel.text             = @"Add Shipping Address";
+        cell.textLabel.font             = [UIFont fontWithName:@"AvenirNext-DemiBold" size:15.f];
+        cell.textLabel.textColor        = [UIColor darkGrayColor];
+        
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        
+        UIButton *add = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
+        [add setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+        [add addTarget:self action:@selector(editShippingDetails) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.accessoryView = add;
+        
+    }
     
     
-    cell.name.text                  = self.shipAddress[@"full_name"];
-    cell.addressDetailLabel.text    = [NSString stringWithFormat:@"%@, %@, %@ - %@",address1, address2, city, zipcode];
-    cell.mobileNumber.text          = self.shipAddress[@"phone"];
-    cell.selectionStyle             = UITableViewCellSelectionStyleNone;
-    
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    
-    UIButton *edit = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [edit setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
-    [edit addTarget:self action:@selector(editShippingDetails) forControlEvents:UIControlEventTouchUpInside];
-    
-    cell.accessoryView = edit;
 }
 
 
@@ -246,14 +300,103 @@ typedef void(^completion)(BOOL finished);
     
     
     EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
-    editAddressVC.title       = @"Edit Address";
-    editAddressVC.shipAddress = self.shipAddress;
+    editAddressVC.title = @"Add Address";
+    
+    if (![self.shipAddress isEqual:[NSNull null]]) {
+        
+        editAddressVC.title       = @"Edit Address";
+        editAddressVC.shipAddress = self.shipAddress;
+    }
+    
     
     [self.navigationController pushViewController:editAddressVC animated:YES];
     
     
     
 }
+
+
+
+
+
+
+
+
+
+
+#pragma mark - Network
+
+
+
+-(void)loadCheckoutProcess {
+    User *user = [User savedUser];
+    
+    NSString *url = [NSString stringWithFormat:@"http://%@%@/%@/advance?token=%@", self.orderModel.store_url, kCheckoutURL, self.orderModel.number, user.access_token];
+    NSLog(@"URL is --> %@", url);
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    request.HTTPMethod = @"PUT";
+    [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        if (data != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"%@",response);
+                NSError *jsonError;
+                
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+                
+                NSLog(@"%@",json);
+                
+                self.order_id               = [json valueForKey:@"number"];
+                self.display_total          = [json valueForKey:@"display_total"];
+                self.display_item_total     = [json valueForKey:@"display_item_total"];
+                self.display_delivery_total = [json valueForKey:@"display_ship_total"];
+                self.total                  = [json valueForKey:@"total"];
+                self.payment_methods        = [json valueForKey:@"payment_methods"];
+                self.title                  = [[json valueForKey:@"state"] capitalizedString];
+                self.store                  = [[json valueForKeyPath:@"store.name"] capitalizedString];
+                self.store_url              = [json valueForKeyPath:@"store.url"];
+                self.shipAddress            = [json valueForKey:@"ship_address"];
+
+                _sectionCount               = kSECTION_COUNT;
+                
+                [self.hud hide:YES];
+                if (jsonError) {
+                    NSLog(@"Error %@",[jsonError localizedDescription]);
+                } else {
+                    
+                    NSLog(@"Checkout Initiated");
+                    
+                    // Reload Tableview
+                    
+                    [self.tableView reloadData];
+                }
+                
+            });
+        }
+        else {
+            [self displayConnectionFailed];
+        }
+        
+        
+    }];
+    
+    [task resume];
+    
+    UIWindow *window = [[UIApplication sharedApplication] delegate].window;
+    self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+    [self.hud setCenter:self.view.center];
+    self.hud.dimBackground = YES;
+    self.hud.labelText = @"Checking out...";
+}
+
+
+
+
 
 
 

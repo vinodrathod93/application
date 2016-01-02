@@ -8,37 +8,85 @@
 
 #import "EditAddressViewController.h"
 #import "Order.h"
+#import "AppDelegate.h"
 
 
 @implementation EditAddressViewController {
-    NSMutableDictionary *_parameters;
-    NSFetchedResultsController *_orderFetchedResultsController;
-    Order *_orderModel;
+    NSMutableDictionary         *_parameters;
+    NSFetchedResultsController  *_orderFetchedResultsController;
+    Order                       *_orderModel;
+    NSManagedObjectContext      *_managedObjectContext;
+    UIPickerView                *_pickerView;
+    NSArray                     *_states;
+    MBProgressHUD               *_hud;
+    NSString                   *_state_id;
 }
 
 
 -(void)viewDidLoad {
     [super viewDidLoad];
     
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    _managedObjectContext = appDelegate.managedObjectContext;
+    
+    [self checkOrders];
+    
     _parameters = [NSMutableDictionary dictionary];
     
     
     self.saveNContinueButton.layer.cornerRadius = 5.0f;
-    self.firstNameTextField.layer.borderColor = [UIColor darkGrayColor].CGColor;
     
     
-    self.firstNameTextField.text    = self.shipAddress[@"firstname"];
-    self.lastNameTextField.text     = self.shipAddress[@"lastname"];
-    self.address1TextField.text     = self.shipAddress[@"address1"];
-    self.address2TextField.text     = self.shipAddress[@"address2"];
-    self.phoneTextField.text        = self.shipAddress[@"phone"];
-    self.pincodeTextField.text      = self.shipAddress[@"zipcode"];
-    self.cityTextField.text         = self.shipAddress[@"city"];
-    self.stateTextField.text        = [self.shipAddress valueForKeyPath:@"state.name"];
-    self.countryTextField.text      = [self.shipAddress valueForKeyPath:@"country.name"];
+    if (self.shipAddress != nil) {
+        self.firstNameTextField.text    = self.shipAddress[@"firstname"];
+        self.lastNameTextField.text     = self.shipAddress[@"lastname"];
+        self.address1TextField.text     = self.shipAddress[@"address1"];
+        self.address2TextField.text     = self.shipAddress[@"address2"];
+        self.phoneTextField.text        = self.shipAddress[@"phone"];
+        self.pincodeTextField.text      = self.shipAddress[@"zipcode"];
+        self.cityTextField.text         = self.shipAddress[@"city"];
+        self.stateTextField.text        = [self.shipAddress valueForKeyPath:@"state.name"];
+    }
+    else {
+        
+        
+        
+        
+        
+        
+        _pickerView        = [[UIPickerView alloc]init];
+        _pickerView.delegate             = self;
+        
+        self.stateTextField.inputView   = _pickerView;
+        
+        // ToolBar
+        UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 44)];
+        [toolbar setBarStyle:UIBarStyleDefault];
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissPickerView:)];
+        toolbar.items = @[doneButton];
+        toolbar.tintColor = [UIColor blackColor];
+
+        [_pickerView addSubview:toolbar];
+    }
     
-    self.countryTextField.enabled   = NO;
-    self.stateTextField.enabled     = NO;
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText      = @"Loading...";
+    hud.dimBackground  = YES;
+    
+    [[APIManager sharedManager] getStatesWithSuccess:^(NSArray *states) {
+        
+        [hud hide:YES];
+        
+        _states = states;
+        
+    } failure:^(NSError *error) {
+        
+        [hud hide:YES];
+        
+        NSLog(@"%@",[error localizedDescription]);
+    }];
+    
     
 }
 
@@ -49,29 +97,182 @@
 }
 
 
+-(void)dismissPickerView:(id)sender {
+    [_pickerView resignFirstResponder];
+}
+
 - (IBAction)saveNContinueAction:(id)sender {
     
+    NSLog(@"Parameters %@", _parameters);
     
-//    [APIManager sharedManager] putEditedAddressOfStore:<#(NSString *)#> andParameters:<#(NSDictionary *)#> WithSuccess:<#^(NSString *)success#> failure:<#^(NSError *)failure#>
+    _orderModel = _orderFetchedResultsController.fetchedObjects.lastObject;
+    
+    
+    if (self.shipAddress != nil) {
+        NSString *path  = [NSString stringWithFormat:@"/api/orders/%@/addresses/%@", _orderModel.number, self.shipAddress[@"id"]];
+        
+        
+        if (_orderModel.number != nil) {
+            [[APIManager sharedManager] putEditedAddressOfStore:_orderModel.store_url ofPath:path Parameters:_parameters WithSuccess:^(NSString *response) {
+                NSLog(@"%@", response);
+                
+                [self.navigationController popViewControllerAnimated:YES];
+                
+                
+            } failure:^(NSError *error) {
+                NSLog(@"%@", [error localizedDescription]);
+            }];
+        }
+        else
+            NSLog(@"No order exists");
+    }
+    else {
+        
+        User *user = [User savedUser];
+        
+        
+        
+        NSString *path = [NSString stringWithFormat:@"http://%@/api/checkouts/%@?token=%@", _orderModel.store_url,_orderModel.number, user.access_token];
+        
+        NSLog(@"%@", _parameters);
+        [_parameters setValue:@"105" forKey:@"country_id"];
+        
+//        NSNumber *state_id = [NSNumber numberWithInteger:_state_id];
+        [_parameters setValue:_state_id forKey:[self addressKey:@"state_id"]];
+        
+        NSDictionary *addressJSONParameter = [self addressJSON];
+        NSLog(@"%@", addressJSONParameter);
+//        
+//        [[APIManager sharedManager] putNewAddressForPath:path andParameter:addressJSONParameter WithSuccess:^(NSDictionary *response) {
+//            NSLog(@"response %@", response);
+//            
+//            [self.navigationController popViewControllerAnimated:YES];
+//            
+//            
+//        } failure:^(NSError *error) {
+//            NSLog(@"%@", [error localizedDescription]);
+//        }];
+        
+        
+        
+        
+        
+        
+        
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:addressJSONParameter options:NSJSONWritingPrettyPrinted error:&error];
+        
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:path]];
+        request.HTTPMethod = @"PUT";
+        
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
+        
+        
+        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            
+            if (data != nil) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"%@",response);
+                    NSError *jsonError;
+                    
+                    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+                    
+                    NSLog(@"JSON ==> %@",json);
+                    
+                    [_hud hide:YES];
+                    
+                    
+                    [self.navigationController popViewControllerAnimated:YES];
+                    
+                    if (jsonError) {
+                        NSLog(@"Error %@",[jsonError localizedDescription]);
+                    } else {
+                        
+                        // yeah done.
+                    }
+                    
+                });
+            } else {
+                
+                
+                NSLog(@"Network error");
+            }
+            
+        }];
+        
+        [task resume];
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud.color = self.view.tintColor;
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+   
+    
+    
     
 }
 
 
--(void)textFieldDidEndEditing:(UITextField *)textField {
+-(NSDictionary *)addressJSON {
+    
+    NSDictionary *orderAddress = @{
+                                   @"order": @{
+                                           @"bill_address_attributes": _parameters,
+                                           @"ship_address_attributes": _parameters
+                                           }
+                                   };
+    
+    return orderAddress;
+}
+
+
+
+- (IBAction)textFieldDataChanged:(UITextField *)textField {
+    
+    
     if ([textField isEqual:self.firstNameTextField])
-        [_parameters setValue:textField.text forKey:@"firstname"];
+        [_parameters setValue:textField.text forKey:[self addressKey:@"firstname"]];
     else if ([textField isEqual:self.lastNameTextField])
-        [_parameters setValue:textField.text forKey:@"lastname"];
+        [_parameters setValue:textField.text forKey:[self addressKey:@"lastname"]];
     else if ([textField isEqual:self.address1TextField])
-        [_parameters setValue:textField.text forKey:@"address1"];
+        [_parameters setValue:textField.text forKey:[self addressKey:@"address1"]];
     else if ([textField isEqual:self.address2TextField])
-        [_parameters setValue:textField.text forKey:@"address2"];
+        [_parameters setValue:textField.text forKey:[self addressKey:@"address2"]];
     else if ([textField isEqual:self.phoneTextField])
-        [_parameters setValue:textField.text forKey:@"phone"];
+        [_parameters setValue:textField.text forKey:[self addressKey:@"phone"]];
     else if ([textField isEqual:self.pincodeTextField])
-        [_parameters setValue:textField.text forKey:@"zipcode"];
+        [_parameters setValue:textField.text forKey:[self addressKey:@"zipcode"]];
     else if ([textField isEqual:self.cityTextField])
-        [_parameters setValue:textField.text forKey:@"city"];
+        [_parameters setValue:textField.text forKey:[self addressKey:@"city"]];
+    else if ([textField isEqual:self.stateTextField]) {
+        
+        
+        
+    }
+    
+    
+}
+
+
+
+-(NSString *)addressKey:(NSString *)key {
+    
+    if (self.shipAddress == nil) {
+        return key;
+    }
+    else
+        return [NSString stringWithFormat:@"address[%@]",key];
 }
 
 
@@ -83,15 +284,44 @@
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:YES];
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
-    self.orderNumFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    _orderFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:nil];
     NSError *error;
-    if(![self.orderNumFetchedResultsController performFetch:&error])
+    if(![_orderFetchedResultsController performFetch:&error])
     {
         
         NSLog(@"Order Model Fetch Failure: %@",[error localizedDescription]);
     }
     
 }
+
+
+
+
+
+#pragma mark - UIPickerViewDelegate
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return _states.count;
+}
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    
+    return [_states[row] valueForKey:@"name"];
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    
+    self.stateTextField.text = [_states[row] valueForKey:@"name"];
+    _state_id  = [_states[row] valueForKey:@"id"];
+    
+}
+
+
 
 
 @end

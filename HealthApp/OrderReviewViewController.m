@@ -302,10 +302,13 @@ typedef void (^completion)(BOOL finished);
 //                    [self showAddressesPageWithOrderID:order_id];
                     
                     PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
-                    paymentVC.order_id               = [json valueForKey:@"number"];
-                    paymentVC.display_total          = [json valueForKey:@"display_total"];
-                    paymentVC.total                  = [json valueForKey:@"total"];
-                    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
+                    
+                    /* commented just because all the checkout process in done in viewwillappear of PaymentVC */
+                    
+//                    paymentVC.order_id               = [json valueForKey:@"number"];
+//                    paymentVC.display_total          = [json valueForKey:@"display_total"];
+//                    paymentVC.total                  = [json valueForKey:@"total"];
+//                    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
                     [self.navigationController pushViewController:paymentVC animated:YES];
                 }
                 
