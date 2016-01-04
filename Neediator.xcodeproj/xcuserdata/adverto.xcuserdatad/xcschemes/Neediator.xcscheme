@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0640"
+   LastUpgradeVersion = "0720"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82BD02871B46A73C00108A0B"
                BuildableName = "Chemist Plus.app"
-               BlueprintName = "Chemist Plus"
+               BlueprintName = "Neediator"
                ReferencedContainer = "container:Neediator.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,6 +29,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "82BD02871B46A73C00108A0B"
+            BuildableName = "Chemist Plus.app"
+            BlueprintName = "Neediator"
+            ReferencedContainer = "container:Neediator.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -48,7 +57,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82BD02871B46A73C00108A0B"
             BuildableName = "Chemist Plus.app"
-            BlueprintName = "Chemist Plus"
+            BlueprintName = "Neediator"
             ReferencedContainer = "container:Neediator.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -61,22 +70,22 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82BD02871B46A73C00108A0B"
             BuildableName = "Chemist Plus.app"
-            BlueprintName = "Chemist Plus"
+            BlueprintName = "Neediator"
             ReferencedContainer = "container:Neediator.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Debug"
-      customArchiveName = "Neediator - Debug"
+      buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

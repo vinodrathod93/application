@@ -1358,9 +1358,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		82BD02871B46A73C00108A0B /* Chemist Plus */ = {
+		82BD02871B46A73C00108A0B /* Neediator */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 82BD02AB1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "Chemist Plus" */;
+			buildConfigurationList = 82BD02AB1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "Neediator" */;
 			buildPhases = (
 				3C6AD88314DA89E7BD82063D /* Check Pods Manifest.lock */,
 				82BD02841B46A73C00108A0B /* Sources */,
@@ -1373,14 +1373,14 @@
 			);
 			dependencies = (
 			);
-			name = "Chemist Plus";
+			name = Neediator;
 			productName = HealthApp;
 			productReference = 82BD02881B46A73C00108A0B /* Chemist Plus.app */;
 			productType = "com.apple.product-type.application";
 		};
-		82BD02A01B46A73C00108A0B /* Chemist PlusTests */ = {
+		82BD02A01B46A73C00108A0B /* NeediatorTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 82BD02AE1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "Chemist PlusTests" */;
+			buildConfigurationList = 82BD02AE1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "NeediatorTests" */;
 			buildPhases = (
 				82BD029D1B46A73C00108A0B /* Sources */,
 				82BD029E1B46A73C00108A0B /* Frameworks */,
@@ -1391,7 +1391,7 @@
 			dependencies = (
 				82BD02A31B46A73C00108A0B /* PBXTargetDependency */,
 			);
-			name = "Chemist PlusTests";
+			name = NeediatorTests;
 			productName = HealthAppTests;
 			productReference = 82BD02A11B46A73C00108A0B /* Chemist PlusTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1427,8 +1427,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				82BD02871B46A73C00108A0B /* Chemist Plus */,
-				82BD02A01B46A73C00108A0B /* Chemist PlusTests */,
+				82BD02871B46A73C00108A0B /* Neediator */,
+				82BD02A01B46A73C00108A0B /* NeediatorTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1643,7 +1643,7 @@
 /* Begin PBXTargetDependency section */
 		82BD02A31B46A73C00108A0B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 82BD02871B46A73C00108A0B /* Chemist Plus */;
+			target = 82BD02871B46A73C00108A0B /* Neediator */;
 			targetProxy = 82BD02A21B46A73C00108A0B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1840,7 +1840,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82BD02AB1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "Chemist Plus" */ = {
+		82BD02AB1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "Neediator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82BD02AC1B46A73C00108A0B /* Debug */,
@@ -1849,7 +1849,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82BD02AE1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "Chemist PlusTests" */ = {
+		82BD02AE1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "NeediatorTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82BD02AF1B46A73C00108A0B /* Debug */,
