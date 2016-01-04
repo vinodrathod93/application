@@ -9,6 +9,7 @@
 #import "EditAddressViewController.h"
 #import "Order.h"
 #import "AppDelegate.h"
+#import "PaymentViewController.h"
 
 
 @implementation EditAddressViewController {
@@ -41,7 +42,12 @@
         self.firstNameTextField.text    = self.shipAddress[@"firstname"];
         self.lastNameTextField.text     = self.shipAddress[@"lastname"];
         self.address1TextField.text     = self.shipAddress[@"address1"];
-        self.address2TextField.text     = self.shipAddress[@"address2"];
+        
+        if (![self.shipAddress[@"address2"] isEqual:[NSNull null]])
+            self.address2TextField.text     = self.shipAddress[@"address2"];
+        else
+            self.address2TextField.text     = @"";
+        
         self.phoneTextField.text        = self.shipAddress[@"phone"];
         self.pincodeTextField.text      = self.shipAddress[@"zipcode"];
         self.cityTextField.text         = self.shipAddress[@"city"];
@@ -49,26 +55,11 @@
     }
     else {
         
+        /* do nothing if adding new address */
         
-        
-        
-        
-        
-        _pickerView        = [[UIPickerView alloc]init];
-        _pickerView.delegate             = self;
-        
-        self.stateTextField.inputView   = _pickerView;
-        
-        // ToolBar
-        UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 44)];
-        [toolbar setBarStyle:UIBarStyleDefault];
-        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissPickerView:)];
-        toolbar.items = @[doneButton];
-        toolbar.tintColor = [UIColor blackColor];
-
-        [_pickerView addSubview:toolbar];
     }
     
+    [self loadPickerView];
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText      = @"Loading...";
@@ -109,6 +100,9 @@
     
     
     if (self.shipAddress != nil) {
+        
+        /* if editing the address */
+        
         NSString *path  = [NSString stringWithFormat:@"/api/orders/%@/addresses/%@", _orderModel.number, self.shipAddress[@"id"]];
         
         
@@ -127,6 +121,8 @@
             NSLog(@"No order exists");
     }
     else {
+        
+        /* if adding new address */
         
         User *user = [User savedUser];
         
@@ -185,13 +181,24 @@
                     [_hud hide:YES];
                     
                     
-                    [self.navigationController popViewControllerAnimated:YES];
+                    
                     
                     if (jsonError) {
                         NSLog(@"Error %@",[jsonError localizedDescription]);
+                        
+                        UIAlertView *alertError = [[UIAlertView alloc] initWithTitle:[jsonError localizedFailureReason] message:[jsonError localizedDescription] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+                        [alertError show];
+                        
+                        
+                        
+                        
                     } else {
                         
-                        // yeah done.
+                        
+                        NSDictionary *address = [json valueForKey:@"ship_address"];
+                        [self saveAddress:address];
+                        
+                        [self proceedToPaymentPage];
                     }
                     
                 });
@@ -208,20 +215,17 @@
         _hud.color = self.view.tintColor;
         
         
-        
-        
-        
-        
-        
-        
-        
-        
     }
    
     
     
     
 }
+
+
+
+
+#pragma mark - Helper Methods
 
 
 -(NSDictionary *)addressJSON {
@@ -294,6 +298,47 @@
     
 }
 
+
+
+-(void)loadPickerView {
+    
+    _pickerView                      = [[UIPickerView alloc]init];
+    _pickerView.delegate             = self;
+    
+    self.stateTextField.inputView    = _pickerView;
+    
+    // ToolBar
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 44)];
+    [toolbar setBarStyle:UIBarStyleDefault];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissPickerView:)];
+    toolbar.items = @[doneButton];
+    toolbar.tintColor = [UIColor blackColor];
+    
+    [_pickerView addSubview:toolbar];
+    
+}
+
+
+-(void)saveAddress:(NSDictionary *)address {
+    
+    User *user = [User savedUser];
+    user.ship_address = address;
+    user.bill_address = address;
+    
+    [user save];
+    
+}
+
+
+#pragma mark - Navigation
+
+-(void)proceedToPaymentPage {
+    
+    PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
+    
+    
+    [self.navigationController pushViewController:paymentVC animated:YES];
+}
 
 
 

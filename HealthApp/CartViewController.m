@@ -26,6 +26,7 @@
 #import "Order.h"
 #import "LineItems.h"
 #import "NoConnectionView.h"
+#import "EditAddressViewController.h"
 
 #define kCurrentOrderDetailsURL @"/api/orders/current"
 #define kDeleteLineItemURL @"/api/orders"
@@ -44,12 +45,13 @@ static NSString *cellIdentifier = @"cartCell";
 
 @property (nonatomic, strong) LineItems *lineItemModel;
 @property (nonatomic, strong) Order *orderModel;
+@property (nonatomic, assign) NSDictionary *ship_address;
 
 @property (nonatomic, strong) NSIndexPath *selectIndexPath;
 @property (nonatomic, strong) CartViewModel *viewModel;
 @property (nonatomic, assign) BOOL isAlreadyLoggedIn;
 @property (nonatomic, strong) MBProgressHUD *hud;
-@property (strong) AppDelegate *appDelegate;
+@property (nonatomic, strong) AppDelegate *appDelegate;
 
 @property (nonatomic, strong) UIView *dimmView;
 @property (nonatomic, strong) NoConnectionView *connectionErrorView;
@@ -526,6 +528,7 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 -(void)updateBadgeValue {
+    
     [self checkLineItems];
     
     NSString *count = [NSString stringWithFormat:@"%lu", (unsigned long)self.lineItemsFetchedResultsController.fetchedObjects.count];
@@ -678,7 +681,12 @@ static NSString *cellIdentifier = @"cartCell";
     
     if (self.orderModel.number != nil) {
         
-        [self proceedToPaymentPage:self.orderModel];
+        if (_ship_address != nil)
+            [self proceedToPaymentPage:self.orderModel];
+        else
+            [self proceedToNewAddressPage];
+        
+        
         
     }
     else
@@ -769,6 +777,11 @@ static NSString *cellIdentifier = @"cartCell";
                                 [self.managedObjectContext save:nil];
                                 
                                 NSArray *line_items = [json objectForKey:@"line_items"];
+                                
+                                
+                                /* To check whether the shipping_address already exists or not */
+                                _ship_address       = [json objectForKey:@"ship_address"];
+                                
                                 
                                 // IF LINEITEMS ARE EMPTY THEN SHOW CART MESSAGE
                                 
@@ -1054,6 +1067,15 @@ static NSString *cellIdentifier = @"cartCell";
     [self.navigationController pushViewController:paymentVC animated:YES];
 }
 
+
+-(void)proceedToNewAddressPage {
+    
+    EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
+    editAddressVC.title = @"Add Shipping Address";
+    
+    [self.navigationController pushViewController:editAddressVC animated:YES];
+    
+}
 
 
 -(void)showLoginPageAndIsPlacingOrder:(BOOL)isPlacing {

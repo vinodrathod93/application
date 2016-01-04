@@ -163,22 +163,21 @@ enum MyAccountCells {
 
 -(void)configureBasicViewCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     
-    
     if ([_options[indexPath.section] isKindOfClass:[NSArray class]]) {
         
         NSArray *array = _options[indexPath.section];
         NSArray *icons = _iconsArray[indexPath.section];
         
         cell.textLabel.text = array[indexPath.row];
-        cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
         cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", icons[indexPath.row]]];
     }
     else if(indexPath.section != 0) {
         cell.textLabel.text = _options[indexPath.section];
-        cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
         cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", _iconsArray[indexPath.section]]];
     }
     
+    cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
+    cell.textLabel.textColor = [UIColor darkGrayColor];
     
 }
 

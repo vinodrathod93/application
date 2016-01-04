@@ -38,7 +38,13 @@ typedef void(^completion)(BOOL finished);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.user = [User savedUser];
+    _user = [User savedUser];
+    
+    if (_user != nil) {
+        self.addresses = _user.bill_address;
+    }
+    
+    
     self.title = @"My Addresses";
     
 }
@@ -51,7 +57,6 @@ typedef void(^completion)(BOOL finished);
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-//    [self deleteCurrentOrder];
 }
 
 #pragma mark - Table view data source
@@ -60,7 +65,7 @@ typedef void(^completion)(BOOL finished);
     // Return the number of sections.
     NSLog(@"%@",self.addresses);
     
-    return ([self.addresses isEqual: [NSNull null]]) ? 1 : 2;
+    return [self isAddressAvailable] ? 2 : 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -81,11 +86,16 @@ typedef void(^completion)(BOOL finished);
     NSLog(@"Sections = %ld",(long)[self numberOfSectionsInTableView:tableView]);
     
     if (indexPath.section == 0) {
+        
         [self configureAddAddressCell:cell forIndexPath:indexPath];
     }
     else if(indexPath.section == 1) {
+        
         [self configureAvailableAddressCell:cell forIndexPath:indexPath];
+        
+        
     }
+    
     
     
     return cell;
@@ -93,20 +103,30 @@ typedef void(^completion)(BOOL finished);
 
 
 -(void)configureAddAddressCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = @"Add Address";
+    
+    if ([self isAddressAvailable]) {
+        cell.textLabel.text = @"Add Address";
+    }
+    else
+        cell.textLabel.text = @"No Address";
+    
 }
 
 
 -(void)configureAvailableAddressCell:(AddressCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     
-    if (_user.bill_address != nil) {
-        self.addresses = _user.bill_address;
-    }
-    
     cell.full_name.text = [[self.addresses valueForKey:@"full_name"] capitalizedString];
     
     NSString *address1 = [[self.addresses valueForKey:@"address1"] capitalizedString];
-    NSString *address2 = [[self.addresses valueForKey:@"address2"] capitalizedString];
+    
+    NSString *address2 = [self.addresses valueForKey:@"address2"];
+    
+    if (![address2 isEqual:[NSNull null]])
+        address2       = [address2 capitalizedString];
+    else
+        address2       = @"";
+    
+    
     NSString *city     = [[self.addresses valueForKey:@"city"] capitalizedString];
     NSString *zipcode  = [self.addresses valueForKey:@"zipcode"];
     cell.completeAddress.text = [NSString stringWithFormat:@"%@, %@, %@ - %@",address1, address2, city, zipcode];
@@ -114,50 +134,13 @@ typedef void(^completion)(BOOL finished);
 
 
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        if (self.isGettingOrder) {
-            AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
-            [self.navigationController pushViewController:addShippingVC animated:YES];
-        } else {
-            NSLog(@"Does not support multiple addresses");
-        }
-        
-    }
-    else if (indexPath.section == 1) {
-        
-        if (self.isGettingOrder) {
-            DeliveryViewController *deliveryVC = [self.storyboard instantiateViewControllerWithIdentifier:@"deliveryVC"];
-            
-            [self sendAddressToServerWithCompletion:^(BOOL finished) {
-                if (finished) {
-                    deliveryVC.shipping_data = self.shipping_data;
-                    deliveryVC.order_id      = self.order_id;
-                    
-                    [self.navigationController pushViewController:deliveryVC animated:YES];
-                }
-                else
-                    NSLog(@"Could not send address");
-            }];
-        } else {
-            NSLog(@" Showing Address ");
-        }
-        
-        
-        
-    }
-    
-}
 
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *selectAddress = @"Select Delivery Address";
-    NSString *orderSummary = @"Order Summary";
+    NSString *selectAddress = @"Delivery Address";
+    NSString *noMessage     = @"";
     
-    if (self.isGettingOrder) {
-        return (section == 0)? @"": (section == 1)? selectAddress: orderSummary;
-    } else
-        return nil;
+    return (section == 0) ? noMessage: (section == 1)? selectAddress: noMessage;
     
 }
 
@@ -165,9 +148,91 @@ typedef void(^completion)(BOOL finished);
     if (indexPath.section == 1) {
         return 120.0f;
     }
+    else
+        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
     
-    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
+
+
+
+
+
+-(void)displayConnectionFailed {
+    UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [failed_alert show];
+}
+
+-(void)displayNoConnection {
+    UIAlertView *connection_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [connection_alert show];
+}
+
+
+
+
+-(BOOL)isAddressAvailable {
+    
+    if (_addresses != nil) {
+        if ([[_addresses valueForKey:@"full_name"] isEqual:[NSNull null]])
+            return NO;
+
+        else if ([[_addresses valueForKey:@"address1"] isEqual:[NSNull null]])
+            return NO;
+        
+        else if ([[_addresses valueForKey:@"zipcode"] isEqual:[NSNull null]])
+            return NO;
+    }
+    else
+        return NO;
+    
+    return YES;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark - Not Needed 
 
 
 
@@ -299,16 +364,46 @@ typedef void(^completion)(BOOL finished);
     return orderAddress;
 }
 
--(void)displayConnectionFailed {
-    UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    
-    [failed_alert show];
-}
 
--(void)displayNoConnection {
-    UIAlertView *connection_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    
-    [connection_alert show];
-}
+
+/*
+ -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+ if (indexPath.section == 0) {
+ if (self.isGettingOrder) {
+ AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
+ [self.navigationController pushViewController:addShippingVC animated:YES];
+ } else {
+ NSLog(@"Does not support multiple addresses");
+ }
+ 
+ NSLog(@"Currently, does'nt support multiple addresses");
+ 
+ }
+ else if (indexPath.section == 1) {
+ 
+ if (self.isGettingOrder) {
+ DeliveryViewController *deliveryVC = [self.storyboard instantiateViewControllerWithIdentifier:@"deliveryVC"];
+ 
+ [self sendAddressToServerWithCompletion:^(BOOL finished) {
+ if (finished) {
+ deliveryVC.shipping_data = self.shipping_data;
+ deliveryVC.order_id      = self.order_id;
+ 
+ [self.navigationController pushViewController:deliveryVC animated:YES];
+ }
+ else
+ NSLog(@"Could not send address");
+ }];
+ } else {
+ NSLog(@" Showing Address ");
+ }
+ 
+ 
+ 
+ }
+ 
+ }
+ 
+ */
 
 @end

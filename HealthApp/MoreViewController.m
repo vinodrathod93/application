@@ -10,11 +10,20 @@
 #import "WebViewController.h"
 #import <MessageUI/MessageUI.h>
 
+
+enum SECTIONS {
+    SharingSection = 0,
+    PolicySection,
+    ContactUs,
+    AboutUs
+};
+
 @interface MoreViewController ()<MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) NSArray *moreData;
 @property (nonatomic, strong) NSArray *moreDataIcons;
 @end
+
 
 @implementation MoreViewController
 
@@ -124,10 +133,26 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 2) {
+    
+    if (indexPath.section == SharingSection) {
+        
+        if (indexPath.row == 0) {
+            // Rate us
+        }
+        else if (indexPath.row == 1) {
+            // Share us
+            
+            
+            [self shareUs];
+            
+            
+        }
+        
+    }
+    else if (indexPath.section == ContactUs) {
         [self prepareMail];
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == PolicySection) {
         
         
         
@@ -150,7 +175,7 @@
             
         }
     }
-    else if (indexPath.section == 3) {
+    else if (indexPath.section == AboutUs) {
         NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"about_us" ofType:@"txt"];
         NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
         
@@ -214,18 +239,16 @@
 }
 
 
--(void)aboutUs {
+-(void)shareUs {
     
-//    [webView loadHTMLString:htmlString baseURL:nil];
+    NSString *texttoshare = @"Hey! I Found this Awesome HyperLocal - Shopping App for Shopping your Daily needs from Nearby Stores.\n Download it Today and Enjoy Shopping \n https://play.google.com/store/apps/details?id=info.adverto.neediator\n";
+    
+    NSArray *activityItems = @[texttoshare];
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+    activityVC.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypeCopyToPasteboard];
+    
+    [self presentViewController:activityVC animated:TRUE completion:nil];
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

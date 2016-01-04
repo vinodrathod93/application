@@ -182,7 +182,13 @@ typedef void(^completion)(BOOL finished);
 
     if (![self.shipAddress isEqual:[NSNull null]]) {
         NSString *address1 = [[self.shipAddress valueForKey:@"address1"] capitalizedString];
-        NSString *address2 = [[self.shipAddress valueForKey:@"address2"] capitalizedString];
+        NSString *address2;
+        
+        if (![[self.shipAddress valueForKey:@"address2"] isEqual:[NSNull null]])
+            address2           = [[self.shipAddress valueForKey:@"address2"] capitalizedString];
+        else
+            address2           = @"";
+        
         NSString *city     = [[self.shipAddress valueForKey:@"city"] capitalizedString];
         NSString *zipcode  = [self.shipAddress valueForKey:@"zipcode"];
         
