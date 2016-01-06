@@ -14,14 +14,34 @@ static NSString *const kStoresListPath = @"/api/stores";
 static NSString *const kTaxonomiesListPath = @"/api/taxonomies";
 static NSString *const kMyOrdersPath       = @"/api/orders/mine";
 static NSString *const kStatesPathOfIndia  = @"/api/countries/105/states";
-static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef815605374dbc";
+static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef815605374db";
 
-@implementation APIManager
+@implementation APIManager {
+    BOOL _isRetry;
+    
+    
+}
 
--(NSURLSessionDataTask *)getStoresWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *))failure {
-    NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:requestModel error:nil];
-    NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] initWithDictionary:parameters];
-    [parametersWithKey setObject:kStoreTokenKey forKey:@"token"];
+-(NSURLSessionDataTask *)getStoresWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
+    
+        NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:requestModel error:nil];
+        NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] initWithDictionary:parameters];
+    
+        if (_isRetry) {
+            User *user = [User savedUser];
+            if (user != nil) {
+                [parametersWithKey setObject:user.access_token forKey:@"token"];
+            }
+            else {
+                failure(nil, YES);
+                
+                return nil;
+            }
+            
+            
+        }
+        else
+            [parametersWithKey setObject:kStoreTokenKey forKey:@"token"];
     
     
     return [self GET:kStoresListPath parameters:parametersWithKey success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
@@ -34,43 +54,65 @@ static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef81
             NSLog(@"Error in conversion %@",[error description]);
         }
         
-        NSLog(@"%@",list);
         success(list);
         
     } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-        failure(error);
+        
+        NSLog(@"%ld", (long)task.state);
+        
+        NSInteger errorCode = [[[error userInfo] objectForKey:AFNetworkingOperationFailingURLResponseErrorKey] statusCode];
+        if (errorCode == 401) {
+            
+            _isRetry = YES;
+            
+            // Recursive
+            
+            
+            [self getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *secondResponseModel) {
+                success(secondResponseModel);
+                
+            } failure:^(NSError *error, BOOL loginFailure) {
+                if (error) {
+                    NSLog(@"%@", [error localizedDescription]);
+                    
+                    failure(error, NO);
+                }
+                else if (loginFailure) {
+                    failure(nil, YES);
+                }
+            }];
+            
+        }
+        else
+            failure(error, NO);
+        
     }];
 }
 
 -(NSURLSessionDataTask *)getTaxonomiesForStore:(NSString *)store WithSuccess:(void (^)(TaxonomyListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure {
     
-    User *user = [User savedUser];
     
     NSString *kStoreURL = [NSString stringWithFormat:@"http://%@",store];
     SessionManager *manager = [[SessionManager alloc]initWithBaseURL:[NSURL URLWithString:kStoreURL]];
     
-    if (user.access_token == nil) {
+    
+    NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc]init];
+    [parametersWithKey setObject:kStoreTokenKey forKey:@"token"];
+    
+    return [manager GET:kTaxonomiesListPath parameters:parametersWithKey success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+        NSError *error;
         
-        NSLog(@"User not Logged in, Returned nil");
-        return nil;
-    } else {
-        NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc]init];
-        [parametersWithKey setObject:user.access_token forKey:@"token"];
+        TaxonomyListResponseModel *list = [MTLJSONAdapter modelOfClass:TaxonomyListResponseModel.class fromJSONDictionary:responseDictionary error:&error];
+        if (error) {
+            NSLog(@"%@",[error localizedDescription]);
+        }
+        success(list);
         
-        return [manager GET:kTaxonomiesListPath parameters:parametersWithKey success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-            NSDictionary *responseDictionary = (NSDictionary *)responseObject;
-            NSError *error;
-            
-            TaxonomyListResponseModel *list = [MTLJSONAdapter modelOfClass:TaxonomyListResponseModel.class fromJSONDictionary:responseDictionary error:&error];
-            if (error) {
-                NSLog(@"%@",[error localizedDescription]);
-            }
-            success(list);
-            
-        } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-            failure(error);
-        }];
-    }
+    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+    
 }
 
 

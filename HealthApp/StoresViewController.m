@@ -86,6 +86,9 @@
         [self performSelector:@selector(dismissAlertView:) withObject:select_location afterDelay:2];
         
         
+
+        
+        
     } else {
         
         
@@ -96,9 +99,8 @@
         self.managedObjectContext = appDelegate.managedObjectContext;
         
         [self showHUD];
+        
         [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {
-            
-            
             
             //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             //            RLMRealm *realm = [RLMRealm defaultRealm];
@@ -122,6 +124,7 @@
             //            });
             //        });
             
+            
             self.array_stores = responseModel.stores;
             
             if (self.array_stores.count == 0) {
@@ -132,20 +135,37 @@
             [self.tableView reloadData];
             [self hideHUD];
             
-            
-        } failure:^(NSError *error) {
+        } failure:^(NSError *error, BOOL loginFailure) {
             
             [self hideHUD];
             
+            if (loginFailure) {
+                LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
+                logSignVC.isPlacingOrder = NO;
+                
+                UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
+                logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+                
+                [self presentViewController:logSignNav animated:YES completion:nil];
+            }
+            else if (error) {
+                
+                _connectionView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionView" owner:self options:nil] lastObject];
+                _connectionView.tag = kStoresConnectionViewTag;
+                _connectionView.frame = self.tableView.frame;
+                _connectionView.label.text = [error localizedDescription];
+                [_connectionView.retryButton addTarget:self action:@selector(requestStores) forControlEvents:UIControlEventTouchUpInside];
+                
+                [self.navigationController.view insertSubview:_connectionView belowSubview:self.navigationController.navigationBar];
+                
+            }
             
-            _connectionView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionView" owner:self options:nil] lastObject];
-            _connectionView.tag = kStoresConnectionViewTag;
-            _connectionView.frame = self.tableView.frame;
-            _connectionView.label.text = [error localizedDescription];
-            [_connectionView.retryButton addTarget:self action:@selector(requestStores) forControlEvents:UIControlEventTouchUpInside];
             
-            [self.navigationController.view insertSubview:_connectionView belowSubview:self.navigationController.navigationBar];
+            
+           
         }];
+        
+        
         
     }
     
@@ -224,7 +244,7 @@
 }
 
 -(void)showHUD {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 //    self.hud.color = self.tableView.tintColor;
     self.hud.dimBackground = YES;
     self.hud.color = [UIColor clearColor];
@@ -241,7 +261,7 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    User *user = [User savedUser];
+    
     StoresModel *store = self.array_stores[indexPath.row];
     
     [self checkOrders];
@@ -265,20 +285,23 @@
                 [self saveAndProceedWithCurrentStore:store];
             }
         }
-        else if (user.access_token == nil) {
-            LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
-            logSignVC.isPlacingOrder = NO;
-            
-            UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
-            logSignNav.navigationBar.tintColor = self.tableView.tintColor;
-            
-            [self presentViewController:logSignNav animated:YES completion:nil];
-            
-        } else {
-            
+        else
             [self saveAndProceedWithCurrentStore:store];
-        }
-            
+        
+//        else if (user.access_token == nil) {
+//            LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
+//            logSignVC.isPlacingOrder = NO;
+//            
+//            UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
+//            logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+//            
+//            [self presentViewController:logSignNav animated:YES completion:nil];
+//
+//        } else {
+//            
+//            [self saveAndProceedWithCurrentStore:store];
+//        }
+        
     } else
         NSLog(@"No Stores");
     

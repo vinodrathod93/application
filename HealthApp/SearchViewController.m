@@ -55,16 +55,18 @@
     
     if (location != nil) {
         
-        if ([CLLocationManager locationServicesEnabled]) {
-            
-            if (location.isCurrentLocation) {
-                
-                [self decorateSelectCurrentLocation];
-                
-                
-            }
-            
-        }
+        
+        /* just to check whether the location selected is current or not */
+//        if ([CLLocationManager locationServicesEnabled]) {
+//            
+//            if (location.isCurrentLocation) {
+//                
+//                [self decorateSelectCurrentLocation];
+//                
+//                
+//            }
+//            
+//        }
         
         [self loadStoresWithLocation:location];
         self.currentPlace = location.location_name;
@@ -391,7 +393,8 @@ didFailAutocompleteWithError:(NSError *)error {
     if ([error domain] == kCLErrorDomain) {
         switch ([error code]) {
             case kCLErrorDenied:
-                NSLog(@"go to settings and enable location");
+                [self alertLocationPermission];
+                
                 break;
                 
             case kCLErrorLocationUnknown:
@@ -506,15 +509,63 @@ didFailAutocompleteWithError:(NSError *)error {
         
         [self.tableView reloadData];
         
-    } failure:^(NSError *error) {
+    } failure:^(NSError *error, BOOL loginFailure) {
+        if (loginFailure) {
+            
+            LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
+            logSignVC.isPlacingOrder = NO;
+            
+            UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
+            logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+            
+            [self presentViewController:logSignNav animated:YES completion:nil];
+        }
+        else if (error) {
+            
+            UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alertError show];
+        }
         
-        UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertError show];
+        
     }];
 }
 
 
 
+-(void)alertLocationPermission {
+    
+    
+    UIAlertController *alertLocationController = [UIAlertController alertControllerWithTitle:@"Location not Enabled" message:@"Location services are not enabled on your device. Please go to settings and enable location service to use this feature." preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"Go to Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        if (UIApplicationOpenSettingsURLString != NULL) {
+            NSURL *settingURL         = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            [[UIApplication sharedApplication] openURL:settingURL];
+        }
+        else {
+            
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Go to Settings" message:@"Location services are not enabled on your device. Please go to settings and enable location service to use this feature." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            
+            [alert show];
+
+            
+        }
+        
+        
+    }];
+    
+    
+    [alertLocationController addAction:cancelAction];
+    [alertLocationController addAction:settingsAction];
+    
+    [self presentViewController:alertLocationController animated:YES completion:nil];
+    
+}
 
 
 

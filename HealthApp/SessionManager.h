@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AFHTTPSessionManager.h"
 
-@interface SessionManager : AFHTTPSessionManager
+@interface SessionManager : AFHTTPSessionManager 
 
 + (id)sharedManager;
 
