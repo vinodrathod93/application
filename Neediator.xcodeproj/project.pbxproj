@@ -100,6 +100,7 @@
 		82AB0CA61C2EBFC800675567 /* LineItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0C9E1C2EBFC800675567 /* LineItems.m */; };
 		82AB0CA71C2EBFC800675567 /* Order+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0CA01C2EBFC800675567 /* Order+CoreDataProperties.m */; };
 		82AB0CA81C2EBFC800675567 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0CA21C2EBFC800675567 /* Order.m */; };
+		82AC39FA1C3E710C0048C792 /* RequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AC39F91C3E710C0048C792 /* RequestOperationManager.m */; };
 		82AD69021BFF4FBF00478C5A /* ProductDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD69011BFF4FBF00478C5A /* ProductDetailsViewController.m */; };
 		82BD028E1B46A73C00108A0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD028D1B46A73C00108A0B /* main.m */; };
 		82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02901B46A73C00108A0B /* AppDelegate.m */; };
@@ -329,6 +330,8 @@
 		82AB0CA01C2EBFC800675567 /* Order+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Order+CoreDataProperties.m"; sourceTree = "<group>"; };
 		82AB0CA11C2EBFC800675567 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
 		82AB0CA21C2EBFC800675567 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
+		82AC39F81C3E710C0048C792 /* RequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestOperationManager.h; sourceTree = "<group>"; };
+		82AC39F91C3E710C0048C792 /* RequestOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestOperationManager.m; sourceTree = "<group>"; };
 		82AD69001BFF4FBF00478C5A /* ProductDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailsViewController.h; sourceTree = "<group>"; };
 		82AD69011BFF4FBF00478C5A /* ProductDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailsViewController.m; sourceTree = "<group>"; };
 		82BD02881B46A73C00108A0B /* Chemist Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chemist Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1294,6 +1297,8 @@
 		82EF2DE21BE8EC3E00D87DE2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				82AC39F81C3E710C0048C792 /* RequestOperationManager.h */,
+				82AC39F91C3E710C0048C792 /* RequestOperationManager.m */,
 				82EF2DE31BE8ECD400D87DE2 /* SessionManager.h */,
 				82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */,
 				82999E901BEB1D0100F0EDE3 /* APIManager.h */,
@@ -1571,6 +1576,7 @@
 				829113D71BB93A63000DA995 /* VariantsViewController.m in Sources */,
 				8246FE651B74B53D001D1CFF /* LogSignViewController.m in Sources */,
 				824AE0901BF9EB46008A49A9 /* StoreAPIManager.m in Sources */,
+				82AC39FA1C3E710C0048C792 /* RequestOperationManager.m in Sources */,
 				825567181B68E6D4009F013A /* AddShippingDetailsViewController.m in Sources */,
 				82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */,
 				82C38A881C086B5C0006A73B /* PresentingAnimator.m in Sources */,

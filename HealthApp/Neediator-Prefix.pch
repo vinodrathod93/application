@@ -23,6 +23,7 @@
     #import "APIManager.h"
     #import "User.h"
     #import "LogSignViewController.h"
+    #import "RequestOperationManager.h"
 #endif
 
 #endif /* Neediator_Prefix_pch */

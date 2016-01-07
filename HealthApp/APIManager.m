@@ -14,34 +14,19 @@ static NSString *const kStoresListPath = @"/api/stores";
 static NSString *const kTaxonomiesListPath = @"/api/taxonomies";
 static NSString *const kMyOrdersPath       = @"/api/orders/mine";
 static NSString *const kStatesPathOfIndia  = @"/api/countries/105/states";
-static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef815605374db";
+static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef815605374dbc";
 
 @implementation APIManager {
     BOOL _isRetry;
-    
+    BOOL _isIterating;
     
 }
 
 -(NSURLSessionDataTask *)getStoresWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
     
-        NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:requestModel error:nil];
-        NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] initWithDictionary:parameters];
-    
-        if (_isRetry) {
-            User *user = [User savedUser];
-            if (user != nil) {
-                [parametersWithKey setObject:user.access_token forKey:@"token"];
-            }
-            else {
-                failure(nil, YES);
-                
-                return nil;
-            }
-            
-            
-        }
-        else
-            [parametersWithKey setObject:kStoreTokenKey forKey:@"token"];
+    NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:requestModel error:nil];
+    NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] initWithDictionary:parameters];
+    [parametersWithKey setObject:kStoreTokenKey forKey:@"token"];
     
     
     return [self GET:kStoresListPath parameters:parametersWithKey success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
@@ -54,40 +39,73 @@ static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef81
             NSLog(@"Error in conversion %@",[error description]);
         }
         
+        NSLog(@"%@",list);
         success(list);
         
     } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
         
-        NSLog(@"%ld", (long)task.state);
+        NSInteger stats_code = [[[error userInfo] objectForKey:AFNetworkingOperationFailingURLResponseErrorKey] statusCode];
         
-        NSInteger errorCode = [[[error userInfo] objectForKey:AFNetworkingOperationFailingURLResponseErrorKey] statusCode];
-        if (errorCode == 401) {
-            
-            _isRetry = YES;
-            
-            // Recursive
-            
-            
-            [self getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *secondResponseModel) {
-                success(secondResponseModel);
+        if (stats_code == 401) {
+            [self retryGetStoresWithRequestModel:requestModel success:^(StoreListResponseModel *retried_success) {
+                // send the success list
+                success(retried_success);
                 
-            } failure:^(NSError *error, BOOL loginFailure) {
-                if (error) {
-                    NSLog(@"%@", [error localizedDescription]);
-                    
-                    failure(error, NO);
-                }
-                else if (loginFailure) {
-                    failure(nil, YES);
-                }
+            } failure:^(NSError *retried_error, BOOL loginFailure) {
+                // send the failure error;
+                failure(retried_error, loginFailure);
+                
             }];
-            
         }
         else
             failure(error, NO);
         
     }];
 }
+
+
+-(void)retryGetStoresWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
+    
+    
+    User *user = [User savedUser];
+    
+    if (user.access_token == nil) {
+        NSLog(@"User not logged in");
+        
+        failure(nil, YES);
+        
+    } else {
+        
+        NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:requestModel error:nil];
+        NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] initWithDictionary:parameters];
+        [parametersWithKey setObject:user.access_token forKey:@"token"];
+        
+        
+        RequestOperationManager *request_manager = [RequestOperationManager sharedManager];
+        
+        [request_manager GET:kStoresListPath parameters:parametersWithKey success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+            NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+            NSLog(@"Response = %@",responseDictionary);
+            
+            NSError *error;
+            StoreListResponseModel *list = [MTLJSONAdapter modelOfClass:StoreListResponseModel.class fromJSONDictionary:responseDictionary error:&error];
+            if (error) {
+                NSLog(@"Error in conversion %@",[error description]);
+            }
+            
+            success(list);
+        } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+            failure(error, NO);
+        }];
+        
+    }
+    
+    
+    
+}
+
+
+
 
 -(NSURLSessionDataTask *)getTaxonomiesForStore:(NSString *)store WithSuccess:(void (^)(TaxonomyListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure {
     
@@ -110,6 +128,17 @@ static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef81
         success(list);
         
     } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+        
+        NSInteger status_code = [[[error userInfo] valueForKey:AFNetworkingOperationFailingURLResponseErrorKey] statusCode];
+        
+        if (status_code == 401) {
+            [self getTaxonomiesForStore:store WithSuccess:^(TaxonomyListResponseModel *responseModel) {
+                success(responseModel);
+            } failure:^(NSError *error) {
+                failure(error);
+            }];
+        }
+        
         failure(error);
     }];
     

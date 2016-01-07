@@ -13,7 +13,8 @@
 - (void)awakeFromNib {
     // Initialization code
     
-    self.storeImageView.layer.cornerRadius = self.storeImageView.frame.size.width / 2.f;
+    self.storeImageView.layer.cornerRadius = self.storeImageView.frame.size.height / 2.f;
+    self.storeImageView.clipsToBounds      = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

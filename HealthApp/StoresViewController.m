@@ -100,6 +100,7 @@
         
         [self showHUD];
         
+        
         [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {
             
             //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -165,9 +166,15 @@
            
         }];
         
+    
+        
+        
         
         
     }
+    
+    
+    
     
     
 }
@@ -234,6 +241,7 @@
     StoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storeCell" forIndexPath:indexPath];
 //    StoreRealm *store = self.stores[indexPath.row];
     StoresModel *store = self.array_stores[indexPath.row];
+    
     
     [cell.storeImageView sd_setImageWithURL:[NSURL URLWithString:store.storeImage] placeholderImage:nil];
     cell.storeNameLabel.text = [store.storeName capitalizedString];

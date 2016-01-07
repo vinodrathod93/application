@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthApp/APIManager.m"
-            timestampString = "473777388.715071"
+            timestampString = "473856286.151409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
             landmarkName = "-putNewAddressForPath:andParameter:WithSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthApp/APIManager.m"
-            timestampString = "473777388.715071"
+            timestampString = "473856286.151409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "-putNewAddressForPath:andParameter:WithSuccess:failure:"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,13 +90,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthApp/APIManager.m"
-            timestampString = "473777388.715071"
+            timestampString = "473856286.151409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
             landmarkName = "-putNewAddressForPath:andParameter:WithSuccess:failure:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[APIManager putNewAddressForPath:andParameter:WithSuccess:failure:]"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
+                  timestampString = "473858740.605038"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "264"
+                  endingLineNumber = "264"
+                  offsetFromSymbolStart = "506">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__68-[APIManager putNewAddressForPath:andParameter:WithSuccess:failure:]_block_invoke"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
+                  timestampString = "473858740.605178"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "264"
+                  endingLineNumber = "264"
+                  offsetFromSymbolStart = "50">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -106,13 +138,90 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthApp/APIManager.m"
-            timestampString = "473777388.715071"
+            timestampString = "473856286.151409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "268"
+            endingLineNumber = "268"
             landmarkName = "-putNewAddressForPath:andParameter:WithSuccess:failure:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[APIManager putNewAddressForPath:andParameter:WithSuccess:failure:]"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
+                  timestampString = "473858740.606277"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "269"
+                  endingLineNumber = "269"
+                  offsetFromSymbolStart = "602">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__68-[APIManager putNewAddressForPath:andParameter:WithSuccess:failure:]_block_invoke"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
+                  timestampString = "473858740.606424"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "269"
+                  endingLineNumber = "269"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_147"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
+                  timestampString = "473858740.606567"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_148"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
+                  timestampString = "473858740.606702"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "10">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__68-[APIManager putNewAddressForPath:andParameter:WithSuccess:failure:]_block_invoke150"
+                  moduleName = "Chemist Plus"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
+                  timestampString = "473858740.606818"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "269"
+                  endingLineNumber = "269"
+                  offsetFromSymbolStart = "40">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -129,291 +238,6 @@
             endingLineNumber = "190"
             landmarkName = "-isAddressAvailable"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/StoresViewController.m"
-            timestampString = "473772891.176815"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "-requestStores"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[StoresViewController requestStores]"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/StoresViewController.m"
-                  timestampString = "473777389.837514"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "100"
-                  endingLineNumber = "100"
-                  offsetFromSymbolStart = "892">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__37-[StoresViewController requestStores]_block_invoke"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/StoresViewController.m"
-                  timestampString = "473777389.83763"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "100"
-                  endingLineNumber = "100"
-                  offsetFromSymbolStart = "44">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/APIManager.m"
-            timestampString = "473777388.715071"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "-getStoresWithRequestModel:success:failure:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/APIManager.m"
-            timestampString = "473777388.715071"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "-getStoresWithRequestModel:success:failure:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/APIManager.m"
-            timestampString = "473777388.715071"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "-getStoresWithRequestModel:success:failure:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/APIManager.m"
-            timestampString = "473777388.715071"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "-getStoresWithRequestModel:success:failure:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__56-[APIManager getStoresWithRequestModel:success:failure:]_block_invoke35"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
-                  timestampString = "473777389.839688"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "69"
-                  endingLineNumber = "69"
-                  offsetFromSymbolStart = "344">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__56-[APIManager getStoresWithRequestModel:success:failure:]_block_invoke_2"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
-                  timestampString = "473777389.839799"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "69"
-                  endingLineNumber = "69"
-                  offsetFromSymbolStart = "22">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/APIManager.m"
-            timestampString = "473777388.715071"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "-getStoresWithRequestModel:success:failure:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[APIManager getStoresWithRequestModel:success:failure:]"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
-                  timestampString = "473777389.840905"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "46"
-                  endingLineNumber = "46"
-                  offsetFromSymbolStart = "598">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__56-[APIManager getStoresWithRequestModel:success:failure:]_block_invoke"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
-                  timestampString = "473777389.841027"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "46"
-                  endingLineNumber = "46"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/APIManager.m"
-            timestampString = "473777388.715071"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "-getStoresWithRequestModel:success:failure:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[APIManager getStoresWithRequestModel:success:failure:]"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
-                  timestampString = "473777389.841628"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "722">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__56-[APIManager getStoresWithRequestModel:success:failure:]_block_invoke"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
-                  timestampString = "473777389.841727"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "338">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
-                  timestampString = "473777389.841818"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "12">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
-                  timestampString = "473777389.84191"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "10">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__56-[APIManager getStoresWithRequestModel:success:failure:]_block_invoke35"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/APIManager.m"
-                  timestampString = "473777389.841996"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "66">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
