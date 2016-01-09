@@ -50,13 +50,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     // Header Content View.
     self.headerContentView = [self loadHeaderContentView];
     self.headerContentView.translatesAutoresizingMaskIntoConstraints = NO;
     
     
     
-    
+    [self requestStores];
     
 }
 
@@ -66,7 +68,6 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self requestStores];
 }
 
 
@@ -146,6 +147,10 @@
                 
                 UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
                 logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
+                }
                 
                 [self presentViewController:logSignNav animated:YES completion:nil];
             }
@@ -243,7 +248,7 @@
     StoresModel *store = self.array_stores[indexPath.row];
     
     
-    [cell.storeImageView sd_setImageWithURL:[NSURL URLWithString:store.storeImage] placeholderImage:nil];
+    [cell.storeImageView sd_setImageWithURL:[NSURL URLWithString:store.storeImage] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
     cell.storeNameLabel.text = [store.storeName capitalizedString];
     cell.distance.text = [NSString stringWithFormat:@"%.02f KM",store.storeDistance.floatValue];
     cell.localityAddress.text = [NSString stringWithFormat:@"%@, %@, %@", [store.storeStreetAddress capitalizedString], store.storeState, store.storeCountry];
@@ -380,47 +385,59 @@
     location.font     = [UIFont fontWithName:@"AvenirNext-Medium" size:14.f];
     location.textColor= [UIColor darkGrayColor];
     
+    UIView *headerContentView = [[UIView alloc] init];
+    
     Location *location_header = [Location savedLocation];
     if (location_header) {
-        location.text = location_header.location_name;
+        NSString *location_string = [NSString stringWithFormat:@"Showing in %@",location_header.location_name];
+        
+        NSRange location_range     = [location_string rangeOfString:location_header.location_name];
+        
+        NSMutableAttributedString *attributed_string = [[NSMutableAttributedString alloc] initWithString:location_string];
+        [attributed_string addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"AvenirNext-DemiBold" size:15] range:location_range];
+        
+        location.attributedText  = attributed_string;
+        location.translatesAutoresizingMaskIntoConstraints = NO;
+        location.adjustsFontSizeToFitWidth = YES;
+        
+        
+        [headerContentView addSubview:changeLocation];
+        [headerContentView addSubview:location];
+        
+        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(location, changeLocation);
+        
+        
+        [headerContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[location]-[changeLocation]-|"
+                                                                                  options:NSLayoutFormatAlignAllCenterY
+                                                                                  metrics:nil
+                                                                                    views:viewsDictionary]];
+        [headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:location
+                                                                      attribute:NSLayoutAttributeCenterY
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:headerContentView
+                                                                      attribute:NSLayoutAttributeCenterY
+                                                                     multiplier:1
+                                                                       constant:0]];
+        // Here setting the heights of the subviews
+        [headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:location
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:headerContentView
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                     multiplier:1.f
+                                                                       constant:0]];
+        [headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:changeLocation
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:headerContentView
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                     multiplier:1.f
+                                                                       constant:0]];
     }
     
-    location.translatesAutoresizingMaskIntoConstraints = NO;
-    location.adjustsFontSizeToFitWidth = YES;
-    
-    UIView *headerContentView = [[UIView alloc] init];
-    [headerContentView addSubview:changeLocation];
-    [headerContentView addSubview:location];
-    
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(location, changeLocation);
     
     
-    [headerContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[location]-[changeLocation]-|"
-                                                                              options:NSLayoutFormatAlignAllCenterY
-                                                                              metrics:nil
-                                                                                views:viewsDictionary]];
-    [headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:location
-                                                                  attribute:NSLayoutAttributeCenterY
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:headerContentView
-                                                                  attribute:NSLayoutAttributeCenterY
-                                                                 multiplier:1
-                                                                   constant:0]];
-    // Here setting the heights of the subviews
-    [headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:location
-                                                                  attribute:NSLayoutAttributeHeight
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:headerContentView
-                                                                  attribute:NSLayoutAttributeHeight
-                                                                 multiplier:1.f
-                                                                   constant:0]];
-    [headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:changeLocation
-                                                                  attribute:NSLayoutAttributeHeight
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:headerContentView
-                                                                  attribute:NSLayoutAttributeHeight
-                                                                 multiplier:1.f
-                                                                   constant:0]];
+    
     return headerContentView;
 }
 
@@ -488,6 +505,8 @@
     StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
     storeTaxonsVC.title = [store.storeName capitalizedString];
     storeTaxonsVC.storeURL = store.storeUrl;
+    
+    storeTaxonsVC.hidesBottomBarWhenPushed = NO;
     [self.navigationController pushViewController:storeTaxonsVC animated:YES];
     
 }

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface HomeCategoryViewController : UICollectionViewController<UIScrollViewDelegate>
+@interface HomeCategoryViewController : UICollectionViewController<UIScrollViewDelegate, CLLocationManagerDelegate>
 
 - (IBAction)uploadPrescription:(id)sender;
 @end

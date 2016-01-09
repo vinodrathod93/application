@@ -518,6 +518,10 @@ didFailAutocompleteWithError:(NSError *)error {
             UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
             logSignNav.navigationBar.tintColor = self.tableView.tintColor;
             
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
+            }
+            
             [self presentViewController:logSignNav animated:YES completion:nil];
         }
         else if (error) {

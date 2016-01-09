@@ -5,6 +5,7 @@
 	<key>Icons</key>
 	<array>
 		<string>general_store</string>
+		<string>restaurant_cafe</string>
 		<string>chemist</string>
 		<string>doctor_specialist</string>
 		<string>hospital</string>
@@ -12,7 +13,6 @@
 		<string>diagnostic_centre</string>
 		<string>insurance</string>
 		<string>salon</string>
-		<string>restaurant_cafe</string>
 		<string>banquet</string>
 		<string>ice_cream_parlor</string>
 		<string>sweet_shop</string>
@@ -25,6 +25,7 @@
 	<key>Category</key>
 	<array>
 		<string>General Stores</string>
+		<string>Restaurants &amp; Cafe</string>
 		<string>Chemists</string>
 		<string>Doctors</string>
 		<string>Hospitals</string>
@@ -32,7 +33,6 @@
 		<string>Diagnotic Centres</string>
 		<string>Insurance</string>
 		<string>Wellness</string>
-		<string>Restaurants &amp; Cafe</string>
 		<string>Banquets</string>
 		<string>Ice-Cream Parlours</string>
 		<string>Sweet Shop</string>

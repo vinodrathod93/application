@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SKSTableView.h"
 
-@interface StoreTaxonsViewController : UIViewController<SKSTableViewDelegate,UIScrollViewDelegate>
+@interface StoreTaxonsViewController : UIViewController<UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet SKSTableView *tableView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSString *storeURL;
 
 @end

@@ -73,6 +73,84 @@ static NSString *summary = @"summary"; */
 
 /************ Infinite series **************/
 
+
++(NSArray *)filterProductsFromJSON:(NSDictionary *)dictionary {
+    NSMutableArray *filterProducts = [[NSMutableArray alloc]init];
+    
+    NSArray *array = [dictionary valueForKey:@"products"];
+    
+    
+    [array enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+        
+        
+        
+        ProductDetail *detail = [[ProductDetail alloc]init];
+        
+        detail.productID =  [obj valueForKeyPath:@"master.id"];
+        detail.name =       [obj valueForKeyPath:@"master.name"];
+        detail.hasVariant = [[obj objectForKey:@"has_variants"] boolValue];
+        detail.total_on_hand = [obj valueForKey:@"total_on_hand"];
+        
+        // Master Images
+        NSMutableArray *smallImages = [NSMutableArray array];
+        NSMutableArray *productImages = [NSMutableArray array];
+        NSMutableArray *largeImages = [NSMutableArray array];
+        
+        NSArray *imagesArray = [obj valueForKeyPath:@"master.images"];
+        [imagesArray enumerateObjectsUsingBlock:^(NSDictionary *images, NSUInteger idx, BOOL *stop) {
+            
+            [smallImages addObject:[images valueForKey:@"small_url"]];
+            [productImages addObject:[images valueForKey:@"product_url"]];
+            [largeImages addObject:[images valueForKey:@"large_url"]];
+        }];
+        
+        detail.small_img = smallImages;
+        detail.product_img = productImages;
+        detail.large_img = largeImages;
+        
+        if (detail.hasVariant) {
+            detail.variants = [obj objectForKey:@"variants"];
+        }
+        
+        NSString *price = [obj valueForKeyPath:@"master.price"];
+        [detail setValue:[obj valueForKeyPath:@"master.display_price"] forKey:@"displayPrice"];
+        [detail setValue:[NSNumber numberWithInt:price.intValue] forKey:@"price"];
+        [detail setValue:[obj valueForKeyPath:@"master.description"] forKey:@"summary"];
+        
+        [filterProducts addObject:detail];
+        
+        
+        /*
+        
+        
+        ProductDetail *detail = [[ProductDetail alloc]init];
+        NSString *price = [obj valueForKey:@"price"];
+        
+        [detail setValue:[obj valueForKey:@"id"] forKey:@"product_id"];
+        [detail setValue:[obj valueForKey:@"name"] forKey:@"product_name"];
+        [detail setValue:[NSNumber numberWithInt:price.intValue] forKey:@"product_price"];
+        [detail setValue:[obj valueForKey:@"in_stock"] forKey:@"product_inventory"];
+        [detail setValue:[obj valueForKey:@"display_price"] forKey:@"product_display_price"];
+        
+        NSMutableArray *product_img_urls = [NSMutableArray array];
+        NSArray *imagesArray = [obj valueForKeyPath:@"master.images"];
+        [imagesArray enumerateObjectsUsingBlock:^(NSDictionary *images, NSUInteger idx, BOOL *stop) {
+            [product_img_urls addObject:[images valueForKey:@"product_url"]];
+        }];
+        
+        detail.product_img = product_img_urls;
+        
+        [filterProducts addObject:detail];
+         
+         
+         */
+    }];
+    
+    return filterProducts;
+}
+
+
+
 +(NSArray *)infiniteProductsFromJSON:(NSDictionary *)dictionary {
     NSMutableArray *products = [[NSMutableArray alloc]init];
     

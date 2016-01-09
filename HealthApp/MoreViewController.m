@@ -142,8 +142,9 @@ enum SECTIONS {
         else if (indexPath.row == 1) {
             // Share us
             
+            UITableViewCell *selected_cell = [self.tableView cellForRowAtIndexPath:indexPath];
             
-            [self shareUs];
+            [self shareUsFromCell:selected_cell];
             
             
         }
@@ -192,11 +193,11 @@ enum SECTIONS {
 
 -(void)prepareMail {
     // Email Subject
-    NSString *emailTitle = @"";
+    NSString *emailTitle = @"Assistance Required";
     // Email Content
-    NSString *messageBody = @""; // Change the message body to HTML
+    NSString *messageBody = @"Hi Neediator Team, I'm inquiring about: \n"; // Change the message body to HTML
     // To address
-    NSArray *toRecipents = [NSArray arrayWithObject:@"care@neediator.com"];
+    NSArray *toRecipents = [NSArray arrayWithObject:@"care@neediator.in"];
     
     MFMailComposeViewController *mailComposerVC = [[MFMailComposeViewController alloc] init];
     
@@ -239,7 +240,7 @@ enum SECTIONS {
 }
 
 
--(void)shareUs {
+-(void)shareUsFromCell:(UITableViewCell *)cell {
     
     NSString *texttoshare = @"Hey! I Found this Awesome HyperLocal - Shopping App for Shopping your Daily needs from Nearby Stores.\n Download it Today and Enjoy Shopping \n https://play.google.com/store/apps/details?id=info.adverto.neediator\n";
     
@@ -247,7 +248,14 @@ enum SECTIONS {
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
     activityVC.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypeCopyToPasteboard];
     
-    [self presentViewController:activityVC animated:TRUE completion:nil];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self presentViewController:activityVC animated:TRUE completion:nil];
+    }
+    else {
+        UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:activityVC];
+        [popup presentPopoverFromRect:cell.bounds inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+    
 }
 
 

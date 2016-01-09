@@ -30,4 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *emailImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *passwordImageView;
+
+
+//@property (nonatomic, strong) void (^onDismiss)(UIViewController *sender);
 @end

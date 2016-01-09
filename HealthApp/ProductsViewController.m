@@ -27,7 +27,7 @@
 #define kPhoneTitleViewWidth 160
 #define kPadTitleViewWidth 250
 
-@interface ProductsViewController ()<UIViewControllerTransitioningDelegate>
+@interface ProductsViewController ()<UIViewControllerTransitioningDelegate,UISearchBarDelegate, UISearchControllerDelegate>
 
 @property (nonatomic, strong) NSURLSessionDataTask *task;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -43,6 +43,7 @@
 // version api 1
 @property (nonatomic, strong) NSString *pages;
 
+@property (nonatomic, strong) NSMutableArray *filteredProducts;
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic)        float          searchBarBoundsY;
 
@@ -92,35 +93,27 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     __weak typeof(self) weakSelf = self;
     [self.collectionView addInfiniteScrollWithHandler:^(UICollectionView *collectionView) {
         
-        if (netStatus != NotReachable) {
-            [weakSelf loadProductsPage:weakSelf.nextPage.intValue completion:^{
-                [collectionView finishInfiniteScroll];
-            }];
-        }
-        else {
-            [weakSelf displayNoConnection];
-        }
+        [weakSelf loadProductsPage:weakSelf.nextPage.intValue completion:^{
+            [collectionView finishInfiniteScroll];
+        }];
+        
         
     }];
 }
 
 -(void)displaySearchBar {
-    UINavigationController *searchResultsController = [[self storyboard] instantiateViewControllerWithIdentifier:@"ProductSearchResultsNavController"];
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
-    self.searchController.searchResultsUpdater = self;
     
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchBar.delegate = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
     
-//    self.searchBarBoundsY = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    self.filteredProducts = [NSMutableArray array];
     
-//    self.searchController.searchBar.frame = CGRectMake(0,self.searchBarBoundsY, [UIScreen mainScreen].bounds.size.width, 44);
+    [self presentViewController:self.searchController animated:YES completion:nil];
     
-//    [self addObservers];
+    [self.collectionView reloadData];
     
-//    if (![self.searchController.searchBar isDescendantOfView:self.view]) {
-        [self.view addSubview:self.searchController.searchBar];
-//    }
-    
-    self.definesPresentationContext = YES;
 }
 
 - (IBAction)searchBarButtonPressed:(id)sender {
@@ -152,8 +145,8 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-//    NSLog(@"numberOfItemsInSection");
-    return [self.viewModel numberOfProducts];
+    
+    return (self.searchController.active) ? self.filteredProducts.count : [self.viewModel numberOfProducts];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -164,7 +157,17 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     NSString *string = [self.viewModel infiniteImageAtIndex:indexPath.item];
     
     NSURL *url = [NSURL URLWithString:string];
-    [cell.productImageView sd_setImageWithURL:url];
+    [cell.productImageView sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        if (error) {
+            NSLog(@"%@", [error localizedDescription]);
+            
+            [cell.productImageView setImage:[UIImage imageNamed:@"no_image"]];
+        }
+    }];
+    
+    cell.productImageView.clipsToBounds = YES;
+    cell.productImageView.contentMode = UIViewContentModeScaleAspectFit;
+    
     cell.productLabel.text = [self.viewModel nameAtIndex:indexPath.item];
     cell.productPrice.text = [self.viewModel priceAtIndex:indexPath.item];
     
@@ -240,7 +243,29 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 
 
-#pragma mark - UISearchResultsUpdating
+#pragma mark - Search Results Delegate
+
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    if (self.searchController.active) {
+        
+        [self.filteredProducts removeAllObjects];
+        [self searchProducts:searchBar.text];
+    }
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+//    [self loadProducts];
+    
+    self.currentPage = nil;
+    
+    [self loadProductsPage:kFIRST_PAGE completion:^{
+        [self.hud hide:YES];
+    }];
+    
+    NSLog(@"Load all products");
+}
+
 
 
 
@@ -267,6 +292,46 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     } completion:completion];
 }
 
+
+
+
+
+-(void)searchProducts:(NSString *)keyword {
+    NSLog(@"searching products");
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSString *url_string = [NSString stringWithFormat:@"%@&q[name_cont]=%@",self.taxonProductsURL, keyword];
+    NSURL *url = [NSURL URLWithString:url_string];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    request.HTTPMethod = @"GET";
+    
+    
+    NSURLSessionDataTask *searchTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            
+            NSError *jsonError;
+            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+            
+            if (jsonError != nil) {
+                NSLog(@"Error %@",[jsonError localizedDescription]);
+            }
+            else if(![dictionary isEqual:nil])
+            {
+                
+                self.filteredProducts = (NSMutableArray *)[DetailViewModel filterProductsFromJSON:dictionary];
+                self.viewModel = [[DetailViewModel alloc]initWithArray:self.filteredProducts];
+                
+                [self.hud hide:YES];
+                [self.collectionView reloadData];
+            }
+            
+        }];
+    }];
+    
+    [searchTask resume];
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = self.collectionView.tintColor;
+}
 
 
 
@@ -481,6 +546,11 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         
     }
 }
+
+
+
+
+
 
 
 #pragma mark <RMPZoomTransitionAnimating>

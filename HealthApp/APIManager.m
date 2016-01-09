@@ -10,12 +10,6 @@
 #import "User.h"
 
 
-static NSString *const kStoresListPath = @"/api/stores";
-static NSString *const kTaxonomiesListPath = @"/api/taxonomies";
-static NSString *const kMyOrdersPath       = @"/api/orders/mine";
-static NSString *const kStatesPathOfIndia  = @"/api/countries/105/states";
-static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef815605374dbc";
-
 @implementation APIManager {
     BOOL _isRetry;
     BOOL _isIterating;
@@ -62,6 +56,10 @@ static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef81
         
     }];
 }
+
+
+
+-(NSURLSessionDataTask *)getDoctorsWithRequestModel:(StoreListRequestModel *)requestModel success:(void )
 
 
 -(void)retryGetStoresWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
@@ -272,6 +270,12 @@ static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef81
     }
     
 }
+
+
+
+
+
+
 
 
 @end

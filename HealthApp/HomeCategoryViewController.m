@@ -20,6 +20,7 @@
 #import "StoresViewController.h"
 #import "DoctorViewController.h"
 #import <AFNetworking.h>
+#import "Location.h"
 
 
 @interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate>
@@ -38,7 +39,13 @@
 
 @end
 
-@implementation HomeCategoryViewController
+@implementation HomeCategoryViewController {
+    CLLocationManager *_locationManager;
+    CLGeocoder *_geocoder;
+    CLPlacemark *_placemark;
+    NSString *_currentPlace;
+
+}
 
 static NSString * const reuseIdentifier = @"categoryCellIdentifier";
 static NSString * const reuseSupplementaryIdentifier = @"headerViewIdentifier";
@@ -54,7 +61,13 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     
-    
+    Location *location = [Location savedLocation];
+    if (location != nil) {
+        // nothing
+        
+    } else {
+        [self startCurrentLocation];
+    }
     
 //    [self getCategoriesWebService];
     
@@ -295,6 +308,93 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 
+
+
+#pragma mark - Location
+
+-(void)startCurrentLocation {
+    
+    _locationManager = [[CLLocationManager alloc] init];
+    _geocoder = [[CLGeocoder alloc] init];
+    
+    _locationManager.delegate = self;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [_locationManager requestWhenInUseAuthorization];
+    
+    [_locationManager startUpdatingLocation];
+}
+
+
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"didUpdateToLocation: %@", newLocation);
+    CLLocation *currentLocation = newLocation;
+    
+    if (currentLocation != nil) {
+        NSLog(@"%.8f", currentLocation.coordinate.longitude);
+        NSLog(@"%.8f", currentLocation.coordinate.latitude);
+        
+    }
+    
+    Location *location = [Location savedLocation];
+    if (location != nil) {
+       // nothing
+        
+    } else {
+        location = [[Location alloc] init];
+    }
+    
+    
+    // Reverse Geocoding
+    [_geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        if (error == nil && [placemarks count] > 0) {
+            _placemark = [placemarks lastObject];
+            NSLog(@"%@ %@\n%@ %@\n%@\n%@",
+                  _placemark.subLocality, _placemark.locality,
+                  _placemark.postalCode, _placemark.addressDictionary,
+                  _placemark.administrativeArea,
+                  _placemark.country);
+            
+            if (_currentPlace) {
+                _currentPlace = nil;
+            }
+            
+            _currentPlace = [NSString stringWithFormat:@"%@, %@", _placemark.subLocality, _placemark.locality];
+            
+            
+            location.latitude = [NSString stringWithFormat:@"%.8f",currentLocation.coordinate.latitude];
+            location.longitude = [NSString stringWithFormat:@"%.8f",currentLocation.coordinate.longitude];
+            location.location_name = _currentPlace;
+            location.isCurrentLocation = YES;
+            
+            [location save];
+            
+            
+            [_locationManager stopUpdatingLocation];
+            
+//            [self decorateSelectCurrentLocation];
+            
+//            if (self.storesArray.count != 0) {
+//                [self.storesArray removeAllObjects];
+//                [self.storesArray addObject:@"Searching..."];
+//            }
+            
+//            [self.tableView reloadData];
+            
+            
+//            [self loadStoresWithLocation:location];
+            
+            
+            
+            
+        } else {
+            NSLog(@"%@", error.debugDescription);
+        }
+    } ];
+    
+}
 
 
 

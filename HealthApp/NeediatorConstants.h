@@ -27,3 +27,12 @@
 #define GET_STATES_URL @"http://chemistplus.in/getStates.php"
 #define GET_CITIES_URL @"http://chemistplus.in/getCities.php"
 #define VERIFY_PINCODE_URL @"http://chemistplus.in/verifyPincode.php"
+
+
+/* API Manager */
+static NSString *const kStoresListPath = @"/api/stores";
+static NSString *const kTaxonomiesListPath = @"/api/taxonomies";
+static NSString *const kMyOrdersPath       = @"/api/orders/mine";
+static NSString *const kStatesPathOfIndia  = @"/api/countries/105/states";
+
+static NSString *const kDoctorsListPath = @"/api/doctors";

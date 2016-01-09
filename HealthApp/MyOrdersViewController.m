@@ -30,6 +30,8 @@
     [super viewDidLoad];
     
     
+    self.title         = @"My Orders";
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText      = @"Loading...";
     hud.dimBackground  = YES;
@@ -166,12 +168,18 @@
     if (collectionImages[indexPath.item] != nil) {
         
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", collectionImages[indexPath.item]]];
-        [cell.imageView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            if(error) {
-                NSLog(@"Image error %@", [error localizedDescription]);
+//        [cell.imageView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//            if(error) {
+//                NSLog(@"Image error %@", [error localizedDescription]);
+//            }
+//        }];
+        
+        [cell.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (error) {
+                [cell.imageView setImage:[UIImage imageNamed:@"no_image"]];
             }
         }];
-        
+
     }
     else {
         [cell.imageView setImage:[UIImage imageNamed:@"small_no_image"]];

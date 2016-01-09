@@ -23,8 +23,13 @@
         if (user == nil) {
             NSLog(@"go back to home index");
             
+            
             [tabBarController setSelectedIndex:0];
             LogSignViewController *logsignVC = [tabBarController.selectedViewController.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                logsignVC.modalPresentationStyle    = UIModalPresentationFormSheet;
+            }
             
             [tabBarController.selectedViewController presentViewController:logsignVC animated:YES completion:nil];
         }

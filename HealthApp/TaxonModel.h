@@ -12,4 +12,7 @@
 
 @property (nonatomic, copy) NSNumber *taxonId;
 @property (nonatomic, copy) NSString *taxonName;
+
+@property(nonatomic) BOOL canBeExpanded;
+@property(nonatomic) BOOL isExpanded;
 @end

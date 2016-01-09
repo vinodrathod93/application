@@ -94,7 +94,7 @@ static NSString *cellIdentifier = @"cartCell";
     [super viewWillAppear:animated];
     
     
-    [self decorateNoCartDimmView];
+    [self createDimmView];
     
     
     if (self.task == nil) {
@@ -459,10 +459,12 @@ static NSString *cellIdentifier = @"cartCell";
 //        
 //        [header addSubview:noItems];
         
+        
+        /*
         [self decorateNoCartDimmView];
         
         
-        
+        */
         
         
         
@@ -623,10 +625,7 @@ static NSString *cellIdentifier = @"cartCell";
         
         
     } else {
-        self.dimmView = [[UIView alloc]initWithFrame:self.tableView.frame];
-        self.dimmView.backgroundColor = [UIColor whiteColor];
-        self.dimmView.tag = kCartEmptyViewTag;
-        [self.navigationController.view insertSubview:self.dimmView belowSubview:self.navigationController.navigationBar];
+        [self createDimmView];
     }
     
     
@@ -665,6 +664,16 @@ static NSString *cellIdentifier = @"cartCell";
     
 }
 
+
+
+-(void)createDimmView {
+    
+    self.dimmView = [[UIView alloc]initWithFrame:self.tableView.frame];
+    self.dimmView.backgroundColor = [UIColor whiteColor];
+    self.dimmView.tag = kCartEmptyViewTag;
+    [self.navigationController.view insertSubview:self.dimmView belowSubview:self.navigationController.navigationBar];
+    
+}
 
 
 #pragma mark - Network
@@ -787,9 +796,7 @@ static NSString *cellIdentifier = @"cartCell";
                                 
                                 if (line_items.count == 0) {
                                     
-                                    if (!self.dimmView) {
-                                        [self decorateNoCartDimmView];
-                                    }
+                                    [self decorateNoCartDimmView];
                                     
                                     
                                     
@@ -1085,6 +1092,10 @@ static NSString *cellIdentifier = @"cartCell";
     
     UINavigationController *logSignNav = [[UINavigationController alloc]initWithRootViewController:logSignVC];
     logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
+    }
     
     [self presentViewController:logSignNav animated:YES completion:nil];
 }

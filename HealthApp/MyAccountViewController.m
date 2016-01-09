@@ -49,8 +49,11 @@ enum MyAccountCells {
     [super viewDidLoad];
     NSLog(@"viewDidLoad");
     
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -58,27 +61,8 @@ enum MyAccountCells {
     
     NSLog(@"viewWillAppear");
     
-    User *user = [User savedUser];
     
-    if (user != nil) {
-        _options = @[ @"", @[@"My Orders", @"My Addresses", @"Track Order"],
-                      @"Sign Out"];
-        _iconsArray  = @[
-                         @"",
-                         @[@"my_orders", @"address", @"track"],
-                         @"signout"
-                         ];
-        
-        
-        [self.tableView reloadData];
-    }
-    else {
-        
-        // Show login view
-        
-        [self displayLoginView];
-    }
-    
+    [self showViewAfterLogin];
     
     
     
@@ -296,7 +280,15 @@ enum MyAccountCells {
 
 -(void)showLoginPageVC {
     LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        logSignVC.modalPresentationStyle    = UIModalPresentationFormSheet;
+    }
+    
+    
     [self presentViewController:logSignVC animated:YES completion:nil];
+    
+    
 }
 
 
@@ -310,6 +302,32 @@ enum MyAccountCells {
     [_loginView.signinButton addTarget:self action:@selector(showLoginPageVC) forControlEvents:UIControlEventTouchUpInside];
     
     [self.navigationController.view insertSubview:_loginView belowSubview:self.navigationController.navigationBar];
+    
+}
+
+
+-(void)showViewAfterLogin {
+    
+    User *user = [User savedUser];
+    
+    if (user != nil) {
+        _options = @[ @"", @[@"My Orders", @"My Addresses", @"Track Order"],
+                      @"Sign Out"];
+        _iconsArray  = @[
+                         @"",
+                         @[@"my_orders", @"address", @"track"],
+                         @"signout"
+                         ];
+        
+        
+        [self.tableView reloadData];
+    }
+    else {
+        
+        // Show login view
+        
+        [self displayLoginView];
+    }
     
 }
 

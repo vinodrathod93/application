@@ -144,9 +144,13 @@ NSString *cellReuseIdentifier;
 
 -(void)prepareImageView:(ProductImageViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     
-    
+    cell.productImageScrollView.frame = cell.frame;
     
     CGRect scrollViewFrame = cell.productImageScrollView.frame;
+    
+    NSLog(@"%@", NSStringFromCGRect(scrollViewFrame));
+    NSLog(@"%@", NSStringFromCGRect(cell.frame));
+    
     CGRect currentFrame = self.view.frame;
     
     scrollViewFrame.size.width = currentFrame.size.width;
@@ -154,14 +158,17 @@ NSString *cellReuseIdentifier;
     
     __block UIImageView *previousImageView;
     
+    NSInteger height = cell.frame.size.height;
+    
     [self.viewModel.images enumerateObjectsUsingBlock:^(NSString *image_url, NSUInteger idx, BOOL *stop) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.productImageScrollView.frame) * idx, 0, CGRectGetWidth(cell.productImageScrollView.frame), CGRectGetHeight(cell.productImageScrollView.frame))];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.productImageScrollView.frame) * idx, 10, CGRectGetWidth(cell.productImageScrollView.frame), CGRectGetHeight(cell.productImageScrollView.frame) - 10)];
         
         NSLog(@"%@", NSStringFromCGRect(imageView.frame));
         
         imageView.tag = idx;
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        imageView.clipsToBounds = YES;
         
         [cell.productImageScrollView addGestureRecognizer:_imageViewTapGestureRecognizer];
         [cell.productImageScrollView addSubview:imageView];
@@ -197,10 +204,20 @@ NSString *cellReuseIdentifier;
         
         previousImageView = imageView;
         
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [spinner setCenter:CGPointMake(imageView.frame.size.width/2.0, imageView.frame.size.height/2.0)]; // I do this because I'm in landscape mode
+        [imageView addSubview:spinner];
+        
+        [spinner startAnimating];
+        
+        [imageView sd_setImageWithURL:[NSURL URLWithString:image_url] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (image) {
+                // hide indicator view
+                
+                [spinner stopAnimating];
+            }
+        }];
 
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [imageView sd_setImageWithURL:[NSURL URLWithString:image_url]];
-        });
         
     }];
     
@@ -925,30 +942,30 @@ NSString *cellReuseIdentifier;
 
 
 
+/*
+#pragma mark -- YSLTransitionAnimatorDataSource
 
-//#pragma mark -- YSLTransitionAnimatorDataSource
-//
-//- (UIImageView *)popTransitionImageView
-//{
-//    ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-//    
-//    
-//    for (UIView *view in cell.productImageScrollView.subviews) {
-//        if ([view isKindOfClass:[UIImageView class]]) {
-//            UIImageView *image = (UIImageView *)view;
-//            
-//            return image;
-//        }
-//    }
-//    
-//    return nil;
-//}
-//
-//- (UIImageView *)pushTransitionImageView
-//{
-//    return nil;
-//}
+- (UIImageView *)popTransitionImageView
+{
+    ProductImageViewCell *cell = (ProductImageViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    
+    for (UIView *view in cell.productImageScrollView.subviews) {
+        if ([view isKindOfClass:[UIImageView class]]) {
+            UIImageView *image = (UIImageView *)view;
+            
+            return image;
+        }
+    }
+    
+    return nil;
+}
 
+- (UIImageView *)pushTransitionImageView
+{
+    return nil;
+}
+*/
 
 
 @end

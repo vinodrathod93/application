@@ -20,6 +20,7 @@
     #import <MBProgressHUD/MBProgressHUD.h>
     #import <SDWebImage/UIImageView+WebCache.h>
     #import "NeediatorConstants.h"
+    #import "NeediatorAPIKey.h"
     #import "APIManager.h"
     #import "User.h"
     #import "LogSignViewController.h"
