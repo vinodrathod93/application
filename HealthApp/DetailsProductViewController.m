@@ -95,10 +95,9 @@ NSString *cellReuseIdentifier;
 }
 
 
--(void)showCartView:(UIBarButtonItem *)sender {
-    
-}
 
+- (IBAction)showCart:(id)sender {
+}
 
 #pragma mark - Table view data source
 
@@ -687,9 +686,10 @@ NSString *cellReuseIdentifier;
     [self getPhotosArray];
     
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc]initWithDelegate:self];
-    browser.backgroundColor = [UIColor whiteColor];
-    browser.navBarTintColor = self.tableView.tintColor;
-    browser.barStyle        = UIBarStyleDefault;
+//    
+//    browser.backgroundColor = [UIColor whiteColor];
+//    browser.navBarTintColor = self.tableView.tintColor;
+//    browser.barStyle        = UIBarStyleDefault;
     browser.displayActionButton = NO;
     browser.zoomPhotosToFill = YES;
     browser.enableSwipeToDismiss = NO;

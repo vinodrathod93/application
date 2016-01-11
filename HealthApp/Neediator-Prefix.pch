@@ -23,8 +23,8 @@
     #import "NeediatorAPIKey.h"
     #import "APIManager.h"
     #import "User.h"
+    #import "Location.h"
     #import "LogSignViewController.h"
-    #import "RequestOperationManager.h"
 #endif
 
 #endif /* Neediator_Prefix_pch */

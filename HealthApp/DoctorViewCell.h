@@ -11,8 +11,9 @@
 @interface DoctorViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *doctorNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *doctorSpecialityLabel;
+@property (weak, nonatomic) IBOutlet UILabel *clinicName;
 @property (weak, nonatomic) IBOutlet UILabel *clinicLocationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *experienceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *consultationFeeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *distance;
 @end

@@ -40,7 +40,7 @@
     
     self.taxonomies = [[NSMutableArray alloc] init];
     
-    self.bannerImages = @[@"http://sonuspa.com/_imgstore/6/1763516/page_products_f3TjqUdDHPzkPxaNuSr6c/WVYFA9KEJ3I5d_O74U7j72ypUg8.png", @"http://www.cimg.in/images/2010/05/14/10/5242691_20100517541_large.jpg", @"http://4.bp.blogspot.com/-E4VpMa6zZMo/TcLt9mEFuMI/AAAAAAAAAmQ/mvCHbz1YWGk/s320/1.jpg",@"http://img.click.in/classifieds/images/75/5_8_2011_18_45_6599_Nutrilite.jpg"];
+    self.bannerImages = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
     
     
     
@@ -84,8 +84,14 @@
 -(UIView *)layoutBannerHeaderView {
     _bannerView = [[[NSBundle mainBundle] loadNibNamed:@"BannerView" owner:self options:nil] lastObject];
     
+    CGRect frame;
     
-    CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, 130);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Pad);
+    }
+    else
+        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Phone);
+    
     _bannerView.frame = frame;
     [_bannerView layoutIfNeeded];
     
@@ -122,7 +128,7 @@
     [self.bannerImages enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_bannerView.scrollView.frame) * idx, 0, CGRectGetWidth(_bannerView.scrollView.frame), CGRectGetHeight(_bannerView.scrollView.frame))];
         imageView.tag = idx;
-        [imageView sd_setImageWithURL:[NSURL URLWithString:imageName]];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         
         [_bannerView.scrollView addSubview:imageView];
@@ -282,7 +288,12 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 130.f;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return kHeaderViewHeight_Pad;
+    }
+    else
+        return kHeaderViewHeight_Phone;
 }
 
 
@@ -356,11 +367,11 @@
     NSString *imageName;
     if(isExpanded)
     {
-        imageName = @"ArrowD_blue";
+        imageName = @"Expand Arrow";
     }
     else
     {
-        imageName = @"ArrowR_blue";
+        imageName = @"Collapse Arrow";
     }
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];

@@ -12,6 +12,13 @@
 
 #endif /* NeediatorConstants_h */
 
+
+/* Home VC */
+
+#define kHeaderViewHeight_Pad 280
+#define kHeaderViewHeight_Phone 130
+
+
 /* Stores VC */
 #define kStoresNoStoresTag 10
 #define kStoresConnectionViewTag 11
@@ -23,6 +30,9 @@
 #define kCartBaseURL @"http://www.elnuur.com"
 
 
+/* Doctor VC */
+#define kDoctorsConnectionViewTag 30
+#define kDoctorsNoDoctorsTag 31
 
 #define GET_STATES_URL @"http://chemistplus.in/getStates.php"
 #define GET_CITIES_URL @"http://chemistplus.in/getCities.php"
@@ -35,4 +45,4 @@ static NSString *const kTaxonomiesListPath = @"/api/taxonomies";
 static NSString *const kMyOrdersPath       = @"/api/orders/mine";
 static NSString *const kStatesPathOfIndia  = @"/api/countries/105/states";
 
-static NSString *const kDoctorsListPath = @"/api/doctors";
+static NSString *const kDoctorsListPath = @"/api/clinics";

@@ -11,7 +11,7 @@
 
 
 @implementation APIManager {
-    BOOL _isRetry;
+    BOOL _isDone;
     BOOL _isIterating;
     
 }
@@ -59,7 +59,69 @@
 
 
 
--(NSURLSessionDataTask *)getDoctorsWithRequestModel:(StoreListRequestModel *)requestModel success:(void )
+-(NSURLSessionDataTask *)getDoctorListingsWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^) (DoctorResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
+    NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:requestModel error:nil];
+    NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] initWithDictionary:parameters];
+    
+    
+    if (_isIterating) {
+        User *user = [User savedUser];
+        
+        if (user.access_token == nil) {
+            NSLog(@"User not logged in");
+            
+            failure(nil, YES);
+            
+        }
+        else
+            [parametersWithKey setObject:user.access_token forKey:@"token"];
+    }
+    else {
+        [parametersWithKey setObject:kStoreTokenKey forKey:@"token"];
+    }
+    
+    if (_isDone) {
+        return nil;
+    }
+    else {
+        
+        return [self GET:kDoctorsListPath parameters:parametersWithKey success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+            NSLog(@"Response = %@",responseDictionary);
+            
+            NSError *error;
+            DoctorResponseModel *list = [MTLJSONAdapter modelOfClass:DoctorResponseModel.class fromJSONDictionary:responseDictionary error:&error];
+            if (error) {
+                NSLog(@"Error in conversion %@",[error description]);
+            }
+            
+            NSLog(@"%@",list);
+            success(list);
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            NSInteger stats_code = [[[error userInfo] objectForKey:AFNetworkingOperationFailingURLResponseErrorKey] statusCode];
+            
+            if (stats_code == 401) {
+                _isIterating = YES;
+                [self getDoctorListingsWithRequestModel:requestModel success:^(DoctorResponseModel *response) {
+                    
+                    _isDone = YES;
+                    success(response);
+                    
+                    
+                } failure:^(NSError *error, BOOL loginFailure) {
+                    
+                    _isDone = YES;
+                    failure(error, loginFailure);
+                }];
+            }
+            else
+                failure(error, NO);
+        }];
+    }
+    
+    
+}
 
 
 -(void)retryGetStoresWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
@@ -79,9 +141,10 @@
         [parametersWithKey setObject:user.access_token forKey:@"token"];
         
         
-        RequestOperationManager *request_manager = [RequestOperationManager sharedManager];
-        
-        [request_manager GET:kStoresListPath parameters:parametersWithKey success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        [self GET:kStoresListPath parameters:parametersWithKey progress:^(NSProgress * _Nonnull downloadProgress) {
+            NSLog(@"%@",downloadProgress.localizedDescription);
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             NSDictionary *responseDictionary = (NSDictionary *)responseObject;
             NSLog(@"Response = %@",responseDictionary);
             
@@ -92,7 +155,7 @@
             }
             
             success(list);
-        } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             failure(error, NO);
         }];
         

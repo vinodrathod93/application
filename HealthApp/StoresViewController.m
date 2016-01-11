@@ -259,12 +259,10 @@
 -(void)showHUD {
     self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 //    self.hud.color = self.tableView.tintColor;
-    self.hud.dimBackground = YES;
     self.hud.color = [UIColor clearColor];
     self.hud.labelText = @"Loading Stores...";
     self.hud.labelColor = [UIColor darkGrayColor];
     self.hud.activityIndicatorColor = [UIColor blackColor];
-    self.hud.detailsLabelText = @"(This could take a few minutes)";
     self.hud.detailsLabelColor = [UIColor darkGrayColor];
 }
 

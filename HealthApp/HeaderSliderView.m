@@ -17,8 +17,6 @@
         NSLog(@"%@",NSStringFromCGRect(self.bounds));
         
         
-        
-        
 //        self.clipsToBounds = YES;
     }
     return self;

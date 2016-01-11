@@ -13,9 +13,6 @@
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMx-Zc-eA2">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="130" id="oLP-rH-zzg"/>
-                    </constraints>
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZqI-Cs-8vT">
                     <rect key="frame" x="0.0" y="110" width="600" height="20"/>

@@ -1,7 +1,7 @@
 # Uncomment this line to define a global platform for your project
 # platform :ios, '6.0'
 
-target 'Chemist Plus' do
+target 'Neediator' do
 
 pod 'SDWebImage', '~>3.7'
 pod 'MBProgressHUD', '~> 0.9.1'
@@ -21,7 +21,7 @@ pod 'GoogleMaps'
 
 end
 
-target 'Chemist PlusTests' do
+target 'NeediatorTests' do
 
 end
 

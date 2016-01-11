@@ -93,6 +93,9 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.headerView = [[HeaderSliderView alloc]init];
     
     
+    
+    
+    
     self.imagesData = @[@"http://sonuspa.com/_imgstore/6/1763516/page_products_f3TjqUdDHPzkPxaNuSr6c/WVYFA9KEJ3I5d_O74U7j72ypUg8.png", @"http://www.cimg.in/images/2010/05/14/10/5242691_20100517541_large.jpg", @"http://4.bp.blogspot.com/-E4VpMa6zZMo/TcLt9mEFuMI/AAAAAAAAAmQ/mvCHbz1YWGk/s320/1.jpg",@"http://img.click.in/classifieds/images/75/5_8_2011_18_45_6599_Nutrilite.jpg"];
     
     self.categoriesArray = [self getPListCategoriesArray];
@@ -173,7 +176,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
 //    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-//        if (self.view.frame.size.width < 1136) {
+//        if (self.view.frame.size.width <= 320) {
 //            return CGSizeMake(75, 75);
 //        }
 //        else
@@ -185,16 +188,16 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 }
 
 
-//- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-//    
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-//        if (self.view.frame.size.width < 1136) {
-//            return UIEdgeInsetsMake(30, 35, 0, 35);
-//        }
-//    }
-//    
-//    return UIEdgeInsetsMake(30, 10, 0, 10);
-//}
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (self.view.frame.size.width <= 320) {
+            return UIEdgeInsetsMake(30, 35, 0, 35);
+        }
+    }
+    
+    return UIEdgeInsetsMake(30, 10, 0, 10);
+}
 
 
 #pragma mark <UICollectionViewDelegate>
@@ -213,11 +216,10 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         [self.navigationController pushViewController:storesVC animated:YES];
     }
-    else {
+    else if (indexPath.item == 2) {
         
-//        DoctorViewController *doctorsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"doctorsVC"];
-//        doctorsVC
-//        [self.navigationController pushViewController:doctorsVC animated:YES];
+        DoctorViewController *doctorsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"doctorsVC"];
+        [self.navigationController pushViewController:doctorsVC animated:YES];
         
     }
     
@@ -230,14 +232,21 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     if (kind == UICollectionElementKindSectionHeader) {
         
+        
+        
         self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseSupplementaryIdentifier forIndexPath:indexPath];
-
+        
+        
+        /*
         CGRect scrollViewFrame = self.headerView.scrollView.frame;
         CGRect currentFrame = self.view.frame;
         
         scrollViewFrame.size.width = currentFrame.size.width;
         
         self.headerView.scrollView.frame = scrollViewFrame;
+        */
+        
+        self.headerView.scrollView.frame           = self.headerView.frame;
         self.headerView.scrollView.backgroundColor = [UIColor whiteColor];
         
         
@@ -252,7 +261,14 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 }
 
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Pad);
+    }
+    else
+        return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Phone);
 
+}
 
 
 
@@ -280,7 +296,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
        
         
         
-        [imageView sd_setImageWithURL:[NSURL URLWithString:imageName]];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         
         [self.headerView.scrollView addSubview:imageView];
@@ -398,6 +414,8 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 
+
+/*
 -(void)getCategoriesWebService {
     
     
@@ -486,7 +504,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 }
 
 
-
+*/
 
 
 

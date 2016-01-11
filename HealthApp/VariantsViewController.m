@@ -212,17 +212,21 @@
     self.hud.labelText = @"Adding To Cart...";
     self.hud.color = self.view.tintColor;
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.requestSerializer              = [AFJSONRequestSerializer serializer];
     
-    [manager POST:url parameters:parameter success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer     = [AFHTTPRequestSerializer serializer];
+    
+    
+    [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"upload progress %@", uploadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"Posted");
         
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             
             
             [self.hud hide:YES];
-                
+            
             NSLog(@"Json Cart ===> %@",responseObject);
             
             if (self.orderFetchedResultsController.fetchedObjects.count == 0) {
@@ -255,18 +259,14 @@
             [self dismissViewControllerAnimated:YES completion:^{
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAdded" object:nil];
             }];
-            
         }
-        
-        
-        
-    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-        
-        
-        NSLog(@"Status code is %ld & ERROR %@",operation.response.statusCode, [error localizedDescription]);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@" ERROR %@", [error localizedDescription]);
         
         [self displayConnectionFailed];
+
     }];
+    
     
     
     
