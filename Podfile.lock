@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.0.4)
   - AFNetworking/UIKit (3.0.4):
     - AFNetworking/NSURLSession
+  - Appirater (2.0.5)
   - DACircularProgress (2.3.1)
   - GoogleMaps (1.11.1)
   - libPhoneNumber-iOS (0.8.10)
@@ -38,6 +39,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - Appirater
   - GoogleMaps
   - libPhoneNumber-iOS (~> 0.8)
   - Mantle
@@ -52,6 +54,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
+  Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   GoogleMaps: c947160008f414c66707a5ea60f35e92055c7670
   libPhoneNumber-iOS: 7bfd00f843fdcd82b5182b463e8eb3b27579f41d

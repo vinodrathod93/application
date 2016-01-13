@@ -14,6 +14,7 @@ pod 'SLExpandableTableView'
 pod 'MWPhotoBrowser'
 pod 'pop'
 pod 'RMPZoomTransitionAnimator'
+pod 'Appirater'
 
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.1'
