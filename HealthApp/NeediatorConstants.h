@@ -38,11 +38,22 @@
 #define GET_CITIES_URL @"http://chemistplus.in/getCities.php"
 #define VERIFY_PINCODE_URL @"http://chemistplus.in/verifyPincode.php"
 
+/* Listing VC */
+#define kListingConnectionViewTag 40
+#define kListingNoListingTag 41
 
-/* API Manager */
+
+/* Spree API Manager */
 static NSString *const kStoresListPath = @"/api/stores";
 static NSString *const kTaxonomiesListPath = @"/api/taxonomies";
 static NSString *const kMyOrdersPath       = @"/api/orders/mine";
 static NSString *const kStatesPathOfIndia  = @"/api/countries/105/states";
 
 static NSString *const kDoctorsListPath = @"/api/clinics";
+
+
+
+
+/* Neediator API Manager */
+
+static NSString *const kMAIN_CATEGORIES_PATH     = @"/NeediatorWS.asmx/getCategories";

@@ -13,8 +13,6 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "AppDelegate.h"
 #import "HeaderLabel.h"
-#import "OrderInputsViewController.h"
-#import "InputFormViewController.h"
 #import "AddShippingDetailsViewController.h"
 #import "User.h"
 #import "StoreRealm.h"

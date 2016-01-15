@@ -8,11 +8,8 @@
 
 #import "HomeCategoryViewController.h"
 #import "CategoryViewCell.h"
-#import "HomeViewController.h"
 #import "HeaderSliderView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "SubCategoryViewController.h"
-#import "UploadPrescriptionViewController.h"
 #import "AppDelegate.h"
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -21,17 +18,25 @@
 #import "DoctorViewController.h"
 #import <AFNetworking.h>
 #import "Location.h"
+#import "ListingTableViewController.h"
+
+#import "CategoryModel.h"
+#import "PromotionModel.h"
+#import "UIColor+HexString.h"
+#import <Realm/Realm.h>
+#import "MainCategoryRealm.h"
 
 
 @interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate>
 
-//@property (nonatomic, strong) NSFetchedResultsController *h_cartFetchedResultsController;
+
 @property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong) NSArray *categoriesArray;
-@property (nonatomic, strong) NSArray *categoryIcons;
+@property (nonatomic, strong) RLMResults *categoriesArray;
+//@property (nonatomic, strong) NSArray *categoryIcons;
 @property (nonatomic, strong) HeaderSliderView *headerView;
-@property (nonatomic, strong) NSArray *imagesData;
+@property (nonatomic, strong) NSArray *promotions;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @property (nonatomic, strong) NSDictionary *xmlDictionary;
 @property (nonatomic, strong) NSMutableArray *xmlCategories;
@@ -44,7 +49,7 @@
     CLGeocoder *_geocoder;
     CLPlacemark *_placemark;
     NSString *_currentPlace;
-
+    
 }
 
 static NSString * const reuseIdentifier = @"categoryCellIdentifier";
@@ -55,29 +60,26 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    /* Decorate Navigation Bar */
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationItem.titleView    = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]];
     
     
-    
-    
+    /* Start the Location */
     Location *location = [Location savedLocation];
-    if (location != nil) {
-        // nothing
-        
-    } else {
+    if (location == nil)
         [self startCurrentLocation];
-    }
-    
-//    [self getCategoriesWebService];
     
     
+
     
+    
+    /* Show Badge value for Cart in Tab */
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     [self checkLineItems];
-    NSString *count = [NSString stringWithFormat:@"%lu", self.h_lineItemsFetchedResultsController.fetchedObjects.count];
+    NSString *count = [NSString stringWithFormat:@"%u", self.h_lineItemsFetchedResultsController.fetchedObjects.count];
     
     if ([count isEqualToString:@"0"]) {
         [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:nil];
@@ -89,18 +91,75 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     // Register cell classes
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
-    // Do any additional setup after loading the view.
+    
+    /* Create Promotion Header View */
     self.headerView = [[HeaderSliderView alloc]init];
     
     
+    [self showHUD];
+    
+    /* Get Category names & Promotion Images */
+    [[NAPIManager sharedManager] mainCategoriesWithSuccess:^(MainCategoriesResponseModel *response) {
+        
+        
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            [realm beginWriteTransaction];
+            [realm deleteAllObjects];
+            [realm commitWriteTransaction];
+            
+            [realm beginWriteTransaction];
+            for (CategoryModel *category in response.categories) {
+                MainCategoryRealm *categoryRealm = [[MainCategoryRealm alloc] initWithMantleModel:category];
+                [realm addObject:categoryRealm];
+            }
+            
+            for (PromotionModel *promotion in response.promotions) {
+                
+            }
+            [realm commitWriteTransaction];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
+                RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
+                self.categoriesArray = categories;
+                [self.collectionView reloadData];
+                [self hideHUD];
+            });
+        });
+
+        
+        
+        
+        
+        
+        
+        [self hideHUD];
+//        self.categoriesArray    = response.categories;
+        self.promotions         = response.promotions;
+        
+        [self.collectionView reloadData];
+        
+    } failure:^(NSError *error) {
+        // Display error
+        [self hideHUD];
+        
+        self.categoriesArray = [MainCategoryRealm allObjects];
+        [self.collectionView reloadData];
+        
+        
+        NSLog(@"HomeCategory Error: %@", error.localizedDescription);
+    }];
     
     
-    
+    /*
     self.imagesData = @[@"http://sonuspa.com/_imgstore/6/1763516/page_products_f3TjqUdDHPzkPxaNuSr6c/WVYFA9KEJ3I5d_O74U7j72ypUg8.png", @"http://www.cimg.in/images/2010/05/14/10/5242691_20100517541_large.jpg", @"http://4.bp.blogspot.com/-E4VpMa6zZMo/TcLt9mEFuMI/AAAAAAAAAmQ/mvCHbz1YWGk/s320/1.jpg",@"http://img.click.in/classifieds/images/75/5_8_2011_18_45_6599_Nutrilite.jpg"];
     
     self.categoriesArray = [self getPListCategoriesArray];
     self.categoryIcons   = [self getPListIconsArray];
-    
+    */
+     
 }
 
 -(NSArray *)getPListCategoriesArray {
@@ -127,7 +186,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.headerView.askDoctorButton.layer.cornerRadius = self.headerView.askDoctorButton.frame.size.width/2;
     self.headerView.askPharmacistButton.layer.cornerRadius = self.headerView.askPharmacistButton.frame.size.width/2;
     
-    self.headerView.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.headerView.scrollView.frame) * self.imagesData.count, CGRectGetHeight(self.headerView.scrollView.frame));
+    self.headerView.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.headerView.scrollView.frame) * self.promotions.count, CGRectGetHeight(self.headerView.scrollView.frame));
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -147,24 +206,30 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
+    
+    CategoryModel *category     = self.categoriesArray[indexPath.row];
+    
+    
     // Configure the cell
     cell.backgroundColor = [UIColor clearColor];
+    cell.layer.cornerRadius = 3.f;
+    cell.layer.masksToBounds = YES;
     
-    
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(25, 0, 50, 50)];
-    imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.categoryIcons[indexPath.item]]];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(25, 10, cell.frame.size.width - (2*25.f), cell.frame.size.height - 10 - 40)];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, cell.frame.size.width, 40)];
-    label.textColor = [UIColor blackColor];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:category.image_url]];
+    
+    
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 10, cell.frame.size.width - 10.f, 40)];
+    label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
-    label.font = [UIFont fontWithName:@"AvenirNext-Regular" size:14];
-    label.text = self.categoriesArray[indexPath.item];
-    
-//    label.text  = self.xmlCategories[indexPath.item];
+    label.font = [UIFont fontWithName:@"AvenirNext-Medium" size:14];
+    label.text = category.name;
     
     UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+    backgroundView.backgroundColor = [UIColor colorFromHexString:category.color_code];
     [backgroundView addSubview:imageView];
     [backgroundView addSubview:label];
     
@@ -175,15 +240,15 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-//        if (self.view.frame.size.width <= 320) {
-//            return CGSizeMake(75, 75);
-//        }
-//        else
-//            return CGSizeMake(100, 100);
-//    }
-//    else
-        return CGSizeMake(100, 100);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (self.view.frame.size.width <= 320) {
+            return CGSizeMake(100, 100);
+        }
+        else
+            return CGSizeMake(120, 120);
+    }
+    else
+        return CGSizeMake(148, 148);
     
 }
 
@@ -192,11 +257,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if (self.view.frame.size.width <= 320) {
-            return UIEdgeInsetsMake(30, 35, 0, 35);
+            return UIEdgeInsetsMake(5.f, 5.f, 5.f, 5.f);
         }
     }
     
-    return UIEdgeInsetsMake(30, 10, 0, 10);
+    return UIEdgeInsetsMake(5.f, 5.f, 5.f, 5.f);
 }
 
 
@@ -205,16 +270,34 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.item == 0) {
+    CategoryModel *model = self.categoriesArray[indexPath.row];
+    
+    if (indexPath.item == 1) {
         
         StoresViewController *storesVC  = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
-        storesVC.title = self.categoriesArray[indexPath.item];
+        storesVC.title = model.name;
         storesVC.hidesBottomBarWhenPushed = YES;
         
-        //    SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCatViewController"];
-        //    subCatVC.categoryID = [NSString stringWithFormat:@"%ld",(long)indexPath.item + 1];
-        
         [self.navigationController pushViewController:storesVC animated:YES];
+    }
+    else if (indexPath.item == 8) {
+        ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+        listingVC.root = @"restaurants";
+        listingVC.icon = @"restaurant_cafe";
+        [self.navigationController pushViewController:listingVC animated:YES];
+    }
+    
+    else if (indexPath.item == 10) {
+        ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+        listingVC.root = @"desserts";
+        listingVC.icon = @"ice_cream_parlor";
+        [self.navigationController pushViewController:listingVC animated:YES];
+    }
+    else if (indexPath.item == 0) {
+        ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+        listingVC.root = @"chemists";
+        listingVC.icon = @"chemist";
+        [self.navigationController pushViewController:listingVC animated:YES];
     }
     else if (indexPath.item == 2) {
         
@@ -222,6 +305,17 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         [self.navigationController pushViewController:doctorsVC animated:YES];
         
     }
+    else if (indexPath.item == 3) {
+        ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+        listingVC.root = @"hospitals";
+        listingVC.icon = @"hospital";
+        [self.navigationController pushViewController:listingVC animated:YES];
+    }
+    
+    
+    
+        
+    
     
     
 }
@@ -251,7 +345,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         
         [self setupScrollViewImages];
-        self.headerView.pageControl.numberOfPages = self.imagesData.count;
+        self.headerView.pageControl.numberOfPages = self.promotions.count;
         
         reusableView = self.headerView;
     }
@@ -289,15 +383,15 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)setupScrollViewImages {
     
-    [self.imagesData enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
+    [self.promotions enumerateObjectsUsingBlock:^(PromotionModel *promotion, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
         imageView.tag = idx;
         
        
         
         
-        [imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:promotion.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+        imageView.contentMode = UIViewContentModeScaleToFill;
         
         [self.headerView.scrollView addSubview:imageView];
     }];
@@ -414,41 +508,23 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 
+#pragma mark - HUD
 
-/*
--(void)getCategoriesWebService {
-    
-    
-    NSURL *url = [NSURL URLWithString:@"http://neediator.in/WebServiceNeediator.asmx/get_Maincategory?CategoryGroup=MG"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    request.HTTPMethod = @"GET";
-    
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    operation.responseSerializer = [AFXMLParserResponseSerializer serializer];
-    
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSXMLParser *XMLParser = (NSXMLParser *)responseObject;
-        [XMLParser setShouldProcessNamespaces:YES];
-        
-        // These lines below were previously commented
-        XMLParser.delegate = self;
-        [XMLParser parse];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error Retrieving Categories"
-                                                            message:[error localizedDescription]
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Ok"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-        
-    }];
-    
-    [operation start];
+-(void)showHUD {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    self.hud.color = self.collectionView.tintColor;
 }
 
+-(void)hideHUD {
+    [self.hud hide:YES];
+}
+
+
+
+
+
+
+/*
 #pragma mark - NSXMLParserDelegate
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser
@@ -546,12 +622,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 //}
 
 
-- (IBAction)uploadPrescription:(id)sender {
-    UploadPrescriptionViewController *uploadVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPrescriptionNVC"];
-    
-    [self.navigationController presentViewController:uploadVC animated:YES completion:nil];
-    
-}
+
 
 
 @end

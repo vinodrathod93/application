@@ -16,7 +16,7 @@
     
 }
 
--(NSURLSessionDataTask *)getStoresWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
+-(NSURLSessionDataTask *)getStoresWithRequestModel:(ListingRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
     
     NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:requestModel error:nil];
     NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] initWithDictionary:parameters];
@@ -59,7 +59,7 @@
 
 
 
--(NSURLSessionDataTask *)getDoctorListingsWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^) (DoctorResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
+-(NSURLSessionDataTask *)getDoctorListingsWithRequestModel:(ListingRequestModel *)requestModel success:(void (^) (DoctorResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
     NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:requestModel error:nil];
     NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] initWithDictionary:parameters];
     
@@ -124,7 +124,7 @@
 }
 
 
--(void)retryGetStoresWithRequestModel:(StoreListRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
+-(void)retryGetStoresWithRequestModel:(ListingRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
     
     
     User *user = [User savedUser];

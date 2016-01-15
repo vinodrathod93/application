@@ -12,5 +12,5 @@
 
 @interface HomeCategoryViewController : UICollectionViewController<UIScrollViewDelegate, CLLocationManagerDelegate>
 
-- (IBAction)uploadPrescription:(id)sender;
+
 @end

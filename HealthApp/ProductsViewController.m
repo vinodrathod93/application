@@ -13,10 +13,8 @@
 #import "DetailsProductViewController.h"
 #import "DetailViewModel.h"
 #import "UIScrollView+InfiniteScroll.h"
-#import "SearchResultsProductViewController.h"
 #import "Reachability.h"
 #import "AppDelegate.h"
-#import "ProductDetailsViewController.h"
 
 
 
@@ -344,7 +342,10 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     NSLog(@"URL is %@",self.taxonProductsURL);
     
-    NSURLRequest *spree_request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:self.taxonProductsURL]];
+    
+    NSString *paginatingURLString = [NSString stringWithFormat:@"%@&page=%d", self.taxonProductsURL, page];
+    
+    NSURLRequest *spree_request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:paginatingURLString]];
     
     self.task = [session dataTaskWithRequest:spree_request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         

@@ -138,6 +138,9 @@ enum SECTIONS {
         
         if (indexPath.row == 0) {
             // Rate us
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString: kAPP_URL_STRING]];
+            
         }
         else if (indexPath.row == 1) {
             // Share us

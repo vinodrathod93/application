@@ -13,7 +13,6 @@
 #import "StoresViewCell.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "TaxonsViewController.h"
 #import "StoreTaxonsViewController.h"
 #import "User.h"
 #import "LogSignViewController.h"
@@ -25,6 +24,7 @@
 #import "Location.h"
 #import "NoStores.h"
 #import "NoConnectionView.h"
+#import "UIScrollView+InfiniteScroll.h"
 
 
 
@@ -45,6 +45,7 @@
 
 @implementation StoresViewController {
     NoConnectionView *_connectionView;
+    NSURLSessionDataTask *_task;
 }
 
 - (void)viewDidLoad {
@@ -63,142 +64,10 @@
 }
 
 
-
-
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-}
-
-
-
--(void)requestStores {
-    
-    
-    [self removeConnectionView];
-    
-    
-    Location *location_store = [Location savedLocation];
-    
-    if (location_store == nil) {
-        UIAlertView *select_location = [[UIAlertView alloc] initWithTitle:@"" message:@"Please select the location in Search Menu to browse the stores" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
-        [select_location show];
-        
-        [self performSelector:@selector(dismissAlertView:) withObject:select_location afterDelay:2];
-        
-        
-
-        
-        
-    } else {
-        
-        
-        StoreListRequestModel *requestModel = [StoreListRequestModel new];
-        requestModel.location = [NSString stringWithFormat:@"%@,%@", location_store.latitude, location_store.longitude];
-        
-        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-        self.managedObjectContext = appDelegate.managedObjectContext;
-        
-        [self showHUD];
-        
-        
-        [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {
-            
-            //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            //            RLMRealm *realm = [RLMRealm defaultRealm];
-            //            [realm beginWriteTransaction];
-            //            [realm deleteAllObjects];
-            //            [realm commitWriteTransaction];
-            //
-            //            [realm beginWriteTransaction];
-            //            for (StoresModel *store in responseModel.stores) {
-            //                StoreRealm *storeRealm = [[StoreRealm alloc] initWithMantleModel:store];
-            //                [realm addObject:storeRealm];
-            //            }
-            //            [realm commitWriteTransaction];
-            //
-            //            dispatch_async(dispatch_get_main_queue(), ^{
-            //                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
-            //                RLMResults *stores = [StoreRealm allObjectsInRealm:realmMainThread];
-            //                self.stores = stores;
-            //                [self.tableView reloadData];
-            //                [self hideHUD];
-            //            });
-            //        });
-            
-            
-            self.array_stores = responseModel.stores;
-            
-            if (self.array_stores.count == 0) {
-                [self showNoStoresView:location_store];
-            }
-            
-            self.navigationItem.title = [NSString stringWithFormat:@"Stores (%lu)", (unsigned long)self.array_stores.count];
-            [self.tableView reloadData];
-            [self hideHUD];
-            
-        } failure:^(NSError *error, BOOL loginFailure) {
-            
-            [self hideHUD];
-            
-            if (loginFailure) {
-                LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
-                logSignVC.isPlacingOrder = NO;
-                
-                UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
-                logSignNav.navigationBar.tintColor = self.tableView.tintColor;
-                
-                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                    logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
-                }
-                
-                [self presentViewController:logSignNav animated:YES completion:nil];
-            }
-            else if (error) {
-                
-                _connectionView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionView" owner:self options:nil] lastObject];
-                _connectionView.tag = kStoresConnectionViewTag;
-                _connectionView.frame = self.tableView.frame;
-                _connectionView.label.text = [error localizedDescription];
-                [_connectionView.retryButton addTarget:self action:@selector(requestStores) forControlEvents:UIControlEventTouchUpInside];
-                
-                [self.navigationController.view insertSubview:_connectionView belowSubview:self.navigationController.navigationBar];
-                
-            }
-            
-            
-            
-           
-        }];
-        
-    
-        
-        
-        
-        
-    }
-    
-    
-    
-    
-    
-}
-
-
-
--(void)removeConnectionView {
-    
-    if (_connectionView) {
-        [[self.navigationController.view viewWithTag:kStoresConnectionViewTag] removeFromSuperview];
-    }
-    
-}
-
-
-
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [_task cancel];
     
     [[self.navigationController.view viewWithTag:kStoresNoStoresTag] removeFromSuperview];
     
@@ -207,9 +76,7 @@
     
 }
 
--(void)dismissAlertView:(UIAlertView *)alertView {
-    [alertView dismissWithClickedButtonIndex:0 animated:YES];
-}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -231,7 +98,7 @@
 }
 
 
-#pragma mark - Table view data source
+#pragma mark - Table view data source & Delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -256,19 +123,7 @@
     return cell;
 }
 
--(void)showHUD {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    self.hud.color = self.tableView.tintColor;
-    self.hud.color = [UIColor clearColor];
-    self.hud.labelText = @"Loading Stores...";
-    self.hud.labelColor = [UIColor darkGrayColor];
-    self.hud.activityIndicatorColor = [UIColor blackColor];
-    self.hud.detailsLabelColor = [UIColor darkGrayColor];
-}
 
--(void)hideHUD {
-    [self.hud hide:YES];
-}
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -332,28 +187,6 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        /*
-        UIView *locationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 25)];
-        
-        UILabel *location_name = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, locationView.frame.size.width/2, 25)];
-        location_name.font     = [UIFont fontWithName:@"AvenirNext-Medium" size:15.f];
-        
-        _location_store = [Location savedLocation];
-        if (_location_store) {
-            location_name.text = _location_store.location_name;
-        }
-        
-        location_name.textAlignment = NSTextAlignmentCenter;
-        
-        UIButton *changeLocation = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, location_name.frame.size.width/2, 25)];
-        changeLocation.titleLabel.text = @"Change";
-        changeLocation.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:13.f];
-        
-        [locationView addSubview:location_name];
-        [locationView addSubview:changeLocation];
-        
-        */
-        
         
         return [self headerView];
     }
@@ -364,8 +197,132 @@
 
 
 
+#pragma mark - Network
 
 
+-(void)requestStores {
+    
+    
+    [self removeConnectionView];
+    
+    
+    Location *location_store = [Location savedLocation];
+    
+    if (location_store == nil) {
+        UIAlertView *select_location = [[UIAlertView alloc] initWithTitle:@"" message:@"Please select the location in Search Menu to browse the stores" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [select_location show];
+        
+        [self performSelector:@selector(dismissAlertView:) withObject:select_location afterDelay:2];
+        
+        
+        
+        
+        
+    } else {
+        
+        
+        ListingRequestModel *requestModel = [ListingRequestModel new];
+        requestModel.location = [NSString stringWithFormat:@"%@,%@", location_store.latitude, location_store.longitude];
+        
+        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        self.managedObjectContext = appDelegate.managedObjectContext;
+        
+        [self showHUD];
+        
+        
+        _task = [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {
+            
+            //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            //            RLMRealm *realm = [RLMRealm defaultRealm];
+            //            [realm beginWriteTransaction];
+            //            [realm deleteAllObjects];
+            //            [realm commitWriteTransaction];
+            //
+            //            [realm beginWriteTransaction];
+            //            for (StoresModel *store in responseModel.stores) {
+            //                StoreRealm *storeRealm = [[StoreRealm alloc] initWithMantleModel:store];
+            //                [realm addObject:storeRealm];
+            //            }
+            //            [realm commitWriteTransaction];
+            //
+            //            dispatch_async(dispatch_get_main_queue(), ^{
+            //                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
+            //                RLMResults *stores = [StoreRealm allObjectsInRealm:realmMainThread];
+            //                self.stores = stores;
+            //                [self.tableView reloadData];
+            //                [self hideHUD];
+            //            });
+            //        });
+            
+            
+            self.array_stores = responseModel.stores;
+            
+            if (self.array_stores.count == 0) {
+                [self showNoStoresView:location_store];
+            }
+            
+            self.navigationItem.title = [NSString stringWithFormat:@"Stores (%lu)", (unsigned long)self.array_stores.count];
+            [self.tableView reloadData];
+            [self hideHUD];
+            
+        } failure:^(NSError *error, BOOL loginFailure) {
+            
+            [self hideHUD];
+            
+            if (loginFailure) {
+                LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
+                logSignVC.isPlacingOrder = NO;
+                
+                UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
+                logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
+                }
+                
+                [self presentViewController:logSignNav animated:YES completion:nil];
+            }
+            else if (error) {
+                
+                _connectionView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionView" owner:self options:nil] lastObject];
+                _connectionView.tag = kStoresConnectionViewTag;
+                _connectionView.frame = self.tableView.frame;
+                _connectionView.label.text = [error localizedDescription];
+                [_connectionView.retryButton addTarget:self action:@selector(requestStores) forControlEvents:UIControlEventTouchUpInside];
+                
+                [self.navigationController.view insertSubview:_connectionView belowSubview:self.navigationController.navigationBar];
+                
+            }
+            
+        }];
+        
+    }
+    
+}
+
+
+
+
+
+#pragma mark - HUD
+
+-(void)showHUD {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    //    self.hud.color = self.tableView.tintColor;
+    self.hud.color = [UIColor clearColor];
+    self.hud.labelText = @"Loading Stores...";
+    self.hud.labelColor = [UIColor darkGrayColor];
+    self.hud.activityIndicatorColor = [UIColor blackColor];
+    self.hud.detailsLabelColor = [UIColor darkGrayColor];
+}
+
+-(void)hideHUD {
+    [self.hud hide:YES];
+}
+
+
+
+#pragma mark - Header View
 
 - (UIView *)loadHeaderContentView {
     
@@ -456,20 +413,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#pragma mark - Save Store
 
 
 -(void)saveAndProceedWithCurrentStore:(StoresModel *)store {
@@ -510,6 +454,10 @@
 }
 
 
+
+
+#pragma mark - Fetched Results Controller
+
 -(void)checkLineItems {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"LineItems"];
     
@@ -539,6 +487,10 @@
 }
 
 
+
+
+#pragma mark - Navigation
+
 -(void)goToSearchTab {
     
     
@@ -551,8 +503,21 @@
     
 }
 
+- (IBAction)showCart:(id)sender {
+    UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
+    
+    [tabBarController setSelectedIndex:3];
+    
+}
 
 
+-(void)dismissAlertView:(UIAlertView *)alertView {
+    [alertView dismissWithClickedButtonIndex:0 animated:YES];
+}
+
+
+
+#pragma mark - Custom View
 -(void)showNoStoresView:(Location *)location {
     
     self.noStoresView = [[[NSBundle mainBundle] loadNibNamed:@"NoStores" owner:self options:nil] lastObject];
@@ -566,5 +531,13 @@
     [self.navigationController.view insertSubview:self.noStoresView belowSubview:self.navigationController.navigationBar];
 }
 
+
+-(void)removeConnectionView {
+    
+    if (_connectionView) {
+        [[self.navigationController.view viewWithTag:kStoresConnectionViewTag] removeFromSuperview];
+    }
+    
+}
 
 @end

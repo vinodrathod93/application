@@ -12,10 +12,8 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <MBProgressHUD.h>
 #import "AppDelegate.h"
-//#import "AddToCart.h"
 #import "Order.h"
 #import "LineItems.h"
-#import "OrderInputsViewController.h"
 #import "VariantsViewController.h"
 #import <MWPhotoBrowser.h>
 #import "User.h"
@@ -55,8 +53,8 @@ NSString *cellReuseIdentifier;
     
     self.viewModel = [[DetailProductViewModel alloc]initWithModel:self.detail];
     
-    UIBarButtonItem *cartItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cart"] style:UIBarButtonItemStylePlain target:self action:@selector(showCartView:)];
-    self.navigationItem.rightBarButtonItem = cartItem;
+//    UIBarButtonItem *cartItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cart"] style:UIBarButtonItemStylePlain target:self action:@selector(showCartView:)];
+//    self.navigationItem.rightBarButtonItem = cartItem;
     
     _imageViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleLargeImage:)];
     _imageViewTapGestureRecognizer.numberOfTapsRequired = 1;
@@ -97,6 +95,12 @@ NSString *cellReuseIdentifier;
 
 
 - (IBAction)showCart:(id)sender {
+    
+    UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
+    
+    [tabBarController setSelectedIndex:3];
+    
+    
 }
 
 #pragma mark - Table view data source
@@ -157,7 +161,6 @@ NSString *cellReuseIdentifier;
     
     __block UIImageView *previousImageView;
     
-    NSInteger height = cell.frame.size.height;
     
     [self.viewModel.images enumerateObjectsUsingBlock:^(NSString *image_url, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.productImageScrollView.frame) * idx, 10, CGRectGetWidth(cell.productImageScrollView.frame), CGRectGetHeight(cell.productImageScrollView.frame) - 10)];
@@ -397,7 +400,28 @@ NSString *cellReuseIdentifier;
             
             
             NSDictionary *line_item             = [self lineItemDictionaryWithVariantID:productID quantity:quantity];
-            [self sendLineItem:line_item];
+            
+            User *user = [User savedUser];
+            
+            if (user.access_token != nil) {
+                [self sendLineItem:line_item];
+            }
+            else {
+                // Login presentVC
+                
+                LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
+                logSignVC.isPlacingOrder = NO;
+                
+                UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
+                logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
+                }
+                
+                [self presentViewController:logSignNav animated:YES completion:nil];
+            }
+            
         }
         else {
             [self alreadyLabelButton];
@@ -630,12 +654,6 @@ NSString *cellReuseIdentifier;
 }
 
 
--(void)buyButtonPressed {
-    
-    OrderInputsViewController *orderInputVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderInputsVC"];
-    [self.navigationController presentViewController:orderInputVC animated:YES completion:nil];
-    
-}
 
 -(void)updateBadgeValue {
     [self checkLineItems];

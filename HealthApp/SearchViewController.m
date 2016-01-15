@@ -9,7 +9,7 @@
 #import "SearchViewController.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import "Location.h"
-#import "StoreListRequestModel.h"
+#import "ListingRequestModel.h"
 #import "StoreListResponseModel.h"
 #import "APIManager.h"
 
@@ -101,6 +101,7 @@
     _searchController           = [[UISearchController alloc]initWithSearchResultsController:_autoCompleteViewController];
     _searchController.hidesNavigationBarDuringPresentation = NO;
     _searchController.dimsBackgroundDuringPresentation = YES;
+    _searchController.searchBar.placeholder = @"Search by Locality";
     
     _searchController.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _searchController.searchBar.searchBarStyle   = UISearchBarStyleMinimal;
@@ -491,7 +492,7 @@ didFailAutocompleteWithError:(NSError *)error {
 
 
 -(void)loadStoresWithLocation:(Location *)location {
-    StoreListRequestModel *requestModel = [StoreListRequestModel new];
+    ListingRequestModel *requestModel = [ListingRequestModel new];
     requestModel.location = [NSString stringWithFormat:@"%@,%@", location.latitude, location.longitude];
     
     [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {

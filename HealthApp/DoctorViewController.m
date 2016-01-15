@@ -26,6 +26,7 @@ NSString *const CellIdentifier = @"doctorsCell";
 
 @implementation DoctorViewController {
     NoConnectionView *_connectionView;
+    NSURLSessionDataTask *_task;
 }
 
 - (void)viewDidLoad {
@@ -50,7 +51,7 @@ NSString *const CellIdentifier = @"doctorsCell";
     
     [self removeConnectionView];
     
-    
+    [_task cancel];
 }
 
 
@@ -59,12 +60,12 @@ NSString *const CellIdentifier = @"doctorsCell";
     
     Location *location_store = [Location savedLocation];
     
-    StoreListRequestModel *requestModel = [StoreListRequestModel new];
+    ListingRequestModel *requestModel = [ListingRequestModel new];
     requestModel.location = [NSString stringWithFormat:@"%@,%@", location_store.latitude, location_store.longitude];
     
     [self showHUD];
     
-    [[APIManager sharedManager] getDoctorListingsWithRequestModel:requestModel success:^(DoctorResponseModel *response) {
+    _task = [[APIManager sharedManager] getDoctorListingsWithRequestModel:requestModel success:^(DoctorResponseModel *response) {
         NSLog(@"response %@",response);
         
         [self hideHUD];
@@ -141,7 +142,7 @@ NSString *const CellIdentifier = @"doctorsCell";
     cell.clinicName.text = clinics.name;
     cell.experienceLabel.text = [NSString stringWithFormat:@"%@yrs",clinics.doctor.experience.stringValue];
     cell.distance.text = [NSString stringWithFormat:@"%.02f KM", clinics.nearest_distance.floatValue];
-    cell.consultationFeeLabel.text = [NSString stringWithFormat:@"Rs. %@", clinics.doctor.fees];
+    cell.consultationFeeLabel.text = [NSString stringWithFormat:@"Fees Rs. %@", clinics.doctor.fees];
     
     return cell;
 }
