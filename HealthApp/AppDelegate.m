@@ -65,22 +65,22 @@
     
     NSLog(@"%@",[self applicationDocumentsDirectory]);
     
+    
+    
     // UITabBar appearance
     [[UITabBar appearance] setTintColor:[UIColor blackColor]];
     [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
-//    [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
+    [[UITabBar appearance] setTranslucent:NO];
     
-    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-Medium" size:9.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-Medium" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
     
     
-//    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
     
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                           [UIColor blackColor], NSForegroundColorAttributeName,
-                                                          [UIFont fontWithName:@"AvenirNext-Medium" size:19.f], NSFontAttributeName , nil]];
+                                                          [UIFont fontWithName:@"AvenirNext-DemiBold" size:19.f], NSFontAttributeName , nil]];
     
-//    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:246/255.f green:235/255.f blue:0/255.f alpha:1.0]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
     [[UINavigationBar appearance] setTranslucent:NO];
     
@@ -236,7 +236,7 @@
 #pragma mark - UITabBarController Delegate 
 
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    if ([viewController isEqual:[LogSignViewController class]]) {
+     if ([viewController isEqual:[LogSignViewController class]]) {
         NSLog(@"log clicked");
     }
 }

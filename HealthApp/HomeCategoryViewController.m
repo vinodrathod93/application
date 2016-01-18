@@ -114,10 +114,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                 MainCategoryRealm *categoryRealm = [[MainCategoryRealm alloc] initWithMantleModel:category];
                 [realm addObject:categoryRealm];
             }
-            
-            for (PromotionModel *promotion in response.promotions) {
-                
-            }
             [realm commitWriteTransaction];
             
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -136,7 +132,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         
         [self hideHUD];
-//        self.categoriesArray    = response.categories;
         self.promotions         = response.promotions;
         
         [self.collectionView reloadData];
@@ -152,32 +147,34 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         NSLog(@"HomeCategory Error: %@", error.localizedDescription);
     }];
     
-    
-    /*
-    self.imagesData = @[@"http://sonuspa.com/_imgstore/6/1763516/page_products_f3TjqUdDHPzkPxaNuSr6c/WVYFA9KEJ3I5d_O74U7j72ypUg8.png", @"http://www.cimg.in/images/2010/05/14/10/5242691_20100517541_large.jpg", @"http://4.bp.blogspot.com/-E4VpMa6zZMo/TcLt9mEFuMI/AAAAAAAAAmQ/mvCHbz1YWGk/s320/1.jpg",@"http://img.click.in/classifieds/images/75/5_8_2011_18_45_6599_Nutrilite.jpg"];
-    
-    self.categoriesArray = [self getPListCategoriesArray];
-    self.categoryIcons   = [self getPListIconsArray];
-    */
      
 }
 
--(NSArray *)getPListCategoriesArray {
-    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Categories" ofType:@"plist"];
-    NSDictionary *rootDictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    NSArray *categoryArray = rootDictionary[@"Category"];
-    return categoryArray;
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
+    [self.tabBarController.tabBar setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
+    
+    [self.tabBarController.tabBar setTintColor:[UIColor blackColor]];
+    
+    [self.tabBarController.tabBar.items enumerateObjectsUsingBlock:^(UITabBarItem * _Nonnull tabBarItem, NSUInteger idx, BOOL * _Nonnull stop) {
+        [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+        [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
+    }];
+    
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
--(NSArray *)getPListIconsArray {
-    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Categories" ofType:@"plist"];
-    NSDictionary *rootDictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
-    NSArray *iconsArray = rootDictionary[@"Icons"];
     
-    return iconsArray;
 }
+
 
 
 -(void)viewDidLayoutSubviews {
@@ -197,10 +194,9 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    NSLog(@"%lu",(unsigned long)self.categoriesArray.count);
+    
     return self.categoriesArray.count;
     
-//    return self.xmlCategories.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -272,6 +268,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     CategoryModel *model = self.categoriesArray[indexPath.row];
     
+    /*
     if (indexPath.item == 1) {
         
         StoresViewController *storesVC  = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
@@ -311,10 +308,16 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         listingVC.icon = @"hospital";
         [self.navigationController pushViewController:listingVC animated:YES];
     }
+    */
     
     
+    ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+    listingVC.root                       = model.name;
+    listingVC.nav_color                  = model.color_code;
+    listingVC.category_id                 = model.cat_id.stringValue;
+    [self.navigationController pushViewController:listingVC animated:YES];
     
-        
+    
     
     
     
@@ -388,9 +391,18 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         imageView.tag = idx;
         
        
+        NSURL *image_url = [NSURL URLWithString:promotion.image_url];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:image_url]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                imageView.image  = [UIImage imageWithCGImage:image.CGImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+            });
+        });
         
         
-        [imageView sd_setImageWithURL:[NSURL URLWithString:promotion.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+//        [imageView sd_setImageWithURL:[NSURL URLWithString:promotion.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         imageView.contentMode = UIViewContentModeScaleToFill;
         
         [self.headerView.scrollView addSubview:imageView];
@@ -622,7 +634,22 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 //}
 
 
-
+//-(NSArray *)getPListCategoriesArray {
+//    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Categories" ofType:@"plist"];
+//    NSDictionary *rootDictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+//    
+//    NSArray *categoryArray = rootDictionary[@"Category"];
+//    return categoryArray;
+//}
+//
+//-(NSArray *)getPListIconsArray {
+//    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Categories" ofType:@"plist"];
+//    NSDictionary *rootDictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+//    
+//    NSArray *iconsArray = rootDictionary[@"Icons"];
+//    
+//    return iconsArray;
+//}
 
 
 @end

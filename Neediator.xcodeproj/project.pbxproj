@@ -124,6 +124,8 @@
 		82D3840C1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D3840B1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m */; };
 		82D3840F1C2C0DB700D05FB7 /* PaymentDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D3840E1C2C0DB700D05FB7 /* PaymentDetailViewCell.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
+		82DCBED11C4CEFE7005EBDB3 /* ListingResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED01C4CEFE7005EBDB3 /* ListingResponseModel.m */; };
+		82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED31C4CFEC0005EBDB3 /* RatingView.m */; };
 		82EA19881C297639001EBA16 /* NoConnectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82EA19871C297639001EBA16 /* NoConnectionView.xib */; };
 		82EA198B1C29775F001EBA16 /* NoConnectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EA198A1C29775F001EBA16 /* NoConnectionView.m */; };
 		82EA68001C43BB6B00F9924D /* DoctorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EA67FF1C43BB6B00F9924D /* DoctorModel.m */; };
@@ -376,6 +378,10 @@
 		82D6EE301C1802B6007CE5F2 /* NeediatorAPIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorAPIKey.h; sourceTree = "<group>"; };
 		82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+InfiniteScroll.h"; sourceTree = "<group>"; };
 		82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+InfiniteScroll.m"; sourceTree = "<group>"; };
+		82DCBECF1C4CEFE7005EBDB3 /* ListingResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingResponseModel.h; sourceTree = "<group>"; };
+		82DCBED01C4CEFE7005EBDB3 /* ListingResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingResponseModel.m; sourceTree = "<group>"; };
+		82DCBED21C4CFEC0005EBDB3 /* RatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingView.h; sourceTree = "<group>"; };
+		82DCBED31C4CFEC0005EBDB3 /* RatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingView.m; sourceTree = "<group>"; };
 		82EA19871C297639001EBA16 /* NoConnectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoConnectionView.xib; sourceTree = "<group>"; };
 		82EA19891C29775F001EBA16 /* NoConnectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionView.h; sourceTree = "<group>"; };
 		82EA198A1C29775F001EBA16 /* NoConnectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoConnectionView.m; sourceTree = "<group>"; };
@@ -473,6 +479,8 @@
 			children = (
 				82147FB81C45272B00D6691E /* ListingModel.h */,
 				82147FB91C45272B00D6691E /* ListingModel.m */,
+				82DCBECF1C4CEFE7005EBDB3 /* ListingResponseModel.h */,
+				82DCBED01C4CEFE7005EBDB3 /* ListingResponseModel.m */,
 			);
 			name = "Listing Model";
 			sourceTree = "<group>";
@@ -847,12 +855,8 @@
 				82147FCE1C452D6500D6691E /* Hospitals */,
 				82147FCF1C452D7100D6691E /* Desserts */,
 				82147FD01C452D7B00D6691E /* Restaurants */,
-				823B73831C491A4000031596 /* CategoryModel.h */,
-				823B73841C491A4000031596 /* CategoryModel.m */,
-				823B73861C491C3800031596 /* PromotionModel.h */,
-				823B73871C491C3800031596 /* PromotionModel.m */,
-				823B73891C4920EA00031596 /* MainCategoriesResponseModel.h */,
-				823B738A1C4920EA00031596 /* MainCategoriesResponseModel.m */,
+				82DCBECD1C4CE3F6005EBDB3 /* Category */,
+				82DCBECE1C4CE3FF005EBDB3 /* Promotions */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -913,6 +917,26 @@
 				82AB0C931C2E7B2D00675567 /* NeediatorConstants.h */,
 			);
 			name = Constants;
+			sourceTree = "<group>";
+		};
+		82DCBECD1C4CE3F6005EBDB3 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				823B73891C4920EA00031596 /* MainCategoriesResponseModel.h */,
+				823B738A1C4920EA00031596 /* MainCategoriesResponseModel.m */,
+				823B73831C491A4000031596 /* CategoryModel.h */,
+				823B73841C491A4000031596 /* CategoryModel.m */,
+			);
+			name = Category;
+			sourceTree = "<group>";
+		};
+		82DCBECE1C4CE3FF005EBDB3 /* Promotions */ = {
+			isa = PBXGroup;
+			children = (
+				823B73861C491C3800031596 /* PromotionModel.h */,
+				823B73871C491C3800031596 /* PromotionModel.m */,
+			);
+			name = Promotions;
 			sourceTree = "<group>";
 		};
 		82EA19861C297610001EBA16 /* Connection Error */ = {
@@ -1147,6 +1171,8 @@
 				82A2659D1C21848A0031BDC9 /* Custom TextField */,
 				82147FD41C452E7D00D6691E /* ListingCell.h */,
 				82147FD51C452E7D00D6691E /* ListingCell.m */,
+				82DCBED21C4CFEC0005EBDB3 /* RatingView.h */,
+				82DCBED31C4CFEC0005EBDB3 /* RatingView.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1577,6 +1603,7 @@
 				82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */,
 				8250A3321B553B000026ADCE /* ProductViewCell.m in Sources */,
 				82CE35DF1C159425003744C9 /* CartOrderModel.m in Sources */,
+				82DCBED11C4CEFE7005EBDB3 /* ListingResponseModel.m in Sources */,
 				82EA68031C43BC9000F9924D /* DoctorResponseModel.m in Sources */,
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
 				82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */,
@@ -1666,6 +1693,7 @@
 				82A2659C1C2169B50031BDC9 /* NTextField.m in Sources */,
 				82F80CD61C1EE01100C8E076 /* MoreViewController.m in Sources */,
 				823B73851C491A4000031596 /* CategoryModel.m in Sources */,
+				82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */,
 				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,
 				8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */,
 				82AB0CA41C2EBFC800675567 /* AddToCart.m in Sources */,

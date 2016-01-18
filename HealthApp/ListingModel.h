@@ -10,10 +10,14 @@
 
 @interface ListingModel : MTLModel<MTLJSONSerializing>
 
+@property (nonatomic, copy) NSNumber *list_id;
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *street_address;
+@property (nonatomic, copy) NSString *address;
+@property (nonatomic, copy) NSString *image_url;
 @property (nonatomic, copy) NSString *city;
-@property (nonatomic, copy) NSString *pincode;
+@property (nonatomic, copy) NSString *mobile;
 @property (nonatomic, copy) NSString *nearest_distance;
+@property (nonatomic, copy) NSNumber *ratings;
+
 
 @end

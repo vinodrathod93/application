@@ -493,7 +493,7 @@ didFailAutocompleteWithError:(NSError *)error {
 
 -(void)loadStoresWithLocation:(Location *)location {
     ListingRequestModel *requestModel = [ListingRequestModel new];
-    requestModel.location = [NSString stringWithFormat:@"%@,%@", location.latitude, location.longitude];
+//    requestModel.location = [NSString stringWithFormat:@"%@,%@", location.latitude, location.longitude];
     
     [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {
         

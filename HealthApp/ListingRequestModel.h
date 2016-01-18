@@ -10,6 +10,9 @@
 
 @interface ListingRequestModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic, copy) NSString *location;
+@property (nonatomic, copy) NSString *latitude;
+@property (nonatomic, copy) NSString *longitude;
+@property (nonatomic, copy) NSString *category_id;
+@property (nonatomic, copy) NSString *page;
 
 @end

@@ -222,7 +222,7 @@
         
         
         ListingRequestModel *requestModel = [ListingRequestModel new];
-        requestModel.location = [NSString stringWithFormat:@"%@,%@", location_store.latitude, location_store.longitude];
+//        requestModel.location = [NSString stringWithFormat:@"%@,%@", location_store.latitude, location_store.longitude];
         
         AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
         self.managedObjectContext = appDelegate.managedObjectContext;

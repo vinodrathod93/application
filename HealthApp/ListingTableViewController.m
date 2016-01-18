@@ -15,11 +15,14 @@
 #import "NoStores.h"
 #import "NoConnectionView.h"
 #import "ListingModel.h"
+#import "UIColor+HexString.h"
 
 
 @interface ListingTableViewController ()
 
 @property (nonatomic, strong) NSArray *listingArray;
+@property (nonatomic, strong) NSArray *promotionArray;
+
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) NoStores *noListingView;
 
@@ -34,16 +37,52 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = self.root.capitalizedString;
+    self.title = self.root.uppercaseString;
+    
+    
+    
     
     [self requestListings];
    
 }
 
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorFromHexString:self.nav_color]];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                    [UIColor whiteColor], NSForegroundColorAttributeName,
+                                                                    [UIFont fontWithName:@"AvenirNext-DemiBold" size:19.f], NSFontAttributeName , nil]];
+    
+    [self.tabBarController.tabBar setBarTintColor:[UIColor colorFromHexString:self.nav_color]];
+    [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
+    
+    NSLog(@"%@", self.tabBarController.tabBar.items);
+    
+    
+    [self.tabBarController.tabBar.items enumerateObjectsUsingBlock:^(UITabBarItem * _Nonnull tabBarItem, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        
+        [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
+    }];
+    
+    
+    
+    
+}
+
+
+
+
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     
     [[self.navigationController.view viewWithTag:kListingNoListingTag] removeFromSuperview];
     
@@ -54,14 +93,16 @@
 
 
 
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return self.listingArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.listingArray.count;
+    return 1;
 }
 
 
@@ -71,18 +112,53 @@
     
     // Configure the cell...
     
-    ListingModel *model = self.listingArray[indexPath.row];
+    ListingModel *model = self.listingArray[indexPath.section];
     
     cell.name.text = model.name;
-    cell.street.text = model.street_address;
-    cell.city.text = model.city;
-    cell.distance.text = [NSString stringWithFormat:@"%.02f KM", model.nearest_distance.floatValue];
-    cell.imageview.image = [UIImage imageNamed:self.icon];
+    cell.street.text = model.address;
+    cell.rating.text = [NSString stringWithFormat:@"%.01f", model.ratings.floatValue];
+    cell.distance.text = model.nearest_distance;
+    
+    cell.imageview.backgroundColor = [UIColor lightGrayColor];
+    cell.imageview.layer.cornerRadius = 5.f;
+    cell.imageview.layer.masksToBounds = YES;
+    
+    [cell.imageview sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+    
+    
+    cell.ratingView.notSelectedImage    = [UIImage imageNamed:@"Star"];
+    cell.ratingView.halfSelectedImage   = [UIImage imageNamed:@"Star Half Empty"];
+    cell.ratingView.fullSelectedImage   = [UIImage imageNamed:@"Star Filled"];
+    
+    cell.ratingView.rating              = model.ratings.floatValue;
+    cell.ratingView.editable            = NO;
+    cell.ratingView.maxRating           = 5;
+    cell.ratingView.minImageSize        = CGSizeMake(10.f, 10.f);
+    cell.ratingView.midMargin           = 0.f;
+    cell.ratingView.leftMargin          = 0.f;
+    
     
     return cell;
 }
 
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 135.f;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    if (section == 0) {
+        return 30.f;
+    }
+    return 5.f;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 5.f;
+}
 
 
 #define Helper Methods
@@ -90,7 +166,7 @@
 -(void)showHUD {
     self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     self.hud.color = [UIColor clearColor];
-    self.hud.labelText = [NSString stringWithFormat:@"Loading %@...",self.root.capitalizedString];
+    self.hud.labelText = @"Loading...";
     self.hud.labelColor = [UIColor darkGrayColor];
     self.hud.activityIndicatorColor = [UIColor blackColor];
     self.hud.detailsLabelColor = [UIColor darkGrayColor];
@@ -143,20 +219,14 @@
     Location *location_store = [Location savedLocation];
     
     ListingRequestModel *requestModel = [ListingRequestModel new];
-    requestModel.location = [NSString stringWithFormat:@"%@,%@", location_store.latitude, location_store.longitude];
-    
-    
-    NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:requestModel error:nil];
-    NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] initWithDictionary:parameters];
-    
-    [parametersWithKey setObject:kStoreTokenKey forKey:@"token"];
-    
-    
-    NSString *url = [NSString stringWithFormat:@"/api/%@", self.root];
+    requestModel.latitude             = location_store.latitude;
+    requestModel.longitude            = location_store.longitude;
+    requestModel.category_id          = self.category_id;
+    requestModel.page                 = @"1";
     
     [self showHUD];
     
-    _task = [[APIManager sharedManager] GET:url parameters:parametersWithKey progress:^(NSProgress * _Nonnull downloadProgress) {
+    /*_task = [[APIManager sharedManager] GET:kSERVICES_LISTING_PATH parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         NSLog(@"%@", downloadProgress.localizedDescription);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
@@ -167,66 +237,7 @@
         
         [self hideHUD];
         
-        if ([self.root isEqualToString:@"chemists"]) {
-            
-            ChemistResponseModel *list = [MTLJSONAdapter modelOfClass:ChemistResponseModel.class fromJSONDictionary:responseDictionary error:&error];
-            NSLog(@"%@",list);
-            
-            self.listingArray = list.chemists;
-            if (self.listingArray.count == 0) {
-                [self shownoListingView:location_store];
-            }
-            
-            
-            [self.tableView reloadData];
-            
-        }
-        else if ([self.root isEqualToString:@"hospitals"]) {
-            HospitalResponseModel *list = [MTLJSONAdapter modelOfClass:HospitalResponseModel.class fromJSONDictionary:responseDictionary error:&error];
-            NSLog(@"%@",list);
-            
-            if (error) {
-                NSLog(@"Error in conversion %@",[error description]);
-            }
-            self.listingArray = list.hospitals;
-            if (self.listingArray.count == 0) {
-                [self shownoListingView:location_store];
-            }
-            
-            
-            [self.tableView reloadData];
-            
-        }
-        else if ([self.root isEqualToString:@"restaurants"]) {
-            RestaurantResponseModel *list = [MTLJSONAdapter modelOfClass:RestaurantResponseModel.class fromJSONDictionary:responseDictionary error:&error];
-            NSLog(@"%@",list);
-            
-            if (error) {
-                NSLog(@"Error in conversion %@",[error description]);
-            }
-            
-            self.listingArray = list.restaurants;
-            if (self.listingArray.count == 0) {
-                [self shownoListingView:location_store];
-            }
-            
-            
-            [self.tableView reloadData];
-            
-        }
-        else if ([self.root isEqualToString:@"desserts"]) {
-            DessertResponseModel *list = [MTLJSONAdapter modelOfClass:DessertResponseModel.class fromJSONDictionary:responseDictionary error:&error];
-            NSLog(@"%@",list);
-            
-            self.listingArray = list.desserts;
-            if (self.listingArray.count == 0) {
-                [self shownoListingView:location_store];
-            }
-            
-            
-            [self.tableView reloadData];
-            
-        }
+        
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -248,7 +259,33 @@
             
         }
         
+    }];*/
+    
+    
+    _task   = [[NAPIManager sharedManager] getServicesWithRequestModel:requestModel success:^(ListingResponseModel *response) {
+        
+        _listingArray = response.services;
+        _promotionArray = response.promotions;
+        
+        [self hideHUD];
+        
+        [self.tableView reloadData];
+        
+    } failure:^(NSError *error) {
+        
+        [self hideHUD];
+        
+        NSLog(@"Error: %@", error.localizedDescription);
+        
+        _connectionView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionView" owner:self options:nil] lastObject];
+        _connectionView.tag = kListingConnectionViewTag;
+        _connectionView.frame = self.tableView.frame;
+        _connectionView.label.text = [error localizedDescription];
+        [_connectionView.retryButton addTarget:self action:@selector(requestListings) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.navigationController.view insertSubview:_connectionView belowSubview:self.navigationController.navigationBar];
     }];
+    
 }
 
 

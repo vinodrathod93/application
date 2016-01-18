@@ -14,7 +14,10 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"location": @"near"
+             @"latitude"     : @"latitude",
+             @"longitude"    : @"longitude",
+             @"category_id"  : @"catid",
+             @"page"         : @"page"
              };
 }
 

@@ -11,5 +11,8 @@
 @interface ListingTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSString *root;
-@property (nonatomic, strong) NSString *icon;
+@property (nonatomic, strong) NSString *nav_color;
+
+@property (nonatomic, strong) NSString *category_id;
+
 @end
