@@ -11,6 +11,7 @@
 
 @interface ListingCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UIView *roundedContentView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageview;
 @property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet UILabel *street;

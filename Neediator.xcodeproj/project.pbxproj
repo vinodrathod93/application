@@ -92,6 +92,7 @@
 		82A542861C22B00800383253 /* LineItemsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A542851C22B00800383253 /* LineItemsModel.m */; };
 		82A542891C22B3A100383253 /* VariantImagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A542881C22B3A100383253 /* VariantImagesModel.m */; };
 		82A5428D1C22BB1A00383253 /* MyOrdersResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A5428C1C22BB1A00383253 /* MyOrdersResponseModel.m */; };
+		82A8B4131C4E610D00FCDF79 /* ImageModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A8B4121C4E610D00FCDF79 /* ImageModalViewController.m */; };
 		82AB0C961C2E882100675567 /* EditAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0C951C2E882100675567 /* EditAddressViewController.m */; };
 		82AB0CA31C2EBFC800675567 /* AddToCart+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0C981C2EBFC800675567 /* AddToCart+CoreDataProperties.m */; };
 		82AB0CA41C2EBFC800675567 /* AddToCart.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0C9A1C2EBFC800675567 /* AddToCart.m */; };
@@ -314,6 +315,8 @@
 		82A542881C22B3A100383253 /* VariantImagesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VariantImagesModel.m; sourceTree = "<group>"; };
 		82A5428B1C22BB1A00383253 /* MyOrdersResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersResponseModel.h; sourceTree = "<group>"; };
 		82A5428C1C22BB1A00383253 /* MyOrdersResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersResponseModel.m; sourceTree = "<group>"; };
+		82A8B4111C4E610D00FCDF79 /* ImageModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageModalViewController.h; sourceTree = "<group>"; };
+		82A8B4121C4E610D00FCDF79 /* ImageModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageModalViewController.m; sourceTree = "<group>"; };
 		82AB0C931C2E7B2D00675567 /* NeediatorConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorConstants.h; sourceTree = "<group>"; };
 		82AB0C941C2E882100675567 /* EditAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAddressViewController.h; sourceTree = "<group>"; };
 		82AB0C951C2E882100675567 /* EditAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAddressViewController.m; sourceTree = "<group>"; };
@@ -724,6 +727,15 @@
 			name = "My Orders";
 			sourceTree = "<group>";
 		};
+		82A8B4141C4E611C00FCDF79 /* Image Modal */ = {
+			isa = PBXGroup;
+			children = (
+				82A8B4111C4E610D00FCDF79 /* ImageModalViewController.h */,
+				82A8B4121C4E610D00FCDF79 /* ImageModalViewController.m */,
+			);
+			name = "Image Modal";
+			sourceTree = "<group>";
+		};
 		82BD027F1B46A73C00108A0B = {
 			isa = PBXGroup;
 			children = (
@@ -974,6 +986,7 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				82A8B4141C4E611C00FCDF79 /* Image Modal */,
 				82A5428E1C22C17E00383253 /* My Orders */,
 				82CE35E11C15B568003744C9 /* Navigation */,
 				82CE35E01C15B552003744C9 /* Popup */,
@@ -1652,6 +1665,7 @@
 				82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */,
 				82C38A881C086B5C0006A73B /* PresentingAnimator.m in Sources */,
 				82AB0CA51C2EBFC800675567 /* LineItems+CoreDataProperties.m in Sources */,
+				82A8B4131C4E610D00FCDF79 /* ImageModalViewController.m in Sources */,
 				82147FD31C452DB500D6691E /* ListingTableViewController.m in Sources */,
 				82A542891C22B3A100383253 /* VariantImagesModel.m in Sources */,
 				827DD31A1B8AE39F00714985 /* Address.m in Sources */,

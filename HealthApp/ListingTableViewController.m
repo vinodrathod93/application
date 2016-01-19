@@ -15,10 +15,11 @@
 #import "NoStores.h"
 #import "NoConnectionView.h"
 #import "ListingModel.h"
+#import "ImageModalViewController.h"
 #import "UIColor+HexString.h"
 
 
-@interface ListingTableViewController ()
+@interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) NSArray *listingArray;
 @property (nonatomic, strong) NSArray *promotionArray;
@@ -31,6 +32,8 @@
 @implementation ListingTableViewController {
     NSURLSessionDataTask *_task;
     NoConnectionView *_connectionView;
+    UITapGestureRecognizer *_tap;
+    UIImageView *_tappedImageView;
 }
 
 
@@ -38,11 +41,11 @@
     [super viewDidLoad];
     
     self.title = self.root.uppercaseString;
-    
-    
+    self.tableView.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
     
     
     [self requestListings];
+    
    
 }
 
@@ -109,20 +112,29 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ListingCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listingCellIdentifier" forIndexPath:indexPath];
     
-    
-    // Configure the cell...
+    cell.backgroundColor = [UIColor clearColor];
+    cell.tag             = indexPath.section;
     
     ListingModel *model = self.listingArray[indexPath.section];
+    
+    
+    _tap            = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayImageFullScreen:)];
+    [cell.imageview addGestureRecognizer:_tap];
+    [cell.imageview setUserInteractionEnabled:YES];
+    
+    cell.roundedContentView.layer.cornerRadius = 5.f;
+    cell.roundedContentView.layer.masksToBounds = YES;
     
     cell.name.text = model.name;
     cell.street.text = model.address;
     cell.rating.text = [NSString stringWithFormat:@"%.01f", model.ratings.floatValue];
     cell.distance.text = model.nearest_distance;
     
-    cell.imageview.backgroundColor = [UIColor lightGrayColor];
+    cell.imageview.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
     cell.imageview.layer.cornerRadius = 5.f;
     cell.imageview.layer.masksToBounds = YES;
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell.imageview sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
     
     
@@ -284,6 +296,93 @@
         [_connectionView.retryButton addTarget:self action:@selector(requestListings) forControlEvents:UIControlEventTouchUpInside];
         
         [self.navigationController.view insertSubview:_connectionView belowSubview:self.navigationController.navigationBar];
+    }];
+    
+}
+
+
+-(void)displayImageFullScreen:(UITapGestureRecognizer *)tapGesture {
+    
+    _tappedImageView = (UIImageView *)tapGesture.view;
+    
+    ListingCell *cell = (ListingCell *)[[[_tappedImageView superview] superview] superview];
+    
+    ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
+    imageModalVC.model                  = self.listingArray[cell.tag];
+    imageModalVC.transitioningDelegate = self;
+    imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
+    
+    [self presentViewController:imageModalVC animated:YES completion:nil];
+    
+}
+
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    return self;
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    return self;
+}
+
+
+#pragma mark - UIViewControllerAnimatedTransitioning
+
+-(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
+    return 1.0;
+}
+
+-(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    
+    ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
+    
+    UIView *containerView   = transitionContext.containerView;
+    
+    UIViewController *fromVC    = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toVC      = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIView *fromView            = fromVC.view;
+    UIView *toView              = toVC.view;
+    
+    CGRect beginFrame           = [containerView convertRect:cell.imageview.bounds fromView:cell];
+    
+    CGRect endFrame             = [transitionContext initialFrameForViewController:fromVC];
+    
+    endFrame                    = CGRectInset(endFrame, 40.0, 40.0);
+    
+    UIView *move                = nil;
+    if (toVC.isBeingPresented) {
+        toView.frame            = endFrame;
+        move                    = [toView snapshotViewAfterScreenUpdates:YES];
+        move.frame              = beginFrame;
+        cell.imageview.hidden   = YES;
+        
+    } else {
+        
+        ImageModalViewController *modalVC       = (ImageModalViewController *)fromVC;
+        modalVC.bigImageView.alpha              = 0.0;
+        
+        move        = [fromView snapshotViewAfterScreenUpdates:YES];
+        move.frame  = fromView.frame;
+        [fromView removeFromSuperview];
+        
+    }
+    
+    [containerView addSubview:move];
+    
+    [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:500 initialSpringVelocity:15 options:0 animations:^{
+        move.frame = toVC.isBeingPresented ? endFrame : beginFrame;
+    } completion:^(BOOL finished) {
+        if (toVC.isBeingPresented) {
+            [move removeFromSuperview];
+            toView.frame    = endFrame;
+            [containerView addSubview:toView];
+        } else {
+            cell.imageview.hidden = NO;
+        }
+        
+        [transitionContext completeTransition:YES];
     }];
     
 }
