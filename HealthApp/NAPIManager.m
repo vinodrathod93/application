@@ -52,6 +52,8 @@
         
         NSDictionary *response = (NSDictionary *)responseObject;
         
+        NSLog(@"%@", response);
+        
         NSError *responseError;
         ListingResponseModel *responseModel = [MTLJSONAdapter modelOfClass:[ListingResponseModel class] fromJSONDictionary:response error:&responseError];
         
@@ -65,6 +67,31 @@
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
+        failure(error);
+    }];
+}
+
+
+-(NSURLSessionDataTask *)getEntityDetailsWithRequest:(NSDictionary *)parameter success:(void (^)(EntityDetailsResponseModel *response))success failure:(void (^)(NSError *error))failure {
+    
+    return [self GET:kENTITY_DETAILS_PATH parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Get Details %@", downloadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSDictionary *response = (NSDictionary *)responseObject;
+        
+        NSLog(@"%@", response);
+        
+        NSError *responseError;
+        EntityDetailsResponseModel *responseModel = [MTLJSONAdapter modelOfClass:[EntityDetailsResponseModel class] fromJSONDictionary:response error:&responseError];
+        
+        if (responseError) {
+            NSLog(@"Error in Details Response: %@", responseError.localizedDescription);
+        }
+        else
+            success(responseModel);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
 }

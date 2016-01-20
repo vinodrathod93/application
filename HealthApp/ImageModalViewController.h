@@ -12,6 +12,7 @@
 @interface ImageModalViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIImageView *bigImageView;
+@property (weak, nonatomic) IBOutlet UIView *imageContentView;
 
 @property (strong, nonatomic) ListingModel *model;
 

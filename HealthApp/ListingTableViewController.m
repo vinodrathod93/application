@@ -17,6 +17,7 @@
 #import "ListingModel.h"
 #import "ImageModalViewController.h"
 #import "UIColor+HexString.h"
+#import "NEntityDetailViewController.h"
 
 
 @interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
@@ -43,6 +44,7 @@
     self.title = self.root.uppercaseString;
     self.tableView.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
     
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     [self requestListings];
     
@@ -73,8 +75,6 @@
         
         [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
     }];
-    
-    
     
     
 }
@@ -119,8 +119,8 @@
     
     
     _tap            = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayImageFullScreen:)];
-    [cell.imageview addGestureRecognizer:_tap];
-    [cell.imageview setUserInteractionEnabled:YES];
+    [cell.profileImageview addGestureRecognizer:_tap];
+    [cell.profileImageview setUserInteractionEnabled:YES];
     
     cell.roundedContentView.layer.cornerRadius = 5.f;
     cell.roundedContentView.layer.masksToBounds = YES;
@@ -130,12 +130,12 @@
     cell.rating.text = [NSString stringWithFormat:@"%.01f", model.ratings.floatValue];
     cell.distance.text = model.nearest_distance;
     
-    cell.imageview.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
-    cell.imageview.layer.cornerRadius = 5.f;
-    cell.imageview.layer.masksToBounds = YES;
+    cell.profileImageview.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
+    cell.profileImageview.layer.cornerRadius = 5.f;
+    cell.profileImageview.layer.masksToBounds = YES;
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell.imageview sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+    [cell.profileImageview sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
     
     
     cell.ratingView.notSelectedImage    = [UIImage imageNamed:@"Star"];
@@ -154,15 +154,27 @@
 }
 
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    ListingModel *model = self.listingArray[indexPath.section];
+    
+    NEntityDetailViewController *NEntityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
+    NEntityVC.cat_id    = self.category_id;
+    NEntityVC.entity_id = model.list_id.stringValue;
+    NEntityVC.title     = model.name.uppercaseString;
+    
+    [self.navigationController pushViewController:NEntityVC animated:YES];
+}
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 135.f;
+    return 140.f;
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     if (section == 0) {
-        return 30.f;
+        return 40.f;
     }
     return 5.f;
 }
@@ -171,6 +183,25 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 5.f;
 }
+
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        Location *savedLocation = [Location savedLocation];
+        
+        NSString *loc_name;
+        
+        if (savedLocation.location_name == nil)
+            loc_name            = @"No Location";
+        else
+            loc_name            = savedLocation.location_name;
+        
+        return [NSString stringWithFormat:@"%@",loc_name];
+    }
+    else
+        return @"";
+}
+
 
 
 #define Helper Methods
@@ -274,6 +305,7 @@
     }];*/
     
     
+    
     _task   = [[NAPIManager sharedManager] getServicesWithRequestModel:requestModel success:^(ListingResponseModel *response) {
         
         _listingArray = response.services;
@@ -309,6 +341,7 @@
     
     ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
     imageModalVC.model                  = self.listingArray[cell.tag];
+    
     imageModalVC.transitioningDelegate = self;
     imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
     
@@ -338,48 +371,58 @@
     
     ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
     
-    UIView *containerView   = transitionContext.containerView;
+    NSLog(@"%@", NSStringFromCGRect(cell.profileImageview.frame));
+    UIView *container       = transitionContext.containerView;
     
     UIViewController *fromVC    = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    UIViewController *toVC      = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    ImageModalViewController *toVC      = (ImageModalViewController *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
     UIView *fromView            = fromVC.view;
     UIView *toView              = toVC.view;
     
-    CGRect beginFrame           = [containerView convertRect:cell.imageview.bounds fromView:cell];
     
-    CGRect endFrame             = [transitionContext initialFrameForViewController:fromVC];
     
-    endFrame                    = CGRectInset(endFrame, 40.0, 40.0);
+    CGRect beginFrame           = [container convertRect:cell.profileImageview.frame fromView:cell.profileImageview.superview];
+    CGRect endFrame             = toView.frame;
+    
+    NSLog(@"%@",toView.subviews);
     
     UIView *move                = nil;
+    
     if (toVC.isBeingPresented) {
         toView.frame            = endFrame;
         move                    = [toView snapshotViewAfterScreenUpdates:YES];
         move.frame              = beginFrame;
-        cell.imageview.hidden   = YES;
+        cell.profileImageview.hidden   = YES;
         
     } else {
         
         ImageModalViewController *modalVC       = (ImageModalViewController *)fromVC;
-        modalVC.bigImageView.alpha              = 0.0;
+        modalVC.imageContentView.backgroundColor = [UIColor clearColor];
         
-        move        = [fromView snapshotViewAfterScreenUpdates:YES];
+        move        = [fromView snapshotViewAfterScreenUpdates:NO];
         move.frame  = fromView.frame;
+        
         [fromView removeFromSuperview];
         
     }
     
-    [containerView addSubview:move];
+    [container addSubview:move];
     
     [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:500 initialSpringVelocity:15 options:0 animations:^{
         move.frame = toVC.isBeingPresented ? endFrame : beginFrame;
+        
     } completion:^(BOOL finished) {
         if (toVC.isBeingPresented) {
+            
             [move removeFromSuperview];
             toView.frame    = endFrame;
-            [containerView addSubview:toView];
+            [container addSubview:toView];
+            
         } else {
-            cell.imageview.hidden = NO;
+            
+            
+            cell.profileImageview.hidden = NO;
         }
         
         [transitionContext completeTransition:YES];
