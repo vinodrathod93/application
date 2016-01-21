@@ -57,5 +57,5 @@ static NSString *const kDoctorsListPath = @"/api/clinics";
 /* Neediator API Manager */
 
 static NSString *const kMAIN_CATEGORIES_PATH     = @"/NeediatorWS.asmx/getCategories";
-static NSString *const kSERVICES_LISTING_PATH    = @"/NeediatorWS.asmx/getServices";
+static NSString *const kLISTING_PATH    = @"/NeediatorWS.asmx/getListing";
 static NSString *const kENTITY_DETAILS_PATH    = @"/NeediatorWS.asmx/getDetails";

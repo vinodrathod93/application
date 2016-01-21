@@ -16,18 +16,39 @@
     
     return @{
              
-             @"services"   : @"Services",
-             @"promotions" : @"Promotions"
+             @"records"         : @"records",
+             @"type"            : @"type"
              
              };
 }
 
-+(NSValueTransformer *)servicesJSONTransformer {
++(NSValueTransformer *)recordsJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[ListingModel class]];
 }
 
-+(NSValueTransformer *)promotionsJSONTransformer {
-    return [MTLJSONAdapter arrayTransformerWithModelClass:[PromotionModel class]];
++(NSValueTransformer *)typeJSONTransformer {
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(id value, BOOL *success, NSError *__autoreleasing *error) {
+        return value;
+    }];
 }
+
+-(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error {
+    self = [super initWithDictionary:dictionaryValue error:error];
+    
+    if (self == nil) return nil;
+    
+    NSLog(@"%@", dictionaryValue);
+    
+    
+    if ([dictionaryValue[@"type"] isKindOfClass:[NSDictionary class]]) {
+        
+        // nothing.
+    }
+    else
+        NSLog(@"Something is nil");
+    
+    return self;
+}
+
 
 @end

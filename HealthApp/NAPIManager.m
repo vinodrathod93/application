@@ -40,11 +40,11 @@
 
 
 
--(NSURLSessionDataTask *)getServicesWithRequestModel:(ListingRequestModel *)request success:(void (^)(ListingResponseModel *response))success failure:(void (^)(NSError *error))failure {
+-(NSURLSessionDataTask *)getListingsWithRequestModel:(ListingRequestModel *)request success:(void (^)(ListingResponseModel *response))success failure:(void (^)(NSError *error))failure {
     
     NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:request error:nil];
     
-    return [self GET:kSERVICES_LISTING_PATH parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+    return [self GET:kLISTING_PATH parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         
         NSLog(@"Get Services %@", downloadProgress.localizedDescription);
         
@@ -59,6 +59,8 @@
         
         if (responseError) {
             NSLog(@"Error in Listing Response: %@", responseError.localizedDescription);
+            
+            failure(responseError);
         }
         else
             success(responseModel);

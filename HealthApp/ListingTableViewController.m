@@ -23,7 +23,6 @@
 @interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) NSArray *listingArray;
-@property (nonatomic, strong) NSArray *promotionArray;
 
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) NoStores *noListingView;
@@ -46,16 +45,17 @@
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    [self requestListings];
     
+    [self requestListings];
    
 }
 
 
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
+    [self setNeedsStatusBarAppearanceUpdate];
     
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorFromHexString:self.nav_color]];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
@@ -85,17 +85,21 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-    
+    [_task cancel];
     [[self.navigationController.view viewWithTag:kListingNoListingTag] removeFromSuperview];
-    
     [self removeConnectionView];
     
-    [_task cancel];
+    
+}
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
 }
 
 
-
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
 
 #pragma mark - Table view data source
@@ -235,7 +239,7 @@
 -(void)shownoListingView:(Location *)location {
     
     self.noListingView = [[[NSBundle mainBundle] loadNibNamed:@"NoStores" owner:self options:nil] lastObject];
-    self.noListingView.frame = self.tableView.frame;
+    self.noListingView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
     self.noListingView.tag = kListingNoListingTag;
     self.noListingView.location.text = location.location_name;
     
@@ -269,47 +273,15 @@
     
     [self showHUD];
     
-    /*_task = [[APIManager sharedManager] GET:kSERVICES_LISTING_PATH parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"%@", downloadProgress.localizedDescription);
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    
+    
+    _task   = [[NAPIManager sharedManager] getListingsWithRequestModel:requestModel success:^(ListingResponseModel *response) {
         
-        NSDictionary *responseDictionary = (NSDictionary *)responseObject;
-        NSLog(@"Response = %@",responseDictionary);
+        _listingArray = response.records;
         
-        NSError *error;
-        
-        [self hideHUD];
-        
-        
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [self hideHUD];
-        
-        // failure
-        if (error) {
-            NSLog(@"Error %@",[error localizedDescription]);
-            
-            
-            _connectionView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionView" owner:self options:nil] lastObject];
-            _connectionView.tag = kListingConnectionViewTag;
-            _connectionView.frame = self.tableView.frame;
-            _connectionView.label.text = [error localizedDescription];
-            [_connectionView.retryButton addTarget:self action:@selector(requestListings) forControlEvents:UIControlEventTouchUpInside];
-            
-            [self.navigationController.view insertSubview:_connectionView belowSubview:self.navigationController.navigationBar];
-            
+        if (_listingArray.count == 0) {
+            [self shownoListingView:location_store];
         }
-        
-    }];*/
-    
-    
-    
-    _task   = [[NAPIManager sharedManager] getServicesWithRequestModel:requestModel success:^(ListingResponseModel *response) {
-        
-        _listingArray = response.services;
-        _promotionArray = response.promotions;
         
         [self hideHUD];
         
@@ -323,7 +295,9 @@
         
         _connectionView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionView" owner:self options:nil] lastObject];
         _connectionView.tag = kListingConnectionViewTag;
-        _connectionView.frame = self.tableView.frame;
+        _connectionView.frame = CGRectMake(0, 64.f, self.view.frame.size.width, self.view.frame.size.height);
+        
+        NSLog(@"%f, %f, %@", self.topLayoutGuide.length, self.bottomLayoutGuide.length, NSStringFromCGRect(_connectionView.frame));
         _connectionView.label.text = [error localizedDescription];
         [_connectionView.retryButton addTarget:self action:@selector(requestListings) forControlEvents:UIControlEventTouchUpInside];
         

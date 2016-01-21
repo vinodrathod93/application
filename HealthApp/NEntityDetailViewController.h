@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NEntityDetailViewController : UIViewController
+@interface NEntityDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

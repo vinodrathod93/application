@@ -8,6 +8,9 @@
 
 #import "NEntityDetailViewController.h"
 #import "EntityDetailModel.h"
+#import "NEntityDetailCell.h"
+
+#define kHeight 44
 
 @interface NEntityDetailViewController ()
 
@@ -17,17 +20,21 @@
 
 @implementation NEntityDetailViewController {
     NSMutableArray *_entityDescriptionArray;
-    NSArray *_contentArray;
+    NSMutableDictionary *_selectedIndexes;
     NSURLSessionDataTask *_task;
+    NSInteger _selectedIndex;
+    BOOL _selected;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     _entityDescriptionArray = [NSMutableArray array];
+    _selectedIndexes        = [[NSMutableDictionary alloc] init];
     
     NSDictionary *parameters = @{
                                  @"catid": self.cat_id,
@@ -76,45 +83,16 @@
 {
     static NSString *CellIdentifier = @"entityDescriptionCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    NEntityDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     if (!cell)
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[NEntityDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
+    EntityDetailModel *model    = _entityDescriptionArray[indexPath.row];
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    if ([_entityDescriptionArray[indexPath.row] isKindOfClass:[EntityDetailModel class]]) {
-        
-        EntityDetailModel *model    = _entityDescriptionArray[indexPath.row];
-        
-        cell.textLabel.text         = model.title.uppercaseString;
-        cell.textLabel.font   = [UIFont fontWithName:@"AvenirNext-Medium" size:15.f];
-        cell.indentationWidth = 20;
-        
-        if (model.body != nil) {
-            model.canBeExpanded = YES;
-            cell.accessoryView  = [self viewForDisclosureForState:NO];
-        }
-        else
-            cell.accessoryView  = nil;
-    }
-    else {
-        NSString *body          = _entityDescriptionArray[indexPath.row];
-        
-        cell.textLabel.text     = body;
-        cell.textLabel.textColor    = [UIColor darkGrayColor];
-        cell.textLabel.font   = [UIFont fontWithName:@"AvenirNext-Regular" size:13.f];
-        
-    }
-    
+    cell.titleLabel.text        = model.title.uppercaseString;
+    cell.bodyLabel.text         = model.body;
+    cell.accessoryView          = [self viewForDisclosureForState:NO];
     
     
     
@@ -125,7 +103,26 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50.0f;
+    
+    EntityDetailModel *model    = _entityDescriptionArray[indexPath.row];
+    
+    NSInteger height = [self findHeightForText:model.body havingWidth:self.view.frame.size.width andFont:[UIFont fontWithName:@"AvenirNext-Regular" size:15.f]].height;
+    
+    height = MAX(height, kHeight);
+    
+    if ([self cellIsSelected:indexPath]) {
+        return kHeight + height;
+    }
+    
+    return kHeight;
+    
+//    if (_selected && _selectedIndex == indexPath.row) {
+//        return kHeight + height;
+//    }
+//    else if (_selectedIndex == indexPath.row)
+//        return kHeight;
+//    else
+//        return kHeight;
 }
 
 
@@ -133,6 +130,16 @@
 {
     NSLog(@"Row: %ld,selected", (long)indexPath.row);
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    BOOL isSelected = ![self cellIsSelected:indexPath];
+    
+    NSNumber *selectedIndex = [NSNumber numberWithBool:isSelected];
+    [_selectedIndexes setObject:selectedIndex forKey:indexPath];
+    
+    NEntityDetailCell *cell = (NEntityDetailCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryView      = [self viewForDisclosureForState:isSelected];
+    /*
     if ([_entityDescriptionArray[indexPath.row] isKindOfClass:[EntityDetailModel class]]) {
         EntityDetailModel *model = _entityDescriptionArray[indexPath.row];
         
@@ -157,12 +164,27 @@
     }
     else
         NSLog(@"Could not proceed");
+     
+    */
+    
+    
+//    if (_selected) {
+//        _selected = NO;
+//    }
+//    else
+//        _selected = YES;
+//    
+//    _selectedIndex = indexPath.row;
+    
+    [tableView beginUpdates];
+    [tableView endUpdates];
     
     
 }
 
 
 
+/*
 
 -(void)collapseCellsFromIndexOf:(EntityDetailModel *)model indexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     
@@ -203,7 +225,7 @@
 }
 
 
-
+*/
 
 
 
@@ -234,14 +256,16 @@
     {
         imageName = @"Collapse Arrow";
     }
-    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-    [imgView setFrame:CGRectMake(0, 6, 24, 24)];
+    [imgView setContentMode:UIViewContentModeScaleAspectFit];
+    
+    [imgView setFrame:CGRectMake(0, 6, 15, 15)];
     [myView addSubview:imgView];
     return myView;
 }
 
-
+/*
 -(NSInteger) numberOfCellsToBeCollapsed:(EntityDetailModel *) model
 {
     NSInteger total = 0;
@@ -256,7 +280,24 @@
     }
     return total;
 }
+ */
 
+
+- (CGSize)findHeightForText:(NSString *)text havingWidth:(CGFloat)widthValue andFont:(UIFont *)font {
+    CGSize size = CGSizeZero;
+    if (text) {
+        //iOS 7
+        CGRect frame = [text boundingRectWithSize:CGSizeMake(widthValue, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName:font } context:nil];
+        size = CGSizeMake(frame.size.width, frame.size.height + 8.f);
+    }
+    return size;
+}
+
+-(BOOL)cellIsSelected:(NSIndexPath *)indexPath {
+    NSNumber *selectedIndex     = [_selectedIndexes objectForKey:indexPath];
+    
+    return selectedIndex == nil ? FALSE : [selectedIndex boolValue];
+}
 
 
 @end

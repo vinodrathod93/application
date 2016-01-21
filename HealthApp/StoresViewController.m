@@ -17,8 +17,6 @@
 #import "User.h"
 #import "LogSignViewController.h"
 #import "AppDelegate.h"
-#import "PresentingAnimator.h"
-#import "DismissingAnimator.h"
 #import "PopupCartViewController.h"
 #import "Order.h"
 #import "Location.h"
@@ -83,19 +81,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - UIViewControllerTransitioningDelegate
-
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
-                                                                  presentingController:(UIViewController *)presenting
-                                                                      sourceController:(UIViewController *)source
-{
-    return [PresentingAnimator new];
-}
-
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
-{
-    return [DismissingAnimator new];
-}
 
 
 #pragma mark - Table view data source & Delegate

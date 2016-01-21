@@ -10,7 +10,11 @@
 
 @interface ListingResponseModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic, copy) NSArray *services;
-@property (nonatomic, copy) NSArray *promotions;
+@property (nonatomic, copy) NSArray *records;
+@property (nonatomic, copy) NSDictionary *type;
+
+@property (nonatomic, assign) BOOL isProductType;
+@property (nonatomic, strong) NSString *urlString;
+@property (nonatomic, strong) NSDictionary *parameters;
 
 @end

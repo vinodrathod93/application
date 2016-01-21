@@ -59,6 +59,7 @@
 		825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825892811BBEB21C0032B0A3 /* DeliveryViewController.m */; };
 		826212F61BFB25BC00F75254 /* BannerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 826212F51BFB25BC00F75254 /* BannerView.xib */; };
 		826212F91BFB25CE00F75254 /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826212F81BFB25CE00F75254 /* BannerView.m */; };
+		82681EAD1C50B8FA00035E6E /* NEntityDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82681EAC1C50B8FA00035E6E /* NEntityDetailCell.m */; };
 		826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B141F1BC28C9100B6A1C3 /* OrderReviewViewController.m */; };
 		826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B14221BC28D4800B6A1C3 /* OrderReviewCell.m */; };
 		826B14261BC2904700B6A1C3 /* OrderReviewFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B14251BC2904700B6A1C3 /* OrderReviewFooterView.m */; };
@@ -110,8 +111,6 @@
 		82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BF08531C1F0B790093B8CD /* WebViewController.m */; };
 		82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82BF08571C1F18AD0093B8CD /* about_us.txt */; };
 		82C38A821C0864D70006A73B /* PopupCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A811C0864D70006A73B /* PopupCartViewController.m */; };
-		82C38A871C086B5C0006A73B /* DismissingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A841C086B5C0006A73B /* DismissingAnimator.m */; };
-		82C38A881C086B5C0006A73B /* PresentingAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A861C086B5C0006A73B /* PresentingAnimator.m */; };
 		82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A8D1C086BBE0006A73B /* UIColor+CustomColors.m */; };
 		82C722F61B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C722F51B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m */; };
 		82C722FC1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C722FB1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m */; };
@@ -257,6 +256,8 @@
 		826212F51BFB25BC00F75254 /* BannerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BannerView.xib; sourceTree = "<group>"; };
 		826212F71BFB25CE00F75254 /* BannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerView.h; sourceTree = "<group>"; };
 		826212F81BFB25CE00F75254 /* BannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
+		82681EAB1C50B8FA00035E6E /* NEntityDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEntityDetailCell.h; sourceTree = "<group>"; };
+		82681EAC1C50B8FA00035E6E /* NEntityDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEntityDetailCell.m; sourceTree = "<group>"; };
 		826B141E1BC28C9100B6A1C3 /* OrderReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderReviewViewController.h; sourceTree = "<group>"; };
 		826B141F1BC28C9100B6A1C3 /* OrderReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderReviewViewController.m; sourceTree = "<group>"; };
 		826B14211BC28D4800B6A1C3 /* OrderReviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderReviewCell.h; sourceTree = "<group>"; };
@@ -352,10 +353,6 @@
 		82BF08571C1F18AD0093B8CD /* about_us.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = about_us.txt; sourceTree = "<group>"; };
 		82C38A801C0864D70006A73B /* PopupCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupCartViewController.h; sourceTree = "<group>"; };
 		82C38A811C0864D70006A73B /* PopupCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupCartViewController.m; sourceTree = "<group>"; };
-		82C38A831C086B5C0006A73B /* DismissingAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DismissingAnimator.h; sourceTree = "<group>"; };
-		82C38A841C086B5C0006A73B /* DismissingAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissingAnimator.m; sourceTree = "<group>"; };
-		82C38A851C086B5C0006A73B /* PresentingAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentingAnimator.h; sourceTree = "<group>"; };
-		82C38A861C086B5C0006A73B /* PresentingAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentingAnimator.m; sourceTree = "<group>"; };
 		82C38A8C1C086BBE0006A73B /* UIColor+CustomColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+CustomColors.h"; sourceTree = "<group>"; };
 		82C38A8D1C086BBE0006A73B /* UIColor+CustomColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CustomColors.m"; sourceTree = "<group>"; };
 		82C38A8F1C086CE20006A73B /* Neediator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Neediator-Prefix.pch"; sourceTree = "<group>"; };
@@ -769,7 +766,6 @@
 			isa = PBXGroup;
 			children = (
 				82EF2DDB1BE8C55E00D87DE2 /* AppDelegate */,
-				82C38A891C086B650006A73B /* Animator */,
 				82EF2DB71BE8BD8F00D87DE2 /* Libraries */,
 				82EF2DDA1BE8C46900D87DE2 /* Custom CollectionViews */,
 				82EF2DD71BE8C3BE00D87DE2 /* View Models */,
@@ -816,33 +812,6 @@
 				82BD02A61B46A73C00108A0B /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		82C38A891C086B650006A73B /* Animator */ = {
-			isa = PBXGroup;
-			children = (
-				82C38A8B1C086B870006A73B /* PresentingAnimator */,
-				82C38A8A1C086B7E0006A73B /* DismissingAnimator */,
-			);
-			name = Animator;
-			sourceTree = "<group>";
-		};
-		82C38A8A1C086B7E0006A73B /* DismissingAnimator */ = {
-			isa = PBXGroup;
-			children = (
-				82C38A831C086B5C0006A73B /* DismissingAnimator.h */,
-				82C38A841C086B5C0006A73B /* DismissingAnimator.m */,
-			);
-			name = DismissingAnimator;
-			sourceTree = "<group>";
-		};
-		82C38A8B1C086B870006A73B /* PresentingAnimator */ = {
-			isa = PBXGroup;
-			children = (
-				82C38A851C086B5C0006A73B /* PresentingAnimator.h */,
-				82C38A861C086B5C0006A73B /* PresentingAnimator.m */,
-			);
-			name = PresentingAnimator;
 			sourceTree = "<group>";
 		};
 		82C722F71B7B42BA00E0C5EF /* LogIn */ = {
@@ -1217,6 +1186,8 @@
 				82147FD51C452E7D00D6691E /* ListingCell.m */,
 				82DCBED21C4CFEC0005EBDB3 /* RatingView.h */,
 				82DCBED31C4CFEC0005EBDB3 /* RatingView.m */,
+				82681EAB1C50B8FA00035E6E /* NEntityDetailCell.h */,
+				82681EAC1C50B8FA00035E6E /* NEntityDetailCell.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1680,7 +1651,6 @@
 				8233CE161B874FB200B5279B /* PaymentViewCell.m in Sources */,
 				823C46B01B7392FE00E37DBE /* ProfileViewCell.m in Sources */,
 				8230D4571C11686400F585D1 /* NavigationViewController.m in Sources */,
-				82C38A871C086B5C0006A73B /* DismissingAnimator.m in Sources */,
 				82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */,
 				82147FB71C45230D00D6691E /* ChemistResponseModel.m in Sources */,
 				823C46A91B73327600E37DBE /* DoctorDetailsViewCell.m in Sources */,
@@ -1696,7 +1666,6 @@
 				8246FE651B74B53D001D1CFF /* LogSignViewController.m in Sources */,
 				825567181B68E6D4009F013A /* AddShippingDetailsViewController.m in Sources */,
 				82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */,
-				82C38A881C086B5C0006A73B /* PresentingAnimator.m in Sources */,
 				82AB0CA51C2EBFC800675567 /* LineItems+CoreDataProperties.m in Sources */,
 				82A8B4131C4E610D00FCDF79 /* ImageModalViewController.m in Sources */,
 				82147FD31C452DB500D6691E /* ListingTableViewController.m in Sources */,
@@ -1752,6 +1721,7 @@
 				82C97ED01C19939C00E6ED4C /* Location.m in Sources */,
 				82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,
+				82681EAD1C50B8FA00035E6E /* NEntityDetailCell.m in Sources */,
 				82ED53E71C4FB58300FA7707 /* EntityDetailModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

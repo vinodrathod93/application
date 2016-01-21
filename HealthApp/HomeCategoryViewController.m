@@ -166,7 +166,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     }];
     
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
