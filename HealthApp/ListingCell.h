@@ -18,4 +18,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *rating;
 @property (weak, nonatomic) IBOutlet UILabel *distance;
 @property (weak, nonatomic) IBOutlet RatingView *ratingView;
+@property (weak, nonatomic) IBOutlet UILabel *timing;
 @end

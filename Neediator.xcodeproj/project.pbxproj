@@ -65,6 +65,7 @@
 		826B14261BC2904700B6A1C3 /* OrderReviewFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B14251BC2904700B6A1C3 /* OrderReviewFooterView.m */; };
 		826B14281BC2906800B6A1C3 /* OrderReviewFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 826B14271BC2906800B6A1C3 /* OrderReviewFooterView.xib */; };
 		826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B142D1BC2A01E00B6A1C3 /* OrderCompleteViewController.m */; };
+		826F07511C524A310033DD09 /* BookCallListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 826F07501C524A310033DD09 /* BookCallListingCell.m */; };
 		827026DE1BC650840054E16F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 827026DD1BC650840054E16F /* Reachability.m */; };
 		827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632821B4A3DB800230833 /* FBSDKCoreKit.framework */; };
 		827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632831B4A3DB800230833 /* FBSDKLoginKit.framework */; };
@@ -267,6 +268,8 @@
 		826B14271BC2906800B6A1C3 /* OrderReviewFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderReviewFooterView.xib; sourceTree = "<group>"; };
 		826B142C1BC2A01E00B6A1C3 /* OrderCompleteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderCompleteViewController.h; sourceTree = "<group>"; };
 		826B142D1BC2A01E00B6A1C3 /* OrderCompleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCompleteViewController.m; sourceTree = "<group>"; };
+		826F074F1C524A310033DD09 /* BookCallListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCallListingCell.h; sourceTree = "<group>"; };
+		826F07501C524A310033DD09 /* BookCallListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCallListingCell.m; sourceTree = "<group>"; };
 		827026DC1BC650840054E16F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		827026DD1BC650840054E16F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		827632821B4A3DB800230833 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -559,6 +562,19 @@
 				823B73811C49152F00031596 /* NAPIManager.m */,
 			);
 			name = "Neediator API";
+			sourceTree = "<group>";
+		};
+		826F074E1C524A1A0033DD09 /* Listing */ = {
+			isa = PBXGroup;
+			children = (
+				82147FD41C452E7D00D6691E /* ListingCell.h */,
+				82147FD51C452E7D00D6691E /* ListingCell.m */,
+				82DCBED21C4CFEC0005EBDB3 /* RatingView.h */,
+				82DCBED31C4CFEC0005EBDB3 /* RatingView.m */,
+				826F074F1C524A310033DD09 /* BookCallListingCell.h */,
+				826F07501C524A310033DD09 /* BookCallListingCell.m */,
+			);
+			name = Listing;
 			sourceTree = "<group>";
 		};
 		827632861B4A3DC900230833 /* Frameworks */ = {
@@ -1182,10 +1198,7 @@
 				82EF2DCC1BE8C0DA00D87DE2 /* Doctor Details */,
 				82F80CD21C1ED8A600C8E076 /* No Stores View */,
 				82A2659D1C21848A0031BDC9 /* Custom TextField */,
-				82147FD41C452E7D00D6691E /* ListingCell.h */,
-				82147FD51C452E7D00D6691E /* ListingCell.m */,
-				82DCBED21C4CFEC0005EBDB3 /* RatingView.h */,
-				82DCBED31C4CFEC0005EBDB3 /* RatingView.m */,
+				826F074E1C524A1A0033DD09 /* Listing */,
 				82681EAB1C50B8FA00035E6E /* NEntityDetailCell.h */,
 				82681EAC1C50B8FA00035E6E /* NEntityDetailCell.m */,
 			);
@@ -1642,6 +1655,7 @@
 				829F73941C257FEE001670A8 /* CustomCollectionViewCell.m in Sources */,
 				823B738E1C49262000031596 /* UIColor+HexString.m in Sources */,
 				82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */,
+				826F07511C524A310033DD09 /* BookCallListingCell.m in Sources */,
 				82147FBA1C45272B00D6691E /* ListingModel.m in Sources */,
 				8286B2511BF089D600AFC533 /* ListingRequestModel.m in Sources */,
 				82FB520C1C281B2500E19626 /* LoginView.m in Sources */,

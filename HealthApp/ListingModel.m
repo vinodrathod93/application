@@ -19,9 +19,23 @@
              @"city"                : @"city",
              @"mobile"              : @"mobile",
              @"nearest_distance"    : @"distance",
-             @"ratings"             : @"ratings"
+             @"ratings"             : @"ratings",
+             @"timing"              : @"timing",
+             @"isBook"              : @"book",
+             @"isCall"              : @"call"
              
              };
+}
+
+-(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error {
+    self = [super initWithDictionary:dictionaryValue error:error];
+    
+    if (self == nil) return nil;
+    
+    NSLog(@"Dictionary value %@", dictionaryValue);
+    
+    
+    return self;
 }
 
 @end

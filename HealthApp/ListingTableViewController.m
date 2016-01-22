@@ -18,6 +18,7 @@
 #import "ImageModalViewController.h"
 #import "UIColor+HexString.h"
 #import "NEntityDetailViewController.h"
+#import "BookCallListingCell.h"
 
 
 @interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
@@ -34,6 +35,7 @@
     NoConnectionView *_connectionView;
     UITapGestureRecognizer *_tap;
     UIImageView *_tappedImageView;
+    BOOL _isBooking;
 }
 
 
@@ -114,13 +116,38 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ListingCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listingCellIdentifier" forIndexPath:indexPath];
     
-    cell.backgroundColor = [UIColor clearColor];
-    cell.tag             = indexPath.section;
+
     
     ListingModel *model = self.listingArray[indexPath.section];
     
+    NSString *cellIdentifier;
+    id cell;
+    
+    if (model.isBook == [NSNumber numberWithBool:YES] || model.isCall == [NSNumber numberWithBool:YES]) {
+        _isBooking      = YES;
+        cellIdentifier  = @"BookCallCellIdentifier";
+        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        [self configureBookCallCell:cell withModel:model];
+    }
+    else {
+        cellIdentifier = @"listingCellIdentifier";
+        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        [self configureListingCell:cell withModel:model];
+    }
+    
+    
+    
+    
+    return cell;
+    
+}
+
+
+
+-(void)configureListingCell:(ListingCell *)cell withModel:(ListingModel *)model {
+    
+    cell.backgroundColor = [UIColor clearColor];
     
     _tap            = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayImageFullScreen:)];
     [cell.profileImageview addGestureRecognizer:_tap];
@@ -132,7 +159,8 @@
     cell.name.text = model.name;
     cell.street.text = model.address;
     cell.rating.text = [NSString stringWithFormat:@"%.01f", model.ratings.floatValue];
-    cell.distance.text = model.nearest_distance;
+    cell.distance.text = [NSString stringWithFormat:@"◉ %@",model.nearest_distance];
+    cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",model.timing];
     
     cell.profileImageview.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
     cell.profileImageview.layer.cornerRadius = 5.f;
@@ -154,8 +182,61 @@
     cell.ratingView.leftMargin          = 0.f;
     
     
-    return cell;
 }
+
+
+-(void)configureBookCallCell:(BookCallListingCell *)cell withModel:(ListingModel *)model {
+    
+    cell.backgroundColor = [UIColor clearColor];
+    
+    
+    _tap            = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayImageFullScreen:)];
+    [cell.profileImageview addGestureRecognizer:_tap];
+    [cell.profileImageview setUserInteractionEnabled:YES];
+    
+    cell.corneredView.layer.cornerRadius = 5.f;
+    cell.corneredView.layer.masksToBounds = YES;
+    
+    cell.name.text = model.name;
+    cell.address.text = model.address;
+    cell.ratingLabel.text = [NSString stringWithFormat:@"%.01f", model.ratings.floatValue];
+    cell.distance.text = [NSString stringWithFormat:@"◉ %@",model.nearest_distance];
+    cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",model.timing];
+    
+    cell.profileImageview.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
+    cell.profileImageview.layer.cornerRadius = 5.f;
+    cell.profileImageview.layer.masksToBounds = YES;
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [cell.profileImageview sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+    
+    
+    cell.ratingView.notSelectedImage    = [UIImage imageNamed:@"Star"];
+    cell.ratingView.halfSelectedImage   = [UIImage imageNamed:@"Star Half Empty"];
+    cell.ratingView.fullSelectedImage   = [UIImage imageNamed:@"Star Filled"];
+    
+    cell.ratingView.rating              = model.ratings.floatValue;
+    cell.ratingView.editable            = NO;
+    cell.ratingView.maxRating           = 5;
+    cell.ratingView.minImageSize        = CGSizeMake(10.f, 10.f);
+    cell.ratingView.midMargin           = 0.f;
+    cell.ratingView.leftMargin          = 0.f;
+    
+    
+    cell.button.layer.cornerRadius      = 5.f;
+    cell.button.layer.masksToBounds     = YES;
+    [cell.button addTarget:self action:@selector(goToAppointmentPage) forControlEvents:UIControlEventTouchUpInside];
+    
+    NSString *title                     = model.isBook ? @"BOOK" : model.isCall ? @"CALL" : @"";
+    [cell.button setTitle:title forState:UIControlStateNormal];
+    
+    if ([title isEqualToString:@""]) {
+        [cell.button removeFromSuperview];
+    }
+    
+}
+
+
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -165,6 +246,7 @@
     NEntityVC.cat_id    = self.category_id;
     NEntityVC.entity_id = model.list_id.stringValue;
     NEntityVC.title     = model.name.uppercaseString;
+    NEntityVC.isBooking = _isBooking;
     
     [self.navigationController pushViewController:NEntityVC animated:YES];
 }
@@ -343,9 +425,7 @@
 
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     
-    ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
     
-    NSLog(@"%@", NSStringFromCGRect(cell.profileImageview.frame));
     UIView *container       = transitionContext.containerView;
     
     UIViewController *fromVC    = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
@@ -355,9 +435,20 @@
     UIView *toView              = toVC.view;
     
     
-    
-    CGRect beginFrame           = [container convertRect:cell.profileImageview.frame fromView:cell.profileImageview.superview];
+    CGRect beginFrame;
     CGRect endFrame             = toView.frame;
+    
+    if (_isBooking) {
+        BookCallListingCell *cell = (BookCallListingCell *)[[[_tappedImageView superview] superview] superview];
+        beginFrame           = [container convertRect:cell.profileImageview.frame fromView:cell.profileImageview.superview];
+    }
+    else {
+        ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
+        beginFrame           = [container convertRect:cell.profileImageview.frame fromView:cell.profileImageview.superview];
+    }
+    
+    
+    
     
     NSLog(@"%@",toView.subviews);
     
@@ -367,7 +458,16 @@
         toView.frame            = endFrame;
         move                    = [toView snapshotViewAfterScreenUpdates:YES];
         move.frame              = beginFrame;
-        cell.profileImageview.hidden   = YES;
+        
+        if (_isBooking) {
+            BookCallListingCell *cell = (BookCallListingCell *)[[[_tappedImageView superview] superview] superview];
+            cell.profileImageview.hidden   = YES;
+        }
+        else {
+            ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
+            cell.profileImageview.hidden   = YES;
+        }
+        
         
     } else {
         
@@ -395,8 +495,15 @@
             
         } else {
             
+            if (_isBooking) {
+                BookCallListingCell *cell = (BookCallListingCell *)[[[_tappedImageView superview] superview] superview];
+                cell.profileImageview.hidden   = NO;
+            }
+            else {
+                ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
+                cell.profileImageview.hidden   = NO;
+            }
             
-            cell.profileImageview.hidden = NO;
         }
         
         [transitionContext completeTransition:YES];
@@ -404,5 +511,9 @@
     
 }
 
+
+-(void)goToAppointmentPage {
+    NSLog(@"Appointment Page");
+}
 
 @end

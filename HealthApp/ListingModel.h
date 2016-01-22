@@ -18,6 +18,10 @@
 @property (nonatomic, copy) NSString *mobile;
 @property (nonatomic, copy) NSString *nearest_distance;
 @property (nonatomic, copy) NSNumber *ratings;
+@property (nonatomic, copy) NSString *timing;
+
+@property (nonatomic, copy) NSNumber *isBook;
+@property (nonatomic, copy) NSNumber *isCall;
 
 
 @end

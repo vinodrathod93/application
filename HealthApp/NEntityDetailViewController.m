@@ -11,6 +11,7 @@
 #import "NEntityDetailCell.h"
 
 #define kHeight 44
+#define kFooterHeight 35
 
 @interface NEntityDetailViewController ()
 
@@ -22,14 +23,14 @@
     NSMutableArray *_entityDescriptionArray;
     NSMutableDictionary *_selectedIndexes;
     NSURLSessionDataTask *_task;
-    NSInteger _selectedIndex;
-    BOOL _selected;
+    CGFloat _footerHeight;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     
+    _footerHeight = 0.0f;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
@@ -47,6 +48,7 @@
         
         
         [_entityDescriptionArray addObjectsFromArray:response.details];
+        _footerHeight   = kFooterHeight;
         
         [self hideHUD];
         [self.tableView reloadData];
@@ -92,7 +94,7 @@
     
     cell.titleLabel.text        = model.title.uppercaseString;
     cell.bodyLabel.text         = model.body;
-    cell.accessoryView          = [self viewForDisclosureForState:NO];
+    cell.accessoryView          = [self viewForDisclosureForState:[self cellIsSelected:indexPath]];
     
     
     
@@ -110,19 +112,11 @@
     
     height = MAX(height, kHeight);
     
-    if ([self cellIsSelected:indexPath]) {
+    if (![self cellIsSelected:indexPath]) {
         return kHeight + height;
     }
     
     return kHeight;
-    
-//    if (_selected && _selectedIndex == indexPath.row) {
-//        return kHeight + height;
-//    }
-//    else if (_selectedIndex == indexPath.row)
-//        return kHeight;
-//    else
-//        return kHeight;
 }
 
 
@@ -139,42 +133,7 @@
     
     NEntityDetailCell *cell = (NEntityDetailCell *)[tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryView      = [self viewForDisclosureForState:isSelected];
-    /*
-    if ([_entityDescriptionArray[indexPath.row] isKindOfClass:[EntityDetailModel class]]) {
-        EntityDetailModel *model = _entityDescriptionArray[indexPath.row];
-        
-        UITableViewCell *selected_cell = [tableView cellForRowAtIndexPath:indexPath];
-        
-        if (model.canBeExpanded) {
-            if (model.isExpanded) {
-                [self collapseCellsFromIndexOf:model indexPath:indexPath tableView:tableView];
-                selected_cell.accessoryView = [self viewForDisclosureForState:NO];
-            }
-            else {
-                [self expandCellsFromIndexOf:model indexPath:indexPath tableView:tableView];
-                selected_cell.accessoryView = [self viewForDisclosureForState:YES];
-            }
-        }
-        else {
-            
-            NSLog(@"Tapped Heyy");
-            
-        }
-
-    }
-    else
-        NSLog(@"Could not proceed");
-     
-    */
     
-    
-//    if (_selected) {
-//        _selected = NO;
-//    }
-//    else
-//        _selected = YES;
-//    
-//    _selectedIndex = indexPath.row;
     
     [tableView beginUpdates];
     [tableView endUpdates];
@@ -183,53 +142,53 @@
 }
 
 
-
-/*
-
--(void)collapseCellsFromIndexOf:(EntityDetailModel *)model indexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    
-    NSInteger collapseCount = [self numberOfCellsToBeCollapsed:model];
-    NSRange collapseRange   = NSMakeRange(indexPath.row + 1, collapseCount);
-    
-    [_entityDescriptionArray removeObjectsInRange:collapseRange];
-    model.isExpanded    = NO;
-    
-    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-    for (int i = 0; i<collapseRange.length; i++) {
-        [indexPaths addObject:[NSIndexPath indexPathForRow:collapseRange.location+i inSection:0]];
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 130.f;
     }
-    // Animate and delete
-    [tableView deleteRowsAtIndexPaths:indexPaths
-                     withRowAnimation:UITableViewRowAnimationLeft];
-    
+    else
+        return 0.f;
 }
 
 
-
--(void)expandCellsFromIndexOf:(EntityDetailModel *)model indexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
-    
-    if (model.body != nil) {
-        model.isExpanded = YES;
-        
-        [_entityDescriptionArray insertObject:model.body atIndex:indexPath.row + 1];
-        
-        NSRange expandedRange = NSMakeRange(indexPath.row, 1);
-        
-        NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-        for (int i=0; i< expandedRange.length; i++) {
-            [indexPaths addObject:[NSIndexPath indexPathForRow:expandedRange.location + i + 1 inSection:0]];
-        }
-        
-        [tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 0 && self.isBooking == TRUE) {
+        return _footerHeight;
     }
+    return 0.0f;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (section == 0 && self.isBooking == TRUE) {
+        
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), _footerHeight)];
+        [button setBackgroundColor:[UIColor blackColor]];
+        [button setTitle:@"MAKE APPOINTMENT" forState:UIControlStateNormal];
+        [button.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-DemiBold" size:16.f]];
+        [button.titleLabel setTextColor:[UIColor whiteColor]];
+        
+        return button;
+    }
+    else
+        return nil;
+}
 
-*/
-
-
-
-
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 130)];
+        UIImageView *entityImage = [[UIImageView alloc] initWithFrame:CGRectMake(headerView.frame.size.width/2 - 75, 25, 150, 100)];
+        entityImage.layer.cornerRadius = 3.f;
+        entityImage.layer.borderColor = [UIColor blackColor].CGColor;
+        entityImage.layer.borderWidth = 2.f;
+        entityImage.layer.masksToBounds = YES;
+        
+        [headerView addSubview:entityImage];
+        
+        return headerView;
+    }
+    else
+        return nil;
+}
 
 
 #pragma mark - Private Methods
@@ -265,22 +224,7 @@
     return myView;
 }
 
-/*
--(NSInteger) numberOfCellsToBeCollapsed:(EntityDetailModel *) model
-{
-    NSInteger total = 0;
-    
-    if(model.isExpanded)
-    {
-        // Set the expanded status to no
-        model.isExpanded = NO;
-        
-        total = 1;
-        
-    }
-    return total;
-}
- */
+
 
 
 - (CGSize)findHeightForText:(NSString *)text havingWidth:(CGFloat)widthValue andFont:(UIFont *)font {

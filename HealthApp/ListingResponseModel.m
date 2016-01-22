@@ -43,9 +43,15 @@
     if ([dictionaryValue[@"type"] isKindOfClass:[NSDictionary class]]) {
         
         // nothing.
+        NSDictionary *type  = dictionaryValue[@"type"];
+        self.isProductType  = type[@"IsProduct"];
+        self.urlString      = type[@"Url"];
+        self.parameters     = type[@"Parameters"];
+        
     }
     else
         NSLog(@"Something is nil");
+    
     
     return self;
 }
