@@ -19,6 +19,7 @@
 #import "UIColor+HexString.h"
 #import "NEntityDetailViewController.h"
 #import "BookCallListingCell.h"
+#import "BookingViewController.h"
 
 
 @interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
@@ -159,7 +160,7 @@
     cell.name.text = model.name;
     cell.street.text = model.address;
     cell.rating.text = [NSString stringWithFormat:@"%.01f", model.ratings.floatValue];
-    cell.distance.text = [NSString stringWithFormat:@"◉ %@",model.nearest_distance];
+    cell.distance.text = [NSString stringWithFormat:@"📍 %@",model.nearest_distance];
     cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",model.timing];
     
     cell.profileImageview.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
@@ -200,7 +201,7 @@
     cell.name.text = model.name;
     cell.address.text = model.address;
     cell.ratingLabel.text = [NSString stringWithFormat:@"%.01f", model.ratings.floatValue];
-    cell.distance.text = [NSString stringWithFormat:@"◉ %@",model.nearest_distance];
+    cell.distance.text = [NSString stringWithFormat:@"📍 %@",model.nearest_distance];
     cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",model.timing];
     
     cell.profileImageview.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
@@ -225,7 +226,7 @@
     
     cell.button.layer.cornerRadius      = 5.f;
     cell.button.layer.masksToBounds     = YES;
-    [cell.button addTarget:self action:@selector(goToAppointmentPage) forControlEvents:UIControlEventTouchUpInside];
+    [cell.button addTarget:self action:@selector(goToAppointmentPage:) forControlEvents:UIControlEventTouchUpInside];
     
     NSString *title                     = model.isBook ? @"BOOK" : model.isCall ? @"CALL" : @"";
     [cell.button setTitle:title forState:UIControlStateNormal];
@@ -247,6 +248,9 @@
     NEntityVC.entity_id = model.list_id.stringValue;
     NEntityVC.title     = model.name.uppercaseString;
     NEntityVC.isBooking = _isBooking;
+    
+    NEntityVC.entity_name = model.name;
+    NEntityVC.entity_meta_info = @"Meta Info";
     
     [self.navigationController pushViewController:NEntityVC animated:YES];
 }
@@ -290,7 +294,7 @@
 
 
 
-#define Helper Methods
+#pragma mark - Helper Methods
 
 -(void)showHUD {
     self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -395,8 +399,10 @@
     
     ListingCell *cell = (ListingCell *)[[[_tappedImageView superview] superview] superview];
     
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
     ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
-    imageModalVC.model                  = self.listingArray[cell.tag];
+    imageModalVC.model                  = self.listingArray[indexPath.section];
     
     imageModalVC.transitioningDelegate = self;
     imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
@@ -512,8 +518,22 @@
 }
 
 
--(void)goToAppointmentPage {
-    NSLog(@"Appointment Page");
+-(void)goToAppointmentPage:(UIButton *)sender {
+    
+    ListingCell *cell = (ListingCell *)[[[sender superview] superview] superview];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSLog(@"Cell index %ld", (long)indexPath.section);
+    
+    ListingModel *model = self.listingArray[indexPath.section];
+    
+    BookingViewController *bookingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"makeBookingVC"];
+    bookingVC.category_id               = self.category_id;
+    bookingVC.entity_id                 = model.list_id.stringValue;
+    bookingVC.entity_name               = model.name;
+    bookingVC.entity_meta_info          = model.image_url;
+    
+    [self.navigationController pushViewController:bookingVC animated:YES];
 }
 
 @end

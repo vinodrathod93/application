@@ -15,6 +15,7 @@ pod 'MWPhotoBrowser'
 pod 'pop'
 pod 'RMPZoomTransitionAnimator'
 pod 'Appirater'
+pod 'DIDatepicker'
 
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.1'

@@ -9,9 +9,10 @@
 #import "NEntityDetailViewController.h"
 #import "EntityDetailModel.h"
 #import "NEntityDetailCell.h"
+#import "BookingViewController.h"
 
 #define kHeight 44
-#define kFooterHeight 35
+#define kFooterHeight 50
 
 @interface NEntityDetailViewController ()
 
@@ -24,6 +25,7 @@
     NSMutableDictionary *_selectedIndexes;
     NSURLSessionDataTask *_task;
     CGFloat _footerHeight;
+    BOOL _hasLoaded;
 }
 
 - (void)viewDidLoad {
@@ -49,6 +51,7 @@
         
         [_entityDescriptionArray addObjectsFromArray:response.details];
         _footerHeight   = kFooterHeight;
+        _hasLoaded      = YES;
         
         [self hideHUD];
         [self.tableView reloadData];
@@ -95,8 +98,6 @@
     cell.titleLabel.text        = model.title.uppercaseString;
     cell.bodyLabel.text         = model.body;
     cell.accessoryView          = [self viewForDisclosureForState:[self cellIsSelected:indexPath]];
-    
-    
     
     return cell;
 }
@@ -152,18 +153,20 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 0 && self.isBooking == TRUE) {
+    if (section == 0 && self.isBooking == TRUE && _hasLoaded == TRUE) {
         return _footerHeight;
     }
-    return 0.0f;
+    else
+        return 0.0f;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (section == 0 && self.isBooking == TRUE) {
+    if (section == 0 && self.isBooking == TRUE && _hasLoaded == TRUE) {
         
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), _footerHeight)];
         [button setBackgroundColor:[UIColor blackColor]];
         [button setTitle:@"MAKE APPOINTMENT" forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(makeAppointmentTapped:) forControlEvents:UIControlEventTouchUpInside];
         [button.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-DemiBold" size:16.f]];
         [button.titleLabel setTextColor:[UIColor whiteColor]];
         
@@ -176,7 +179,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 130)];
-        UIImageView *entityImage = [[UIImageView alloc] initWithFrame:CGRectMake(headerView.frame.size.width/2 - 75, 25, 150, 100)];
+        UIImageView *entityImage = [[UIImageView alloc] initWithFrame:CGRectMake(headerView.frame.size.width/2 - 75, headerView.frame.size.height/2 - 50, 150, 100)];
         entityImage.layer.cornerRadius = 3.f;
         entityImage.layer.borderColor = [UIColor blackColor].CGColor;
         entityImage.layer.borderWidth = 2.f;
@@ -218,7 +221,6 @@
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
     [imgView setContentMode:UIViewContentModeScaleAspectFit];
-    
     [imgView setFrame:CGRectMake(0, 6, 15, 15)];
     [myView addSubview:imgView];
     return myView;
@@ -243,5 +245,17 @@
     return selectedIndex == nil ? FALSE : [selectedIndex boolValue];
 }
 
+
+-(void)makeAppointmentTapped:(UIButton *)button {
+    NSLog(@"%ld", (long)button.tag);
+    
+    BookingViewController *bookingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"makeBookingVC"];
+    bookingVC.category_id               = self.cat_id;
+    bookingVC.entity_id                 = self.entity_id;
+    bookingVC.entity_name               = self.entity_name;
+    bookingVC.entity_meta_info          = self.entity_meta_info;
+    
+    [self.navigationController pushViewController:bookingVC animated:YES];
+}
 
 @end

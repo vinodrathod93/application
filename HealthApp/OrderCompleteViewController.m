@@ -8,6 +8,7 @@
 
 #import "OrderCompleteViewController.h"
 #import "PaymentViewController.h"
+#import "BookConfirmViewController.h"
 
 @interface OrderCompleteViewController ()
 
@@ -25,6 +26,11 @@
     for(UIViewController* vc in self.navigationController.viewControllers)
     {
         if ([vc isKindOfClass:[PaymentViewController class]]) {
+            [viewControllers removeObject:vc];
+            break;
+        }
+        
+        if ([vc isKindOfClass:[BookConfirmViewController class]]) {
             [viewControllers removeObject:vc];
             break;
         }

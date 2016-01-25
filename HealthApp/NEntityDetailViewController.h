@@ -16,4 +16,7 @@
 @property (nonatomic, strong) NSString *entity_id;
 @property (nonatomic, assign) BOOL isBooking;
 
+
+@property (nonatomic, strong) NSString *entity_name;
+@property (nonatomic, strong) NSString *entity_meta_info;
 @end

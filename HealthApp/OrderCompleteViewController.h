@@ -13,5 +13,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *order_number;
 
 @property (nonatomic, strong) NSString *order_id;
+
+
+@property (weak, nonatomic) IBOutlet UILabel *message;
+@property (weak, nonatomic) IBOutlet UIButton *viewButton;
+
 - (IBAction)viewOrderPressed:(id)sender;
 @end

@@ -87,6 +87,11 @@
 		82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E911BEB1D0100F0EDE3 /* APIManager.m */; };
 		82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E981BEB1D9300F0EDE3 /* StoresModel.m */; };
 		829F73941C257FEE001670A8 /* CustomCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 829F73931C257FEE001670A8 /* CustomCollectionViewCell.m */; };
+		82A1D3CC1C5602BF00E6B1D3 /* BookingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A1D3CB1C5602BF00E6B1D3 /* BookingViewController.m */; };
+		82A1D3CF1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A1D3CE1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.m */; };
+		82A1D3D31C562C6500E6B1D3 /* TimeSlotResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A1D3D21C562C6400E6B1D3 /* TimeSlotResponseModel.m */; };
+		82A1D3D61C562DD100E6B1D3 /* TimeSlotModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A1D3D51C562DD100E6B1D3 /* TimeSlotModel.m */; };
+		82A1D3DA1C5663F700E6B1D3 /* BookConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A1D3D91C5663F700E6B1D3 /* BookConfirmViewController.m */; };
 		82A2659C1C2169B50031BDC9 /* NTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A2659B1C2169B50031BDC9 /* NTextField.m */; };
 		82A265A01C2195830031BDC9 /* MyOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */; };
 		82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A265A31C2195D00031BDC9 /* MyOrdersCell.m */; };
@@ -308,6 +313,16 @@
 		82999E981BEB1D9300F0EDE3 /* StoresModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoresModel.m; sourceTree = "<group>"; };
 		829F73921C257FEE001670A8 /* CustomCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionViewCell.h; sourceTree = "<group>"; };
 		829F73931C257FEE001670A8 /* CustomCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewCell.m; sourceTree = "<group>"; };
+		82A1D3CA1C5602BF00E6B1D3 /* BookingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookingViewController.h; sourceTree = "<group>"; };
+		82A1D3CB1C5602BF00E6B1D3 /* BookingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookingViewController.m; sourceTree = "<group>"; };
+		82A1D3CD1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSlotCollectionViewCell.h; sourceTree = "<group>"; };
+		82A1D3CE1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeSlotCollectionViewCell.m; sourceTree = "<group>"; };
+		82A1D3D11C562C6400E6B1D3 /* TimeSlotResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSlotResponseModel.h; sourceTree = "<group>"; };
+		82A1D3D21C562C6400E6B1D3 /* TimeSlotResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeSlotResponseModel.m; sourceTree = "<group>"; };
+		82A1D3D41C562DD100E6B1D3 /* TimeSlotModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSlotModel.h; sourceTree = "<group>"; };
+		82A1D3D51C562DD100E6B1D3 /* TimeSlotModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeSlotModel.m; sourceTree = "<group>"; };
+		82A1D3D81C5663F700E6B1D3 /* BookConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookConfirmViewController.h; sourceTree = "<group>"; };
+		82A1D3D91C5663F700E6B1D3 /* BookConfirmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookConfirmViewController.m; sourceTree = "<group>"; };
 		82A2659A1C2169B50031BDC9 /* NTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextField.h; sourceTree = "<group>"; };
 		82A2659B1C2169B50031BDC9 /* NTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTextField.m; sourceTree = "<group>"; };
 		82A2659E1C2195830031BDC9 /* MyOrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersViewController.h; sourceTree = "<group>"; };
@@ -687,6 +702,26 @@
 			name = "Add to Cart CoreData";
 			sourceTree = "<group>";
 		};
+		82A1D3D01C562BC800E6B1D3 /* Entity Details */ = {
+			isa = PBXGroup;
+			children = (
+				82ED53E21C4FB48100FA7707 /* EntityDetailsResponseModel.h */,
+				82ED53E31C4FB48100FA7707 /* EntityDetailsResponseModel.m */,
+				82ED53E51C4FB58300FA7707 /* EntityDetailModel.h */,
+				82ED53E61C4FB58300FA7707 /* EntityDetailModel.m */,
+			);
+			name = "Entity Details";
+			sourceTree = "<group>";
+		};
+		82A1D3D71C5633D800E6B1D3 /* Entity Details Page */ = {
+			isa = PBXGroup;
+			children = (
+				82ED53DD1C4FAFC500FA7707 /* NEntityDetailViewController.h */,
+				82ED53DE1C4FAFC500FA7707 /* NEntityDetailViewController.m */,
+			);
+			name = "Entity Details Page";
+			sourceTree = "<group>";
+		};
 		82A265991C21473B0031BDC9 /* More */ = {
 			isa = PBXGroup;
 			children = (
@@ -843,15 +878,16 @@
 			isa = PBXGroup;
 			children = (
 				824C25521B56374900C58F97 /* Categories.plist */,
+				82A1D3D01C562BC800E6B1D3 /* Entity Details */,
 				82147FBF1C452A8700D6691E /* Request Model */,
 				82147FC01C452AA800D6691E /* Listing Model */,
 				82DCBECD1C4CE3F6005EBDB3 /* Category */,
 				82DCBECE1C4CE3FF005EBDB3 /* Promotions */,
 				82ED53E01C4FB39800FA7707 /* Spree */,
-				82ED53E21C4FB48100FA7707 /* EntityDetailsResponseModel.h */,
-				82ED53E31C4FB48100FA7707 /* EntityDetailsResponseModel.m */,
-				82ED53E51C4FB58300FA7707 /* EntityDetailModel.h */,
-				82ED53E61C4FB58300FA7707 /* EntityDetailModel.m */,
+				82A1D3D11C562C6400E6B1D3 /* TimeSlotResponseModel.h */,
+				82A1D3D21C562C6400E6B1D3 /* TimeSlotResponseModel.m */,
+				82A1D3D41C562DD100E6B1D3 /* TimeSlotModel.h */,
+				82A1D3D51C562DD100E6B1D3 /* TimeSlotModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1020,10 +1056,13 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				82A1D3D81C5663F700E6B1D3 /* BookConfirmViewController.h */,
+				82A1D3D91C5663F700E6B1D3 /* BookConfirmViewController.m */,
+				82A1D3CA1C5602BF00E6B1D3 /* BookingViewController.h */,
+				82A1D3CB1C5602BF00E6B1D3 /* BookingViewController.m */,
 				82A8B4141C4E611C00FCDF79 /* Image Modal */,
 				823B73771C48F17000031596 /* Services Listing */,
-				82ED53DD1C4FAFC500FA7707 /* NEntityDetailViewController.h */,
-				82ED53DE1C4FAFC500FA7707 /* NEntityDetailViewController.m */,
+				82A1D3D71C5633D800E6B1D3 /* Entity Details Page */,
 				82ED53E11C4FB3B700FA7707 /* Spree */,
 			);
 			name = Controllers;
@@ -1355,6 +1394,8 @@
 		82EF2DDA1BE8C46900D87DE2 /* Custom CollectionViews */ = {
 			isa = PBXGroup;
 			children = (
+				82A1D3CD1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.h */,
+				82A1D3CE1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.m */,
 				8250A3251B54E9D70026ADCE /* HeaderSliderView.h */,
 				8250A3261B54E9D70026ADCE /* HeaderSliderView.m */,
 				82395A9A1B53A77300581EB4 /* CategoryViewCell.h */,
@@ -1647,7 +1688,9 @@
 				82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */,
 				82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */,
 				82D3840C1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m in Sources */,
+				82A1D3D61C562DD100E6B1D3 /* TimeSlotModel.m in Sources */,
 				823B73821C49152F00031596 /* NAPIManager.m in Sources */,
+				82A1D3CC1C5602BF00E6B1D3 /* BookingViewController.m in Sources */,
 				82EA68061C43D89900F9924D /* ClinicsModel.m in Sources */,
 				82147FBD1C4528ED00D6691E /* MetaPagingModel.m in Sources */,
 				82ED53E41C4FB48100FA7707 /* EntityDetailsResponseModel.m in Sources */,
@@ -1702,11 +1745,13 @@
 				82327F6E1B60B0EB00D92889 /* DetailProductViewModel.m in Sources */,
 				825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */,
 				826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */,
+				82A1D3D31C562C6500E6B1D3 /* TimeSlotResponseModel.m in Sources */,
 				82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */,
 				827026DE1BC650840054E16F /* Reachability.m in Sources */,
 				823C46A61B73226900E37DBE /* DoctorDetailsViewController.m in Sources */,
 				8233CE101B873B8B00B5279B /* PaymentViewController.m in Sources */,
 				823F71B41C1B21F500E43731 /* NoStores.m in Sources */,
+				82A1D3DA1C5663F700E6B1D3 /* BookConfirmViewController.m in Sources */,
 				824AE0801BF9B1D4008A49A9 /* StoreTaxonsViewController.m in Sources */,
 				82D3840F1C2C0DB700D05FB7 /* PaymentDetailViewCell.m in Sources */,
 				823B737F1C49149F00031596 /* NSessionManager.m in Sources */,
@@ -1732,6 +1777,7 @@
 				82EA68001C43BB6B00F9924D /* DoctorModel.m in Sources */,
 				82147FCD1C452CD000D6691E /* RestaurantResponseModel.m in Sources */,
 				8286B2581BF08F3F00AFC533 /* StoreRealm.m in Sources */,
+				82A1D3CF1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.m in Sources */,
 				82C97ED01C19939C00E6ED4C /* Location.m in Sources */,
 				82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,

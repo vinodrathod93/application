@@ -16,7 +16,7 @@
 //#define REGISTER_URL @"http://chemistplus.in/register_test.php"
 //#define PROFILE_URL @"https://graph.facebook.com/%@/picture?type=large"
 
-#define kSign_in_url @"http://www.elnuur.com/api/users/sign_in"
+#define kSign_in_url @"http://neediator.in/NeediatorWS.asmx/checklogin"
 
 @interface LogSignViewController ()
 
@@ -122,7 +122,7 @@ typedef void(^completion)(BOOL finished);
 -(void)submitSigninDataWithCompletion:(completion)isLoggedIn {
     
     NSURL *url = [NSURL URLWithString:kSign_in_url];
-    NSString *user_data = [NSString stringWithFormat:@"user[email]=%@&user[password]=%@",self.emailField.text, self.passwordField.text];
+    NSString *user_data = [NSString stringWithFormat:@"username=%@&password=%@",self.emailField.text, self.passwordField.text];
     NSData *post_data = [NSData dataWithBytes:[user_data UTF8String] length:[user_data length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
@@ -160,13 +160,12 @@ typedef void(^completion)(BOOL finished);
                     } else if (url_response.statusCode == 200) {
                         NSLog(@"JSON %@",json);
                         
+                        NSArray *login     = [json valueForKey:@"checklogin"];
+                        NSDictionary *data = [login lastObject];
+                        
                         User *user              = [[User alloc]init];
-                        user.userID             = [json valueForKey:@"id"];
-                        user.access_token       = [json valueForKey:@"access_token"];
-                        user.email              = [json valueForKey:@"email"];
-                        user.default_country_id = [json valueForKey:@"default_country_id"];
-                        user.bill_address       = [json valueForKey:@"bill_address"];
-                        user.ship_address       = [json valueForKey:@"ship_address"];
+                        user.userID             = [data valueForKey:@"Id"];
+                        user.email              = [data valueForKey:@"Username"];
                         
                         [user save];
                         
