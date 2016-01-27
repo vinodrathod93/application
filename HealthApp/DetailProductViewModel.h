@@ -20,6 +20,7 @@
 
 -(NSNumber *)price;
 -(NSString *)display_price;
+-(NSString *)master_price;
 -(NSNumber *)productID;
 -(NSNumber *)quantity;
 
@@ -31,5 +32,7 @@
 -(CGFloat)heightForSummaryTextInTableViewCellWithWidth:(CGFloat)width;
 
 -(NSNumber *)total_on_hand;
+
+-(NSNumber *)storeID;
 
 @end

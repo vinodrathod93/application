@@ -20,6 +20,7 @@
 #import "NEntityDetailViewController.h"
 #import "BookCallListingCell.h"
 #import "BookingViewController.h"
+#import "StoreTaxonsViewController.h"
 
 
 @interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
@@ -37,6 +38,7 @@
     UITapGestureRecognizer *_tap;
     UIImageView *_tappedImageView;
     BOOL _isBooking;
+    BOOL _isProductType;
 }
 
 
@@ -243,16 +245,33 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ListingModel *model = self.listingArray[indexPath.section];
     
-    NEntityDetailViewController *NEntityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
-    NEntityVC.cat_id    = self.category_id;
-    NEntityVC.entity_id = model.list_id.stringValue;
-    NEntityVC.title     = model.name.uppercaseString;
-    NEntityVC.isBooking = _isBooking;
     
-    NEntityVC.entity_name = model.name;
-    NEntityVC.entity_meta_info = @"Meta Info";
+    if (_isProductType == TRUE) {
+        // Show taxons VC
+        
+        StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
+        storeTaxonsVC.title = [model.name capitalizedString];
+        storeTaxonsVC.cat_id = self.category_id;
+        storeTaxonsVC.store_id = model.list_id.stringValue;
+        
+        storeTaxonsVC.hidesBottomBarWhenPushed = NO;
+        [self.navigationController pushViewController:storeTaxonsVC animated:YES];
+        
+    }
+    else {
+        NEntityDetailViewController *NEntityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
+        NEntityVC.cat_id    = self.category_id;
+        NEntityVC.entity_id = model.list_id.stringValue;
+        NEntityVC.title     = model.name.uppercaseString;
+        NEntityVC.isBooking = _isBooking;
+        
+        NEntityVC.entity_name = model.name;
+        NEntityVC.entity_meta_info = self.title;
+        NEntityVC.entity_image = model.image_url;
+        
+        [self.navigationController pushViewController:NEntityVC animated:YES];
+    }
     
-    [self.navigationController pushViewController:NEntityVC animated:YES];
 }
 
 
@@ -364,6 +383,7 @@
     _task   = [[NAPIManager sharedManager] getListingsWithRequestModel:requestModel success:^(ListingResponseModel *response) {
         
         _listingArray = response.records;
+        _isProductType  = response.isProductType;
         
         if (_listingArray.count == 0) {
             [self shownoListingView:location_store];

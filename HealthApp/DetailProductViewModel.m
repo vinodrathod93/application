@@ -45,6 +45,10 @@
     return [self.model valueForKey:@"displayPrice"];
 }
 
+-(NSString *)master_price {
+    return [self.model valueForKey:@"masterPrice"];
+}
+
 -(NSArray *)images {
     NSArray *allImages = self.model.product_img;
     
@@ -65,6 +69,10 @@
 
 -(NSNumber *)productID {
     return [self.model valueForKey:@"productID"];
+}
+
+-(NSNumber *)storeID {
+    return [self.model valueForKey:@"storeID"];
 }
 
 -(NSNumber *)quantity {

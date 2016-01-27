@@ -20,7 +20,7 @@
         User *user = [User savedUser];
         NSLog(@"register clicked %lu",(unsigned long)tabBarController.selectedIndex);
         
-        if (user == nil) {
+        if (user.userID == nil) {
             NSLog(@"go back to home index");
             
             

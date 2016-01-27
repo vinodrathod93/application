@@ -12,8 +12,11 @@
 
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"taxonomyName": @"root",
-             @"taxons": @"root.taxons"
+             @"taxonomyId"  : @"Id",
+             @"taxonomyName": @"Name",
+             @"hasTaxons"   : @"HasTaxon",
+             @"catId"       : @"Catid",
+             @"taxons"      : @"Taxons"
              };
 }
 
@@ -21,14 +24,16 @@
     return [MTLJSONAdapter arrayTransformerWithModelClass:[TaxonModel class]];
 }
 
-+ (NSValueTransformer *)taxonomyNameJSONTransformer {
-    return [MTLValueTransformer transformerUsingForwardBlock:^id(NSDictionary *root, BOOL *success, NSError *__autoreleasing *error) {
-        NSString *taxonomyName = root[@"name"];
-        
-        return taxonomyName;
-    } reverseBlock:^id(NSString *taxonomyName, BOOL *success, NSError *__autoreleasing *error) {
-        return @{ @"name": taxonomyName };
-    }];
+-(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error {
+    self = [super initWithDictionary:dictionaryValue error:error];
+    
+    if (self == nil) return nil;
+    
+    NSLog(@"%@", dictionaryValue);
+    
+    
+    
+    return self;
 }
 
 @end

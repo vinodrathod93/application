@@ -13,4 +13,10 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSString *storeURL;
 
+
+//Neediator API
+@property (nonatomic, strong) NSString *cat_id;
+@property (nonatomic, strong) NSString *store_id;
+
+
 @end

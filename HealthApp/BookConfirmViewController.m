@@ -77,6 +77,10 @@
         self.emailTextfield.text = @"NOT LOGGED IN";
     
     self.name.text = self.entity_name;
+    
+    self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
+    self.profileImageView.layer.masksToBounds = YES;
+    
     [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:self.entity_meta_info]];
     self.appointmentDateTimeLabel.text = [NSString stringWithFormat:@"🕚 %@, %@",self.date, self.time];
     
@@ -88,37 +92,81 @@
     NSLog(@"Book");
     User *user = [User savedUser];
     
-    NSDictionary *parameter = @{
-                                
-                                @"CatId" : self.cat_id,
-                                @"StoreId" : self.entity_id,
-                                @"BusinessIntervalId" : self.timeSlot_id,
-                                @"date" : self.date,
-                                @"userid" : user.userID
-                                
-                                };
+//    NSDictionary *parameter = @{
+//                                
+//                                @"CatId" : self.cat_id,
+//                                @"StoreId" : self.entity_id,
+//                                @"BusinessIntervalId" : self.timeSlot_id,
+//                                @"date" : self.date,
+//                                @"userid" : user.userID
+//                                
+//                                };
     
-    NSLog(@"Parameter %@", parameter);
+    NSString *parameterString = [NSString stringWithFormat:@"CatId=%@&StoreId=%@&BusinessIntervalId=%@&date=%@&userid=%@", self.cat_id, self.entity_id, self.timeSlot_id, self.date, user.userID];
     
-    [self showHUD];
-    _task = [[NAPIManager sharedManager] postBookingWithRequest:parameter success:^(NSDictionary *response) {
-        NSLog(@"Success %@", response);
+//    NSLog(@"Parameter %@", parameterString);
+//    
+//    [self showHUD];
+//    _task = [[NAPIManager sharedManager] postBookingWithRequest:parameterString success:^(NSDictionary *response) {
+//        NSLog(@"Success %@", response);
+//        
+//        OrderCompleteViewController *bookCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+//        bookCompleteVC.booking_id                   = [NSString stringWithFormat:@"Booking no. %@", response[@"appointmentid"]];
+//        bookCompleteVC.message                      = @"Your Appointment is currently being processed. You will receive an appointment confirmation email shortly with the date & time.";
+//        bookCompleteVC.heading                      = @"Booking Complete Successfully";
+//        
+//        [self.navigationController pushViewController:bookCompleteVC animated:YES];
+//
+//        
+//        [self hideHUD];
+//    } failure:^(NSError *error) {
+//        
+//        [self hideHUD];
+//        NSLog(@"Error %@", error.localizedDescription);
+//    }];
+    
+
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.in/NeediatorWS.asmx/Book"]];
+    request.HTTPMethod = @"POST";
+    request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"%@",response);
         
-        OrderCompleteViewController *bookCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
-        bookCompleteVC.order_number.text            = [NSString stringWithFormat:@"Appointment no. %@", response[@"appointmentid"]];
-        bookCompleteVC.message.text                 = @"Your Appointment is currently being processed. You will receive an appointment confirmation email shortly with the date & time.";
-        bookCompleteVC.viewButton.hidden            = YES;
-        
-        [self.navigationController pushViewController:bookCompleteVC animated:YES];
         
         
-        [self hideHUD];
-    } failure:^(NSError *error) {
+        if (error) {
+            NSLog(@"%@",error.localizedDescription);
+        }
+        else {
+            NSError *jsonError;
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                // Display on main view
+                [self hideHUD];
+                
+                OrderCompleteViewController *bookCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+                bookCompleteVC.booking_id            = [NSString stringWithFormat:@"Booking no. %@", json[@"appointmentid"]];
+                bookCompleteVC.message                 = @"Your Booking is currently being processed. You will receive an Booking confirmation email shortly with complete details.";
+                bookCompleteVC.heading                  = @"Booking Complete Successfully";
+                
+                [self.navigationController pushViewController:bookCompleteVC animated:YES];
+                
+                
+            });
+        }
         
-        [self hideHUD];
-        NSLog(@"Error %@", error.localizedDescription);
+        
+        
+        
     }];
-    
+    [task resume];
+    [self showHUD];
 }
 
 

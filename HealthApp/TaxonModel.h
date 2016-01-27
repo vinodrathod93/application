@@ -10,8 +10,10 @@
 
 @interface TaxonModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic, copy) NSNumber *taxonId;
+@property (nonatomic, copy) NSNumber *taxonID;
 @property (nonatomic, copy) NSString *taxonName;
+@property (nonatomic, copy) NSNumber *taxonomyID;
+
 
 @property(nonatomic) BOOL canBeExpanded;
 @property(nonatomic) BOOL isExpanded;

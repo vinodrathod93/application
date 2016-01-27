@@ -11,8 +11,12 @@
 
 @interface TaxonomyModel : MTLModel<MTLJSONSerializing>
 
+@property (nonatomic, copy) NSNumber *taxonomyId;
 @property (nonatomic, copy) NSString *taxonomyName;
+@property (nonatomic, copy) NSNumber *hasTaxons;
+@property (nonatomic, copy) NSNumber *catId;
 @property (nonatomic, copy) NSArray *taxons;
+
 
 @property(nonatomic) BOOL canBeExpanded;
 @property(nonatomic) BOOL isExpanded;

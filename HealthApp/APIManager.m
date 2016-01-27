@@ -190,15 +190,15 @@
         
     } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
         
-        NSInteger status_code = [[[error userInfo] valueForKey:AFNetworkingOperationFailingURLResponseErrorKey] statusCode];
-        
-        if (status_code == 401) {
-            [self getTaxonomiesForStore:store WithSuccess:^(TaxonomyListResponseModel *responseModel) {
-                success(responseModel);
-            } failure:^(NSError *error) {
-                failure(error);
-            }];
-        }
+//        NSInteger status_code = [[[error userInfo] valueForKey:AFNetworkingOperationFailingURLResponseErrorKey] statusCode];
+//        
+//        if (status_code == 401) {
+//            [self getTaxonomiesForStore:store WithSuccess:^(TaxonomyListResponseModel *responseModel) {
+//                success(responseModel);
+//            } failure:^(NSError *error) {
+//                failure(error);
+//            }];
+//        }
         
         failure(error);
     }];

@@ -19,4 +19,6 @@
 
 @property (nonatomic, strong) NSString *entity_name;
 @property (nonatomic, strong) NSString *entity_meta_info;
+@property (nonatomic, strong) NSString *entity_image;
+
 @end

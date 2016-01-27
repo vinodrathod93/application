@@ -17,10 +17,6 @@
 #import "AppDelegate.h"
 
 
-
-//#define kPRODUCTS_DATA_LINK @"http://chemistplus.in/getProducts_test.php"
-//#define kSPREE_PRODUCTS_URL @"http://manish.elnuur.com/api/products.json?token=9dd43e7b3d2a35bad4b22e65cbf92fa854e51fede731f930"
-//#define kSPREE_PRODUCTS_URL @"https://neediator.herokuapp.com/api/products.json?token=2b5059e887dd58048eca5069d4f56b690611e0f80d5e1ef6"
 #define kFIRST_PAGE 1
 #define kPhoneTitleViewWidth 160
 #define kPadTitleViewWidth 250
@@ -31,15 +27,15 @@
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) DetailViewModel *viewModel;
 @property (nonatomic, assign) BOOL show;
-@property (nonatomic, strong) NSString *itemsCount;
+//@property (nonatomic, strong) NSString *itemsCount;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UILabel *no_items;
 
-@property (nonatomic, strong) NSString *currentPage;
-@property (nonatomic, strong) NSString *nextPage;
+//@property (nonatomic, strong) NSString *currentPage;
+//@property (nonatomic, strong) NSString *nextPage;
 
 // version api 1
-@property (nonatomic, strong) NSString *pages;
+//@property (nonatomic, strong) NSString *pages;
 
 @property (nonatomic, strong) NSMutableArray *filteredProducts;
 @property (nonatomic, strong) UISearchController *searchController;
@@ -88,15 +84,15 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     self.collectionView.infiniteScrollIndicatorView = activityIndicator;
     self.collectionView.infiniteScrollIndicatorMargin = 40.0f;
     
-    __weak typeof(self) weakSelf = self;
-    [self.collectionView addInfiniteScrollWithHandler:^(UICollectionView *collectionView) {
-        
-        [weakSelf loadProductsPage:weakSelf.nextPage.intValue completion:^{
-            [collectionView finishInfiniteScroll];
-        }];
-        
-        
-    }];
+//    __weak typeof(self) weakSelf = self;
+//    [self.collectionView addInfiniteScrollWithHandler:^(UICollectionView *collectionView) {
+//        
+//        [weakSelf loadProductsPage:1 completion:^{
+//            [collectionView finishInfiniteScroll];
+//        }];
+//        
+//        
+//    }];
 }
 
 -(void)displaySearchBar {
@@ -255,11 +251,11 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
 //    [self loadProducts];
     
-    self.currentPage = nil;
-    
-    [self loadProductsPage:kFIRST_PAGE completion:^{
-        [self.hud hide:YES];
-    }];
+//    self.currentPage = nil;
+//    
+//    [self loadProductsPage:kFIRST_PAGE completion:^{
+//        [self.hud hide:YES];
+//    }];
     
     NSLog(@"Load all products");
 }
@@ -355,7 +351,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                 NSError *jsonError;
                 id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                 
-                
+                NSLog(@"%@",dictionary);
                 
                 if (jsonError != nil) {
                     NSLog(@"Error %@",[jsonError localizedDescription]);
@@ -365,14 +361,13 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                 else if(![dictionary isEqual:nil])
                 {
                     NSArray *array = [DetailViewModel infiniteProductsFromJSON:dictionary];
-//                    NSArray *array = [DetailViewModel secondVersionInfiniteProductsFromJSON:dictionary];
                     if (page == 1) {
                         
                         self.viewModel = [[DetailViewModel alloc]initWithArray:array];
                         
-                        self.pages = [self.viewModel getPagesCount:dictionary];
-                        self.itemsCount = [self.viewModel getItemsCount:dictionary];
-                        [self showCustomTitleViewWithCount:self.itemsCount];
+//                        self.pages = [self.viewModel getPagesCount:dictionary];
+//                        self.itemsCount = [self.viewModel getItemsCount:dictionary];
+//                        [self showCustomTitleViewWithCount:self.itemsCount];
                         
                         [self.hud hide:YES];
                         [self.collectionView reloadData];
@@ -396,8 +391,8 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                         
                     }
                     
-                    self.currentPage = [self.viewModel currentPage:dictionary];
-                    self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
+//                    self.currentPage = [self.viewModel currentPage:dictionary];
+//                    self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
                     
                 }
                 
@@ -413,13 +408,13 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         
     }];
     
-    if (self.currentPage != nil && (self.currentPage.intValue == self.pages.intValue)) {
-        finish();
-    } else {
-        [self.task resume];
-    }
+//    if (self.currentPage != nil && (self.currentPage.intValue == self.pages.intValue)) {
+//        finish();
+//    } else {
+//        [self.task resume];
+//    }
     
-    
+    [self.task resume];
     
     if (page == 1) {
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -554,34 +549,6 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 
 
-#pragma mark <RMPZoomTransitionAnimating>
-
-- (UIImageView *)transitionSourceImageView
-{
-    NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
-    ProductViewCell *cell = (ProductViewCell *)[self.collectionView cellForItemAtIndexPath:selectedIndexPath];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:cell.productImageView.image];
-    imageView.contentMode = cell.productImageView.contentMode;
-    imageView.clipsToBounds = YES;
-    imageView.userInteractionEnabled = NO;
-    imageView.frame = [cell.productImageView convertRect:cell.productImageView.frame toView:self.collectionView.superview];
-    
-    return imageView;
-}
-
-- (UIColor *)transitionSourceBackgroundColor
-{
-    return self.collectionView.backgroundColor;
-}
-
-- (CGRect)transitionDestinationImageViewFrame
-{
-    NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
-    ProductViewCell *cell = (ProductViewCell *)[self.collectionView cellForItemAtIndexPath:selectedIndexPath];
-    CGRect cellFrameInSuperview = [cell.productImageView convertRect:cell.productImageView.frame toView:self.collectionView.superview];
-    
-    return cellFrameInSuperview;
-}
 
 
 
@@ -701,5 +668,37 @@ static NSString * const productsReuseIdentifier = @"productsCell";
  }
  }
  */
+
+
+//
+//#pragma mark <RMPZoomTransitionAnimating>
+//
+//- (UIImageView *)transitionSourceImageView
+//{
+//    NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
+//    ProductViewCell *cell = (ProductViewCell *)[self.collectionView cellForItemAtIndexPath:selectedIndexPath];
+//    UIImageView *imageView = [[UIImageView alloc] initWithImage:cell.productImageView.image];
+//    imageView.contentMode = cell.productImageView.contentMode;
+//    imageView.clipsToBounds = YES;
+//    imageView.userInteractionEnabled = NO;
+//    imageView.frame = [cell.productImageView convertRect:cell.productImageView.frame toView:self.collectionView.superview];
+//    
+//    return imageView;
+//}
+//
+//- (UIColor *)transitionSourceBackgroundColor
+//{
+//    return self.collectionView.backgroundColor;
+//}
+//
+//- (CGRect)transitionDestinationImageViewFrame
+//{
+//    NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
+//    ProductViewCell *cell = (ProductViewCell *)[self.collectionView cellForItemAtIndexPath:selectedIndexPath];
+//    CGRect cellFrameInSuperview = [cell.productImageView convertRect:cell.productImageView.frame toView:self.collectionView.superview];
+//    
+//    return cellFrameInSuperview;
+//}
+
 
 @end

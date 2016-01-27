@@ -16,5 +16,9 @@
 @property (nonatomic, strong) NSString *navigationTitleString;
 @property (nonatomic, strong) NSString *taxonProductsURL;
 
+
+
+
+
 @end
 

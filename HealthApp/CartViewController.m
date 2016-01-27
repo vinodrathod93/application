@@ -61,6 +61,8 @@ static NSString *cellIdentifier = @"cartCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    NSLog(@"Cart viewDidLoad");
+    
     self.appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = self.appDelegate.managedObjectContext;
     
@@ -91,6 +93,7 @@ static NSString *cellIdentifier = @"cartCell";
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    NSLog(@"Cart viewWillAppear");
     
     [self createDimmView];
     
@@ -123,7 +126,7 @@ static NSString *cellIdentifier = @"cartCell";
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    
+    NSLog(@"Cart viewWillDisappear");
     
     if (self.dimmView) {
         
@@ -498,7 +501,7 @@ static NSString *cellIdentifier = @"cartCell";
     User *user = [User savedUser];
     
     
-    if (user.access_token == nil) {
+    if (user.userID == nil) {
         [self showLoginPageAndIsPlacingOrder:YES];
         
     } else {
@@ -719,8 +722,8 @@ static NSString *cellIdentifier = @"cartCell";
     
     [self checkOrders];
     
-    if (user.access_token != nil) {
-        NSString *url = [NSString stringWithFormat:@"%@%@?token=%@",kCartBaseURL, kCurrentOrderDetailsURL, user.access_token];
+    if (user.userID != nil) {
+        NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/viewcart?userid=%@", user.userID];
         
         NSURLSession *session = [NSURLSession sharedSession];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
@@ -783,11 +786,11 @@ static NSString *cellIdentifier = @"cartCell";
                                 
                                 [self.managedObjectContext save:nil];
                                 
-                                NSArray *line_items = [json objectForKey:@"line_items"];
+                                NSArray *line_items = [json objectForKey:@"cart"];
                                 
                                 
                                 /* To check whether the shipping_address already exists or not */
-                                _ship_address       = [json objectForKey:@"ship_address"];
+//                                _ship_address       = [json objectForKey:@"ship_address"];
                                 
                                 
                                 // IF LINEITEMS ARE EMPTY THEN SHOW CART MESSAGE
@@ -812,19 +815,28 @@ static NSString *cellIdentifier = @"cartCell";
                                         for (int i=0; i< line_items.count; i++) {
                                             self.lineItemModel = [NSEntityDescription insertNewObjectForEntityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext];
                                             self.lineItemModel.lineItemID = [line_items[i] valueForKey:@"id"];
-                                            self.lineItemModel.quantity   = [line_items[i] valueForKey:@"quantity"];
+                                            self.lineItemModel.quantity   = [line_items[i] valueForKey:@"qty"];
                                             self.lineItemModel.price      = [NSNumber numberWithFloat:[[line_items[i] valueForKey:@"price"] floatValue]];
-                                            self.lineItemModel.variantID  = [line_items[i] valueForKey:@"variant_id"];
-                                            self.lineItemModel.singleDisplayPrice   = [line_items[i] valueForKey:@"single_display_amount"];
-                                            self.lineItemModel.totalDisplayPrice    = [line_items[i] valueForKey:@"display_total"];
-                                            self.lineItemModel.total                = [NSNumber numberWithFloat:[[line_items[i] valueForKey:@"total"] floatValue]];
-                                            self.lineItemModel.name                 = [line_items[i] valueForKeyPath:@"variant.name"];
-                                            self.lineItemModel.option               = [line_items[i] valueForKeyPath:@"variant.options_text"];
-                                            self.lineItemModel.totalOnHand          = [line_items[i] valueForKeyPath:@"variant.total_on_hand"];
+                                            self.lineItemModel.variantID  = [line_items[i] valueForKey:@"productid"];
                                             
-                                            NSArray *images                         = [line_items[i] valueForKeyPath:@"variant.images"];
-                                            if (images.count != 0) {
-                                                self.lineItemModel.image            = [images[0] valueForKey:@"small_url"];
+                                            
+                                            NSNumberFormatter *headerCurrencyFormatter = [[NSNumberFormatter alloc] init];
+                                            [headerCurrencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+                                            [headerCurrencyFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_IN"]];
+//
+                                            NSString *display_price_string = [headerCurrencyFormatter stringFromNumber:@(self.lineItemModel.price.floatValue)];
+                                            NSString *display_total_string = [headerCurrencyFormatter stringFromNumber:@([[line_items[i] valueForKey:@"total"] floatValue])];
+//
+                                            self.lineItemModel.singleDisplayPrice   = display_price_string;
+                                            self.lineItemModel.totalDisplayPrice    = display_total_string;
+                                            self.lineItemModel.total                = [NSNumber numberWithFloat:[[line_items[i] valueForKey:@"total"] floatValue]];
+                                            self.lineItemModel.name                 = [line_items[i] valueForKey:@"productname"];
+                                            self.lineItemModel.option               = [line_items[i] valueForKey:@"brandname"];
+                                            self.lineItemModel.totalOnHand          = [line_items[i] valueForKey:@"total_in_hand"];
+                                            
+//                                            NSArray *images                         = [line_items[i] valueForKeyPath:@"variant.images"];
+                                            if ([line_items[i] valueForKey:@"imageurl"] != nil) {
+                                                self.lineItemModel.image            = [[line_items[i] valueForKey:@"imageurl"] valueForKey:@"small_url"];
                                             } else
                                                 self.lineItemModel.image            = @"";
                                             
@@ -894,8 +906,8 @@ static NSString *cellIdentifier = @"cartCell";
     [self checkOrders];
     self.orderModel = self.orderNumFetchedResultsController.fetchedObjects.lastObject;
     
-    if (user.access_token != nil) {
-        NSString *url = [NSString stringWithFormat:@"http://%@%@/%@/line_items/%d?token=%@",store.storeUrl, kDeleteLineItemURL, self.orderModel.number, item.lineItemID.intValue, user.access_token];
+    if (user.userID != nil) {
+        NSString *url = [NSString stringWithFormat:@"http://%@%@/%@/line_items/%d?token=%@",store.storeUrl, kDeleteLineItemURL, self.orderModel.number, item.lineItemID.intValue, user.userID];
         
         NSURLSession *session = [NSURLSession sharedSession];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
@@ -971,13 +983,13 @@ static NSString *cellIdentifier = @"cartCell";
     
     self.orderModel = self.orderNumFetchedResultsController.fetchedObjects.lastObject;
     
-    if (user.access_token != nil) {
+    if (user.userID != nil) {
         
         NSString *parameter = [NSString stringWithFormat:@"line_item[quantity]=%ld", (long)quantity];
         
         NSLog(@"parameter %@", parameter);
         
-        NSString *url = [NSString stringWithFormat:@"http://%@%@/%@/line_items/%d?token=%@",store.storeUrl, kUpdateLineItemURL, self.orderModel.number, line_item.lineItemID.intValue, user.access_token];
+        NSString *url = [NSString stringWithFormat:@"http://%@%@/%@/line_items/%d?token=%@",store.storeUrl, kUpdateLineItemURL, self.orderModel.number, line_item.lineItemID.intValue, user.userID];
         
         NSLog(@"URL is %@",url);
             

@@ -548,13 +548,13 @@
 			name = Restaurants;
 			sourceTree = "<group>";
 		};
-		823B73771C48F17000031596 /* Services Listing */ = {
+		823B73771C48F17000031596 /* Listing */ = {
 			isa = PBXGroup;
 			children = (
 				82147FD11C452DB500D6691E /* ListingTableViewController.h */,
 				82147FD21C452DB500D6691E /* ListingTableViewController.m */,
 			);
-			name = "Services Listing";
+			name = Listing;
 			sourceTree = "<group>";
 		};
 		823B737B1C49145B00031596 /* Spree API */ = {
@@ -793,6 +793,28 @@
 			name = "Image Modal";
 			sourceTree = "<group>";
 		};
+		82AF64291C58CF7100628609 /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				82A1D3CA1C5602BF00E6B1D3 /* BookingViewController.h */,
+				82A1D3CB1C5602BF00E6B1D3 /* BookingViewController.m */,
+				82A1D3D81C5663F700E6B1D3 /* BookConfirmViewController.h */,
+				82A1D3D91C5663F700E6B1D3 /* BookConfirmViewController.m */,
+			);
+			name = Booking;
+			sourceTree = "<group>";
+		};
+		82AF642A1C58E1A600628609 /* TimeSlot */ = {
+			isa = PBXGroup;
+			children = (
+				82A1D3D11C562C6400E6B1D3 /* TimeSlotResponseModel.h */,
+				82A1D3D21C562C6400E6B1D3 /* TimeSlotResponseModel.m */,
+				82A1D3D41C562DD100E6B1D3 /* TimeSlotModel.h */,
+				82A1D3D51C562DD100E6B1D3 /* TimeSlotModel.m */,
+			);
+			name = TimeSlot;
+			sourceTree = "<group>";
+		};
 		82BD027F1B46A73C00108A0B = {
 			isa = PBXGroup;
 			children = (
@@ -884,10 +906,7 @@
 				82DCBECD1C4CE3F6005EBDB3 /* Category */,
 				82DCBECE1C4CE3FF005EBDB3 /* Promotions */,
 				82ED53E01C4FB39800FA7707 /* Spree */,
-				82A1D3D11C562C6400E6B1D3 /* TimeSlotResponseModel.h */,
-				82A1D3D21C562C6400E6B1D3 /* TimeSlotResponseModel.m */,
-				82A1D3D41C562DD100E6B1D3 /* TimeSlotModel.h */,
-				82A1D3D51C562DD100E6B1D3 /* TimeSlotModel.m */,
+				82AF642A1C58E1A600628609 /* TimeSlot */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1056,12 +1075,9 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				82A1D3D81C5663F700E6B1D3 /* BookConfirmViewController.h */,
-				82A1D3D91C5663F700E6B1D3 /* BookConfirmViewController.m */,
-				82A1D3CA1C5602BF00E6B1D3 /* BookingViewController.h */,
-				82A1D3CB1C5602BF00E6B1D3 /* BookingViewController.m */,
+				82AF64291C58CF7100628609 /* Booking */,
 				82A8B4141C4E611C00FCDF79 /* Image Modal */,
-				823B73771C48F17000031596 /* Services Listing */,
+				823B73771C48F17000031596 /* Listing */,
 				82A1D3D71C5633D800E6B1D3 /* Entity Details Page */,
 				82ED53E11C4FB3B700FA7707 /* Spree */,
 			);

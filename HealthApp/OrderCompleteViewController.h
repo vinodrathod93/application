@@ -15,8 +15,14 @@
 @property (nonatomic, strong) NSString *order_id;
 
 
-@property (weak, nonatomic) IBOutlet UILabel *message;
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIButton *viewButton;
+@property (weak, nonatomic) IBOutlet UILabel *headingLabel;
+
+@property (strong, nonatomic) NSString *message;
+@property (strong, nonatomic) NSString *heading;
+@property (strong, nonatomic) NSString *booking_id;
+
 
 - (IBAction)viewOrderPressed:(id)sender;
 @end

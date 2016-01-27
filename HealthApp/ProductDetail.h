@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *summary;
 @property (nonatomic, strong) NSString *price;
 @property (nonatomic, strong) NSString *displayPrice;
+@property (nonatomic, strong) NSString *masterPrice;
 @property (nonatomic, assign) BOOL hasVariant;
 @property (nonatomic, strong) NSString *variantID;
 @property (nonatomic, strong) NSNumber *total_on_hand;
@@ -25,5 +26,10 @@
 
 
 @property (nonatomic, strong) NSArray *variants;
+
+
+//Neediator API
+@property (nonatomic, strong) NSString *storeID;
+
 
 @end

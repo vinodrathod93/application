@@ -9,6 +9,7 @@
 #import "OrderCompleteViewController.h"
 #import "PaymentViewController.h"
 #import "BookConfirmViewController.h"
+#import "BookingViewController.h"
 
 @interface OrderCompleteViewController ()
 
@@ -20,7 +21,27 @@
     [super viewDidLoad];
     
     
-    self.order_number.text = self.order_id;
+    
+    
+    if (self.booking_id != nil) {
+        self.order_number.text = self.booking_id;
+        self.viewButton.hidden = YES;
+    }
+    else if (self.order_id != nil) {
+        self.order_number.text = self.order_id;
+        
+    }
+    
+    
+    
+    
+    if (self.message != nil) {
+        self.messageLabel.text = self.message;
+    }
+    
+    if (self.heading != nil) {
+        self.headingLabel.text = self.heading.uppercaseString;
+    }
     
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
     for(UIViewController* vc in self.navigationController.viewControllers)
@@ -32,7 +53,10 @@
         
         if ([vc isKindOfClass:[BookConfirmViewController class]]) {
             [viewControllers removeObject:vc];
-            break;
+        }
+        
+        if ([vc isKindOfClass:[BookingViewController class]]) {
+            [viewControllers removeObject:vc];
         }
     }
     self.navigationController.viewControllers = [NSArray arrayWithArray:viewControllers];

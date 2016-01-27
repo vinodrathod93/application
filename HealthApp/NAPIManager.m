@@ -124,9 +124,8 @@
 }
 
 
--(NSURLSessionDataTask *)postBookingWithRequest:(NSDictionary *)parameter success:(void (^)(NSDictionary *response))success failure:(void (^)(NSError *error))failure {
+-(NSURLSessionDataTask *)postBookingWithRequest:(NSString *)parameter success:(void (^)(NSDictionary *response))success failure:(void (^)(NSError *error))failure {
     
-    [self.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     
     return [self POST:kBOOKING_PATH parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
         NSLog(@"Posting Book details %@", uploadProgress.localizedDescription);
@@ -140,6 +139,29 @@
         failure(error);
     }];
 }
+
+
+-(NSURLSessionDataTask *)getTaxonomiesWithRequest:(NSDictionary *)parameter WithSuccess:(void (^)(TaxonomyListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure {
+    
+    
+    return [self GET:kSTORE_TAXONS_PATH parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"GETTING Taxons %@", downloadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+        NSError *error;
+        
+        NSLog(@"%@", responseDictionary);
+        TaxonomyListResponseModel *list = [MTLJSONAdapter modelOfClass:TaxonomyListResponseModel.class fromJSONDictionary:responseDictionary error:&error];
+        if (error) {
+            NSLog(@"%@",[error localizedDescription]);
+        }
+        success(list);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+    
+}
+
 
 
 

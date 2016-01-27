@@ -180,7 +180,9 @@
     if (section == 0) {
         UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 130)];
         UIImageView *entityImage = [[UIImageView alloc] initWithFrame:CGRectMake(headerView.frame.size.width/2 - 75, headerView.frame.size.height/2 - 50, 150, 100)];
-        entityImage.layer.cornerRadius = 3.f;
+        entityImage.contentMode = UIViewContentModeScaleAspectFit;
+        [entityImage sd_setImageWithURL:[NSURL URLWithString:self.entity_image]];
+        entityImage.layer.cornerRadius = 5.f;
         entityImage.layer.borderColor = [UIColor blackColor].CGColor;
         entityImage.layer.borderWidth = 2.f;
         entityImage.layer.masksToBounds = YES;
@@ -253,7 +255,7 @@
     bookingVC.category_id               = self.cat_id;
     bookingVC.entity_id                 = self.entity_id;
     bookingVC.entity_name               = self.entity_name;
-    bookingVC.entity_meta_info          = self.entity_meta_info;
+    bookingVC.entity_meta_info          = self.entity_image;
     
     [self.navigationController pushViewController:bookingVC animated:YES];
 }

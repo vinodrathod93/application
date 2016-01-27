@@ -44,7 +44,9 @@
         
         // nothing.
         NSDictionary *type  = dictionaryValue[@"type"];
-        self.isProductType  = type[@"IsProduct"];
+        
+        
+        self.isProductType  = [type[@"IsProduct"] boolValue];
         self.urlString      = type[@"Url"];
         self.parameters     = type[@"Parameters"];
         

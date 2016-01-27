@@ -12,9 +12,23 @@
 
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"taxonId": @"id",
-             @"taxonName": @"name"
+             @"taxonID": @"Id",
+             @"taxonName": @"Name",
+             @"taxonomyID" : @"TaxonomiesId"
              };
+}
+
+
+-(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error {
+    self = [super initWithDictionary:dictionaryValue error:error];
+    
+    if (self == nil) return nil;
+    
+    NSLog(@"%@", dictionaryValue);
+    
+    
+    
+    return self;
 }
 
 @end

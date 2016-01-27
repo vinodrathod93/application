@@ -283,6 +283,13 @@ NSString *cellReuseIdentifier;
     cell.productLabel.text = [self.viewModel name];
     cell.priceLabel.text   = [self.viewModel display_price];
     cell.summaryLabel.text = [self.viewModel summary];
+    
+    
+    
+    NSDictionary* attributes = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleSingle]};
+    NSAttributedString* attributedString = [[NSAttributedString alloc] initWithString:[self.viewModel master_price] attributes:attributes];
+    
+    cell.masterPriceLabel.attributedText = attributedString;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -372,8 +379,6 @@ NSString *cellReuseIdentifier;
     }
     else {
         
-        NSNumber *productID                 = [self.viewModel productID];
-        NSNumber *quantity                  = [self.viewModel quantity];
         
         NSFetchRequest *fetch   = [NSFetchRequest fetchRequestWithEntityName:@"LineItems"];
         NSPredicate *predicate  = [NSPredicate predicateWithFormat:@"variantID == %@", [self.viewModel productID]];
@@ -399,12 +404,12 @@ NSString *cellReuseIdentifier;
             _lineItemsModel.option                = @"";
             
             
-            NSDictionary *line_item             = [self lineItemDictionaryWithVariantID:productID quantity:quantity];
+//            NSDictionary *line_item             = [self lineItemDictionaryWithVariantID:productID quantity:quantity];
             
             User *user = [User savedUser];
             
-            if (user.access_token != nil) {
-                [self sendLineItem:line_item];
+            if (user.userID != nil) {
+                [self sendLineItem:nil];
             }
             else {
                 // Login presentVC
@@ -436,54 +441,53 @@ NSString *cellReuseIdentifier;
 -(void)sendLineItem:(NSDictionary *)lineItem {
     
     User *user = [User savedUser];
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
+//    RLMRealm *realm = [RLMRealm defaultRealm];
+//    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
     
-    NSDictionary *objectData;
-    NSString *kOrderURL;
+//    NSDictionary *objectData;
+//    NSString *kOrderURL;
     
     [self checkOrders];
     
-    if (_pd_orderFetchedResultsController.fetchedObjects.count == 0) {
-        
-        // create order
-        NSArray *lineItemArray = [self getCartProductsArray:lineItem];
-        NSDictionary *order = [self getOrdersDictionary:lineItemArray];
-        
-        objectData = order;
-        kOrderURL = @"/api/orders";
-    } else {
-        
-        // add line items
-        NSLog(@"Adding line items to existing order");
-        
-        Order *orderModel = _pd_orderFetchedResultsController.fetchedObjects.lastObject;
-        
-        if (orderModel.number != nil) {
-            kOrderURL  = [NSString stringWithFormat:@"/api/orders/%@/line_items.json",orderModel.number];
-        }
-        
-        
-        objectData = [self getLineItemDictionaryWithLineItem:lineItem];
-        
-    }
+//    if (_pd_orderFetchedResultsController.fetchedObjects.count == 0) {
+//        
+//        // create order
+//        NSArray *lineItemArray = [self getCartProductsArray:lineItem];
+//        NSDictionary *order = [self getOrdersDictionary:lineItemArray];
+//        
+//        objectData = order;
+//        kOrderURL = @"/api/orders";
+//    } else {
+//        
+//        // add line items
+//        NSLog(@"Adding line items to existing order");
+//        
+//        Order *orderModel = _pd_orderFetchedResultsController.fetchedObjects.lastObject;
+//        
+//        if (orderModel.number != nil) {
+//            kOrderURL  = [NSString stringWithFormat:@"/api/orders/%@/line_items.json",orderModel.number];
+//        }
+//        
+//        
+//        objectData = [self getLineItemDictionaryWithLineItem:lineItem];
+//        
+//    }
     
     
     
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:objectData options:NSJSONWritingPrettyPrinted error:&error];
-    
-    NSString *url = [NSString stringWithFormat:@"http://%@%@?token=%@", store.storeUrl, kOrderURL, user.access_token];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/addtocart"];
     NSLog(@"URL is --> %@", url);
-    NSLog(@"Dictionary is -> %@",objectData);
+    
+    NSString *parameter  = [NSString stringWithFormat:@"product_id=%@&qty=%@&user_id=%@&store_id=%@", [self.viewModel productID].stringValue, [self.viewModel quantity].stringValue, user.userID, [self.viewModel storeID].stringValue];
+    NSData *parameterData = [NSData dataWithBytes:[parameter UTF8String] length:[parameter length]];
     
     NSURLSession *session = [NSURLSession sharedSession];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     request.HTTPMethod = @"POST";
-    request.HTTPBody = jsonData;
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
+    request.HTTPBody = parameterData;
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)parameterData.length] forHTTPHeaderField:@"Content-Length"];
     
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -494,7 +498,7 @@ NSString *cellReuseIdentifier;
                 NSError *jsonError;
                 
                 NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-                
+                NSLog(@"%@", json);
                 
                 [self.hud hide:YES];
                 if (jsonError) {
@@ -554,42 +558,44 @@ NSString *cellReuseIdentifier;
 }
 
 
--(NSArray *)getCartProductsArray:(NSDictionary *)lineItem {
-    
-    NSMutableArray *jsonarray = [[NSMutableArray alloc] init];
-    
-    [jsonarray addObject:lineItem];
-    
-    return jsonarray;
-    
-}
+//-(NSArray *)getCartProductsArray:(NSDictionary *)lineItem {
+//    
+//    NSMutableArray *jsonarray = [[NSMutableArray alloc] init];
+//    
+//    [jsonarray addObject:lineItem];
+//    
+//    return jsonarray;
+//    
+//}
+//
 
 
-
--(NSDictionary *)getOrdersDictionary:(NSArray *)array {
-    NSDictionary *orders = @{
-                             @"order": @{
-                                     @"line_items": array
-                                     }
-                             };
-    return orders;
-}
-
--(NSDictionary *)getLineItemDictionaryWithLineItem:(NSDictionary *)item {
-    NSDictionary *line_items = @{
-                                 @"line_item": item
-                                 };
-    
-    return line_items;
-}
-
-
--(NSDictionary *)lineItemDictionaryWithVariantID:(NSNumber *)variantID quantity:(NSNumber *)quantity {
-    return @{
-             @"variant_id": variantID,
-             @"quantity"  : quantity
-             };
-}
+//-(NSDictionary *)getOrdersDictionary:(NSArray *)array {
+//    NSDictionary *orders = @{
+//                             @"order": @{
+//                                     @"line_items": array
+//                                     }
+//                             };
+//    return orders;
+//}
+//
+//-(NSDictionary *)getLineItemDictionaryWithLineItem:(NSDictionary *)item {
+//    NSDictionary *line_items = @{
+//                                 @"line_item": item
+//                                 };
+//    
+//    return line_items;
+//}
+//
+//
+//-(NSDictionary *)lineItemDictionaryWithVariantID:(NSNumber *)variantID quantity:(NSNumber *)quantity {
+//    return @{
+//             @"product_id": variantID,
+//             @"qty"  : quantity,
+//             @"user_id" : @"",
+//             @"store_id" : @""
+//             };
+//}
 
 
 

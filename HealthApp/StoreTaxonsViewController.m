@@ -27,6 +27,7 @@
 @implementation StoreTaxonsViewController {
     BOOL _isExpanded;
     NSMutableArray *_dataArray;
+    NSURLSessionDataTask *_task;
 }
 
 - (void)viewDidLoad {
@@ -46,20 +47,27 @@
     
     [self showHUD];
     
-    [[APIManager sharedManager] getTaxonomiesForStore:self.storeURL WithSuccess:^(TaxonomyListResponseModel *responseModel) {
-        
+    
+    NSDictionary *parameter = @{
+                                
+                                @"catId" : self.cat_id,
+                                @"storeid" : self.store_id
+                                
+                                };
+    
+    _task = [[NAPIManager sharedManager] getTaxonomiesWithRequest:parameter WithSuccess:^(TaxonomyListResponseModel *responseModel) {
         [self.taxonomies addObjectsFromArray:responseModel.taxonomies];
         
         [self.tableView reloadData];
         [self hideHUD];
-        
     } failure:^(NSError *error) {
-        
         [self hideHUD];
         
         UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertError show];
+
     }];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,7 +79,7 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    
+    [_task cancel];
 }
 
 -(void)viewDidLayoutSubviews {
@@ -259,18 +267,18 @@
         NSLog(@"Tapped Heyy");
         
         
-        
-        RLMRealm *realm = [RLMRealm defaultRealm];
-        StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
+//        
+//        RLMRealm *realm = [RLMRealm defaultRealm];
+//        StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
         
         
         TaxonModel *taxon = (TaxonModel *)model;
         
-        NSLog(@"Taxon ID %d", taxon.taxonId.intValue);
+        NSLog(@"Taxon ID %d", taxon.taxonID.intValue);
         
         ProductsViewController *productsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"productsVC"];
         productsVC.navigationTitleString = taxon.taxonName;
-        productsVC.taxonProductsURL = [NSString stringWithFormat:@"http://%@/api/taxons/%d/products?token=%@", store.storeUrl, taxon.taxonId.intValue, kStoreTokenKey];
+        productsVC.taxonProductsURL = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@", taxon.taxonID.stringValue, self.store_id, taxon.taxonomyID.stringValue, self.cat_id];
         [self.navigationController pushViewController:productsVC animated:YES];
         
         
