@@ -101,12 +101,6 @@
 		82A5428D1C22BB1A00383253 /* MyOrdersResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A5428C1C22BB1A00383253 /* MyOrdersResponseModel.m */; };
 		82A8B4131C4E610D00FCDF79 /* ImageModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A8B4121C4E610D00FCDF79 /* ImageModalViewController.m */; };
 		82AB0C961C2E882100675567 /* EditAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0C951C2E882100675567 /* EditAddressViewController.m */; };
-		82AB0CA31C2EBFC800675567 /* AddToCart+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0C981C2EBFC800675567 /* AddToCart+CoreDataProperties.m */; };
-		82AB0CA41C2EBFC800675567 /* AddToCart.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0C9A1C2EBFC800675567 /* AddToCart.m */; };
-		82AB0CA51C2EBFC800675567 /* LineItems+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0C9C1C2EBFC800675567 /* LineItems+CoreDataProperties.m */; };
-		82AB0CA61C2EBFC800675567 /* LineItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0C9E1C2EBFC800675567 /* LineItems.m */; };
-		82AB0CA71C2EBFC800675567 /* Order+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0CA01C2EBFC800675567 /* Order+CoreDataProperties.m */; };
-		82AB0CA81C2EBFC800675567 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0CA21C2EBFC800675567 /* Order.m */; };
 		82BD028E1B46A73C00108A0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD028D1B46A73C00108A0B /* main.m */; };
 		82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02901B46A73C00108A0B /* AppDelegate.m */; };
 		82BD02971B46A73C00108A0B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82BD02951B46A73C00108A0B /* Main.storyboard */; };
@@ -132,6 +126,12 @@
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
 		82DCBED11C4CEFE7005EBDB3 /* ListingResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED01C4CEFE7005EBDB3 /* ListingResponseModel.m */; };
 		82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED31C4CFEC0005EBDB3 /* RatingView.m */; };
+		82E6DDEA1C5A3E1F00599EE2 /* AddToCart+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E6DDDF1C5A3E1F00599EE2 /* AddToCart+CoreDataProperties.m */; };
+		82E6DDEB1C5A3E1F00599EE2 /* AddToCart.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E6DDE11C5A3E1F00599EE2 /* AddToCart.m */; };
+		82E6DDEC1C5A3E1F00599EE2 /* LineItems+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E6DDE31C5A3E1F00599EE2 /* LineItems+CoreDataProperties.m */; };
+		82E6DDED1C5A3E1F00599EE2 /* LineItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E6DDE51C5A3E1F00599EE2 /* LineItems.m */; };
+		82E6DDEE1C5A3E1F00599EE2 /* Order+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E6DDE71C5A3E1F00599EE2 /* Order+CoreDataProperties.m */; };
+		82E6DDEF1C5A3E1F00599EE2 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E6DDE91C5A3E1F00599EE2 /* Order.m */; };
 		82EA19881C297639001EBA16 /* NoConnectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82EA19871C297639001EBA16 /* NoConnectionView.xib */; };
 		82EA198B1C29775F001EBA16 /* NoConnectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EA198A1C29775F001EBA16 /* NoConnectionView.m */; };
 		82EA68001C43BB6B00F9924D /* DoctorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EA67FF1C43BB6B00F9924D /* DoctorModel.m */; };
@@ -342,18 +342,6 @@
 		82AB0C931C2E7B2D00675567 /* NeediatorConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorConstants.h; sourceTree = "<group>"; };
 		82AB0C941C2E882100675567 /* EditAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAddressViewController.h; sourceTree = "<group>"; };
 		82AB0C951C2E882100675567 /* EditAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAddressViewController.m; sourceTree = "<group>"; };
-		82AB0C971C2EBFC800675567 /* AddToCart+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AddToCart+CoreDataProperties.h"; sourceTree = "<group>"; };
-		82AB0C981C2EBFC800675567 /* AddToCart+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AddToCart+CoreDataProperties.m"; sourceTree = "<group>"; };
-		82AB0C991C2EBFC800675567 /* AddToCart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToCart.h; sourceTree = "<group>"; };
-		82AB0C9A1C2EBFC800675567 /* AddToCart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToCart.m; sourceTree = "<group>"; };
-		82AB0C9B1C2EBFC800675567 /* LineItems+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LineItems+CoreDataProperties.h"; sourceTree = "<group>"; };
-		82AB0C9C1C2EBFC800675567 /* LineItems+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LineItems+CoreDataProperties.m"; sourceTree = "<group>"; };
-		82AB0C9D1C2EBFC800675567 /* LineItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineItems.h; sourceTree = "<group>"; };
-		82AB0C9E1C2EBFC800675567 /* LineItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineItems.m; sourceTree = "<group>"; };
-		82AB0C9F1C2EBFC800675567 /* Order+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Order+CoreDataProperties.h"; sourceTree = "<group>"; };
-		82AB0CA01C2EBFC800675567 /* Order+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Order+CoreDataProperties.m"; sourceTree = "<group>"; };
-		82AB0CA11C2EBFC800675567 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
-		82AB0CA21C2EBFC800675567 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		82BD02881B46A73C00108A0B /* Chemist Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chemist Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82BD028C1B46A73C00108A0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82BD028D1B46A73C00108A0B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -403,6 +391,18 @@
 		82DCBED01C4CEFE7005EBDB3 /* ListingResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingResponseModel.m; sourceTree = "<group>"; };
 		82DCBED21C4CFEC0005EBDB3 /* RatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingView.h; sourceTree = "<group>"; };
 		82DCBED31C4CFEC0005EBDB3 /* RatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingView.m; sourceTree = "<group>"; };
+		82E6DDDE1C5A3E1F00599EE2 /* AddToCart+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AddToCart+CoreDataProperties.h"; sourceTree = "<group>"; };
+		82E6DDDF1C5A3E1F00599EE2 /* AddToCart+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AddToCart+CoreDataProperties.m"; sourceTree = "<group>"; };
+		82E6DDE01C5A3E1F00599EE2 /* AddToCart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToCart.h; sourceTree = "<group>"; };
+		82E6DDE11C5A3E1F00599EE2 /* AddToCart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToCart.m; sourceTree = "<group>"; };
+		82E6DDE21C5A3E1F00599EE2 /* LineItems+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LineItems+CoreDataProperties.h"; sourceTree = "<group>"; };
+		82E6DDE31C5A3E1F00599EE2 /* LineItems+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LineItems+CoreDataProperties.m"; sourceTree = "<group>"; };
+		82E6DDE41C5A3E1F00599EE2 /* LineItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineItems.h; sourceTree = "<group>"; };
+		82E6DDE51C5A3E1F00599EE2 /* LineItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineItems.m; sourceTree = "<group>"; };
+		82E6DDE61C5A3E1F00599EE2 /* Order+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Order+CoreDataProperties.h"; sourceTree = "<group>"; };
+		82E6DDE71C5A3E1F00599EE2 /* Order+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Order+CoreDataProperties.m"; sourceTree = "<group>"; };
+		82E6DDE81C5A3E1F00599EE2 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
+		82E6DDE91C5A3E1F00599EE2 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		82EA19871C297639001EBA16 /* NoConnectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoConnectionView.xib; sourceTree = "<group>"; };
 		82EA19891C29775F001EBA16 /* NoConnectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionView.h; sourceTree = "<group>"; };
 		82EA198A1C29775F001EBA16 /* NoConnectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoConnectionView.m; sourceTree = "<group>"; };
@@ -685,19 +685,19 @@
 		82999E961BEB1D4E00F0EDE3 /* Add to Cart CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				82E6DDDE1C5A3E1F00599EE2 /* AddToCart+CoreDataProperties.h */,
+				82E6DDDF1C5A3E1F00599EE2 /* AddToCart+CoreDataProperties.m */,
+				82E6DDE01C5A3E1F00599EE2 /* AddToCart.h */,
+				82E6DDE11C5A3E1F00599EE2 /* AddToCart.m */,
+				82E6DDE21C5A3E1F00599EE2 /* LineItems+CoreDataProperties.h */,
+				82E6DDE31C5A3E1F00599EE2 /* LineItems+CoreDataProperties.m */,
+				82E6DDE41C5A3E1F00599EE2 /* LineItems.h */,
+				82E6DDE51C5A3E1F00599EE2 /* LineItems.m */,
+				82E6DDE61C5A3E1F00599EE2 /* Order+CoreDataProperties.h */,
+				82E6DDE71C5A3E1F00599EE2 /* Order+CoreDataProperties.m */,
+				82E6DDE81C5A3E1F00599EE2 /* Order.h */,
+				82E6DDE91C5A3E1F00599EE2 /* Order.m */,
 				829113BF1BB90746000DA995 /* Cart.xcdatamodeld */,
-				82AB0C971C2EBFC800675567 /* AddToCart+CoreDataProperties.h */,
-				82AB0C981C2EBFC800675567 /* AddToCart+CoreDataProperties.m */,
-				82AB0C991C2EBFC800675567 /* AddToCart.h */,
-				82AB0C9A1C2EBFC800675567 /* AddToCart.m */,
-				82AB0C9B1C2EBFC800675567 /* LineItems+CoreDataProperties.h */,
-				82AB0C9C1C2EBFC800675567 /* LineItems+CoreDataProperties.m */,
-				82AB0C9D1C2EBFC800675567 /* LineItems.h */,
-				82AB0C9E1C2EBFC800675567 /* LineItems.m */,
-				82AB0C9F1C2EBFC800675567 /* Order+CoreDataProperties.h */,
-				82AB0CA01C2EBFC800675567 /* Order+CoreDataProperties.m */,
-				82AB0CA11C2EBFC800675567 /* Order.h */,
-				82AB0CA21C2EBFC800675567 /* Order.m */,
 			);
 			name = "Add to Cart CoreData";
 			sourceTree = "<group>";
@@ -1692,12 +1692,12 @@
 				82EA68031C43BC9000F9924D /* DoctorResponseModel.m in Sources */,
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
 				82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */,
-				82AB0CA71C2EBFC800675567 /* Order+CoreDataProperties.m in Sources */,
 				82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */,
 				82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */,
 				826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */,
 				82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */,
+				82E6DDEF1C5A3E1F00599EE2 /* Order.m in Sources */,
 				82327F741B60C86B00D92889 /* CartViewController.m in Sources */,
 				82EF2DE11BE8C67B00D87DE2 /* StoresViewController.m in Sources */,
 				823C46B31B73934F00E37DBE /* MyAccountViewController.m in Sources */,
@@ -1712,6 +1712,7 @@
 				82ED53E41C4FB48100FA7707 /* EntityDetailsResponseModel.m in Sources */,
 				82A542831C229ECF00383253 /* MyOrdersModel.m in Sources */,
 				829F73941C257FEE001670A8 /* CustomCollectionViewCell.m in Sources */,
+				82E6DDEB1C5A3E1F00599EE2 /* AddToCart.m in Sources */,
 				823B738E1C49262000031596 /* UIColor+HexString.m in Sources */,
 				82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */,
 				826F07511C524A310033DD09 /* BookCallListingCell.m in Sources */,
@@ -1723,13 +1724,13 @@
 				8286B2741BF0CF7500AFC533 /* TaxonModel.m in Sources */,
 				8233CE161B874FB200B5279B /* PaymentViewCell.m in Sources */,
 				823C46B01B7392FE00E37DBE /* ProfileViewCell.m in Sources */,
+				82E6DDEA1C5A3E1F00599EE2 /* AddToCart+CoreDataProperties.m in Sources */,
 				8230D4571C11686400F585D1 /* NavigationViewController.m in Sources */,
 				82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */,
 				82147FB71C45230D00D6691E /* ChemistResponseModel.m in Sources */,
 				823C46A91B73327600E37DBE /* DoctorDetailsViewCell.m in Sources */,
 				823B738B1C4920EA00031596 /* MainCategoriesResponseModel.m in Sources */,
 				82ED53DF1C4FAFC500FA7707 /* NEntityDetailViewController.m in Sources */,
-				82AB0CA81C2EBFC800675567 /* Order.m in Sources */,
 				82C722FC1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m in Sources */,
 				82395A9C1B53A77300581EB4 /* CategoryViewCell.m in Sources */,
 				827A80181B85E15C008085F1 /* AddressesViewController.m in Sources */,
@@ -1739,9 +1740,9 @@
 				8246FE651B74B53D001D1CFF /* LogSignViewController.m in Sources */,
 				825567181B68E6D4009F013A /* AddShippingDetailsViewController.m in Sources */,
 				82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */,
-				82AB0CA51C2EBFC800675567 /* LineItems+CoreDataProperties.m in Sources */,
 				82A8B4131C4E610D00FCDF79 /* ImageModalViewController.m in Sources */,
 				82147FD31C452DB500D6691E /* ListingTableViewController.m in Sources */,
+				82E6DDED1C5A3E1F00599EE2 /* LineItems.m in Sources */,
 				82A542891C22B3A100383253 /* VariantImagesModel.m in Sources */,
 				827DD31A1B8AE39F00714985 /* Address.m in Sources */,
 				8286B2711BF0CF6A00AFC533 /* TaxonomyModel.m in Sources */,
@@ -1762,6 +1763,7 @@
 				825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */,
 				826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */,
 				82A1D3D31C562C6500E6B1D3 /* TimeSlotResponseModel.m in Sources */,
+				82E6DDEE1C5A3E1F00599EE2 /* Order+CoreDataProperties.m in Sources */,
 				82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */,
 				827026DE1BC650840054E16F /* Reachability.m in Sources */,
 				823C46A61B73226900E37DBE /* DoctorDetailsViewController.m in Sources */,
@@ -1777,7 +1779,6 @@
 				823B73881C491C3800031596 /* PromotionModel.m in Sources */,
 				82CE35E41C15B7E1003744C9 /* SearchViewController.m in Sources */,
 				8250A32D1B55142E0026ADCE /* ProductsViewController.m in Sources */,
-				82AB0CA61C2EBFC800675567 /* LineItems.m in Sources */,
 				8238A7061B5E4538005CC0A5 /* ProductDetail.m in Sources */,
 				8255671E1B68EC5E009F013A /* AddShippingViewModel.m in Sources */,
 				82147FCA1C452B9300D6691E /* DessertResponseModel.m in Sources */,
@@ -1787,13 +1788,12 @@
 				82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */,
 				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,
 				8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */,
-				82AB0CA41C2EBFC800675567 /* AddToCart.m in Sources */,
-				82AB0CA31C2EBFC800675567 /* AddToCart+CoreDataProperties.m in Sources */,
 				82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */,
 				82EA68001C43BB6B00F9924D /* DoctorModel.m in Sources */,
 				82147FCD1C452CD000D6691E /* RestaurantResponseModel.m in Sources */,
 				8286B2581BF08F3F00AFC533 /* StoreRealm.m in Sources */,
 				82A1D3CF1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.m in Sources */,
+				82E6DDEC1C5A3E1F00599EE2 /* LineItems+CoreDataProperties.m in Sources */,
 				82C97ED01C19939C00E6ED4C /* Location.m in Sources */,
 				82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,

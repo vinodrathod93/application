@@ -367,7 +367,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                         
 //                        self.pages = [self.viewModel getPagesCount:dictionary];
 //                        self.itemsCount = [self.viewModel getItemsCount:dictionary];
-//                        [self showCustomTitleViewWithCount:self.itemsCount];
+                        [self showCustomTitleViewWithCount:@"5"];
                         
                         [self.hud hide:YES];
                         [self.collectionView reloadData];
@@ -444,13 +444,14 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     UILabel *taxon = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, width, 22)];
     taxon.font = [UIFont fontWithName:@"AvenirNext-Medium" size:17.0f];
+    taxon.textColor = [UIColor whiteColor];
     taxon.text     = self.navigationTitleString;
     taxon.textAlignment = NSTextAlignmentCenter;
     
     UILabel *count = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, width, 24)];
     count.font = [UIFont fontWithName:@"AvenirNext-Regular" size:13.0f];
     count.text = [NSString stringWithFormat:@"( %@ Products )",countText];
-    count.textColor = [UIColor darkGrayColor];
+    count.textColor = [UIColor whiteColor];
     count.textAlignment = NSTextAlignmentCenter;
     
     

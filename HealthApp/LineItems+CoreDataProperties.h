@@ -2,7 +2,7 @@
 //  LineItems+CoreDataProperties.h
 //  
 //
-//  Created by adverto on 26/12/15.
+//  Created by adverto on 28/01/16.
 //
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *totalDisplayPrice;
 @property (nullable, nonatomic, retain) NSNumber *totalOnHand;
 @property (nullable, nonatomic, retain) NSNumber *variantID;
+@property (nullable, nonatomic, retain) NSString *meta;
 @property (nullable, nonatomic, retain) Order *order;
 
 @end

@@ -23,11 +23,11 @@
     [super viewDidLoad];
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.title = @"Verify Details";
+    self.title = @"VERIFY DETAILS";
     
     self.bookButton.layer.cornerRadius = 5.f;
     self.bookButton.layer.masksToBounds = YES;
-    [self.bookButton addTarget:self action:@selector(sendBookRequest) forControlEvents:UIControlEventTouchUpInside];
+    [self.bookButton addTarget:self action:@selector(bookButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     
     
     
@@ -36,15 +36,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    User *user = [User savedUser];
-    if (user.userID != nil) {
-        // Logged in
-        
-        [self loadInfo];
-    }
-    else {
-        [self showLoginPageAndIsPlacingOrder:NO];
-    }
+    [self loadInfo];
 }
 
 -(void)showLoginPageAndIsPlacingOrder:(BOOL)isPlacing {
@@ -77,6 +69,7 @@
         self.emailTextfield.text = @"NOT LOGGED IN";
     
     self.name.text = self.entity_name;
+    self.metaLabel.text = @"";
     
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
     self.profileImageView.layer.masksToBounds = YES;
@@ -84,6 +77,21 @@
     [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:self.entity_meta_info]];
     self.appointmentDateTimeLabel.text = [NSString stringWithFormat:@"🕚 %@, %@",self.date, self.time];
     
+}
+
+
+
+-(void)bookButtonTapped {
+    
+    User *user = [User savedUser];
+    if (user.userID != nil) {
+        // Logged in
+        
+        [self sendBookRequest];
+    }
+    else {
+        [self showLoginPageAndIsPlacingOrder:NO];
+    }
 }
 
 

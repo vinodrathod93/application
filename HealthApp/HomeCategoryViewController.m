@@ -33,7 +33,7 @@
 @property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) RLMResults *categoriesArray;
-//@property (nonatomic, strong) NSArray *categoryIcons;
+@property (nonatomic, strong) NSArray *categoryIcons;
 @property (nonatomic, strong) HeaderSliderView *headerView;
 @property (nonatomic, strong) NSArray *promotions;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -87,6 +87,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:count];
     
     
+    self.categoryIcons   = [self getPListIconsArray];
     
     // Register cell classes
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
@@ -186,6 +187,15 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.headerView.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.headerView.scrollView.frame) * self.promotions.count, CGRectGetHeight(self.headerView.scrollView.frame));
 }
 
+-(NSArray *)getPListIconsArray {
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Categories" ofType:@"plist"];
+    NSDictionary *rootDictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    
+    NSArray *iconsArray = rootDictionary[@"Icons"];
+    
+    return iconsArray;
+}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -213,19 +223,24 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(25, 10, cell.frame.size.width - (2*25.f), cell.frame.size.height - 10 - 40)];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
-    
-    [imageView sd_setImageWithURL:[NSURL URLWithString:category.image_url]];
-    
+    imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.categoryIcons[indexPath.item]]];
+//    [imageView sd_setImageWithURL:[NSURL URLWithString:category.image_url]];
+//    imageView.image = [imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//    [imageView setTintColor:[UIColor blackColor]];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 10, cell.frame.size.width - 10.f, 40)];
-    label.textColor = [UIColor whiteColor];
+    label.textColor = [UIColor blackColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
     label.font = [UIFont fontWithName:@"AvenirNext-Medium" size:14];
     label.text = category.name;
     
     UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
-    backgroundView.backgroundColor = [UIColor colorFromHexString:category.color_code];
+//    backgroundView.backgroundColor = [UIColor colorFromHexString:category.color_code];
+    
+    backgroundView.backgroundColor = [UIColor whiteColor];
+    backgroundView.tag = 30+indexPath.item;
+    
     [backgroundView addSubview:imageView];
     [backgroundView addSubview:label];
     
@@ -261,13 +276,37 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 }
 
 
+-(void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    
+    
+    
+    CategoryModel *model = self.categoriesArray[indexPath.row];
+    
+    UIView *view = [cell viewWithTag:30+indexPath.item];
+    view.backgroundColor = [UIColor colorWithRed:244/255.f green:237/255.f blue:7/255.f alpha:1.0];
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    
+    UIView *view = [cell viewWithTag:30+indexPath.item];
+    view.backgroundColor = [UIColor whiteColor];
+}
+
 #pragma mark <UICollectionViewDelegate>
 
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+//    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    
+    
     
     CategoryModel *model = self.categoriesArray[indexPath.row];
     
+//    UIView *view = [cell viewWithTag:30+indexPath.item];
+//    view.backgroundColor = [UIColor colorFromHexString:model.color_code];
     /*
     if (indexPath.item == 1) {
         
@@ -320,6 +359,14 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     
+    
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+//    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+//    
+//    UIView *view = [cell viewWithTag:30+indexPath.item];
+//    view.backgroundColor = [UIColor whiteColor];
     
 }
 
@@ -397,13 +444,17 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
             UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:image_url]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                imageView.image  = [UIImage imageWithCGImage:image.CGImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+                CIImage *newImage = [[CIImage alloc] initWithImage:image];
+                CIContext *context = [CIContext contextWithOptions:nil];
+                CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+                
+                imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
             });
         });
         
         
 //        [imageView sd_setImageWithURL:[NSURL URLWithString:promotion.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
-        imageView.contentMode = UIViewContentModeScaleToFill;
+//        imageView.contentMode = UIViewContentModeScaleAspectFit;
         
         [self.headerView.scrollView addSubview:imageView];
     }];

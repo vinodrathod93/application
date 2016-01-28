@@ -136,8 +136,20 @@
     [self.bannerImages enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_bannerView.scrollView.frame) * idx, 0, CGRectGetWidth(_bannerView.scrollView.frame), CGRectGetHeight(_bannerView.scrollView.frame))];
         imageView.tag = idx;
-        [imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
+//        [imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+        
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageName]]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                CIImage *newImage = [[CIImage alloc] initWithImage:image];
+                CIContext *context = [CIContext contextWithOptions:nil];
+                CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+                
+                imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+            });
+        });
         
         [_bannerView.scrollView addSubview:imageView];
     }];

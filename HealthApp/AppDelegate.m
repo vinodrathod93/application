@@ -14,6 +14,7 @@
 #import "NeediatorAPIKey.h"
 #import "LogSignViewController.h"
 #import "Appirater.h"
+#import "UIColor+HexString.h"
 
 
 @interface AppDelegate ()
@@ -69,7 +70,7 @@
     
     // UITabBar appearance
     [[UITabBar appearance] setTintColor:[UIColor blackColor]];
-    [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
+    [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:235/255.f green:235/255.f blue:240/255.f alpha:1.0]];
     [[UITabBar appearance] setTranslucent:NO];
     
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
@@ -81,7 +82,11 @@
                                                           [UIColor blackColor], NSForegroundColorAttributeName,
                                                           [UIFont fontWithName:@"AvenirNext-DemiBold" size:19.f], NSFontAttributeName , nil]];
     
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
+//    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:235/255.f green:235/255.f blue:240/255.f alpha:1.0]];
+    
+    
+//    EBEBF0
     [[UINavigationBar appearance] setTranslucent:NO];
     
     // Facebook Method

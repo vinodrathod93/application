@@ -53,6 +53,7 @@
     
     [self requestListings];
    
+    
 }
 
 
@@ -60,26 +61,27 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [self setNeedsStatusBarAppearanceUpdate];
+//    [self setNeedsStatusBarAppearanceUpdate];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorFromHexString:self.nav_color]];
-    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+//    [self.navigationController.navigationBar setBarTintColor:[UIColor colorFromHexString:self.nav_color]];
+//    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                    [UIColor whiteColor], NSForegroundColorAttributeName,
-                                                                    [UIFont fontWithName:@"AvenirNext-DemiBold" size:19.f], NSFontAttributeName , nil]];
+//    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+//                                                                    [UIColor whiteColor], NSForegroundColorAttributeName,
+//                                                                    [UIFont fontWithName:@"AvenirNext-DemiBold" size:19.f], NSFontAttributeName , nil]];
     
-    [self.tabBarController.tabBar setBarTintColor:[UIColor colorFromHexString:self.nav_color]];
-    [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
+//    [self.tabBarController.tabBar setBarTintColor:[UIColor colorFromHexString:self.nav_color]];
+//    [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     
     NSLog(@"%@", self.tabBarController.tabBar.items);
     
     
-    [self.tabBarController.tabBar.items enumerateObjectsUsingBlock:^(UITabBarItem * _Nonnull tabBarItem, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        
-        [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
-    }];
+//    [self.tabBarController.tabBar.items enumerateObjectsUsingBlock:^(UITabBarItem * _Nonnull tabBarItem, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        
+//        [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
+//    }];
     
     
 }
@@ -94,7 +96,7 @@
     [[self.navigationController.view viewWithTag:kListingNoListingTag] removeFromSuperview];
     [self removeConnectionView];
     
-    
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
 
 -(void)viewDidLayoutSubviews {
@@ -102,9 +104,9 @@
 }
 
 
-- (UIStatusBarStyle) preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
+//- (UIStatusBarStyle) preferredStatusBarStyle {
+//    return UIStatusBarStyleLightContent;
+//}
 
 
 #pragma mark - Table view data source

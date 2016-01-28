@@ -2,7 +2,7 @@
 //  AddToCart+CoreDataProperties.h
 //  
 //
-//  Created by adverto on 26/12/15.
+//  Created by adverto on 28/01/16.
 //
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
