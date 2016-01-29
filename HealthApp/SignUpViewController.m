@@ -11,9 +11,10 @@
 #import "AppDelegate.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "NSString+SignupValidation.h"
+#import <NBPhoneNumberUtil.h>
 
-//#define kREGISTER_URL @"http://chemistplus.in/register_test.php"
-#define kSign_up_url @"http://www.elnuur.com/api/users/sign_up"
+
+#define kSign_up_url @"http://neediator.in/NeediatorWS.asmx/registeruser"
 
 @interface SignUpViewController ()<UITextFieldDelegate,UIAlertViewDelegate>
 
@@ -33,7 +34,10 @@ typedef void(^completion)(BOOL finished);
     self.userName.delegate = self;
     self.passwordField.delegate = self;
     self.emailField.delegate = self;
-    self.confirmPasswordField.delegate = self;
+    self.mobileField.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardDidDisappear:) name:UIKeyboardDidHideNotification object:nil];
     
 }
 
@@ -41,6 +45,36 @@ typedef void(^completion)(BOOL finished);
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+-(void)keyboardDidShow:(NSNotification *)notification
+{
+    NSLog(@"KeyBoard appeared");
+    NSDictionary *info=[notification userInfo];
+    NSValue *aValue=[info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    
+    CGRect keyBoardRect=[aValue CGRectValue];
+    keyBoardRect=[self.view convertRect:keyBoardRect fromView:nil];
+    CGFloat keyBoardTop=keyBoardRect.origin.y; //i am getting the height of the keyboard
+    
+    self.scrollView.contentInset=UIEdgeInsetsMake(0, 0, keyBoardTop+50, 0); //adjust the height by setting the "contentInset"
+    
+    
+}
+
+-(void)keyboardDidDisappear:(NSNotification *)notification
+{
+    NSLog(@"KeyBoard Disappeared");
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.2];
+    self.scrollView.contentInset=UIEdgeInsetsMake(10, 0, 10, 0); //set to normal by setting the "contentInset"
+    
+    [UIView commitAnimations];
+    
+}
+
+
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -83,9 +117,9 @@ typedef void(^completion)(BOOL finished);
         [self.passwordField becomeFirstResponder];
     }
     else if ([textField isEqual:self.passwordField]) {
-        [self.confirmPasswordField becomeFirstResponder];
+        [self.mobileField becomeFirstResponder];
     }
-    else if ([textField isEqual:self.confirmPasswordField]) {
+    else if ([textField isEqual:self.mobileField]) {
         [self signUpPressed:nil];
     }
     
@@ -115,9 +149,11 @@ typedef void(^completion)(BOOL finished);
                         }
                         
                     }];
-                } else
+                } else {
                     NSLog(@"Could not login");
-                [self displayConnectionFailed];
+                    [self displayConnectionFailed];
+                }
+                
             }];
         }
         else {
@@ -131,7 +167,7 @@ typedef void(^completion)(BOOL finished);
 
 -(void)submitSignupDataWithCompletion:(completion)isLoggedIn {
     NSURL *url = [NSURL URLWithString:kSign_up_url];
-    NSString *user_data = [NSString stringWithFormat:@"user[email]=%@&user[password]=%@&user[password_confirmation]=%@",self.emailField.text,self.passwordField.text, self.confirmPasswordField.text];
+    NSString *user_data = [NSString stringWithFormat:@"username=%@&password=%@&name=%@&phoneno=%@",self.emailField.text,self.passwordField.text, self.userName.text, self.mobileField.text];
     NSData *post_data = [NSData dataWithBytes:[user_data UTF8String] length:[user_data length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
@@ -159,8 +195,8 @@ typedef void(^completion)(BOOL finished);
                     NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
                     NSLog(@"Response %ld", (long)[url_response statusCode]);
                     
-                    if (url_response.statusCode == 401) {
-                        NSString *error = [json valueForKey:@"error"];
+                    if ([json valueForKey:@"errors"] != nil) {
+                        NSString *error = [json valueForKey:@"errors"];
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self alertWithTitle:@"Error" message:error];
@@ -168,19 +204,20 @@ typedef void(^completion)(BOOL finished);
                         
                         isLoggedIn(NO);
                         
-                    } else if (url_response.statusCode == 200) {
+                    } else {
+                        
+                        NSArray *userData = [json valueForKey:@"registeruser"];
                         
                         User *user              = [[User alloc]init];
-                        user.userID             = [json valueForKey:@"id"];
-                        user.access_token       = [json valueForKey:@"access_token"];
-                        user.email              = [json valueForKey:@"email"];
-                        user.default_country_id = [json valueForKey:@"default_country_id"];
-                        user.bill_address       = [json valueForKey:@"bill_address"];
-                        user.ship_address       = [json valueForKey:@"ship_address"];
+                        user.userID             = [userData[0] valueForKey:@"id"];
+                        user.email              = [userData[0] valueForKey:@"email"];
+                        
                         
                         [user save];
                         
                         isLoggedIn(YES);
+                        
+                        
                     }
                 }
                 
@@ -221,13 +258,24 @@ typedef void(^completion)(BOOL finished);
         errorMessage = @"Please enter a valid email";
     } else if (![self.passwordField.text isValidPassword]) {
         errorMessage = @"Please enter a valid password";
-    } else if (![self.confirmPasswordField.text isEqualToString:self.passwordField.text]) {
-        errorMessage = @"Password doesn't match";
+    } else if (![self validatePhone:self.mobileField.text]) {
+        errorMessage = @"Please enter a valid Phone Number";
     }
     
     return errorMessage;
     
 }
+
+- (BOOL)validatePhone:(NSString *)phoneNumber
+{
+    
+    NBPhoneNumberUtil *phoneUtil = [[NBPhoneNumberUtil alloc] init];
+    NSError *error = nil;
+    NBPhoneNumber *number = [phoneUtil parse:phoneNumber defaultRegion:@"IN" error:&error];
+    return [phoneUtil isValidNumber:number];
+    
+}
+
 
 -(void)displayConnectionFailed {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];

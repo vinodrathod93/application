@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ListingTableViewController : UITableViewController<UIGestureRecognizerDelegate>
+@interface ListingTableViewController : UITableViewController<UIGestureRecognizerDelegate,UIScrollViewDelegate>
 
 @property (nonatomic, strong) NSString *root;
 @property (nonatomic, strong) NSString *nav_color;

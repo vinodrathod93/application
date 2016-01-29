@@ -42,7 +42,7 @@ typedef void(^completion)(BOOL finished);
     self.passwordImageView.image = [self.passwordImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [self.passwordImageView setTintColor:[UIColor whiteColor]];
     
-    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];

@@ -271,7 +271,7 @@
                                                 </constraints>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                                         <color key="value" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
@@ -466,12 +466,15 @@
                                                     <constraint firstAttribute="height" constant="35" id="4Ft-mB-Zjn"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                             </textField>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Eb-7p-hV9">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Eb-7p-hV9">
                                                 <rect key="frame" x="215" y="242" width="210" height="35"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="35" id="qhM-n5-b5a"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                                <textInputTraits key="textInputTraits" returnKeyType="join" secureTextEntry="YES"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="join"/>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zz4-WI-O9h">
                                                 <rect key="frame" x="215" y="162" width="210" height="35"/>
@@ -479,7 +482,7 @@
                                                     <constraint firstAttribute="height" constant="35" id="KAe-hf-JpU"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SIGN UP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r2g-mg-wdl">
                                                 <rect key="frame" x="255" y="8" width="91" height="31"/>
@@ -505,8 +508,11 @@
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="password" translatesAutoresizingMaskIntoConstraints="NO" id="fkz-07-KEX">
                                                 <rect key="frame" x="175" y="207" width="25" height="25"/>
                                             </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="password_filled" translatesAutoresizingMaskIntoConstraints="NO" id="zQF-Sn-ZXB">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone" translatesAutoresizingMaskIntoConstraints="NO" id="zQF-Sn-ZXB">
                                                 <rect key="frame" x="175" y="247" width="25" height="25"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="W29-Or-wH1"/>
+                                                </constraints>
                                             </imageView>
                                         </subviews>
                                         <constraints>
@@ -561,8 +567,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="Cwg-3l-g3i"/>
                     <connections>
-                        <outlet property="confirmPasswordField" destination="0Eb-7p-hV9" id="e7u-GA-2Rj"/>
                         <outlet property="emailField" destination="Zz4-WI-O9h" id="Sbx-hs-U8B"/>
+                        <outlet property="mobileField" destination="0Eb-7p-hV9" id="Lya-QV-OZw"/>
                         <outlet property="passwordField" destination="c6j-pN-Rh5" id="xSO-Gl-COk"/>
                         <outlet property="s_contentView" destination="ui8-sP-t25" id="2Yb-Yx-RQr"/>
                         <outlet property="scrollView" destination="bv8-7m-4XR" id="VUf-KT-z3y"/>
@@ -2975,7 +2981,7 @@
                                             <rect key="frame" x="8" y="0.0" width="584" height="140"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Restaurant name" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmX-BS-iAO">
-                                                    <rect key="frame" x="8" y="8" width="440" height="35"/>
+                                                    <rect key="frame" x="8" y="8" width="411" height="35"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -2994,7 +3000,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Street" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mq-0u-Id3">
-                                                    <rect key="frame" x="8" y="84" width="440" height="20"/>
+                                                    <rect key="frame" x="8" y="84" width="411" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="pR6-fg-PgA"/>
                                                     </constraints>
@@ -3013,10 +3019,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" semanticContentAttribute="spatial" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qcl-DR-Rpo">
-                                                    <rect key="frame" x="456" y="8" width="120" height="126"/>
+                                                    <rect key="frame" x="427" y="8" width="149" height="126"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Timing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WFx-CW-Z8H">
-                                                    <rect key="frame" x="86" y="112" width="362" height="20"/>
+                                                    <rect key="frame" x="86" y="112" width="333" height="20"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -3044,7 +3050,7 @@
                                                 <constraint firstItem="NmX-BS-iAO" firstAttribute="leading" secondItem="WZf-cv-hfP" secondAttribute="leading" constant="8" id="kKS-3q-5Ij"/>
                                                 <constraint firstAttribute="bottom" secondItem="WFx-CW-Z8H" secondAttribute="bottom" constant="8" id="lpW-47-NIx"/>
                                                 <constraint firstItem="Qcl-DR-Rpo" firstAttribute="top" secondItem="WZf-cv-hfP" secondAttribute="top" constant="8" id="nZF-dQ-fxG"/>
-                                                <constraint firstItem="Qcl-DR-Rpo" firstAttribute="width" secondItem="WZf-cv-hfP" secondAttribute="width" multiplier="0.2" constant="3" id="uhZ-eR-bOg"/>
+                                                <constraint firstItem="Qcl-DR-Rpo" firstAttribute="width" secondItem="WZf-cv-hfP" secondAttribute="width" multiplier="1:4" constant="3" id="uhZ-eR-bOg"/>
                                                 <constraint firstAttribute="trailing" secondItem="Qcl-DR-Rpo" secondAttribute="trailing" constant="8" id="wzV-BO-4Ox"/>
                                                 <constraint firstItem="6Bn-qe-EjV" firstAttribute="top" secondItem="NmX-BS-iAO" secondAttribute="bottom" constant="8" id="y8t-2X-xeC"/>
                                             </constraints>
@@ -3084,7 +3090,7 @@
                                             <rect key="frame" x="8" y="0.0" width="584" height="140"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e5e-E0-CYU">
-                                                    <rect key="frame" x="8" y="8" width="440" height="35"/>
+                                                    <rect key="frame" x="8" y="8" width="411" height="35"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -3103,7 +3109,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Street" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KvQ-b8-oKL">
-                                                    <rect key="frame" x="8" y="84" width="440" height="20"/>
+                                                    <rect key="frame" x="8" y="84" width="411" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="o3A-jz-QiH"/>
                                                     </constraints>
@@ -3122,16 +3128,16 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Timing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vtu-KQ-KVB">
-                                                    <rect key="frame" x="86" y="112" width="362" height="20"/>
+                                                    <rect key="frame" x="86" y="112" width="333" height="20"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jmn-YY-VMS">
-                                                    <rect key="frame" x="456" y="8" width="120" height="86"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jmn-YY-VMS">
+                                                    <rect key="frame" x="427" y="8" width="149" height="86"/>
                                                 </imageView>
                                                 <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dil-or-pEg">
-                                                    <rect key="frame" x="456" y="102" width="120" height="30"/>
+                                                    <rect key="frame" x="427" y="102" width="149" height="30"/>
                                                     <color key="backgroundColor" red="0.2796081857868421" green="0.70095015803157901" blue="0.42034021467105265" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="bbg-ZR-B0e"/>
@@ -3142,7 +3148,7 @@
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstItem="Jmn-YY-VMS" firstAttribute="width" secondItem="q7U-cg-VYS" secondAttribute="width" multiplier="0.2" constant="3.1999999999999886" id="4IO-nJ-Oh5"/>
+                                                <constraint firstItem="Jmn-YY-VMS" firstAttribute="width" secondItem="q7U-cg-VYS" secondAttribute="width" multiplier="1:4" constant="3" id="4IO-nJ-Oh5"/>
                                                 <constraint firstItem="VnZ-uo-BLg" firstAttribute="top" secondItem="KvQ-b8-oKL" secondAttribute="bottom" constant="8" id="4uf-OG-xi1"/>
                                                 <constraint firstAttribute="bottom" secondItem="VnZ-uo-BLg" secondAttribute="bottom" constant="8" id="EOQ-wW-UNh"/>
                                                 <constraint firstItem="e5e-E0-CYU" firstAttribute="top" secondItem="q7U-cg-VYS" secondAttribute="top" constant="8" id="Gl3-Xf-uHp"/>
@@ -3159,7 +3165,7 @@
                                                 <constraint firstItem="VnZ-uo-BLg" firstAttribute="leading" secondItem="q7U-cg-VYS" secondAttribute="leading" constant="8" id="YcG-QH-KTw"/>
                                                 <constraint firstItem="HQS-Fs-VjR" firstAttribute="top" secondItem="q7U-cg-VYS" secondAttribute="top" constant="51" id="gAA-7t-0Lz"/>
                                                 <constraint firstAttribute="bottom" secondItem="vtu-KQ-KVB" secondAttribute="bottom" constant="8" id="ghU-57-NiH"/>
-                                                <constraint firstItem="dil-or-pEg" firstAttribute="width" secondItem="q7U-cg-VYS" secondAttribute="width" multiplier="0.2" constant="3.1999999999999886" id="h30-rm-AgR"/>
+                                                <constraint firstItem="dil-or-pEg" firstAttribute="width" secondItem="q7U-cg-VYS" secondAttribute="width" multiplier="1:4" constant="3" id="h30-rm-AgR"/>
                                                 <constraint firstItem="e5e-E0-CYU" firstAttribute="leading" secondItem="q7U-cg-VYS" secondAttribute="leading" constant="8" id="hLp-BJ-htz"/>
                                                 <constraint firstItem="vtu-KQ-KVB" firstAttribute="top" secondItem="KvQ-b8-oKL" secondAttribute="bottom" constant="8" id="hcW-ri-3KP"/>
                                                 <constraint firstItem="KvQ-b8-oKL" firstAttribute="top" secondItem="HQS-Fs-VjR" secondAttribute="bottom" constant="9" id="hnt-Yu-gn2"/>
@@ -3943,7 +3949,7 @@
         <image name="Search" width="25" height="25"/>
         <image name="Search_Filled" width="25" height="25"/>
         <image name="bag_filled" width="25" height="25"/>
-        <image name="camera" width="320" height="568"/>
+        <image name="camera" width="561" height="122"/>
         <image name="camera_filled" width="50" height="50"/>
         <image name="cancel" width="30" height="30"/>
         <image name="cart" width="25" height="25"/>
@@ -3955,7 +3961,7 @@
         <image name="more_filled" width="25" height="25"/>
         <image name="near_me" width="22" height="22"/>
         <image name="password" width="25" height="25"/>
-        <image name="password_filled" width="25" height="25"/>
+        <image name="phone" width="32" height="32"/>
         <image name="user" width="25" height="25"/>
         <image name="username" width="25" height="25"/>
     </resources>

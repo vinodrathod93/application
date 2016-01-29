@@ -95,10 +95,10 @@
     CGRect frame;
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Pad);
+        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Pad + 10);
     }
     else
-        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Phone);
+        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Phone + 10);
     
     _bannerView.frame = frame;
     [_bannerView layoutIfNeeded];
@@ -310,10 +310,10 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return kHeaderViewHeight_Pad;
+        return kHeaderViewHeight_Pad + 10;
     }
     else
-        return kHeaderViewHeight_Phone;
+        return kHeaderViewHeight_Phone + 10;
 }
 
 

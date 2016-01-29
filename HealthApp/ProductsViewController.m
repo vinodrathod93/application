@@ -219,6 +219,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
     detailsVC.detail = self.viewModel.viewModelProducts[selectedIndexPath.row];
+    detailsVC.title  = [self.navigationTitleString uppercaseString];
     
     [self setTabBarVisible:[self tabBarIsVisible] animated:YES completion:^(BOOL finished) {
         NSLog(@"Finished Pushed");
@@ -444,14 +445,14 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     UILabel *taxon = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, width, 22)];
     taxon.font = [UIFont fontWithName:@"AvenirNext-Medium" size:17.0f];
-    taxon.textColor = [UIColor whiteColor];
+    taxon.textColor = [UIColor blackColor];
     taxon.text     = self.navigationTitleString;
     taxon.textAlignment = NSTextAlignmentCenter;
     
     UILabel *count = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, width, 24)];
     count.font = [UIFont fontWithName:@"AvenirNext-Regular" size:13.0f];
     count.text = [NSString stringWithFormat:@"( %@ Products )",countText];
-    count.textColor = [UIColor whiteColor];
+    count.textColor = [UIColor blackColor];
     count.textAlignment = NSTextAlignmentCenter;
     
     
