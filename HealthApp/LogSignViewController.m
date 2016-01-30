@@ -148,7 +148,7 @@ typedef void(^completion)(BOOL finished);
                     NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
                     NSLog(@"Response %ld", (long)[url_response statusCode]);
                     
-                    if (url_response.statusCode == 401) {
+                    if ([[json valueForKey:@"isError"] boolValue] == true) {
                         NSString *error = [json valueForKey:@"errors"];
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
@@ -160,12 +160,13 @@ typedef void(^completion)(BOOL finished);
                     } else if (url_response.statusCode == 200) {
                         NSLog(@"JSON %@",json);
                         
-                        NSArray *login     = [json valueForKey:@"checklogin"];
+                        NSArray *login     = [json valueForKey:@"signin"];
                         NSDictionary *data = [login lastObject];
                         
                         User *user              = [[User alloc]init];
-                        user.userID             = [data valueForKey:@"Id"];
-                        user.email              = [data valueForKey:@"Username"];
+                        user.userID             = [data valueForKey:@"Id1"];
+                        user.email              = [data valueForKey:@"Username1"];
+                        user.addresses          = [data objectForKey:@"Addreslist"];
                         
                         [user save];
                         

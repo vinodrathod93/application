@@ -34,5 +34,6 @@
 -(NSNumber *)total_on_hand;
 
 -(NSNumber *)storeID;
+-(NSNumber *)catID;
 
 @end

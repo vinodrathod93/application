@@ -162,6 +162,7 @@ static NSString *summary = @"summary"; */
         detail.productID =  [product valueForKey:@"productid"];
         detail.name =       [product valueForKey:@"productname"];
         detail.storeID   =  [product valueForKey:@"storeid"];
+        detail.catID     =  [product valueForKey:@"catid"];
 //        detail.hasVariant = [[product objectForKey:@"has_variants"] boolValue];
         detail.total_on_hand = [product valueForKey:@"Qty"];
         

@@ -13,4 +13,5 @@
 @property (nonatomic, copy) NSDate *date;
 @property (nonatomic, copy) NSDictionary *timeSlot;
 
+
 @end

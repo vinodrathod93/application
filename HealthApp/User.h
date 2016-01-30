@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSString *default_country_id;
 @property (nonatomic, copy) NSDictionary *bill_address;
 @property (nonatomic, copy) NSDictionary *ship_address;
+@property (nonatomic, copy) NSArray *addresses;
 
 -(void)save;
 + (id)savedUser;

@@ -69,12 +69,12 @@
         self.emailTextfield.text = @"NOT LOGGED IN";
     
     self.name.text = self.entity_name;
-    self.metaLabel.text = @"";
+    self.metaLabel.text = self.entity_meta_string;
     
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
     self.profileImageView.layer.masksToBounds = YES;
     
-    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:self.entity_meta_info]];
+    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:self.image_url]];
     self.appointmentDateTimeLabel.text = [NSString stringWithFormat:@"🕚 %@, %@",self.date, self.time];
     
 }

@@ -36,12 +36,12 @@
     // Start Monitoring
     [self.googleReach startNotifier];
     
-    
+    [self checkCurrentVersion];
     
     
     /* Appirater 1073622324*/
     
-    [Appirater setAppId:@"1073622324"];
+    [Appirater setAppId:kAPP_ID];
     [Appirater setDaysUntilPrompt:7];
     [Appirater setUsesUntilPrompt:5];
     [Appirater setSignificantEventsUntilPrompt:-1];
@@ -86,7 +86,6 @@
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:235/255.f green:235/255.f blue:240/255.f alpha:1.0]];
     
     
-//    EBEBF0
     [[UINavigationBar appearance] setTranslucent:NO];
     
     // Facebook Method
@@ -254,10 +253,61 @@
 
 #pragma mark - Get Current Orders
 
--(void)getCurrentCartItems {
+-(void)checkCurrentVersion {
     
+    NSString *lookupString = [NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@",kAPP_ID];
     
-    
+    [[NAPIManager sharedManager] GET:lookupString parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Version Check %@", downloadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSDictionary *appMetaData    = (NSDictionary *)responseObject;
+        
+        NSArray *resultsArray = (appMetaData)?[appMetaData objectForKey:@"results"]:nil;
+        NSDictionary *resultsDic = [resultsArray firstObject];
+        if (resultsDic) {
+            // compare version with your apps local version
+            NSString *iTunesVersion = [resultsDic objectForKey:@"version"];
+            NSString *releaseNotes  = [resultsDic objectForKey:@"releaseNotes"];
+            
+            NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)@"CFBundleShortVersionString"];
+            if (iTunesVersion && [appVersion compare:iTunesVersion] != NSOrderedSame) { // new version exists
+                // inform user new version exists, give option that links to the app store to update your app - see
+                
+                NSString *title = [NSString stringWithFormat:@"New Version %@ Available", iTunesVersion];
+                NSString *message = [NSString stringWithFormat:@"New in this version:\n %@", releaseNotes];
+                
+                UIAlertController *alertVersion = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *not_now = [UIAlertAction actionWithTitle:@"Not Now" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    NSLog(@"Dismissed Version Alert");
+                    
+                    [alertVersion dismissViewControllerAnimated:YES completion:nil];
+                }];
+                
+                
+                UIAlertAction *update = [UIAlertAction actionWithTitle:@"Update" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    
+//                    NSString *iTunesLink = [NSString stringWithFormat:@"itms://itunes.apple.com/us/app/apple-store/id%@?mt=8",kAPP_ID];
+                    NSString *iTunesLink = kAPP_URL_STRING;
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+
+                }];
+                
+                [alertVersion addAction:not_now];
+                [alertVersion addAction:update];
+                
+                [self.window.rootViewController presentViewController:alertVersion animated:YES completion:nil];
+                
+            }
+        }
+        
+        
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"Error in Version Check : %@",error.localizedDescription);
+    }];
     
     
     

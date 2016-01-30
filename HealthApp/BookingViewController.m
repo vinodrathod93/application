@@ -17,6 +17,8 @@
     NSArray *_complete_timeSlots;
     NSDictionary *_day_timeSlots;
     NSArray *_sortedTimes;
+    MBProgressHUD *_hud;
+    UIView *_dimView;
 }
 
 -(void)viewDidLoad {
@@ -45,27 +47,24 @@
     NSLog(@"Request Parameter %@", parameter);
     
     
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [spinner setCenter:self.collectionView.center];
-    [self.collectionView addSubview:spinner];
     
-    [spinner startAnimating];
-    
+    [self showHUD];
     _task = [[NAPIManager sharedManager] getTimeSlotsWithRequest:parameter success:^(TimeSlotResponseModel *response) {
         
         _complete_timeSlots = response.timeSlots;
         
-        TimeSlotModel *model = [_complete_timeSlots objectAtIndex:0];
+        TimeSlotModel *model = [_complete_timeSlots firstObject];
         _day_timeSlots      = model.timeSlot;
         
+        self.metaInfo.text  = response.categoryName;
         
-        [spinner stopAnimating];
+        [self hideHUD];
         
         [self.collectionView reloadData];
         
     } failure:^(NSError *error) {
         
-        [spinner stopAnimating];
+        [self hideHUD];
         
         NSLog(@"Error %@", error.localizedDescription);
     }];
@@ -76,7 +75,7 @@
     self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2;
     self.profileImageView.layer.masksToBounds = YES;
     
-    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:self.entity_meta_info]];
+    [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:self.image_url]];
 
 }
 
@@ -98,6 +97,7 @@
     
     
     cell.timeLabel.text = _sortedTimes[indexPath.item];
+
     
     return cell;
     
@@ -125,7 +125,8 @@
     bookConfirmVC.cat_id = self.category_id;
     bookConfirmVC.entity_id = self.entity_id;
     bookConfirmVC.entity_name = self.entity_name;
-    bookConfirmVC.entity_meta_info = self.entity_meta_info;
+    bookConfirmVC.image_url = self.image_url;
+    bookConfirmVC.entity_meta_string = self.metaInfo.text;
     bookConfirmVC.timeSlot_id = time_key;
     bookConfirmVC.date      = [inFormat stringFromDate:self.calendar.selectedDate];
     bookConfirmVC.time      = _sortedTimes[indexPath.item];
@@ -163,6 +164,23 @@
         }
     }];
     
+}
+
+-(void)showHUD {
+    
+    
+    _dimView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), self.view.frame.size.height - 64 - 44)];
+    _dimView.backgroundColor = [UIColor whiteColor];
+    
+    [self.view addSubview:_dimView];
+    
+    _hud = [MBProgressHUD showHUDAddedTo:_dimView animated:YES];
+}
+
+-(void)hideHUD {
+    [_hud hide:YES];
+    
+    [_dimView removeFromSuperview];
 }
 
 @end

@@ -13,6 +13,8 @@
 #endif /* NeediatorConstants_h */
 
 
+static NSString *const kAPP_ID = @"1073622324";
+
 /* Home VC */
 
 #define kHeaderViewHeight_Pad 280

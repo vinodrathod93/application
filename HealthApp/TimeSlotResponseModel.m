@@ -14,7 +14,11 @@
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
              
-             @"timeSlots" : @"timeslot"
+             @"timeSlots"   : @"timeslot",
+             @"entityName"  : @"storename",
+             @"categoryName": @"catname",
+             @"categoryID"  : @"catid",
+             @"entityID"    : @"store_id"
              
              };
 }

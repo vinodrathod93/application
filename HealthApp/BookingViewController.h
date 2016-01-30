@@ -22,6 +22,6 @@
 @property (nonatomic, strong) NSString *entity_id;
 @property (nonatomic, strong) NSString *category_id;
 @property (nonatomic, strong) NSString *entity_name;
-@property (nonatomic, strong) NSString *entity_meta_info;
+@property (nonatomic, strong) NSString *image_url;
 
 @end

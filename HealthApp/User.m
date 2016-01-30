@@ -25,6 +25,7 @@
     [encoder encodeObject:self.default_country_id forKey:@"defaultCountry"];
     [encoder encodeObject:self.bill_address forKey:@"billAddress"];
     [encoder encodeObject:self.ship_address forKey:@"shipAddress"];
+    [encoder encodeObject:self.addresses forKey:@"addresses"];
 }
 
 #pragma mark - Decoding
@@ -43,6 +44,7 @@
         _default_country_id = [decoder decodeObjectForKey:@"defaultCountry"];
         _bill_address       = [decoder decodeObjectForKey:@"billAddress"];
         _ship_address       = [decoder decodeObjectForKey:@"shipAddress"];
+        _addresses          = [decoder decodeObjectForKey:@"addresses"];
         
     }
     return self;

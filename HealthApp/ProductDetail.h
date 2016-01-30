@@ -30,6 +30,6 @@
 
 //Neediator API
 @property (nonatomic, strong) NSString *storeID;
-
+@property (nonatomic, strong) NSString *catID;
 
 @end

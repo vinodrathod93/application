@@ -11,5 +11,9 @@
 @interface TimeSlotResponseModel : MTLModel<MTLJSONSerializing>
 
 @property (nonatomic, copy) NSArray *timeSlots;
+@property (nonatomic, copy) NSString *entityName;
+@property (nonatomic, copy) NSString *categoryName;
+@property (nonatomic, copy) NSNumber *categoryID;
+@property (nonatomic, copy) NSNumber *entityID;
 
 @end

@@ -75,6 +75,10 @@
     return [self.model valueForKey:@"storeID"];
 }
 
+-(NSNumber *)catID {
+    return [self.model valueForKey:@"catID"];
+}
+
 -(NSNumber *)quantity {
     return @(1);
 }

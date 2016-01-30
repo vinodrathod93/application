@@ -645,7 +645,7 @@
     bookingVC.category_id               = self.category_id;
     bookingVC.entity_id                 = model.list_id.stringValue;
     bookingVC.entity_name               = model.name;
-    bookingVC.entity_meta_info          = model.image_url;
+    bookingVC.image_url                 = model.image_url;
     
     [self.navigationController pushViewController:bookingVC animated:YES];
 }

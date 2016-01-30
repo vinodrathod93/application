@@ -15,7 +15,9 @@
 @property (nonatomic, strong) NSString *time;
 @property (nonatomic, strong) NSString *entity_id;
 @property (nonatomic, strong) NSString *entity_name;
-@property (nonatomic, strong) NSString *entity_meta_info;
+@property (nonatomic, strong) NSString *image_url;
+@property (nonatomic, strong) NSString *entity_meta_string;
+
 @property (nonatomic, strong) NSString *cat_id;
 
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;

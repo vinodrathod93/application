@@ -110,7 +110,7 @@ typedef void(^completion)(BOOL finished);
                     NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
                     NSLog(@"Response %ld", (long)[url_response statusCode]);
                     
-                    if (url_response.statusCode == 401) {
+                    if ([[json valueForKey:@"isError"] boolValue] == true) {
                         NSString *error = [json valueForKey:@"errors"];
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
