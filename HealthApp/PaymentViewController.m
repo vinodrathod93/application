@@ -337,12 +337,15 @@ typedef void(^completion)(BOOL finished);
 -(void)loadCheckoutProcess {
     User *user = [User savedUser];
     
-    NSString *url = [NSString stringWithFormat:@"http://%@%@/%@/advance?token=%@", self.orderModel.store_url, kCheckoutURL, self.orderModel.number, user.access_token];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/checkout"];
     NSLog(@"URL is --> %@", url);
+    
+    NSString *parameter = [NSString stringWithFormat:@"user_id=%@&cat_id=%@&store_id=%@",user.userID, self.orderModel.cat_id.stringValue, self.orderModel.store_id];
     
     NSURLSession *session = [NSURLSession sharedSession];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    request.HTTPMethod = @"PUT";
+    request.HTTPMethod = @"POST";
+    request.HTTPBody    = [NSData dataWithBytes:[parameter UTF8String] length:[parameter length]];
     [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     
     
@@ -357,8 +360,16 @@ typedef void(^completion)(BOOL finished);
                 
                 NSLog(@"%@",json);
                 
+                NSNumberFormatter *headerCurrencyFormatter = [[NSNumberFormatter alloc] init];
+                [headerCurrencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+                [headerCurrencyFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_IN"]];
+                
+                
+                NSArray *totalCart          = [json valueForKey:@"totalcart"];
+                NSDictionary *totalValue         = [totalCart objectAtIndex:0];
+                
                 self.order_id               = [json valueForKey:@"number"];
-                self.display_total          = [json valueForKey:@"display_total"];
+                self.display_total          = [NSString stringWithFormat:@"%@",[headerCurrencyFormatter stringFromNumber:[totalValue valueForKey:@"totalvalue"] ]];
                 self.display_item_total     = [json valueForKey:@"display_item_total"];
                 self.display_delivery_total = [json valueForKey:@"display_ship_total"];
                 self.total                  = [json valueForKey:@"total"];

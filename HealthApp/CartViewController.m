@@ -70,11 +70,10 @@ static NSString *cellIdentifier = @"cartCell";
     self.managedObjectContext = self.appDelegate.managedObjectContext;
     
 //    [self.cartFetchedResultsController performFetch:nil];
-    
+//    [self updateBadgeValue];
     
     
     [self checkOrders];
-    [self checkLineItems];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendCheckoutRequestToServer) name:@"loggedInSendOrderNotification" object:nil];
     
@@ -144,6 +143,7 @@ static NSString *cellIdentifier = @"cartCell";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
+    [self updateBadgeValue];
     
     return self.orderNumFetchedResultsController.fetchedObjects.count;
 }
@@ -153,7 +153,7 @@ static NSString *cellIdentifier = @"cartCell";
     
 //    id<NSFetchedResultsSectionInfo> sectionInfo = [self.lineItemsFetchedResultsController sections][section];
 //    NSLog(@"%lu",(unsigned long)[sectionInfo numberOfObjects]);
-    [self updateBadgeValue];
+    
     
 //    if (self.lineItemsFetchedResultsController.fetchedObjects.count == 0) {
 //        [self decorateNoCartDimmView];
@@ -216,21 +216,25 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 40.0f;
+    return 60.0f;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 40.0f;
+    return 80.0f;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
     
     return [self configureHeaderView:headerView forSection:section];
 }
 
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80)];
+    
+    
     UIButton *placeOrderbutton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
     [placeOrderbutton setTitle:@"CHECKOUT" forState:UIControlStateNormal];
     [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-DemiBold" size:16.0f]];
@@ -247,7 +251,9 @@ static NSString *cellIdentifier = @"cartCell";
         [placeOrderbutton setHidden:YES];
     }
     
-    return placeOrderbutton;
+    [footerView addSubview:placeOrderbutton];
+    
+    return footerView;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -270,9 +276,11 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self checkLineItems];
+    [self checkOrders];
     
-    LineItems *item = self.lineItemsFetchedResultsController.fetchedObjects[indexPath.row];
+//    LineItems *item = self.lineItemsFetchedResultsController.fetchedObjects[indexPath.row];
+    
+    Order *orderModel = [self.orderNumFetchedResultsController.fetchedObjects objectAtIndex:indexPath.section];
     
     
     
@@ -280,7 +288,7 @@ static NSString *cellIdentifier = @"cartCell";
 //        [self.tableView reloadData];
 //    }];
     
-    [self deleteLineItem:item];
+    [self deleteOrderLineItem:orderModel atIndexPath:indexPath];
 }
 
 
@@ -417,7 +425,11 @@ static NSString *cellIdentifier = @"cartCell";
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     
-    LineItems *line_item = [self.lineItemsFetchedResultsController.fetchedObjects objectAtIndex:self.selectIndexPath.row];
+//    LineItems *line_item = [self.lineItemsFetchedResultsController.fetchedObjects objectAtIndex:self.selectIndexPath.row];
+    
+    
+    Order *orderModel       = [self.orderNumFetchedResultsController.fetchedObjects objectAtIndex:self.selectIndexPath.section];
+    
 //
 //    NSArray *quantityArray = [self getQuantityArrayWithCount:line_item.totalOnHand];
     
@@ -442,7 +454,7 @@ static NSString *cellIdentifier = @"cartCell";
 //        
 //        [self saveQuantity:quantity andTotalPrice:totalPrice];
         
-        [self updateLineItem:line_item withQuantity:quantity];
+        [self updateOrderLineItem:orderModel withQuantity:quantity];
     }
     
 }
@@ -475,29 +487,34 @@ static NSString *cellIdentifier = @"cartCell";
         
         
     } else {
-        HeaderLabel *items = [[HeaderLabel alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/2, 40)];
         
         Order *order = self.orderNumFetchedResultsController.fetchedObjects[section];
-        
-        
-        
-        items.text = [NSString stringWithFormat:@"Products: %lu",(unsigned long)order.cartLineItems.count];
-        items.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
-        items.backgroundColor = [UIColor whiteColor];
-        
-        
-        HeaderLabel *totalAmount = [[HeaderLabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 , 0, self.view.frame.size.width/2, 40)];
         
         NSNumberFormatter *headerCurrencyFormatter = [[NSNumberFormatter alloc] init];
         [headerCurrencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
         [headerCurrencyFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_IN"]];
-        NSString *total_price_string = [headerCurrencyFormatter stringFromNumber:[NSNumber numberWithInteger:[self totalAmount]]];
+        NSString *total_price_string = [headerCurrencyFormatter stringFromNumber:[NSNumber numberWithInteger:order.total.integerValue]];
         
+        
+        HeaderLabel *storeName = [[HeaderLabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
+        storeName.text          = [NSString stringWithFormat:@"%@", order.store.capitalizedString];
+        storeName.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
+        storeName.backgroundColor = [UIColor whiteColor];
+        
+        
+        HeaderLabel *items = [[HeaderLabel alloc]initWithFrame:CGRectMake(0, 30, self.view.frame.size.width/2, 30)];
+        items.text = [NSString stringWithFormat:@"Products: %lu",(unsigned long)order.cartLineItems.count];
+        items.font = [UIFont fontWithName:@"AvenirNext-Regular" size:15.0f];
+        items.backgroundColor = [UIColor whiteColor];
+        
+        
+        HeaderLabel *totalAmount = [[HeaderLabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 , 30, self.view.frame.size.width/2, 30)];
         totalAmount.text = [NSString stringWithFormat:@"%@",total_price_string];
         totalAmount.textAlignment = NSTextAlignmentRight;
-        totalAmount.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
+        totalAmount.font = [UIFont fontWithName:@"AvenirNext-Regular" size:15.0f];
         totalAmount.backgroundColor = [UIColor whiteColor];
         
+        [header addSubview:storeName];
         [header addSubview:items];
         [header addSubview:totalAmount];
     }
@@ -546,10 +563,11 @@ static NSString *cellIdentifier = @"cartCell";
     
     __block NSInteger countItems;
     
-    [self.orderNumFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(Order  *_Nonnull order, NSUInteger idx, BOOL * _Nonnull stop) {
-        countItems = countItems + order.cartLineItems.count;
-    }];
+//    [self.orderNumFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(Order  *_Nonnull order, NSUInteger idx, BOOL * _Nonnull stop) {
+//        countItems = countItems + order.cartLineItems.count;
+//    }];
     
+    countItems = self.orderNumFetchedResultsController.fetchedObjects.count;
     
     NSString *count = [NSString stringWithFormat:@"%lu", (unsigned long)countItems];
     
@@ -698,14 +716,17 @@ static NSString *cellIdentifier = @"cartCell";
     
     self.loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), self.view.frame.size.height)];
     self.loadingView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.loadingView];
+//    [self.view addSubview:self.loadingView];
+//    [self.navigationController.view insertSubview:self.loadingView aboveSubview:self.navigationController.navigationBar];
+    
+    [self.view insertSubview:self.loadingView aboveSubview:self.tableView];
     
     self.hud = [MBProgressHUD showHUDAddedTo:self.loadingView animated:YES];
     self.hud.color = [UIColor blackColor];
     self.hud.labelText = text;
     self.hud.detailsLabelText = detail;
-    self.hud.center = self.view.center;
-    self.hud.dimBackground = YES;
+    self.hud.center = self.loadingView.center;
+//    self.hud.dimBackground = YES;
 }
 
 -(void)hideHUD {
@@ -730,12 +751,12 @@ static NSString *cellIdentifier = @"cartCell";
     
     if (self.orderModel.number != nil) {
         
-        if (_ship_address != nil)
-            [self proceedToPaymentPage:self.orderModel];
-        else
-            [self proceedToNewAddressPage];
+//        if (_ship_address != nil)
+//            [self proceedToPaymentPage:self.orderModel];
+//        else
+//            [self proceedToNewAddressPage];
         
-        
+        [self proceedToPaymentPage:self.orderModel];
         
     }
     else
@@ -889,8 +910,14 @@ static NSString *cellIdentifier = @"cartCell";
                                                     } else
                                                         self.lineItemModel.image            = @"";
                                                     
+                                                    
+                                                    
+                                                    
                                                     [self.orderModel addCartLineItemsObject:self.lineItemModel];
                                                 }
+                                                
+                                                self.orderModel.cat_id              = [line_items[0] valueForKey:@"catid"];
+                                                self.orderModel.store_id           = [line_items[0] valueForKey:@"storeid"];
                                                 
                                                 [self.managedObjectContext save:nil];
                                                 [self hideHUD];
@@ -960,14 +987,16 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
--(void)deleteLineItem:(LineItems *)item {
+-(void)deleteOrderLineItem:(Order *)order atIndexPath:(NSIndexPath *)indexPath {
     
     User *user = [User savedUser];
 //    RLMRealm *realm = [RLMRealm defaultRealm];
 //    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
     
     [self checkOrders];
-    self.orderModel = self.orderNumFetchedResultsController.fetchedObjects.lastObject;
+//    self.orderModel = self.orderNumFetchedResultsController.fetchedObjects.lastObject;
+    
+    LineItems *item     = [order.cartLineItems.allObjects objectAtIndex:indexPath.row];
     
     NSString *parameter = [NSString stringWithFormat:@"id=%@&userid=%@", item.lineItemID.stringValue, user.userID];
     
@@ -996,12 +1025,26 @@ static NSString *cellIdentifier = @"cartCell";
                         
                         [self.managedObjectContext deleteObject:item];
                         
+                        
                         NSError *error = nil;
                         if (![self.managedObjectContext save:&error]) {
                             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                             abort();
                         }
-                        [self checkLineItems];
+                        
+                        
+                        if (order.cartLineItems.allObjects.count == 0) {
+                            [self.managedObjectContext deleteObject:order];
+                        }
+                        
+                        
+                        NSError *orderError = nil;
+                        if (![self.managedObjectContext save:&orderError]) {
+                            NSLog(@"Unresolved Order error %@, %@", orderError, [orderError userInfo]);
+                            abort();
+                        }
+                        
+                        [self checkOrders];
                         
                         [self.tableView reloadData];
                         
@@ -1037,7 +1080,7 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
--(void)updateLineItem:(LineItems *)line_item withQuantity:(NSInteger)quantity {
+-(void)updateOrderLineItem:(Order *)order withQuantity:(NSInteger)quantity {
     
     User *user = [User savedUser];
 //    RLMRealm *realm = [RLMRealm defaultRealm];
@@ -1045,7 +1088,9 @@ static NSString *cellIdentifier = @"cartCell";
     
     [self checkOrders];
     
-    self.orderModel = self.orderNumFetchedResultsController.fetchedObjects.lastObject;
+//    self.orderModel = self.orderNumFetchedResultsController.fetchedObjects.lastObject;
+    
+    LineItems *line_item         = [order.cartLineItems.allObjects objectAtIndex:self.selectIndexPath.row];
     
     if (user.userID != nil) {
         
@@ -1080,6 +1125,10 @@ static NSString *cellIdentifier = @"cartCell";
                         NSLog(@"Update Line Items Json ===> %@",json);
                         
                         if ([[json objectForKey:@"cart"] isKindOfClass:[NSArray class]]) {
+                            
+                            order.total         = [[json valueForKey:@"amount"] stringValue];
+                            
+                            
                             NSArray *cartArray = [json objectForKey:@"cart"];
                             NSDictionary *updatedItem = [cartArray lastObject];
                             
