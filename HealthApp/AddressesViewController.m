@@ -13,6 +13,7 @@
 #import "AddressCell.h"
 #import "AppDelegate.h"
 #import "User.h"
+#import "EditAddressViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
 #define kADD_ADDRESS_CELL @"addAddressCell"
@@ -29,6 +30,8 @@
 @property (nonatomic, strong) NSDictionary *shipping_data;
 @property (nonatomic, strong) User *user;
 
+@property (nonatomic, strong) NSDictionary *addresses;
+
 @end
 
 typedef void(^completion)(BOOL finished);
@@ -40,9 +43,9 @@ typedef void(^completion)(BOOL finished);
     
     _user = [User savedUser];
     
-    if (_user != nil) {
-        self.addresses = _user.bill_address;
-    }
+//    if (_user != nil) {
+//        self.addresses = _user.bill_address;
+//    }
     
     
     self.title = @"My Addresses";
@@ -59,6 +62,12 @@ typedef void(^completion)(BOOL finished);
     
 }
 
+- (IBAction)cancelPressed:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -71,7 +80,7 @@ typedef void(^completion)(BOOL finished);
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     
-    return (section == 0) ? 1: 1;
+    return (section == 0) ? 1: self.addressesArray.count;
 }
 
 
@@ -115,21 +124,30 @@ typedef void(^completion)(BOOL finished);
 
 -(void)configureAvailableAddressCell:(AddressCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     
-    cell.full_name.text = [[self.addresses valueForKey:@"full_name"] capitalizedString];
     
-    NSString *address1 = [[self.addresses valueForKey:@"address1"] capitalizedString];
+    NSDictionary *address = self.addressesArray[indexPath.row];
     
-    NSString *address2 = [self.addresses valueForKey:@"address2"];
     
-    if (![address2 isEqual:[NSNull null]])
-        address2       = [address2 capitalizedString];
+    if ([[address valueForKey:@"deliverable"] boolValue] == FALSE) {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [UIColor lightGrayColor];
+        cell.userInteractionEnabled = NO;
+    }
+    else {
+        NSLog(@"Deliverable ");
+    }
+    
+    cell.full_name.text = [[self.user_data valueForKey:@"name"]capitalizedString];
+    
+    NSString *address1 = [[address valueForKey:@"address"] capitalizedString];
+    
+    if (![address1 isEqual:[NSNull null]])
+        address1       = [address1 capitalizedString];
     else
-        address2       = @"";
+        address1       = @"";
     
-    
-    NSString *city     = [[self.addresses valueForKey:@"city"] capitalizedString];
-    NSString *zipcode  = [self.addresses valueForKey:@"zipcode"];
-    cell.completeAddress.text = [NSString stringWithFormat:@"%@, %@, %@ - %@",address1, address2, city, zipcode];
+    NSString *zipcode  = [address valueForKey:@"pincode"];
+    cell.completeAddress.text = [NSString stringWithFormat:@"%@, - %@",address1, zipcode];
 }
 
 
@@ -155,6 +173,31 @@ typedef void(^completion)(BOOL finished);
 
 
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 1) {
+        
+        self.addresses = self.addressesArray[indexPath.row];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+
+    }
+    else {
+        EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
+        editAddressVC.title = @"Add Address";
+        
+//        if (![self.addresses isEqual:[NSNull null]]) {
+//            
+//            editAddressVC.title       = @"Edit Address";
+//            editAddressVC.shipAddress = self.addresses;
+//        }
+        
+        
+        [self.navigationController pushViewController:editAddressVC animated:YES];
+    }
+    
+    
+}
+
 
 
 -(void)displayConnectionFailed {
@@ -174,20 +217,24 @@ typedef void(^completion)(BOOL finished);
 
 -(BOOL)isAddressAvailable {
     
-    if (_addresses != nil) {
-        if ([[_addresses valueForKey:@"full_name"] isEqual:[NSNull null]])
-            return NO;
-
-        else if ([[_addresses valueForKey:@"address1"] isEqual:[NSNull null]])
-            return NO;
-        
-        else if ([[_addresses valueForKey:@"zipcode"] isEqual:[NSNull null]])
-            return NO;
+//    if (_addresses != nil) {
+//        if ([[_addresses valueForKey:@"full_name"] isEqual:[NSNull null]])
+//            return NO;
+//
+//        else if ([[_addresses valueForKey:@"address1"] isEqual:[NSNull null]])
+//            return NO;
+//        
+//        else if ([[_addresses valueForKey:@"zipcode"] isEqual:[NSNull null]])
+//            return NO;
+//    }
+//    else
+//        return NO;
+    
+    if (self.addressesArray.count > 0) {
+        return YES;
     }
     else
         return NO;
-    
-    return YES;
 }
 
 
@@ -234,7 +281,7 @@ typedef void(^completion)(BOOL finished);
 
 #pragma mark - Not Needed 
 
-
+/*
 
 -(void)deleteCurrentOrder {
     User *user = [User savedUser];
@@ -364,7 +411,7 @@ typedef void(^completion)(BOOL finished);
     return orderAddress;
 }
 
-
+*/
 
 /*
  -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

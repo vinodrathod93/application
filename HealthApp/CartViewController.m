@@ -57,6 +57,8 @@ static NSString *cellIdentifier = @"cartCell";
 
 @property (nonatomic, strong) NoConnectionView *connectionErrorView;
 
+@property (nonatomic, strong) NSArray *cartOrdersArray;
+
 @end
 
 @implementation CartViewController
@@ -71,7 +73,8 @@ static NSString *cellIdentifier = @"cartCell";
     
 //    [self.cartFetchedResultsController performFetch:nil];
 //    [self updateBadgeValue];
-    
+    self.title = @"CART";
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     [self checkOrders];
     
@@ -216,15 +219,16 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 60.0f;
+    return 30.0f;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 80.0f;
+    return 160.f;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
+    headerView.backgroundColor = [UIColor clearColor];
     
     return [self configureHeaderView:headerView forSection:section];
 }
@@ -234,11 +238,71 @@ static NSString *cellIdentifier = @"cartCell";
     
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80)];
     
+    [self checkOrders];
+    Order *order = self.orderNumFetchedResultsController.fetchedObjects[section];
     
-    UIButton *placeOrderbutton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+    NSNumberFormatter *headerCurrencyFormatter = [[NSNumberFormatter alloc] init];
+    [headerCurrencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [headerCurrencyFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_IN"]];
+    
+    NSInteger itemAmount = order.total.intValue - order.shipping_charge.intValue;
+    
+    if (itemAmount < 0) {
+        itemAmount = 0;
+    }
+    
+    NSString *total_price_string = [headerCurrencyFormatter stringFromNumber:[NSNumber numberWithInteger:order.total.integerValue]];
+    
+    HeaderLabel *itemLabel = [[HeaderLabel alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/2, 25)];
+    itemLabel.text = @"Item Total";
+    itemLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:14.0f];
+    itemLabel.textColor = [UIColor darkGrayColor];
+    itemLabel.backgroundColor = [UIColor whiteColor];
+    
+    
+    HeaderLabel *itemTotal = [[HeaderLabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 , 0, self.view.frame.size.width/2, 25)];
+    itemTotal.text = [headerCurrencyFormatter stringFromNumber:@(itemAmount)];
+    itemTotal.textAlignment = NSTextAlignmentRight;
+    itemTotal.font = [UIFont fontWithName:@"AvenirNext-Regular" size:14.0f];
+    itemTotal.textColor = [UIColor darkGrayColor];
+    itemTotal.backgroundColor = [UIColor whiteColor];
+    
+    
+    HeaderLabel *shippingLabel = [[HeaderLabel alloc]initWithFrame:CGRectMake(0, 25, self.view.frame.size.width/2, 25)];
+    shippingLabel.text = @"Shipping";
+    shippingLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:14.0f];
+    shippingLabel.textColor = [UIColor darkGrayColor];
+    shippingLabel.backgroundColor = [UIColor whiteColor];
+    
+    
+    HeaderLabel *shippingValue = [[HeaderLabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 , 25, self.view.frame.size.width/2, 25)];
+    shippingValue.text = [headerCurrencyFormatter stringFromNumber:order.shipping_charge];
+    shippingValue.textAlignment = NSTextAlignmentRight;
+    shippingValue.textColor = [UIColor darkGrayColor];
+    shippingValue.font = [UIFont fontWithName:@"AvenirNext-Regular" size:14.0f];
+    shippingValue.backgroundColor = [UIColor whiteColor];
+    
+    
+    HeaderLabel *totalLabel = [[HeaderLabel alloc]initWithFrame:CGRectMake(0, 50, self.view.frame.size.width/2, 25)];
+    totalLabel.text = @"Total";
+    totalLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
+    totalLabel.backgroundColor = [UIColor whiteColor];
+    
+    
+    HeaderLabel *totalAmount = [[HeaderLabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 , 50, self.view.frame.size.width/2, 25)];
+    totalAmount.text = total_price_string;
+    totalAmount.textAlignment = NSTextAlignmentRight;
+    totalAmount.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
+    totalAmount.backgroundColor = [UIColor whiteColor];
+    
+    
+    UIButton *placeOrderbutton = [[UIButton alloc]initWithFrame:CGRectMake(15, 85, self.view.frame.size.width - (2*15), 40)];
     [placeOrderbutton setTitle:@"CHECKOUT" forState:UIControlStateNormal];
     [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-DemiBold" size:16.0f]];
     [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
+    placeOrderbutton.tag = section;
+    placeOrderbutton.layer.cornerRadius = 5.f;
+    placeOrderbutton.layer.masksToBounds = YES;
     
     if (self.orderNumFetchedResultsController.fetchedObjects.count != 0) {
         [placeOrderbutton setEnabled:YES];
@@ -251,6 +315,12 @@ static NSString *cellIdentifier = @"cartCell";
         [placeOrderbutton setHidden:YES];
     }
     
+    [footerView addSubview:totalLabel];
+    [footerView addSubview:totalAmount];
+    [footerView addSubview:shippingLabel];
+    [footerView addSubview:shippingValue];
+    [footerView addSubview:itemLabel];
+    [footerView addSubview:itemTotal];
     [footerView addSubview:placeOrderbutton];
     
     return footerView;
@@ -493,30 +563,18 @@ static NSString *cellIdentifier = @"cartCell";
         NSNumberFormatter *headerCurrencyFormatter = [[NSNumberFormatter alloc] init];
         [headerCurrencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
         [headerCurrencyFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_IN"]];
-        NSString *total_price_string = [headerCurrencyFormatter stringFromNumber:[NSNumber numberWithInteger:order.total.integerValue]];
+        
         
         
         HeaderLabel *storeName = [[HeaderLabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
-        storeName.text          = [NSString stringWithFormat:@"%@", order.store.capitalizedString];
-        storeName.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
-        storeName.backgroundColor = [UIColor whiteColor];
+        storeName.text          = order.store.uppercaseString;
+        storeName.font = [UIFont fontWithName:@"AvenirNext-DemiBold" size:15.0f];
+        storeName.backgroundColor = [UIColor clearColor];
+        storeName.textColor = [UIColor lightGrayColor];
         
         
-        HeaderLabel *items = [[HeaderLabel alloc]initWithFrame:CGRectMake(0, 30, self.view.frame.size.width/2, 30)];
-        items.text = [NSString stringWithFormat:@"Products: %lu",(unsigned long)order.cartLineItems.count];
-        items.font = [UIFont fontWithName:@"AvenirNext-Regular" size:15.0f];
-        items.backgroundColor = [UIColor whiteColor];
-        
-        
-        HeaderLabel *totalAmount = [[HeaderLabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 , 30, self.view.frame.size.width/2, 30)];
-        totalAmount.text = [NSString stringWithFormat:@"%@",total_price_string];
-        totalAmount.textAlignment = NSTextAlignmentRight;
-        totalAmount.font = [UIFont fontWithName:@"AvenirNext-Regular" size:15.0f];
-        totalAmount.backgroundColor = [UIColor whiteColor];
         
         [header addSubview:storeName];
-        [header addSubview:items];
-        [header addSubview:totalAmount];
     }
     
     return header;
@@ -528,13 +586,20 @@ static NSString *cellIdentifier = @"cartCell";
     User *user = [User savedUser];
     
     
+    
+    
+    [self checkOrders];
+    
+    Order *order = self.orderNumFetchedResultsController.fetchedObjects[sender.tag];
+    
+    
     if (user.userID == nil) {
         [self showLoginPageAndIsPlacingOrder:YES];
         
     } else {
         
         if (netStatus != NotReachable) {
-            [self sendCheckoutRequestToServer];
+            [self sendCheckoutOrder:order];
         }
         else {
             [self displayNoConnection];
@@ -559,17 +624,15 @@ static NSString *cellIdentifier = @"cartCell";
 
 -(void)updateBadgeValue {
     
-    [self checkOrders];
+    [self checkLineItems];
     
-    __block NSInteger countItems;
     
 //    [self.orderNumFetchedResultsController.fetchedObjects enumerateObjectsUsingBlock:^(Order  *_Nonnull order, NSUInteger idx, BOOL * _Nonnull stop) {
 //        countItems = countItems + order.cartLineItems.count;
 //    }];
     
-    countItems = self.orderNumFetchedResultsController.fetchedObjects.count;
     
-    NSString *count = [NSString stringWithFormat:@"%lu", (unsigned long)countItems];
+    NSString *count = [NSString stringWithFormat:@"%lu", (unsigned long)self.lineItemsFetchedResultsController.fetchedObjects.count];
     
     if ([count isEqualToString:@"0"]) {
         [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:nil];
@@ -739,24 +802,22 @@ static NSString *cellIdentifier = @"cartCell";
 
 #pragma mark - Network
 
--(void)sendCheckoutRequestToServer {
+-(void)sendCheckoutOrder:(Order *)orderModel {
     
 //    RLMRealm *realm = [RLMRealm defaultRealm];
 //    StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
     
-    [self checkOrders];
-    
-    self.orderModel = self.orderNumFetchedResultsController.fetchedObjects.lastObject;
     
     
-    if (self.orderModel.number != nil) {
+    
+    if (orderModel.number != nil) {
         
 //        if (_ship_address != nil)
 //            [self proceedToPaymentPage:self.orderModel];
 //        else
 //            [self proceedToNewAddressPage];
         
-        [self proceedToPaymentPage:self.orderModel];
+        [self proceedToPaymentPage:orderModel];
         
     }
     else
@@ -831,6 +892,10 @@ static NSString *cellIdentifier = @"cartCell";
                                 [self removeAllLineItems];
                             }
                             
+                            if (self.lineItemsFetchedResultsController.fetchedObjects.count != 0) {
+                                [self removeAllLineItems];
+                            }
+                            
                             [self checkOrders];
                             [self checkLineItems];
                             
@@ -847,10 +912,13 @@ static NSString *cellIdentifier = @"cartCell";
                                     
                                     NSDictionary *orderJSON = orders[i];
                                     
-                                    self.orderModel = [NSEntityDescription insertNewObjectForEntityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
-                                    self.orderModel.number = @(i).stringValue;
-                                    self.orderModel.total  = [[orderJSON valueForKey:@"storeamount"] stringValue];
-                                    self.orderModel.store  = [orderJSON valueForKey:@"StoreName"];
+                                    self.orderModel                     = [NSEntityDescription insertNewObjectForEntityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
+                                    self.orderModel.number              = @(i).stringValue;
+                                    self.orderModel.total               = [[orderJSON valueForKey:@"storeamount"] stringValue];
+                                    self.orderModel.store               = [orderJSON valueForKey:@"StoreName"];
+                                    self.orderModel.shipping_charge     = [orderJSON valueForKey:@"deliverycharges"];
+                                    self.orderModel.delivery_time       = [orderJSON valueForKey:@"AvgDeliveryTime"];
+                                    self.orderModel.min_delivery_charge = [orderJSON valueForKey:@"MinDeliveryAmount"];
                                     
                                     [self.managedObjectContext save:nil];
                                     
@@ -917,7 +985,7 @@ static NSString *cellIdentifier = @"cartCell";
                                                 }
                                                 
                                                 self.orderModel.cat_id              = [line_items[0] valueForKey:@"catid"];
-                                                self.orderModel.store_id           = [line_items[0] valueForKey:@"storeid"];
+                                                self.orderModel.store_id           = [[line_items[0] valueForKey:@"storeid"] stringValue];
                                                 
                                                 [self.managedObjectContext save:nil];
                                                 [self hideHUD];
@@ -1016,6 +1084,8 @@ static NSString *cellIdentifier = @"cartCell";
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSLog(@"%@",response);
                     
+                    NSError *jsonError;
+                    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                         
                     NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
                     NSLog(@"Response %ld", (long)[url_response statusCode]);
@@ -1036,6 +1106,19 @@ static NSString *cellIdentifier = @"cartCell";
                         if (order.cartLineItems.allObjects.count == 0) {
                             [self.managedObjectContext deleteObject:order];
                         }
+                        else {
+                            
+                            order.total         = [[json valueForKey:@"totalamount"] stringValue];
+                            
+                            NSInteger shipping = [[json valueForKey:@"deliverycharges"] integerValue];
+                            order.shipping_charge = @(shipping);
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
                         
                         
                         NSError *orderError = nil;
@@ -1126,7 +1209,10 @@ static NSString *cellIdentifier = @"cartCell";
                         
                         if ([[json objectForKey:@"cart"] isKindOfClass:[NSArray class]]) {
                             
-                            order.total         = [[json valueForKey:@"amount"] stringValue];
+                            order.total         = [[json valueForKey:@"totalamount"] stringValue];
+                            
+                            NSInteger shipping = [[json valueForKey:@"deliverycharges"] integerValue];
+                            order.shipping_charge = @(shipping);
                             
                             
                             NSArray *cartArray = [json objectForKey:@"cart"];
@@ -1429,7 +1515,6 @@ static NSString *cellIdentifier = @"cartCell";
     
     User *user = [User savedUser];
     AddressesViewController *addressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
-    addressVC.addresses = user.ship_address;
     addressVC.order_id  = order_id;
     
     [self.navigationController pushViewController:addressVC animated:YES];

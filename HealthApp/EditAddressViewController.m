@@ -39,19 +39,19 @@
     
     
     if (self.shipAddress != nil) {
-        self.firstNameTextField.text    = self.shipAddress[@"firstname"];
-        self.lastNameTextField.text     = self.shipAddress[@"lastname"];
-        self.address1TextField.text     = self.shipAddress[@"address1"];
+        self.firstNameTextField.text    = @"";
+        self.lastNameTextField.text     = @"";
+        self.address1TextField.text     = @"";
         
-        if (![self.shipAddress[@"address2"] isEqual:[NSNull null]])
-            self.address2TextField.text     = self.shipAddress[@"address2"];
+        if (![self.shipAddress[@"address"] isEqual:[NSNull null]])
+            self.address2TextField.text     = self.shipAddress[@"address"];
         else
             self.address2TextField.text     = @"";
         
-        self.phoneTextField.text        = self.shipAddress[@"phone"];
-        self.pincodeTextField.text      = self.shipAddress[@"zipcode"];
-        self.cityTextField.text         = self.shipAddress[@"city"];
-        self.stateTextField.text        = [self.shipAddress valueForKeyPath:@"state.name"];
+        self.phoneTextField.text        = @"";
+        self.pincodeTextField.text      = self.shipAddress[@"pincode"];
+        self.cityTextField.text         = @"";
+        self.stateTextField.text        = @"";
     }
     else {
         
@@ -59,24 +59,24 @@
         
     }
     
-    [self loadPickerView];
+//    [self loadPickerView];
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText      = @"Loading...";
-    hud.dimBackground  = YES;
+//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    hud.labelText      = @"Loading...";
+//    hud.dimBackground  = YES;
     
-    [[APIManager sharedManager] getStatesWithSuccess:^(NSArray *states) {
-        
-        [hud hide:YES];
-        
-        _states = states;
-        
-    } failure:^(NSError *error) {
-        
-        [hud hide:YES];
-        
-        NSLog(@"%@",[error localizedDescription]);
-    }];
+//    [[APIManager sharedManager] getStatesWithSuccess:^(NSArray *states) {
+//        
+//        [hud hide:YES];
+//        
+//        _states = states;
+//        
+//    } failure:^(NSError *error) {
+//        
+//        [hud hide:YES];
+//        
+//        NSLog(@"%@",[error localizedDescription]);
+//    }];
     
     
 }
@@ -103,42 +103,43 @@
         
         /* if editing the address */
         
-        NSString *path  = [NSString stringWithFormat:@"/api/orders/%@/addresses/%@", _orderModel.number, self.shipAddress[@"id"]];
-        
-        
-        if (_orderModel.number != nil) {
-            [[APIManager sharedManager] putEditedAddressOfStore:_orderModel.store_url ofPath:path Parameters:_parameters WithSuccess:^(NSString *response) {
-                NSLog(@"%@", response);
-                
-                [self.navigationController popViewControllerAnimated:YES];
-                
-                
-            } failure:^(NSError *error) {
-                NSLog(@"%@", [error localizedDescription]);
-            }];
-        }
-        else
-            NSLog(@"No order exists");
+//        NSString *path  = [NSString stringWithFormat:@"/api/orders/%@/addresses/%@", _orderModel.number, self.shipAddress[@"id"]];
+//        
+//        
+//        if (_orderModel.number != nil) {
+//            [[APIManager sharedManager] putEditedAddressOfStore:_orderModel.store_id ofPath:path Parameters:_parameters WithSuccess:^(NSString *response) {
+//                NSLog(@"%@", response);
+//                
+//                [self.navigationController popViewControllerAnimated:YES];
+//                
+//                
+//            } failure:^(NSError *error) {
+//                NSLog(@"%@", [error localizedDescription]);
+//            }];
+//        }
+//        else
+//            NSLog(@"No order exists");
     }
     else {
         
         /* if adding new address */
         
         User *user = [User savedUser];
+        Location *location = [Location savedLocation];
         
         
         
-        NSString *path = [NSString stringWithFormat:@"http://%@/api/checkouts/%@?token=%@", _orderModel.store_url,_orderModel.number, user.access_token];
+        NSString *path = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/address"];
         
-        NSLog(@"%@", _parameters);
-        [_parameters setValue:@"105" forKey:@"country_id"];
-        
-//        NSNumber *state_id = [NSNumber numberWithInteger:_state_id];
-        [_parameters setValue:_state_id forKey:[self addressKey:@"state_id"]];
-        
-        NSDictionary *addressJSONParameter = [self addressJSON];
-        NSLog(@"%@", addressJSONParameter);
+//        NSLog(@"%@", _parameters);
+//        [_parameters setValue:@"105" forKey:@"country_id"];
 //        
+////        NSNumber *state_id = [NSNumber numberWithInteger:_state_id];
+//        [_parameters setValue:_state_id forKey:[self addressKey:@"state_id"]];
+//        
+//        NSDictionary *addressJSONParameter = [self addressJSON];
+//        NSLog(@"%@", addressJSONParameter);
+//
 //        [[APIManager sharedManager] putNewAddressForPath:path andParameter:addressJSONParameter WithSuccess:^(NSDictionary *response) {
 //            NSLog(@"response %@", response);
 //            
@@ -150,21 +151,20 @@
 //        }];
         
         
+        NSString *parameter = [NSString stringWithFormat:@"address=%@&user_id=%@&latitude=%@&longitude=%@", [_parameters valueForKey:@"address[address1]"], user.userID, location.latitude, location.longitude];
         
         
         
         
         
-        NSError *error;
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:addressJSONParameter options:NSJSONWritingPrettyPrinted error:&error];
+//        NSError *error;
+//        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:addressJSONParameter options:NSJSONWritingPrettyPrinted error:&error];
         
         NSURLSession *session = [NSURLSession sharedSession];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:path]];
-        request.HTTPMethod = @"PUT";
-        
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
+        request.HTTPMethod = @"POST";
+        request.HTTPBody    = [NSData dataWithBytes:[parameter UTF8String] length:[parameter length]];
+        [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
         
         
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -195,10 +195,14 @@
                     } else {
                         
                         
-                        NSDictionary *address = [json valueForKey:@"ship_address"];
+                        NSDictionary *address = [json objectForKey:@"address"][0];
                         [self saveAddress:address];
                         
-                        [self proceedToPaymentPage];
+                        
+                        NSLog(@"Address SAved");
+                        
+                        [self dismissViewControllerAnimated:YES completion:nil];
+//                        [self proceedToPaymentPage];
                     }
                     
                 });

@@ -2,7 +2,7 @@
 //  LineItems+CoreDataProperties.m
 //  
 //
-//  Created by adverto on 31/01/16.
+//  Created by adverto on 01/02/16.
 //
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu

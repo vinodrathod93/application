@@ -10,8 +10,11 @@
 
 @interface AddressesViewController : UITableViewController
 
-@property (nonatomic, strong) NSDictionary *addresses;
+
 @property (nonatomic, strong) NSString     *order_id;
 @property (nonatomic, assign) BOOL isGettingOrder;
+
+@property (nonatomic, strong) NSArray *addressesArray;
+@property (nonatomic, strong) NSDictionary *user_data;
 
 @end

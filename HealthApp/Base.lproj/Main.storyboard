@@ -1911,12 +1911,12 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="248" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IW3-5F-jiY">
-                                            <rect key="frame" x="158" y="8" width="434" height="26"/>
+                                            <rect key="frame" x="158" y="8" width="434" height="29"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="MRP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSz-Ig-Isu">
-                                            <rect key="frame" x="158" y="73" width="100" height="18"/>
+                                            <rect key="frame" x="158" y="76" width="100" height="18"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="100" id="pZQ-4V-2iy"/>
                                             </constraints>
@@ -1925,13 +1925,13 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RBq-TS-ezO">
-                                            <rect key="frame" x="158" y="99" width="401" height="21"/>
-                                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
+                                            <rect key="frame" x="158" y="102" width="401" height="18"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="13"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" tag="10" contentMode="scaleToFill" verticalCompressionResistancePriority="748" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHx-NF-KAF">
-                                            <rect key="frame" x="536" y="66" width="47" height="30"/>
+                                            <rect key="frame" x="536" y="69" width="47" height="30"/>
                                             <color key="backgroundColor" red="0.93211461200000001" green="0.93149938730000004" blue="0.95188210230000003" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="g1E-A7-DbI"/>
@@ -1946,13 +1946,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="X" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSJ-8T-BLa">
-                                            <rect key="frame" x="264" y="72" width="258" height="18"/>
+                                            <rect key="frame" x="264" y="75" width="258" height="18"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="13"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Variant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ti2-y1-22O">
-                                            <rect key="frame" x="158" y="42" width="213" height="21"/>
+                                            <rect key="frame" x="158" y="45" width="213" height="21"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -1976,7 +1976,7 @@
                                             </variation>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bO8-y0-2Dd">
-                                            <rect key="frame" x="379" y="42" width="213" height="21"/>
+                                            <rect key="frame" x="379" y="45" width="213" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="28" id="4AS-6y-Y7n"/>
                                                 <constraint firstAttribute="height" constant="21" id="7DD-KF-KGG"/>
@@ -2475,7 +2475,13 @@
                             <outlet property="delegate" destination="Ygq-4V-uGn" id="E9B-Bk-ush"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Address" id="i8h-E2-yS3"/>
+                    <navigationItem key="navigationItem" title="Address" id="i8h-E2-yS3">
+                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="ghX-IX-0oc">
+                            <connections>
+                                <action selector="cancelPressed:" destination="Ygq-4V-uGn" id="Eec-lM-doP"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VuA-lz-kSc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2709,6 +2715,43 @@
             </objects>
             <point key="canvasLocation" x="15352" y="-2459"/>
         </scene>
+        <!--Payment Options View Controller-->
+        <scene sceneID="7mq-X6-HE4">
+            <objects>
+                <tableViewController storyboardIdentifier="paymentOptionsVC" id="9nq-gg-Qqp" customClass="PaymentOptionsViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="O20-Xo-qIQ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="paymentOptionCellIdentifier" textLabel="p3O-bI-e5b" style="IBUITableViewCellStyleDefault" id="kyh-8i-dcC">
+                                <rect key="frame" x="0.0" y="50" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kyh-8i-dcC" id="07I-qN-b0a">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="p3O-bI-e5b">
+                                            <rect key="frame" x="15" y="0.0" width="570" height="43"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="9nq-gg-Qqp" id="EmV-st-yK5"/>
+                            <outlet property="delegate" destination="9nq-gg-Qqp" id="JQh-x0-AgC"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H8Q-J0-Vae" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="16136" y="-2459"/>
+        </scene>
         <!--Order Review View Controller-->
         <scene sceneID="jca-RC-Uyl">
             <objects>
@@ -2896,7 +2939,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eXR-MB-Vrq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="16205" y="-2459"/>
+            <point key="canvasLocation" x="16922" y="-2459"/>
         </scene>
         <!--Doctors-->
         <scene sceneID="5mz-Hw-EDr">
@@ -3877,7 +3920,7 @@
         <!--Navigation Controller-->
         <scene sceneID="IhI-rb-8TK">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8c5-Ob-FHG" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="addressesNavVC" automaticallyAdjustsScrollViewInsets="NO" id="8c5-Ob-FHG" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jKF-Ri-ybk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

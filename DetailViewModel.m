@@ -77,7 +77,7 @@ static NSString *summary = @"summary"; */
 +(NSArray *)filterProductsFromJSON:(NSDictionary *)dictionary {
     NSMutableArray *filterProducts = [[NSMutableArray alloc]init];
     
-    NSArray *array = [dictionary valueForKey:@"products"];
+    NSArray *array = [dictionary valueForKey:@"ProductStores"];
     
     
     [array enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
@@ -86,8 +86,8 @@ static NSString *summary = @"summary"; */
         
         ProductDetail *detail = [[ProductDetail alloc]init];
         
-        detail.productID =  [obj valueForKeyPath:@"master.id"];
-        detail.name =       [obj valueForKeyPath:@"master.name"];
+        detail.productID =  [obj valueForKeyPath:@"productid"];
+        detail.name =       [obj valueForKeyPath:@"productname"];
         detail.hasVariant = [[obj objectForKey:@"has_variants"] boolValue];
         detail.total_on_hand = [obj valueForKey:@"total_on_hand"];
         
@@ -171,18 +171,18 @@ static NSString *summary = @"summary"; */
         NSMutableArray *productImages = [NSMutableArray array];
         NSMutableArray *largeImages = [NSMutableArray array];
         
-//        NSArray *imagesArray = [product valueForKeyPath:@"master.images"];
-//        [imagesArray enumerateObjectsUsingBlock:^(NSDictionary *images, NSUInteger idx, BOOL *stop) {
-//            
-//            [smallImages addObject:[images valueForKey:@"small_url"]];
-//            [productImages addObject:[images valueForKey:@"product_url"]];
-//            [largeImages addObject:[images valueForKey:@"large_url"]];
-//        }];
+        NSArray *imagesArray = [product valueForKeyPath:@"Productimages"];
+        [imagesArray enumerateObjectsUsingBlock:^(NSDictionary *images, NSUInteger idx, BOOL *stop) {
+            
+            [smallImages addObject:[images valueForKey:@"imageurl"]];
+            [productImages addObject:[images valueForKey:@"imageurl"]];
+            [largeImages addObject:[images valueForKey:@"imageurl"]];
+        }];
         
-        NSString *imageURL = [product valueForKey:@"imageurl"];
-        [productImages addObject:imageURL];
-        [largeImages addObject:imageURL];
-        [smallImages addObject:imageURL];
+//        NSString *imageURL = [product valueForKey:@"imageurl"];
+//        [productImages addObject:imageURL];
+//        [largeImages addObject:imageURL];
+//        [smallImages addObject:imageURL];
         
         detail.small_img = smallImages;
         detail.product_img = productImages;
@@ -224,15 +224,19 @@ static NSString *summary = @"summary"; */
 }
 
 -(NSString *)getItemsCount:(NSDictionary *)dictionary {
-    return [dictionary valueForKey:@"total_count"];
+    return [dictionary valueForKey:@"countrecord"];
 }
 
 -(NSString *)getPagesCount:(NSDictionary *)dictionary {
-    return [dictionary valueForKey:@"pages"];
+    if ([dictionary valueForKey:@"noofpages"] == @(0).stringValue) {
+        return @"1";
+    }
+    else
+        return [dictionary valueForKey:@"noofpages"];
 }
 
 -(NSString *)currentPage:(NSDictionary *)dictionary {
-    return [dictionary valueForKey:@"current_page"];
+    return [dictionary valueForKey:@"currentpage"];
 }
 
 -(int)nextPage:(NSDictionary *)dictionary {

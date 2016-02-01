@@ -17,7 +17,9 @@
 @property (nonatomic, strong) NSString *taxonProductsURL;
 
 
-
+@property (nonatomic, strong) NSString *taxonID;
+@property (nonatomic, strong) NSString *taxonomyID;
+@property (nonatomic, strong) NSString *storeID;
 
 
 @end

@@ -163,6 +163,32 @@
 }
 
 
+-(NSURLSessionDataTask *)getPaymentOptionsWithSuccess:(void (^)(NSDictionary *response))success failure:(void (^)(NSError *error))failure {
+    
+    
+    return [self GET:kPAYMENT_OPTIONS_PATH parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"GETTING Payment options %@", downloadProgress.localizedDescription);
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+        NSError *error;
+        
+        NSLog(@"%@", responseDictionary);
+        
+        if (error) {
+            NSLog(@"%@",[error localizedDescription]);
+        }
+        success(responseDictionary);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+    
+}
+
+
+
+
 
 
 @end

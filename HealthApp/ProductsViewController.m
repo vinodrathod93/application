@@ -27,15 +27,15 @@
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) DetailViewModel *viewModel;
 @property (nonatomic, assign) BOOL show;
-//@property (nonatomic, strong) NSString *itemsCount;
+@property (nonatomic, strong) NSString *itemsCount;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UILabel *no_items;
 
-//@property (nonatomic, strong) NSString *currentPage;
-//@property (nonatomic, strong) NSString *nextPage;
+@property (nonatomic, strong) NSString *currentPage;
+@property (nonatomic, strong) NSString *nextPage;
 
 // version api 1
-//@property (nonatomic, strong) NSString *pages;
+@property (nonatomic, strong) NSString *pages;
 
 @property (nonatomic, strong) NSMutableArray *filteredProducts;
 @property (nonatomic, strong) UISearchController *searchController;
@@ -84,15 +84,15 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     self.collectionView.infiniteScrollIndicatorView = activityIndicator;
     self.collectionView.infiniteScrollIndicatorMargin = 40.0f;
     
-//    __weak typeof(self) weakSelf = self;
-//    [self.collectionView addInfiniteScrollWithHandler:^(UICollectionView *collectionView) {
-//        
-//        [weakSelf loadProductsPage:1 completion:^{
-//            [collectionView finishInfiniteScroll];
-//        }];
-//        
-//        
-//    }];
+    __weak typeof(self) weakSelf = self;
+    [self.collectionView addInfiniteScrollWithHandler:^(UICollectionView *collectionView) {
+        
+        [weakSelf loadProductsPage:1 completion:^{
+            [collectionView finishInfiniteScroll];
+        }];
+        
+        
+    }];
 }
 
 -(void)displaySearchBar {
@@ -252,11 +252,11 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
 //    [self loadProducts];
     
-//    self.currentPage = nil;
-//    
-//    [self loadProductsPage:kFIRST_PAGE completion:^{
-//        [self.hud hide:YES];
-//    }];
+    self.currentPage = nil;
+
+    [self loadProductsPage:kFIRST_PAGE completion:^{
+        [self.hud hide:YES];
+    }];
     
     NSLog(@"Load all products");
 }
@@ -294,7 +294,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 -(void)searchProducts:(NSString *)keyword {
     NSLog(@"searching products");
     NSURLSession *session = [NSURLSession sharedSession];
-    NSString *url_string = [NSString stringWithFormat:@"%@&q[name_cont]=%@",self.taxonProductsURL, keyword];
+    NSString *url_string = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@&PageNo=1&search=%@",self.taxonID, self.storeID, self.taxonomyID, self.categoryID, keyword];
     NSURL *url = [NSURL URLWithString:url_string];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -307,13 +307,15 @@ static NSString * const productsReuseIdentifier = @"productsCell";
             NSError *jsonError;
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
             
+            NSLog(@"%@",dictionary);
+            
             if (jsonError != nil) {
                 NSLog(@"Error %@",[jsonError localizedDescription]);
             }
             else if(![dictionary isEqual:nil])
             {
                 
-                self.filteredProducts = (NSMutableArray *)[DetailViewModel filterProductsFromJSON:dictionary];
+                self.filteredProducts = (NSMutableArray *)[DetailViewModel infiniteProductsFromJSON:dictionary];
                 self.viewModel = [[DetailViewModel alloc]initWithArray:self.filteredProducts];
                 
                 [self.hud hide:YES];
@@ -337,10 +339,9 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     NSLog(@"loadProducts");
     NSURLSession *session = [NSURLSession sharedSession];
     
-    NSLog(@"URL is %@",self.taxonProductsURL);
     
     
-    NSString *paginatingURLString = [NSString stringWithFormat:@"%@&page=%d", self.taxonProductsURL, page];
+    NSString *paginatingURLString = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@&PageNo=%d&search=", self.taxonID, self.storeID, self.taxonomyID, self.categoryID, page];
     
     NSURLRequest *spree_request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:paginatingURLString]];
     
@@ -366,9 +367,9 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                         
                         self.viewModel = [[DetailViewModel alloc]initWithArray:array];
                         
-//                        self.pages = [self.viewModel getPagesCount:dictionary];
-//                        self.itemsCount = [self.viewModel getItemsCount:dictionary];
-                        [self showCustomTitleViewWithCount:@"5"];
+                        self.pages = [self.viewModel getPagesCount:dictionary];
+                        self.itemsCount = [self.viewModel getItemsCount:dictionary];
+                        [self showCustomTitleViewWithCount:self.itemsCount];
                         
                         [self.hud hide:YES];
                         [self.collectionView reloadData];
@@ -392,8 +393,8 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                         
                     }
                     
-//                    self.currentPage = [self.viewModel currentPage:dictionary];
-//                    self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
+                    self.currentPage = [self.viewModel currentPage:dictionary];
+                    self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
                     
                 }
                 
@@ -409,11 +410,11 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         
     }];
     
-//    if (self.currentPage != nil && (self.currentPage.intValue == self.pages.intValue)) {
-//        finish();
-//    } else {
-//        [self.task resume];
-//    }
+    if (self.currentPage != nil && (self.currentPage.intValue == self.pages.intValue)) {
+        finish();
+    } else {
+        [self.task resume];
+    }
     
     [self.task resume];
     

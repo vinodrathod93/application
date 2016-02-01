@@ -64,3 +64,7 @@ static NSString *const kENTITY_DETAILS_PATH     = @"/NeediatorWS.asmx/getDetails
 static NSString *const kTIME_SLOTS_PATH         = @"/NeediatorWS.asmx/gettimeslot";
 static NSString *const kBOOKING_PATH            = @"/NeediatorWS.asmx/Book";
 static NSString *const kSTORE_TAXONS_PATH       = @"/NeediatorWS.asmx/getTaxonomyTaxons";
+static NSString *const kPAYMENT_OPTIONS_PATH       = @"/NeediatorWS.asmx/getpayment";
+
+
+

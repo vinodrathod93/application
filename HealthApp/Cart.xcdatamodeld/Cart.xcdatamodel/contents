@@ -29,7 +29,10 @@
     </entity>
     <entity name="Order" representedClassName="Order" syncable="YES">
         <attribute name="cat_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="delivery_time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="min_delivery_charge" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="number" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shipping_charge" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="store" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="store_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="total" optional="YES" attributeType="String" syncable="YES"/>
@@ -39,6 +42,6 @@
     <elements>
         <element name="AddToCart" positionX="-63" positionY="-18" width="128" height="195"/>
         <element name="LineItems" positionX="-54" positionY="72" width="128" height="240"/>
-        <element name="Order" positionX="-63" positionY="54" width="128" height="150"/>
+        <element name="Order" positionX="-63" positionY="54" width="128" height="195"/>
     </elements>
 </model>

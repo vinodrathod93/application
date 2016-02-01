@@ -369,7 +369,7 @@ typedef void (^completion)(BOOL finished);
     
     User *user = [User savedUser];
     AddressesViewController *addressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
-    addressVC.addresses = user.ship_address;
+//    addressVC.addresses = user.ship_address;
     addressVC.order_id  = order_id;
     addressVC.isGettingOrder = YES;
     

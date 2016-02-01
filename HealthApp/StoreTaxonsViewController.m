@@ -290,7 +290,12 @@
         
         ProductsViewController *productsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"productsVC"];
         productsVC.navigationTitleString = taxon.taxonName;
-        productsVC.taxonProductsURL = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@", taxon.taxonID.stringValue, self.store_id, taxon.taxonomyID.stringValue, self.cat_id];
+        productsVC.taxonID = taxon.taxonID.stringValue;
+        productsVC.storeID = self.store_id;
+        productsVC.taxonomyID = taxon.taxonomyID.stringValue;
+        productsVC.categoryID = self.cat_id;
+        
+//        productsVC.taxonProductsURL = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@&search=&PageNo=1", taxon.taxonID.stringValue, self.store_id, taxon.taxonomyID.stringValue, self.cat_id];
         [self.navigationController pushViewController:productsVC animated:YES];
         
         
