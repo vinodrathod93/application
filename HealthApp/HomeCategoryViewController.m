@@ -19,12 +19,15 @@
 #import <AFNetworking.h>
 #import "Location.h"
 #import "ListingTableViewController.h"
+#import "SubCategoryViewController.h"
 
 #import "CategoryModel.h"
+#import "SubCategoryModel.h"
 #import "PromotionModel.h"
 #import "UIColor+HexString.h"
 #import <Realm/Realm.h>
 #import "MainCategoryRealm.h"
+#import "SubCategoryRealm.h"
 
 
 @interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate>
@@ -33,6 +36,8 @@
 @property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) RLMResults *categoriesArray;
+@property (nonatomic, strong) RLMResults *subCategoriesArray;
+
 @property (nonatomic, strong) NSArray *categoryIcons;
 @property (nonatomic, strong) HeaderSliderView *headerView;
 @property (nonatomic, strong) NSArray *promotions;
@@ -114,13 +119,26 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
             for (CategoryModel *category in response.categories) {
                 MainCategoryRealm *categoryRealm = [[MainCategoryRealm alloc] initWithMantleModel:category];
                 [realm addObject:categoryRealm];
+                
+                
+                for (SubCategoryModel *subCategory in category.subCat_array) {
+                    SubCategoryRealm *subCategoryRealm = [[ SubCategoryRealm alloc] initWithMantleModel:subCategory];
+                    
+                    #error check for subcategory array.
+                    categoryRealm.subCatArray = subCategoryRealm;
+                }
+                
             }
             [realm commitWriteTransaction];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 RLMRealm *realmMainThread = [RLMRealm defaultRealm];
                 RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
+                RLMResults *subCategories = [SubCategoryRealm allObjectsInRealm:realmMainThread];
+                
                 self.categoriesArray = categories;
+                self.subCategoriesArray = subCategories;
+                
                 [self.collectionView reloadData];
                 [self hideHUD];
             });
@@ -350,13 +368,19 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     */
     
     
-    ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
-    listingVC.root                       = model.name;
-    listingVC.nav_color                  = model.color_code;
-    listingVC.category_id                 = model.cat_id.stringValue;
-    [self.navigationController pushViewController:listingVC animated:YES];
+//    ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+//    listingVC.root                       = model.name;
+//    listingVC.nav_color                  = model.color_code;
+//    listingVC.category_id                 = model.cat_id.stringValue;
+//    [self.navigationController pushViewController:listingVC animated:YES];
+//    
     
     
+    
+    SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCategoryCollectionVC"];
+    
+    subCatVC.subcategoryArray       =
+    [self.navigationController pushViewController:subCatVC animated:YES];
     
     
     

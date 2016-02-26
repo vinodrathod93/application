@@ -30,6 +30,8 @@
     
     NSLog(@"didFinishLaunchingWithOptions");
     
+    [NSThread sleepForTimeInterval:3.0];
+    
     // Initialize Reachability
     self.googleReach = [Reachability reachabilityWithHostName:@"www.google.com"];
     

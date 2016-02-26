@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		671E355C1C68C62100AF8736 /* StatesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 671E355B1C68C62100AF8736 /* StatesModel.m */; };
-		671E355F1C68C76400AF8736 /* CitiesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 671E355E1C68C76400AF8736 /* CitiesModel.m */; };
-		671E35621C68C91000AF8736 /* StateCityResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 671E35611C68C91000AF8736 /* StateCityResponseModel.m */; };
-		671E35651C69024200AF8736 /* NSString+AddressValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 671E35641C69024200AF8736 /* NSString+AddressValidation.m */; };
 		82147FB71C45230D00D6691E /* ChemistResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FB61C45230D00D6691E /* ChemistResponseModel.m */; };
 		82147FBA1C45272B00D6691E /* ListingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FB91C45272B00D6691E /* ListingModel.m */; };
 		82147FBD1C4528ED00D6691E /* MetaPagingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FBC1C4528ED00D6691E /* MetaPagingModel.m */; };
@@ -71,6 +67,8 @@
 		826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B142D1BC2A01E00B6A1C3 /* OrderCompleteViewController.m */; };
 		826F07511C524A310033DD09 /* BookCallListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 826F07501C524A310033DD09 /* BookCallListingCell.m */; };
 		827026DE1BC650840054E16F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 827026DD1BC650840054E16F /* Reachability.m */; };
+		827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632821B4A3DB800230833 /* FBSDKCoreKit.framework */; };
+		827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632831B4A3DB800230833 /* FBSDKLoginKit.framework */; };
 		827A80181B85E15C008085F1 /* AddressesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827A80171B85E15C008085F1 /* AddressesViewController.m */; };
 		827DD31A1B8AE39F00714985 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD3191B8AE39F00714985 /* Address.m */; };
 		827FD14B1C455D16000EB0A4 /* Neediator_Logo_Final.png in Resources */ = {isa = PBXBuildFile; fileRef = 827FD14A1C455D16000EB0A4 /* Neediator_Logo_Final.png */; };
@@ -149,6 +147,12 @@
 		82EF2DE11BE8C67B00D87DE2 /* StoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE01BE8C67B00D87DE2 /* StoresViewController.m */; };
 		82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */; };
 		82F80CD61C1EE01100C8E076 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F80CD51C1EE01100C8E076 /* MoreViewController.m */; };
+		82F856CB1C8077B0000B68A9 /* SubCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F856CA1C8077B0000B68A9 /* SubCategoryModel.m */; };
+		82F856CE1C807C1E000B68A9 /* INHSubCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F856CD1C807C1E000B68A9 /* INHSubCategoryViewController.m */; };
+		82F856D31C80833B000B68A9 /* StateCityResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F856D01C80833B000B68A9 /* StateCityResponseModel.m */; };
+		82F856D41C80833B000B68A9 /* StatesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F856D21C80833B000B68A9 /* StatesModel.m */; };
+		82F856D71C808361000B68A9 /* CitiesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F856D61C808361000B68A9 /* CitiesModel.m */; };
+		82F856DA1C8091CF000B68A9 /* SubCategoryRealm.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F856D91C8091CF000B68A9 /* SubCategoryRealm.m */; };
 		82FB520C1C281B2500E19626 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FB520B1C281B2500E19626 /* LoginView.m */; };
 		82FB520E1C281B3300E19626 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82FB520D1C281B3300E19626 /* LoginView.xib */; };
 		E7B4DA25DC0B1365140A92A2 /* libPods-Neediator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB7072175B0B9AD34BC27C8 /* libPods-Neediator.a */; };
@@ -167,14 +171,6 @@
 /* Begin PBXFileReference section */
 		26E4DE3B6A3BA531177D5ECA /* Pods-Chemist Plus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.debug.xcconfig"; sourceTree = "<group>"; };
 		34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		671E355A1C68C62100AF8736 /* StatesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatesModel.h; sourceTree = "<group>"; };
-		671E355B1C68C62100AF8736 /* StatesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatesModel.m; sourceTree = "<group>"; };
-		671E355D1C68C76400AF8736 /* CitiesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitiesModel.h; sourceTree = "<group>"; };
-		671E355E1C68C76400AF8736 /* CitiesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitiesModel.m; sourceTree = "<group>"; };
-		671E35601C68C91000AF8736 /* StateCityResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateCityResponseModel.h; sourceTree = "<group>"; };
-		671E35611C68C91000AF8736 /* StateCityResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateCityResponseModel.m; sourceTree = "<group>"; };
-		671E35631C69024200AF8736 /* NSString+AddressValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AddressValidation.h"; sourceTree = "<group>"; };
-		671E35641C69024200AF8736 /* NSString+AddressValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AddressValidation.m"; sourceTree = "<group>"; };
 		7CED2C0B1CF6D1F8E6BC80C5 /* Pods-Neediator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.release.xcconfig"; sourceTree = "<group>"; };
 		82147FB51C45230D00D6691E /* ChemistResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemistResponseModel.h; sourceTree = "<group>"; };
 		82147FB61C45230D00D6691E /* ChemistResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChemistResponseModel.m; sourceTree = "<group>"; };
@@ -447,6 +443,18 @@
 		82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionManager.m; sourceTree = "<group>"; };
 		82F80CD41C1EE01100C8E076 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
 		82F80CD51C1EE01100C8E076 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
+		82F856C91C8077B0000B68A9 /* SubCategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryModel.h; sourceTree = "<group>"; };
+		82F856CA1C8077B0000B68A9 /* SubCategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryModel.m; sourceTree = "<group>"; };
+		82F856CC1C807C1E000B68A9 /* INHSubCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INHSubCategoryViewController.h; sourceTree = "<group>"; };
+		82F856CD1C807C1E000B68A9 /* INHSubCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INHSubCategoryViewController.m; sourceTree = "<group>"; };
+		82F856CF1C80833B000B68A9 /* StateCityResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateCityResponseModel.h; sourceTree = "<group>"; };
+		82F856D01C80833B000B68A9 /* StateCityResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateCityResponseModel.m; sourceTree = "<group>"; };
+		82F856D11C80833B000B68A9 /* StatesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatesModel.h; sourceTree = "<group>"; };
+		82F856D21C80833B000B68A9 /* StatesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatesModel.m; sourceTree = "<group>"; };
+		82F856D51C808361000B68A9 /* CitiesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitiesModel.h; sourceTree = "<group>"; };
+		82F856D61C808361000B68A9 /* CitiesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitiesModel.m; sourceTree = "<group>"; };
+		82F856D81C8091CF000B68A9 /* SubCategoryRealm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryRealm.h; sourceTree = "<group>"; };
+		82F856D91C8091CF000B68A9 /* SubCategoryRealm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryRealm.m; sourceTree = "<group>"; };
 		82FB520A1C281B2500E19626 /* LoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginView.h; sourceTree = "<group>"; };
 		82FB520B1C281B2500E19626 /* LoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
 		82FB520D1C281B3300E19626 /* LoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
@@ -463,6 +471,8 @@
 				82BF08511C1F07E90093B8CD /* MessageUI.framework in Frameworks */,
 				824D00371B6F2EBF000F1825 /* CoreLocation.framework in Frameworks */,
 				825567201B68F9B6009F013A /* CoreTelephony.framework in Frameworks */,
+				827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */,
+				827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */,
 				E7B4DA25DC0B1365140A92A2 /* libPods-Neediator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -625,6 +635,8 @@
 				8286B2571BF08F3F00AFC533 /* StoreRealm.m */,
 				823B738F1C492F0700031596 /* MainCategoryRealm.h */,
 				823B73901C492F0700031596 /* MainCategoryRealm.m */,
+				82F856D81C8091CF000B68A9 /* SubCategoryRealm.h */,
+				82F856D91C8091CF000B68A9 /* SubCategoryRealm.m */,
 			);
 			name = Realm;
 			sourceTree = "<group>";
@@ -684,6 +696,12 @@
 		82999E941BEB1D3700F0EDE3 /* Address */ = {
 			isa = PBXGroup;
 			children = (
+				82F856CF1C80833B000B68A9 /* StateCityResponseModel.h */,
+				82F856D01C80833B000B68A9 /* StateCityResponseModel.m */,
+				82F856D11C80833B000B68A9 /* StatesModel.h */,
+				82F856D21C80833B000B68A9 /* StatesModel.m */,
+				82F856D51C808361000B68A9 /* CitiesModel.h */,
+				82F856D61C808361000B68A9 /* CitiesModel.m */,
 				827DD3181B8AE39F00714985 /* Address.h */,
 				827DD3191B8AE39F00714985 /* Address.m */,
 			);
@@ -917,19 +935,13 @@
 			isa = PBXGroup;
 			children = (
 				824C25521B56374900C58F97 /* Categories.plist */,
+				82AF642A1C58E1A600628609 /* TimeSlot */,
 				82A1D3D01C562BC800E6B1D3 /* Entity Details */,
 				82147FBF1C452A8700D6691E /* Request Model */,
 				82147FC01C452AA800D6691E /* Listing Model */,
 				82DCBECD1C4CE3F6005EBDB3 /* Category */,
 				82DCBECE1C4CE3FF005EBDB3 /* Promotions */,
 				82ED53E01C4FB39800FA7707 /* Spree */,
-				82AF642A1C58E1A600628609 /* TimeSlot */,
-				671E355A1C68C62100AF8736 /* StatesModel.h */,
-				671E355B1C68C62100AF8736 /* StatesModel.m */,
-				671E355D1C68C76400AF8736 /* CitiesModel.h */,
-				671E355E1C68C76400AF8736 /* CitiesModel.m */,
-				671E35601C68C91000AF8736 /* StateCityResponseModel.h */,
-				671E35611C68C91000AF8736 /* StateCityResponseModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -999,6 +1011,8 @@
 				823B738A1C4920EA00031596 /* MainCategoriesResponseModel.m */,
 				823B73831C491A4000031596 /* CategoryModel.h */,
 				823B73841C491A4000031596 /* CategoryModel.m */,
+				82F856C91C8077B0000B68A9 /* SubCategoryModel.h */,
+				82F856CA1C8077B0000B68A9 /* SubCategoryModel.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -1102,6 +1116,8 @@
 				82C0950F1C5F7E2A00727C25 /* PaymentOptionsViewController.m */,
 				82B7AAEE1C5D0C0E0031BA8E /* SubCategoryViewController.h */,
 				82B7AAEF1C5D0C0E0031BA8E /* SubCategoryViewController.m */,
+				82F856CC1C807C1E000B68A9 /* INHSubCategoryViewController.h */,
+				82F856CD1C807C1E000B68A9 /* INHSubCategoryViewController.m */,
 				82AF64291C58CF7100628609 /* Booking */,
 				82A8B4141C4E611C00FCDF79 /* Image Modal */,
 				823B73771C48F17000031596 /* Listing */,
@@ -1401,8 +1417,6 @@
 				82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */,
 				823B738C1C49262000031596 /* UIColor+HexString.h */,
 				823B738D1C49262000031596 /* UIColor+HexString.m */,
-				671E35631C69024200AF8736 /* NSString+AddressValidation.h */,
-				671E35641C69024200AF8736 /* NSString+AddressValidation.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1721,7 +1735,7 @@
 				82CE35DF1C159425003744C9 /* CartOrderModel.m in Sources */,
 				82DCBED11C4CEFE7005EBDB3 /* ListingResponseModel.m in Sources */,
 				82EA68031C43BC9000F9924D /* DoctorResponseModel.m in Sources */,
-				671E35621C68C91000AF8736 /* StateCityResponseModel.m in Sources */,
+				82F856D31C80833B000B68A9 /* StateCityResponseModel.m in Sources */,
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
 				82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */,
 				82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */,
@@ -1748,7 +1762,6 @@
 				829F73941C257FEE001670A8 /* CustomCollectionViewCell.m in Sources */,
 				823B738E1C49262000031596 /* UIColor+HexString.m in Sources */,
 				82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */,
-				671E355F1C68C76400AF8736 /* CitiesModel.m in Sources */,
 				826F07511C524A310033DD09 /* BookCallListingCell.m in Sources */,
 				82147FBA1C45272B00D6691E /* ListingModel.m in Sources */,
 				8286B2511BF089D600AFC533 /* ListingRequestModel.m in Sources */,
@@ -1763,6 +1776,7 @@
 				82147FB71C45230D00D6691E /* ChemistResponseModel.m in Sources */,
 				823C46A91B73327600E37DBE /* DoctorDetailsViewCell.m in Sources */,
 				823B738B1C4920EA00031596 /* MainCategoriesResponseModel.m in Sources */,
+				82F856D41C80833B000B68A9 /* StatesModel.m in Sources */,
 				82ED53DF1C4FAFC500FA7707 /* NEntityDetailViewController.m in Sources */,
 				82C095091C5F614100727C25 /* AddToCart.m in Sources */,
 				82C722FC1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m in Sources */,
@@ -1771,6 +1785,7 @@
 				8246FE681B74B70A001D1CFF /* SignInViewController.m in Sources */,
 				826212F91BFB25CE00F75254 /* BannerView.m in Sources */,
 				829113D71BB93A63000DA995 /* VariantsViewController.m in Sources */,
+				82F856CE1C807C1E000B68A9 /* INHSubCategoryViewController.m in Sources */,
 				8246FE651B74B53D001D1CFF /* LogSignViewController.m in Sources */,
 				825567181B68E6D4009F013A /* AddShippingDetailsViewController.m in Sources */,
 				82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */,
@@ -1779,6 +1794,7 @@
 				82A542891C22B3A100383253 /* VariantImagesModel.m in Sources */,
 				827DD31A1B8AE39F00714985 /* Address.m in Sources */,
 				8286B2711BF0CF6A00AFC533 /* TaxonomyModel.m in Sources */,
+				82F856D71C808361000B68A9 /* CitiesModel.m in Sources */,
 				8255671B1B68E6F0009F013A /* AddShippingViewCell.m in Sources */,
 				82C722F61B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m in Sources */,
 				8286B25C1BF0A2BA00AFC533 /* StoresViewCell.m in Sources */,
@@ -1797,7 +1813,6 @@
 				82327F6E1B60B0EB00D92889 /* DetailProductViewModel.m in Sources */,
 				825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */,
 				826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */,
-				671E35651C69024200AF8736 /* NSString+AddressValidation.m in Sources */,
 				82A1D3D31C562C6500E6B1D3 /* TimeSlotResponseModel.m in Sources */,
 				82C0950A1C5F614100727C25 /* Order+CoreDataProperties.m in Sources */,
 				82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */,
@@ -1823,8 +1838,10 @@
 				82F80CD61C1EE01100C8E076 /* MoreViewController.m in Sources */,
 				823B73851C491A4000031596 /* CategoryModel.m in Sources */,
 				82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */,
+				82F856CB1C8077B0000B68A9 /* SubCategoryModel.m in Sources */,
 				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,
 				8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */,
+				82F856DA1C8091CF000B68A9 /* SubCategoryRealm.m in Sources */,
 				82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */,
 				82C095081C5F614100727C25 /* AddToCart+CoreDataProperties.m in Sources */,
 				82EA68001C43BB6B00F9924D /* DoctorModel.m in Sources */,
@@ -1834,7 +1851,6 @@
 				82C97ED01C19939C00E6ED4C /* Location.m in Sources */,
 				82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,
-				671E355C1C68C62100AF8736 /* StatesModel.m in Sources */,
 				82681EAD1C50B8FA00035E6E /* NEntityDetailCell.m in Sources */,
 				82ED53E71C4FB58300FA7707 /* EntityDetailModel.m in Sources */,
 			);
@@ -1974,6 +1990,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
+					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
@@ -2003,6 +2020,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
+					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";

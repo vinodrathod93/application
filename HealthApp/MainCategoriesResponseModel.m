@@ -17,7 +17,7 @@
     return @{
              
              @"categories" : @"Categories",
-             @"promotions" : @"Promotions"
+             @"promotions" : @"promotions"
              
              };
 }

@@ -7,18 +7,26 @@
 //
 
 #import "CategoryModel.h"
+#import "SubCategoryModel.h"
 
 @implementation CategoryModel
 
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"cat_id"      : @"CatId",
-             @"name"        : @"CatName",
-             @"group"       : @"CatGroup",
-             @"image_url"   : @"ImageUrl",
-             @"is_active"   : @"IsActive",
-             @"color_code"  : @"ColorCode",
+             @"cat_id"      : @"Catid",
+             @"name"        : @"Catname",
+             @"has_subCat"  : @"HassubCat",
+             @"image_url"   : @"Imageurl",
+             @"is_active"   : @"Isactive",
+             @"color_code"  : @"Colorcode",
+             @"is_product"  : @"Isproduct",
+             @"subCat_array": @"SubCatList"
              
              };
+}
+
+
++(NSValueTransformer *)subCat_arrayJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[SubCategoryModel class]];
 }
 @end
