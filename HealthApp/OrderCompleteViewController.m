@@ -10,6 +10,7 @@
 #import "PaymentViewController.h"
 #import "BookConfirmViewController.h"
 #import "BookingViewController.h"
+#import "PaymentOptionsViewController.h"
 
 @interface OrderCompleteViewController ()
 
@@ -48,7 +49,6 @@
     {
         if ([vc isKindOfClass:[PaymentViewController class]]) {
             [viewControllers removeObject:vc];
-            break;
         }
         
         if ([vc isKindOfClass:[BookConfirmViewController class]]) {
@@ -56,6 +56,10 @@
         }
         
         if ([vc isKindOfClass:[BookingViewController class]]) {
+            [viewControllers removeObject:vc];
+        }
+        
+        if ([vc isKindOfClass:[PaymentOptionsViewController class]]) {
             [viewControllers removeObject:vc];
         }
     }

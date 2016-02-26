@@ -392,7 +392,7 @@ NSString *cellReuseIdentifier;
         else if (fetchedArray.count == 0) {
             _lineItemsModel            = [NSEntityDescription insertNewObjectForEntityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext];
             
-            _lineItemsModel.image                 = [self.viewModel images][0];
+            _lineItemsModel.image                 = [self.viewModel default_image];
             _lineItemsModel.quantity              = [self.viewModel quantity];
             _lineItemsModel.variantID             = [self.viewModel productID];
             _lineItemsModel.name                  = [self.viewModel name];

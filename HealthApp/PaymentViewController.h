@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Order.h"
+#import "AddressesViewController.h"
+#import "EditAddressViewController.h"
 
-@interface PaymentViewController : UITableViewController
+@interface PaymentViewController : UITableViewController<AddressDelegate>
 
 
 @property (nonatomic, strong) Order *orderModel;

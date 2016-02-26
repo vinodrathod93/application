@@ -29,6 +29,8 @@
 -(NSArray *)largeImages;
 -(NSArray *)smallImages;
 
+-(NSString *)default_image;
+
 -(CGFloat)heightForSummaryTextInTableViewCellWithWidth:(CGFloat)width;
 
 -(NSNumber *)total_on_hand;

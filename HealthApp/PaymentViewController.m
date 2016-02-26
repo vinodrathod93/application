@@ -20,9 +20,7 @@
 #import "AddressInPaymentViewCell.h"
 #import "PaymentDetailViewCell.h"
 #import "AddShippingDetailsViewController.h"
-#import "EditAddressViewController.h"
 #import "PaymentOptionsViewController.h"
-#import "AddressesViewController.h"
 
 
 #define kOPTIONS_CELLIDENTIFIER @"paymentCell"
@@ -82,6 +80,9 @@ typedef void(^completion)(BOOL finished);
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -128,8 +129,6 @@ typedef void(^completion)(BOOL finished);
     else if (indexPath.section == ADDRESS_OPTION_SECTION)
         [self configureAddressOptionsCell:cell forIndexPath:indexPath];
     
-//    else if(indexPath.section == PAYMENT_OPTION_SECTION)
-//        [self configurePaymentOptionsCell:cell forIndexPath:indexPath];
     
     
     
@@ -166,15 +165,6 @@ typedef void(^completion)(BOOL finished);
 }
 
 
-//-(void)configurePaymentOptionsCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-//    if ([[self.payment_methods[indexPath.row] valueForKey:@"name"] isEqualToString:@"Check"]) {
-//        cell.textLabel.text = @"Cash on Delivery";
-//    }
-//    else
-//        cell.textLabel.text = [self.payment_methods[indexPath.row] valueForKey:@"name"];
-//    
-//}
-
 
 -(void)configurePaymentSummaryCell:(PaymentDetailViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     
@@ -184,22 +174,19 @@ typedef void(^completion)(BOOL finished);
 
 
 -(void)configureAddressOptionsCell:(AddressInPaymentViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-
+    NSLog(@"Shipping address %@", self.shipAddress);
     
-    if (![self.shipAddress isEqual:[NSNull null]]) {
+    if (self.shipAddress != nil) {
+        
+        cell.textLabel.text = nil;
+        
+        
         NSString *address1 = [[self.shipAddress valueForKey:@"address"] capitalizedString];
-//        NSString *address2;
-//        
-//        if (![[self.shipAddress valueForKey:@"address2"] isEqual:[NSNull null]])
-//            address2           = [[self.shipAddress valueForKey:@"address2"] capitalizedString];
-//        else
-//            address2           = @"";
-//        
-//        NSString *city     = [[self.shipAddress valueForKey:@"city"] capitalizedString];
+        
         NSString *pincode  = [self.shipAddress valueForKey:@"pincode"];
         
         
-        cell.name.text                  = [[_userData valueForKey:@"name"]capitalizedString];
+        cell.name.text                  = [[self.shipAddress valueForKey:@"name"] capitalizedString];
         cell.addressDetailLabel.text    = [NSString stringWithFormat:@"%@, %@",address1, pincode];
         cell.mobileNumber.text          = [_userData valueForKey:@"phoneno"];
         cell.selectionStyle             = UITableViewCellSelectionStyleNone;
@@ -280,11 +267,21 @@ typedef void(^completion)(BOOL finished);
 -(void)proceedToPaymentOptions {
     NSLog(@"Payment Options");
     
-    PaymentOptionsViewController *paymentOptionsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentOptionsVC"];
-    paymentOptionsVC.orderModel = self.orderModel;
-    paymentOptionsVC.address_id = _addressData[@"id"];
     
-    [self.navigationController pushViewController:paymentOptionsVC animated:YES];
+    if (self.shipAddress != nil) {
+        PaymentOptionsViewController *paymentOptionsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentOptionsVC"];
+        paymentOptionsVC.orderModel = self.orderModel;
+        paymentOptionsVC.address_id = self.shipAddress[@"id"];
+        
+        
+        NSLog(@"%@", self.shipAddress);
+        
+        [self.navigationController pushViewController:paymentOptionsVC animated:YES];
+    }
+    else {
+        [self calloutCells:@[[NSIndexPath indexPathForRow:0 inSection:1] ]];
+    }
+    
 }
 
 
@@ -325,9 +322,11 @@ typedef void(^completion)(BOOL finished);
     
     
     AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
+    addressesVC.isGettingOrder = YES;
     addressesVC.addressesArray = _addresses;
     addressesVC.user_data = _userData;
     addressesVC.title = @"Addresses";
+    addressesVC.delegate = self;
     
     UINavigationController *navigationController =
     [[UINavigationController alloc] initWithRootViewController:addressesVC];
@@ -352,9 +351,60 @@ typedef void(^completion)(BOOL finished);
 
 
 
+-(void)deliverableAddressDidSelect:(NSDictionary *)address {
+    
+//    NSIndexPath *addressIndexPath = [NSIndexPath indexPathForRow:0 inSection:ADDRESS_OPTION_SECTION];
+//    
+//    AddressInPaymentViewCell *cell = [self.tableView cellForRowAtIndexPath:addressIndexPath];
+//    
+//    
+//    NSString *address1 = [[self.shipAddress valueForKey:@"address"] capitalizedString];
+//    
+//    NSString *pincode  = [self.shipAddress valueForKey:@"pincode"];
+//    
+//    
+//    cell.name.text                  = [[self.shipAddress valueForKey:@"name"] capitalizedString];
+//    cell.addressDetailLabel.text    = [NSString stringWithFormat:@"%@, %@",address1, pincode];
+//    cell.mobileNumber.text          = [_userData valueForKey:@"phoneno"];
+//    cell.selectionStyle             = UITableViewCellSelectionStyleNone;
+//    
+//    cell.accessoryType = UITableViewCellAccessoryNone;
+//    
+//    UIButton *edit = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
+//    [edit setImage:[UIImage imageNamed:@"edit2"] forState:UIControlStateNormal];
+//    [edit addTarget:self action:@selector(editShippingDetails) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    cell.accessoryView = edit;
+    
+    NSLog(@"Called Diselect address");
+    
+    
+    self.shipAddress = address;
+    [self.tableView reloadData];
+}
 
 
 
+#pragma mark - Animation
+
+- (void)calloutCells:(NSArray*)indexPaths
+{
+    [UIView animateWithDuration:0.0
+                          delay:0.0
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:^void() {
+                         for (NSIndexPath* indexPath in indexPaths)
+                         {
+                             [[self.tableView cellForRowAtIndexPath:indexPath] setHighlighted:YES animated:YES];
+                         }
+                     }
+                     completion:^(BOOL finished) {
+                         for (NSIndexPath* indexPath in indexPaths)
+                         {
+                             [[self.tableView cellForRowAtIndexPath:indexPath] setHighlighted:NO animated:YES];
+                         }
+                     }];
+}
 
 
 
@@ -407,11 +457,11 @@ typedef void(^completion)(BOOL finished);
                 
                 _addresses          = [json valueForKey:@"address"];
                 
-                [_addresses enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull address, NSUInteger idx, BOOL * _Nonnull stop) {
-                    if ([[address valueForKey:@"deliverable"] boolValue] == TRUE) {
-                        _addressData = address;
-                    }
-                }];
+//                [_addresses enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull address, NSUInteger idx, BOOL * _Nonnull stop) {
+//                    if ([[address valueForKey:@"deliverable"] boolValue] == TRUE) {
+//                        _addressData = address;
+//                    }
+//                }];
                 
                 
                 self.display_total          = [headerCurrencyFormatter stringFromNumber:[totalData valueForKey:@"totalamount"]];
@@ -424,7 +474,7 @@ typedef void(^completion)(BOOL finished);
                 self.total                  = [headerCurrencyFormatter stringFromNumber:[totalData valueForKey:@"totalamount"]];
                 self.title                  = @"CHECKOUT";
                 self.store                  = [[storeData valueForKey:@"name"] capitalizedString];
-                self.shipAddress            = _addressData;
+//                self.shipAddress            = _addressData;
 
                 _sectionCount               = kSECTION_COUNT;
                 

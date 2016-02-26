@@ -25,6 +25,8 @@
 @property (nonatomic, strong) NSArray *large_img;
 
 
+@property (nonatomic, strong) NSString *default_image;
+
 @property (nonatomic, strong) NSArray *variants;
 
 

@@ -11,8 +11,8 @@
 #import "HeaderSliderView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "AppDelegate.h"
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
+//#import <FBSDKLoginKit/FBSDKLoginKit.h>
+//#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "SignUpViewController.h"
 #import "StoresViewController.h"
 #import "DoctorViewController.h"

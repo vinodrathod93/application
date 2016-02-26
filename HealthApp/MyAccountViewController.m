@@ -10,8 +10,8 @@
 #import "ProfileViewCell.h"
 #import "User.h"
 #import "LogSignViewController.h"
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
+//#import <FBSDKCoreKit/FBSDKCoreKit.h>
+//#import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "LogSignViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "AddressesViewController.h"

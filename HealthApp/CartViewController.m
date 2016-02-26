@@ -119,6 +119,9 @@ static NSString *cellIdentifier = @"cartCell";
     
     NSLog(@"Cart viewWillDisappear");
     
+    [self removeNoCartDimmView];
+    [self removeConnectionErrorView];
+    
 //    if (self.dimmView) {
 //        
 //        NSLog(@"DimmView removeFromSuperview");
@@ -283,20 +286,31 @@ static NSString *cellIdentifier = @"cartCell";
     shippingValue.backgroundColor = [UIColor whiteColor];
     
     
-    HeaderLabel *totalLabel = [[HeaderLabel alloc]initWithFrame:CGRectMake(0, 50, self.view.frame.size.width/2, 25)];
+    HeaderLabel *freeDeliveryMesage = [[HeaderLabel alloc]initWithFrame:CGRectMake(0 , 50, self.view.frame.size.width, 25)];
+    NSString *minOrder = [headerCurrencyFormatter stringFromNumber:order.min_delivery_charge];
+    
+    freeDeliveryMesage.text = [NSString stringWithFormat:@"( FREE Delivery on orders above %@ )", minOrder];
+    freeDeliveryMesage.textAlignment = NSTextAlignmentLeft;
+    freeDeliveryMesage.textColor = [UIColor darkGrayColor];
+    freeDeliveryMesage.font = [UIFont fontWithName:@"AvenirNext-Regular" size:14.0f];
+    freeDeliveryMesage.backgroundColor = [UIColor whiteColor];
+    
+    
+    
+    HeaderLabel *totalLabel = [[HeaderLabel alloc]initWithFrame:CGRectMake(0, 75, self.view.frame.size.width/2, 25)];
     totalLabel.text = @"Total";
     totalLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
     totalLabel.backgroundColor = [UIColor whiteColor];
     
     
-    HeaderLabel *totalAmount = [[HeaderLabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 , 50, self.view.frame.size.width/2, 25)];
+    HeaderLabel *totalAmount = [[HeaderLabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 , 75, self.view.frame.size.width/2, 25)];
     totalAmount.text = total_price_string;
     totalAmount.textAlignment = NSTextAlignmentRight;
     totalAmount.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
     totalAmount.backgroundColor = [UIColor whiteColor];
     
     
-    UIButton *placeOrderbutton = [[UIButton alloc]initWithFrame:CGRectMake(15, 85, self.view.frame.size.width - (2*15), 40)];
+    UIButton *placeOrderbutton = [[UIButton alloc]initWithFrame:CGRectMake(15, 110, self.view.frame.size.width - (2*15), 40)];
     [placeOrderbutton setTitle:@"CHECKOUT" forState:UIControlStateNormal];
     [placeOrderbutton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-DemiBold" size:16.0f]];
     [placeOrderbutton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
@@ -319,6 +333,7 @@ static NSString *cellIdentifier = @"cartCell";
     [footerView addSubview:totalAmount];
     [footerView addSubview:shippingLabel];
     [footerView addSubview:shippingValue];
+    [footerView addSubview:freeDeliveryMesage];
     [footerView addSubview:itemLabel];
     [footerView addSubview:itemTotal];
     [footerView addSubview:placeOrderbutton];
@@ -351,12 +366,6 @@ static NSString *cellIdentifier = @"cartCell";
 //    LineItems *item = self.lineItemsFetchedResultsController.fetchedObjects[indexPath.row];
     
     Order *orderModel = [self.orderNumFetchedResultsController.fetchedObjects objectAtIndex:indexPath.section];
-    
-    
-    
-//    [UIView animateWithDuration:1.f animations:^{
-//        [self.tableView reloadData];
-//    }];
     
     [self deleteOrderLineItem:orderModel atIndexPath:indexPath];
 }
@@ -530,6 +539,35 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
+#pragma mark - UIButton Action
+
+-(void)checkoutButtonPressed:(UIButton *)sender {
+    NetworkStatus netStatus = [self.appDelegate.googleReach currentReachabilityStatus];
+    User *user = [User savedUser];
+    
+    
+    
+    
+    [self checkOrders];
+    
+    Order *order = self.orderNumFetchedResultsController.fetchedObjects[sender.tag];
+    
+    
+    if (user.userID == nil) {
+        [self showLoginPageAndIsPlacingOrder:YES];
+        
+    } else {
+        
+        if (netStatus != NotReachable) {
+            
+            [self sendCheckoutOrder:order];
+        }
+        else {
+            [self displayNoConnection];
+        }
+    }
+}
+
 
 #pragma mark - Helper Methods
 
@@ -581,31 +619,7 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
--(void)checkoutButtonPressed:(UIButton *)sender {
-    NetworkStatus netStatus = [self.appDelegate.googleReach currentReachabilityStatus];
-    User *user = [User savedUser];
-    
-    
-    
-    
-    [self checkOrders];
-    
-    Order *order = self.orderNumFetchedResultsController.fetchedObjects[sender.tag];
-    
-    
-    if (user.userID == nil) {
-        [self showLoginPageAndIsPlacingOrder:YES];
-        
-    } else {
-        
-        if (netStatus != NotReachable) {
-            [self sendCheckoutOrder:order];
-        }
-        else {
-            [self displayNoConnection];
-        }
-    }
-}
+
 
 
 -(NSArray *)getQuantityArrayWithCount:(NSNumber *)count {
@@ -693,6 +707,11 @@ static NSString *cellIdentifier = @"cartCell";
 }
 
 
+
+
+#pragma mark - UIAlertView & HUD
+
+
 -(void)displayNoConnection {
     
     [self hideHUD];
@@ -717,79 +736,23 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
--(void)decorateNoCartDimmView {
-    
-//    if (self.dimmView) {
-//        NSLog(@"1. Dimm Already exists");
-//        
-//        
-//    } else {
-//        [self createDimmView];
-//    }
-    
-    [self createDimmView];
-    
-    if (self.lineItemsFetchedResultsController.fetchedObjects.count == 0) {
-        
-        
-        if (self.dimmView.subviews.count > 1) {
-            NSLog(@"3. Subviews already exists in dimm View %@", self.dimmView.subviews);
-            
-            
-        } else {
-            
-            UIImageView *shoppingCartImageView = [[UIImageView alloc]initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 50, self.dimmView.frame.size.height/3, 100, 100)];
-            UIImage *cartImage                 = [UIImage imageNamed:@"ShoppingCart"];
-            shoppingCartImageView.image        = cartImage;
-            shoppingCartImageView.alpha        = 0.5f;
-            [self.dimmView addSubview:shoppingCartImageView];
-            
-            UILabel *cartLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 150, shoppingCartImageView.frame.origin.y + shoppingCartImageView.frame.size.height + 30, 300, 30)];
-            cartLabel.text     = @"Your Shopping Cart is Empty";
-            cartLabel.textAlignment = NSTextAlignmentCenter;
-            cartLabel.textColor     = [UIColor lightGrayColor];
-            cartLabel.font          = [UIFont fontWithName:@"AvenirNext-Regular" size:17.f];
-            [self.dimmView addSubview:cartLabel];
-            
-            UIButton *shoppingButton = [[UIButton alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 100, cartLabel.frame.origin.y + cartLabel.frame.size.height + 50, 200, 30)];
-            [shoppingButton setTitle:@"Let's go Shopping" forState:UIControlStateNormal];
-            [shoppingButton setTitleColor:self.tableView.tintColor forState:UIControlStateNormal];
-            [shoppingButton addTarget:self action:@selector(goToStoresPage:) forControlEvents:UIControlEventTouchUpInside];
-            shoppingButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:19.f];
-            [self.dimmView addSubview:shoppingButton];
-        }
-        
-    }
-    
-}
 
-
-
--(void)createDimmView {
-    
-    self.dimmView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), self.view.frame.size.height)];
-    self.dimmView.backgroundColor = [UIColor whiteColor];
-    self.dimmView.tag = kCartEmptyViewTag;
-//    [self.navigationController.view insertSubview:self.dimmView belowSubview:self.navigationController.navigationBar];
-    [self.view addSubview:self.dimmView];
-    
-}
 
 -(void)showHUD:(NSString *)text andDetailText:(NSString *)detail {
     
-    self.loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), self.view.frame.size.height)];
+    self.loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.frame), self.view.frame.size.height)];
     self.loadingView.backgroundColor = [UIColor whiteColor];
 //    [self.view addSubview:self.loadingView];
-//    [self.navigationController.view insertSubview:self.loadingView aboveSubview:self.navigationController.navigationBar];
+    [self.navigationController.view insertSubview:self.loadingView belowSubview:self.navigationController.navigationBar];
     
-    [self.view insertSubview:self.loadingView aboveSubview:self.tableView];
+//    [self.view insertSubview:self.loadingView aboveSubview:self.tableView];
     
     self.hud = [MBProgressHUD showHUDAddedTo:self.loadingView animated:YES];
     self.hud.color = [UIColor blackColor];
     self.hud.labelText = text;
     self.hud.detailsLabelText = detail;
     self.hud.center = self.loadingView.center;
-//    self.hud.dimBackground = YES;
+    self.hud.dimBackground = YES;
 }
 
 -(void)hideHUD {
@@ -886,6 +849,15 @@ static NSString *cellIdentifier = @"cartCell";
                         if (jsonError) {
                             NSLog(@"Error %@",[jsonError localizedDescription]);
                         } else {
+                            
+                            
+                            
+                            if (![[json objectForKey:@"stores"] isKindOfClass:[NSArray class]]) {
+                                
+                                [self decorateNoCartDimmView];
+                                return;
+                            }
+                            
                             
                             
                             if (self.orderNumFetchedResultsController.fetchedObjects.count != 0) {
@@ -1334,14 +1306,20 @@ static NSString *cellIdentifier = @"cartCell";
 -(void)goToStoresPage:(UIButton *)sender {
     
     
-    StoresViewController *storesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
-    storesVC.hidesBottomBarWhenPushed = YES;
+//    StoresViewController *storesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
+//    storesVC.hidesBottomBarWhenPushed = YES;
+//    
+//    [self.navigationController pushViewController:storesVC animated:YES];
     
-    [self.navigationController pushViewController:storesVC animated:YES];
+    
+    UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
+    
+    [tabBarController setSelectedIndex:0];
     
 }
 
 
+#pragma mark - Custom UIViews
 
 -(void)showConnectionErrorView:(NSError *)error {
     self.connectionErrorView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionView" owner:self options:nil] lastObject];
@@ -1365,9 +1343,60 @@ static NSString *cellIdentifier = @"cartCell";
 -(void)removeNoCartDimmView {
     if (self.dimmView) {
         
-//        [[self.navigationController.view viewWithTag:kCartEmptyViewTag] removeFromSuperview];
-        [self.dimmView removeFromSuperview];
+        [[self.navigationController.view viewWithTag:kCartEmptyViewTag] removeFromSuperview];
+//        [self.dimmView removeFromSuperview];
     }
+}
+
+
+-(void)decorateNoCartDimmView {
+    
+    [self createDimmView];
+    
+    if (self.lineItemsFetchedResultsController.fetchedObjects.count == 0) {
+        
+        
+        if (self.dimmView.subviews.count > 1) {
+            NSLog(@"3. Subviews already exists in dimm View %@", self.dimmView.subviews);
+            
+            
+        } else {
+            
+            UIImageView *shoppingCartImageView = [[UIImageView alloc]initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 50, self.dimmView.frame.size.height/3, 100, 100)];
+            UIImage *cartImage                 = [UIImage imageNamed:@"ShoppingCart"];
+            shoppingCartImageView.image        = cartImage;
+            shoppingCartImageView.alpha        = 0.5f;
+            [self.dimmView addSubview:shoppingCartImageView];
+            
+            UILabel *cartLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 150, shoppingCartImageView.frame.origin.y + shoppingCartImageView.frame.size.height + 30, 300, 30)];
+            cartLabel.text     = @"Your Shopping Cart is Empty";
+            cartLabel.textAlignment = NSTextAlignmentCenter;
+            cartLabel.textColor     = [UIColor lightGrayColor];
+            cartLabel.font          = [UIFont fontWithName:@"AvenirNext-Regular" size:17.f];
+            [self.dimmView addSubview:cartLabel];
+            
+            UIButton *shoppingButton = [[UIButton alloc] initWithFrame:CGRectMake(self.dimmView.frame.size.width/2 - 100, cartLabel.frame.origin.y + cartLabel.frame.size.height + 50, 200, 30)];
+            [shoppingButton setTitle:@"Let's go Shopping" forState:UIControlStateNormal];
+            [shoppingButton setTitleColor:self.tableView.tintColor forState:UIControlStateNormal];
+            [shoppingButton addTarget:self action:@selector(goToStoresPage:) forControlEvents:UIControlEventTouchUpInside];
+            shoppingButton.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:19.f];
+            [self.dimmView addSubview:shoppingButton];
+        }
+        
+    }
+    
+}
+
+
+
+-(void)createDimmView {
+    
+    self.dimmView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.frame), self.view.frame.size.height)];
+    self.dimmView.backgroundColor = [UIColor whiteColor];
+    self.dimmView.tag = kCartEmptyViewTag;
+    [self.navigationController.view insertSubview:self.dimmView belowSubview:self.navigationController.navigationBar];
+//    [self.view addSubview:self.dimmView];
+    
 }
 
 

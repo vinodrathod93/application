@@ -13,7 +13,6 @@
 #import "AddressCell.h"
 #import "AppDelegate.h"
 #import "User.h"
-#import "EditAddressViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
 #define kADD_ADDRESS_CELL @"addAddressCell"
@@ -27,10 +26,8 @@
     NSString *cellIdentifier;
 }
 @property (nonatomic, strong) MBProgressHUD *hud;
-@property (nonatomic, strong) NSDictionary *shipping_data;
-@property (nonatomic, strong) User *user;
+@property (nonatomic, strong) NSMutableArray *available_addresses;
 
-@property (nonatomic, strong) NSDictionary *addresses;
 
 @end
 
@@ -41,14 +38,22 @@ typedef void(^completion)(BOOL finished);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _user = [User savedUser];
     
-//    if (_user != nil) {
-//        self.addresses = _user.bill_address;
-//    }
-    
+    _available_addresses = [NSMutableArray arrayWithArray:self.addressesArray];
     
     self.title = @"My Addresses";
+    
+    
+    
+    
+    if (!self.isGettingOrder) {
+        [self loadAddresses];
+        
+    }
+    else {
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed:)];
+        self.navigationItem.rightBarButtonItem = cancelButton;
+    }
     
 }
 
@@ -62,7 +67,7 @@ typedef void(^completion)(BOOL finished);
     
 }
 
-- (IBAction)cancelPressed:(id)sender {
+- (void)cancelPressed:(id)sender {
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -72,15 +77,17 @@ typedef void(^completion)(BOOL finished);
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    NSLog(@"%@",self.addresses);
+//    NSLog(@"%@", [self isAddressAvailable]);
     
-    return [self isAddressAvailable] ? 2 : 1;
+//    return [self isAddressAvailable] ? 2 : 1;
+    
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     
-    return (section == 0) ? 1: self.addressesArray.count;
+    return (section == 0) ? 1: _available_addresses.count;
 }
 
 
@@ -113,11 +120,13 @@ typedef void(^completion)(BOOL finished);
 
 -(void)configureAddAddressCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     
-    if ([self isAddressAvailable]) {
-        cell.textLabel.text = @"Add Address";
-    }
-    else
-        cell.textLabel.text = @"No Address";
+    cell.textLabel.text = @"Add Address";
+    
+//    if ([self isAddressAvailable]) {
+//        cell.textLabel.text = @"Add Address";
+//    }
+//    else
+//        cell.textLabel.text = @"No Address";
     
 }
 
@@ -125,19 +134,31 @@ typedef void(^completion)(BOOL finished);
 -(void)configureAvailableAddressCell:(AddressCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     
     
-    NSDictionary *address = self.addressesArray[indexPath.row];
+    NSDictionary *address = _available_addresses[indexPath.row];
     
     
-    if ([[address valueForKey:@"deliverable"] boolValue] == FALSE) {
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [UIColor lightGrayColor];
-        cell.userInteractionEnabled = NO;
+    NSLog(@"Address %@", address);
+    
+    if (self.isGettingOrder) {
+        
+        BOOL deliverable = [[address valueForKey:@"deliverable"] boolValue];
+        if (!deliverable) {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = [UIColor lightGrayColor];
+            cell.userInteractionEnabled = NO;
+        }
     }
     else {
-        NSLog(@"Deliverable ");
+        UIButton *edit = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
+        [edit setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
+        [edit addTarget:self action:@selector(editAddress) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.accessoryView = edit;
     }
     
-    cell.full_name.text = [[self.user_data valueForKey:@"name"]capitalizedString];
+    
+    
+    cell.full_name.text = [[address valueForKey:@"name"]capitalizedString];
     
     NSString *address1 = [[address valueForKey:@"address"] capitalizedString];
     
@@ -151,14 +172,24 @@ typedef void(^completion)(BOOL finished);
 }
 
 
-
+-(void)editAddress {
+    
+    EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
+    editAddressVC.title = @"Edit Address";
+    editAddressVC.delegate = self;
+    
+    
+    [self.navigationController pushViewController:editAddressVC animated:YES];
+}
 
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *selectAddress = @"Delivery Address";
-    NSString *noMessage     = @"";
-    
-    return (section == 0) ? noMessage: (section == 1)? selectAddress: noMessage;
+    NSString *selectAddress = @"Select Delivery Address";
+    if (section == 0) {
+        return nil;
+    }
+    else
+        return selectAddress;
     
 }
 
@@ -174,22 +205,28 @@ typedef void(^completion)(BOOL finished);
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
     if (indexPath.section == 1) {
         
-        self.addresses = self.addressesArray[indexPath.row];
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
+        if (self.isGettingOrder) {
+            NSDictionary *address = _available_addresses[indexPath.row];
+            
+            if ([self.delegate respondsToSelector:@selector(deliverableAddressDidSelect:)]) {
+                
+                NSLog(@"Yes, Its available - %@", address);
+                [self.delegate deliverableAddressDidSelect:address];
+            }
+            
+            
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
 
     }
     else {
         EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
         editAddressVC.title = @"Add Address";
-        
-//        if (![self.addresses isEqual:[NSNull null]]) {
-//            
-//            editAddressVC.title       = @"Edit Address";
-//            editAddressVC.shipAddress = self.addresses;
-//        }
+        editAddressVC.delegate = self;
         
         
         [self.navigationController pushViewController:editAddressVC animated:YES];
@@ -198,6 +235,162 @@ typedef void(^completion)(BOOL finished);
     
 }
 
+
+
+#pragma mark - Edit Address Delegate 
+
+-(void)addressDidSaved:(NSArray *)addresses {
+    
+    NSLog(@"Before %@", _available_addresses);
+    
+    [_available_addresses removeAllObjects];
+    [_available_addresses addObjectsFromArray:addresses];
+    
+    NSLog(@"%@", _available_addresses);
+    
+    [self.tableView reloadData];
+}
+
+
+#pragma mark - Editing Tableview Methods
+
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (!self.isGettingOrder) {
+        if (indexPath.section == 1) {
+            return YES;
+        }
+        else
+            return NO;
+    }
+    else
+        return NO;
+    
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 1) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    else
+        return UITableViewCellEditingStyleNone;
+    
+}
+
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 1) {
+        NSDictionary *address = _available_addresses[indexPath.row];
+        
+        [self deleteAddress:address atIndexPath:indexPath];
+        
+        
+    }
+    
+}
+
+
+
+#pragma mark - Network
+
+-(void)loadAddresses {
+    
+    
+    [self showHUD];
+    
+    [[NAPIManager sharedManager] getAllAddressesWithSuccess:^(NSArray *address) {
+        NSArray *allAddresses = address;
+        
+        [_available_addresses removeAllObjects];
+        [_available_addresses addObjectsFromArray:allAddresses];
+        
+        [self hideHUD];
+        [self.tableView reloadData];
+        
+    } failure:^(NSError *error) {
+        
+        [self hideHUD];
+        NSLog(@"Error: %@", error.localizedDescription);
+        
+        [self alertWithTitle:@"Loading Address" message:error.localizedDescription];
+    }];
+}
+
+
+
+-(void)deleteAddress:(NSDictionary *)address atIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    [self showHUD];
+    
+    NSString *addressID = [address valueForKey:@"id"];
+    
+    [[NAPIManager sharedManager] deleteAddress:addressID withSuccess:^(BOOL success) {
+        
+        [self hideHUD];
+        
+        
+        if (success) {
+            
+            [_available_addresses removeObject:address];
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        else {
+            NSLog(@"Something went wrong!");
+            [self alertWithTitle:@"Delete Address" message:@"Something went wrong. Please try again."];
+        }
+        
+        
+    } failure:^(NSError *error) {
+        [self hideHUD];
+        NSLog(@"Error: %@", error.localizedDescription);
+        
+        [self alertWithTitle:@"Delete Address" message:error.localizedDescription];
+    }];
+}
+
+
+
+
+-(BOOL)isAddressAvailable {
+    
+    if (_available_addresses.count > 0) {
+        return YES;
+    }
+    else
+        return NO;
+}
+
+
+
+
+#pragma mark - MBProgressHUD
+
+-(void)showHUD {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    self.hud.color = [UIColor clearColor];
+    self.hud.labelText = @"Loading...";
+    self.hud.labelColor = [UIColor darkGrayColor];
+    self.hud.activityIndicatorColor = [UIColor blackColor];
+    self.hud.detailsLabelColor = [UIColor darkGrayColor];
+}
+
+-(void)hideHUD {
+    [self.hud hide:YES];
+}
+
+
+
+
+#pragma mark - UIAlertView
+
+-(void)alertWithTitle:(NSString *)status message:(NSString *)message {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:status message:message delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+    [alert show];
+}
 
 
 -(void)displayConnectionFailed {
@@ -211,40 +404,6 @@ typedef void(^completion)(BOOL finished);
     
     [connection_alert show];
 }
-
-
-
-
--(BOOL)isAddressAvailable {
-    
-//    if (_addresses != nil) {
-//        if ([[_addresses valueForKey:@"full_name"] isEqual:[NSNull null]])
-//            return NO;
-//
-//        else if ([[_addresses valueForKey:@"address1"] isEqual:[NSNull null]])
-//            return NO;
-//        
-//        else if ([[_addresses valueForKey:@"zipcode"] isEqual:[NSNull null]])
-//            return NO;
-//    }
-//    else
-//        return NO;
-    
-    if (self.addressesArray.count > 0) {
-        return YES;
-    }
-    else
-        return NO;
-}
-
-
-
-
-
-
-
-
-
 
 
 

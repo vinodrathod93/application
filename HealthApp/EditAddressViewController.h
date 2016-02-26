@@ -10,6 +10,13 @@
 #import <CoreData/CoreData.h>
 #import "TPKeyboardAvoidingScrollView.h"
 
+
+@protocol EditedAddressDelegate <NSObject>
+
+-(void)addressDidSaved:(NSArray *)addresses;
+
+@end
+
 @interface EditAddressViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
@@ -26,5 +33,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *saveNContinueButton;
 
 @property (nonatomic, strong) NSDictionary *shipAddress;
+
+
+@property (nonatomic, weak) id<EditedAddressDelegate> delegate;
 
 @end

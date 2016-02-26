@@ -67,6 +67,11 @@
     return smallImages;
 }
 
+
+-(NSString *)default_image {
+    return [self.model valueForKey:@"default_image"];
+}
+
 -(NSNumber *)productID {
     return [self.model valueForKey:@"productID"];
 }

@@ -187,8 +187,80 @@
 }
 
 
+-(NSURLSessionDataTask *)getNeediatorStatesCityWithSuccess:(void (^)(StateCityResponseModel *states))success failure:(void (^)(NSError *error))failure {
+    
+    
+    return [self GET:KSTATE_CITIES_PATH parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Getting States %@", downloadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+        
+        NSError *error;
+        StateCityResponseModel *states = [MTLJSONAdapter modelOfClass:StateCityResponseModel.class fromJSONDictionary:responseDictionary error:&error];
+        
+        success(states);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+        
+}
 
 
+-(NSURLSessionDataTask *)getAllAddressesWithSuccess:(void (^)(NSArray *address))success failure:(void (^)(NSError *error)) failure {
+    User *user = [User savedUser];
+    
+    NSDictionary *address_parameter = [NSDictionary dictionaryWithObject:user.userID forKey:@"user_id"];
+    
+    return [self GET:KALL_ADDRESSES_PATH parameters:address_parameter progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Getting Addresses = %@", downloadProgress.localizedDescription);
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+        
+        if ([[responseDictionary objectForKey:@"address"] isKindOfClass:[NSArray class]]) {
+            NSArray *addresses = [responseDictionary objectForKey:@"address"];
+            
+            success(addresses);
+        }
+        else {
+            success(@[]);
+        }
+            
+        
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
 
+-(NSURLSessionDataTask *)deleteAddress:(NSString *)addressID withSuccess:(void (^)(BOOL))success failure:(void (^)(NSError *error))failure {
+    
+//    NSString *parameter = [NSString stringWithFormat:@"id=%@",addressID];
+    
+    NSDictionary *parameter = @{
+                                @"id" : addressID
+                                };
+    
+    self.requestSerializer = [AFHTTPRequestSerializer serializer];
 
+    return [self POST:kDELETE_ADDRESSES_PATH parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"Deleting address %@", uploadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+        
+        if([[responseDictionary objectForKey:@"deleteaddress"] isKindOfClass:[NSArray class]]) {
+            success(YES);
+        }
+        else
+            success(NO);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
 @end

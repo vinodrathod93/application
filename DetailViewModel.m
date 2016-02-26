@@ -73,7 +73,7 @@ static NSString *summary = @"summary"; */
 
 /************ Infinite series **************/
 
-
+/*
 +(NSArray *)filterProductsFromJSON:(NSDictionary *)dictionary {
     NSMutableArray *filterProducts = [[NSMutableArray alloc]init];
     
@@ -120,7 +120,7 @@ static NSString *summary = @"summary"; */
         [filterProducts addObject:detail];
         
         
-        /*
+ 
         
         
         ProductDetail *detail = [[ProductDetail alloc]init];
@@ -143,12 +143,12 @@ static NSString *summary = @"summary"; */
         [filterProducts addObject:detail];
          
          
-         */
+ 
     }];
     
     return filterProducts;
 }
-
+*/
 
 
 +(NSArray *)infiniteProductsFromJSON:(NSDictionary *)dictionary {
@@ -163,8 +163,8 @@ static NSString *summary = @"summary"; */
         detail.name =       [product valueForKey:@"productname"];
         detail.storeID   =  [product valueForKey:@"storeid"];
         detail.catID     =  [product valueForKey:@"catid"];
-//        detail.hasVariant = [[product objectForKey:@"has_variants"] boolValue];
-        detail.total_on_hand = [product valueForKey:@"Qty"];
+        detail.default_image = [product valueForKey:@"imageurl"];
+        detail.total_on_hand = [product valueForKey:@"qty"];
         
         // Master Images
         NSMutableArray *smallImages = [NSMutableArray array];
@@ -192,7 +192,7 @@ static NSString *summary = @"summary"; */
 //            detail.variants = [product objectForKey:@"variants"];
 //        }
         
-        NSString *price = [product valueForKey:@"Rate"];
+        NSString *price = [product valueForKey:@"rate"];
         NSString *masterPrice = [product valueForKey:@"mrp"];
         
         
@@ -220,7 +220,9 @@ static NSString *summary = @"summary"; */
     NSArray *product = details.product_img;
     NSLog(@"%@",product);
     
-    return (product.count == 0) ? nil : product[0];
+    
+    
+    return (product.count == 0) ? details.default_image : product[0] ;
 }
 
 -(NSString *)getItemsCount:(NSDictionary *)dictionary {
@@ -283,7 +285,7 @@ static NSString *summary = @"summary"; */
 
 
 
-
+/*
 
 +(NSArray *)secondVersionInfiniteProductsFromJSON:(NSArray *)allProducts {
     NSMutableArray *products = [[NSMutableArray alloc]init];
@@ -352,6 +354,6 @@ static NSString *summary = @"summary"; */
     return products;
 }
 
-
+*/
 
 @end

@@ -169,10 +169,20 @@
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
     
-    if (netStatus != NotReachable) {
-        [self sendPaymentOptionToServer];
-    } else
-        [self displayNoConnection];
+    
+    if (self.payment_method_id != nil) {
+        if (netStatus != NotReachable) {
+            [self sendPaymentOptionToServer];
+        } else
+            [self displayNoConnection];
+    }
+    else {
+        // Highlight cell
+        
+        NSArray *allIndexPaths = [self allRowsindexPathsForSection:0];
+        [self calloutCells:allIndexPaths];
+    }
+    
 
 }
 
@@ -228,17 +238,15 @@
                     } else if (url_response.statusCode == 200) {
                         NSLog(@"Payment Done");
                         
-                        NSArray *orderResponseArray = [json valueForKey:@"order"];
+                        NSString *orderNumberResponse = [json valueForKey:@"orderno"];
                         
-                        if (orderResponseArray != nil) {
-                            NSDictionary *orderDictionary = [orderResponseArray lastObject];
+                        if (orderNumberResponse != nil) {
                             
                             OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
-                            orderCompleteVC.order_id = [orderDictionary valueForKey:@"orderno"];
+                            orderCompleteVC.order_id = orderNumberResponse;
                             
                             
-                            [self deleteAllLineItems];
-                            
+                            [self deleteOrder];
                             
                             [self.navigationController pushViewController:orderCompleteVC animated:YES];
                         }
@@ -276,14 +284,15 @@
 
 
 
--(void)deleteAllLineItems {
+-(void)deleteOrder {
     
-    // Order
+//    // Order
     NSArray *lineItems = self.orderModel.cartLineItems.allObjects;
     
     for (LineItems *lineItem in lineItems) {
         [self.managedObjectContext deleteObject:lineItem];
     }
+    
     
     
     [self.managedObjectContext deleteObject:self.orderModel];
@@ -292,6 +301,10 @@
     [self.managedObjectContext save:&saveError];
     
 }
+
+
+#pragma mark - UIAlertView & HUD
+
 
 -(void)alertWithTitle:(NSString *)status message:(NSString *)message {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:status message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -314,15 +327,53 @@
 
 -(void)showHUD {
     self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    self.hud.color = [UIColor clearColor];
     self.hud.labelText = @"Loading...";
     self.hud.labelColor = [UIColor darkGrayColor];
     self.hud.activityIndicatorColor = [UIColor blackColor];
     self.hud.detailsLabelColor = [UIColor darkGrayColor];
+    self.hud.dimBackground = YES;
 }
 
 -(void)hideHUD {
     [self.hud hide:YES];
 }
+
+
+
+#pragma mark - Animation
+
+- (void)calloutCells:(NSArray*)indexPaths
+{
+    [UIView animateWithDuration:0.0
+                          delay:0.0
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:^void() {
+                         for (NSIndexPath* indexPath in indexPaths)
+                         {
+                             [[self.tableView cellForRowAtIndexPath:indexPath] setHighlighted:YES animated:YES];
+                         }
+                     }
+                     completion:^(BOOL finished) {
+                         for (NSIndexPath* indexPath in indexPaths)
+                         {
+                             [[self.tableView cellForRowAtIndexPath:indexPath] setHighlighted:NO animated:YES];
+                         }
+                     }];
+}
+
+
+
+-(NSArray *)allRowsindexPathsForSection:(NSInteger)section {
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (int i=0; i < [self.tableView numberOfRowsInSection:section]; i++) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:section];
+        
+        [array addObject:indexPath];
+    }
+    
+    return array;
+}
+
 
 @end

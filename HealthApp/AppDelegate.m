@@ -7,8 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
+//#import <FBSDKCoreKit/FBSDKCoreKit.h>
+//#import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <CoreData/CoreData.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import "NeediatorAPIKey.h"
@@ -89,7 +89,7 @@
     [[UINavigationBar appearance] setTranslucent:NO];
     
     // Facebook Method
-    [FBSDKLoginButton class];
+//    [FBSDKLoginButton class];
     
     
     
@@ -97,21 +97,23 @@
     [GMSServices provideAPIKey:kGoogleAPIKey];
     
     
-    return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                    didFinishLaunchingWithOptions:launchOptions];
+//    return [[FBSDKApplicationDelegate sharedInstance] application:application
+//                                    didFinishLaunchingWithOptions:launchOptions];
     
+    
+    return YES;
     
     
 }
 
--(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    NSLog(@"openURL");
-    
-    return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                   openURL:url
-                                         sourceApplication:sourceApplication
-                                                annotation:annotation];
-}
+//-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+//    NSLog(@"openURL");
+//    
+//    return [[FBSDKApplicationDelegate sharedInstance] application:application
+//                                                   openURL:url
+//                                         sourceApplication:sourceApplication
+//                                                annotation:annotation];
+//}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     
@@ -140,7 +142,7 @@
     
     NSLog(@"applicationDidBecomeActive");
     
-    [FBSDKAppEvents activateApp];
+//    [FBSDKAppEvents activateApp];
     
     
     

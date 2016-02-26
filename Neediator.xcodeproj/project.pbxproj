@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		671E355C1C68C62100AF8736 /* StatesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 671E355B1C68C62100AF8736 /* StatesModel.m */; };
+		671E355F1C68C76400AF8736 /* CitiesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 671E355E1C68C76400AF8736 /* CitiesModel.m */; };
+		671E35621C68C91000AF8736 /* StateCityResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 671E35611C68C91000AF8736 /* StateCityResponseModel.m */; };
+		671E35651C69024200AF8736 /* NSString+AddressValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 671E35641C69024200AF8736 /* NSString+AddressValidation.m */; };
 		82147FB71C45230D00D6691E /* ChemistResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FB61C45230D00D6691E /* ChemistResponseModel.m */; };
 		82147FBA1C45272B00D6691E /* ListingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FB91C45272B00D6691E /* ListingModel.m */; };
 		82147FBD1C4528ED00D6691E /* MetaPagingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FBC1C4528ED00D6691E /* MetaPagingModel.m */; };
@@ -67,8 +71,6 @@
 		826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B142D1BC2A01E00B6A1C3 /* OrderCompleteViewController.m */; };
 		826F07511C524A310033DD09 /* BookCallListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 826F07501C524A310033DD09 /* BookCallListingCell.m */; };
 		827026DE1BC650840054E16F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 827026DD1BC650840054E16F /* Reachability.m */; };
-		827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632821B4A3DB800230833 /* FBSDKCoreKit.framework */; };
-		827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632831B4A3DB800230833 /* FBSDKLoginKit.framework */; };
 		827A80181B85E15C008085F1 /* AddressesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827A80171B85E15C008085F1 /* AddressesViewController.m */; };
 		827DD31A1B8AE39F00714985 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD3191B8AE39F00714985 /* Address.m */; };
 		827FD14B1C455D16000EB0A4 /* Neediator_Logo_Final.png in Resources */ = {isa = PBXBuildFile; fileRef = 827FD14A1C455D16000EB0A4 /* Neediator_Logo_Final.png */; };
@@ -165,6 +167,14 @@
 /* Begin PBXFileReference section */
 		26E4DE3B6A3BA531177D5ECA /* Pods-Chemist Plus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.debug.xcconfig"; sourceTree = "<group>"; };
 		34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		671E355A1C68C62100AF8736 /* StatesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatesModel.h; sourceTree = "<group>"; };
+		671E355B1C68C62100AF8736 /* StatesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatesModel.m; sourceTree = "<group>"; };
+		671E355D1C68C76400AF8736 /* CitiesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitiesModel.h; sourceTree = "<group>"; };
+		671E355E1C68C76400AF8736 /* CitiesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitiesModel.m; sourceTree = "<group>"; };
+		671E35601C68C91000AF8736 /* StateCityResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateCityResponseModel.h; sourceTree = "<group>"; };
+		671E35611C68C91000AF8736 /* StateCityResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateCityResponseModel.m; sourceTree = "<group>"; };
+		671E35631C69024200AF8736 /* NSString+AddressValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AddressValidation.h"; sourceTree = "<group>"; };
+		671E35641C69024200AF8736 /* NSString+AddressValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AddressValidation.m"; sourceTree = "<group>"; };
 		7CED2C0B1CF6D1F8E6BC80C5 /* Pods-Neediator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.release.xcconfig"; sourceTree = "<group>"; };
 		82147FB51C45230D00D6691E /* ChemistResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemistResponseModel.h; sourceTree = "<group>"; };
 		82147FB61C45230D00D6691E /* ChemistResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChemistResponseModel.m; sourceTree = "<group>"; };
@@ -453,8 +463,6 @@
 				82BF08511C1F07E90093B8CD /* MessageUI.framework in Frameworks */,
 				824D00371B6F2EBF000F1825 /* CoreLocation.framework in Frameworks */,
 				825567201B68F9B6009F013A /* CoreTelephony.framework in Frameworks */,
-				827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */,
-				827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */,
 				E7B4DA25DC0B1365140A92A2 /* libPods-Neediator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -916,6 +924,12 @@
 				82DCBECE1C4CE3FF005EBDB3 /* Promotions */,
 				82ED53E01C4FB39800FA7707 /* Spree */,
 				82AF642A1C58E1A600628609 /* TimeSlot */,
+				671E355A1C68C62100AF8736 /* StatesModel.h */,
+				671E355B1C68C62100AF8736 /* StatesModel.m */,
+				671E355D1C68C76400AF8736 /* CitiesModel.h */,
+				671E355E1C68C76400AF8736 /* CitiesModel.m */,
+				671E35601C68C91000AF8736 /* StateCityResponseModel.h */,
+				671E35611C68C91000AF8736 /* StateCityResponseModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1387,6 +1401,8 @@
 				82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */,
 				823B738C1C49262000031596 /* UIColor+HexString.h */,
 				823B738D1C49262000031596 /* UIColor+HexString.m */,
+				671E35631C69024200AF8736 /* NSString+AddressValidation.h */,
+				671E35641C69024200AF8736 /* NSString+AddressValidation.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1705,6 +1721,7 @@
 				82CE35DF1C159425003744C9 /* CartOrderModel.m in Sources */,
 				82DCBED11C4CEFE7005EBDB3 /* ListingResponseModel.m in Sources */,
 				82EA68031C43BC9000F9924D /* DoctorResponseModel.m in Sources */,
+				671E35621C68C91000AF8736 /* StateCityResponseModel.m in Sources */,
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
 				82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */,
 				82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */,
@@ -1731,6 +1748,7 @@
 				829F73941C257FEE001670A8 /* CustomCollectionViewCell.m in Sources */,
 				823B738E1C49262000031596 /* UIColor+HexString.m in Sources */,
 				82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */,
+				671E355F1C68C76400AF8736 /* CitiesModel.m in Sources */,
 				826F07511C524A310033DD09 /* BookCallListingCell.m in Sources */,
 				82147FBA1C45272B00D6691E /* ListingModel.m in Sources */,
 				8286B2511BF089D600AFC533 /* ListingRequestModel.m in Sources */,
@@ -1779,6 +1797,7 @@
 				82327F6E1B60B0EB00D92889 /* DetailProductViewModel.m in Sources */,
 				825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */,
 				826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */,
+				671E35651C69024200AF8736 /* NSString+AddressValidation.m in Sources */,
 				82A1D3D31C562C6500E6B1D3 /* TimeSlotResponseModel.m in Sources */,
 				82C0950A1C5F614100727C25 /* Order+CoreDataProperties.m in Sources */,
 				82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */,
@@ -1815,6 +1834,7 @@
 				82C97ED01C19939C00E6ED4C /* Location.m in Sources */,
 				82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,
+				671E355C1C68C62100AF8736 /* StatesModel.m in Sources */,
 				82681EAD1C50B8FA00035E6E /* NEntityDetailCell.m in Sources */,
 				82ED53E71C4FB58300FA7707 /* EntityDetailModel.m in Sources */,
 			);
@@ -1954,7 +1974,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
@@ -1984,7 +2003,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
