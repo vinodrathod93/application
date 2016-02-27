@@ -27,6 +27,7 @@
     #import "LogSignViewController.h"
 
     #import "NAPIManager.h"
+    #import "NeediatorUtitity.h"
 #endif
 
 #endif /* Neediator_Prefix_pch */

@@ -17,6 +17,7 @@
              @"latitude"     : @"latitude",
              @"longitude"    : @"longitude",
              @"category_id"  : @"catid",
+             @"subcategory_id" : @"subcatid",
              @"page"         : @"page"
              };
 }

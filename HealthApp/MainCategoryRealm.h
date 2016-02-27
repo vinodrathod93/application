@@ -8,10 +8,11 @@
 
 #import <Realm/Realm.h>
 #import "CategoryModel.h"
+#import "SubCategoryRealm.h"
 
 
 
-RLM_ARRAY_TYPE(SubCategoryModel)
+//RLM_ARRAY_TYPE(SubCategoryRealm)
 
 @interface MainCategoryRealm : RLMObject
 
@@ -20,7 +21,7 @@ RLM_ARRAY_TYPE(SubCategoryModel)
 @property  NSString *image_url;
 @property  NSString *color_code;
 
-@property  RLMArray<SubCategoryModel> *subCatArray;
+//@property  RLMArray<SubCategoryRealm *><SubCategoryRealm> *subCatArray;
 
 - (id)initWithMantleModel:(CategoryModel *)model;
 

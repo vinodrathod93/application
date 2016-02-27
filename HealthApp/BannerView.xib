@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StoreTaxonsViewController"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BannerView">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="140"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="144"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMx-Zc-eA2">
@@ -16,7 +16,7 @@
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZqI-Cs-8vT">
                     <rect key="frame" x="0.0" y="110" width="600" height="20"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="0.3003325591216216" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="0.3003325591216216" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="zHq-9w-LVe"/>
                     </constraints>
@@ -26,10 +26,10 @@
                     <color key="pageIndicatorTintColor" red="0.086274509799999996" green="0.62745098040000002" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </pageControl>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TKd-en-qt4">
-                    <rect key="frame" x="0.0" y="130" width="600" height="10"/>
+                    <rect key="frame" x="0.0" y="130" width="600" height="14"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="10" id="7xm-zX-Xf6"/>
+                        <constraint firstAttribute="height" constant="14" id="Wq7-s7-U2n"/>
                     </constraints>
                 </view>
             </subviews>
@@ -62,7 +62,7 @@
                 <outlet property="pageControl" destination="0ht-bb-pVD" id="y8Q-2r-rnT"/>
                 <outlet property="scrollView" destination="NMx-Zc-eA2" id="0eC-0A-OfV"/>
             </connections>
-            <point key="canvasLocation" x="534" y="95.5"/>
+            <point key="canvasLocation" x="543" y="2"/>
         </view>
     </objects>
 </document>

@@ -4018,7 +4018,7 @@
         <image name="Search" width="25" height="25"/>
         <image name="Search_Filled" width="25" height="25"/>
         <image name="bag_filled" width="25" height="25"/>
-        <image name="camera" width="561" height="122"/>
+        <image name="camera" width="50" height="50"/>
         <image name="camera_filled" width="50" height="50"/>
         <image name="cancel" width="30" height="30"/>
         <image name="cart" width="25" height="25"/>

@@ -4,23 +4,23 @@
 <dict>
 	<key>Icons</key>
 	<array>
-		<string>general_store</string>
-		<string>restaurant_cafe</string>
-		<string>ice_cream_parlor</string>
 		<string>chemist</string>
+		<string>general_store</string>
 		<string>doctor_specialist</string>
 		<string>hospital</string>
 		<string>ambulance</string>
 		<string>diagnostic_centre</string>
+		<string>insurance</string>
 		<string>salon</string>
+		<string>restaurant_cafe</string>
 		<string>banquet</string>
 		<string>sweet_shop</string>
 		<string>motorcycle</string>
-		<string>insurance</string>
 		<string>bar_shop</string>
 		<string>laundary</string>
 		<string>courier</string>
 		<string>home_service</string>
+		<string>salon</string>
 	</array>
 	<key>Category</key>
 	<array>

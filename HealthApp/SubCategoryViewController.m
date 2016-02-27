@@ -52,7 +52,11 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 
 
 
-
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
+}
 
 
 
@@ -107,7 +111,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
     label.font = [UIFont fontWithName:@"AvenirNext-Medium" size:14];
-    label.text = category.name;
+    label.text = category.name.capitalizedString;
     
     UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
     
@@ -152,10 +156,6 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 -(void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     
-    
-    
-    SubCategoryModel *model = self.subcategoryArray[indexPath.row];
-    
     UIView *view = [cell viewWithTag:30+indexPath.item];
     view.backgroundColor = [UIColor colorWithRed:244/255.f green:237/255.f blue:7/255.f alpha:1.0];
 }
@@ -182,7 +182,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
     listingVC.root                       = model.name;
-    
+    listingVC.subcategory_id                = model.subCat_id.stringValue;
     listingVC.category_id                 = model.cat_id.stringValue;
     [self.navigationController pushViewController:listingVC animated:YES];
     
@@ -208,17 +208,17 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
         
         
         
-//        self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseSupplementaryIdentifier forIndexPath:indexPath];
-//        
-//        
-//        self.headerView.scrollview.frame           = self.headerView.frame;
-//        self.headerView.scrollview.backgroundColor = [UIColor whiteColor];
-//        
-//        
+        self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseSupplementaryIdentifier forIndexPath:indexPath];
+        
+        
+        self.headerView.scrollview.frame           = self.headerView.frame;
+        self.headerView.scrollview.backgroundColor = [UIColor whiteColor];
+        
+        
 //        [self setupScrollViewImages];
 //        self.headerView.pageControl.numberOfPages = self.promotions.count;
-//        
-//        reusableView = self.headerView;
+        
+        reusableView = self.headerView;
     }
     
     return reusableView;

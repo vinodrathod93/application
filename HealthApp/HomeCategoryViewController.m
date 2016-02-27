@@ -124,12 +124,18 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                 for (SubCategoryModel *subCategory in category.subCat_array) {
                     SubCategoryRealm *subCategoryRealm = [[ SubCategoryRealm alloc] initWithMantleModel:subCategory];
                     
-                    #error check for subcategory array.
-                    categoryRealm.subCatArray = subCategoryRealm;
+                    [realm addObject:subCategoryRealm];
                 }
+                
+                
+                // save rlm array here
+                
+//                categoryRealm.subCatArray = [[SubCategoryRealm allObjects] sortedResultsUsingProperty:@"subCat_id" ascending:YES];
                 
             }
             [realm commitWriteTransaction];
+            
+            
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 RLMRealm *realmMainThread = [RLMRealm defaultRealm];
@@ -175,6 +181,9 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [super viewWillAppear:animated];
     
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
+    self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
+    
+    
     [self.tabBarController.tabBar setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
     
     [self.tabBarController.tabBar setTintColor:[UIColor blackColor]];
@@ -368,31 +377,44 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     */
     
     
-//    ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
-//    listingVC.root                       = model.name;
-//    listingVC.nav_color                  = model.color_code;
-//    listingVC.category_id                 = model.cat_id.stringValue;
-//    [self.navigationController pushViewController:listingVC animated:YES];
-//    
     
     
     
-    SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCategoryCollectionVC"];
     
-    subCatVC.subcategoryArray       =
-    [self.navigationController pushViewController:subCatVC animated:YES];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    for (SubCategoryModel *subcat_model in self.subCategoriesArray) {
+        if ([model.cat_id isEqual:subcat_model.cat_id]) {
+            [array addObject:subcat_model];
+        }
+    }
+    
+    
+    if (array.count == 0) {
+        
+        ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+        listingVC.root                       = model.name;
+        listingVC.nav_color                  = model.color_code;
+        listingVC.category_id                 = model.cat_id.stringValue;
+        listingVC.subcategory_id              = @"";
+        [self.navigationController pushViewController:listingVC animated:YES];
+        
+
+    }
+    else {
+        
+        SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCategoryCollectionVC"];
+        subCatVC.subcategoryArray       = array;
+        [self.navigationController pushViewController:subCatVC animated:YES];
+    }
+    
+    
     
     
     
 }
 
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-//    
-//    UIView *view = [cell viewWithTag:30+indexPath.item];
-//    view.backgroundColor = [UIColor whiteColor];
-    
-}
+
 
 -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     

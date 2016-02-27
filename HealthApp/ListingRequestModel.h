@@ -13,6 +13,7 @@
 @property (nonatomic, copy) NSString *latitude;
 @property (nonatomic, copy) NSString *longitude;
 @property (nonatomic, copy) NSString *category_id;
+@property (nonatomic, copy) NSString *subcategory_id;
 @property (nonatomic, copy) NSString *page;
 
 @end

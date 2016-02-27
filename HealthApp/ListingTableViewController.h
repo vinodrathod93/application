@@ -14,5 +14,5 @@
 @property (nonatomic, strong) NSString *nav_color;
 
 @property (nonatomic, strong) NSString *category_id;
-
+@property (nonatomic, strong) NSString *subcategory_id;
 @end

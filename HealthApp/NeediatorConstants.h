@@ -26,6 +26,11 @@ static NSString *const kAPP_ID = @"1073622324";
 #define kStoresConnectionViewTag 11
 
 
+/* Taxon - Taxonomy VC */
+#define kTaxonHeaderViewHeight_Pad 355
+#define kTaxonHeaderViewHeight_Phone 205
+
+
 /* Cart VC */
 #define kCartConnectionErrorViewTag 20
 #define kCartEmptyViewTag 21
@@ -59,9 +64,9 @@ static NSString *const kDoctorsListPath = @"/api/clinics";
 /* Neediator API Manager */
 
 static NSString *const kMAIN_CATEGORIES_PATH    = @"/NeediatorWS.asmx/getCatSub";
-static NSString *const kLISTING_PATH            = @"/NeediatorWS.asmx/getListing";
+static NSString *const kLISTING_PATH            = @"/NeediatorWS.asmx/getListing1";
 static NSString *const kENTITY_DETAILS_PATH     = @"/NeediatorWS.asmx/getDetails";
-static NSString *const kTIME_SLOTS_PATH         = @"/NeediatorWS.asmx/gettimeslot";
+static NSString *const kTIME_SLOTS_PATH         = @"/NeediatorWS.asmx/getTimeSlot";
 static NSString *const kBOOKING_PATH            = @"/NeediatorWS.asmx/Book";
 static NSString *const kSTORE_TAXONS_PATH       = @"/NeediatorWS.asmx/getTaxonomyTaxons";
 static NSString *const kPAYMENT_OPTIONS_PATH    = @"/NeediatorWS.asmx/getpayment";

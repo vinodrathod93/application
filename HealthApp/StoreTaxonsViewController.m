@@ -13,14 +13,14 @@
 #import "StoreRealm.h"
 #import "User.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "BannerView.h"
+#import "TaxonHeaderView.h"
 
 @interface StoreTaxonsViewController ()
 
 @property (nonatomic, strong) NSMutableArray *taxonomies;
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) NSArray *bannerImages;
-@property (nonatomic, strong) BannerView *bannerView;
+@property (nonatomic, strong) TaxonHeaderView *taxonHeaderView;
 
 @end
 
@@ -85,45 +85,45 @@
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    _bannerView.scrollView.contentSize = CGSizeMake(CGRectGetWidth(_bannerView.scrollView.frame) * self.bannerImages.count, CGRectGetHeight(_bannerView.scrollView.frame));
+    _taxonHeaderView.scrollView.contentSize = CGSizeMake(CGRectGetWidth(_taxonHeaderView.scrollView.frame) * self.bannerImages.count, CGRectGetHeight(_taxonHeaderView.scrollView.frame));
 }
 
 
 -(UIView *)layoutBannerHeaderView {
-    _bannerView = [[[NSBundle mainBundle] loadNibNamed:@"BannerView" owner:self options:nil] lastObject];
+    _taxonHeaderView = [[[NSBundle mainBundle] loadNibNamed:@"TaxonHeaderView" owner:self options:nil] lastObject];
     
     CGRect frame;
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Pad + 10);
+        frame = CGRectMake(0, 0, self.view.frame.size.width, kTaxonHeaderViewHeight_Pad + 10);
     }
     else
-        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Phone + 10);
+        frame = CGRectMake(0, 0, self.view.frame.size.width, kTaxonHeaderViewHeight_Phone + 10);
     
-    _bannerView.frame = frame;
-    [_bannerView layoutIfNeeded];
+    _taxonHeaderView.frame = frame;
+    [_taxonHeaderView layoutIfNeeded];
     
     
-    _bannerView.scrollView.delegate = self;
+    _taxonHeaderView.scrollView.delegate = self;
     
-    CGRect scrollViewFrame = _bannerView.scrollView.frame;
+    CGRect scrollViewFrame = _taxonHeaderView.scrollView.frame;
     CGRect currentFrame = self.view.frame;
     
     scrollViewFrame.size.width = currentFrame.size.width;
-    _bannerView.scrollView.frame = scrollViewFrame;
+    _taxonHeaderView.scrollView.frame = scrollViewFrame;
     
     
     [self setupScrollViewImages];
     
     
-    _bannerView.pageControl.numberOfPages = self.bannerImages.count;
+    _taxonHeaderView.pageControl.numberOfPages = self.bannerImages.count;
     
     
     
     
     
     
-    return _bannerView;
+    return _taxonHeaderView;
     
     
 }
@@ -134,7 +134,7 @@
 -(void)setupScrollViewImages {
     
     [self.bannerImages enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_bannerView.scrollView.frame) * idx, 0, CGRectGetWidth(_bannerView.scrollView.frame), CGRectGetHeight(_bannerView.scrollView.frame))];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_taxonHeaderView.scrollView.frame) * idx, 0, CGRectGetWidth(_taxonHeaderView.scrollView.frame), CGRectGetHeight(_taxonHeaderView.scrollView.frame))];
         imageView.tag = idx;
 //        [imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         
@@ -151,7 +151,7 @@
             });
         });
         
-        [_bannerView.scrollView addSubview:imageView];
+        [_taxonHeaderView.scrollView addSubview:imageView];
     }];
     
     
@@ -161,11 +161,11 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    if (scrollView == _bannerView.scrollView) {
-        NSInteger index = _bannerView.scrollView.contentOffset.x / CGRectGetWidth(_bannerView.scrollView.frame);
+    if (scrollView == _taxonHeaderView.scrollView) {
+        NSInteger index = _taxonHeaderView.scrollView.contentOffset.x / CGRectGetWidth(_taxonHeaderView.scrollView.frame);
         NSLog(@"%ld",(long)index);
         
-        _bannerView.pageControl.currentPage = index;
+        _taxonHeaderView.pageControl.currentPage = index;
     }
     
     
@@ -315,10 +315,10 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return kHeaderViewHeight_Pad + 10;
+        return kTaxonHeaderViewHeight_Pad + 10;
     }
     else
-        return kHeaderViewHeight_Phone + 10;
+        return kTaxonHeaderViewHeight_Phone + 10;
 }
 
 

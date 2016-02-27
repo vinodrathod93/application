@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StoreTaxonsViewController"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="TaxonHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="205"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lvz-FQ-Q0Z">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
+                </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AUA-nY-PlK" userLabel="Blur View">
+                    <rect key="frame" x="0.0" y="110" width="600" height="20"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="0.29650548986486486" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="XGg-6G-NON"/>
+                    </constraints>
+                </view>
+                <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="qAa-qJ-npV">
+                    <rect key="frame" x="280" y="102" width="39" height="37"/>
+                </pageControl>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sYM-GE-mrf">
+                    <rect key="frame" x="0.0" y="130" width="600" height="75"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cxj-mg-zGg">
+                            <rect key="frame" x="15" y="15" width="270" height="45"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="Syo-Gt-Kt9"/>
+                            </constraints>
+                            <state key="normal" title="Upload Prescription"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFc-v8-M0n">
+                            <rect key="frame" x="315" y="15" width="270" height="45"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="ca3-wu-lVd"/>
+                            </constraints>
+                            <state key="normal" title="Quick Order"/>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="cxj-mg-zGg" firstAttribute="leading" secondItem="sYM-GE-mrf" secondAttribute="leading" constant="15" id="F2K-EI-HD1"/>
+                        <constraint firstAttribute="bottom" secondItem="aFc-v8-M0n" secondAttribute="bottom" constant="15" id="Fqf-3q-kRT"/>
+                        <constraint firstItem="aFc-v8-M0n" firstAttribute="width" secondItem="cxj-mg-zGg" secondAttribute="width" id="TTc-vY-j8r"/>
+                        <constraint firstAttribute="height" constant="75" id="ZL4-2b-ZFD"/>
+                        <constraint firstItem="cxj-mg-zGg" firstAttribute="width" secondItem="sYM-GE-mrf" secondAttribute="width" multiplier="0.45" id="bxn-Jh-TTZ"/>
+                        <constraint firstAttribute="bottom" secondItem="cxj-mg-zGg" secondAttribute="bottom" constant="15" id="eXu-Cx-W1J"/>
+                        <constraint firstAttribute="trailing" secondItem="aFc-v8-M0n" secondAttribute="trailing" constant="15" id="ikQ-vU-U2d"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="sYM-GE-mrf" secondAttribute="bottom" id="5eu-x6-Uqo"/>
+                <constraint firstItem="AUA-nY-PlK" firstAttribute="trailing" secondItem="Lvz-FQ-Q0Z" secondAttribute="trailing" id="ATh-3K-xhr"/>
+                <constraint firstItem="qAa-qJ-npV" firstAttribute="centerY" secondItem="AUA-nY-PlK" secondAttribute="centerY" id="FQc-Ru-QP9"/>
+                <constraint firstAttribute="trailing" secondItem="sYM-GE-mrf" secondAttribute="trailing" id="GQc-iI-AyB"/>
+                <constraint firstAttribute="trailing" secondItem="Lvz-FQ-Q0Z" secondAttribute="trailing" id="JNc-49-WP2"/>
+                <constraint firstAttribute="trailing" secondItem="AUA-nY-PlK" secondAttribute="trailing" id="PKs-JY-bdC"/>
+                <constraint firstItem="AUA-nY-PlK" firstAttribute="bottom" secondItem="Lvz-FQ-Q0Z" secondAttribute="bottom" id="U7H-mx-85Z"/>
+                <constraint firstItem="Lvz-FQ-Q0Z" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="V2M-Cm-pvF"/>
+                <constraint firstItem="AUA-nY-PlK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ViU-x2-ja8"/>
+                <constraint firstItem="sYM-GE-mrf" firstAttribute="top" secondItem="Lvz-FQ-Q0Z" secondAttribute="bottom" id="coU-EF-inj"/>
+                <constraint firstItem="AUA-nY-PlK" firstAttribute="leading" secondItem="Lvz-FQ-Q0Z" secondAttribute="leading" id="goX-ZB-Q3K"/>
+                <constraint firstItem="Lvz-FQ-Q0Z" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="iG4-bb-Qd8"/>
+                <constraint firstItem="qAa-qJ-npV" firstAttribute="centerX" secondItem="AUA-nY-PlK" secondAttribute="centerX" id="jcJ-r0-Pp3"/>
+                <constraint firstItem="sYM-GE-mrf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xiR-J9-hbL"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="ATh-3K-xhr"/>
+                    <exclude reference="goX-ZB-Q3K"/>
+                </mask>
+            </variation>
+            <connections>
+                <outlet property="blurBackgroundView" destination="AUA-nY-PlK" id="bZI-ay-Suf"/>
+                <outlet property="buttonsContainerView" destination="sYM-GE-mrf" id="Xhv-UY-naK"/>
+                <outlet property="pageControl" destination="qAa-qJ-npV" id="7or-Lj-w6L"/>
+                <outlet property="quickOrderButton" destination="aFc-v8-M0n" id="UXK-gE-SXN"/>
+                <outlet property="scrollView" destination="Lvz-FQ-Q0Z" id="ItM-rA-hqj"/>
+                <outlet property="uploadPrescriptionButton" destination="cxj-mg-zGg" id="8ZR-jJ-IVL"/>
+            </connections>
+            <point key="canvasLocation" x="573" y="25.5"/>
+        </view>
+    </objects>
+</document>
