@@ -14,6 +14,7 @@
 #import "User.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "TaxonHeaderView.h"
+#import "UploadPrescriptionViewController.h"
 
 @interface StoreTaxonsViewController ()
 
@@ -120,13 +121,21 @@
     
     
     
-    
+    [_taxonHeaderView.uploadPrescriptionButton addTarget:self action:@selector(popUploadPrescriptionVC) forControlEvents:UIControlEventTouchUpInside];
     
     
     return _taxonHeaderView;
-    
-    
 }
+
+
+
+-(void)popUploadPrescriptionVC {
+    
+    UploadPrescriptionViewController *uploadVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPrescriptionVC"];
+    [self presentViewController:uploadVC animated:YES completion:nil];
+}
+
+
 
 
 #pragma mark - Scroll view Methods
@@ -167,7 +176,6 @@
         
         _taxonHeaderView.pageControl.currentPage = index;
     }
-    
     
 }
 

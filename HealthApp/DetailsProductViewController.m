@@ -15,7 +15,6 @@
 #import "Order.h"
 #import "LineItems.h"
 #import "VariantsViewController.h"
-#import <MWPhotoBrowser.h>
 #import "User.h"
 #import "StoreRealm.h"
 

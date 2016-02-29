@@ -19,6 +19,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nJF-yU-Q6F">
+                                <rect key="frame" x="20" y="164" width="560" height="178"/>
+                                <color key="backgroundColor" red="0.27960818580000002" green="0.70095015800000005" blue="0.42034021469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xOU-Uh-uGW">
+                                    <size key="itemSize" width="75" height="90"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="selectedImagesCellIdentifier" id="dgW-bT-1tK">
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="90"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="75" height="90"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="ZWo-1h-Ph7" id="pky-qP-oZr"/>
+                                    <outlet property="delegate" destination="ZWo-1h-Ph7" id="dZa-1b-1zO"/>
+                                </connections>
+                            </collectionView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mt4-6v-OPd">
                                 <rect key="frame" x="20" y="99" width="560" height="343"/>
                                 <constraints>
@@ -36,9 +61,9 @@
                                     <action selector="uploadPhotoPressed:" destination="ZWo-1h-Ph7" eventType="touchUpInside" id="uev-qQ-zv4"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WdO-Le-M6o">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WdO-Le-M6o">
                                 <rect key="frame" x="99" y="350" width="50" height="50"/>
-                                <state key="normal" image="camera">
+                                <state key="normal" image="camera_filled">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="selected" image="camera_filled"/>
@@ -54,7 +79,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9rA-cr-sW6">
                                 <rect key="frame" x="457" y="350" width="50" height="50"/>
-                                <state key="normal" image="library">
+                                <state key="normal" image="library_filled">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="selected" image="library_filled"/>
@@ -73,10 +98,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fKD-IR-Ifv">
-                                <rect key="frame" x="534" y="20" width="46" height="30"/>
+                                <rect key="frame" x="550" y="20" width="30" height="30"/>
                                 <color key="backgroundColor" red="0.086274509799999996" green="0.62745098040000002" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="mqV-Qh-fSt"/>
+                                    <constraint firstAttribute="width" constant="30" id="mqV-Qh-fSt"/>
                                 </constraints>
                                 <state key="normal" title="X">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -92,12 +117,16 @@
                             <constraint firstItem="9rA-cr-sW6" firstAttribute="leading" secondItem="mt4-6v-OPd" secondAttribute="trailing" constant="-123" id="0Yf-gg-IuC"/>
                             <constraint firstItem="mt4-6v-OPd" firstAttribute="leading" secondItem="hwX-vT-cCl" secondAttribute="leadingMargin" id="5t9-CH-0Oh"/>
                             <constraint firstItem="mt4-6v-OPd" firstAttribute="top" secondItem="Xy8-NA-LC7" secondAttribute="bottom" constant="79" id="6KR-SL-Vdh"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="nJF-yU-Q6F" secondAttribute="leading" id="7ff-wD-2w7"/>
+                            <constraint firstItem="0iJ-WT-i7w" firstAttribute="top" secondItem="nJF-yU-Q6F" secondAttribute="bottom" constant="148" id="CAX-ZU-OtE"/>
                             <constraint firstAttribute="centerX" secondItem="0iJ-WT-i7w" secondAttribute="centerX" id="FhF-bX-0eO"/>
                             <constraint firstItem="0iJ-WT-i7w" firstAttribute="top" secondItem="mt4-6v-OPd" secondAttribute="bottom" constant="48" id="JKo-uu-MCU"/>
                             <constraint firstItem="fKD-IR-Ifv" firstAttribute="top" secondItem="Xy8-NA-LC7" secondAttribute="bottom" id="QoZ-gS-zuL"/>
                             <constraint firstAttribute="centerX" secondItem="5I6-Uc-o2M" secondAttribute="centerX" id="QwI-qR-e4c"/>
                             <constraint firstItem="5I6-Uc-o2M" firstAttribute="top" secondItem="mt4-6v-OPd" secondAttribute="bottom" constant="-136" id="U8X-x9-4w1"/>
                             <constraint firstItem="mt4-6v-OPd" firstAttribute="leading" secondItem="WdO-Le-M6o" secondAttribute="trailing" constant="-129" id="VgV-a1-xWs"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="nJF-yU-Q6F" secondAttribute="trailing" id="WIG-3j-CNL"/>
+                            <constraint firstItem="nJF-yU-Q6F" firstAttribute="top" secondItem="m8k-w4-fUd" secondAttribute="bottom" constant="73" id="bg7-1D-RDy"/>
                             <constraint firstItem="m8k-w4-fUd" firstAttribute="top" secondItem="Xy8-NA-LC7" secondAttribute="bottom" constant="30" id="g7I-tw-GHK"/>
                             <constraint firstAttribute="centerX" secondItem="m8k-w4-fUd" secondAttribute="centerX" id="isL-ai-qwZ"/>
                             <constraint firstItem="9rA-cr-sW6" firstAttribute="top" secondItem="WdO-Le-M6o" secondAttribute="bottom" constant="-50" id="m7J-aV-LDd"/>
@@ -108,7 +137,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="Asq-2r-XeV"/>
                     <connections>
+                        <outlet property="closeButton" destination="fKD-IR-Ifv" id="4wH-4c-y6A"/>
                         <outlet property="imageView" destination="mt4-6v-OPd" id="1Ht-Sg-9yj"/>
+                        <outlet property="imagesCollectionView" destination="nJF-yU-Q6F" id="Mi5-hD-QSu"/>
                         <outlet property="selectPhotoButton" destination="9rA-cr-sW6" id="h0t-u7-UmT"/>
                         <outlet property="selectPhotoLabel" destination="5I6-Uc-o2M" id="kUP-hg-rxh"/>
                         <outlet property="takePhotoButton" destination="WdO-Le-M6o" id="Dhv-WW-ZOz"/>
@@ -117,7 +148,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H9H-DY-8Uq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4355.625" y="-5496.1267605633802"/>
+            <point key="canvasLocation" x="4355" y="-5497"/>
         </scene>
         <!--Order Confirmation View Controller-->
         <scene sceneID="Hvu-Te-rPs">
@@ -4018,14 +4049,12 @@
         <image name="Search" width="25" height="25"/>
         <image name="Search_Filled" width="25" height="25"/>
         <image name="bag_filled" width="25" height="25"/>
-        <image name="camera" width="50" height="50"/>
         <image name="camera_filled" width="50" height="50"/>
         <image name="cancel" width="30" height="30"/>
         <image name="cart" width="25" height="25"/>
         <image name="doctor" width="50" height="50"/>
         <image name="email" width="25" height="25"/>
         <image name="home" width="25" height="25"/>
-        <image name="library" width="50" height="50"/>
         <image name="library_filled" width="50" height="50"/>
         <image name="more_filled" width="25" height="25"/>
         <image name="near_me" width="22" height="22"/>

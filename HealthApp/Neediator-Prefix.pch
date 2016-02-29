@@ -28,6 +28,7 @@
 
     #import "NAPIManager.h"
     #import "NeediatorUtitity.h"
+    #import <MWPhotoBrowser.h>
 #endif
 
 #endif /* Neediator_Prefix_pch */
