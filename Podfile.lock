@@ -36,6 +36,7 @@ PODS:
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
   - SLExpandableTableView (1.3.1)
+  - SVPullToRefresh (0.4.1)
   - XLForm (3.0.2)
 
 DEPENDENCIES:
@@ -52,6 +53,7 @@ DEPENDENCIES:
   - RMPZoomTransitionAnimator
   - SDWebImage (~> 3.7)
   - SLExpandableTableView
+  - SVPullToRefresh
   - XLForm (~> 3.0.0)
 
 SPEC CHECKSUMS:
@@ -69,6 +71,7 @@ SPEC CHECKSUMS:
   RMPZoomTransitionAnimator: fa1a0726e8e227069d9d63d30ef403aa12323960
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SLExpandableTableView: ff63a4bb4b71c6c3ae2b7cb1cde6a36c1645f23c
+  SVPullToRefresh: ba2e718695a43253d8bea6852d2960097dc15d8c
   XLForm: 7817ce29f3f259186e837bb7309ac7e5b7e9b883
 
 COCOAPODS: 0.39.0

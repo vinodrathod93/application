@@ -12,10 +12,9 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "DetailsProductViewController.h"
 #import "DetailViewModel.h"
-#import "UIScrollView+InfiniteScroll.h"
 #import "Reachability.h"
 #import "AppDelegate.h"
-
+#import <SVPullToRefresh/SVPullToRefresh.h>
 
 #define kFIRST_PAGE 1
 #define kPhoneTitleViewWidth 160
@@ -44,7 +43,9 @@
 
 @end
 
-@implementation ProductsViewController
+@implementation ProductsViewController {
+    int _page;
+}
 
 static NSString * const productsReuseIdentifier = @"productsCell";
 
@@ -58,6 +59,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
     
     
+    _page = 1;
     
     // Reachablity code
     
@@ -65,9 +67,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
     
     if (netStatus != NotReachable) {
-        [self loadProductsPage:kFIRST_PAGE completion:^{
-            [self.hud hide:YES];
-        }];
+        [self loadProductsPage];
     }
     else
         [self displayNoConnection];
@@ -80,26 +80,19 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"loadingCell"];
     
-    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.collectionView.infiniteScrollIndicatorView = activityIndicator;
-    self.collectionView.infiniteScrollIndicatorMargin = 40.0f;
     
     __weak typeof(self) weakSelf = self;
-    [self.collectionView addInfiniteScrollWithHandler:^(UICollectionView *collectionView) {
-        
-        [weakSelf loadProductsPage:1 completion:^{
-            [collectionView finishInfiniteScroll];
-        }];
-        
-        
+    [self.collectionView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf loadProductsPage];
     }];
+    
 }
 
 -(void)displaySearchBar {
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.searchBar.delegate = self;
-    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
     self.searchController.hidesNavigationBarDuringPresentation = NO;
     
     self.filteredProducts = [NSMutableArray array];
@@ -231,11 +224,11 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 
 #pragma mark -  <UICollectionViewDelegateFlowLayout>
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
-                        layout:(UICollectionViewLayout*)collectionViewLayout
-        insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(self.searchController.searchBar.frame.size.height, 0, 0, 0);
-}
+//- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+//                        layout:(UICollectionViewLayout*)collectionViewLayout
+//        insetForSectionAtIndex:(NSInteger)section{
+//    return UIEdgeInsetsMake(self.searchController.searchBar.frame.size.height, 0, 0, 0);
+//}
 
 
 #pragma mark - Search Results Delegate
@@ -254,9 +247,9 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     self.currentPage = nil;
 
-    [self loadProductsPage:kFIRST_PAGE completion:^{
-        [self.hud hide:YES];
-    }];
+    _page = 1;
+    
+    [self loadProductsPage];
     
     NSLog(@"Load all products");
 }
@@ -304,23 +297,28 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     NSURLSessionDataTask *searchTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             
-            NSError *jsonError;
-            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            
-            NSLog(@"%@",dictionary);
-            
-            if (jsonError != nil) {
-                NSLog(@"Error %@",[jsonError localizedDescription]);
+            if (data != nil) {
+                NSError *jsonError;
+                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+                
+                NSLog(@"%@",dictionary);
+                
+                if (jsonError != nil) {
+                    NSLog(@"Error %@",[jsonError localizedDescription]);
+                }
+                else if(![dictionary isEqual:nil])
+                {
+                    
+                    self.filteredProducts = (NSMutableArray *)[DetailViewModel infiniteProductsFromJSON:dictionary];
+                    self.viewModel = [[DetailViewModel alloc]initWithArray:self.filteredProducts];
+                    
+                    [self.hud hide:YES];
+                    [self.collectionView reloadData];
+                }
             }
-            else if(![dictionary isEqual:nil])
-            {
-                
-                self.filteredProducts = (NSMutableArray *)[DetailViewModel infiniteProductsFromJSON:dictionary];
-                self.viewModel = [[DetailViewModel alloc]initWithArray:self.filteredProducts];
-                
+            else
                 [self.hud hide:YES];
-                [self.collectionView reloadData];
-            }
+            
             
         }];
     }];
@@ -332,16 +330,19 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 
 
--(void)loadProductsPage:(int)page completion:(void(^)(void))completion {
+//-(void)loadProductsPage:(int)page completion:(void(^)(void))completion {
+
+-(void)loadProductsPage {
+//    void(^finish)(void) = completion ?: ^{};
     
-    void(^finish)(void) = completion ?: ^{};
+    __weak typeof(self) weakSelf = self;
     
     NSLog(@"loadProducts");
     NSURLSession *session = [NSURLSession sharedSession];
     
     
     
-    NSString *paginatingURLString = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@&PageNo=%d&search=", self.taxonID, self.storeID, self.taxonomyID, self.categoryID, page];
+    NSString *paginatingURLString = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@&PageNo=%d&search=", self.taxonID, self.storeID, self.taxonomyID, self.categoryID, _page];
     
     NSURLRequest *spree_request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:paginatingURLString]];
     
@@ -358,12 +359,14 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                 if (jsonError != nil) {
                     NSLog(@"Error %@",[jsonError localizedDescription]);
                     
-                    finish();
+//                    finish();
+                    [weakSelf.collectionView.infiniteScrollingView stopAnimating];
+                    
                 }
                 else if(![dictionary isEqual:nil])
                 {
                     NSArray *array = [DetailViewModel infiniteProductsFromJSON:dictionary];
-                    if (page == 1) {
+                    if (_page == 1) {
                         
                         self.viewModel = [[DetailViewModel alloc]initWithArray:array];
                         
@@ -388,14 +391,14 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                             [self.collectionView insertItemsAtIndexPaths:arrayWithIndexPath];
                             
                         } completion:^(BOOL finished) {
-                            finish();
+                            [weakSelf.collectionView.infiniteScrollingView stopAnimating];
                         }];
                         
                     }
                     
                     self.currentPage = [self.viewModel currentPage:dictionary];
                     self.nextPage = [NSString stringWithFormat:@"%d",[self.viewModel nextPage:dictionary]];
-                    
+                    _page++;
                 }
                 
             }];
@@ -410,20 +413,19 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         
     }];
     
-    if (self.currentPage != nil && (self.currentPage.intValue == self.pages.intValue)) {
-        finish();
-    } else {
-        [self.task resume];
-    }
+//    if (self.currentPage != nil && (self.currentPage.intValue == self.pages.intValue)) {
+//        [weakSelf.collectionView.infiniteScrollingView stopAnimating];
+//    } else {
+//        [self.task resume];
+//    }
     
     [self.task resume];
     
-    if (page == 1) {
+    if (_page == 1) {
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.color = self.collectionView.tintColor;
         self.hud.labelText = @"Loading items...";
-        self.hud.detailsLabelText = @"(This could take a few minutes)";
-        self.hud.dimBackground = YES;
+//        self.hud.dimBackground = YES;
     }
     
 }
@@ -516,6 +518,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 
 
+/*
 #pragma mark - observer
 - (void)addObservers{
     [self.collectionView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
@@ -547,7 +550,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 
 
-
+*/
 
 
 

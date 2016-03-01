@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RMPZoomTransitionAnimator.h"
 
-@interface ProductsViewController : UICollectionViewController<RMPZoomTransitionAnimating>
+@interface ProductsViewController : UICollectionViewController
 
 @property (nonatomic, strong) NSString *subCategoryID;
 @property (nonatomic, strong) NSString *categoryID;

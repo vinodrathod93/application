@@ -263,4 +263,38 @@
         failure(error);
     }];
 }
+
+
+
+-(NSURLSessionDataTask *)uploadImages:(NSDictionary *)images withHUD:(MBProgressHUD *)hud success:(void (^)(BOOL))success failure:(void (^)(NSError *error))failure {
+    
+    NSError *error;
+    NSData *json_data = [NSJSONSerialization dataWithJSONObject:images options:NSJSONWritingPrettyPrinted error:&error];
+    
+    NSString *json_string = [[NSString alloc] initWithData:json_data encoding:NSUTF8StringEncoding];
+    
+    
+    NSDictionary *parameter = @{
+                                @"json": json_string
+                                };
+    
+    self.requestSerializer = [AFHTTPRequestSerializer serializer];
+    
+    return [self POST:kUPLOAD_PRESCRIPTION_PATH parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"Images Uploading progess %@", uploadProgress.localizedDescription);
+        
+        hud.progress = uploadProgress.fractionCompleted;
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Response = %@", responseObject);
+        
+        success(YES);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
+
+
 @end

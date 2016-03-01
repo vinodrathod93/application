@@ -21,7 +21,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nJF-yU-Q6F">
                                 <rect key="frame" x="20" y="164" width="560" height="178"/>
-                                <color key="backgroundColor" red="0.27960818580000002" green="0.70095015800000005" blue="0.42034021469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xOU-Uh-uGW">
                                     <size key="itemSize" width="75" height="90"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
