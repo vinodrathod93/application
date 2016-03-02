@@ -29,6 +29,9 @@
     #import "NAPIManager.h"
     #import "NeediatorUtitity.h"
     #import <MWPhotoBrowser.h>
+    #import <Realm/Realm.h>
+    #import "MainCategoryRealm.h"
+    #import "SubCategoryRealm.h"
 #endif
 
 #endif /* Neediator_Prefix_pch */

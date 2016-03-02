@@ -30,7 +30,7 @@
     
     NSLog(@"didFinishLaunchingWithOptions");
     
-    [NSThread sleepForTimeInterval:3.0];
+//    [NSThread sleepForTimeInterval:3.0];
     
     // Initialize Reachability
     self.googleReach = [Reachability reachabilityWithHostName:@"www.google.com"];
@@ -101,6 +101,25 @@
     
 //    return [[FBSDKApplicationDelegate sharedInstance] application:application
 //                                    didFinishLaunchingWithOptions:launchOptions];
+    
+    
+    
+    
+    /* Migration of Realm */
+    
+    RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
+    config.schemaVersion = 1;
+    config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
+        
+        [migration enumerateObjects:MainCategoryRealm.className block:^(RLMObject * _Nullable oldObject, RLMObject * _Nullable newObject) {
+            if (oldSchemaVersion < 1) {
+                // do nothing.
+            }
+        }];
+    };
+    
+    [RLMRealmConfiguration setDefaultConfiguration:config];
+    [RLMRealm defaultRealm];
     
     
     return YES;

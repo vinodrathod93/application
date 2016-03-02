@@ -47,7 +47,15 @@
     [self loadAssets];
     
     
+    
+    self.imagesCollectionView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.imagesCollectionView.layer.borderWidth = 1.5f;
+    self.imagesCollectionView.layer.cornerRadius = 5.f;
+    self.imagesCollectionView.layer.masksToBounds = YES;
+    
+    
     self.imagesCollectionView.hidden = YES;
+    
 }
 
 
@@ -253,35 +261,52 @@
 
 -(void)uploadImages {
     
-    NSDictionary *json = [self selectedImagesJSONObject];
-    
-    [self showHUD];
-    
-    self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
+    NSArray *array = [self selectedImagesBase64];
     
     
     
-    [[NAPIManager sharedManager] uploadImages:json withHUD:self.hud success:^(BOOL success) {
-        if (success) {
-            NSLog(@"Success");
+    User *saved_user = [User savedUser];
+    if (saved_user != nil) {
+        
+        [self showHUD];
+        self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
+        
+        [[NAPIManager sharedManager] uploadImages:array withHUD:self.hud success:^(BOOL success) {
+            if (success) {
+                NSLog(@"Success");
+                
+                [self hideHUD];
+                [self showHideCompletedHUD];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                });
+                
+            }
+            else
+                NSLog(@"Failed");
             
-            [self hideHUD];
-            [self showHideCompletedHUD];
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self dismissViewControllerAnimated:YES completion:nil];
-            });
+        } failure:^(NSError *error) {
+            NSLog(@"Error %@",error.localizedDescription);
             
+            [self.hud hide:YES];
+        }];
+        
+    }
+    else {
+        
+        LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            logSignVC.modalPresentationStyle    = UIModalPresentationFormSheet;
         }
-        else
-            NSLog(@"Failed");
         
+        [self presentViewController:logSignVC animated:YES completion:nil];
         
-    } failure:^(NSError *error) {
-        NSLog(@"Error %@",error.localizedDescription);
-        
-        [self.hud hide:YES];
-    }];
+    }
+    
+    
 }
 
 
@@ -457,12 +482,13 @@
     NSArray *images = [self selectedImages];
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+    imageView.contentMode   = UIViewContentModeScaleAspectFit;
     imageView.image = (UIImage *)images[indexPath.item];
 
     
     UIView *background = [[UIView alloc] initWithFrame:cell.frame];
     background.backgroundColor = [UIColor whiteColor];
-    background.layer.cornerRadius = 12.f;
+    background.layer.cornerRadius = 5.f;
     background.layer.masksToBounds = YES;
     [background addSubview:imageView];
     
@@ -522,7 +548,7 @@
 }
 
 
--(NSDictionary *)selectedImagesJSONObject {
+-(NSArray *)selectedImagesBase64 {
     
     NSArray *images = [self selectedImages];
     
@@ -540,12 +566,7 @@
     }];
     
     
-    
-    NSDictionary *json_dict = @{
-                                @"images": base64Images
-                                };
-    
-    return json_dict;
+    return base64Images;
 }
 
 

@@ -11,6 +11,8 @@
 @implementation NeediatorUtitity
 
 
+/* Bar Button */
+
 + (UIBarButtonItem *)locationBarButton {
     
     Location *location = [Location savedLocation];
@@ -34,6 +36,14 @@
 }
 
 
+
+
+
+
+
+
+/* Fonts */
+
 + (UIFont *)mediumFontWithSize:(CGFloat)size {
     return [UIFont fontWithName:@"AvenirNext-Medium" size:size];
 }
@@ -46,6 +56,35 @@
 + (UIFont *)demiBoldFontWithSize:(CGFloat)size {
     return [UIFont fontWithName:@"AvenirNext-DemiBold" size:size];
 }
+
+
+/* Saving Data */
+
++ (void)save:(id)data forKey:(NSString *)key {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:data forKey:key];
+    [defaults synchronize];
+}
+
+
++ (id)savedDataForKey:(NSString *)key {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    id data = [defaults objectForKey:key];
+    if (data)
+    {
+        return data;
+    }
+    
+    return nil;
+}
+
++ (void)clearDataForKey:(NSString *)key
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:key];
+    [defaults synchronize];
+}
+
 
 
 @end

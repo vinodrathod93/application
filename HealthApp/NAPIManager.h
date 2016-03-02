@@ -25,6 +25,6 @@
 -(NSURLSessionDataTask *)getNeediatorStatesCityWithSuccess:(void (^)(StateCityResponseModel *states))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)getAllAddressesWithSuccess:(void (^)(NSArray *address))success failure:(void (^)(NSError *error)) failure;
 -(NSURLSessionDataTask *)deleteAddress:(NSString *)addressID withSuccess:(void (^)(BOOL))success failure:(void (^)(NSError *error))failure;
--(NSURLSessionDataTask *)uploadImages:(NSDictionary *)images withHUD:(MBProgressHUD *)hud success:(void (^)(BOOL))success failure:(void (^)(NSError *error))failure;
+-(NSURLSessionDataTask *)uploadImages:(NSArray *)images withHUD:(MBProgressHUD *)hud success:(void (^)(BOOL))success failure:(void (^)(NSError *error))failure;
 
 @end

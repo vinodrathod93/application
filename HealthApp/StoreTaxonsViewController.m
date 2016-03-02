@@ -130,6 +130,9 @@
 
 
 -(void)popUploadPrescriptionVC {
+    [NeediatorUtitity save:self.store_id forKey:kSTORE_ID];
+    [NeediatorUtitity save:self.cat_id forKey:kCAT_ID];
+    
     
     UploadPrescriptionViewController *uploadVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPrescriptionVC"];
     [self presentViewController:uploadVC animated:YES completion:nil];

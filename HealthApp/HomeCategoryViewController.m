@@ -25,7 +25,6 @@
 #import "SubCategoryModel.h"
 #import "PromotionModel.h"
 #import "UIColor+HexString.h"
-#import <Realm/Realm.h>
 #import "MainCategoryRealm.h"
 #import "SubCategoryRealm.h"
 
@@ -54,6 +53,7 @@
     CLGeocoder *_geocoder;
     CLPlacemark *_placemark;
     NSString *_currentPlace;
+    UIView *_launchScreen;
     
 }
 
@@ -102,6 +102,23 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.headerView = [[HeaderSliderView alloc]init];
     
     
+    /* Launch Screen */
+    
+    self.tabBarController.tabBar.hidden = YES;
+    
+    _launchScreen = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] lastObject];
+    _launchScreen.frame  = [[UIScreen mainScreen] bounds];
+    
+    [self.navigationController.view addSubview:_launchScreen];
+    
+    
+    
+    
+    
+    
+    
+    
+    
     [self showHUD];
     
     /* Get Category names & Promotion Images */
@@ -127,11 +144,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                     [realm addObject:subCategoryRealm];
                 }
                 
-                
-                // save rlm array here
-                
-//                categoryRealm.subCatArray = [[SubCategoryRealm allObjects] sortedResultsUsingProperty:@"subCat_id" ascending:YES];
-                
             }
             [realm commitWriteTransaction];
             
@@ -147,19 +159,16 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                 
                 [self.collectionView reloadData];
                 [self hideHUD];
+                [self removeLaunchScreen];
             });
         });
 
-        
-        
-        
-        
-        
         
         [self hideHUD];
         self.promotions         = response.promotions;
         
         [self.collectionView reloadData];
+        [self removeLaunchScreen];
         
     } failure:^(NSError *error) {
         // Display error
@@ -167,7 +176,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         self.categoriesArray = [MainCategoryRealm allObjects];
         [self.collectionView reloadData];
-        
+        [self removeLaunchScreen];
         
         NSLog(@"HomeCategory Error: %@", error.localizedDescription);
     }];
@@ -175,6 +184,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
      
 }
 
+
+-(void)removeLaunchScreen {
+    [_launchScreen removeFromSuperview];
+    self.tabBarController.tabBar.hidden = NO;
+}
 
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -621,7 +635,9 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)showHUD {
     self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    self.hud.color = self.collectionView.tintColor;
+    self.hud.yOffset = 80.f;
+    self.hud.activityIndicatorColor = [UIColor darkGrayColor];
+    self.hud.color = [UIColor clearColor];
 }
 
 -(void)hideHUD {

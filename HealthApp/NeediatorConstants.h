@@ -59,7 +59,8 @@ static NSString *const kStatesPathOfIndia  = @"/api/countries/105/states";
 static NSString *const kDoctorsListPath = @"/api/clinics";
 
 
-
+/* Signin */
+static NSString *const kSign_in_url             = @"http://neediator.in/NeediatorWS.asmx/checkLogin";
 
 /* Neediator API Manager */
 
@@ -76,5 +77,8 @@ static NSString *const kDELETE_ADDRESSES_PATH   = @"/NeediatorWS.asmx/deleteaddr
 static NSString *const kUPLOAD_PRESCRIPTION_PATH   = @"/NeediatorWS.asmx/uploadPrescription";
 
 
+/* Helper Constants */
 
+static NSString *const kSTORE_ID    = @"kStoreID";
+static NSString *const kCAT_ID      = @"kCatID";
 

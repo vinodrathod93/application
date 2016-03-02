@@ -16,7 +16,6 @@
 //#define REGISTER_URL @"http://chemistplus.in/register_test.php"
 //#define PROFILE_URL @"https://graph.facebook.com/%@/picture?type=large"
 
-#define kSign_in_url @"http://neediator.in/NeediatorWS.asmx/checklogin"
 
 @interface LogSignViewController ()
 
@@ -137,6 +136,7 @@ typedef void(^completion)(BOOL finished);
         if (data != nil) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSError *jsonError;
+                
                 
                 NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                 [self.hud hide:YES];

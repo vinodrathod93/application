@@ -15,4 +15,8 @@
 + (UIFont *)boldFontWithSize:(CGFloat)size;
 + (UIFont *)demiBoldFontWithSize:(CGFloat)size;
 
++ (void)save:(id)data forKey:(NSString *)key;
++ (id)savedDataForKey:(NSString *)key;
++ (void)clearDataForKey:(NSString *)key;
+
 @end
