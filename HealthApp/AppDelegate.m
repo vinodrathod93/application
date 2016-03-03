@@ -108,11 +108,15 @@
     /* Migration of Realm */
     
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
-    config.schemaVersion = 1;
+    config.schemaVersion = 2;
     config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
         
         [migration enumerateObjects:MainCategoryRealm.className block:^(RLMObject * _Nullable oldObject, RLMObject * _Nullable newObject) {
             if (oldSchemaVersion < 1) {
+                // do nothing.
+            }
+            
+            if (oldSchemaVersion < 2) {
                 // do nothing.
             }
         }];

@@ -27,6 +27,7 @@
 #import "UIColor+HexString.h"
 #import "MainCategoryRealm.h"
 #import "SubCategoryRealm.h"
+#import "MainPromotionRealm.h"
 
 
 @interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate>
@@ -36,10 +37,11 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) RLMResults *categoriesArray;
 @property (nonatomic, strong) RLMResults *subCategoriesArray;
+@property (nonatomic, strong) RLMResults *promotions;
 
 @property (nonatomic, strong) NSArray *categoryIcons;
 @property (nonatomic, strong) HeaderSliderView *headerView;
-@property (nonatomic, strong) NSArray *promotions;
+
 @property (nonatomic, strong) MBProgressHUD *hud;
 
 @property (nonatomic, strong) NSDictionary *xmlDictionary;
@@ -124,8 +126,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     /* Get Category names & Promotion Images */
     [[NAPIManager sharedManager] mainCategoriesWithSuccess:^(MainCategoriesResponseModel *response) {
         
-        
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             RLMRealm *realm = [RLMRealm defaultRealm];
             [realm beginWriteTransaction];
@@ -145,17 +145,28 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                 }
                 
             }
+            
+            for (PromotionModel *model in response.promotions) {
+                MainPromotionRealm *promotionRealm = [[MainPromotionRealm alloc] initWithMantleModel:model];
+                promotionRealm.image_data = [NSData dataWithContentsOfURL:[NSURL URLWithString:model.image_url]];
+                
+                [realm addObject:promotionRealm];
+            }
+            
             [realm commitWriteTransaction];
             
             
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 RLMRealm *realmMainThread = [RLMRealm defaultRealm];
+                
                 RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
                 RLMResults *subCategories = [SubCategoryRealm allObjectsInRealm:realmMainThread];
+                RLMResults *promotions  = [MainPromotionRealm allObjectsInRealm:realmMainThread];
                 
                 self.categoriesArray = categories;
                 self.subCategoriesArray = subCategories;
+                self.promotions = promotions;
                 
                 [self.collectionView reloadData];
                 [self hideHUD];
@@ -163,18 +174,21 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
             });
         });
 
-        
-        [self hideHUD];
-        self.promotions         = response.promotions;
-        
-        [self.collectionView reloadData];
-        [self removeLaunchScreen];
+//        
+//        [self hideHUD];
+////        self.promotions         = response.promotions;
+//        
+//        [self.collectionView reloadData];
+//        [self removeLaunchScreen];
         
     } failure:^(NSError *error) {
         // Display error
         [self hideHUD];
         
         self.categoriesArray = [MainCategoryRealm allObjects];
+        self.subCategoriesArray = [SubCategoryRealm allObjects];
+        self.promotions      = [MainPromotionRealm allObjects];
+        
         [self.collectionView reloadData];
         [self removeLaunchScreen];
         
@@ -322,7 +336,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     
-    CategoryModel *model = self.categoriesArray[indexPath.row];
+//    CategoryModel *model = self.categoriesArray[indexPath.row];
     
     UIView *view = [cell viewWithTag:30+indexPath.item];
     view.backgroundColor = [UIColor colorWithRed:244/255.f green:237/255.f blue:7/255.f alpha:1.0];
@@ -493,6 +507,32 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)setupScrollViewImages {
     
+    
+    for (int idx=0; idx < self.promotions.count; idx++) {
+        
+        PromotionModel *promotion = self.promotions[idx];
+        
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
+        imageView.tag = idx;
+        
+        
+//        NSURL *image_url = [NSURL URLWithString:promotion.image_url];
+        
+        UIImage *image   = [UIImage imageWithData:promotion.image_data];
+        
+        CIImage *newImage = [[CIImage alloc] initWithImage:image];
+        CIContext *context = [CIContext contextWithOptions:nil];
+        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+        
+        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+        
+        
+        [self.headerView.scrollView addSubview:imageView];
+    }
+    
+    /*
+    
+    
     [self.promotions enumerateObjectsUsingBlock:^(PromotionModel *promotion, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
         imageView.tag = idx;
@@ -518,7 +558,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         [self.headerView.scrollView addSubview:imageView];
     }];
-    
+    */
     
 }
 

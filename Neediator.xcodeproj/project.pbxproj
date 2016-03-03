@@ -131,6 +131,7 @@
 		82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */; };
 		82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */; };
 		82C97ED01C19939C00E6ED4C /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C97ECF1C19939C00E6ED4C /* Location.m */; };
+		82CC99431C8863CA00F06EB3 /* MainPromotionRealm.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CC99421C8863CA00F06EB3 /* MainPromotionRealm.m */; };
 		82CE35DF1C159425003744C9 /* CartOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE35DE1C159425003744C9 /* CartOrderModel.m */; };
 		82CE35E41C15B7E1003744C9 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE35E31C15B7E1003744C9 /* SearchViewController.m */; };
 		82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE513D1C0443020073EF3A /* ProductDetailsViewCell.m */; };
@@ -411,6 +412,8 @@
 		82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
 		82C97ECE1C19939C00E6ED4C /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		82C97ECF1C19939C00E6ED4C /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		82CC99411C8863CA00F06EB3 /* MainPromotionRealm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainPromotionRealm.h; sourceTree = "<group>"; };
+		82CC99421C8863CA00F06EB3 /* MainPromotionRealm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainPromotionRealm.m; sourceTree = "<group>"; };
 		82CE35DD1C159425003744C9 /* CartOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartOrderModel.h; sourceTree = "<group>"; };
 		82CE35DE1C159425003744C9 /* CartOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CartOrderModel.m; sourceTree = "<group>"; };
 		82CE35E21C15B7E1003744C9 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
@@ -645,6 +648,8 @@
 				823B73901C492F0700031596 /* MainCategoryRealm.m */,
 				82F856D81C8091CF000B68A9 /* SubCategoryRealm.h */,
 				82F856D91C8091CF000B68A9 /* SubCategoryRealm.m */,
+				82CC99411C8863CA00F06EB3 /* MainPromotionRealm.h */,
+				82CC99421C8863CA00F06EB3 /* MainPromotionRealm.m */,
 			);
 			name = Realm;
 			sourceTree = "<group>";
@@ -1782,6 +1787,7 @@
 				82147FBA1C45272B00D6691E /* ListingModel.m in Sources */,
 				8286B2511BF089D600AFC533 /* ListingRequestModel.m in Sources */,
 				82FB520C1C281B2500E19626 /* LoginView.m in Sources */,
+				82CC99431C8863CA00F06EB3 /* MainPromotionRealm.m in Sources */,
 				82327F771B60F9A800D92889 /* CartViewCell.m in Sources */,
 				82A542861C22B00800383253 /* LineItemsModel.m in Sources */,
 				8286B2741BF0CF7500AFC533 /* TaxonModel.m in Sources */,

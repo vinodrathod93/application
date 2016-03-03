@@ -397,6 +397,13 @@
 }
 
 
+-(MBProgressHUD *)getHUD {
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    hud.color          = self.tableView.tintColor;
+    
+    return hud;
+}
+
 
 -(UIView*) viewForDisclosureForState:(BOOL) isExpanded
 {

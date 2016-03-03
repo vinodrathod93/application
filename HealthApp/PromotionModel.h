@@ -18,5 +18,6 @@
 @property (nonatomic, copy) NSNumber *store_id;
 @property (nonatomic, assign) BOOL is_star_promoter;
 
+@property (nonatomic, copy) NSData *image_data;
 
 @end

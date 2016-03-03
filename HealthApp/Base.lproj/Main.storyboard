@@ -61,7 +61,7 @@
                                     <action selector="uploadPhotoPressed:" destination="ZWo-1h-Ph7" eventType="touchUpInside" id="uev-qQ-zv4"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WdO-Le-M6o">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WdO-Le-M6o">
                                 <rect key="frame" x="99" y="350" width="50" height="50"/>
                                 <state key="normal" image="camera_filled">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
