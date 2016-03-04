@@ -17,7 +17,8 @@
     return @{
              
              @"records"         : @"records",
-             @"type"            : @"type"
+             @"type"            : @"type",
+             @"deliveryTypes"   : @"deliverytype"
              
              };
 }

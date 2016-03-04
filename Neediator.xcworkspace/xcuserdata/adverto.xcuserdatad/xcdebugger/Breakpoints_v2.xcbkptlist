@@ -54,7 +54,7 @@
                   moduleName = "Chemist Plus"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/NAPIManager.m"
-                  timestampString = "478706382.823646"
+                  timestampString = "478795168.316779"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "106"
@@ -69,7 +69,7 @@
                   moduleName = "Chemist Plus"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/NAPIManager.m"
-                  timestampString = "478706382.823774"
+                  timestampString = "478795168.316911"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "106"
@@ -188,70 +188,6 @@
             startingLineNumber = "277"
             endingLineNumber = "277"
             landmarkName = "-uploadImages:withHUD:success:failure:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/UploadPrescriptionViewController.m"
-            timestampString = "478618915.846441"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "525"
-            endingLineNumber = "525"
-            landmarkName = "-getAssetThumbnail:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[UploadPrescriptionViewController getAssetThumbnail:]"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/UploadPrescriptionViewController.m"
-                  timestampString = "478706382.829007"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "525"
-                  endingLineNumber = "525"
-                  offsetFromSymbolStart = "269">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__54-[UploadPrescriptionViewController getAssetThumbnail:]_block_invoke"
-                  moduleName = "Chemist Plus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/UploadPrescriptionViewController.m"
-                  timestampString = "478706382.829148"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "525"
-                  endingLineNumber = "525"
-                  offsetFromSymbolStart = "67">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/UploadPrescriptionViewController.m"
-            timestampString = "478618915.846441"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "526"
-            endingLineNumber = "526"
-            landmarkName = "-getAssetThumbnail:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

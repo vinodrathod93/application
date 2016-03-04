@@ -27,8 +27,8 @@ static NSString *const kAPP_ID = @"1073622324";
 
 
 /* Taxon - Taxonomy VC */
-#define kTaxonHeaderViewHeight_Pad 355
-#define kTaxonHeaderViewHeight_Phone 205
+#define kTaxonHeaderViewHeight_Pad 500
+#define kTaxonHeaderViewHeight_Phone 250
 
 
 /* Cart VC */
@@ -81,4 +81,13 @@ static NSString *const kUPLOAD_PRESCRIPTION_PATH   = @"/NeediatorWS.asmx/uploadP
 
 static NSString *const kSTORE_ID    = @"kStoreID";
 static NSString *const kCAT_ID      = @"kCatID";
+static NSString *const kDELIVERY_TYPES = @"kDeliveryTypes";
+
+
+
+
+
+
+
+
 

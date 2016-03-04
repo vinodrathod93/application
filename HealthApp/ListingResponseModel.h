@@ -17,4 +17,5 @@
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSDictionary *parameters;
 
+@property (nonatomic, copy) NSArray *deliveryTypes;
 @end

@@ -56,6 +56,7 @@
     CLPlacemark *_placemark;
     NSString *_currentPlace;
     UIView *_launchScreen;
+    NSURLSessionDataTask *_task;
     
 }
 
@@ -116,85 +117,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     
-    
-    
-    
-    
-    
-    [self showHUD];
-    
-    /* Get Category names & Promotion Images */
-    [[NAPIManager sharedManager] mainCategoriesWithSuccess:^(MainCategoriesResponseModel *response) {
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            RLMRealm *realm = [RLMRealm defaultRealm];
-            [realm beginWriteTransaction];
-            [realm deleteAllObjects];
-            [realm commitWriteTransaction];
-            
-            [realm beginWriteTransaction];
-            for (CategoryModel *category in response.categories) {
-                MainCategoryRealm *categoryRealm = [[MainCategoryRealm alloc] initWithMantleModel:category];
-                [realm addObject:categoryRealm];
-                
-                
-                for (SubCategoryModel *subCategory in category.subCat_array) {
-                    SubCategoryRealm *subCategoryRealm = [[ SubCategoryRealm alloc] initWithMantleModel:subCategory];
-                    
-                    [realm addObject:subCategoryRealm];
-                }
-                
-            }
-            
-            for (PromotionModel *model in response.promotions) {
-                MainPromotionRealm *promotionRealm = [[MainPromotionRealm alloc] initWithMantleModel:model];
-                promotionRealm.image_data = [NSData dataWithContentsOfURL:[NSURL URLWithString:model.image_url]];
-                
-                [realm addObject:promotionRealm];
-            }
-            
-            [realm commitWriteTransaction];
-            
-            
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
-                
-                RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
-                RLMResults *subCategories = [SubCategoryRealm allObjectsInRealm:realmMainThread];
-                RLMResults *promotions  = [MainPromotionRealm allObjectsInRealm:realmMainThread];
-                
-                self.categoriesArray = categories;
-                self.subCategoriesArray = subCategories;
-                self.promotions = promotions;
-                
-                [self.collectionView reloadData];
-                [self hideHUD];
-                [self removeLaunchScreen];
-            });
-        });
-
-//        
-//        [self hideHUD];
-////        self.promotions         = response.promotions;
-//        
-//        [self.collectionView reloadData];
-//        [self removeLaunchScreen];
-        
-    } failure:^(NSError *error) {
-        // Display error
-        [self hideHUD];
-        
-        self.categoriesArray = [MainCategoryRealm allObjects];
-        self.subCategoriesArray = [SubCategoryRealm allObjects];
-        self.promotions      = [MainPromotionRealm allObjects];
-        
-        [self.collectionView reloadData];
-        [self removeLaunchScreen];
-        
-        NSLog(@"HomeCategory Error: %@", error.localizedDescription);
-    }];
-    
      
 }
 
@@ -221,16 +143,16 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
     }];
     
-    
-//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    [self requestCategories];
 }
 
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    
-}
 
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [_task suspend];
+}
 
 
 -(void)viewDidLayoutSubviews {
@@ -685,7 +607,81 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 }
 
 
-
+-(void)requestCategories {
+    [self showHUD];
+    
+    /* Get Category names & Promotion Images */
+    _task = [[NAPIManager sharedManager] mainCategoriesWithSuccess:^(MainCategoriesResponseModel *response) {
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            [realm beginWriteTransaction];
+            [realm deleteAllObjects];
+            [realm commitWriteTransaction];
+            
+            [realm beginWriteTransaction];
+            for (CategoryModel *category in response.categories) {
+                MainCategoryRealm *categoryRealm = [[MainCategoryRealm alloc] initWithMantleModel:category];
+                [realm addObject:categoryRealm];
+                
+                
+                for (SubCategoryModel *subCategory in category.subCat_array) {
+                    SubCategoryRealm *subCategoryRealm = [[ SubCategoryRealm alloc] initWithMantleModel:subCategory];
+                    
+                    [realm addObject:subCategoryRealm];
+                }
+                
+            }
+            
+            for (PromotionModel *model in response.promotions) {
+                MainPromotionRealm *promotionRealm = [[MainPromotionRealm alloc] initWithMantleModel:model];
+                promotionRealm.image_data = [NSData dataWithContentsOfURL:[NSURL URLWithString:model.image_url]];
+                
+                [realm addObject:promotionRealm];
+            }
+            
+            [realm commitWriteTransaction];
+            
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
+                
+                RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
+                RLMResults *subCategories = [SubCategoryRealm allObjectsInRealm:realmMainThread];
+                RLMResults *promotions  = [MainPromotionRealm allObjectsInRealm:realmMainThread];
+                
+                self.categoriesArray = categories;
+                self.subCategoriesArray = subCategories;
+                self.promotions = promotions;
+                
+                [self.collectionView reloadData];
+                [self hideHUD];
+                [self removeLaunchScreen];
+            });
+        });
+        
+        //
+        //        [self hideHUD];
+        ////        self.promotions         = response.promotions;
+        //
+        //        [self.collectionView reloadData];
+        //        [self removeLaunchScreen];
+        
+    } failure:^(NSError *error) {
+        // Display error
+        [self hideHUD];
+        
+        self.categoriesArray = [MainCategoryRealm allObjects];
+        self.subCategoriesArray = [SubCategoryRealm allObjects];
+        self.promotions      = [MainPromotionRealm allObjects];
+        
+        [self.collectionView reloadData];
+        [self removeLaunchScreen];
+        
+        NSLog(@"HomeCategory Error: %@", error.localizedDescription);
+    }];
+}
 
 
 

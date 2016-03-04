@@ -14,6 +14,8 @@
     long long expectedLength;
     long long currentLength;
     MWPhotoBrowser *browser;
+    BOOL _cameraCaptured;
+    UIImage *_cameraImage;
 }
 
 @property (nonatomic, strong) NSDictionary *dictionary;
@@ -53,11 +55,33 @@
     self.imagesCollectionView.layer.cornerRadius = 5.f;
     self.imagesCollectionView.layer.masksToBounds = YES;
     
+    [self hideCollectionView];
     
-    self.imagesCollectionView.hidden = YES;
     
+    [self.deliveryTypeButton addTarget:self action:@selector(showActivitySheet:) forControlEvents:UIControlEventTouchUpInside];
+    [self.addressButton addTarget:self action:@selector(showActivitySheet:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+
+
+-(void)showActivitySheet:(UIButton *)sender {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Delivery Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    NSArray *names = [sender isEqual:self.deliveryTypeButton] ? [self deliveryTypes]: @[@"12", @" 34"];
+    
+    [names enumerateObjectsUsingBlock:^(NSString * _Nonnull title, NSUInteger idx, BOOL * _Nonnull stop) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [sender setTitle:action.title forState:UIControlStateNormal];
+        }];
+        
+        [controller addAction:action];
+    }];
+    
+    controller.popoverPresentationController.sourceView = sender;
+    controller.popoverPresentationController.sourceRect = sender.bounds;
+    [self presentViewController:controller animated:YES completion:nil];
+    
+}
 
 -(IBAction)takePhotoPressed:(id)sender {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -179,17 +203,12 @@
     NSLog(@"Did finish modal presentation");
     NSLog(@"Selections %@", _selections);
     [self dismissViewControllerAnimated:YES completion:^{
-        self.imagesCollectionView.hidden = NO;
         
-        self.selectPhotoButton.hidden = YES;
-        self.takePhotoButton.hidden = YES;
-        self.selectPhotoLabel.hidden = YES;
         
-        [self.uploadButton setTintColor:self.view.tintColor];
-        [self.uploadButton setUserInteractionEnabled:YES];
+        [self showCollectionImages];
         
-        [self.view bringSubviewToFront:self.imagesCollectionView];
-        [self.imagesCollectionView reloadData];
+        [self enableUploadButton];
+        
     }];
     
     
@@ -203,18 +222,22 @@
 #pragma mark - ImagePicker Delegates
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    self.imageView.image = chosenImage;
-    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    
-    self.selectPhotoButton.hidden = YES;
-    self.takePhotoButton.hidden = YES;
-    
-    self.selectPhotoLabel.hidden = YES;
+    _cameraImage = info[UIImagePickerControllerEditedImage];
+//    self.imageView.image = chosenImage;
+//    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     
-    [self.uploadButton setTintColor:self.view.tintColor];
-    [self.uploadButton setUserInteractionEnabled:YES];
+    _cameraCaptured = YES;
+    
+    
+    NSLog(@"Captured Images %@", [self selectedImages]);
+    
+    // Show Image in collection view
+    [self showCollectionImages];
+    
+    
+    //enable upload button
+    [self enableUploadButton];
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
@@ -256,6 +279,50 @@
 }
 
 
+-(void)showCollectionImages {
+    
+    [self.view bringSubviewToFront:self.imagesCollectionView];
+    [self.imagesCollectionView reloadData];
+    
+    self.selectPhotoButton.hidden = YES;
+    self.takePhotoButton.hidden = YES;
+    self.selectPhotoLabel.hidden = YES;
+    
+    self.imagesCollectionView.hidden = NO;
+    self.deliveryTypeLabel.hidden = NO;
+    self.deliveryTypeButton.hidden = NO;
+    self.addressLabel.hidden = NO;
+    self.addressButton.hidden = NO;
+}
+
+
+-(void)hideCollectionView {
+    self.imagesCollectionView.hidden = YES;
+    
+    self.deliveryTypeLabel.hidden = YES;
+    self.deliveryTypeButton.hidden = YES;
+    self.addressLabel.hidden = YES;
+    self.addressButton.hidden = YES;
+}
+
+
+-(void)enableUploadButton {
+    [self.uploadButton setTintColor:self.view.tintColor];
+    [self.uploadButton setUserInteractionEnabled:YES];
+}
+
+
+-(NSArray *)deliveryTypes {
+    NSArray *delivery_types = [NeediatorUtitity savedDataForKey:kDELIVERY_TYPES];
+    
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    
+    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+        [names addObject:[type valueForKey:@"type"]];
+    }];
+    
+    return names;
+}
 
 
 
@@ -487,7 +554,7 @@
 
     
     UIView *background = [[UIView alloc] initWithFrame:cell.frame];
-    background.backgroundColor = [UIColor whiteColor];
+    background.backgroundColor = [UIColor lightGrayColor];
     background.layer.cornerRadius = 5.f;
     background.layer.masksToBounds = YES;
     [background addSubview:imageView];
@@ -534,15 +601,23 @@
     NSMutableArray *selectedImages = [[NSMutableArray alloc] init];
     NSArray *positions = [self positionArray];
     
-    [positions enumerateObjectsUsingBlock:^(NSNumber  *_Nonnull index, NSUInteger idx, BOOL * _Nonnull stop) {
+    if (_cameraCaptured) {
+        [selectedImages addObject:_cameraImage];
+    }
+    else {
         
-        PHAsset *photo = _assets[index.intValue];
-        UIImage *image = [self getAssetThumbnail:photo];
+        [positions enumerateObjectsUsingBlock:^(NSNumber  *_Nonnull index, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            PHAsset *photo = _assets[index.intValue];
+            UIImage *image = [self getAssetThumbnail:photo];
+            
+            
+            [selectedImages addObject:image];
+            
+        }];
         
-        
-        [selectedImages addObject:image];
-        
-    }];
+    }
+    
     
     return selectedImages;
 }
@@ -602,6 +677,7 @@
 
 #pragma mark - Not Needed 
 
+/*
 -(NSData *)createBodyWithParameters:(NSDictionary *)param andFilePathKey:(NSString *)filePathKey withImageDataKey:(NSData *)imageDataKey andBoundary:(NSString *)boundary {
     NSMutableData *body = [NSMutableData data];
     NSString *filename = @"prescription";
@@ -693,5 +769,7 @@
     [task resume];
     [self showHUD];
 }
+ 
+ */
 
 @end

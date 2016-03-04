@@ -15,7 +15,7 @@
 }
 
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+//@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 - (IBAction)takePhotoPressed:(id)sender;
 - (IBAction)selectPhotoPressed:(id)sender;
 - (IBAction)uploadPhotoPressed:(id)sender;
@@ -34,4 +34,8 @@
 
 
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollectionView;
+@property (weak, nonatomic) IBOutlet UILabel *deliveryTypeLabel;
+@property (weak, nonatomic) IBOutlet UIButton *deliveryTypeButton;
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+@property (weak, nonatomic) IBOutlet UIButton *addressButton;
 @end

@@ -3,13 +3,12 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StoreTaxonsViewController"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="TaxonHeaderView">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="205"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="250"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lvz-FQ-Q0Z">
@@ -28,34 +27,46 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sYM-GE-mrf">
                     <rect key="frame" x="0.0" y="130" width="600" height="75"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cxj-mg-zGg">
-                            <rect key="frame" x="15" y="15" width="270" height="45"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cxj-mg-zGg">
+                            <rect key="frame" x="15" y="15" width="278" height="45"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="45" id="Syo-Gt-Kt9"/>
+                                <constraint firstAttribute="height" constant="45" id="zHm-TV-aQy"/>
                             </constraints>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
+                            <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                             <state key="normal" title="Upload Prescription"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFc-v8-M0n">
-                            <rect key="frame" x="315" y="15" width="270" height="45"/>
+                            <rect key="frame" x="308" y="15" width="277" height="45"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="45" id="ca3-wu-lVd"/>
+                                <constraint firstAttribute="height" constant="45" id="dpu-kL-awc"/>
                             </constraints>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
                             <state key="normal" title="Quick Order"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="cxj-mg-zGg" firstAttribute="leading" secondItem="sYM-GE-mrf" secondAttribute="leading" constant="15" id="F2K-EI-HD1"/>
-                        <constraint firstAttribute="bottom" secondItem="aFc-v8-M0n" secondAttribute="bottom" constant="15" id="Fqf-3q-kRT"/>
-                        <constraint firstItem="aFc-v8-M0n" firstAttribute="width" secondItem="cxj-mg-zGg" secondAttribute="width" id="TTc-vY-j8r"/>
+                        <constraint firstAttribute="trailing" secondItem="aFc-v8-M0n" secondAttribute="trailing" constant="15" id="QJM-PO-PRe"/>
+                        <constraint firstItem="aFc-v8-M0n" firstAttribute="leading" secondItem="cxj-mg-zGg" secondAttribute="trailing" constant="15" id="Yq2-hv-qKB"/>
                         <constraint firstAttribute="height" constant="75" id="ZL4-2b-ZFD"/>
-                        <constraint firstItem="cxj-mg-zGg" firstAttribute="width" secondItem="sYM-GE-mrf" secondAttribute="width" multiplier="0.45" id="bxn-Jh-TTZ"/>
-                        <constraint firstAttribute="bottom" secondItem="cxj-mg-zGg" secondAttribute="bottom" constant="15" id="eXu-Cx-W1J"/>
-                        <constraint firstAttribute="trailing" secondItem="aFc-v8-M0n" secondAttribute="trailing" constant="15" id="ikQ-vU-U2d"/>
+                        <constraint firstItem="aFc-v8-M0n" firstAttribute="width" secondItem="cxj-mg-zGg" secondAttribute="width" id="cpc-ne-34W"/>
+                        <constraint firstItem="cxj-mg-zGg" firstAttribute="leading" secondItem="sYM-GE-mrf" secondAttribute="leading" constant="15" id="i6L-9y-jhg"/>
+                        <constraint firstItem="aFc-v8-M0n" firstAttribute="centerY" secondItem="sYM-GE-mrf" secondAttribute="centerY" id="ne3-fQ-1yS"/>
+                        <constraint firstItem="cxj-mg-zGg" firstAttribute="centerY" secondItem="sYM-GE-mrf" secondAttribute="centerY" id="uNR-bf-SWs"/>
                     </constraints>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Browse by Categories" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KVz-Ar-gh8">
+                    <rect key="frame" x="8" y="213" width="584" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="29" id="He9-Op-bEL"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -64,10 +75,14 @@
                 <constraint firstItem="qAa-qJ-npV" firstAttribute="centerY" secondItem="AUA-nY-PlK" secondAttribute="centerY" id="FQc-Ru-QP9"/>
                 <constraint firstAttribute="trailing" secondItem="sYM-GE-mrf" secondAttribute="trailing" id="GQc-iI-AyB"/>
                 <constraint firstAttribute="trailing" secondItem="Lvz-FQ-Q0Z" secondAttribute="trailing" id="JNc-49-WP2"/>
+                <constraint firstAttribute="trailing" secondItem="KVz-Ar-gh8" secondAttribute="trailing" constant="8" id="Jgt-r5-Aib"/>
                 <constraint firstAttribute="trailing" secondItem="AUA-nY-PlK" secondAttribute="trailing" id="PKs-JY-bdC"/>
+                <constraint firstAttribute="bottom" secondItem="KVz-Ar-gh8" secondAttribute="bottom" constant="8" id="PTr-S1-Ggo"/>
                 <constraint firstItem="AUA-nY-PlK" firstAttribute="bottom" secondItem="Lvz-FQ-Q0Z" secondAttribute="bottom" id="U7H-mx-85Z"/>
+                <constraint firstItem="KVz-Ar-gh8" firstAttribute="top" secondItem="sYM-GE-mrf" secondAttribute="bottom" constant="8" id="UuS-fM-Kl0"/>
                 <constraint firstItem="Lvz-FQ-Q0Z" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="V2M-Cm-pvF"/>
                 <constraint firstItem="AUA-nY-PlK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ViU-x2-ja8"/>
+                <constraint firstItem="KVz-Ar-gh8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="aaD-1B-4VJ"/>
                 <constraint firstItem="sYM-GE-mrf" firstAttribute="top" secondItem="Lvz-FQ-Q0Z" secondAttribute="bottom" id="coU-EF-inj"/>
                 <constraint firstItem="AUA-nY-PlK" firstAttribute="leading" secondItem="Lvz-FQ-Q0Z" secondAttribute="leading" id="goX-ZB-Q3K"/>
                 <constraint firstItem="Lvz-FQ-Q0Z" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="iG4-bb-Qd8"/>
@@ -79,6 +94,7 @@
                 <mask key="constraints">
                     <exclude reference="ATh-3K-xhr"/>
                     <exclude reference="goX-ZB-Q3K"/>
+                    <exclude reference="5eu-x6-Uqo"/>
                 </mask>
             </variation>
             <connections>
@@ -89,7 +105,7 @@
                 <outlet property="scrollView" destination="Lvz-FQ-Q0Z" id="ItM-rA-hqj"/>
                 <outlet property="uploadPrescriptionButton" destination="cxj-mg-zGg" id="8ZR-jJ-IVL"/>
             </connections>
-            <point key="canvasLocation" x="573" y="25.5"/>
+            <point key="canvasLocation" x="573" y="47"/>
         </view>
     </objects>
 </document>

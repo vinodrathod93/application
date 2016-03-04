@@ -29,6 +29,7 @@
     BOOL _isExpanded;
     NSMutableArray *_dataArray;
     NSURLSessionDataTask *_task;
+    NSInteger _footerHeight;
 }
 
 - (void)viewDidLoad {
@@ -40,34 +41,20 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    self.taxonomies = [[NSMutableArray alloc] init];
+    
     
     self.bannerImages = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
     
     
-    
-    [self showHUD];
-    
-    
-    NSDictionary *parameter = @{
-                                
-                                @"catId" : self.cat_id,
-                                @"storeid" : self.store_id
-                                
-                                };
-    
-    _task = [[NAPIManager sharedManager] getTaxonomiesWithRequest:parameter WithSuccess:^(TaxonomyListResponseModel *responseModel) {
-        [self.taxonomies addObjectsFromArray:responseModel.taxonomies];
-        
-        [self.tableView reloadData];
-        [self hideHUD];
-    } failure:^(NSError *error) {
-        [self hideHUD];
-        
-        UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertError show];
+}
 
-    }];
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    _footerHeight = 100;
+    self.taxonomies = [[NSMutableArray alloc] init];
+    
+    [self requestTaxons];
     
 }
 
@@ -148,7 +135,6 @@
     [self.bannerImages enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_taxonHeaderView.scrollView.frame) * idx, 0, CGRectGetWidth(_taxonHeaderView.scrollView.frame), CGRectGetHeight(_taxonHeaderView.scrollView.frame))];
         imageView.tag = idx;
-//        [imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -322,6 +308,16 @@
     return [self layoutBannerHeaderView];
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    if (_footerHeight > 0) {
+        return [self getHudView];
+    }
+    else
+        return nil;
+    
+}
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
@@ -330,6 +326,10 @@
     }
     else
         return kTaxonHeaderViewHeight_Phone + 10;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return _footerHeight;
 }
 
 
@@ -348,7 +348,7 @@
     }
     // Animate and delete
     [tableView deleteRowsAtIndexPaths:indexPaths
-                     withRowAnimation:UITableViewRowAnimationLeft];
+                     withRowAnimation:UITableViewRowAnimationTop];
     
 }
 
@@ -387,21 +387,29 @@
 
 #pragma mark - Private Methods
 
--(void)showHUD {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
-    self.hud.color = self.tableView.tintColor;
-}
+
 
 -(void)hideHUD {
     [self.hud hide:YES];
+    
+    _footerHeight = 0;
+    
+    [self tableView:self.tableView viewForFooterInSection:0];
+    
+    [self.tableView reloadData];
 }
 
 
--(MBProgressHUD *)getHUD {
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    hud.color          = self.tableView.tintColor;
+-(UIView *)getHudView {
     
-    return hud;
+    UIView *hudView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, _footerHeight)];
+    
+    self.hud = [MBProgressHUD showHUDAddedTo:hudView animated:YES];
+    self.hud.color          = [UIColor clearColor];
+    self.hud.activityIndicatorColor = [UIColor blackColor];
+    
+    
+    return hudView;
 }
 
 
@@ -446,7 +454,30 @@
 
 
 
+#pragma mark  - Network 
 
+
+-(void)requestTaxons {
+    NSDictionary *parameter = @{
+                                
+                                @"catId" : self.cat_id,
+                                @"storeid" : self.store_id
+                                
+                                };
+    
+    _task = [[NAPIManager sharedManager] getTaxonomiesWithRequest:parameter WithSuccess:^(TaxonomyListResponseModel *responseModel) {
+        [self.taxonomies addObjectsFromArray:responseModel.taxonomies];
+        
+        [self.tableView reloadData];
+        [self hideHUD];
+    } failure:^(NSError *error) {
+        [self hideHUD];
+        
+        UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertError show];
+        
+    }];
+}
 
 
 
