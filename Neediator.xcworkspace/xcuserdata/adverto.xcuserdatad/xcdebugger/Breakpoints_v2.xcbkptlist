@@ -54,7 +54,7 @@
                   moduleName = "Chemist Plus"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/NAPIManager.m"
-                  timestampString = "478795168.316779"
+                  timestampString = "478882511.797647"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "106"
@@ -69,7 +69,7 @@
                   moduleName = "Chemist Plus"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adverto/Documents/HealthApp/HealthApp/NAPIManager.m"
-                  timestampString = "478795168.316911"
+                  timestampString = "478882511.797772"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "106"
@@ -188,6 +188,22 @@
             startingLineNumber = "277"
             endingLineNumber = "277"
             landmarkName = "-uploadImages:withHUD:success:failure:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HealthApp/UploadPrescriptionViewController.m"
+            timestampString = "478882590.366495"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "-dismissPicker:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

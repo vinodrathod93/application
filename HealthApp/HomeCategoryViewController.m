@@ -596,10 +596,20 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 #pragma mark - HUD
 
 -(void)showHUD {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    self.hud.yOffset = 80.f;
-    self.hud.activityIndicatorColor = [UIColor darkGrayColor];
-    self.hud.color = [UIColor clearColor];
+    if (_launchScreen) {
+        self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            self.hud.yOffset = 150.f;
+        }
+        else
+            self.hud.yOffset = 80.f;
+        
+        self.hud.activityIndicatorColor = [UIColor darkGrayColor];
+        self.hud.color = [UIColor clearColor];
+    }
+    
+    
 }
 
 -(void)hideHUD {

@@ -16,6 +16,7 @@
     MWPhotoBrowser *browser;
     BOOL _cameraCaptured;
     UIImage *_cameraImage;
+    UIDatePicker *_dateTimePicker;
 }
 
 @property (nonatomic, strong) NSDictionary *dictionary;
@@ -60,6 +61,13 @@
     
     [self.deliveryTypeButton addTarget:self action:@selector(showActivitySheet:) forControlEvents:UIControlEventTouchUpInside];
     [self.addressButton addTarget:self action:@selector(showActivitySheet:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self decorateButtons];
+    [self showDateTimePicker];
+    
+    UITapGestureRecognizer *tapGestureRecognize = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPicker:)];
+    tapGestureRecognize.numberOfTapsRequired = 1;
+    [self.contentView addGestureRecognizer:tapGestureRecognize];
 }
 
 
@@ -83,6 +91,56 @@
     
 }
 
+
+-(void)showDateTimePicker {
+    _dateTimePicker = [[UIDatePicker alloc]initWithFrame:CGRectZero];
+    _dateTimePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    
+    NSDate *currentDate = [NSDate date];
+    NSDate *nextDate = [currentDate dateByAddingTimeInterval:60*60*24*3];
+    
+    
+    
+    
+    
+    NSCalendar *indianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierIndian];
+    NSDateComponents *components = [indianCalendar components:NSUIntegerMax fromDate:currentDate];
+    
+    [components setHour:7];
+    [components setMinute:15];
+    
+    currentDate = [indianCalendar dateFromComponents:components];
+    
+    
+    [components setHour:20];
+    [components setMinute:0];
+    
+    nextDate = [indianCalendar dateFromComponents:components];
+    
+    [_dateTimePicker setMinimumDate:currentDate];
+    [_dateTimePicker setMaximumDate:nextDate];
+    
+    self.dateTimeField.inputView = _dateTimePicker;
+    
+    [_dateTimePicker addTarget:self action:@selector(setSelectedDateTime:) forControlEvents:UIControlEventValueChanged];
+    
+    
+}
+
+
+-(void)setSelectedDateTime:(UIDatePicker *)picker {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
+    
+    self.dateTimeField.text = [NSString stringWithFormat:@"%@", [dateFormat stringFromDate:picker.date]];
+    
+}
+
+-(void)dismissPicker:(UITapGestureRecognizer *)recognizer {
+//    [_dateTimePicker removeFromSuperview];
+    [self.dateTimeField resignFirstResponder];
+}
+
 -(IBAction)takePhotoPressed:(id)sender {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
@@ -95,13 +153,15 @@
 
 -(IBAction)selectPhotoPressed:(id)sender {
     
+    /*
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
-//    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-//    picker.delegate = self;
-//    picker.allowsEditing = YES;
-//    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-//    
-//    [self presentViewController:picker animated:YES completion:NULL];
+    [self presentViewController:picker animated:YES completion:NULL];
+    */
+    
     NSMutableArray *photos = [[NSMutableArray alloc] init];
     NSMutableArray *thumbs = [[NSMutableArray alloc] init];
     
@@ -293,6 +353,9 @@
     self.deliveryTypeButton.hidden = NO;
     self.addressLabel.hidden = NO;
     self.addressButton.hidden = NO;
+    
+    self.dataTimeLabel.hidden = NO;
+    self.dateTimeField.hidden = NO;
 }
 
 
@@ -303,12 +366,36 @@
     self.deliveryTypeButton.hidden = YES;
     self.addressLabel.hidden = YES;
     self.addressButton.hidden = YES;
+    
+    self.dataTimeLabel.hidden = YES;
+    self.dateTimeField.hidden = YES;
 }
 
 
 -(void)enableUploadButton {
     [self.uploadButton setTintColor:self.view.tintColor];
     [self.uploadButton setUserInteractionEnabled:YES];
+}
+
+-(void)decorateButtons {
+    
+    [self.deliveryTypeButton setTitle:@"" forState:UIControlStateNormal];
+    self.deliveryTypeButton.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.deliveryTypeButton.layer.borderWidth = 2.f;
+    self.deliveryTypeButton.layer.cornerRadius = 5.f;
+    self.deliveryTypeButton.layer.masksToBounds = YES;
+    
+    [self.addressButton setTitle:@"" forState:UIControlStateNormal];
+    self.addressButton.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.addressButton.layer.borderWidth = 2.f;
+    self.addressButton.layer.cornerRadius = 5.f;
+    self.addressButton.layer.masksToBounds = YES;
+    
+    
+    self.dateTimeField.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.dateTimeField.layer.borderWidth = 2.f;
+    self.dateTimeField.layer.cornerRadius = 5.f;
+    self.dateTimeField.layer.masksToBounds = YES;
 }
 
 

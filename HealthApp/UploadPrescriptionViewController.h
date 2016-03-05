@@ -36,6 +36,14 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *deliveryTypeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *deliveryTypeButton;
+
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UIButton *addressButton;
+
+@property (weak, nonatomic) IBOutlet UILabel *dataTimeLabel;
+@property (weak, nonatomic) IBOutlet UITextField *dateTimeField;
+
+
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
 @end

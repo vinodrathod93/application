@@ -26,12 +26,12 @@
     self.uploadPrescriptionButton.layer.shadowColor = [UIColor blackColor].CGColor;
     self.uploadPrescriptionButton.layer.shadowOpacity = 0.5;
     self.uploadPrescriptionButton.layer.shadowRadius = 3;
-    self.uploadPrescriptionButton.layer.shadowOffset = CGSizeMake(3.f, 3.f);
+    self.uploadPrescriptionButton.layer.shadowOffset = CGSizeMake(-3.f, 3.f);
     
     
     self.quickOrderButton.layer.shadowColor = [UIColor blackColor].CGColor;
     self.quickOrderButton.layer.shadowOpacity = 0.5;
-    self.quickOrderButton.layer.shadowRadius = 3;
+    self.quickOrderButton.layer.shadowRadius = 1.5;
     self.quickOrderButton.layer.shadowOffset = CGSizeMake(3.f, 3.f);
 }
 
