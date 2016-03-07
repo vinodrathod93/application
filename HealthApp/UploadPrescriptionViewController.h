@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "NTextField.h"
+#import "AddressesViewController.h"
 
-@interface UploadPrescriptionViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate, MWPhotoBrowserDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface UploadPrescriptionViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate, MWPhotoBrowserDelegate, UICollectionViewDataSource, UICollectionViewDelegate, AddressDelegate>
 {
     NSMutableArray *_selections;
 }
@@ -41,7 +43,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *addressButton;
 
 @property (weak, nonatomic) IBOutlet UILabel *dataTimeLabel;
-@property (weak, nonatomic) IBOutlet UITextField *dateTimeField;
+@property (weak, nonatomic) IBOutlet NTextField *dateTimeField;
 
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;

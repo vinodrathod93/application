@@ -44,8 +44,6 @@ typedef void(^completion)(BOOL finished);
     self.title = @"My Addresses";
     
     
-    
-    
     if (!self.isGettingOrder) {
         [self loadAddresses];
         
@@ -141,12 +139,12 @@ typedef void(^completion)(BOOL finished);
     
     if (self.isGettingOrder) {
         
-        BOOL deliverable = [[address valueForKey:@"deliverable"] boolValue];
-        if (!deliverable) {
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor = [UIColor lightGrayColor];
-            cell.userInteractionEnabled = NO;
-        }
+//        BOOL deliverable = [[address valueForKey:@"deliverable"] boolValue];
+//        if (!deliverable) {
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            cell.backgroundColor = [UIColor lightGrayColor];
+//            cell.userInteractionEnabled = NO;
+//        }
     }
     else {
         UIButton *edit = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
@@ -326,7 +324,7 @@ typedef void(^completion)(BOOL finished);
     
     [self showHUD];
     
-    NSString *addressID = [address valueForKey:@"id"];
+    NSString *addressID = [address valueForKey:@"Id"];
     
     [[NAPIManager sharedManager] deleteAddress:addressID withSuccess:^(BOOL success) {
         

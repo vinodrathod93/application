@@ -79,11 +79,11 @@ static NSString *const kUPLOAD_PRESCRIPTION_PATH   = @"/NeediatorWS.asmx/uploadP
 
 /* Helper Constants */
 
-static NSString *const kSTORE_ID    = @"kStoreID";
-static NSString *const kCAT_ID      = @"kCatID";
-static NSString *const kDELIVERY_TYPES = @"kDeliveryTypes";
-
-
+static NSString *const kSAVE_STORE_ID    = @"kSaveStoreID";
+static NSString *const kSAVE_CAT_ID      = @"kSaveCatID";
+static NSString *const kSAVE_DELIVERY_TYPES = @"kSaveDeliveryTypes";
+static NSString *const kSAVE_ADDRESS_ID = @"kSaveAddressID";
+static NSString *const kSAVE_DELIVERY_ID = @"kSaveDeliveryID";
 
 
 

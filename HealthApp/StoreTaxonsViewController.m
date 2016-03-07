@@ -16,12 +16,15 @@
 #import "TaxonHeaderView.h"
 #import "UploadPrescriptionViewController.h"
 
-@interface StoreTaxonsViewController ()
+@interface StoreTaxonsViewController ()<UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
 @property (nonatomic, strong) NSMutableArray *taxonomies;
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) NSArray *bannerImages;
 @property (nonatomic, strong) TaxonHeaderView *taxonHeaderView;
+
+@property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, strong) NSMutableArray *searchResults;
 
 @end
 
@@ -117,12 +120,26 @@
 
 
 -(void)popUploadPrescriptionVC {
-    [NeediatorUtitity save:self.store_id forKey:kSTORE_ID];
-    [NeediatorUtitity save:self.cat_id forKey:kCAT_ID];
+    [NeediatorUtitity save:self.store_id forKey:kSAVE_STORE_ID];
+    [NeediatorUtitity save:self.cat_id forKey:kSAVE_CAT_ID];
     
     
     UploadPrescriptionViewController *uploadVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPrescriptionVC"];
-    [self presentViewController:uploadVC animated:YES completion:nil];
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:uploadVC];
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+
+
+-(void)popQuickOrderSearchVC {
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchBar.delegate = self;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    
+    [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
 

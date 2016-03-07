@@ -22,6 +22,7 @@ static CGFloat leftMargin = 10;
     [self setTintColor:[UIColor whiteColor]];
 }
 
+// placeholder position
 
 - (CGRect)textRectForBounds:(CGRect)bounds
 {
@@ -29,6 +30,8 @@ static CGFloat leftMargin = 10;
     
     return bounds;
 }
+
+// editing text position
 
 - (CGRect)editingRectForBounds:(CGRect)bounds
 {

@@ -807,7 +807,7 @@ static NSString *cellIdentifier = @"cartCell";
     [self checkOrders];
     
     if (user.userID != nil) {
-        NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/viewcart?userid=%@", user.userID];
+        NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/viewCart?userid=%@", user.userID];
         
         NSURLSession *session = [NSURLSession sharedSession];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
@@ -824,6 +824,10 @@ static NSString *cellIdentifier = @"cartCell";
             if (data != nil) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSError *jsonError;
+                    
+                    
+                    NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                    NSLog(@"STring is %@",string);
                     
                     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                     NSLog(@"JSON %@", json);
@@ -1041,7 +1045,7 @@ static NSString *cellIdentifier = @"cartCell";
     NSString *parameter = [NSString stringWithFormat:@"id=%@&userid=%@", item.lineItemID.stringValue, user.userID];
     
     if (user.userID != nil) {
-        NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/deletecart"];
+        NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/deleteCart"];
         
         NSURLSession *session = [NSURLSession sharedSession];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
@@ -1153,7 +1157,7 @@ static NSString *cellIdentifier = @"cartCell";
         
         NSLog(@"parameter %@", parameter);
         
-        NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/updatecart"];
+        NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/updateCart"];
         
         NSLog(@"URL is %@",url);
             

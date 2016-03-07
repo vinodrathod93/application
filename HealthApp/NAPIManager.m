@@ -266,21 +266,21 @@
 
 
 
--(NSURLSessionDataTask *)uploadImages:(NSArray *)images withHUD:(MBProgressHUD *)hud success:(void (^)(BOOL))success failure:(void (^)(NSError *error))failure {
+-(NSURLSessionDataTask *)uploadImagesWithData:(NSDictionary *)data withHUD:(MBProgressHUD *)hud success:(void (^)(BOOL))success failure:(void (^)(NSError *error))failure {
     User *user = [User savedUser];
     
     NSLog(@"%@", user.addresses);
     
     NSDictionary *object = @{
-                           @"store_id": [NeediatorUtitity savedDataForKey:kSTORE_ID],
-                           @"cat_id"    : [NeediatorUtitity savedDataForKey:kCAT_ID],
+                           @"store_id": [NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],
+                           @"cat_id"    : [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID],
                            @"user_id"   : user.userID,
-                           @"addresss_id"   : @"",
-                           @"delivery_type" : @"",
-                           @"payment_id"    : @"",
-                           @"preffered_time": @"",
+                           @"addresss_id"   : data[@"addressID"],
+                           @"delivery_type" : data[@"deliveryID"],
+                           @"payment_id"    : @"1",
+                           @"preffered_time": data[@"dateTime"],
                            @"order_amount"  : @"",
-                           @"images"        : images
+                           @"images"        : data[@"images"]
                            };
     
     

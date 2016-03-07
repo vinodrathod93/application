@@ -125,6 +125,8 @@
 		82C36C5B1C81DA900038EA5F /* TaxonHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82C36C5A1C81DA900038EA5F /* TaxonHeaderView.xib */; };
 		82C38A821C0864D70006A73B /* PopupCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A811C0864D70006A73B /* PopupCartViewController.m */; };
 		82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C38A8D1C086BBE0006A73B /* UIColor+CustomColors.m */; };
+		82C3F55F1C8DB3C700BA266D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C3F55E1C8DB3C700BA266D /* QuartzCore.framework */; };
+		82C3F5651C8DCD2300BA266D /* SearchResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C3F5641C8DCD2300BA266D /* SearchResultsTableViewController.m */; };
 		82C722F61B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C722F51B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m */; };
 		82C722FC1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C722FB1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m */; };
 		82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C722FE1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
@@ -400,6 +402,9 @@
 		82C38A8C1C086BBE0006A73B /* UIColor+CustomColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+CustomColors.h"; sourceTree = "<group>"; };
 		82C38A8D1C086BBE0006A73B /* UIColor+CustomColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CustomColors.m"; sourceTree = "<group>"; };
 		82C38A8F1C086CE20006A73B /* Neediator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Neediator-Prefix.pch"; sourceTree = "<group>"; };
+		82C3F55E1C8DB3C700BA266D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		82C3F5631C8DCD2300BA266D /* SearchResultsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsTableViewController.h; sourceTree = "<group>"; };
+		82C3F5641C8DCD2300BA266D /* SearchResultsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsTableViewController.m; sourceTree = "<group>"; };
 		82C722F41B7B1B7600E0C5EF /* RootTabBarControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootTabBarControllerDelegate.h; sourceTree = "<group>"; };
 		82C722F51B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootTabBarControllerDelegate.m; sourceTree = "<group>"; };
 		82C722FA1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
@@ -479,6 +484,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82C3F55F1C8DB3C700BA266D /* QuartzCore.framework in Frameworks */,
 				82BF08511C1F07E90093B8CD /* MessageUI.framework in Frameworks */,
 				824D00371B6F2EBF000F1825 /* CoreLocation.framework in Frameworks */,
 				825567201B68F9B6009F013A /* CoreTelephony.framework in Frameworks */,
@@ -501,6 +507,7 @@
 		4D432D975D494ECD94D11A09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82C3F55E1C8DB3C700BA266D /* QuartzCore.framework */,
 				82EA67FC1C43B93B00F9924D /* libRealm.a */,
 				82EA67FA1C43B8D900F9924D /* libMantle.a */,
 				82BF08501C1F07E90093B8CD /* MessageUI.framework */,
@@ -938,6 +945,33 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		82C3F5601C8DCCC500BA266D /* SubCategory */ = {
+			isa = PBXGroup;
+			children = (
+				82B7AAEE1C5D0C0E0031BA8E /* SubCategoryViewController.h */,
+				82B7AAEF1C5D0C0E0031BA8E /* SubCategoryViewController.m */,
+			);
+			name = SubCategory;
+			sourceTree = "<group>";
+		};
+		82C3F5611C8DCCD000BA266D /* Checkout */ = {
+			isa = PBXGroup;
+			children = (
+				82C0950E1C5F7E2A00727C25 /* PaymentOptionsViewController.h */,
+				82C0950F1C5F7E2A00727C25 /* PaymentOptionsViewController.m */,
+			);
+			name = Checkout;
+			sourceTree = "<group>";
+		};
+		82C3F5621C8DCCDD00BA266D /* Upload Prescription */ = {
+			isa = PBXGroup;
+			children = (
+				82B424581C8431BB00664A4B /* UploadPrescriptionViewController.h */,
+				82B424591C8431BB00664A4B /* UploadPrescriptionViewController.m */,
+			);
+			name = "Upload Prescription";
+			sourceTree = "<group>";
+		};
 		82C722F71B7B42BA00E0C5EF /* LogIn */ = {
 			isa = PBXGroup;
 			children = (
@@ -1130,12 +1164,11 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				82B424581C8431BB00664A4B /* UploadPrescriptionViewController.h */,
-				82B424591C8431BB00664A4B /* UploadPrescriptionViewController.m */,
-				82C0950E1C5F7E2A00727C25 /* PaymentOptionsViewController.h */,
-				82C0950F1C5F7E2A00727C25 /* PaymentOptionsViewController.m */,
-				82B7AAEE1C5D0C0E0031BA8E /* SubCategoryViewController.h */,
-				82B7AAEF1C5D0C0E0031BA8E /* SubCategoryViewController.m */,
+				82C3F5631C8DCD2300BA266D /* SearchResultsTableViewController.h */,
+				82C3F5641C8DCD2300BA266D /* SearchResultsTableViewController.m */,
+				82C3F5621C8DCCDD00BA266D /* Upload Prescription */,
+				82C3F5611C8DCCD000BA266D /* Checkout */,
+				82C3F5601C8DCCC500BA266D /* SubCategory */,
 				82AF64291C58CF7100628609 /* Booking */,
 				82A8B4141C4E611C00FCDF79 /* Image Modal */,
 				823B73771C48F17000031596 /* Listing */,
@@ -1772,6 +1805,7 @@
 				82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */,
 				82C36C561C81C39B0038EA5F /* NeediatorUtitity.m in Sources */,
 				82D3840C1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m in Sources */,
+				82C3F5651C8DCD2300BA266D /* SearchResultsTableViewController.m in Sources */,
 				82C0950C1C5F614100727C25 /* LineItems+CoreDataProperties.m in Sources */,
 				82A1D3D61C562DD100E6B1D3 /* TimeSlotModel.m in Sources */,
 				823B73821C49152F00031596 /* NAPIManager.m in Sources */,

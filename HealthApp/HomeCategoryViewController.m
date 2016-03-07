@@ -195,8 +195,16 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     // Configure the cell
     cell.backgroundColor = [UIColor clearColor];
+    
     cell.layer.cornerRadius = 3.f;
-    cell.layer.masksToBounds = YES;
+//    cell.layer.masksToBounds = YES;
+    
+    cell.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    cell.layer.shadowOpacity = 0.5;
+    cell.layer.shadowRadius = 3;
+    cell.layer.shadowOffset = CGSizeMake(3.f, 3.f);
+    
+    
     
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(25, 10, cell.frame.size.width - (2*25.f), cell.frame.size.height - 10 - 40)];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -222,6 +230,15 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [backgroundView addSubview:label];
     
     cell.backgroundView = backgroundView;
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     return cell;
 }
@@ -671,12 +688,12 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
             });
         });
         
-        //
-        //        [self hideHUD];
-        ////        self.promotions         = response.promotions;
-        //
-        //        [self.collectionView reloadData];
-        //        [self removeLaunchScreen];
+        
+//                [self hideHUD];
+//                self.promotions         = response.promotions;
+//        
+//                [self.collectionView reloadData];
+//                [self removeLaunchScreen];
         
     } failure:^(NSError *error) {
         // Display error

@@ -492,7 +492,7 @@
         }
         
         
-        [NeediatorUtitity save:response.deliveryTypes forKey:kDELIVERY_TYPES];
+        [NeediatorUtitity save:response.deliveryTypes forKey:kSAVE_DELIVERY_TYPES];
         
         
         [self hideHUD];
