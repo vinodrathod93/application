@@ -43,6 +43,8 @@
 -(NSURLSessionDataTask *)getListingsWithRequestModel:(ListingRequestModel *)request success:(void (^)(ListingResponseModel *response))success failure:(void (^)(NSError *error))failure {
     
     NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:request error:nil];
+    NSLog(@"Parameters %@", parameters);
+    
     
     return [self GET:kLISTING_PATH parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         
@@ -58,7 +60,7 @@
         ListingResponseModel *responseModel = [MTLJSONAdapter modelOfClass:[ListingResponseModel class] fromJSONDictionary:response error:&responseError];
         
         if (responseError) {
-            NSLog(@"Error in Listing Response: %@", responseError.localizedDescription);
+            NSLog(@"Error in Listing Response: %@", responseError.localizedFailureReason);
             
             failure(responseError);
         }
@@ -310,6 +312,25 @@
         failure(error);
     }];
 }
+
+
+
+-(NSURLSessionDataTask *)getSearchedProductsWithData:(NSDictionary *)data success:(void (^)(NSArray *products))success failure:(void (^)(NSError *error))failure {
+    
+    return [self GET:kAUTOCOMPLETE_SEARCH_PRODUCT parameters:data progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Searching product %@", downloadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Response %@", responseObject);
+        
+        NSArray *products = [responseObject objectForKey:@"ProductStores"];
+        
+        success(products);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
 
 
 

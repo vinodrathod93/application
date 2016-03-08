@@ -70,11 +70,12 @@ static NSString *const kENTITY_DETAILS_PATH     = @"/NeediatorWS.asmx/getDetails
 static NSString *const kTIME_SLOTS_PATH         = @"/NeediatorWS.asmx/getTimeSlot";
 static NSString *const kBOOKING_PATH            = @"/NeediatorWS.asmx/Book";
 static NSString *const kSTORE_TAXONS_PATH       = @"/NeediatorWS.asmx/getTaxonomyTaxons";
-static NSString *const kPAYMENT_OPTIONS_PATH    = @"/NeediatorWS.asmx/getpayment";
+static NSString *const kPAYMENT_OPTIONS_PATH    = @"/NeediatorWS.asmx/getPayment";
 static NSString *const KSTATE_CITIES_PATH       = @"/NeediatorWS.asmx/getstatecity";
 static NSString *const KALL_ADDRESSES_PATH      = @"/NeediatorWS.asmx/getaddress";
 static NSString *const kDELETE_ADDRESSES_PATH   = @"/NeediatorWS.asmx/deleteaddress";
 static NSString *const kUPLOAD_PRESCRIPTION_PATH   = @"/NeediatorWS.asmx/uploadPrescription";
+static NSString *const kAUTOCOMPLETE_SEARCH_PRODUCT = @"/NeediatorWS.asmx/search_product";
 
 
 /* Helper Constants */

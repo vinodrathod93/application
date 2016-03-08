@@ -17,12 +17,13 @@
              @"address"             : @"address",
              @"image_url"           : @"image_url",
              @"city"                : @"city",
-             @"mobile"              : @"mobile",
+             @"phone_nos"           : @"phone_no",
              @"nearest_distance"    : @"distance",
              @"ratings"             : @"ratings",
              @"timing"              : @"timing",
              @"isBook"              : @"book",
-             @"isCall"              : @"call"
+             @"isCall"              : @"call",
+             @"images"              : @"Images"
              
              };
 }
@@ -33,7 +34,8 @@
     if (self == nil) return nil;
     
     NSLog(@"Dictionary value %@", dictionaryValue);
-    
+    NSLog(@"Phone %@", self.phone_nos);
+    NSLog(@"Images %@", self.images);
     
     return self;
 }

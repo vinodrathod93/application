@@ -15,6 +15,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "TaxonHeaderView.h"
 #import "UploadPrescriptionViewController.h"
+#import "SearchResultsTableViewController.h"
 
 @interface StoreTaxonsViewController ()<UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
@@ -32,6 +33,7 @@
     BOOL _isExpanded;
     NSMutableArray *_dataArray;
     NSURLSessionDataTask *_task;
+    NSURLSessionDataTask *_searchTask;
     NSInteger _footerHeight;
 }
 
@@ -112,7 +114,7 @@
     
     
     [_taxonHeaderView.uploadPrescriptionButton addTarget:self action:@selector(popUploadPrescriptionVC) forControlEvents:UIControlEventTouchUpInside];
-    
+    [_taxonHeaderView.quickOrderButton addTarget:self action:@selector(popQuickOrderSearchVC) forControlEvents:UIControlEventTouchUpInside];
     
     return _taxonHeaderView;
 }
@@ -134,8 +136,13 @@
 
 
 -(void)popQuickOrderSearchVC {
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-    self.searchController.searchBar.delegate = self;
+    
+    SearchResultsTableViewController *searchResultsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"searchResultsVC"];
+//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:searchResultsVC];
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsVC];
+//    self.searchController.searchBar.delegate = self;
+    self.searchController.searchResultsUpdater = self;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.searchController.hidesNavigationBarDuringPresentation = NO;
     
@@ -143,6 +150,65 @@
 }
 
 
+
+#pragma mark - UISearchControllerDelegate & SearchResultsDelegate
+
+
+
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    NSString *searchString = self.searchController.searchBar.text;
+    
+    NSLog(@"SEarch Results %@", searchString);
+    
+    NSDictionary *parameter = @{
+                                @"cat_id" : self.cat_id,
+                                @"store_id" : self.store_id,
+                                @"search"   : searchString
+                                };
+    
+    
+    
+    
+    _searchTask = [[NAPIManager sharedManager] getSearchedProductsWithData:parameter success:^(NSArray *products) {
+        
+        // search products.
+        self.searchResults = [products mutableCopy];
+        
+        if (self.searchController.searchResultsController) {
+            
+            SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+            
+            // Update searchResults
+            vc.searchResults = self.searchResults;
+            
+            if (self.searchResults.count == 0) {
+                
+                NSDictionary *noProduct = @{
+                                            @"productname" : @"No Products",
+                                            @"brandname"    : @""
+                                            };
+                [self.searchResults addObject:noProduct];
+            }
+            // And reload the tableView with the new data
+            [vc.tableView reloadData];
+        }
+        
+        
+    } failure:^(NSError *error) {
+        NSLog(@"Error: %@", [error localizedDescription]);
+    }];
+    
+}
+
+
+
+//-(void)willDismissSearchController:(UISearchController *)searchController {
+//    self.tabBarController.tabBar.hidden = NO;
+//}
+
+//-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+//    self.tabBarController.tabBar.hidden = NO;
+//}
 
 
 #pragma mark - Scroll view Methods
@@ -497,7 +563,11 @@
 }
 
 
-
+-(void)searchProduct:(NSString *)keyword {
+    
+    
+    
+}
 
 
 

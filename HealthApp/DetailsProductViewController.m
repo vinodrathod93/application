@@ -474,7 +474,7 @@ NSString *cellReuseIdentifier;
     
     
     
-    NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/addtocart"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/addToCart"];
     NSLog(@"URL is --> %@", url);
     
     NSString *parameter  = [NSString stringWithFormat:@"product_id=%@&qty=%@&user_id=%@&store_id=%@&cat_id=%@", [self.viewModel productID].stringValue, [self.viewModel quantity].stringValue, user.userID, [self.viewModel storeID].stringValue, [self.viewModel catID]];

@@ -191,7 +191,7 @@
 -(void)sendPaymentOptionToServer {
     User *user = [User savedUser];
     
-    NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/order"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/addOrder"];
     NSLog(@"URL is --> %@", url);
     
     NSString *parameter = [NSString stringWithFormat:@"user_id=%@&payment_id=%@&address_id=%@&store_id=%@&cat_id=%@", user.userID, self.payment_method_id.stringValue, self.address_id, self.orderModel.store_id, self.orderModel.cat_id.stringValue];

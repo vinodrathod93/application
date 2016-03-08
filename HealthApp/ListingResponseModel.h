@@ -12,10 +12,11 @@
 
 @property (nonatomic, copy) NSArray *records;
 @property (nonatomic, copy) NSDictionary *type;
+@property (nonatomic, copy) NSArray *deliveryTypes;
+
 
 @property (nonatomic, assign) BOOL isProductType;
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSDictionary *parameters;
 
-@property (nonatomic, copy) NSArray *deliveryTypes;
 @end

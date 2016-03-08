@@ -245,7 +245,7 @@
         StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
         storeTaxonsVC.title = [model.name capitalizedString];
         storeTaxonsVC.cat_id = self.category_id;
-        storeTaxonsVC.store_id = model.list_id.stringValue;
+        storeTaxonsVC.store_id = model.list_id;
         
         storeTaxonsVC.hidesBottomBarWhenPushed = NO;
         [self.navigationController pushViewController:storeTaxonsVC animated:YES];
@@ -254,7 +254,7 @@
     else {
         NEntityDetailViewController *NEntityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
         NEntityVC.cat_id    = self.category_id;
-        NEntityVC.entity_id = model.list_id.stringValue;
+        NEntityVC.entity_id = model.list_id;
         NEntityVC.title     = model.name.uppercaseString;
         NEntityVC.isBooking = _isBooking;
         
@@ -657,7 +657,7 @@
     
     BookingViewController *bookingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"makeBookingVC"];
     bookingVC.category_id               = self.category_id;
-    bookingVC.entity_id                 = model.list_id.stringValue;
+    bookingVC.entity_id                 = model.list_id;
     bookingVC.entity_name               = model.name;
     bookingVC.image_url                 = model.image_url;
     
