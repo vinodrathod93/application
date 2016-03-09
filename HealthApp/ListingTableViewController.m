@@ -246,6 +246,7 @@
         storeTaxonsVC.title = [model.name capitalizedString];
         storeTaxonsVC.cat_id = self.category_id;
         storeTaxonsVC.store_id = model.list_id;
+        storeTaxonsVC.bannerImages = model.images;
         
         storeTaxonsVC.hidesBottomBarWhenPushed = NO;
         [self.navigationController pushViewController:storeTaxonsVC animated:YES];

@@ -184,6 +184,12 @@
 }
 
 
+-(void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
+    NSLog(@"3D Touch");
+    
+    
+}
+
 
 #pragma mark - Core Data stack
 

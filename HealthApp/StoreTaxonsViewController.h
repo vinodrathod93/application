@@ -12,7 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSString *storeURL;
-
+@property (nonatomic, strong) NSArray *bannerImages;
 
 //Neediator API
 @property (nonatomic, strong) NSString *cat_id;

@@ -28,6 +28,7 @@
 #import "MainCategoryRealm.h"
 #import "SubCategoryRealm.h"
 #import "MainPromotionRealm.h"
+#import "HomeCollectionViewCell.h"
 
 
 @interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate>
@@ -37,7 +38,7 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) RLMResults *categoriesArray;
 @property (nonatomic, strong) RLMResults *subCategoriesArray;
-@property (nonatomic, strong) RLMResults *promotions;
+@property (nonatomic, strong) NSArray *promotions;
 
 @property (nonatomic, strong) NSArray *categoryIcons;
 @property (nonatomic, strong) HeaderSliderView *headerView;
@@ -98,7 +99,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.categoryIcons   = [self getPListIconsArray];
     
     // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    [self.collectionView registerClass:[HomeCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     
     /* Create Promotion Header View */
@@ -187,55 +188,16 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    HomeCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    
     
     
     CategoryModel *category     = self.categoriesArray[indexPath.row];
     
     
-    // Configure the cell
-    cell.backgroundColor = [UIColor clearColor];
-    
-    cell.layer.cornerRadius = 3.f;
-//    cell.layer.masksToBounds = YES;
-    
-    cell.layer.shadowColor = [UIColor lightGrayColor].CGColor;
-    cell.layer.shadowOpacity = 0.5;
-    cell.layer.shadowRadius = 3;
-    cell.layer.shadowOffset = CGSizeMake(3.f, 3.f);
-    
-    
-    
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(25, 10, cell.frame.size.width - (2*25.f), cell.frame.size.height - 10 - 40)];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.categoryIcons[indexPath.item]]];
-//    [imageView sd_setImageWithURL:[NSURL URLWithString:category.image_url]];
-//    imageView.image = [imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-//    [imageView setTintColor:[UIColor blackColor]];
-    
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 10, cell.frame.size.width - 10.f, 40)];
-    label.textColor = [UIColor blackColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.numberOfLines = 0;
-    label.font = [UIFont fontWithName:@"AvenirNext-Medium" size:14];
-    label.text = category.name;
-    
-    UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
-//    backgroundView.backgroundColor = [UIColor colorFromHexString:category.color_code];
-    
-    backgroundView.backgroundColor = [UIColor whiteColor];
-    backgroundView.tag = 30+indexPath.item;
-    
-    [backgroundView addSubview:imageView];
-    [backgroundView addSubview:label];
-    
-    cell.backgroundView = backgroundView;
-    
-    
-    
-    
-    
-    
+    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.categoryIcons[indexPath.item]]];
+    cell.label.text = category.name;
+    cell.backgroundView.tag = 30+indexPath.item;
     
     
     
@@ -407,7 +369,46 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         self.headerView.scrollView.backgroundColor = [UIColor whiteColor];
         
         
-        [self setupScrollViewImages];
+//        [self setupScrollViewImages];
+        
+        [self.promotions enumerateObjectsUsingBlock:^(PromotionModel *promotion, NSUInteger idx, BOOL *stop) {
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
+            imageView.tag = idx;
+            
+            
+            NSURL *image_url = [NSURL URLWithString:promotion.image_url];
+            
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
+                
+//                UIImageView *tempImageView = [[UIImageView alloc] init];
+//                [tempImageView sd_setImageWithURL:image_url];
+//                
+//                 UIImage *image = tempImageView.image;
+                
+                
+                
+                UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:image_url]];
+               
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    CIImage *newImage = [[CIImage alloc] initWithImage:image];
+                    CIContext *context = [CIContext contextWithOptions:nil];
+                    CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+                    
+                    imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+                });
+            });
+            
+            
+            [self.headerView.scrollView addSubview:imageView];
+        }];
+        
+        
+        
+        
+        
         self.headerView.pageControl.numberOfPages = self.promotions.count;
         
         reusableView = self.headerView;
@@ -446,6 +447,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)setupScrollViewImages {
     
+    /*
     
     for (int idx=0; idx < self.promotions.count; idx++) {
         
@@ -469,7 +471,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         [self.headerView.scrollView addSubview:imageView];
     }
     
-    /*
+    */
     
     
     [self.promotions enumerateObjectsUsingBlock:^(PromotionModel *promotion, NSUInteger idx, BOOL *stop) {
@@ -479,8 +481,15 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
        
         NSURL *image_url = [NSURL URLWithString:promotion.image_url];
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:image_url]];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            
+            UIImageView *tempImageView = [[UIImageView alloc] init];
+            [tempImageView sd_setImageWithURL:image_url];
+            
+//            UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:image_url]];
+            UIImage *image = tempImageView.image;
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 CIImage *newImage = [[CIImage alloc] initWithImage:image];
@@ -497,7 +506,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         [self.headerView.scrollView addSubview:imageView];
     }];
-    */
+
     
 }
 
@@ -660,12 +669,12 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                 
             }
             
-            for (PromotionModel *model in response.promotions) {
-                MainPromotionRealm *promotionRealm = [[MainPromotionRealm alloc] initWithMantleModel:model];
-                promotionRealm.image_data = [NSData dataWithContentsOfURL:[NSURL URLWithString:model.image_url]];
-                
-                [realm addObject:promotionRealm];
-            }
+//            for (PromotionModel *model in response.promotions) {
+//                MainPromotionRealm *promotionRealm = [[MainPromotionRealm alloc] initWithMantleModel:model];
+//                promotionRealm.image_data = [NSData dataWithContentsOfURL:[NSURL URLWithString:model.image_url]];
+//                
+//                [realm addObject:promotionRealm];
+//            }
             
             [realm commitWriteTransaction];
             
@@ -676,11 +685,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                 
                 RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
                 RLMResults *subCategories = [SubCategoryRealm allObjectsInRealm:realmMainThread];
-                RLMResults *promotions  = [MainPromotionRealm allObjectsInRealm:realmMainThread];
+//                RLMResults *promotions  = [MainPromotionRealm allObjectsInRealm:realmMainThread];
                 
                 self.categoriesArray = categories;
                 self.subCategoriesArray = subCategories;
-                self.promotions = promotions;
+//                self.promotions = promotions;
                 
                 [self.collectionView reloadData];
                 [self hideHUD];
@@ -689,11 +698,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         });
         
         
-//                [self hideHUD];
-//                self.promotions         = response.promotions;
-//        
-//                [self.collectionView reloadData];
-//                [self removeLaunchScreen];
+                [self hideHUD];
+                self.promotions         = response.promotions;
+        
+                [self.collectionView reloadData];
+                [self removeLaunchScreen];
         
     } failure:^(NSError *error) {
         // Display error

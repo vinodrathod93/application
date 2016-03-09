@@ -21,7 +21,7 @@
 
 @property (nonatomic, strong) NSMutableArray *taxonomies;
 @property (nonatomic, strong) MBProgressHUD *hud;
-@property (nonatomic, strong) NSArray *bannerImages;
+
 @property (nonatomic, strong) TaxonHeaderView *taxonHeaderView;
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -35,6 +35,7 @@
     NSURLSessionDataTask *_task;
     NSURLSessionDataTask *_searchTask;
     NSInteger _footerHeight;
+    UIActivityIndicatorView *_search_activityIndicator;
 }
 
 - (void)viewDidLoad {
@@ -48,7 +49,7 @@
     
     
     
-    self.bannerImages = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
+//    self.bannerImages = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
     
     
 }
@@ -140,13 +141,31 @@
     SearchResultsTableViewController *searchResultsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"searchResultsVC"];
 //    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:searchResultsVC];
     
+    
+    
+    
+    
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsVC];
-//    self.searchController.searchBar.delegate = self;
+    
+    [UIView transitionWithView:self.searchController.view duration:0.33 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.searchController.view.backgroundColor = [UIColor whiteColor];
+    } completion:^(BOOL finished) {
+        NSLog(@"Finished Transition");
+    }];
+    
+    
+    self.searchController.searchBar.placeholder = @"Search Product for Quick Order";
     self.searchController.searchResultsUpdater = self;
-    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.hidesNavigationBarDuringPresentation = NO;
     
-    [self presentViewController:self.searchController animated:YES completion:nil];
+    _search_activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    _search_activityIndicator.center = CGPointMake(self.searchController.view.center.x, self.searchController.view.center.y - 100);
+    
+    
+    [self.searchController.view addSubview:_search_activityIndicator];
+    
+    [self.navigationController presentViewController:self.searchController animated:YES completion:nil];
 }
 
 
@@ -167,7 +186,7 @@
                                 };
     
     
-    
+    [_search_activityIndicator startAnimating];
     
     _searchTask = [[NAPIManager sharedManager] getSearchedProductsWithData:parameter success:^(NSArray *products) {
         
@@ -177,6 +196,8 @@
         if (self.searchController.searchResultsController) {
             
             SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+            
+            [_search_activityIndicator stopAnimating];
             
             // Update searchResults
             vc.searchResults = self.searchResults;
@@ -195,6 +216,8 @@
         
         
     } failure:^(NSError *error) {
+        
+        [_search_activityIndicator stopAnimating];
         NSLog(@"Error: %@", [error localizedDescription]);
     }];
     
@@ -215,13 +238,13 @@
 
 -(void)setupScrollViewImages {
     
-    [self.bannerImages enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
+    [self.bannerImages enumerateObjectsUsingBlock:^(NSDictionary *imageData, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_taxonHeaderView.scrollView.frame) * idx, 0, CGRectGetWidth(_taxonHeaderView.scrollView.frame), CGRectGetHeight(_taxonHeaderView.scrollView.frame))];
         imageView.tag = idx;
         
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageName]]];
+            UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageData[@"image_url"]]]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 CIImage *newImage = [[CIImage alloc] initWithImage:image];

@@ -82,5 +82,16 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeSearch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Favourites</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.neediator.favourites</string>
+		</dict>
+	</array>
 </dict>
 </plist>
