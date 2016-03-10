@@ -15,5 +15,6 @@
 @property (nonatomic, copy) NSString *category_id;
 @property (nonatomic, copy) NSString *subcategory_id;
 @property (nonatomic, copy) NSString *page;
+@property (nonatomic, copy) NSString *type_id;
 
 @end

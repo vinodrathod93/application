@@ -48,19 +48,17 @@
     self.tableView.dataSource = self;
     
     
+    _footerHeight = 100;
+    self.taxonomies = [[NSMutableArray alloc] init];
     
-//    self.bannerImages = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
     
+    [self requestTaxons];
     
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    _footerHeight = 100;
-    self.taxonomies = [[NSMutableArray alloc] init];
-    
-    [self requestTaxons];
     
 }
 
@@ -73,7 +71,11 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [_task cancel];
+    if (_task) {
+        [_task cancel];
+        [self hideHUD];
+    }
+   
 }
 
 -(void)viewDidLayoutSubviews {
@@ -139,11 +141,6 @@
 -(void)popQuickOrderSearchVC {
     
     SearchResultsTableViewController *searchResultsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"searchResultsVC"];
-//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:searchResultsVC];
-    
-    
-    
-    
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsVC];
     
@@ -243,7 +240,7 @@
         imageView.tag = idx;
         
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageData[@"image_url"]]]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -263,13 +260,23 @@
 
 #pragma mark - Scroll view Delegate
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    
+//    if (scrollView == _taxonHeaderView.scrollView) {
+//        NSInteger index = _taxonHeaderView.scrollView.contentOffset.x / CGRectGetWidth(_taxonHeaderView.scrollView.frame);
+//        NSLog(@"%ld",(long)index);
+//        
+//        _taxonHeaderView.pageControl.currentPage = index;
+//    }
+//    
+//}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
     if (scrollView == _taxonHeaderView.scrollView) {
-        NSInteger index = _taxonHeaderView.scrollView.contentOffset.x / CGRectGetWidth(_taxonHeaderView.scrollView.frame);
-        NSLog(@"%ld",(long)index);
+        uint page = scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame);
         
-        _taxonHeaderView.pageControl.currentPage = index;
+        [_taxonHeaderView.pageControl setCurrentPage:page];
     }
     
 }
@@ -292,6 +299,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    NSLog(@"cellForRowAtIndexPath");
+    
     static NSString *CellIdentifier = @"storeTaxonomyCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
@@ -339,10 +349,6 @@
     }
     
     
-    
-    
-    
-    
     return cell;
 }
 
@@ -356,6 +362,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"didSelectRowAtIndexPath");
     NSLog(@"Row: %ld,selected", (long)indexPath.row);
     
     id model = self.taxonomies[indexPath.row];
@@ -440,6 +447,7 @@
 
 
 -(void)collapseCellsFromIndexOf:(TaxonomyModel *)model indexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+    NSLog(@"collapseCellsFromIndexOf");
     
     NSInteger collapseCount = [self numberOfCellsToBeCollapsed:model];
     NSRange collapseRange = NSMakeRange(indexPath.row + 1, collapseCount);
@@ -461,6 +469,8 @@
 
 
 -(void)expandCellsFromIndexOf:(TaxonomyModel *)model indexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+    
+    NSLog(@"expandCellsFromIndexOf");
     
     if (model.taxons.count > 0) {
         model.isExpanded = YES;
@@ -540,6 +550,9 @@
 
 -(NSInteger) numberOfCellsToBeCollapsed:(TaxonomyModel *) model
 {
+    
+    NSLog(@"numberOfCellsToBeCollapsed");
+    
     NSInteger total = 0;
     
     if(model.isExpanded)

@@ -86,6 +86,9 @@
     [super viewWillDisappear:animated];
     
     [_task cancel];
+    
+    [self hideHUD];
+    
     [[self.navigationController.view viewWithTag:kListingNoListingTag] removeFromSuperview];
     [self removeConnectionView];
     
@@ -403,16 +406,14 @@
 
 #pragma mark - Scroll view Delegate
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView == _bannerView.scrollView) {
         NSInteger index = _bannerView.scrollView.contentOffset.x / CGRectGetWidth(_bannerView.scrollView.frame);
         NSLog(@"%ld",(long)index);
         
         _bannerView.pageControl.currentPage = index;
     }
-    
-    
 }
 
 #pragma mark - Helper Methods
@@ -428,6 +429,7 @@
 
 -(void)hideHUD {
     [self.hud hide:YES];
+    [self.hud removeFromSuperViewOnHide];
 }
 
 
@@ -478,6 +480,7 @@
     requestModel.category_id          = self.category_id;
     requestModel.subcategory_id       = self.subcategory_id;
     requestModel.page                 = @"1";
+    requestModel.type_id              = @"";
     
     [self showHUD];
     

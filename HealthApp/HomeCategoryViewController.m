@@ -260,56 +260,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     CategoryModel *model = self.categoriesArray[indexPath.row];
-    
-//    UIView *view = [cell viewWithTag:30+indexPath.item];
-//    view.backgroundColor = [UIColor colorFromHexString:model.color_code];
-    /*
-    if (indexPath.item == 1) {
         
-        StoresViewController *storesVC  = [self.storyboard instantiateViewControllerWithIdentifier:@"storesViewController"];
-        storesVC.title = model.name;
-        storesVC.hidesBottomBarWhenPushed = YES;
-        
-        [self.navigationController pushViewController:storesVC animated:YES];
-    }
-    else if (indexPath.item == 8) {
-        ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
-        listingVC.root = @"restaurants";
-        listingVC.icon = @"restaurant_cafe";
-        [self.navigationController pushViewController:listingVC animated:YES];
-    }
-    
-    else if (indexPath.item == 10) {
-        ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
-        listingVC.root = @"desserts";
-        listingVC.icon = @"ice_cream_parlor";
-        [self.navigationController pushViewController:listingVC animated:YES];
-    }
-    else if (indexPath.item == 0) {
-        ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
-        listingVC.root = @"chemists";
-        listingVC.icon = @"chemist";
-        [self.navigationController pushViewController:listingVC animated:YES];
-    }
-    else if (indexPath.item == 2) {
-        
-        DoctorViewController *doctorsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"doctorsVC"];
-        [self.navigationController pushViewController:doctorsVC animated:YES];
-        
-    }
-    else if (indexPath.item == 3) {
-        ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
-        listingVC.root = @"hospitals";
-        listingVC.icon = @"hospital";
-        [self.navigationController pushViewController:listingVC animated:YES];
-    }
-    */
-    
-    
-    
-    
-    
-    
     
     NSMutableArray *array = [NSMutableArray array];
     for (SubCategoryModel *subcat_model in self.subCategoriesArray) {
@@ -432,15 +383,12 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 #pragma mark - Scroll view Delegate
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView == self.headerView.scrollView) {
         NSInteger index = self.headerView.scrollView.contentOffset.x / CGRectGetWidth(self.headerView.scrollView.frame);
         
         self.headerView.pageControl.currentPage = index;
     }
-    
-    
 }
 
 #pragma mark - Scroll view Methods
@@ -644,7 +592,14 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 -(void)requestCategories {
-    [self showHUD];
+    
+    
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        [self showHUD];
+    });
+    
+    
     
     /* Get Category names & Promotion Images */
     _task = [[NAPIManager sharedManager] mainCategoriesWithSuccess:^(MainCategoriesResponseModel *response) {
@@ -710,7 +665,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         self.categoriesArray = [MainCategoryRealm allObjects];
         self.subCategoriesArray = [SubCategoryRealm allObjects];
-        self.promotions      = [MainPromotionRealm allObjects];
+//        self.promotions      = [MainPromotionRealm allObjects];
         
         [self.collectionView reloadData];
         [self removeLaunchScreen];

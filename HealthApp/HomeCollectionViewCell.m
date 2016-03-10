@@ -28,13 +28,21 @@
         
         self.backgroundColor = [UIColor clearColor];
         
-        self.layer.cornerRadius = 3.f;
-        //    self.layer.masksToBounds = YES;
+        UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        backgroundView.backgroundColor = [UIColor whiteColor];
+        
+        backgroundView.layer.cornerRadius = 3.f;
+        backgroundView.layer.borderWidth = 1.0f;
+        backgroundView.layer.borderColor = [UIColor clearColor].CGColor;
+        backgroundView.layer.masksToBounds = YES;
         
         self.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.layer.shadowOpacity = 0.5;
-        self.layer.shadowRadius = 5;
-        self.layer.shadowOffset = CGSizeMake(10.f, 10.f);
+        self.layer.shadowOffset = CGSizeMake(0, 5.f);
+        self.layer.shadowOpacity = 1.0f;
+        self.layer.shadowRadius = 2.0f;
+        self.layer.masksToBounds = NO;
+        self.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:backgroundView.layer.cornerRadius].CGPath;
+        
         
         
         
@@ -47,8 +55,7 @@
         self.label.numberOfLines = 0;
         self.label.font = [UIFont fontWithName:@"AvenirNext-Medium" size:14];
         
-        UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-        backgroundView.backgroundColor = [UIColor whiteColor];
+        
         
         [backgroundView addSubview:self.imageView];
         [backgroundView addSubview:self.label];

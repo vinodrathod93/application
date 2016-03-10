@@ -88,10 +88,34 @@
 			<key>UIApplicationShortcutItemIconType</key>
 			<string>UIApplicationShortcutIconTypeSearch</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Favourites</string>
+			<string>Search</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>com.neediator.favourites</string>
 		</dict>
+        <dict>
+            <key>UIApplicationShortcutItemIconType</key>
+            <string>UIApplicationShortcutIconTypeSearch</string>
+            <key>UIApplicationShortcutItemTitle</key>
+            <string>Favourites</string>
+            <key>UIApplicationShortcutItemType</key>
+            <string>com.neediator.favourites</string>
+        </dict>
+        <dict>
+            <key>UIApplicationShortcutItemIconType</key>
+            <string>UIApplicationShortcutIconTypeSearch</string>
+            <key>UIApplicationShortcutItemTitle</key>
+            <string>Cart</string>
+            <key>UIApplicationShortcutItemType</key>
+            <string>com.neediator.favourites</string>
+        </dict>
+        <dict>
+            <key>UIApplicationShortcutItemIconType</key>
+            <string>UIApplicationShortcutIconTypeSearch</string>
+            <key>UIApplicationShortcutItemTitle</key>
+            <string>My Orders</string>
+            <key>UIApplicationShortcutItemType</key>
+            <string>com.neediator.favourites</string>
+        </dict>
 	</array>
 </dict>
 </plist>

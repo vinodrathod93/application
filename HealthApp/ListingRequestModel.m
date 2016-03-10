@@ -18,7 +18,8 @@
              @"longitude"    : @"longitude",
              @"category_id"  : @"catid",
              @"subcategory_id" : @"subcatid",
-             @"page"         : @"page"
+             @"page"         : @"page",
+             @"type_id"      : @"type_id"
              };
 }
 
