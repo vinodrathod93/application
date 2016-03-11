@@ -71,8 +71,12 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     /* Decorate Navigation Bar */
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.navigationItem.titleView    = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]];
+//    self.navigationItem.titleView    = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]];
+
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]]];
+    self.navigationItem.leftBarButtonItem = leftButton;
     
+    self.title = @"";
     
     /* Start the Location */
     Location *location = [Location savedLocation];

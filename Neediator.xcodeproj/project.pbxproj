@@ -132,6 +132,7 @@
 		82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C722FE1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */; };
 		82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */; };
+		82C8AFDF1C92D218006ED890 /* StoreTaxonHeaderViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C8AFDE1C92D218006ED890 /* StoreTaxonHeaderViewCell.m */; };
 		82C97ED01C19939C00E6ED4C /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C97ECF1C19939C00E6ED4C /* Location.m */; };
 		82CC99431C8863CA00F06EB3 /* MainPromotionRealm.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CC99421C8863CA00F06EB3 /* MainPromotionRealm.m */; };
 		82CE35DF1C159425003744C9 /* CartOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE35DE1C159425003744C9 /* CartOrderModel.m */; };
@@ -416,6 +417,8 @@
 		82C723071B7B58C800E0C5EF /* NSString+SignupValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SignupValidation.m"; sourceTree = "<group>"; };
 		82C723091B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
 		82C7230A1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
+		82C8AFDD1C92D218006ED890 /* StoreTaxonHeaderViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreTaxonHeaderViewCell.h; sourceTree = "<group>"; };
+		82C8AFDE1C92D218006ED890 /* StoreTaxonHeaderViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreTaxonHeaderViewCell.m; sourceTree = "<group>"; };
 		82C97ECE1C19939C00E6ED4C /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		82C97ECF1C19939C00E6ED4C /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		82CC99411C8863CA00F06EB3 /* MainPromotionRealm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainPromotionRealm.h; sourceTree = "<group>"; };
@@ -676,6 +679,8 @@
 		8286B2671BF0C9B900AFC533 /* Taxons */ = {
 			isa = PBXGroup;
 			children = (
+				82C8AFDD1C92D218006ED890 /* StoreTaxonHeaderViewCell.h */,
+				82C8AFDE1C92D218006ED890 /* StoreTaxonHeaderViewCell.m */,
 				826212F51BFB25BC00F75254 /* BannerView.xib */,
 				826212F71BFB25CE00F75254 /* BannerView.h */,
 				826212F81BFB25CE00F75254 /* BannerView.m */,
@@ -1811,6 +1816,7 @@
 				82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */,
 				82C36C561C81C39B0038EA5F /* NeediatorUtitity.m in Sources */,
 				82D3840C1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m in Sources */,
+				82C8AFDF1C92D218006ED890 /* StoreTaxonHeaderViewCell.m in Sources */,
 				82C3F5651C8DCD2300BA266D /* SearchResultsTableViewController.m in Sources */,
 				82C0950C1C5F614100727C25 /* LineItems+CoreDataProperties.m in Sources */,
 				82A1D3D61C562DD100E6B1D3 /* TimeSlotModel.m in Sources */,

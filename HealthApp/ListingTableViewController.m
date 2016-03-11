@@ -386,10 +386,14 @@
         
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageName]]];
+            
+            
+            UIImageView *tmpImageView = [[UIImageView alloc] init];
+            [tmpImageView sd_setImageWithURL:[NSURL URLWithString:imageName]];
+//            UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageName]]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                CIImage *newImage = [[CIImage alloc] initWithImage:image];
+                CIImage *newImage = [[CIImage alloc] initWithImage:tmpImageView.image];
                 CIContext *context = [CIContext contextWithOptions:nil];
                 CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
                 
@@ -482,7 +486,12 @@
     requestModel.page                 = @"1";
     requestModel.type_id              = @"";
     
-    [self showHUD];
+    
+    
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        [self showHUD];
+    });
     
     
     
