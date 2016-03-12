@@ -95,6 +95,7 @@
 		82A2659C1C2169B50031BDC9 /* NTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A2659B1C2169B50031BDC9 /* NTextField.m */; };
 		82A265A01C2195830031BDC9 /* MyOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */; };
 		82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A265A31C2195D00031BDC9 /* MyOrdersCell.m */; };
+		82A4F1081C94605400708E5E /* StoreOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A4F1071C94605400708E5E /* StoreOptionsView.m */; };
 		82A542831C229ECF00383253 /* MyOrdersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A542821C229ECF00383253 /* MyOrdersModel.m */; };
 		82A542861C22B00800383253 /* LineItemsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A542851C22B00800383253 /* LineItemsModel.m */; };
 		82A542891C22B3A100383253 /* VariantImagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A542881C22B3A100383253 /* VariantImagesModel.m */; };
@@ -346,6 +347,8 @@
 		82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersViewController.m; sourceTree = "<group>"; };
 		82A265A21C2195D00031BDC9 /* MyOrdersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersCell.h; sourceTree = "<group>"; };
 		82A265A31C2195D00031BDC9 /* MyOrdersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersCell.m; sourceTree = "<group>"; };
+		82A4F1061C94605400708E5E /* StoreOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreOptionsView.h; path = ../StoreOptionsView.h; sourceTree = "<group>"; };
+		82A4F1071C94605400708E5E /* StoreOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoreOptionsView.m; path = ../StoreOptionsView.m; sourceTree = "<group>"; };
 		82A542811C229ECF00383253 /* MyOrdersModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersModel.h; sourceTree = "<group>"; };
 		82A542821C229ECF00383253 /* MyOrdersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersModel.m; sourceTree = "<group>"; };
 		82A542841C22B00800383253 /* LineItemsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineItemsModel.h; sourceTree = "<group>"; };
@@ -1338,6 +1341,8 @@
 		82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				82A4F1061C94605400708E5E /* StoreOptionsView.h */,
+				82A4F1071C94605400708E5E /* StoreOptionsView.m */,
 				82E07F2D1C906A5500F6480D /* HomeCollectionViewCell.h */,
 				82E07F2E1C906A5500F6480D /* HomeCollectionViewCell.m */,
 				82EA19861C297610001EBA16 /* Connection Error */,
@@ -1895,6 +1900,7 @@
 				823B737F1C49149F00031596 /* NSessionManager.m in Sources */,
 				825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */,
 				826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */,
+				82A4F1081C94605400708E5E /* StoreOptionsView.m in Sources */,
 				82A5428D1C22BB1A00383253 /* MyOrdersResponseModel.m in Sources */,
 				823B73881C491C3800031596 /* PromotionModel.m in Sources */,
 				82CE35E41C15B7E1003744C9 /* SearchViewController.m in Sources */,

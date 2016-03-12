@@ -36,6 +36,7 @@
     NSURLSessionDataTask *_searchTask;
     NSInteger _footerHeight;
     UIActivityIndicatorView *_search_activityIndicator;
+    NSArray *_offersArray;
 }
 
 - (void)viewDidLoad {
@@ -71,10 +72,8 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    if (_task) {
-        [_task cancel];
-        [self hideHUD];
-    }
+    [_task cancel];
+    [self hideHUD];
    
 }
 
@@ -108,7 +107,7 @@
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsVC];
     
-    [UIView transitionWithView:self.searchController.view duration:0.33 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView transitionWithView:self.searchController.view duration:0.53 options:UIViewAnimationOptionTransitionFlipFromTop animations:^{
         self.searchController.view.backgroundColor = [UIColor whiteColor];
     } completion:^(BOOL finished) {
         NSLog(@"Finished Transition");
@@ -126,7 +125,7 @@
     
     [self.searchController.view addSubview:_search_activityIndicator];
     
-    [self.navigationController presentViewController:self.searchController animated:YES completion:nil];
+    [self presentViewController:self.searchController animated:YES completion:nil];
 }
 
 
@@ -203,21 +202,23 @@
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.scrollView.frame) * idx, 0, CGRectGetWidth(cell.scrollView.frame), CGRectGetHeight(cell.scrollView.frame))];
         imageView.tag = idx;
         
-            
-        UIImageView *tmpImageView = [[UIImageView alloc] init];
-        [tmpImageView sd_setImageWithURL:[NSURL URLWithString:imageData[@"image_url"]]];
+        NSURL *url  =  [NSURL URLWithString:imageData[@"image_url"]];
         
-        CIImage *newImage = [[CIImage alloc] initWithImage:tmpImageView.image];
-        CIContext *context = [CIContext contextWithOptions:nil];
-        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
         
-        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-        
-//        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-//        if (indexPath) {
-//            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//        }
-        
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            NSLog(@"Image %ld", (long)receivedSize);
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            if (image) {
+                
+                CIImage *newImage = [[CIImage alloc] initWithImage:image];
+                CIContext *context = [CIContext contextWithOptions:nil];
+                CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+                
+                imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+                
+            }
+        }];
         
         [cell.scrollView addSubview:imageView];
     }];
@@ -307,19 +308,13 @@
             cell.scrollView.frame = scrollViewFrame;
             
             
-            [self setupScrollViewImages:cell];
-            
-            
-            cell.pageControl.numberOfPages = self.bannerImages.count;
-            
-            
             /* Ratings View */
-            cell.ratingView.backgroundColor     = [UIColor whiteColor];
+            cell.ratingView.backgroundColor     = [UIColor clearColor];
             cell.ratingView.notSelectedImage    = [UIImage imageNamed:@"Star"];
             cell.ratingView.halfSelectedImage   = [UIImage imageNamed:@"Star Half Empty"];
             cell.ratingView.fullSelectedImage   = [UIImage imageNamed:@"Star Filled"];
             
-            cell.ratingView.rating              = 3.5f;
+            
             cell.ratingView.editable            = NO;
             cell.ratingView.maxRating           = 5;
             cell.ratingView.minImageSize        = CGSizeMake(10.f, 10.f);
@@ -331,6 +326,28 @@
             [cell.uploadPrescriptionButton addTarget:self action:@selector(popUploadPrescriptionVC) forControlEvents:UIControlEventTouchUpInside];
             [cell.quickOrderButton addTarget:self action:@selector(popQuickOrderSearchVC) forControlEvents:UIControlEventTouchUpInside];
         }
+        
+        
+            
+            
+            [self setupScrollViewImages:cell];
+            
+            
+            cell.pageControl.numberOfPages = self.bannerImages.count;
+            
+            
+            /* Offers View */
+            [_offersArray enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull offer, NSUInteger idx, BOOL * _Nonnull stop) {
+                
+                NSString *offerURLString = [offer valueForKey:@"ImageUrl"];
+                [cell.offersImageView sd_setImageWithURL:[NSURL URLWithString:offerURLString]];
+            }];
+        
+        
+            cell.ratingView.rating              = 3.5f;
+            
+        
+        
         
         return cell;
         
@@ -407,31 +424,39 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    UIView *header = [[UIView alloc] init];
+     UIView *header = [[UIView alloc] init];
                       
     if (section == 0) {
-        header.frame = CGRectZero;
+       
+        header.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 1.f);
         
-        return nil;
+        return header;
     }
     else {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, -8, CGRectGetWidth(self.view.frame), 30)];
+        
+        
+        header.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 40);
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, CGRectGetWidth(self.view.frame), 30)];
+        label.backgroundColor = [UIColor clearColor];
         label.text = @"Browse by Categories";
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [NeediatorUtitity mediumFontWithSize:17];
         
-        return label;
+        [header addSubview:label];
     }
+    
+    return header;
     
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return 0;
+        return 1.f;
     }
     else
-        return 35.f;
+        return 40.f;
 }
 
 
@@ -690,10 +715,14 @@
                                 };
     
     _task = [[NAPIManager sharedManager] getTaxonomiesWithRequest:parameter WithSuccess:^(TaxonomyListResponseModel *responseModel) {
+        
         [self.taxonomies addObjectsFromArray:responseModel.taxonomies];
+        
+        _offersArray = responseModel.offers;
         
         [self.tableView reloadData];
         [self hideHUD];
+        
     } failure:^(NSError *error) {
         [self hideHUD];
         

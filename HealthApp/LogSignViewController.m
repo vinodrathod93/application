@@ -164,9 +164,9 @@ typedef void(^completion)(BOOL finished);
                         NSDictionary *data = [login lastObject];
                         
                         User *user              = [[User alloc]init];
-                        user.userID             = [data valueForKey:@"Id1"];
-                        user.email              = [data valueForKey:@"Username1"];
-                        user.addresses          = [data objectForKey:@"Addreslist"];
+                        user.userID             = [data valueForKey:@"id"];
+                        user.email              = [data valueForKey:@"username"];
+                        user.addresses          = [data objectForKey:@"addreslist"];
                         
                         [user save];
                         

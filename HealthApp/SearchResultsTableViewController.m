@@ -36,9 +36,9 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.extendedLayoutIncludesOpaqueBars = NO;
-    self.automaticallyAdjustsScrollViewInsets = NO;
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.extendedLayoutIncludesOpaqueBars = NO;
+//    self.automaticallyAdjustsScrollViewInsets = NO;
     
 }
 

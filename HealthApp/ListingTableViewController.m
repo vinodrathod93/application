@@ -155,11 +155,11 @@
     cell.roundedContentView.layer.cornerRadius = 5.f;
     cell.roundedContentView.layer.masksToBounds = YES;
     
-    cell.name.text = model.name;
-    cell.street.text = model.address;
+    cell.name.text = model.name.capitalizedString;
+    cell.street.text = model.address.capitalizedString;
     cell.rating.text = [NSString stringWithFormat:@"%.01f", model.ratings.floatValue];
-    cell.distance.text = [NSString stringWithFormat:@"📍 %@",model.nearest_distance];
-    cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",model.timing];
+    cell.distance.text = [NSString stringWithFormat:@"📍 %@",[model.nearest_distance uppercaseString]];
+    cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",[model.timing uppercaseString]];
     
     cell.profileImageview.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
     cell.profileImageview.layer.cornerRadius = 5.f;
@@ -196,11 +196,11 @@
     cell.corneredView.layer.cornerRadius = 5.f;
     cell.corneredView.layer.masksToBounds = YES;
     
-    cell.name.text = model.name;
-    cell.address.text = model.address;
+    cell.name.text = model.name.capitalizedString;
+    cell.address.text = model.address.capitalizedString;
     cell.ratingLabel.text = [NSString stringWithFormat:@"%.01f", model.ratings.floatValue];
-    cell.distance.text = [NSString stringWithFormat:@"📍 %@",model.nearest_distance];
-    cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",model.timing];
+    cell.distance.text = [NSString stringWithFormat:@"📍 %@",[model.nearest_distance uppercaseString]];
+    cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",[model.timing uppercaseString]];
     
     cell.profileImageview.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
     cell.profileImageview.layer.cornerRadius = 5.f;
@@ -382,24 +382,22 @@
     [self.bannerImages enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_bannerView.scrollView.frame) * idx, 0, CGRectGetWidth(_bannerView.scrollView.frame), CGRectGetHeight(_bannerView.scrollView.frame))];
         imageView.tag = idx;
-        //        [imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+        
+        NSURL *url = [NSURL URLWithString:imageName];
         
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        
+        [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            NSLog(@"Image %ld of %ld", (long)receivedSize, (long)expectedSize);
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            CIImage *newImage = [[CIImage alloc] initWithImage:image];
+            CIContext *context = [CIContext contextWithOptions:nil];
+            CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
             
-            
-            UIImageView *tmpImageView = [[UIImageView alloc] init];
-            [tmpImageView sd_setImageWithURL:[NSURL URLWithString:imageName]];
-//            UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageName]]];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                CIImage *newImage = [[CIImage alloc] initWithImage:tmpImageView.image];
-                CIContext *context = [CIContext contextWithOptions:nil];
-                CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
-                
-                imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-            });
-        });
+            imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+        }];
+        
         
         [_bannerView.scrollView addSubview:imageView];
     }];
@@ -484,7 +482,7 @@
     requestModel.category_id          = self.category_id;
     requestModel.subcategory_id       = self.subcategory_id;
     requestModel.page                 = @"1";
-    requestModel.type_id              = @"";
+    requestModel.type_id              = @"1";
     
     
     

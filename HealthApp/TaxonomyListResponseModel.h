@@ -13,5 +13,8 @@
 @interface TaxonomyListResponseModel : MTLModel<MTLJSONSerializing>
 
 @property (nonatomic, copy) NSArray *taxonomies;
+@property (nonatomic, copy) NSArray *shopInfo;
+@property (nonatomic, copy) NSArray *offers;
+
 
 @end

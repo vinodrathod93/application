@@ -20,4 +20,10 @@
 @property (weak, nonatomic) IBOutlet RatingView *ratingView;
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *dislikeButton;
+
+@property (weak, nonatomic) IBOutlet UIView *offersView;
+@property (weak, nonatomic) IBOutlet UIImageView *offersImageView;
+
+@property (weak, nonatomic) IBOutlet UIView *optionsView;
+@property (weak, nonatomic) IBOutlet UIView *buttonContainerView;
 @end

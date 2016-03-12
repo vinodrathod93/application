@@ -92,6 +92,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
+    NSLog(@"Index of %lu SubCat. count %lu", indexPath.item, (unsigned long)self.subcategoryArray.count);
     
     SubCategoryModel *category     = self.subcategoryArray[indexPath.row];
     
@@ -103,7 +104,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(25, 10, cell.frame.size.width - (2*25.f), cell.frame.size.height - 10 - 40)];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
-    imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.subcategoryIcons[indexPath.item]]];
+    imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.subcategoryIcons[0]]];
     
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 10, cell.frame.size.width - 10.f, 40)];

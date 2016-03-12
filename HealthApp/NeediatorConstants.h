@@ -17,8 +17,8 @@ static NSString *const kAPP_ID = @"1073622324";
 
 /* Home VC */
 
-#define kHeaderViewHeight_Pad 280
-#define kHeaderViewHeight_Phone 130
+#define kHeaderViewHeight_Pad 316
+#define kHeaderViewHeight_Phone 166
 
 
 /* Stores VC */

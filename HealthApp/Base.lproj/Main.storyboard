@@ -292,10 +292,11 @@
                             <outlet property="delegate" destination="KGX-Gg-Yf0" id="Ypj-tV-Afk"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="qwP-2B-9om"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C2j-Ap-DFX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5063" y="-5497"/>
+            <point key="canvasLocation" x="5875" y="-5497"/>
         </scene>
         <!--Order Confirmation View Controller-->
         <scene sceneID="Hvu-Te-rPs">
@@ -406,7 +407,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="azT-iD-0Bd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5748.75" y="-5496.1267605633802"/>
+            <point key="canvasLocation" x="6560" y="-5497"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ryy-2Q-zeJ">
@@ -1782,12 +1783,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gL2-OW-bky">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="gL2-OW-bky">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="storeTaxonomyCell" id="5oZ-So-UJe">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="50" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5oZ-So-UJe" id="Zet-z5-x8B">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>

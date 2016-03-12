@@ -16,8 +16,12 @@
     self.uploadPrescriptionButton.layer.cornerRadius    = 5.f;
     self.quickOrderButton.layer.cornerRadius            = 5.f;
     
-    self.backgroundColor = [UIColor clearColor];
-//    self.buttonsContainerView.backgroundColor = [UIColor clearColor];
+    self.contentView.backgroundColor = [UIColor clearColor];
+    
+    self.offersView.backgroundColor = [UIColor clearColor];
+    self.optionsView.backgroundColor = [UIColor clearColor];
+    self.buttonContainerView.backgroundColor = [UIColor clearColor];
+
     
     
     self.uploadPrescriptionButton.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -32,6 +36,10 @@
     self.quickOrderButton.layer.shadowOpacity = 0.5;
     self.quickOrderButton.layer.shadowRadius = 1.5;
     self.quickOrderButton.layer.shadowOffset = CGSizeMake(3.f, 3.f);
+    
+    
+    [self.likeButton addTarget:self action:@selector(likePressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.dislikeButton addTarget:self action:@selector(dislikePressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -43,6 +51,48 @@
 -(void)layoutSubviews {
     [super layoutSubviews];
     
+    
+}
+
+
+-(void)dislikePressed:(UIButton *)sender {
+    
+    if (!self.likeButton.isSelected) {
+        sender.selected = !sender.selected;
+        
+        if (sender.isSelected) {
+            [sender setImage:[UIImage imageNamed:@"disliked"] forState:UIControlStateNormal];
+        }
+        else
+            [sender setImage:[UIImage imageNamed:@"dislike"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        self.likeButton.selected = NO;
+        [self.likeButton setImage:[UIImage imageNamed:@"like"] forState:UIControlStateNormal];
+    }
+    
+    
+    
+    
+}
+
+-(void)likePressed:(UIButton *)sender {
+    
+    if (!self.dislikeButton.isSelected) {
+        sender.selected = !sender.selected;
+        
+        if (sender.isSelected) {
+            [sender setImage:[UIImage imageNamed:@"liked"] forState:UIControlStateNormal];
+        }
+        else
+            [sender setImage:[UIImage imageNamed:@"like"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        self.dislikeButton.selected = NO;
+        [self.dislikeButton setImage:[UIImage imageNamed:@"dislike"] forState:UIControlStateNormal];
+    }
     
 }
 

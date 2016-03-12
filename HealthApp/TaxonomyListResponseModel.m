@@ -12,7 +12,9 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"taxonomies" : @"Taxonomy"
+             @"taxonomies" : @"Taxonomy",
+             @"shopInfo"   : @"shopinfo",
+             @"offers"     : @"Offers"
              };
 }
 
@@ -26,6 +28,9 @@
     self = [super initWithDictionary:dictionaryValue error:error];
     
     if (self == nil) return nil;
+    
+    NSLog(@"%@", self.offers);
+    NSLog(@"%@", self.shopInfo);
     
     NSLog(@"%@", dictionaryValue);
     
