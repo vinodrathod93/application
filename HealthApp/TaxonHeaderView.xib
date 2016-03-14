@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -12,11 +12,12 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="250"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="geg-v7-DAa" id="7c9-GV-Ncx">
-                <rect key="frame" x="0.0" y="0.0" width="600" height="249"/>
+                <rect key="frame" x="0.0" y="0.0" width="600" height="249.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lvz-FQ-Q0Z">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="217" id="4Bs-aa-HF6"/>
                         </constraints>
@@ -28,6 +29,7 @@
                     </scrollView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AUA-nY-PlK" userLabel="Blur View">
                         <rect key="frame" x="0.0" y="180" width="600" height="20"/>
+                        <animations/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="XGg-6G-NON"/>
@@ -35,14 +37,17 @@
                     </view>
                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="qAa-qJ-npV">
                         <rect key="frame" x="280" y="172" width="39" height="37"/>
+                        <animations/>
                     </pageControl>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CEL-hP-nrR" userLabel="Offers View">
                         <rect key="frame" x="0.0" y="200" width="600" height="50"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u6Q-6q-Q08">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                <animations/>
                             </imageView>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="Ri4-GG-Hbk"/>
@@ -53,6 +58,7 @@
                         </constraints>
                     </view>
                 </subviews>
+                <animations/>
                 <color key="backgroundColor" white="0.66666666666666663" alpha="0.35319890202702703" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="qAa-qJ-npV" firstAttribute="centerX" secondItem="7c9-GV-Ncx" secondAttribute="centerX" id="6Nb-aT-6FB"/>
@@ -69,52 +75,14 @@
                     <constraint firstItem="AUA-nY-PlK" firstAttribute="bottom" secondItem="Lvz-FQ-Q0Z" secondAttribute="bottom" id="uoZ-Uy-eZb"/>
                 </constraints>
             </tableViewCellContentView>
+            <animations/>
             <connections>
-                <outlet property="buttonContainerView" destination="sYM-GE-mrf" id="qyM-GG-weC"/>
                 <outlet property="offersImageView" destination="u6Q-6q-Q08" id="2kE-mY-YVD"/>
                 <outlet property="offersView" destination="CEL-hP-nrR" id="pvS-iQ-0PG"/>
                 <outlet property="pageControl" destination="qAa-qJ-npV" id="x9q-Io-Q0J"/>
-                <outlet property="quickOrderButton" destination="aFc-v8-M0n" id="0Re-cy-W9L"/>
                 <outlet property="scrollView" destination="Lvz-FQ-Q0Z" id="6kR-R8-5CM"/>
-                <outlet property="uploadPrescriptionButton" destination="cxj-mg-zGg" id="lpg-Af-cOD"/>
             </connections>
             <point key="canvasLocation" x="268" y="266"/>
         </tableViewCell>
-        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sYM-GE-mrf" userLabel="Buttons ContainerView">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="75"/>
-            <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cxj-mg-zGg">
-                    <rect key="frame" x="15" y="15" width="278" height="45"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="45" id="zHm-TV-aQy"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
-                    <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
-                    <state key="normal" title="Upload Prescription"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFc-v8-M0n">
-                    <rect key="frame" x="308" y="15" width="277" height="45"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="45" id="dpu-kL-awc"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
-                    <state key="normal" title="Quick Order"/>
-                </button>
-            </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstAttribute="trailing" secondItem="aFc-v8-M0n" secondAttribute="trailing" constant="15" id="QJM-PO-PRe"/>
-                <constraint firstItem="aFc-v8-M0n" firstAttribute="leading" secondItem="cxj-mg-zGg" secondAttribute="trailing" constant="15" id="Yq2-hv-qKB"/>
-                <constraint firstAttribute="height" constant="75" id="ZL4-2b-ZFD"/>
-                <constraint firstItem="aFc-v8-M0n" firstAttribute="width" secondItem="cxj-mg-zGg" secondAttribute="width" id="cpc-ne-34W"/>
-                <constraint firstItem="cxj-mg-zGg" firstAttribute="leading" secondItem="sYM-GE-mrf" secondAttribute="leading" constant="15" id="i6L-9y-jhg"/>
-                <constraint firstItem="aFc-v8-M0n" firstAttribute="centerY" secondItem="sYM-GE-mrf" secondAttribute="centerY" id="ne3-fQ-1yS"/>
-                <constraint firstItem="cxj-mg-zGg" firstAttribute="centerY" secondItem="sYM-GE-mrf" secondAttribute="centerY" id="uNR-bf-SWs"/>
-            </constraints>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="412" y="563.5"/>
-        </view>
     </objects>
 </document>

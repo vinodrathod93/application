@@ -13,12 +13,15 @@
 - (void)awakeFromNib {
     // Initialization code
     
+    
+    self.contentView.backgroundColor = [UIColor clearColor];
+    self.offersView.backgroundColor = [UIColor clearColor];
+    
+    /*
     self.uploadPrescriptionButton.layer.cornerRadius    = 5.f;
     self.quickOrderButton.layer.cornerRadius            = 5.f;
     
-    self.contentView.backgroundColor = [UIColor clearColor];
     
-    self.offersView.backgroundColor = [UIColor clearColor];
     self.optionsView.backgroundColor = [UIColor clearColor];
     self.buttonContainerView.backgroundColor = [UIColor clearColor];
 
@@ -40,6 +43,8 @@
     
     [self.likeButton addTarget:self action:@selector(likePressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.dislikeButton addTarget:self action:@selector(dislikePressed:) forControlEvents:UIControlEventTouchUpInside];
+     
+    */
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

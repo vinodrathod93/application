@@ -21,9 +21,16 @@
 #import "UploadPrescriptionCellView.h"
 
 
-#define kTaxonTaxonomySection 2;
+
 #define kImageViewSection 0;
 #define kUploadPrescriptionSection 1
+#define kTaxonTaxonomySection 2;
+
+typedef NS_ENUM(uint16_t, sections) {
+    ImageViewSection = 0,
+    UploadPrescriptionSetion,
+    TaxonTaxonomySection,
+};
 
 @interface StoreTaxonsViewController ()<UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
@@ -205,22 +212,31 @@
         imageView.tag = idx;
         
         NSURL *url  =  [NSURL URLWithString:imageData[@"image_url"]];
+        NSLog(@"%@",imageData[@"image_url"]);
         
         
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-            NSLog(@"Image %ld", (long)receivedSize);
-        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-            if (image) {
+         NSLog(@"Start Manager");
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                NSLog(@"Image %ld", (long)receivedSize);
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                if (image) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        CIImage *newImage = [[CIImage alloc] initWithImage:image];
+                        CIContext *context = [CIContext contextWithOptions:nil];
+                        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+                        
+                        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+                    });
                 
-                CIImage *newImage = [[CIImage alloc] initWithImage:image];
-                CIContext *context = [CIContext contextWithOptions:nil];
-                CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
-                
-                imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-                
-            }
-        }];
+                    
+                }
+            }];
+        });
+        
         
         [cell.scrollView addSubview:imageView];
     }];
@@ -266,10 +282,10 @@
 {
     NSLog(@"numberOfRowsInSection");
     
-    if (section == 0) {
+    if (section == ImageViewSection) {
         return 1;
     }
-    else if (section == 2)
+    else if (section == TaxonTaxonomySection)
         return [self.taxonomies count];
     else
         return 0;
@@ -284,7 +300,7 @@
     static NSString *CellIdentifier = @"storeTaxonomyCell";
     
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == ImageViewSection) {
         // Taxon Header
         StoreTaxonHeaderViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storeTaxonInfoCell"];
         
@@ -313,7 +329,7 @@
             cell.scrollView.frame = scrollViewFrame;
             
             
-            
+            [self setupScrollViewImages:cell];
             
             
             /* Upload Prs & Quick Order */
@@ -324,7 +340,7 @@
         
             
             
-            [self setupScrollViewImages:cell];
+        
             
             
             cell.pageControl.numberOfPages = self.bannerImages.count;
@@ -346,7 +362,7 @@
         return cell;
         
     }
-    else if (indexPath.section == 2) {
+    else if (indexPath.section == TaxonTaxonomySection) {
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
@@ -410,10 +426,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == ImageViewSection) {
         return 250.f;
     }
-    else if (indexPath.section == 2)
+    else if (indexPath.section == TaxonTaxonomySection)
         return 50.0f;
     else
         return 0.0f;
@@ -427,7 +443,7 @@
     
      UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
                       
-    if (section == 0) {
+    if (section == ImageViewSection) {
        
         /* Load Ratings, Like - Dislike View */
         
@@ -441,7 +457,7 @@
         return storeReviewsView;
         
     }
-    else if (section == 2) {
+    else if (section == TaxonTaxonomySection) {
         
         
         
@@ -464,10 +480,10 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section == ImageViewSection) {
         return 35.f;
     }
-    else if (section == 2)
+    else if (section == TaxonTaxonomySection)
         return 65.f;
     else
         return 80;
@@ -483,7 +499,7 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
-    if (section == 1) {
+    if (section == TaxonTaxonomySection) {
         if (_footerHeight > 0) {
             return [self getHudView];
         }
@@ -515,7 +531,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
-    if (section == 1) {
+    if (section == TaxonTaxonomySection) {
         return _footerHeight;
     }
 //    else if (section == 1)
@@ -534,7 +550,7 @@
     NSLog(@"didSelectRowAtIndexPath");
     NSLog(@"Row: %ld,selected", (long)indexPath.row);
     
-    if (indexPath.section == 1) {
+    if (indexPath.section == TaxonTaxonomySection) {
         
         id model = self.taxonomies[indexPath.row];
         
@@ -593,7 +609,7 @@
 -(void)collapseCellsFromIndexOf:(TaxonomyModel *)model indexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     NSLog(@"collapseCellsFromIndexOf");
     
-    if (indexPath.section == 1) {
+    if (indexPath.section == TaxonTaxonomySection) {
         
         NSInteger collapseCount = [self numberOfCellsToBeCollapsed:model];
         NSRange collapseRange = NSMakeRange(indexPath.row + 1, collapseCount);
@@ -620,7 +636,7 @@
     
     NSLog(@"expandCellsFromIndexOf");
     
-    if (indexPath.section == 1) {
+    if (indexPath.section == TaxonTaxonomySection) {
         if (model.taxons.count > 0) {
             model.isExpanded = YES;
             
@@ -640,7 +656,7 @@
             
             [tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
             
-            [tableView scrollToRowAtIndexPath:indexPaths[0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+            [tableView scrollToRowAtIndexPath:indexPaths[0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         }
     }
     

@@ -13,6 +13,11 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+
+@property (weak, nonatomic) IBOutlet UIView *offersView;
+@property (weak, nonatomic) IBOutlet UIImageView *offersImageView;
+
+
 @property (weak, nonatomic) IBOutlet UIButton *uploadPrescriptionButton;
 @property (weak, nonatomic) IBOutlet UIButton *quickOrderButton;
 
@@ -21,8 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *dislikeButton;
 
-@property (weak, nonatomic) IBOutlet UIView *offersView;
-@property (weak, nonatomic) IBOutlet UIImageView *offersImageView;
+
 
 @property (weak, nonatomic) IBOutlet UIView *optionsView;
 @property (weak, nonatomic) IBOutlet UIView *buttonContainerView;
