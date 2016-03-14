@@ -16,13 +16,19 @@
 #import "StoreTaxonHeaderViewCell.h"
 #import "UploadPrescriptionViewController.h"
 #import "SearchResultsTableViewController.h"
+#import "StoreReviewsView.h"
+#import "StoreOptionsView.h"
+#import "UploadPrescriptionCellView.h"
+
+
+#define kTaxonTaxonomySection 2;
+#define kImageViewSection 0;
+#define kUploadPrescriptionSection 1
 
 @interface StoreTaxonsViewController ()<UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
 @property (nonatomic, strong) NSMutableArray *taxonomies;
 @property (nonatomic, strong) MBProgressHUD *hud;
-
-//@property (nonatomic, strong) StoreTaxonHeaderViewCell *storeTaxonHeaderViewCell;
 
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSMutableArray *searchResults;
@@ -72,7 +78,7 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [_task cancel];
+    [_task suspend];
     [self hideHUD];
    
 }
@@ -185,18 +191,14 @@
 
 
 
-//-(void)willDismissSearchController:(UISearchController *)searchController {
-//    self.tabBarController.tabBar.hidden = NO;
-//}
 
-//-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-//    self.tabBarController.tabBar.hidden = NO;
-//}
 
 
 #pragma mark - Scroll view Methods
 
 -(void)setupScrollViewImages:(StoreTaxonHeaderViewCell *)cell {
+    
+    NSLog(@"setupScrollViewImages");
     
     [self.bannerImages enumerateObjectsUsingBlock:^(NSDictionary *imageData, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.scrollView.frame) * idx, 0, CGRectGetWidth(cell.scrollView.frame), CGRectGetHeight(cell.scrollView.frame))];
@@ -252,22 +254,25 @@
     
 }
 
+#pragma mark
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%lu", (unsigned long)self.taxonomies.count);
+    NSLog(@"numberOfRowsInSection");
     
     if (section == 0) {
         return 1;
     }
-    else
+    else if (section == 2)
         return [self.taxonomies count];
+    else
+        return 0;
 }
 
 
@@ -284,7 +289,7 @@
         StoreTaxonHeaderViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storeTaxonInfoCell"];
         
         if (!cell) {
-            cell = [[[NSBundle mainBundle] loadNibNamed:@"TaxonHeaderView" owner:self options:nil] lastObject];
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"TaxonHeaderView" owner:self options:nil] firstObject];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             CGRect frame;
@@ -308,18 +313,7 @@
             cell.scrollView.frame = scrollViewFrame;
             
             
-            /* Ratings View */
-            cell.ratingView.backgroundColor     = [UIColor clearColor];
-            cell.ratingView.notSelectedImage    = [UIImage imageNamed:@"Star"];
-            cell.ratingView.halfSelectedImage   = [UIImage imageNamed:@"Star Half Empty"];
-            cell.ratingView.fullSelectedImage   = [UIImage imageNamed:@"Star Filled"];
             
-            
-            cell.ratingView.editable            = NO;
-            cell.ratingView.maxRating           = 5;
-            cell.ratingView.minImageSize        = CGSizeMake(10.f, 10.f);
-            cell.ratingView.midMargin           = 0.f;
-            cell.ratingView.leftMargin          = 0.f;
             
             
             /* Upload Prs & Quick Order */
@@ -344,7 +338,7 @@
             }];
         
         
-            cell.ratingView.rating              = 3.5f;
+        
             
         
         
@@ -352,7 +346,7 @@
         return cell;
         
     }
-    else {
+    else if (indexPath.section == 2) {
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
@@ -401,6 +395,8 @@
         
         return cell;
     }
+    else
+        return nil;
     
     
     
@@ -415,35 +411,51 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return 400.f;
+        return 250.f;
     }
-    else
+    else if (indexPath.section == 2)
         return 50.0f;
+    else
+        return 0.0f;
 }
 
 
+
+#pragma mark - Header View
+
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-     UIView *header = [[UIView alloc] init];
+     UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
                       
     if (section == 0) {
        
-        header.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 1.f);
+        /* Load Ratings, Like - Dislike View */
         
-        return header;
+        
+        StoreReviewsView *storeReviewsView = [[[NSBundle mainBundle] loadNibNamed:@"StoreReviewsView" owner:self options:nil] lastObject];
+        storeReviewsView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 35);
+        
+        storeReviewsView.ratingView.rating              = 3.5f;
+        
+        
+        return storeReviewsView;
+        
     }
-    else {
+    else if (section == 2) {
         
         
-        header.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 40);
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, CGRectGetWidth(self.view.frame), 30)];
-        label.backgroundColor = [UIColor clearColor];
-        label.text = @"Browse by Categories";
-        label.textAlignment = NSTextAlignmentCenter;
-        label.font = [NeediatorUtitity mediumFontWithSize:17];
+        StoreOptionsView *storeOptionView = [[[NSBundle mainBundle] loadNibNamed:@"StoreOptionsView" owner:self options:nil] lastObject];
+        storeOptionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 65);
+//        storeOptionView.backgroundColor = [UIColor lightGrayColor];
         
-        [header addSubview:label];
+        return storeOptionView;
+        
+    }
+    else if (section == 1) {
+        UploadPrescriptionCellView *cell =  [[[NSBundle mainBundle] loadNibNamed:@"UploadPrescriptionCellView" owner:self options:nil] lastObject];
+        
+        return cell;
     }
     
     return header;
@@ -453,12 +465,68 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return 1.f;
+        return 35.f;
     }
+    else if (section == 2)
+        return 65.f;
     else
-        return 40.f;
+        return 80;
 }
 
+
+
+
+
+
+
+#pragma mark - Footer View
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    if (section == 1) {
+        if (_footerHeight > 0) {
+            return [self getHudView];
+        }
+        else
+            return nil;
+    }
+//    else if (section == 1) {
+//        
+//        UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
+//        footer.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 40);
+//        
+//        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, CGRectGetWidth(self.view.frame), 30)];
+//        label.backgroundColor = [UIColor clearColor];
+//        label.text = @"Browse by Categories";
+//        label.textAlignment = NSTextAlignmentCenter;
+//        label.font = [NeediatorUtitity mediumFontWithSize:17];
+//        
+//        [footer addSubview:label];
+//        
+//        
+//        return footer;
+//    }
+    else
+        return nil;
+}
+
+
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    
+    if (section == 1) {
+        return _footerHeight;
+    }
+//    else if (section == 1)
+//        return 40.f;
+    else
+        return 0;
+    
+}
+
+
+#pragma mark - UITableViewDelegate
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -522,49 +590,6 @@
     
 }
 
-
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    
-//    return [self layoutBannerHeaderView];
-//}
-
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    
-    if (section == 1) {
-        if (_footerHeight > 0) {
-            return [self getHudView];
-        }
-        else
-            return nil;
-    }
-    else
-        return nil;
-    
-    
-    
-}
-
-
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-//        return kTaxonHeaderViewHeight_Pad + 10;
-//    }
-//    else
-//        return kTaxonHeaderViewHeight_Phone + 10;
-//}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    
-    if (section == 1) {
-        return _footerHeight;
-    }
-    else
-        return 0;
-    
-}
-
-
 -(void)collapseCellsFromIndexOf:(TaxonomyModel *)model indexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     NSLog(@"collapseCellsFromIndexOf");
     
@@ -585,7 +610,6 @@
         [tableView deleteRowsAtIndexPaths:indexPaths
                          withRowAnimation:UITableViewRowAnimationTop];
     }
-    
     
     
 }
@@ -631,6 +655,7 @@
 
 
 
+#pragma mark
 #pragma mark - Private Methods
 
 
@@ -707,6 +732,9 @@
 
 
 -(void)requestTaxons {
+    
+    NSLog(@"requestTaxons");
+    
     NSDictionary *parameter = @{
                                 
                                 @"catId" : self.cat_id,
@@ -716,6 +744,8 @@
     
     _task = [[NAPIManager sharedManager] getTaxonomiesWithRequest:parameter WithSuccess:^(TaxonomyListResponseModel *responseModel) {
         
+        NSLog(@"Success");
+        
         [self.taxonomies addObjectsFromArray:responseModel.taxonomies];
         
         _offersArray = responseModel.offers;
@@ -724,6 +754,8 @@
         [self hideHUD];
         
     } failure:^(NSError *error) {
+        
+        NSLog(@"Failure");
         [self hideHUD];
         
         UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];

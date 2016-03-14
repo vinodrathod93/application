@@ -123,17 +123,17 @@
     NSString *cellIdentifier;
     id cell;
     
-    if (model.isBook == [NSNumber numberWithBool:YES] || model.isCall == [NSNumber numberWithBool:YES]) {
-        _isBooking      = YES;
-        cellIdentifier  = @"BookCallCellIdentifier";
-        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-        [self configureBookCallCell:cell withModel:model];
-    }
-    else {
+//    if (model.isBook == [NSNumber numberWithBool:YES] || model.isCall == [NSNumber numberWithBool:YES]) {
+//        _isBooking      = YES;
+//        cellIdentifier  = @"BookCallCellIdentifier";
+//        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+//        [self configureBookCallCell:cell withModel:model];
+//    }
+//    else {
         cellIdentifier = @"listingCellIdentifier";
         cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         [self configureListingCell:cell withModel:model];
-    }
+//    }
     
     
     
@@ -337,6 +337,23 @@
 //}
 
 
+-(void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewCell *cell  =[tableView cellForRowAtIndexPath:indexPath];
+    
+    UIView *view = cell.contentView;
+    view.backgroundColor = [UIColor colorWithRed:244/255.f green:237/255.f blue:7/255.f alpha:1.0];
+    
+}
+
+-(void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    UIView *view = [cell contentView];
+    view.backgroundColor = [UIColor clearColor];
+}
+
+
 -(UIView *)layoutBannerHeaderView {
     _bannerView = [[[NSBundle mainBundle] loadNibNamed:@"BannerView" owner:self options:nil] lastObject];
     
@@ -366,8 +383,6 @@
     
     
     _bannerView.pageControl.numberOfPages = self.bannerImages.count;
-    
-    
     
     
     

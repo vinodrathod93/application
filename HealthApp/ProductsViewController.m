@@ -54,6 +54,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sort" style:UIBarButtonItemStylePlain target:self action:@selector(displaySortingSheet)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAddedToCart) name:@"addedToCartNotification" object:nil];
 
@@ -87,6 +88,38 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     }];
     
 }
+
+
+
+-(void)displaySortingSheet {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Sort" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *name = [UIAlertAction actionWithTitle:@"Name" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Sort by name");
+    }];
+    UIAlertAction *distance = [UIAlertAction actionWithTitle:@"Distance" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Sort by distance");
+    }];
+    UIAlertAction *rating = [UIAlertAction actionWithTitle:@"Rating" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Sort by ratings");
+    }];
+    UIAlertAction *likes = [UIAlertAction actionWithTitle:@"Likes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Sort by like");
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Cancel");
+    }];
+    
+    [controller addAction:name];
+    [controller addAction:distance];
+    [controller addAction:rating];
+    [controller addAction:likes];
+    [controller addAction:cancel];
+    
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
 
 -(void)displaySearchBar {
     

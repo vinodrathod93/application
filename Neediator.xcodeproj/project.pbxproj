@@ -15,6 +15,11 @@
 		82147FCD1C452CD000D6691E /* RestaurantResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FCC1C452CD000D6691E /* RestaurantResponseModel.m */; };
 		82147FD31C452DB500D6691E /* ListingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FD21C452DB500D6691E /* ListingTableViewController.m */; };
 		82147FD61C452E7D00D6691E /* ListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FD51C452E7D00D6691E /* ListingCell.m */; };
+		82217C441C96B162002570E3 /* StoreReviewsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82217C431C96B162002570E3 /* StoreReviewsView.m */; };
+		82217C461C96CE50002570E3 /* StoreReviewsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82217C451C96CE50002570E3 /* StoreReviewsView.xib */; };
+		82217C481C96D4FA002570E3 /* StoreOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82217C471C96D4FA002570E3 /* StoreOptionsView.xib */; };
+		82217C4A1C96E293002570E3 /* UploadPrescriptionCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82217C491C96E293002570E3 /* UploadPrescriptionCellView.xib */; };
+		82217C4D1C96E2B4002570E3 /* UploadPrescriptionCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82217C4C1C96E2B4002570E3 /* UploadPrescriptionCellView.m */; };
 		8230D4571C11686400F585D1 /* NavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8230D4561C11686400F585D1 /* NavigationViewController.m */; };
 		82327F6E1B60B0EB00D92889 /* DetailProductViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F6D1B60B0EB00D92889 /* DetailProductViewModel.m */; };
 		82327F741B60C86B00D92889 /* CartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F731B60C86B00D92889 /* CartViewController.m */; };
@@ -197,6 +202,13 @@
 		82147FD21C452DB500D6691E /* ListingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingTableViewController.m; sourceTree = "<group>"; };
 		82147FD41C452E7D00D6691E /* ListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingCell.h; sourceTree = "<group>"; };
 		82147FD51C452E7D00D6691E /* ListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingCell.m; sourceTree = "<group>"; };
+		82217C421C96B162002570E3 /* StoreReviewsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreReviewsView.h; sourceTree = "<group>"; };
+		82217C431C96B162002570E3 /* StoreReviewsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreReviewsView.m; sourceTree = "<group>"; };
+		82217C451C96CE50002570E3 /* StoreReviewsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreReviewsView.xib; sourceTree = "<group>"; };
+		82217C471C96D4FA002570E3 /* StoreOptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreOptionsView.xib; sourceTree = "<group>"; };
+		82217C491C96E293002570E3 /* UploadPrescriptionCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UploadPrescriptionCellView.xib; sourceTree = "<group>"; };
+		82217C4B1C96E2B4002570E3 /* UploadPrescriptionCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadPrescriptionCellView.h; sourceTree = "<group>"; };
+		82217C4C1C96E2B4002570E3 /* UploadPrescriptionCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadPrescriptionCellView.m; sourceTree = "<group>"; };
 		8230D4551C11686400F585D1 /* NavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationViewController.h; sourceTree = "<group>"; };
 		8230D4561C11686400F585D1 /* NavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationViewController.m; sourceTree = "<group>"; };
 		82327F6C1B60B0EB00D92889 /* DetailProductViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailProductViewModel.h; sourceTree = "<group>"; };
@@ -1341,10 +1353,17 @@
 		82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				82217C421C96B162002570E3 /* StoreReviewsView.h */,
+				82217C431C96B162002570E3 /* StoreReviewsView.m */,
+				82217C451C96CE50002570E3 /* StoreReviewsView.xib */,
 				82A4F1061C94605400708E5E /* StoreOptionsView.h */,
 				82A4F1071C94605400708E5E /* StoreOptionsView.m */,
+				82217C471C96D4FA002570E3 /* StoreOptionsView.xib */,
 				82E07F2D1C906A5500F6480D /* HomeCollectionViewCell.h */,
 				82E07F2E1C906A5500F6480D /* HomeCollectionViewCell.m */,
+				82217C4B1C96E2B4002570E3 /* UploadPrescriptionCellView.h */,
+				82217C4C1C96E2B4002570E3 /* UploadPrescriptionCellView.m */,
+				82217C491C96E293002570E3 /* UploadPrescriptionCellView.xib */,
 				82EA19861C297610001EBA16 /* Connection Error */,
 				82FB52091C281B0800E19626 /* Login View */,
 				82A265A11C2195B10031BDC9 /* My Orders */,
@@ -1719,8 +1738,11 @@
 				82FB520E1C281B3300E19626 /* LoginView.xib in Resources */,
 				82BD02971B46A73C00108A0B /* Main.storyboard in Resources */,
 				82C36C5B1C81DA900038EA5F /* TaxonHeaderView.xib in Resources */,
+				82217C481C96D4FA002570E3 /* StoreOptionsView.xib in Resources */,
+				82217C461C96CE50002570E3 /* StoreReviewsView.xib in Resources */,
 				82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */,
 				82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */,
+				82217C4A1C96E293002570E3 /* UploadPrescriptionCellView.xib in Resources */,
 				82BD02991B46A73C00108A0B /* Images.xcassets in Resources */,
 				826B14281BC2906800B6A1C3 /* OrderReviewFooterView.xib in Resources */,
 				82EA19881C297639001EBA16 /* NoConnectionView.xib in Resources */,
@@ -1850,6 +1872,8 @@
 				823C46A91B73327600E37DBE /* DoctorDetailsViewCell.m in Sources */,
 				823B738B1C4920EA00031596 /* MainCategoriesResponseModel.m in Sources */,
 				82F856D41C80833B000B68A9 /* StatesModel.m in Sources */,
+				82217C4D1C96E2B4002570E3 /* UploadPrescriptionCellView.m in Sources */,
+				82217C441C96B162002570E3 /* StoreReviewsView.m in Sources */,
 				82ED53DF1C4FAFC500FA7707 /* NEntityDetailViewController.m in Sources */,
 				82C095091C5F614100727C25 /* AddToCart.m in Sources */,
 				82C722FC1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m in Sources */,
