@@ -60,6 +60,7 @@ typedef NS_ENUM(uint16_t, sections) {
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.backgroundColor = [NeediatorUtitity defaultColor];
     
     
     _footerHeight = 100;
@@ -306,7 +307,7 @@ typedef NS_ENUM(uint16_t, sections) {
         
         if (!cell) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"TaxonHeaderView" owner:self options:nil] firstObject];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
             
             CGRect frame;
             
@@ -427,7 +428,7 @@ typedef NS_ENUM(uint16_t, sections) {
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == ImageViewSection) {
-        return 250.f;
+        return 200.f;
     }
     else if (indexPath.section == TaxonTaxonomySection)
         return 50.0f;

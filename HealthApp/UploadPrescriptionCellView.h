@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *uploadPrpButton;
 @property (weak, nonatomic) IBOutlet UIButton *quickOrderButton;
 
+@property (weak, nonatomic) IBOutlet UIView *uploadPrsView;
+@property (weak, nonatomic) IBOutlet UIView *quickOrderView;
 @end

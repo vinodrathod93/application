@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,44 +12,131 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="4BT-px-c8f">
-                    <rect key="frame" x="31" y="9" width="292" height="62"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KM6-U7-yuC">
+                    <rect key="frame" x="8" y="4" width="288" height="73"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="4BT-px-c8f">
+                            <rect key="frame" x="120" y="0.0" width="48" height="48"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="48" id="BHF-bi-Vwm"/>
+                                <constraint firstAttribute="height" constant="48" id="KLa-R4-iJg"/>
+                                <constraint firstAttribute="height" constant="62" id="UP1-cn-jJa"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
+                            <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
+                            <inset key="titleEdgeInsets" minX="-16" minY="47" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" image="uploadPrs">
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="UP1-cn-jJa"/>
+                                </mask>
+                            </variation>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upload Prescription" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaQ-ay-iG3">
+                            <rect key="frame" x="8" y="45" width="272" height="28"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="28" id="GE1-YO-NWP"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.82187105429292928" green="0.82187105429292928" blue="0.82187105429292928" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="62" id="UP1-cn-jJa"/>
+                        <constraint firstAttribute="bottom" secondItem="SaQ-ay-iG3" secondAttribute="bottom" constant="2" id="4B3-lD-nEr"/>
+                        <constraint firstItem="4BT-px-c8f" firstAttribute="centerX" secondItem="KM6-U7-yuC" secondAttribute="centerX" id="G8T-75-4pq"/>
+                        <constraint firstItem="SaQ-ay-iG3" firstAttribute="centerX" secondItem="4BT-px-c8f" secondAttribute="centerX" id="JkW-mw-tiK"/>
+                        <constraint firstAttribute="bottom" secondItem="SaQ-ay-iG3" secondAttribute="bottom" id="KgR-Kc-DGQ"/>
+                        <constraint firstItem="SaQ-ay-iG3" firstAttribute="leading" secondItem="KM6-U7-yuC" secondAttribute="leading" constant="8" id="Nze-rl-snP"/>
+                        <constraint firstItem="SaQ-ay-iG3" firstAttribute="top" secondItem="4BT-px-c8f" secondAttribute="bottom" constant="3" id="PCl-to-USD"/>
+                        <constraint firstAttribute="width" constant="150" id="ZPY-YB-aTr"/>
+                        <constraint firstItem="SaQ-ay-iG3" firstAttribute="leading" secondItem="KM6-U7-yuC" secondAttribute="leading" constant="16" id="cMQ-6e-W4B"/>
+                        <constraint firstAttribute="height" constant="73" id="gCI-X8-zBp"/>
+                        <constraint firstItem="SaQ-ay-iG3" firstAttribute="centerX" secondItem="KM6-U7-yuC" secondAttribute="centerX" id="ist-Bs-qId"/>
+                        <constraint firstItem="4BT-px-c8f" firstAttribute="top" secondItem="KM6-U7-yuC" secondAttribute="top" id="wxL-9i-3xM"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
-                    <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
-                    <inset key="titleEdgeInsets" minX="-16" minY="47" maxX="0.0" maxY="0.0"/>
-                    <inset key="imageEdgeInsets" minX="120" minY="-10" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="Upload Prescription" image="uploadPrs">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="93a-GJ-zaJ">
-                    <rect key="frame" x="402" y="9" width="116" height="62"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="ZPY-YB-aTr"/>
+                            <exclude reference="4B3-lD-nEr"/>
+                            <exclude reference="JkW-mw-tiK"/>
+                            <exclude reference="PCl-to-USD"/>
+                            <exclude reference="cMQ-6e-W4B"/>
+                        </mask>
+                    </variation>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YDU-TC-XQ4">
+                    <rect key="frame" x="304" y="3" width="288" height="73"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="93a-GJ-zaJ">
+                            <rect key="frame" x="121" y="0.0" width="48" height="48"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="48" id="BzE-TJ-s8E"/>
+                                <constraint firstAttribute="height" constant="48" id="PdW-pt-pmT"/>
+                                <constraint firstAttribute="height" constant="62" id="n4K-D0-Vv3"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
+                            <inset key="titleEdgeInsets" minX="0.0" minY="54" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" image="quickOrder1">
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="n4K-D0-Vv3"/>
+                                </mask>
+                            </variation>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quick Order" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PR8-W5-msn">
+                            <rect key="frame" x="104" y="45" width="81" height="20"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.79206123737373724" green="0.79206123737373724" blue="0.79206123737373724" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="62" id="n4K-D0-Vv3"/>
+                        <constraint firstItem="93a-GJ-zaJ" firstAttribute="top" secondItem="YDU-TC-XQ4" secondAttribute="top" id="67W-a0-aa2"/>
+                        <constraint firstAttribute="height" constant="73" id="BFM-SE-s3U"/>
+                        <constraint firstAttribute="width" constant="150" id="I9Q-JX-Pno"/>
+                        <constraint firstItem="PR8-W5-msn" firstAttribute="centerX" secondItem="YDU-TC-XQ4" secondAttribute="centerX" id="gky-EE-hcO"/>
+                        <constraint firstAttribute="bottom" secondItem="PR8-W5-msn" secondAttribute="bottom" constant="8" id="p7y-kt-NuZ"/>
+                        <constraint firstItem="93a-GJ-zaJ" firstAttribute="centerX" secondItem="YDU-TC-XQ4" secondAttribute="centerX" id="yoM-BG-PG7"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
-                    <inset key="titleEdgeInsets" minX="0.0" minY="54" maxX="0.0" maxY="0.0"/>
-                    <inset key="imageEdgeInsets" minX="50" minY="-10" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="Quick Order" image="quickOrder1">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                </button>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="I9Q-JX-Pno"/>
+                        </mask>
+                    </variation>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="4BT-px-c8f" firstAttribute="leading" secondItem="x9P-Qa-AEu" secondAttribute="leading" constant="31" id="GJi-LN-XzO"/>
-                <constraint firstItem="93a-GJ-zaJ" firstAttribute="leading" secondItem="4BT-px-c8f" secondAttribute="trailing" constant="79" id="VKc-3r-TeN"/>
-                <constraint firstAttribute="trailing" secondItem="93a-GJ-zaJ" secondAttribute="trailing" constant="82" id="WmO-JH-wgR"/>
-                <constraint firstItem="93a-GJ-zaJ" firstAttribute="centerY" secondItem="x9P-Qa-AEu" secondAttribute="centerY" id="YU7-Dd-7p1"/>
-                <constraint firstItem="4BT-px-c8f" firstAttribute="centerY" secondItem="x9P-Qa-AEu" secondAttribute="centerY" id="itj-io-8yx"/>
+                <constraint firstItem="YDU-TC-XQ4" firstAttribute="width" secondItem="KM6-U7-yuC" secondAttribute="width" id="B1f-cB-amk"/>
+                <constraint firstItem="KM6-U7-yuC" firstAttribute="leading" secondItem="x9P-Qa-AEu" secondAttribute="leading" constant="8" id="J7C-TA-CFy"/>
+                <constraint firstAttribute="trailing" secondItem="YDU-TC-XQ4" secondAttribute="trailing" constant="8" id="WXv-z2-8J0"/>
+                <constraint firstItem="YDU-TC-XQ4" firstAttribute="centerY" secondItem="x9P-Qa-AEu" secondAttribute="centerY" id="amb-S6-9zv"/>
+                <constraint firstItem="YDU-TC-XQ4" firstAttribute="leading" secondItem="KM6-U7-yuC" secondAttribute="trailing" constant="8" id="ihS-hc-Epq"/>
+                <constraint firstItem="KM6-U7-yuC" firstAttribute="centerY" secondItem="x9P-Qa-AEu" secondAttribute="centerY" id="pAD-mC-eyL"/>
+                <constraint firstItem="YDU-TC-XQ4" firstAttribute="centerX" secondItem="x9P-Qa-AEu" secondAttribute="trailing" multiplier="0.74" id="xWF-7N-hlc"/>
+                <constraint firstItem="KM6-U7-yuC" firstAttribute="centerX" secondItem="x9P-Qa-AEu" secondAttribute="trailing" multiplier="0.26" id="yvp-4f-sVo"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="395" y="212"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="yvp-4f-sVo"/>
+                    <exclude reference="xWF-7N-hlc"/>
+                </mask>
+            </variation>
+            <connections>
+                <outlet property="quickOrderView" destination="YDU-TC-XQ4" id="hCc-CY-BFc"/>
+                <outlet property="uploadPrsView" destination="KM6-U7-yuC" id="pEL-kN-gjc"/>
+            </connections>
+            <point key="canvasLocation" x="462" y="213"/>
         </view>
     </objects>
     <resources>

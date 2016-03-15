@@ -19,4 +19,6 @@
 + (id)savedDataForKey:(NSString *)key;
 + (void)clearDataForKey:(NSString *)key;
 
++(UIColor *)defaultColor;
+
 @end

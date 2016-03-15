@@ -2089,7 +2089,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/vinodrathod/Downloads/FacebookSDKs,
+					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
@@ -2119,7 +2119,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/vinodrathod/Downloads/FacebookSDKs,
+					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";

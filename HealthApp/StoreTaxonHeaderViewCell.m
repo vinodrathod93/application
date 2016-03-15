@@ -17,6 +17,16 @@
     self.contentView.backgroundColor = [UIColor clearColor];
     self.offersView.backgroundColor = [UIColor clearColor];
     
+    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    
+    
+    
+    
+    
+    
+    
     /*
     self.uploadPrescriptionButton.layer.cornerRadius    = 5.f;
     self.quickOrderButton.layer.cornerRadius            = 5.f;
