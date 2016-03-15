@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StoreTaxonsViewController"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="storeTaxonInfoCell" rowHeight="200" id="geg-v7-DAa" customClass="StoreTaxonHeaderViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="199"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="geg-v7-DAa" id="7c9-GV-Ncx">
-                <rect key="frame" x="0.0" y="0.0" width="600" height="198"/>
+                <rect key="frame" x="0.0" y="0.0" width="600" height="199.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lvz-FQ-Q0Z">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="149"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="217" id="4Bs-aa-HF6"/>
                         </constraints>
@@ -28,22 +29,26 @@
                     </scrollView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AUA-nY-PlK" userLabel="Blur View">
                         <rect key="frame" x="0.0" y="129" width="600" height="20"/>
+                        <animations/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="XGg-6G-NON"/>
                         </constraints>
                     </view>
-                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="qAa-qJ-npV">
+                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" defersCurrentPageDisplay="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="qAa-qJ-npV">
                         <rect key="frame" x="280" y="121" width="39" height="37"/>
+                        <animations/>
                     </pageControl>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CEL-hP-nrR" userLabel="Offers View">
-                        <rect key="frame" x="0.0" y="149" width="600" height="50"/>
+                        <rect key="frame" x="0.0" y="150" width="600" height="50"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xHA-6L-ZOc">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xHA-6L-ZOc">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                <animations/>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="xHA-6L-ZOc" secondAttribute="bottom" id="Hsw-SQ-Dbk"/>
                             <constraint firstAttribute="height" constant="50" id="Ri4-GG-Hbk"/>
@@ -53,7 +58,8 @@
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="0.66666666666666663" alpha="0.35319890202702703" colorSpace="calibratedWhite"/>
+                <animations/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="qAa-qJ-npV" firstAttribute="centerX" secondItem="7c9-GV-Ncx" secondAttribute="centerX" id="6Nb-aT-6FB"/>
                     <constraint firstItem="CEL-hP-nrR" firstAttribute="leading" secondItem="7c9-GV-Ncx" secondAttribute="leading" id="ArX-ZR-W8j"/>
@@ -66,11 +72,13 @@
                     <constraint firstItem="AUA-nY-PlK" firstAttribute="trailing" secondItem="CEL-hP-nrR" secondAttribute="trailing" id="lxz-LK-G2X"/>
                     <constraint firstAttribute="trailing" secondItem="CEL-hP-nrR" secondAttribute="trailing" id="mnc-IW-P8m"/>
                     <constraint firstItem="AUA-nY-PlK" firstAttribute="leading" secondItem="CEL-hP-nrR" secondAttribute="leading" id="soY-Iw-ym1"/>
-                    <constraint firstItem="AUA-nY-PlK" firstAttribute="bottom" secondItem="Lvz-FQ-Q0Z" secondAttribute="bottom" id="uoZ-Uy-eZb"/>
+                    <constraint firstItem="AUA-nY-PlK" firstAttribute="bottom" secondItem="Lvz-FQ-Q0Z" secondAttribute="bottom" constant="-1" id="uoZ-Uy-eZb"/>
                 </constraints>
             </tableViewCellContentView>
+            <animations/>
             <connections>
-                <outlet property="offersView" destination="CEL-hP-nrR" id="pvS-iQ-0PG"/>
+                <outlet property="offersContentView" destination="CEL-hP-nrR" id="aww-GS-aid"/>
+                <outlet property="offersScrollView" destination="xHA-6L-ZOc" id="dlB-rv-I8m"/>
                 <outlet property="pageControl" destination="qAa-qJ-npV" id="x9q-Io-Q0J"/>
                 <outlet property="scrollView" destination="Lvz-FQ-Q0Z" id="6kR-R8-5CM"/>
             </connections>

@@ -27,9 +27,9 @@
 #define kTaxonTaxonomySection 2;
 
 typedef NS_ENUM(uint16_t, sections) {
-    ImageViewSection = 0,
-    UploadPrescriptionSetion,
-    TaxonTaxonomySection,
+    SectionStoreImageViews = 0,
+    SectionStoreOptionsView,
+    SectionStoreTaxonTaxonomies,
 };
 
 @interface StoreTaxonsViewController ()<UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
@@ -55,20 +55,23 @@ typedef NS_ENUM(uint16_t, sections) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    // Navigation Bar
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
+    
+    // Tableview
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [NeediatorUtitity defaultColor];
     
     
-    _footerHeight = 100;
-    self.taxonomies = [[NSMutableArray alloc] init];
-    
-    
+    // Network Request
     [self requestTaxons];
     
+    
+    // Initialization
+    _footerHeight = 100;
+    self.taxonomies = [[NSMutableArray alloc] init];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -98,6 +101,7 @@ typedef NS_ENUM(uint16_t, sections) {
     StoreTaxonHeaderViewCell *cell = (StoreTaxonHeaderViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     
     cell.scrollView.contentSize = CGSizeMake(CGRectGetWidth(cell.scrollView.frame) * self.bannerImages.count, CGRectGetHeight(cell.scrollView.frame));
+    cell.offersScrollView.contentSize = CGSizeMake(CGRectGetWidth(cell.offersScrollView.frame) * self.bannerImages.count, CGRectGetHeight(cell.offersScrollView.frame));
 }
 
 
@@ -202,7 +206,7 @@ typedef NS_ENUM(uint16_t, sections) {
 
 
 
-#pragma mark - Scroll view Methods
+#pragma mark - ImageViews Cell Methods
 
 -(void)setupScrollViewImages:(StoreTaxonHeaderViewCell *)cell {
     
@@ -245,18 +249,60 @@ typedef NS_ENUM(uint16_t, sections) {
     
 }
 
+
+-(void)setupOffersScrollView:(StoreTaxonHeaderViewCell *)cell {
+    
+    [self.bannerImages enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull imageData, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        UIView *offerView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.offersScrollView.frame) * idx + 5, 5, CGRectGetWidth(cell.offersScrollView.frame) -10 , 40)];
+
+        offerView.backgroundColor = [UIColor lightGrayColor];
+        offerView.layer.cornerRadius = 5.f;
+        offerView.layer.masksToBounds = YES;
+        offerView.tag = idx;
+        
+        [cell.offersScrollView addSubview:offerView];
+    }];
+    
+//    cell.offersScrollView.contentOffset = CGPointMake(12, 0);
+    
+}
+
+
+-(void)setupScrollViewFrame:(StoreTaxonHeaderViewCell *)cell {
+    CGRect frame;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        frame = CGRectMake(0, 0, self.view.frame.size.width, kTaxonHeaderViewHeight_Pad);
+    }
+    else
+        frame = CGRectMake(0, 0, self.view.frame.size.width, kTaxonHeaderViewHeight_Phone);
+    
+    cell.frame = frame;
+    [cell layoutIfNeeded];
+    
+    
+    
+    
+    CGRect scrollViewFrame      = cell.scrollView.frame;
+    CGRect offerScrollViewFrame = cell.offersScrollView.frame;
+    
+    CGRect currentFrame         = self.view.frame;
+    
+    scrollViewFrame.size.width  = currentFrame.size.width;
+    offerScrollViewFrame.size.width = currentFrame.size.width;
+    
+    cell.scrollView.frame       = scrollViewFrame;
+    cell.offersScrollView.frame = offerScrollViewFrame;
+}
+
+
+
+
+
+
 #pragma mark - Scroll view Delegate
 
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    
-//    if (scrollView == _taxonHeaderView.scrollView) {
-//        NSInteger index = _taxonHeaderView.scrollView.contentOffset.x / CGRectGetWidth(_taxonHeaderView.scrollView.frame);
-//        NSLog(@"%ld",(long)index);
-//        
-//        _taxonHeaderView.pageControl.currentPage = index;
-//    }
-//    
-//}
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
@@ -283,10 +329,10 @@ typedef NS_ENUM(uint16_t, sections) {
 {
     NSLog(@"numberOfRowsInSection");
     
-    if (section == ImageViewSection) {
+    if (section == SectionStoreImageViews) {
         return 1;
     }
-    else if (section == TaxonTaxonomySection)
+    else if (section == SectionStoreTaxonTaxonomies)
         return [self.taxonomies count];
     else
         return 0;
@@ -301,41 +347,34 @@ typedef NS_ENUM(uint16_t, sections) {
     static NSString *CellIdentifier = @"storeTaxonomyCell";
     
     
-    if (indexPath.section == ImageViewSection) {
+    if (indexPath.section == SectionStoreImageViews) {
         // Taxon Header
         StoreTaxonHeaderViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storeTaxonInfoCell"];
         
         if (!cell) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"TaxonHeaderView" owner:self options:nil] firstObject];
-            
-            
-            CGRect frame;
-            
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                frame = CGRectMake(0, 0, self.view.frame.size.width, kTaxonHeaderViewHeight_Pad + 10);
-            }
-            else
-                frame = CGRectMake(0, 0, self.view.frame.size.width, kTaxonHeaderViewHeight_Phone + 10);
-            
-            cell.frame = frame;
-            [cell layoutIfNeeded];
-            
-            
             cell.scrollView.delegate = self;
             
-            CGRect scrollViewFrame = cell.scrollView.frame;
-            CGRect currentFrame = self.view.frame;
-            
-            scrollViewFrame.size.width = currentFrame.size.width;
-            cell.scrollView.frame = scrollViewFrame;
-            
-            
+            [self setupScrollViewFrame:cell];
             [self setupScrollViewImages:cell];
+            [self setupOffersScrollView:cell];
             
             
-            /* Upload Prs & Quick Order */
-            [cell.uploadPrescriptionButton addTarget:self action:@selector(popUploadPrescriptionVC) forControlEvents:UIControlEventTouchUpInside];
-            [cell.quickOrderButton addTarget:self action:@selector(popQuickOrderSearchVC) forControlEvents:UIControlEventTouchUpInside];
+            
+            cell.pageControl.numberOfPages = self.bannerImages.count;
+            
+            
+        /* Offers View */
+//            [_offersArray enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull offer, NSUInteger idx, BOOL * _Nonnull stop) {
+//
+//                NSString *offerURLString = [offer valueForKey:@"ImageUrl"];
+//                [cell.offersImageView sd_setImageWithURL:[NSURL URLWithString:offerURLString]];
+//            }];
+//
+//            
+//            /* Upload Prs & Quick Order */
+//            [cell.uploadPrescriptionButton addTarget:self action:@selector(popUploadPrescriptionVC) forControlEvents:UIControlEventTouchUpInside];
+//            [cell.quickOrderButton addTarget:self action:@selector(popQuickOrderSearchVC) forControlEvents:UIControlEventTouchUpInside];
         }
         
         
@@ -344,15 +383,7 @@ typedef NS_ENUM(uint16_t, sections) {
         
             
             
-            cell.pageControl.numberOfPages = self.bannerImages.count;
-            
-            
-            /* Offers View */
-            [_offersArray enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull offer, NSUInteger idx, BOOL * _Nonnull stop) {
-                
-                NSString *offerURLString = [offer valueForKey:@"ImageUrl"];
-                [cell.offersImageView sd_setImageWithURL:[NSURL URLWithString:offerURLString]];
-            }];
+        
         
         
         
@@ -363,7 +394,7 @@ typedef NS_ENUM(uint16_t, sections) {
         return cell;
         
     }
-    else if (indexPath.section == TaxonTaxonomySection) {
+    else if (indexPath.section == SectionStoreTaxonTaxonomies) {
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
@@ -415,23 +446,21 @@ typedef NS_ENUM(uint16_t, sections) {
     else
         return nil;
     
-    
-    
-    
-    
-    
-    
 }
+
+
+
+
 
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == ImageViewSection) {
-        return 200.f;
+    if (indexPath.section == SectionStoreImageViews) {
+        return kStoreImageViewCellHeight;
     }
-    else if (indexPath.section == TaxonTaxonomySection)
-        return 50.0f;
+    else if (indexPath.section == SectionStoreTaxonTaxonomies)
+        return kStoreTaxonTaxonomyCellHeight;
     else
         return 0.0f;
 }
@@ -441,38 +470,22 @@ typedef NS_ENUM(uint16_t, sections) {
 #pragma mark - Header View
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-     UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
+    UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
                       
-    if (section == ImageViewSection) {
-       
-        /* Load Ratings, Like - Dislike View */
+    if (section == SectionStoreImageViews) {
         
-        
-        StoreReviewsView *storeReviewsView = [[[NSBundle mainBundle] loadNibNamed:@"StoreReviewsView" owner:self options:nil] lastObject];
-        storeReviewsView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 35);
-        
-        storeReviewsView.ratingView.rating              = 3.5f;
-        
-        
-        return storeReviewsView;
+        return [self storeReviewsView];
         
     }
-    else if (section == TaxonTaxonomySection) {
+    else if (section == SectionStoreTaxonTaxonomies) {
         
-        
-        
-        StoreOptionsView *storeOptionView = [[[NSBundle mainBundle] loadNibNamed:@"StoreOptionsView" owner:self options:nil] lastObject];
-        storeOptionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 65);
-//        storeOptionView.backgroundColor = [UIColor lightGrayColor];
-        
-        return storeOptionView;
+//        return [self storeOptionView];
         
     }
-    else if (section == 1) {
-        UploadPrescriptionCellView *cell =  [[[NSBundle mainBundle] loadNibNamed:@"UploadPrescriptionCellView" owner:self options:nil] lastObject];
+    else if (section == SectionStoreOptionsView) {
         
-        return cell;
+//        return [self uploadPrescriptionCellView];
+        return [self storeOptionView];
     }
     
     return header;
@@ -480,14 +493,19 @@ typedef NS_ENUM(uint16_t, sections) {
 }
 
 
+
+
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == ImageViewSection) {
-        return 35.f;
+    
+    if (section == SectionStoreImageViews) {
+        return kStoreReviewsViewHeight;
     }
-    else if (section == TaxonTaxonomySection)
-        return 65.f;
+    else if (section == SectionStoreOptionsView)
+        return kStoreButtonOptionsViewHeight;
     else
-        return 80;
+        return 0;
 }
 
 
@@ -500,29 +518,34 @@ typedef NS_ENUM(uint16_t, sections) {
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
-    if (section == TaxonTaxonomySection) {
+    if (section == SectionStoreTaxonTaxonomies) {
         if (_footerHeight > 0) {
             return [self getHudView];
         }
         else
             return nil;
     }
-//    else if (section == 1) {
-//        
-//        UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
-//        footer.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 40);
-//        
-//        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, CGRectGetWidth(self.view.frame), 30)];
-//        label.backgroundColor = [UIColor clearColor];
-//        label.text = @"Browse by Categories";
-//        label.textAlignment = NSTextAlignmentCenter;
-//        label.font = [NeediatorUtitity mediumFontWithSize:17];
-//        
-//        [footer addSubview:label];
-//        
-//        
-//        return footer;
-//    }
+    else if (section == SectionStoreOptionsView) {
+        
+        UploadPrescriptionCellView *view =  [self uploadPrescriptionCellView];
+        view.frame = CGRectMake(0, 5, CGRectGetWidth(self.view.frame), kStoreUploadPrsViewHeight);
+        
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
+        footer.frame = CGRectMake(0, view.frame.size.height, CGRectGetWidth(self.view.frame), 50 + view.frame.size.height);
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10 + view.frame.size.height, CGRectGetWidth(self.view.frame), 30)];
+        label.backgroundColor = [UIColor clearColor];
+        label.text = @"Browse by Categories";
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [NeediatorUtitity mediumFontWithSize:17];
+        
+        [footer addSubview:label];
+        [footer addSubview:view];
+        
+        return footer;
+        
+        
+    }
     else
         return nil;
 }
@@ -532,11 +555,11 @@ typedef NS_ENUM(uint16_t, sections) {
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
-    if (section == TaxonTaxonomySection) {
+    if (section == SectionStoreTaxonTaxonomies) {
         return _footerHeight;
     }
-//    else if (section == 1)
-//        return 40.f;
+    else if (section == SectionStoreOptionsView)
+        return kStoreUploadPrsViewHeight + 50;
     else
         return 0;
     
@@ -551,7 +574,7 @@ typedef NS_ENUM(uint16_t, sections) {
     NSLog(@"didSelectRowAtIndexPath");
     NSLog(@"Row: %ld,selected", (long)indexPath.row);
     
-    if (indexPath.section == TaxonTaxonomySection) {
+    if (indexPath.section == SectionStoreTaxonTaxonomies) {
         
         id model = self.taxonomies[indexPath.row];
         
@@ -574,17 +597,9 @@ typedef NS_ENUM(uint16_t, sections) {
             }
         }
         else {
-            NSLog(@"Tapped Heyy");
-            
-            
-            //
-            //        RLMRealm *realm = [RLMRealm defaultRealm];
-            //        StoreRealm *store = [[StoreRealm allObjectsInRealm:realm] lastObject];
             
             
             TaxonModel *taxon = (TaxonModel *)model;
-            
-            NSLog(@"Taxon ID %d", taxon.taxonID.intValue);
             
             ProductsViewController *productsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"productsVC"];
             productsVC.navigationTitleString = taxon.taxonName;
@@ -593,7 +608,6 @@ typedef NS_ENUM(uint16_t, sections) {
             productsVC.taxonomyID = taxon.taxonomyID.stringValue;
             productsVC.categoryID = self.cat_id;
             
-            //        productsVC.taxonProductsURL = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@&search=&PageNo=1", taxon.taxonID.stringValue, self.store_id, taxon.taxonomyID.stringValue, self.cat_id];
             [self.navigationController pushViewController:productsVC animated:YES];
             
             
@@ -607,10 +621,14 @@ typedef NS_ENUM(uint16_t, sections) {
     
 }
 
+
+
+#pragma mark - Collapse - Expand Methods
+
 -(void)collapseCellsFromIndexOf:(TaxonomyModel *)model indexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     NSLog(@"collapseCellsFromIndexOf");
     
-    if (indexPath.section == TaxonTaxonomySection) {
+    if (indexPath.section == SectionStoreTaxonTaxonomies) {
         
         NSInteger collapseCount = [self numberOfCellsToBeCollapsed:model];
         NSRange collapseRange = NSMakeRange(indexPath.row + 1, collapseCount);
@@ -637,7 +655,7 @@ typedef NS_ENUM(uint16_t, sections) {
     
     NSLog(@"expandCellsFromIndexOf");
     
-    if (indexPath.section == TaxonTaxonomySection) {
+    if (indexPath.section == SectionStoreTaxonTaxonomies) {
         if (model.taxons.count > 0) {
             model.isExpanded = YES;
             
@@ -665,8 +683,28 @@ typedef NS_ENUM(uint16_t, sections) {
 }
 
 
+#pragma mark - Custom Views
 
+-(StoreReviewsView *)storeReviewsView {
+    StoreReviewsView *storeReviewsView = [[[NSBundle mainBundle] loadNibNamed:@"StoreReviewsView" owner:self options:nil] lastObject];
+    storeReviewsView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kStoreReviewsViewHeight);
+    
+    return storeReviewsView;
+}
 
+-(StoreOptionsView *)storeOptionView {
+    
+    StoreOptionsView *storeOptionView = [[[NSBundle mainBundle] loadNibNamed:@"StoreOptionsView" owner:self options:nil] lastObject];
+    storeOptionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kStoreButtonOptionsViewHeight);
+    
+    return storeOptionView;
+}
+
+-(UploadPrescriptionCellView *)uploadPrescriptionCellView {
+    UploadPrescriptionCellView *cell =  [[[NSBundle mainBundle] loadNibNamed:@"UploadPrescriptionCellView" owner:self options:nil] lastObject];
+    
+    return cell;
+}
 
 
 

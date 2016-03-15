@@ -15,14 +15,10 @@
     
     
     self.contentView.backgroundColor = [UIColor clearColor];
-    self.offersView.backgroundColor = [UIColor clearColor];
+    self.offersContentView.backgroundColor = [NeediatorUtitity defaultColor];
     
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    
-    
-    
     
     
     
@@ -69,6 +65,7 @@
     
 }
 
+/*
 
 -(void)dislikePressed:(UIButton *)sender {
     
@@ -110,5 +107,8 @@
     }
     
 }
+
+*/
+
 
 @end
