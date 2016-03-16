@@ -85,6 +85,7 @@ static NSString *const KALL_ADDRESSES_PATH      = @"/NeediatorWS.asmx/getaddress
 static NSString *const kDELETE_ADDRESSES_PATH   = @"/NeediatorWS.asmx/deleteaddress";
 static NSString *const kUPLOAD_PRESCRIPTION_PATH   = @"/NeediatorWS.asmx/uploadPrescription";
 static NSString *const kAUTOCOMPLETE_SEARCH_PRODUCT = @"/NeediatorWS.asmx/search_product";
+static NSString *const kADD_TO_FAVOURTIE_PATH = @"/NeediatorWS.asmx/addToFavourites";
 
 
 /* Helper Constants */

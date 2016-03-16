@@ -39,31 +39,39 @@
     _entityDescriptionArray = [NSMutableArray array];
     _selectedIndexes        = [[NSMutableDictionary alloc] init];
     
-    NSDictionary *parameters = @{
-                                 @"catid": self.cat_id,
-                                 @"id"   : self.entity_id
-                                 };
     
-    [self showHUD];
+    if (!self.isStoreInfo) {
+        NSDictionary *parameters = @{
+                                     @"catid": self.cat_id,
+                                     @"id"   : self.entity_id
+                                     };
+        
+        [self showHUD];
+        
+        _task = [[NAPIManager sharedManager] getEntityDetailsWithRequest:parameters success:^(EntityDetailsResponseModel *response) {
+            
+            
+            [_entityDescriptionArray addObjectsFromArray:response.details];
+            _footerHeight   = kFooterHeight;
+            _hasLoaded      = YES;
+            
+            [self hideHUD];
+            [self.tableView reloadData];
+            
+        } failure:^(NSError *error) {
+            [self hideHUD];
+            NSLog(@"%@", error.localizedDescription);
+            
+            UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alertError show];
+            
+        }];
+    }
+    else {
+        _entityDescriptionArray = [NSMutableArray arrayWithArray:self.storeInfoArray];
+    }
     
-    _task = [[NAPIManager sharedManager] getEntityDetailsWithRequest:parameters success:^(EntityDetailsResponseModel *response) {
-        
-        
-        [_entityDescriptionArray addObjectsFromArray:response.details];
-        _footerHeight   = kFooterHeight;
-        _hasLoaded      = YES;
-        
-        [self hideHUD];
-        [self.tableView reloadData];
-        
-    } failure:^(NSError *error) {
-        [self hideHUD];
-        NSLog(@"%@", error.localizedDescription);
-        
-        UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertError show];
-        
-    }];
+    
     
 }
 
@@ -179,7 +187,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 130)];
-        UIImageView *entityImage = [[UIImageView alloc] initWithFrame:CGRectMake(headerView.frame.size.width/2 - 75, headerView.frame.size.height/2 - 50, 150, 100)];
+        UIImageView *entityImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, headerView.frame.size.height/2 - 50, CGRectGetWidth(self.view.frame) - (2*20), 100)];
         entityImage.contentMode = UIViewContentModeScaleAspectFit;
         [entityImage sd_setImageWithURL:[NSURL URLWithString:self.entity_image]];
         entityImage.layer.cornerRadius = 5.f;

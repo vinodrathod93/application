@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *mobileField;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIView *s_contentView;
+@property (weak, nonatomic) IBOutlet UITextField *dateOfBirthField;
 
 - (IBAction)signUpPressed:(id)sender;
 

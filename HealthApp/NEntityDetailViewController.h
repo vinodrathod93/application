@@ -21,4 +21,7 @@
 @property (nonatomic, strong) NSString *entity_meta_info;
 @property (nonatomic, strong) NSString *entity_image;
 
+
+@property (nonatomic, assign) BOOL isStoreInfo;
+@property (nonatomic, strong) NSArray *storeInfoArray;
 @end

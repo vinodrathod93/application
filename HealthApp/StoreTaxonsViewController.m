@@ -19,7 +19,9 @@
 #import "StoreReviewsView.h"
 #import "StoreOptionsView.h"
 #import "UploadPrescriptionCellView.h"
-
+#import "NEntityDetailViewController.h"
+#import "EntityDetailModel.h"
+#import "MapLocationViewController.h"
 
 
 #define kImageViewSection 0;
@@ -49,7 +51,8 @@ typedef NS_ENUM(uint16_t, sections) {
     NSURLSessionDataTask *_searchTask;
     NSInteger _footerHeight;
     UIActivityIndicatorView *_search_activityIndicator;
-    NSArray *_offersArray;
+    NSArray *_offersArray, *_shopInfoArray;
+    UITapGestureRecognizer *_uploadPrsGestureRecognizer, *_quickOrderGestureRecognizer;
 }
 
 - (void)viewDidLoad {
@@ -72,6 +75,12 @@ typedef NS_ENUM(uint16_t, sections) {
     // Initialization
     _footerHeight = 100;
     self.taxonomies = [[NSMutableArray alloc] init];
+    
+    
+    // Tap Gesture
+    
+    _uploadPrsGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(popUploadPrescriptionVC)];
+    _quickOrderGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(popQuickOrderSearchVC)];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -100,56 +109,15 @@ typedef NS_ENUM(uint16_t, sections) {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     StoreTaxonHeaderViewCell *cell = (StoreTaxonHeaderViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     
-    cell.scrollView.contentSize = CGSizeMake(CGRectGetWidth(cell.scrollView.frame) * self.bannerImages.count, CGRectGetHeight(cell.scrollView.frame));
-    cell.offersScrollView.contentSize = CGSizeMake(CGRectGetWidth(cell.offersScrollView.frame) * self.bannerImages.count, CGRectGetHeight(cell.offersScrollView.frame));
+    cell.scrollView.contentSize = CGSizeMake(CGRectGetWidth(cell.scrollView.frame) * self.storeImages.count, CGRectGetHeight(cell.scrollView.frame));
+    cell.offersScrollView.contentSize = CGSizeMake(CGRectGetWidth(cell.offersScrollView.frame) * self.storeImages.count, CGRectGetHeight(cell.offersScrollView.frame));
 }
 
 
--(void)popUploadPrescriptionVC {
-    [NeediatorUtitity save:self.store_id forKey:kSAVE_STORE_ID];
-    [NeediatorUtitity save:self.cat_id forKey:kSAVE_CAT_ID];
-    
-    
-    UploadPrescriptionViewController *uploadVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPrescriptionVC"];
-    
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:uploadVC];
-    
-    [self presentViewController:navigationController animated:YES completion:nil];
-}
-
-
-
--(void)popQuickOrderSearchVC {
-    
-    SearchResultsTableViewController *searchResultsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"searchResultsVC"];
-    
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsVC];
-    
-    [UIView transitionWithView:self.searchController.view duration:0.53 options:UIViewAnimationOptionTransitionFlipFromTop animations:^{
-        self.searchController.view.backgroundColor = [UIColor whiteColor];
-    } completion:^(BOOL finished) {
-        NSLog(@"Finished Transition");
-    }];
-    
-    
-    self.searchController.searchBar.placeholder = @"Search Product for Quick Order";
-    self.searchController.searchResultsUpdater = self;
-    self.searchController.dimsBackgroundDuringPresentation = NO;
-    self.searchController.hidesNavigationBarDuringPresentation = NO;
-    
-    _search_activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    _search_activityIndicator.center = CGPointMake(self.searchController.view.center.x, self.searchController.view.center.y - 100);
-    
-    
-    [self.searchController.view addSubview:_search_activityIndicator];
-    
-    [self presentViewController:self.searchController animated:YES completion:nil];
-}
 
 
 
 #pragma mark - UISearchControllerDelegate & SearchResultsDelegate
-
 
 
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
@@ -212,7 +180,7 @@ typedef NS_ENUM(uint16_t, sections) {
     
     NSLog(@"setupScrollViewImages");
     
-    [self.bannerImages enumerateObjectsUsingBlock:^(NSDictionary *imageData, NSUInteger idx, BOOL *stop) {
+    [self.storeImages enumerateObjectsUsingBlock:^(NSDictionary *imageData, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.scrollView.frame) * idx, 0, CGRectGetWidth(cell.scrollView.frame), CGRectGetHeight(cell.scrollView.frame))];
         imageView.tag = idx;
         
@@ -252,7 +220,7 @@ typedef NS_ENUM(uint16_t, sections) {
 
 -(void)setupOffersScrollView:(StoreTaxonHeaderViewCell *)cell {
     
-    [self.bannerImages enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull imageData, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.storeImages enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull imageData, NSUInteger idx, BOOL * _Nonnull stop) {
         
         UIView *offerView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.offersScrollView.frame) * idx + 5, 5, CGRectGetWidth(cell.offersScrollView.frame) -10 , 40)];
 
@@ -264,7 +232,6 @@ typedef NS_ENUM(uint16_t, sections) {
         [cell.offersScrollView addSubview:offerView];
     }];
     
-//    cell.offersScrollView.contentOffset = CGPointMake(12, 0);
     
 }
 
@@ -361,7 +328,7 @@ typedef NS_ENUM(uint16_t, sections) {
             
             
             
-            cell.pageControl.numberOfPages = self.bannerImages.count;
+            cell.pageControl.numberOfPages = self.storeImages.count;
             
             
         /* Offers View */
@@ -372,9 +339,6 @@ typedef NS_ENUM(uint16_t, sections) {
 //            }];
 //
 //            
-//            /* Upload Prs & Quick Order */
-//            [cell.uploadPrescriptionButton addTarget:self action:@selector(popUploadPrescriptionVC) forControlEvents:UIControlEventTouchUpInside];
-//            [cell.quickOrderButton addTarget:self action:@selector(popQuickOrderSearchVC) forControlEvents:UIControlEventTouchUpInside];
         }
         
         
@@ -477,14 +441,8 @@ typedef NS_ENUM(uint16_t, sections) {
         return [self storeReviewsView];
         
     }
-    else if (section == SectionStoreTaxonTaxonomies) {
-        
-//        return [self storeOptionView];
-        
-    }
     else if (section == SectionStoreOptionsView) {
         
-//        return [self uploadPrescriptionCellView];
         return [self storeOptionView];
     }
     
@@ -689,6 +647,9 @@ typedef NS_ENUM(uint16_t, sections) {
     StoreReviewsView *storeReviewsView = [[[NSBundle mainBundle] loadNibNamed:@"StoreReviewsView" owner:self options:nil] lastObject];
     storeReviewsView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kStoreReviewsViewHeight);
     
+    
+    
+    
     return storeReviewsView;
 }
 
@@ -697,14 +658,161 @@ typedef NS_ENUM(uint16_t, sections) {
     StoreOptionsView *storeOptionView = [[[NSBundle mainBundle] loadNibNamed:@"StoreOptionsView" owner:self options:nil] lastObject];
     storeOptionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kStoreButtonOptionsViewHeight);
     
+    
+    
+    [storeOptionView.favButton addTarget:self action:@selector(requestFavourites:) forControlEvents:UIControlEventTouchUpInside];
+    [storeOptionView.infoButton addTarget:self action:@selector(goToStoreInfoDetailVC) forControlEvents:UIControlEventTouchUpInside];
+    [storeOptionView.shareButton addTarget:self action:@selector(shareStoreDetails:) forControlEvents:UIControlEventTouchUpInside];
+    [storeOptionView.locationButton addTarget:self action:@selector(showLocation:) forControlEvents:UIControlEventTouchUpInside];
+    [storeOptionView.callButton addTarget:self action:@selector(showPhoneNumbers:) forControlEvents:UIControlEventTouchUpInside];
+    
     return storeOptionView;
 }
 
 -(UploadPrescriptionCellView *)uploadPrescriptionCellView {
     UploadPrescriptionCellView *cell =  [[[NSBundle mainBundle] loadNibNamed:@"UploadPrescriptionCellView" owner:self options:nil] lastObject];
     
+    /* Upload Prs & Quick Order */
+    [cell.uploadPrpButton addTarget:self action:@selector(popUploadPrescriptionVC) forControlEvents:UIControlEventTouchUpInside];
+    [cell.quickOrderButton addTarget:self action:@selector(popQuickOrderSearchVC) forControlEvents:UIControlEventTouchUpInside];
+
+
+    [cell.uploadPrsView addGestureRecognizer: _uploadPrsGestureRecognizer];
+    [cell.quickOrderView addGestureRecognizer:_quickOrderGestureRecognizer];
+    
+    
     return cell;
 }
+
+
+
+#pragma mark - Navigation
+
+
+-(void)showLocation:(UIButton *)button {
+    MapLocationViewController *mapVC = [[MapLocationViewController alloc] init];
+    [self.navigationController pushViewController:mapVC animated:YES];
+}
+
+-(void)makeCall:(NSString *)number {
+   
+    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",number]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+        [[UIApplication sharedApplication] openURL:phoneUrl];
+    } else
+    {
+        UIAlertView *callAlertView = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Call facility is not available!!!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [callAlertView show];
+    }
+}
+
+-(void)showPhoneNumbers:(UIButton *)button {
+    
+    if (self.storePhoneNumbers != nil) {
+        UIAlertController *phoneAlertController = [UIAlertController alertControllerWithTitle:@"Store Phone Numbers" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        [self.storePhoneNumbers enumerateObjectsUsingBlock:^(NSString *_Nonnull phoneNumber, NSUInteger idx, BOOL * _Nonnull stop) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:phoneNumber style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self makeCall:phoneNumber];
+            }];
+            
+            [phoneAlertController addAction:action];
+        }];
+        
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [phoneAlertController dismissViewControllerAnimated:YES completion:nil];
+        }];
+        
+        [phoneAlertController addAction:cancelAction];
+        
+        
+        [self presentViewController:phoneAlertController animated:YES completion:nil];
+    }
+    else
+        NSLog(@"Phone numbers are nil");
+    
+}
+
+
+-(void)shareStoreDetails:(UIButton *)button {
+    
+    NSString *texttoshare = @"Hey! I Found this Awesome Listing - Checkout this on .\n neediator://stores";
+    
+    NSArray *activityItems = @[texttoshare];
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+    activityVC.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypeCopyToPasteboard];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self presentViewController:activityVC animated:TRUE completion:nil];
+    }
+    else {
+        UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:activityVC];
+        [popup presentPopoverFromRect:button.bounds inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+}
+
+
+-(void)goToStoreInfoDetailVC {
+    
+    NSDictionary *image = [self.storeImages firstObject];
+    
+    if (_shopInfoArray != nil) {
+        NEntityDetailViewController *storeInfoVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
+        storeInfoVC.isStoreInfo = YES;
+        storeInfoVC.storeInfoArray = _shopInfoArray;
+        storeInfoVC.entity_image = image[@"image_url"];
+        
+        
+        [self.navigationController pushViewController:storeInfoVC animated:YES];
+    }
+    else
+        NSLog(@"Shop Info is nil");
+    
+}
+
+-(void)popUploadPrescriptionVC {
+    [NeediatorUtitity save:self.store_id forKey:kSAVE_STORE_ID];
+    [NeediatorUtitity save:self.cat_id forKey:kSAVE_CAT_ID];
+    
+    
+    UploadPrescriptionViewController *uploadVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPrescriptionVC"];
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:uploadVC];
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+
+
+-(void)popQuickOrderSearchVC {
+    
+    SearchResultsTableViewController *searchResultsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"searchResultsVC"];
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsVC];
+    
+    [UIView transitionWithView:self.searchController.view duration:0.53 options:UIViewAnimationOptionTransitionFlipFromTop animations:^{
+        self.searchController.view.backgroundColor = [UIColor whiteColor];
+    } completion:^(BOOL finished) {
+        NSLog(@"Finished Transition");
+    }];
+    
+    
+    self.searchController.searchBar.placeholder = @"Search Product for Quick Order";
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    
+    _search_activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    _search_activityIndicator.center = CGPointMake(self.searchController.view.center.x, self.searchController.view.center.y - 100);
+    
+    
+    [self.searchController.view addSubview:_search_activityIndicator];
+    
+    [self presentViewController:self.searchController animated:YES completion:nil];
+}
+
+
 
 
 
@@ -804,6 +912,7 @@ typedef NS_ENUM(uint16_t, sections) {
         [self.taxonomies addObjectsFromArray:responseModel.taxonomies];
         
         _offersArray = responseModel.offers;
+        _shopInfoArray = responseModel.shopInfo;
         
         [self.tableView reloadData];
         [self hideHUD];
@@ -820,7 +929,41 @@ typedef NS_ENUM(uint16_t, sections) {
 }
 
 
--(void)searchProduct:(NSString *)keyword {
+-(void)requestFavourites:(UIButton *)button {
+    
+    User *user = [User savedUser];
+    
+    if (user != nil) {
+        NSDictionary *parameter = @{
+                                    @"user_id"  : user.userID,
+                                    @"cat_id"   : [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID],
+                                    @"store_id" : [NeediatorUtitity savedDataForKey:kSAVE_STORE_ID]
+                                    };
+        
+        
+        
+        [[NAPIManager sharedManager] postFavouritesWithData:parameter success:^(BOOL success) {
+            if (success) {
+                
+                
+                button.selected = !button.selected;
+                
+                if (button.isSelected) {
+                    [button setImage:[UIImage imageNamed:@"store_fav_filled"] forState:UIControlStateNormal];
+                }
+                else
+                    [button setImage:[UIImage imageNamed:@"store_fav"] forState:UIControlStateNormal];
+                
+            }
+            
+        } failure:^(NSError *error) {
+            NSLog(@"Fav. Error = %@", [error localizedDescription]);
+        }];
+    }
+    else
+        NSLog(@"User Not Logged In");
+    
+    
     
     
     

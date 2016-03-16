@@ -7,6 +7,7 @@
 //
 
 #import "TaxonomyListResponseModel.h"
+#import "EntityDetailModel.h"
 
 @implementation TaxonomyListResponseModel
 
@@ -22,6 +23,10 @@
 
 + (NSValueTransformer *)taxonomiesJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:TaxonomyModel.class];
+}
+
++ (NSValueTransformer *)shopInfoJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:EntityDetailModel.class];
 }
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error {

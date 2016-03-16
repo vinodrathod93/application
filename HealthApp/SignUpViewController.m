@@ -31,13 +31,19 @@ typedef void(^completion)(BOOL finished);
     
     self.signUpButton.layer.cornerRadius = 5.0f;
     
+    
     self.userName.delegate = self;
     self.passwordField.delegate = self;
     self.emailField.delegate = self;
     self.mobileField.delegate = self;
+    self.dateOfBirthField.delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardDidDisappear:) name:UIKeyboardDidHideNotification object:nil];
+    
+    
+    
+//    self.dateOfBirthField.inputView = 
     
 }
 

@@ -249,7 +249,8 @@
         storeTaxonsVC.title = [model.name capitalizedString];
         storeTaxonsVC.cat_id = self.category_id;
         storeTaxonsVC.store_id = model.list_id;
-        storeTaxonsVC.bannerImages = model.images;
+        storeTaxonsVC.storeImages = model.images;
+        storeTaxonsVC.storePhoneNumbers = model.phone_nos;
         
         storeTaxonsVC.hidesBottomBarWhenPushed = NO;
         [self.navigationController pushViewController:storeTaxonsVC animated:YES];
@@ -391,6 +392,29 @@
     
     
 }
+
+
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+//-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    return UITableViewCellEditingStyleDelete;
+//}
+//
+//
+//-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    [self checkOrders];
+//    
+//    //    LineItems *item = self.lineItemsFetchedResultsController.fetchedObjects[indexPath.row];
+//    
+//    Order *orderModel = [self.orderNumFetchedResultsController.fetchedObjects objectAtIndex:indexPath.section];
+//    
+//    [self deleteOrderLineItem:orderModel atIndexPath:indexPath];
+//}
 
 -(void)setupScrollViewImages {
     

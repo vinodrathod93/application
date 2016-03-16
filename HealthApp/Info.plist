@@ -26,6 +26,16 @@
 				<string>fb100774700270235</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.advertotechnology.com</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>neediator</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
@@ -66,22 +76,6 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need the delivery location to serve you the relevant merchant list</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UIRequiresFullScreen</key>
-	<true/>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
@@ -92,30 +86,46 @@
 			<key>UIApplicationShortcutItemType</key>
 			<string>com.neediator.favourites</string>
 		</dict>
-        <dict>
-            <key>UIApplicationShortcutItemIconType</key>
-            <string>UIApplicationShortcutIconTypeSearch</string>
-            <key>UIApplicationShortcutItemTitle</key>
-            <string>Favourites</string>
-            <key>UIApplicationShortcutItemType</key>
-            <string>com.neediator.favourites</string>
-        </dict>
-        <dict>
-            <key>UIApplicationShortcutItemIconType</key>
-            <string>UIApplicationShortcutIconTypeSearch</string>
-            <key>UIApplicationShortcutItemTitle</key>
-            <string>Cart</string>
-            <key>UIApplicationShortcutItemType</key>
-            <string>com.neediator.favourites</string>
-        </dict>
-        <dict>
-            <key>UIApplicationShortcutItemIconType</key>
-            <string>UIApplicationShortcutIconTypeSearch</string>
-            <key>UIApplicationShortcutItemTitle</key>
-            <string>My Orders</string>
-            <key>UIApplicationShortcutItemType</key>
-            <string>com.neediator.favourites</string>
-        </dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeSearch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Favourites</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.neediator.favourites</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeSearch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Cart</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.neediator.favourites</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeSearch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>My Orders</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.neediator.favourites</string>
+		</dict>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

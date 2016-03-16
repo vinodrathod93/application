@@ -332,6 +332,30 @@
 }
 
 
+-(NSURLSessionDataTask *)postFavouritesWithData:(NSDictionary *)data success:(void (^)(BOOL))success failure:(void (^)(NSError *error))failure {
+    
+    self.requestSerializer = [AFHTTPRequestSerializer serializer];
+    
+    
+    return [self POST:kADD_TO_FAVOURTIE_PATH parameters:data progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"Adding to Favourites %@", uploadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Response %@", responseObject);
+        
+        NSString *status = responseObject[@"status"];
+        
+        if ([status isEqualToString:@"succes"]) {
+            success(YES);
+        }
+        else
+            success(NO);
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
 
 
 @end
