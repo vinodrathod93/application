@@ -11,6 +11,7 @@
 @interface NeediatorUtitity : NSObject
 
 + (UIBarButtonItem *)locationBarButton;
++ (UIFont *)regularFontWithSize:(CGFloat)size;
 + (UIFont *)mediumFontWithSize:(CGFloat)size;
 + (UIFont *)boldFontWithSize:(CGFloat)size;
 + (UIFont *)demiBoldFontWithSize:(CGFloat)size;

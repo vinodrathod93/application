@@ -44,6 +44,10 @@
 
 /* Fonts */
 
++ (UIFont *)regularFontWithSize:(CGFloat)size {
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:size];
+}
+
 + (UIFont *)mediumFontWithSize:(CGFloat)size {
     return [UIFont fontWithName:@"AvenirNext-Medium" size:size];
 }

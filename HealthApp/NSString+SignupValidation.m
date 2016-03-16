@@ -25,5 +25,9 @@
     return (self.length >= 1);
 }
 
+- (BOOL)isValidDOB {
+    return (self.length >= 1);
+}
+
 
 @end

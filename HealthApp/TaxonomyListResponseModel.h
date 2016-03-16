@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSArray *taxonomies;
 @property (nonatomic, copy) NSArray *shopInfo;
 @property (nonatomic, copy) NSArray *offers;
+@property (nonatomic, copy) NSArray *storeAddresses;
 
 
 @end

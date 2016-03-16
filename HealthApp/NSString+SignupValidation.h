@@ -13,5 +13,6 @@
 - (BOOL)isValidEmail;
 - (BOOL)isValidPassword;
 - (BOOL)isValidName;
+- (BOOL)isValidDOB;
 
 @end

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 
-@interface MapLocationViewController : UIViewController
+@interface MapLocationViewController : UIViewController<CLLocationManagerDelegate>
+
+@property (nonatomic, strong) NSArray *storeAddressArray;
 
 @end

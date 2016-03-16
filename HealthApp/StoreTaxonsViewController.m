@@ -51,7 +51,7 @@ typedef NS_ENUM(uint16_t, sections) {
     NSURLSessionDataTask *_searchTask;
     NSInteger _footerHeight;
     UIActivityIndicatorView *_search_activityIndicator;
-    NSArray *_offersArray, *_shopInfoArray;
+    NSArray *_offersArray, *_shopInfoArray, *_storeAddresses;
     UITapGestureRecognizer *_uploadPrsGestureRecognizer, *_quickOrderGestureRecognizer;
 }
 
@@ -690,8 +690,15 @@ typedef NS_ENUM(uint16_t, sections) {
 
 
 -(void)showLocation:(UIButton *)button {
-    MapLocationViewController *mapVC = [[MapLocationViewController alloc] init];
-    [self.navigationController pushViewController:mapVC animated:YES];
+    
+    if (_storeAddresses != nil) {
+        MapLocationViewController *mapVC = [[MapLocationViewController alloc] init];
+        mapVC.storeAddressArray             = _storeAddresses;
+        [self.navigationController pushViewController:mapVC animated:YES];
+    }
+    else
+        NSLog(@"Store Addresses nil");
+    
 }
 
 -(void)makeCall:(NSString *)number {
@@ -913,6 +920,7 @@ typedef NS_ENUM(uint16_t, sections) {
         
         _offersArray = responseModel.offers;
         _shopInfoArray = responseModel.shopInfo;
+        _storeAddresses = responseModel.storeAddresses;
         
         [self.tableView reloadData];
         [self hideHUD];

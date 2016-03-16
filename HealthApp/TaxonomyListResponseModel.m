@@ -15,7 +15,8 @@
     return @{
              @"taxonomies" : @"Taxonomy",
              @"shopInfo"   : @"shopinfo",
-             @"offers"     : @"Offers"
+             @"offers"     : @"Offers",
+             @"storeAddresses"  : @"address"
              };
 }
 
@@ -35,7 +36,7 @@
     if (self == nil) return nil;
     
     NSLog(@"%@", self.offers);
-    NSLog(@"%@", self.shopInfo);
+    NSLog(@"%@", self.storeAddresses);
     
     NSLog(@"%@", dictionaryValue);
     
