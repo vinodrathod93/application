@@ -12,5 +12,6 @@
 @interface MapLocationViewController : UIViewController<CLLocationManagerDelegate>
 
 @property (nonatomic, strong) NSArray *storeAddressArray;
+@property (nonatomic, strong) NSString *storeName;
 
 @end

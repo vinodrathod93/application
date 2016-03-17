@@ -693,6 +693,7 @@ typedef NS_ENUM(uint16_t, sections) {
     
     if (_storeAddresses != nil) {
         MapLocationViewController *mapVC = [[MapLocationViewController alloc] init];
+        mapVC.storeName                     = self.title;
         mapVC.storeAddressArray             = _storeAddresses;
         [self.navigationController pushViewController:mapVC animated:YES];
     }

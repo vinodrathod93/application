@@ -12,14 +12,23 @@
 
 @property (nonatomic, strong) GMSMapView *mapView;
 @property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) NSURLSession *markerSession;
+@property (nonatomic, strong) GMSPolyline *polyline;
 
 @end
 
-@implementation MapLocationViewController
+@implementation MapLocationViewController {
+    NSString *_currentPlaceString;
+}
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    config.URLCache = [[NSURLCache alloc] initWithMemoryCapacity:2*1024*1024 diskCapacity:10*1024*1024 diskPath:@"MarkerData"];
+    self.markerSession = [NSURLSession sessionWithConfiguration:config];
     
     
     self.locationManager = [[CLLocationManager alloc] init];
@@ -53,28 +62,29 @@
     
     GMSMarker *marker1 = [[GMSMarker alloc] init];
     marker1.position    = CLLocationCoordinate2DMake(storeLatitude.doubleValue, storeLongitude.doubleValue);
+    marker1.title   = self.storeName;
     marker1.appearAnimation  = kGMSMarkerAnimationPop;
     marker1.map         = self.mapView;
     
     
-    
+    [self geocodeCurrentPlaceString];
     
     GMSMarker *currentLocationMarker = [[GMSMarker alloc] init];
     currentLocationMarker.position = CLLocationCoordinate2DMake(self.locationManager.location.coordinate.latitude, self.locationManager.location.coordinate.longitude);
     currentLocationMarker.title = @"Current Location";
-    currentLocationMarker.icon = [GMSMarker markerImageWithColor:[UIColor blueColor]];
+    currentLocationMarker.icon = [GMSMarker markerImageWithColor:[UIColor lightGrayColor]];
     currentLocationMarker.appearAnimation = kGMSMarkerAnimationPop;
     currentLocationMarker.map = self.mapView;
     
     
+    [self requestDirectionFromMarker:marker1];
     
-    
-    GMSMutablePath *path = [[GMSMutablePath alloc] init];
-    [path addLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude];
-    [path addLatitude:storeLatitude.doubleValue longitude:storeLongitude.doubleValue];
-    
-    GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];
-    singleLine.map = self.mapView;
+//    GMSMutablePath *path = [[GMSMutablePath alloc] init];
+//    [path addLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude];
+//    [path addLatitude:storeLatitude.doubleValue longitude:storeLongitude.doubleValue];
+//    
+//    GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];
+//    singleLine.map = self.mapView;
     
     
     [self.view addSubview:self.mapView];
@@ -96,6 +106,110 @@
 }
 
 
-//-(void)locationmanager
+-(void)requestDirectionFromMarker:(GMSMarker *)marker {
+    
+    
+    
+    self.polyline.map = nil;
+    self.polyline = nil;
+    
+    
+        NSString *urlString = [NSString stringWithFormat:@"%@?origin=%f,%f&destination=%f,%f&sensor=true&key=%@",
+                               @"https://maps.googleapis.com/maps/api/directions/json",
+                               self.locationManager.location.coordinate.latitude,
+                               self.locationManager.location.coordinate.longitude,
+                               marker.position.latitude,
+                               marker.position.longitude,
+                               kGoogleAPIServerKey
+                               ];
+        
+        NSURL *directionURL = [NSURL URLWithString:urlString];
+        NSURLSessionDataTask *task = [self.markerSession dataTaskWithURL:directionURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            // directions Task
+            
+            
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+            if (!error) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    GMSPath *path = [GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
+                    
+                    self.polyline = [GMSPolyline polylineWithPath:path];
+                    self.polyline.strokeWidth = 7;
+                    self.polyline.strokeColor = [UIColor yellowColor];
+                    self.polyline.map = self.mapView;
+                }];
+            }
+            
+            
+        }];
+        
+        [task resume];
+
+    
+}
+
+
+
+
+-(void)geocodeCurrentPlaceString {
+    __block CLPlacemark *placemark;
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    
+    [geocoder reverseGeocodeLocation:self.locationManager.location
+                   completionHandler:^(NSArray *placemarks, NSError *error) {
+                       NSLog(@"reverseGeocodeLocation:completionHandler: Completion Handler called!");
+                       
+                       if (error){
+                           NSLog(@"Geocode failed with error: %@", error);
+                           return;
+                           
+                       }
+                       
+                       
+                       placemark = [placemarks objectAtIndex:0];
+                       
+                       NSLog(@"placemark.ISOcountryCode %@",placemark.ISOcountryCode);
+                       NSLog(@"placemark.country %@",placemark.country);
+                       NSLog(@"placemark.postalCode %@",placemark.postalCode);
+                       NSLog(@"placemark.administrativeArea %@",placemark.administrativeArea);
+                       NSLog(@"placemark.locality %@",placemark.locality);
+                       NSLog(@"placemark.subLocality %@",placemark.subLocality);
+                       NSLog(@"placemark.subThoroughfare %@",placemark.subThoroughfare);
+                       
+                       NSString *currentPlace = [NSString stringWithFormat:@"%@, %@", placemark.subLocality, placemark.locality];
+                       _currentPlaceString = currentPlace;
+                       
+                   }];
+    
+    
+    
+   
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @end
