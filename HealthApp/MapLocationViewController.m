@@ -22,15 +22,15 @@
     [super viewDidLoad];
     
     
-//    self.locationManager = [[CLLocationManager alloc] init];
-//    self.locationManager.distanceFilter = kCLDistanceFilterNone;
-//    self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-//    [self.locationManager startUpdatingLocation];
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    [self.locationManager startUpdatingLocation];
     
     
-    Location *location = [Location savedLocation];
+//    Location *location = [Location savedLocation];
     
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue zoom:14 bearing:0 viewingAngle:0];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude zoom:14 bearing:0 viewingAngle:0];
     
     self.mapView = [GMSMapView mapWithFrame:self.view.bounds camera:camera];
     self.mapView.mapType = kGMSTypeNormal;
@@ -60,7 +60,7 @@
     
     
     GMSMarker *currentLocationMarker = [[GMSMarker alloc] init];
-    currentLocationMarker.position = CLLocationCoordinate2DMake(location.latitude.doubleValue, location.longitude.doubleValue);
+    currentLocationMarker.position = CLLocationCoordinate2DMake(self.locationManager.location.coordinate.latitude, self.locationManager.location.coordinate.longitude);
     currentLocationMarker.title = @"Current Location";
     currentLocationMarker.icon = [GMSMarker markerImageWithColor:[UIColor blueColor]];
     currentLocationMarker.appearAnimation = kGMSMarkerAnimationPop;
@@ -70,7 +70,7 @@
     
     
     GMSMutablePath *path = [[GMSMutablePath alloc] init];
-    [path addLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue];
+    [path addLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude];
     [path addLatitude:storeLatitude.doubleValue longitude:storeLongitude.doubleValue];
     
     GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];

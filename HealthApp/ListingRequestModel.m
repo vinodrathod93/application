@@ -14,12 +14,17 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"latitude"     : @"latitude",
-             @"longitude"    : @"longitude",
-             @"category_id"  : @"catid",
-             @"subcategory_id" : @"subcatid",
-             @"page"         : @"page",
-             @"type_id"      : @"type_id"
+             @"latitude"        : @"latitude",
+             @"longitude"       : @"longitude",
+             @"category_id"     : @"catid",
+             @"subcategory_id"  : @"subcatid",
+             @"page"            : @"page",
+             @"sortType_id"     : @"type_id",
+             @"is24Hrs"         : @"twenty_four_hr",
+             @"hasOffers"       : @"offer",
+             @"minDelivery_id"  : @"minimum_delivery_id",
+             @"ratings_id"      : @"ratings_id",
+        
              };
 }
 

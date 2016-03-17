@@ -92,7 +92,8 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 
 -(void)displaySortingSheet {
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Sort" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Sort" message:nil
+                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction *name = [UIAlertAction actionWithTitle:@"Name" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"Sort by name");

@@ -21,8 +21,9 @@
 #import "BookCallListingCell.h"
 #import "BookingViewController.h"
 #import "StoreTaxonsViewController.h"
-#import "BannerView.h"
+#import "BannerTableViewCell.h"
 
+#define kBannerSectionIndex 1
 
 @interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
 
@@ -30,7 +31,7 @@
 
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) NoStores *noListingView;
-@property (nonatomic, strong) BannerView *bannerView;
+//@property (nonatomic, strong) BannerTableViewCell *bannerView;
 @property (nonatomic, strong) NSArray *bannerImages;
 
 @end
@@ -53,8 +54,7 @@
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    
-    
+    [self.tableView registerClass:[BannerTableViewCell class] forCellReuseIdentifier:@"bannerViewCellIdentifier"];
     
     
     
@@ -98,7 +98,10 @@
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    _bannerView.scrollView.contentSize = CGSizeMake(CGRectGetWidth(_bannerView.scrollView.frame) * self.bannerImages.count, CGRectGetHeight(_bannerView.scrollView.frame));
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    BannerTableViewCell *cell = (BannerTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    cell.scrollView.contentSize = CGSizeMake(CGRectGetWidth(cell.scrollView.frame) * self.bannerImages.count, CGRectGetHeight(cell.scrollView.frame));
 }
 
 
@@ -106,7 +109,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.listingArray.count;
+    return self.listingArray.count + kBannerSectionIndex;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -116,29 +119,49 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-
-    
-    ListingModel *model = self.listingArray[indexPath.section];
     
     NSString *cellIdentifier;
-    id cell;
+    id uCell;
     
-//    if (model.isBook == [NSNumber numberWithBool:YES] || model.isCall == [NSNumber numberWithBool:YES]) {
-//        _isBooking      = YES;
-//        cellIdentifier  = @"BookCallCellIdentifier";
-//        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-//        [self configureBookCallCell:cell withModel:model];
-//    }
-//    else {
+    if (indexPath.section == 0) {
+        cellIdentifier = @"bannerViewCellIdentifier";
+        
+        BannerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        
+//        if (!cell) {
+        
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"BannerView" owner:self options:nil] lastObject];
+            cell.scrollView.delegate = self;
+            
+            [self layoutBannerViewCell:cell];
+            [self setupScrollViewImages:cell];
+            
+//        }
+        
+        
+        return cell;
+        
+    }
+    else {
+        
+        
+        ListingModel *model = self.listingArray[indexPath.section - 1];
+        
+        
+        //    if (model.isBook == [NSNumber numberWithBool:YES] || model.isCall == [NSNumber numberWithBool:YES]) {
+        //        _isBooking      = YES;
+        //        cellIdentifier  = @"BookCallCellIdentifier";
+        //        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        //        [self configureBookCallCell:cell withModel:model];
+        //    }
+        //    else {
         cellIdentifier = @"listingCellIdentifier";
-        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-        [self configureListingCell:cell withModel:model];
-//    }
-    
-    
-    
-    
-    return cell;
+        uCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        [self configureListingCell:uCell withModel:model];
+        //    }
+        
+        return uCell;
+    }
     
 }
 
@@ -239,48 +262,64 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    ListingModel *model = self.listingArray[indexPath.section];
+    
+    if (indexPath.section != 0) {
+        ListingModel *model = self.listingArray[indexPath.section - 1];
+        
+        
+        if (_isProductType == TRUE) {
+            // Show taxons VC
+            
+            StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
+            storeTaxonsVC.title = [model.name capitalizedString];
+            storeTaxonsVC.cat_id = self.category_id;
+            storeTaxonsVC.store_id = model.list_id;
+            storeTaxonsVC.storeImages = model.images;
+            storeTaxonsVC.storePhoneNumbers = model.phone_nos;
+            
+            storeTaxonsVC.hidesBottomBarWhenPushed = NO;
+            [self.navigationController pushViewController:storeTaxonsVC animated:YES];
+            
+        }
+        else {
+            NEntityDetailViewController *NEntityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
+            NEntityVC.cat_id    = self.category_id;
+            NEntityVC.entity_id = model.list_id;
+            NEntityVC.title     = model.name.uppercaseString;
+            NEntityVC.isBooking = _isBooking;
+            
+            NEntityVC.entity_name = model.name;
+            NEntityVC.entity_meta_info = self.title;
+            NEntityVC.entity_image = model.image_url;
+            
+            [self.navigationController pushViewController:NEntityVC animated:YES];
+        }
+    }
     
     
-    if (_isProductType == TRUE) {
-        // Show taxons VC
-        
-        StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
-        storeTaxonsVC.title = [model.name capitalizedString];
-        storeTaxonsVC.cat_id = self.category_id;
-        storeTaxonsVC.store_id = model.list_id;
-        storeTaxonsVC.storeImages = model.images;
-        storeTaxonsVC.storePhoneNumbers = model.phone_nos;
-        
-        storeTaxonsVC.hidesBottomBarWhenPushed = NO;
-        [self.navigationController pushViewController:storeTaxonsVC animated:YES];
-        
-    }
-    else {
-        NEntityDetailViewController *NEntityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
-        NEntityVC.cat_id    = self.category_id;
-        NEntityVC.entity_id = model.list_id;
-        NEntityVC.title     = model.name.uppercaseString;
-        NEntityVC.isBooking = _isBooking;
-        
-        NEntityVC.entity_name = model.name;
-        NEntityVC.entity_meta_info = self.title;
-        NEntityVC.entity_image = model.image_url;
-        
-        [self.navigationController pushViewController:NEntityVC animated:YES];
-    }
     
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return 180;
+    if (indexPath.section != 0) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            return 180;
+        }
+        else
+            return 140.f;
     }
-    else
-        return 140.f;
+    else {
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            return kHeaderViewHeight_Pad + 10;
+        }
+        else
+            return kHeaderViewHeight_Phone + 10;
+    }
+    
+    
 }
 
 
@@ -291,6 +330,7 @@
 //    }
 //    return 5.f;
     
+    /*
     if (section == 0) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             return kHeaderViewHeight_Pad + 10;
@@ -300,7 +340,9 @@
     }
     else
         return 5.f;
+    */
     
+    return 5.f;
     
 }
 
@@ -309,7 +351,7 @@
     return 5.f;
 }
 
-
+/*
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
     if (section == 0) {
@@ -319,23 +361,7 @@
         return nil;
     
 }
-
-//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    if (section == 0) {
-//        Location *savedLocation = [Location savedLocation];
-//        
-//        NSString *loc_name;
-//        
-//        if (savedLocation.location_name == nil)
-//            loc_name            = @"No Location";
-//        else
-//            loc_name            = savedLocation.location_name;
-//        
-//        return [NSString stringWithFormat:@"%@",loc_name];
-//    }
-//    else
-//        return @"";
-//}
+*/
 
 
 -(void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -355,8 +381,9 @@
 }
 
 
--(UIView *)layoutBannerHeaderView {
-    _bannerView = [[[NSBundle mainBundle] loadNibNamed:@"BannerView" owner:self options:nil] lastObject];
+-(void)layoutBannerViewCell:(BannerTableViewCell *)cell {
+    
+    
     
     CGRect frame;
     
@@ -366,30 +393,19 @@
     else
         frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Phone + 10);
     
-    _bannerView.frame = frame;
-    [_bannerView layoutIfNeeded];
+    cell.frame = frame;
+    [cell layoutIfNeeded];
     
     
-    _bannerView.scrollView.delegate = self;
-    _bannerView.scrollView.scrollEnabled = YES;
     
-    CGRect scrollViewFrame = _bannerView.scrollView.frame;
+    CGRect scrollViewFrame = cell.scrollView.frame;
     CGRect currentFrame = self.view.frame;
     
     scrollViewFrame.size.width = currentFrame.size.width;
-    _bannerView.scrollView.frame = scrollViewFrame;
+    cell.scrollView.frame = scrollViewFrame;
+   
     
-    
-    [self setupScrollViewImages];
-    
-    
-    _bannerView.pageControl.numberOfPages = self.bannerImages.count;
-    
-    
-    
-    
-    return _bannerView;
-    
+    cell.pageControl.numberOfPages = self.bannerImages.count;
     
 }
 
@@ -416,10 +432,10 @@
 //    [self deleteOrderLineItem:orderModel atIndexPath:indexPath];
 //}
 
--(void)setupScrollViewImages {
+-(void)setupScrollViewImages:(BannerTableViewCell *)cell {
     
     [self.bannerImages enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_bannerView.scrollView.frame) * idx, 0, CGRectGetWidth(_bannerView.scrollView.frame), CGRectGetHeight(_bannerView.scrollView.frame))];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.scrollView.frame) * idx, 0, CGRectGetWidth(cell.scrollView.frame), CGRectGetHeight(cell.scrollView.frame))];
         imageView.tag = idx;
         
         NSURL *url = [NSURL URLWithString:imageName];
@@ -438,7 +454,7 @@
         }];
         
         
-        [_bannerView.scrollView addSubview:imageView];
+        [cell.scrollView addSubview:imageView];
     }];
     
     
@@ -449,11 +465,15 @@
 
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (scrollView == _bannerView.scrollView) {
-        NSInteger index = _bannerView.scrollView.contentOffset.x / CGRectGetWidth(_bannerView.scrollView.frame);
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    BannerTableViewCell *cell = (BannerTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    if (scrollView == cell.scrollView) {
+        NSInteger index = cell.scrollView.contentOffset.x / CGRectGetWidth(cell.scrollView.frame);
         NSLog(@"%ld",(long)index);
         
-        _bannerView.pageControl.currentPage = index;
+        cell.pageControl.currentPage = index;
     }
 }
 
@@ -521,7 +541,11 @@
     requestModel.category_id          = self.category_id;
     requestModel.subcategory_id       = self.subcategory_id;
     requestModel.page                 = @"1";
-    requestModel.type_id              = @"1";
+    requestModel.sortType_id          = @"1";
+    requestModel.is24Hrs              = [NSNumber numberWithBool:NO];
+    requestModel.hasOffers            = [NSNumber numberWithBool:NO];
+    requestModel.minDelivery_id       = @"";
+    requestModel.ratings_id           = @"";
     
     
     
@@ -573,19 +597,24 @@
 
 -(void)displayImageFullScreen:(UITapGestureRecognizer *)tapGesture {
     
+    
     _tappedImageView = (UIImageView *)tapGesture.view;
     
     ListingCell *cell = (ListingCell *)[[[_tappedImageView superview] superview] superview];
     
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
-    ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
-    imageModalVC.model                  = self.listingArray[indexPath.section];
+    if (indexPath.section != 0) {
+        ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
+        imageModalVC.model                  = self.listingArray[indexPath.section - 1];
+        
+        imageModalVC.transitioningDelegate = self;
+        imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
+        
+        [self presentViewController:imageModalVC animated:YES completion:nil];
+    }
     
-    imageModalVC.transitioningDelegate = self;
-    imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
-    
-    [self presentViewController:imageModalVC animated:YES completion:nil];
+   
     
 }
 
@@ -703,7 +732,7 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     NSLog(@"Cell index %ld", (long)indexPath.section);
     
-    ListingModel *model = self.listingArray[indexPath.section];
+    ListingModel *model = self.listingArray[indexPath.section - 1];
     
     BookingViewController *bookingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"makeBookingVC"];
     bookingVC.category_id               = self.category_id;
