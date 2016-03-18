@@ -15,4 +15,9 @@
 
 @property (nonatomic, strong) NSString *category_id;
 @property (nonatomic, strong) NSString *subcategory_id;
+
+
+@property (nonatomic, strong) NSArray *sorting_list;
+@property (nonatomic, strong) NSArray *filter_list;
+
 @end

@@ -20,7 +20,9 @@
              @"is_active"   : @"Isactive",
              @"color_code"  : @"Colorcode",
              @"is_product"  : @"Isproduct",
-             @"subCat_array": @"SubCatList"
+             @"subCat_array": @"SubCatList",
+             @"sorting_list": @"sort_list",
+             @"filter_list" : @"filter_list"
              
              };
 }

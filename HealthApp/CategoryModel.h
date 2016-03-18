@@ -20,5 +20,7 @@
 @property (nonatomic, assign) BOOL has_subCat;
 
 @property (nonatomic, copy) NSArray *subCat_array;
+@property (nonatomic, copy) NSArray *sorting_list;
+@property (nonatomic, copy) NSArray *filter_list;
 
 @end

@@ -31,6 +31,30 @@
     self.markerSession = [NSURLSession sessionWithConfiguration:config];
     
     
+    
+    
+    UIView *storeInfoView = [[UIView alloc] initWithFrame:CGRectMake(10, self.topLayoutGuide.length + 10, CGRectGetWidth(self.view.frame) - (2*10), 120)];
+    storeInfoView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+    storeInfoView.layer.cornerRadius = 6.f;
+    storeInfoView.layer.masksToBounds = YES;
+    
+    UILabel *storeNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, CGRectGetWidth(storeInfoView.frame) - (2 * 10), 30)];
+    storeNameLabel.text      = self.storeName;
+    storeNameLabel.font      = [NeediatorUtitity mediumFontWithSize:18];
+    
+    UILabel *storeAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, storeNameLabel.frame.size.height + (2 * 10), CGRectGetWidth(storeInfoView.frame) - (2 * 10), 50)];
+    storeAddressLabel.text       = self.storeAddressArray[0][@"address"];
+    storeAddressLabel.numberOfLines = 0;
+    storeAddressLabel.font = [NeediatorUtitity regularFontWithSize:15.f];
+    storeAddressLabel.textColor = [UIColor lightGrayColor];
+    
+    [storeInfoView addSubview:storeNameLabel];
+    [storeInfoView addSubview:storeAddressLabel];
+    
+    
+    
+    
+    
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
@@ -39,7 +63,9 @@
     
 //    Location *location = [Location savedLocation];
     
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude zoom:14 bearing:0 viewingAngle:0];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude zoom:10 bearing:0 viewingAngle:0];
+    
+//    CGRect frame = CGRectMake(0, 100, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - 100);
     
     self.mapView = [GMSMapView mapWithFrame:self.view.bounds camera:camera];
     self.mapView.mapType = kGMSTypeNormal;
@@ -49,7 +75,7 @@
     
     self.mapView.settings.compassButton = YES;
     self.mapView.settings.myLocationButton = YES;
-    [self.mapView setMinZoom:10 maxZoom:18];
+    [self.mapView setMinZoom:10 maxZoom:20];
     
     
     
@@ -67,7 +93,7 @@
     marker1.map         = self.mapView;
     
     
-    [self geocodeCurrentPlaceString];
+//    [self geocodeCurrentPlaceString];
     
     GMSMarker *currentLocationMarker = [[GMSMarker alloc] init];
     currentLocationMarker.position = CLLocationCoordinate2DMake(self.locationManager.location.coordinate.latitude, self.locationManager.location.coordinate.longitude);
@@ -88,6 +114,7 @@
     
     
     [self.view addSubview:self.mapView];
+    [self.view addSubview:storeInfoView];
 }
 
 - (void)didReceiveMemoryWarning {

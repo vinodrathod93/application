@@ -16,5 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *offersScrollView;
 
 @property (weak, nonatomic) IBOutlet UIView *offersContentView;
+@property (weak, nonatomic) IBOutlet UILabel *offersLabel;
+
 
 @end

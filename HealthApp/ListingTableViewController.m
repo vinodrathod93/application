@@ -43,6 +43,7 @@
     UIImageView *_tappedImageView;
     BOOL _isBooking;
     BOOL _isProductType;
+    UIImageView *activityImageView;
 }
 
 
@@ -74,7 +75,7 @@
 
     self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
     
-    [self requestListings];
+    [self requestBasicListings];
     
     
 }
@@ -121,14 +122,13 @@
     
     
     NSString *cellIdentifier;
-    id uCell;
     
     if (indexPath.section == 0) {
         cellIdentifier = @"bannerViewCellIdentifier";
         
-        BannerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        BannerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
-//        if (!cell) {
+        if (cell.scrollView == nil) {
         
             cell = [[[NSBundle mainBundle] loadNibNamed:@"BannerView" owner:self options:nil] lastObject];
             cell.scrollView.delegate = self;
@@ -136,7 +136,7 @@
             [self layoutBannerViewCell:cell];
             [self setupScrollViewImages:cell];
             
-//        }
+        }
         
         
         return cell;
@@ -144,6 +144,7 @@
     }
     else {
         
+        id cell;
         
         ListingModel *model = self.listingArray[indexPath.section - 1];
         
@@ -156,11 +157,11 @@
         //    }
         //    else {
         cellIdentifier = @"listingCellIdentifier";
-        uCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-        [self configureListingCell:uCell withModel:model];
+        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        [self configureListingCell:cell withModel:model];
         //    }
         
-        return uCell;
+        return cell;
     }
     
 }
@@ -276,6 +277,7 @@
             storeTaxonsVC.store_id = model.list_id;
             storeTaxonsVC.storeImages = model.images;
             storeTaxonsVC.storePhoneNumbers = model.phone_nos;
+            storeTaxonsVC.storeDistance = model.nearest_distance.uppercaseString;
             
             storeTaxonsVC.hidesBottomBarWhenPushed = NO;
             [self.navigationController pushViewController:storeTaxonsVC animated:YES];
@@ -323,11 +325,67 @@
 }
 
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    if (section == 0) {
+        UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 40)];
+        header.backgroundColor = [UIColor lightGrayColor];
+        
+        UIButton *sort = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 120, 10, 40, 20)];
+        [sort setTitle:@"Sort" forState:UIControlStateNormal];
+        sort.titleLabel.textColor = [UIColor blackColor];
+        [sort addTarget:self action:@selector(displaySortingSheet) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIButton *filter = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 70, 10, 60, 20)];
+        [filter setTitle:@"Filter" forState:UIControlStateNormal];
+        filter.titleLabel.textColor = [UIColor blackColor];
+        
+        [header addSubview:filter];
+        [header addSubview:sort];
+        
+        return header;
+    }
+    else
+        return nil;
+    
+   
+}
+
+
+-(void)displaySortingSheet {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Sort" message:nil
+                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [self.sorting_list enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSString *name = [type[@"name"] capitalizedString];
+        
+        UIAlertAction *typeAction = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"Sort by %@", name);
+            
+            [self requestListingByType:type[@"id"]];
+            
+        }];
+        
+        [controller addAction:typeAction];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Cancel");
+    }];
+    [controller addAction:cancel];
+
+
+    
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-//    if (section == 0) {
-//        return 40.f;
-//    }
+    if (section == 0) {
+        return 40.f;
+    }
 //    return 5.f;
     
     /*
@@ -409,28 +467,76 @@
     
 }
 
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+//- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return NO;
+//}
 
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
 
-//-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    return UITableViewCellEditingStyleDelete;
-//}
-//
-//
-//-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    [self checkOrders];
-//    
-//    //    LineItems *item = self.lineItemsFetchedResultsController.fetchedObjects[indexPath.row];
-//    
-//    Order *orderModel = [self.orderNumFetchedResultsController.fetchedObjects objectAtIndex:indexPath.section];
-//    
-//    [self deleteOrderLineItem:orderModel atIndexPath:indexPath];
-//}
+
+-(NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    ListingModel *model = self.listingArray[indexPath.section - 1];
+    
+    UITableViewRowAction *callAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Call" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@" Calling ...");
+        
+        [self showPhoneNumbers:model.phone_nos];
+        
+    }];
+    callAction.backgroundColor = [UIColor greenColor];
+    
+    return @[callAction];
+}
+
+
+
+-(void)makeCall:(NSString *)number {
+    
+    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",number]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+        [[UIApplication sharedApplication] openURL:phoneUrl];
+    } else
+    {
+        UIAlertView *callAlertView = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Call facility is not available!!!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [callAlertView show];
+    }
+}
+
+-(void)showPhoneNumbers:(NSArray *)phoneNumbers {
+    
+    if (phoneNumbers != nil) {
+        UIAlertController *phoneAlertController = [UIAlertController alertControllerWithTitle:@"Store Phone Numbers" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        [phoneNumbers enumerateObjectsUsingBlock:^(NSString *_Nonnull phoneNumber, NSUInteger idx, BOOL * _Nonnull stop) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:phoneNumber style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self makeCall:phoneNumber];
+            }];
+            
+            [phoneAlertController addAction:action];
+        }];
+        
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [phoneAlertController dismissViewControllerAnimated:YES completion:nil];
+        }];
+        
+        [phoneAlertController addAction:cancelAction];
+        
+        
+        [self presentViewController:phoneAlertController animated:YES completion:nil];
+    }
+    else
+        NSLog(@"Phone numbers are nil");
+    
+}
 
 -(void)setupScrollViewImages:(BannerTableViewCell *)cell {
     
@@ -440,18 +546,29 @@
         
         NSURL *url = [NSURL URLWithString:imageName];
         
-        
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        
-        [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-            NSLog(@"Image %ld of %ld", (long)receivedSize, (long)expectedSize);
-        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-            CIImage *newImage = [[CIImage alloc] initWithImage:image];
-            CIContext *context = [CIContext contextWithOptions:nil];
-            CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
-            imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-        }];
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            
+            [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                NSLog(@"Image %ld of %ld", (long)receivedSize, (long)expectedSize);
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                
+                if (image) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        CIImage *newImage = [[CIImage alloc] initWithImage:image];
+                        CIContext *context = [CIContext contextWithOptions:nil];
+                        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+                        
+                        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+                    });
+                }
+                
+            }];
+        });
+       
         
         
         [cell.scrollView addSubview:imageView];
@@ -480,17 +597,46 @@
 #pragma mark - Helper Methods
 
 -(void)showHUD {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    self.hud.color = [UIColor clearColor];
-    self.hud.labelText = @"Loading...";
-    self.hud.labelColor = [UIColor darkGrayColor];
-    self.hud.activityIndicatorColor = [UIColor blackColor];
-    self.hud.detailsLabelColor = [UIColor darkGrayColor];
+//    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//    self.hud.color = [UIColor blackColor];
+//    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon"]];
+//    self.hud.mode = MBProgressHUDModeCustomView;
+//    self.hud.labelText = @"Loading...";
+//    self.hud.labelColor = [UIColor darkGrayColor];
+//    self.hud.activityIndicatorColor = [UIColor blackColor];
+//    self.hud.detailsLabelColor = [UIColor darkGrayColor];
+    
+    
+    UIImage *statusImage = [UIImage imageNamed:@"icon7.png"];
+    activityImageView = [[UIImageView alloc]
+                                      initWithImage:statusImage];
+    
+    activityImageView.animationImages = [NSArray arrayWithObjects:
+                                         [UIImage imageNamed:@"iconGreen.png"],
+                                         [UIImage imageNamed:@"icon7.png"],
+                                         nil];
+    activityImageView.animationDuration = 0.8;
+    
+    activityImageView.frame = CGRectMake(
+                                         self.view.frame.size.width/2
+                                         -statusImage.size.width/2,
+                                         self.view.frame.size.height/2
+                                         -statusImage.size.height/2, 
+                                         statusImage.size.width, 
+                                         statusImage.size.height);
+    
+    [activityImageView startAnimating];
+    [self.view addSubview:activityImageView];
+    
+    
 }
 
 -(void)hideHUD {
-    [self.hud hide:YES];
-    [self.hud removeFromSuperViewOnHide];
+//    [self.hud hide:YES];
+//    [self.hud removeFromSuperViewOnHide];
+    
+    [activityImageView stopAnimating];
+    [activityImageView removeFromSuperview];
 }
 
 
@@ -528,12 +674,13 @@
     
 }
 
--(void)requestListings {
+
+
+-(void)requestListingByType:(NSString *)type {
     
-    
-    [self removeConnectionView];
     
     Location *location_store = [Location savedLocation];
+    
     
     ListingRequestModel *requestModel = [ListingRequestModel new];
     requestModel.latitude             = location_store.latitude;
@@ -541,18 +688,49 @@
     requestModel.category_id          = self.category_id;
     requestModel.subcategory_id       = self.subcategory_id;
     requestModel.page                 = @"1";
-    requestModel.sortType_id          = @"1";
-    requestModel.is24Hrs              = [NSNumber numberWithBool:NO];
-    requestModel.hasOffers            = [NSNumber numberWithBool:NO];
+    requestModel.sortType_id          = type;
+    requestModel.is24Hrs              = @"";
+    requestModel.hasOffers            = @"";
     requestModel.minDelivery_id       = @"";
     requestModel.ratings_id           = @"";
     
+    [self requestListings:requestModel];
+}
+
+-(void)requestBasicListings {
     
     
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        [self showHUD];
-    });
+    
+    
+    Location *location_store = [Location savedLocation];
+    
+    
+    ListingRequestModel *requestModel = [ListingRequestModel new];
+    requestModel.latitude             = location_store.latitude;
+    requestModel.longitude            = location_store.longitude;
+    requestModel.category_id          = self.category_id;
+    requestModel.subcategory_id       = self.subcategory_id;
+    requestModel.page                 = @"1";
+    requestModel.sortType_id          = @"2";
+    requestModel.is24Hrs              = @"";
+    requestModel.hasOffers            = @"";
+    requestModel.minDelivery_id       = @"";
+    requestModel.ratings_id           = @"";
+    
+    [self requestListings:requestModel];
+
+    
+}
+
+
+-(void)requestListings:(ListingRequestModel *)requestModel {
+    
+    [self removeConnectionView];
+    
+    Location *location_store = [Location savedLocation];
+    
+    
+    [self showHUD];
     
     
     
@@ -585,13 +763,11 @@
         
         NSLog(@"%f, %f, %@", self.topLayoutGuide.length, self.bottomLayoutGuide.length, NSStringFromCGRect(_connectionView.frame));
         _connectionView.label.text = [error localizedDescription];
-        [_connectionView.retryButton addTarget:self action:@selector(requestListings) forControlEvents:UIControlEventTouchUpInside];
+        [_connectionView.retryButton addTarget:self action:@selector(requestBasicListings) forControlEvents:UIControlEventTouchUpInside];
         
         [self.navigationController.view insertSubview:_connectionView belowSubview:self.navigationController.navigationBar];
     }];
-    
 }
-
 
 
 

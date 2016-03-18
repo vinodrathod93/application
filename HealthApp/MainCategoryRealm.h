@@ -9,10 +9,11 @@
 #import <Realm/Realm.h>
 #import "CategoryModel.h"
 #import "SubCategoryRealm.h"
+#import "SortListObject.h"
 
 
 
-//RLM_ARRAY_TYPE(SubCategoryRealm)
+RLM_ARRAY_TYPE(SortListObject)
 
 @interface MainCategoryRealm : RLMObject
 
@@ -20,6 +21,8 @@
 @property  NSString *name;
 @property  NSString *image_url;
 @property  NSString *color_code;
+@property  RLMArray<SortListObject *><SortListObject> *sorting_list;
+@property  RLMArray *filter_list;
 
 //@property  RLMArray<SubCategoryRealm *><SubCategoryRealm> *subCatArray;
 

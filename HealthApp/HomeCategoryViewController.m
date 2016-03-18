@@ -280,6 +280,9 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         listingVC.nav_color                  = model.color_code;
         listingVC.category_id                 = model.cat_id.stringValue;
         listingVC.subcategory_id              = @"";
+        listingVC.sorting_list              = model.sorting_list;
+        listingVC.filter_list               = model.filter_list;
+        
         [self.navigationController pushViewController:listingVC animated:YES];
         
 
@@ -627,12 +630,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                 
             }
             
-//            for (PromotionModel *model in response.promotions) {
-//                MainPromotionRealm *promotionRealm = [[MainPromotionRealm alloc] initWithMantleModel:model];
-//                promotionRealm.image_data = [NSData dataWithContentsOfURL:[NSURL URLWithString:model.image_url]];
-//                
-//                [realm addObject:promotionRealm];
-//            }
             
             [realm commitWriteTransaction];
             
@@ -643,11 +640,9 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                 
                 RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
                 RLMResults *subCategories = [SubCategoryRealm allObjectsInRealm:realmMainThread];
-//                RLMResults *promotions  = [MainPromotionRealm allObjectsInRealm:realmMainThread];
                 
                 self.categoriesArray = categories;
                 self.subCategoriesArray = subCategories;
-//                self.promotions = promotions;
                 
                 [self.collectionView reloadData];
                 [self hideHUD];
@@ -666,9 +661,8 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         // Display error
         [self hideHUD];
         
-        self.categoriesArray = [MainCategoryRealm allObjects];
-        self.subCategoriesArray = [SubCategoryRealm allObjects];
-//        self.promotions      = [MainPromotionRealm allObjects];
+//        self.categoriesArray = [MainCategoryRealm allObjects];
+//        self.subCategoriesArray = [SubCategoryRealm allObjects];
         
         [self.collectionView reloadData];
         [self removeLaunchScreen];

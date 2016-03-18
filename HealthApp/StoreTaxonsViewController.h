@@ -19,5 +19,6 @@
 @property (nonatomic, strong) NSString *store_id;
 
 @property (nonatomic, strong) NSArray *storePhoneNumbers;
+@property (nonatomic, strong) NSString *storeDistance;
 
 @end

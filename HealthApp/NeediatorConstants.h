@@ -27,8 +27,8 @@ static NSString *const kAPP_ID = @"1073622324";
 
 
 /* Taxon - Taxonomy VC */
-#define kTaxonHeaderViewHeight_Pad 400
-#define kTaxonHeaderViewHeight_Phone 200
+#define kTaxonHeaderViewHeight_Pad 480
+#define kTaxonHeaderViewHeight_Phone 240
 
 
 /* Cart VC */
@@ -55,8 +55,9 @@ static NSString *const kAPP_ID = @"1073622324";
 #define kStoreButtonOptionsViewHeight 65
 #define kStoreUploadPrsViewHeight 90
 
-#define kStoreImageViewCellHeight 200
+#define kStoreImageViewCellHeight 240
 #define kStoreTaxonTaxonomyCellHeight 50
+#define kStoreOffersViewHeight 62
 
 
 /* Spree API Manager */

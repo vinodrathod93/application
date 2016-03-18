@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		820883211C9C1E23000FDCB2 /* icon0.png in Resources */ = {isa = PBXBuildFile; fileRef = 820883191C9C1E23000FDCB2 /* icon0.png */; };
+		820883221C9C1E23000FDCB2 /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831A1C9C1E23000FDCB2 /* icon1.png */; };
+		820883231C9C1E23000FDCB2 /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831B1C9C1E23000FDCB2 /* icon2.png */; };
+		820883241C9C1E23000FDCB2 /* icon3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831C1C9C1E23000FDCB2 /* icon3.png */; };
+		820883251C9C1E23000FDCB2 /* icon4.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831D1C9C1E23000FDCB2 /* icon4.png */; };
+		820883261C9C1E23000FDCB2 /* icon5.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831E1C9C1E23000FDCB2 /* icon5.png */; };
+		820883271C9C1E23000FDCB2 /* icon6.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831F1C9C1E23000FDCB2 /* icon6.png */; };
+		820883281C9C1E23000FDCB2 /* icon7.png in Resources */ = {isa = PBXBuildFile; fileRef = 820883201C9C1E23000FDCB2 /* icon7.png */; };
+		8208832A1C9C20E8000FDCB2 /* iconGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 820883291C9C20E8000FDCB2 /* iconGreen.png */; };
+		8208832D1C9C37F3000FDCB2 /* SortListObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8208832C1C9C37F3000FDCB2 /* SortListObject.m */; };
 		821415801C99819900FDEFDB /* MapLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8214157F1C99819900FDEFDB /* MapLocationViewController.m */; };
 		82147FB71C45230D00D6691E /* ChemistResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FB61C45230D00D6691E /* ChemistResponseModel.m */; };
 		82147FBA1C45272B00D6691E /* ListingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FB91C45272B00D6691E /* ListingModel.m */; };
@@ -188,6 +198,17 @@
 		26E4DE3B6A3BA531177D5ECA /* Pods-Chemist Plus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.debug.xcconfig"; sourceTree = "<group>"; };
 		34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CED2C0B1CF6D1F8E6BC80C5 /* Pods-Neediator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.release.xcconfig"; sourceTree = "<group>"; };
+		820883191C9C1E23000FDCB2 /* icon0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon0.png; sourceTree = "<group>"; };
+		8208831A1C9C1E23000FDCB2 /* icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1.png; sourceTree = "<group>"; };
+		8208831B1C9C1E23000FDCB2 /* icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon2.png; sourceTree = "<group>"; };
+		8208831C1C9C1E23000FDCB2 /* icon3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon3.png; sourceTree = "<group>"; };
+		8208831D1C9C1E23000FDCB2 /* icon4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon4.png; sourceTree = "<group>"; };
+		8208831E1C9C1E23000FDCB2 /* icon5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon5.png; sourceTree = "<group>"; };
+		8208831F1C9C1E23000FDCB2 /* icon6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon6.png; sourceTree = "<group>"; };
+		820883201C9C1E23000FDCB2 /* icon7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon7.png; sourceTree = "<group>"; };
+		820883291C9C20E8000FDCB2 /* iconGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconGreen.png; sourceTree = "<group>"; };
+		8208832B1C9C37F3000FDCB2 /* SortListObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortListObject.h; sourceTree = "<group>"; };
+		8208832C1C9C37F3000FDCB2 /* SortListObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortListObject.m; sourceTree = "<group>"; };
 		8214157E1C99819900FDEFDB /* MapLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLocationViewController.h; sourceTree = "<group>"; };
 		8214157F1C99819900FDEFDB /* MapLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLocationViewController.m; sourceTree = "<group>"; };
 		82147FB51C45230D00D6691E /* ChemistResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemistResponseModel.h; sourceTree = "<group>"; };
@@ -684,6 +705,8 @@
 				82F856D91C8091CF000B68A9 /* SubCategoryRealm.m */,
 				82CC99411C8863CA00F06EB3 /* MainPromotionRealm.h */,
 				82CC99421C8863CA00F06EB3 /* MainPromotionRealm.m */,
+				8208832B1C9C37F3000FDCB2 /* SortListObject.h */,
+				8208832C1C9C37F3000FDCB2 /* SortListObject.m */,
 			);
 			name = Realm;
 			sourceTree = "<group>";
@@ -1595,6 +1618,15 @@
 		82EF2DDB1BE8C55E00D87DE2 /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
+				820883291C9C20E8000FDCB2 /* iconGreen.png */,
+				820883191C9C1E23000FDCB2 /* icon0.png */,
+				8208831A1C9C1E23000FDCB2 /* icon1.png */,
+				8208831B1C9C1E23000FDCB2 /* icon2.png */,
+				8208831C1C9C1E23000FDCB2 /* icon3.png */,
+				8208831D1C9C1E23000FDCB2 /* icon4.png */,
+				8208831E1C9C1E23000FDCB2 /* icon5.png */,
+				8208831F1C9C1E23000FDCB2 /* icon6.png */,
+				820883201C9C1E23000FDCB2 /* icon7.png */,
 				82BD028F1B46A73C00108A0B /* AppDelegate.h */,
 				82BD02901B46A73C00108A0B /* AppDelegate.m */,
 				82C722F41B7B1B7600E0C5EF /* RootTabBarControllerDelegate.h */,
@@ -1775,19 +1807,28 @@
 			files = (
 				826212F61BFB25BC00F75254 /* BannerView.xib in Resources */,
 				824C25531B56374900C58F97 /* Categories.plist in Resources */,
+				8208832A1C9C20E8000FDCB2 /* iconGreen.png in Resources */,
 				823F71B11C1B206E00E43731 /* NoStores.xib in Resources */,
+				820883271C9C1E23000FDCB2 /* icon6.png in Resources */,
 				827FD14B1C455D16000EB0A4 /* Neediator_Logo_Final.png in Resources */,
+				820883221C9C1E23000FDCB2 /* icon1.png in Resources */,
 				82FB520E1C281B3300E19626 /* LoginView.xib in Resources */,
+				820883211C9C1E23000FDCB2 /* icon0.png in Resources */,
 				82BD02971B46A73C00108A0B /* Main.storyboard in Resources */,
 				82C36C5B1C81DA900038EA5F /* TaxonHeaderView.xib in Resources */,
 				82217C481C96D4FA002570E3 /* StoreOptionsView.xib in Resources */,
 				82217C461C96CE50002570E3 /* StoreReviewsView.xib in Resources */,
 				82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */,
 				82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */,
+				820883241C9C1E23000FDCB2 /* icon3.png in Resources */,
 				82217C4A1C96E293002570E3 /* UploadPrescriptionCellView.xib in Resources */,
 				82BD02991B46A73C00108A0B /* Images.xcassets in Resources */,
 				826B14281BC2906800B6A1C3 /* OrderReviewFooterView.xib in Resources */,
+				820883261C9C1E23000FDCB2 /* icon5.png in Resources */,
+				820883251C9C1E23000FDCB2 /* icon4.png in Resources */,
 				82EA19881C297639001EBA16 /* NoConnectionView.xib in Resources */,
+				820883281C9C1E23000FDCB2 /* icon7.png in Resources */,
+				820883231C9C1E23000FDCB2 /* icon2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1901,6 +1942,7 @@
 				82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */,
 				826F07511C524A310033DD09 /* BookCallListingCell.m in Sources */,
 				82147FBA1C45272B00D6691E /* ListingModel.m in Sources */,
+				8208832D1C9C37F3000FDCB2 /* SortListObject.m in Sources */,
 				8286B2511BF089D600AFC533 /* ListingRequestModel.m in Sources */,
 				82FB520C1C281B2500E19626 /* LoginView.m in Sources */,
 				82CC99431C8863CA00F06EB3 /* MainPromotionRealm.m in Sources */,
@@ -2133,7 +2175,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/vinodrathod/Downloads/FacebookSDKs,
+					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
@@ -2163,7 +2205,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/vinodrathod/Downloads/FacebookSDKs,
+					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";

@@ -96,6 +96,10 @@
 {
     static NSString *CellIdentifier = @"entityDescriptionCell";
     
+    NSLog(@"%@", _selectedIndexes);
+    
+    [_selectedIndexes setObject:@1 forKey:indexPath];
+    
     NEntityDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     if (!cell)

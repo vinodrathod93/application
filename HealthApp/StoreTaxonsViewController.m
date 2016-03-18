@@ -222,7 +222,7 @@ typedef NS_ENUM(uint16_t, sections) {
     
     [self.storeImages enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull imageData, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        UIView *offerView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.offersScrollView.frame) * idx + 5, 5, CGRectGetWidth(cell.offersScrollView.frame) -10 , 40)];
+        UIView *offerView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.offersScrollView.frame) * idx + 5, 5, CGRectGetWidth(cell.offersScrollView.frame) -10 , kStoreOffersViewHeight - (2*5))];
 
         offerView.backgroundColor = [UIColor lightGrayColor];
         offerView.layer.cornerRadius = 5.f;
@@ -658,7 +658,7 @@ typedef NS_ENUM(uint16_t, sections) {
     StoreOptionsView *storeOptionView = [[[NSBundle mainBundle] loadNibNamed:@"StoreOptionsView" owner:self options:nil] lastObject];
     storeOptionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kStoreButtonOptionsViewHeight);
     
-    
+    [storeOptionView.locationButton setTitle:self.storeDistance forState:UIControlStateNormal];
     
     [storeOptionView.favButton addTarget:self action:@selector(requestFavourites:) forControlEvents:UIControlEventTouchUpInside];
     [storeOptionView.infoButton addTarget:self action:@selector(goToStoreInfoDetailVC) forControlEvents:UIControlEventTouchUpInside];

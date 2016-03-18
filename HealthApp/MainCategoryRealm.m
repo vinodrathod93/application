@@ -18,6 +18,8 @@
     self.name   = model.name;
     self.image_url = model.image_url;
     self.color_code = model.color_code;
+    self.sorting_list = model.sorting_list;
+    self.filter_list = model.filter_list;
     
     return self;
 }
