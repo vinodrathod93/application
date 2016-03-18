@@ -328,20 +328,32 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
     if (section == 0) {
-        UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 40)];
-        header.backgroundColor = [UIColor lightGrayColor];
+        UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 30)];
+        header.backgroundColor = [NeediatorUtitity defaultColor];
         
-        UIButton *sort = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 120, 10, 40, 20)];
-        [sort setTitle:@"Sort" forState:UIControlStateNormal];
-        sort.titleLabel.textColor = [UIColor blackColor];
+        UILabel *resultsCount =[[ UILabel alloc] initWithFrame:CGRectMake(10, 5, CGRectGetWidth(self.view.frame) - 150, 20)];
+        resultsCount.text = @"Showing 150 results";
+        resultsCount.font = [NeediatorUtitity regularFontWithSize:15.f];
+        resultsCount.backgroundColor = [UIColor clearColor];
+        
+        
+        UIButton *sort = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 120, 5, 40, 20)];
+        [sort setTitle:@"SORT" forState:UIControlStateNormal];
+        [sort setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        sort.titleLabel.font = [NeediatorUtitity demiBoldFontWithSize:15.f];
+        sort.backgroundColor = [UIColor clearColor];
+        
         [sort addTarget:self action:@selector(displaySortingSheet) forControlEvents:UIControlEventTouchUpInside];
         
-        UIButton *filter = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 70, 10, 60, 20)];
-        [filter setTitle:@"Filter" forState:UIControlStateNormal];
-        filter.titleLabel.textColor = [UIColor blackColor];
+        UIButton *filter = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 70, 5, 60, 20)];
+        [filter setTitle:@"FILTER" forState:UIControlStateNormal];
+        filter.titleLabel.font = [NeediatorUtitity demiBoldFontWithSize:15.f];
+        [filter setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        filter.backgroundColor = [UIColor clearColor];
         
         [header addSubview:filter];
         [header addSubview:sort];
+        [header addSubview:resultsCount];
         
         return header;
     }
@@ -384,7 +396,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     if (section == 0) {
-        return 40.f;
+        return 30.f;
     }
 //    return 5.f;
     
@@ -615,7 +627,7 @@
                                          [UIImage imageNamed:@"iconGreen.png"],
                                          [UIImage imageNamed:@"icon7.png"],
                                          nil];
-    activityImageView.animationDuration = 0.8;
+    activityImageView.animationDuration = 0.8 * 2;
     
     activityImageView.frame = CGRectMake(
                                          self.view.frame.size.width/2
@@ -624,6 +636,20 @@
                                          -statusImage.size.height/2, 
                                          statusImage.size.width, 
                                          statusImage.size.height);
+    
+    
+    
+//    CATransform3DMakeRotation(-1.01f * M_PI, 0, 0, 1.0);
+    CATransform3D rotationTransform = CATransform3DMakeRotation(M_PI_2, 0, 1.0, 0);
+    CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
+    
+    rotationAnimation.toValue = [NSValue valueWithCATransform3D:rotationTransform];
+    rotationAnimation.duration = 0.8;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = LONG_MAX;
+    [activityImageView.layer addAnimation:rotationAnimation forKey:@"transform"];
+    
+    
     
     [activityImageView startAnimating];
     [self.view addSubview:activityImageView];

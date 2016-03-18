@@ -21,10 +21,10 @@ RLM_ARRAY_TYPE(SortListObject)
 @property  NSString *name;
 @property  NSString *image_url;
 @property  NSString *color_code;
-@property  RLMArray<SortListObject *><SortListObject> *sorting_list;
-@property  RLMArray *filter_list;
+//@property  RLMArray<SortListObject> *sorting_list;
+//@property  RLMArray *filter_list;
 
-//@property  RLMArray<SubCategoryRealm *><SubCategoryRealm> *subCatArray;
+
 
 - (id)initWithMantleModel:(CategoryModel *)model;
 

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6795F0A81C9C8E9000984A92 /* SortListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0A71C9C8E9000984A92 /* SortListModel.m */; };
+		6795F0AB1C9C8F6200984A92 /* FilterListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AA1C9C8F6200984A92 /* FilterListModel.m */; };
+		6795F0AE1C9C93A500984A92 /* FilterHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */; };
+		6795F0B11C9C95A300984A92 /* FilterListRealm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0B01C9C95A300984A92 /* FilterListRealm.m */; };
 		820883211C9C1E23000FDCB2 /* icon0.png in Resources */ = {isa = PBXBuildFile; fileRef = 820883191C9C1E23000FDCB2 /* icon0.png */; };
 		820883221C9C1E23000FDCB2 /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831A1C9C1E23000FDCB2 /* icon1.png */; };
 		820883231C9C1E23000FDCB2 /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831B1C9C1E23000FDCB2 /* icon2.png */; };
@@ -197,6 +201,14 @@
 /* Begin PBXFileReference section */
 		26E4DE3B6A3BA531177D5ECA /* Pods-Chemist Plus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.debug.xcconfig"; sourceTree = "<group>"; };
 		34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6795F0A61C9C8E9000984A92 /* SortListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortListModel.h; sourceTree = "<group>"; };
+		6795F0A71C9C8E9000984A92 /* SortListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortListModel.m; sourceTree = "<group>"; };
+		6795F0A91C9C8F6200984A92 /* FilterListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterListModel.h; sourceTree = "<group>"; };
+		6795F0AA1C9C8F6200984A92 /* FilterListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterListModel.m; sourceTree = "<group>"; };
+		6795F0AC1C9C93A500984A92 /* FilterHelperModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterHelperModel.h; sourceTree = "<group>"; };
+		6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterHelperModel.m; sourceTree = "<group>"; };
+		6795F0AF1C9C95A300984A92 /* FilterListRealm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterListRealm.h; sourceTree = "<group>"; };
+		6795F0B01C9C95A300984A92 /* FilterListRealm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterListRealm.m; sourceTree = "<group>"; };
 		7CED2C0B1CF6D1F8E6BC80C5 /* Pods-Neediator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.release.xcconfig"; sourceTree = "<group>"; };
 		820883191C9C1E23000FDCB2 /* icon0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon0.png; sourceTree = "<group>"; };
 		8208831A1C9C1E23000FDCB2 /* icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1.png; sourceTree = "<group>"; };
@@ -707,6 +719,8 @@
 				82CC99421C8863CA00F06EB3 /* MainPromotionRealm.m */,
 				8208832B1C9C37F3000FDCB2 /* SortListObject.h */,
 				8208832C1C9C37F3000FDCB2 /* SortListObject.m */,
+				6795F0AF1C9C95A300984A92 /* FilterListRealm.h */,
+				6795F0B01C9C95A300984A92 /* FilterListRealm.m */,
 			);
 			name = Realm;
 			sourceTree = "<group>";
@@ -1046,6 +1060,12 @@
 				82DCBECD1C4CE3F6005EBDB3 /* Category */,
 				82DCBECE1C4CE3FF005EBDB3 /* Promotions */,
 				82ED53E01C4FB39800FA7707 /* Spree */,
+				6795F0A61C9C8E9000984A92 /* SortListModel.h */,
+				6795F0A71C9C8E9000984A92 /* SortListModel.m */,
+				6795F0A91C9C8F6200984A92 /* FilterListModel.h */,
+				6795F0AA1C9C8F6200984A92 /* FilterListModel.m */,
+				6795F0AC1C9C93A500984A92 /* FilterHelperModel.h */,
+				6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1901,6 +1921,7 @@
 				82B4245A1C8431BB00664A4B /* UploadPrescriptionViewController.m in Sources */,
 				82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */,
 				82C38A821C0864D70006A73B /* PopupCartViewController.m in Sources */,
+				6795F0B11C9C95A300984A92 /* FilterListRealm.m in Sources */,
 				823B73911C492F0700031596 /* MainCategoryRealm.m in Sources */,
 				823D06621B8C458600640F45 /* CODInputViewCell.m in Sources */,
 				82EA198B1C29775F001EBA16 /* NoConnectionView.m in Sources */,
@@ -1925,6 +1946,7 @@
 				82B7AAF01C5D0C0E0031BA8E /* SubCategoryViewController.m in Sources */,
 				82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */,
 				82C36C561C81C39B0038EA5F /* NeediatorUtitity.m in Sources */,
+				6795F0AE1C9C93A500984A92 /* FilterHelperModel.m in Sources */,
 				82D3840C1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m in Sources */,
 				82C8AFDF1C92D218006ED890 /* StoreTaxonHeaderViewCell.m in Sources */,
 				82C3F5651C8DCD2300BA266D /* SearchResultsTableViewController.m in Sources */,
@@ -2009,6 +2031,7 @@
 				82D3840F1C2C0DB700D05FB7 /* PaymentDetailViewCell.m in Sources */,
 				823B737F1C49149F00031596 /* NSessionManager.m in Sources */,
 				825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */,
+				6795F0AB1C9C8F6200984A92 /* FilterListModel.m in Sources */,
 				826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */,
 				82A4F1081C94605400708E5E /* StoreOptionsView.m in Sources */,
 				82A5428D1C22BB1A00383253 /* MyOrdersResponseModel.m in Sources */,
@@ -2021,6 +2044,7 @@
 				82A2659C1C2169B50031BDC9 /* NTextField.m in Sources */,
 				82F80CD61C1EE01100C8E076 /* MoreViewController.m in Sources */,
 				823B73851C491A4000031596 /* CategoryModel.m in Sources */,
+				6795F0A81C9C8E9000984A92 /* SortListModel.m in Sources */,
 				82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */,
 				82F856CB1C8077B0000B68A9 /* SubCategoryModel.m in Sources */,
 				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,
@@ -2175,7 +2199,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
+					/Users/vinodrathod/Downloads/FacebookSDKs,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
@@ -2205,7 +2229,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
+					/Users/vinodrathod/Downloads/FacebookSDKs,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";

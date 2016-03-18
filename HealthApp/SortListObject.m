@@ -10,4 +10,15 @@
 
 @implementation SortListObject
 
+- (id)initWithMantleModel:(SortListModel *)model{
+    self = [super init];
+    if(!self) return nil;
+    
+    self.name = model.name;
+    self.type = model.type;
+    self.id   = model.sortID;
+    
+    return self;
+}
+
 @end

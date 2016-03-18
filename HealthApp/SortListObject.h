@@ -7,11 +7,14 @@
 //
 
 #import <Realm/Realm.h>
+#import "SortListModel.h"
 
 @interface SortListObject : RLMObject
 
 @property NSString *name;
 @property NSString *type;
 @property NSNumber<RLMInt> *id;
+
+- (id)initWithMantleModel:(SortListModel *)model;
 
 @end

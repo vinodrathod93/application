@@ -8,6 +8,8 @@
 
 #import "CategoryModel.h"
 #import "SubCategoryModel.h"
+#import "FilterListModel.h"
+#import "SortListModel.h"
 
 @implementation CategoryModel
 
@@ -31,4 +33,14 @@
 +(NSValueTransformer *)subCat_arrayJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[SubCategoryModel class]];
 }
+
+//+(NSValueTransformer *)sorting_listJSONTransformer {
+//    return [MTLJSONAdapter arrayTransformerWithModelClass:[SortListModel class]];
+//}
+//
+//
+//+(NSValueTransformer *)filter_listJSONTransformer {
+//    return [MTLJSONAdapter arrayTransformerWithModelClass:[FilterListModel class]];
+//}
+
 @end
