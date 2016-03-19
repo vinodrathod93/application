@@ -14,6 +14,7 @@
 {
     BOOL _isExpanded;
     NSMutableArray *_tempArray;
+    BOOL _isOptionSelected;
 }
 @end
 
@@ -32,15 +33,14 @@
     _tempArray = [[NSMutableArray alloc] init];
     [_tempArray addObjectsFromArray:_filterArray];
     
-    UILabel *applyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
-    applyLabel.font = [NeediatorUtitity mediumFontWithSize:15.f];
+    UIButton *applyLabel = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
+    applyLabel.titleLabel.font = [NeediatorUtitity mediumFontWithSize:15.f];
     applyLabel.backgroundColor = [UIColor clearColor];
-    applyLabel.textColor = [UIColor lightGrayColor];
-    applyLabel.text = @"Apply";
+    [applyLabel setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [applyLabel setTitle:@"Apply" forState:UIControlStateNormal];
+    [applyLabel addTarget:self action:@selector(applyTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithCustomView:applyLabel];
-    [applyButton setTarget:self];
-    [applyButton setAction:@selector(applyTapped:)];
     self.navigationItem.rightBarButtonItem = applyButton;
 }
 
@@ -58,7 +58,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
-    return self.filterArray.count;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -72,9 +72,9 @@
     
     // Configure the cell...
     
-    FilterListModel *model = self.filterArray[indexPath.section];
     
-    cell.textLabel.text = model.filterName;
+    
+    
     cell.textLabel.font = [NeediatorUtitity regularFontWithSize:17.f];
     cell.indentationWidth = 20;
     
@@ -82,8 +82,14 @@
     
     
     
-    if ([_tempArray[indexPath.section] isKindOfClass:[FilterListModel class]]) {
+    if ([_tempArray[indexPath.row] isKindOfClass:[FilterListModel class]]) {
+        
+        FilterListModel *model = _tempArray[indexPath.row];
+        
         if (model.filterValues.count > 0) {
+            
+            
+            cell.textLabel.text = model.filterName;
             
             model.canBeExpanded = YES;
             cell.accessoryView  = [self viewForDisclosureForState:_isExpanded];
@@ -93,7 +99,7 @@
             cell.accessoryView  = nil;
         }
     }
-    else if ([_tempArray[indexPath.section] isKindOfClass:[FilterHelperModel class]]) {
+    else if ([_tempArray[indexPath.row] isKindOfClass:[FilterHelperModel class]]) {
         FilterHelperModel *valueModel = _tempArray[indexPath.row];
         
         cell.textLabel.text = valueModel.name;
@@ -115,23 +121,68 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    FilterListModel *model = self.filterArray[indexPath.section];
+    id allModel = _tempArray[indexPath.row];
     
     UITableViewCell *selected_cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if (model.canBeExpanded) {
-        if (model.isExpanded) {
-            [self collapseCellsFromIndexOf:model indexPath:indexPath tableView:tableView];
-            selected_cell.accessoryView = [self viewForDisclosureForState:NO];
-        }
-        else {
-            [self expandCellsFromIndexOf:model indexPath:indexPath tableView:tableView];
-            selected_cell.accessoryView = [self viewForDisclosureForState:YES];
+    
+    if ([allModel isKindOfClass:[FilterListModel class]]) {
+        
+        FilterListModel *model = (FilterListModel *)allModel;
+        
+        if (model.canBeExpanded) {
+            if (model.isExpanded) {
+                [self collapseCellsFromIndexOf:model indexPath:indexPath tableView:tableView];
+                selected_cell.accessoryView = [self viewForDisclosureForState:NO];
+            }
+            else {
+                [self expandCellsFromIndexOf:model indexPath:indexPath tableView:tableView];
+                selected_cell.accessoryView = [self viewForDisclosureForState:YES];
+            }
         }
     }
+    else {
+        NSLog(@"Selected");
+        
+//        selected_cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        
+        if (_isOptionSelected) {
+            [self deselectPaymentOptionForTableview:tableView forIndexPath:indexPath];
+
+        }
+        else {
+            [self selectPaymentOptionForTableview:tableView forIndexPath:indexPath];
+
+        }
+    }
+    
+    
 }
 
 
+-(void)deselectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    [_proceedPaymentOption setEnabled:NO];
+//    _proceedPaymentOption.alpha = 0.5f;
+    
+    _isOptionSelected = NO;
+    
+    UITableViewCell *unSelectCell = [tableView cellForRowAtIndexPath:indexPath];
+    unSelectCell.accessoryType = UITableViewCellAccessoryNone;
+}
+
+-(void)selectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    [_proceedPaymentOption setEnabled:YES];
+//    _proceedPaymentOption.alpha = 1.f;
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
+    _isOptionSelected = YES;
+}
 
 
 -(UIView*) viewForDisclosureForState:(BOOL) isExpanded
@@ -139,11 +190,11 @@
     NSString *imageName;
     if(isExpanded)
     {
-        imageName = @"Expand Arrow";
+        imageName = @"Collapse Arrow";
     }
     else
     {
-        imageName = @"Collapse Arrow";
+        imageName = @"Expand Arrow";
     }
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
@@ -189,6 +240,8 @@
         int i=0;
         
         for (FilterHelperModel *valuesModel in model.filterValues) {
+            
+            NSLog(@"Inserting at index %ld", indexPath.row + i + 1);
             [_tempArray insertObject:valuesModel atIndex:indexPath.row + i + 1];
             i++;
         }
@@ -198,6 +251,11 @@
         NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
         for (int i=0; i< expandedRange.length; i++) {
             [indexPaths addObject:[NSIndexPath indexPathForRow:expandedRange.location + i + 1 inSection:indexPath.section]];
+            NSLog(@"Adding at index %ld", expandedRange.location + i + 1);
+        }
+        
+        for (NSIndexPath *indexpath in indexPaths) {
+            NSLog(@"%ld, %ld", (long)indexpath.section, (long)indexpath.row);
         }
         
         [tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
