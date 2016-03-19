@@ -10,7 +10,11 @@
 
 @interface FilterListModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic, copy) NSArray *minimum_delivery;
-@property (nonatomic, copy) NSArray *ratings;
+@property (nonatomic, copy) NSString *filterName;
+@property (nonatomic, copy) NSArray *filterValues;
+
+
+@property(nonatomic) BOOL canBeExpanded;
+@property(nonatomic) BOOL isExpanded;
 
 @end

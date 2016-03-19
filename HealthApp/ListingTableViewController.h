@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface ListingTableViewController : UITableViewController<UIGestureRecognizerDelegate,UIScrollViewDelegate>
 
@@ -17,7 +18,5 @@
 @property (nonatomic, strong) NSString *subcategory_id;
 
 
-@property (nonatomic, strong) NSArray *sorting_list;
-@property (nonatomic, strong) NSArray *filter_list;
 
 @end

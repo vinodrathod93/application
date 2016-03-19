@@ -13,4 +13,7 @@
 @property (nonatomic, copy) NSNumber *filterID;
 @property (nonatomic, copy) NSString *name;
 
+@property(nonatomic) BOOL canBeExpanded;
+@property(nonatomic) BOOL isExpanded;
+
 @end

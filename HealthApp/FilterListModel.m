@@ -13,17 +13,14 @@
 
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"minimum_delivery"    : @"minimum_delivery",
-             @"ratings"             : @"ratings"
+             @"filterName"    : @"key",
+             @"filterValues"  : @"value"
              
              };
 }
 
-+(NSValueTransformer *)minimum_deliveryJSONTransformer {
-    return [MTLJSONAdapter arrayTransformerWithModelClass:[FilterHelperModel class]];
-}
 
-+(NSValueTransformer *)ratingsJSONTransformer {
++(NSValueTransformer *)filterValuesJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[FilterHelperModel class]];
 }
 

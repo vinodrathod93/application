@@ -13,10 +13,12 @@
 @property (nonatomic, copy) NSArray *records;
 @property (nonatomic, copy) NSDictionary *type;
 @property (nonatomic, copy) NSArray *deliveryTypes;
-
+@property (nonatomic, copy) NSArray *sorting_list;
+@property (nonatomic, copy) NSArray *filter_list;
 
 @property (nonatomic, assign) BOOL isProductType;
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSDictionary *parameters;
+
 
 @end

@@ -38,8 +38,8 @@
 
 @property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong) NSArray *categoriesArray;
-@property (nonatomic, strong) NSMutableArray *subCategoriesArray;
+@property (nonatomic, strong) RLMResults *categoriesArray;
+@property (nonatomic, strong) RLMResults *subCategoriesArray;
 @property (nonatomic, strong) NSArray *promotions;
 
 @property (nonatomic, strong) NSArray *categoryIcons;
@@ -282,8 +282,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         listingVC.nav_color                  = model.color_code;
         listingVC.category_id                 = model.cat_id.stringValue;
         listingVC.subcategory_id              = @"";
-        listingVC.sorting_list              = model.sorting_list;
-        listingVC.filter_list               = model.filter_list;
         
         [self.navigationController pushViewController:listingVC animated:YES];
         
@@ -615,66 +613,52 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     _task = [[NAPIManager sharedManager] mainCategoriesWithSuccess:^(MainCategoriesResponseModel *response) {
         
         
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            RLMRealm *realm = [RLMRealm defaultRealm];
-//            [realm beginWriteTransaction];
-//            [realm deleteAllObjects];
-//            [realm commitWriteTransaction];
-//            
-//            [realm beginWriteTransaction];
-//            for (CategoryModel *category in response.categories) {
-//                MainCategoryRealm *categoryRealm = [[MainCategoryRealm alloc] initWithMantleModel:category];
-//                [realm addObject:categoryRealm];
-//                
-//                
-//                for (SortListModel *sortModel in category.sorting_list) {
-//                    SortListObject *sortListRealm = [[SortListObject alloc] initWithMantleModel:sortModel];
-//                    
-//                }
-//                
-//                
-//                
-//                for (SubCategoryModel *subCategory in category.subCat_array) {
-//                    SubCategoryRealm *subCategoryRealm = [[ SubCategoryRealm alloc] initWithMantleModel:subCategory];
-//                    
-//                    [realm addObject:subCategoryRealm];
-//                }
-//                
-//            }
-//            
-//            
-//            [realm commitWriteTransaction];
-//            
-//            
-//            
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
-//                
-//                RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
-//                RLMResults *subCategories = [SubCategoryRealm allObjectsInRealm:realmMainThread];
-//                
-//                self.categoriesArray = categories;
-//                self.subCategoriesArray = subCategories;
-//                
-//                [self.collectionView reloadData];
-//                [self hideHUD];
-//                [self removeLaunchScreen];
-//            });
-//        });
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            RLMRealm *realm = [RLMRealm defaultRealm];
+            [realm beginWriteTransaction];
+            [realm deleteAllObjects];
+            [realm commitWriteTransaction];
+            
+            [realm beginWriteTransaction];
+            for (CategoryModel *category in response.categories) {
+                MainCategoryRealm *categoryRealm = [[MainCategoryRealm alloc] initWithMantleModel:category];
+                [realm addObject:categoryRealm];
+                
+                
+                
+                for (SubCategoryModel *subCategory in category.subCat_array) {
+                    SubCategoryRealm *subCategoryRealm = [[ SubCategoryRealm alloc] initWithMantleModel:subCategory];
+                    
+                    [realm addObject:subCategoryRealm];
+                }
+                
+            }
+            
+            
+            [realm commitWriteTransaction];
+            
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
+                
+                RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
+                RLMResults *subCategories = [SubCategoryRealm allObjectsInRealm:realmMainThread];
+                
+                self.categoriesArray = categories;
+                self.subCategoriesArray = subCategories;
+                
+                [self.collectionView reloadData];
+                [self hideHUD];
+                [self removeLaunchScreen];
+            });
+        });
         
         
                 [self hideHUD];
                 self.promotions         = response.promotions;
-                self.categoriesArray = response.categories;
         
-
-                [response.categories enumerateObjectsUsingBlock:^(CategoryModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
-                    
-                    if (model.subCat_array != nil) {
-                        [self.subCategoriesArray addObjectsFromArray:model.subCat_array];
-                    }
-                    
-                }];
+        
         
                 [self.collectionView reloadData];
                 [self removeLaunchScreen];
@@ -683,8 +667,8 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         // Display error
         [self hideHUD];
         
-//        self.categoriesArray = [MainCategoryRealm allObjects];
-//        self.subCategoriesArray = [SubCategoryRealm allObjects];
+        self.categoriesArray = [MainCategoryRealm allObjects];
+        self.subCategoriesArray = [SubCategoryRealm allObjects];
         
         [self.collectionView reloadData];
         [self removeLaunchScreen];

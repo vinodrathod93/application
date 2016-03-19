@@ -9,6 +9,7 @@
 #import "ListingResponseModel.h"
 #import "ListingModel.h"
 #import "PromotionModel.h"
+#import "FilterListModel.h"
 
 @implementation ListingResponseModel
 
@@ -18,7 +19,9 @@
              
              @"records"         : @"records",
              @"type"            : @"type",
-             @"deliveryTypes"   : @"deliverytype"
+             @"deliveryTypes"   : @"deliverytype",
+             @"sorting_list"    : @"sort",
+             @"filter_list"     : @"filter"
              
              };
 }
@@ -32,6 +35,16 @@
         return value;
     }];
 }
+
++(NSValueTransformer *)sorting_listJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[SortListModel class]];
+}
+
+
++(NSValueTransformer *)filter_listJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[FilterListModel class]];
+}
+
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error {
     self = [super initWithDictionary:dictionaryValue error:error];

@@ -421,7 +421,13 @@ typedef NS_ENUM(uint16_t, sections) {
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == SectionStoreImageViews) {
-        return kStoreImageViewCellHeight;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            return kTaxonHeaderViewHeight_Pad;
+        }
+        else
+            return kTaxonHeaderViewHeight_Phone;
+        
     }
     else if (indexPath.section == SectionStoreTaxonTaxonomies)
         return kStoreTaxonTaxonomyCellHeight;
@@ -756,7 +762,7 @@ typedef NS_ENUM(uint16_t, sections) {
     }
     else {
         UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:activityVC];
-        [popup presentPopoverFromRect:button.bounds inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        [popup presentPopoverFromRect:button.frame inView:[button superview] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
 }
 

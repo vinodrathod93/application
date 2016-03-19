@@ -22,9 +22,7 @@
              @"is_active"   : @"Isactive",
              @"color_code"  : @"Colorcode",
              @"is_product"  : @"Isproduct",
-             @"subCat_array": @"SubCatList",
-             @"sorting_list": @"sort_list",
-             @"filter_list" : @"filter_list"
+             @"subCat_array": @"SubCatList"
              
              };
 }
@@ -34,13 +32,5 @@
     return [MTLJSONAdapter arrayTransformerWithModelClass:[SubCategoryModel class]];
 }
 
-//+(NSValueTransformer *)sorting_listJSONTransformer {
-//    return [MTLJSONAdapter arrayTransformerWithModelClass:[SortListModel class]];
-//}
-//
-//
-//+(NSValueTransformer *)filter_listJSONTransformer {
-//    return [MTLJSONAdapter arrayTransformerWithModelClass:[FilterListModel class]];
-//}
 
 @end

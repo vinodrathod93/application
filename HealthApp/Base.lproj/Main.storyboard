@@ -3931,33 +3931,33 @@
             </objects>
             <point key="canvasLocation" x="16806" y="-769"/>
         </scene>
-        <!--Table View Controller-->
-        <scene sceneID="Pou-50-i88">
+        <!--Filter Table View Controller-->
+        <scene sceneID="hG4-kh-xSY">
             <objects>
-                <tableViewController id="HBE-Qu-0Cg" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="UXM-Di-yla">
+                <tableViewController storyboardIdentifier="filterTableVC" id="oJV-D8-mnr" customClass="FilterTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="gQD-nN-LSx">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Xlw-qo-WlU">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="filterListCellIdentifier" id="t94-mL-ibv">
+                                <rect key="frame" x="0.0" y="50" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xlw-qo-WlU" id="4UA-uv-aI1">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t94-mL-ibv" id="5Yw-OV-P1c">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="HBE-Qu-0Cg" id="8oS-gH-6vD"/>
-                            <outlet property="delegate" destination="HBE-Qu-0Cg" id="gBE-4b-uii"/>
+                            <outlet property="dataSource" destination="oJV-D8-mnr" id="2Si-1h-hrq"/>
+                            <outlet property="delegate" destination="oJV-D8-mnr" id="tgb-F9-BOP"/>
                         </connections>
                     </tableView>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fCT-fr-jkT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X1A-fm-1ih" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="17745" y="-775"/>
+            <point key="canvasLocation" x="17691" y="-765"/>
         </scene>
         <!--BAG-->
         <scene sceneID="rjj-uu-jnC">

@@ -22,16 +22,21 @@
 #import "BookingViewController.h"
 #import "StoreTaxonsViewController.h"
 #import "BannerTableViewCell.h"
+#import "SortListModel.h"
+#import "FilterListModel.h"
+#import "FilterTableViewController.h"
 
 #define kBannerSectionIndex 1
 
 @interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) NSArray *listingArray;
-
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) NoStores *noListingView;
-//@property (nonatomic, strong) BannerTableViewCell *bannerView;
+
+@property (nonatomic, strong) NSArray *sorting_list;
+@property (nonatomic, strong) NSArray *filter_list;
+
 @property (nonatomic, strong) NSArray *bannerImages;
 
 @end
@@ -44,6 +49,9 @@
     BOOL _isBooking;
     BOOL _isProductType;
     UIImageView *activityImageView;
+    UIView *header;
+    UIButton *sort;
+    UIView *hudView;
 }
 
 
@@ -328,28 +336,29 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
     if (section == 0) {
-        UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 30)];
+        header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 30)];
         header.backgroundColor = [NeediatorUtitity defaultColor];
         
         UILabel *resultsCount =[[ UILabel alloc] initWithFrame:CGRectMake(10, 5, CGRectGetWidth(self.view.frame) - 150, 20)];
         resultsCount.text = @"Showing 150 results";
-        resultsCount.font = [NeediatorUtitity regularFontWithSize:15.f];
+        resultsCount.font = [NeediatorUtitity regularFontWithSize:13.f];
         resultsCount.backgroundColor = [UIColor clearColor];
         
         
-        UIButton *sort = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 120, 5, 40, 20)];
+        sort = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 120, 5, 40, 20)];
         [sort setTitle:@"SORT" forState:UIControlStateNormal];
         [sort setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         sort.titleLabel.font = [NeediatorUtitity demiBoldFontWithSize:15.f];
         sort.backgroundColor = [UIColor clearColor];
         
-        [sort addTarget:self action:@selector(displaySortingSheet) forControlEvents:UIControlEventTouchUpInside];
+        [sort addTarget:self action:@selector(displaySortingSheet:) forControlEvents:UIControlEventTouchUpInside];
         
         UIButton *filter = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 70, 5, 60, 20)];
         [filter setTitle:@"FILTER" forState:UIControlStateNormal];
         filter.titleLabel.font = [NeediatorUtitity demiBoldFontWithSize:15.f];
         [filter setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         filter.backgroundColor = [UIColor clearColor];
+        [filter addTarget:self action:@selector(displayFilterVC:) forControlEvents:UIControlEventTouchUpInside];
         
         [header addSubview:filter];
         [header addSubview:sort];
@@ -364,18 +373,27 @@
 }
 
 
--(void)displaySortingSheet {
+-(void)displayFilterVC:(UIButton *)sender {
+    
+    FilterTableViewController *filterVC = [self.storyboard instantiateViewControllerWithIdentifier:@"filterTableVC"];
+    filterVC.filterArray = self.filter_list;
+    [self.navigationController pushViewController:filterVC animated:YES];
+    
+}
+
+
+-(void)displaySortingSheet:(UIButton *)sender {
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Sort" message:nil
                                                                  preferredStyle:UIAlertControllerStyleActionSheet];
     
-    [self.sorting_list enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.sorting_list enumerateObjectsUsingBlock:^(SortListModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        NSString *name = [type[@"name"] capitalizedString];
+        NSString *name = [model.name capitalizedString];
         
         UIAlertAction *typeAction = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             NSLog(@"Sort by %@", name);
             
-            [self requestListingByType:type[@"id"]];
+            [self requestListingByType:model.sortID.stringValue];
             
         }];
         
@@ -389,7 +407,15 @@
 
 
     
-    [self presentViewController:controller animated:YES completion:nil];
+    
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self presentViewController:controller animated:YES completion:nil];
+    }
+    else {
+        UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:controller];
+        [popup presentPopoverFromRect:sender.bounds inView:[sender superview] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
 }
 
 
@@ -489,7 +515,12 @@
 
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+    
+    if (indexPath.section != 0) {
+        return YES;
+    }
+    else
+        return NO;
 }
 
 
@@ -506,6 +537,7 @@
     callAction.backgroundColor = [UIColor greenColor];
     
     return @[callAction];
+    
 }
 
 
@@ -542,8 +574,17 @@
         
         [phoneAlertController addAction:cancelAction];
         
+    
         
-        [self presentViewController:phoneAlertController animated:YES completion:nil];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            [self presentViewController:phoneAlertController animated:YES completion:nil];
+        }
+        else {
+            UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:phoneAlertController];
+            [popup presentPopoverFromRect:sort.bounds inView:header permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
+        
+        
     }
     else
         NSLog(@"Phone numbers are nil");
@@ -618,13 +659,22 @@
 //    self.hud.activityIndicatorColor = [UIColor blackColor];
 //    self.hud.detailsLabelColor = [UIColor darkGrayColor];
     
+    hudView = [[UIView alloc] initWithFrame:self.tableView.frame];
+    hudView.backgroundColor = [NeediatorUtitity defaultColor];
+    hudView.userInteractionEnabled = NO;
+    hudView.tag = kListingHUDViewTag;
     
     UIImage *statusImage = [UIImage imageNamed:@"icon7.png"];
     activityImageView = [[UIImageView alloc]
                                       initWithImage:statusImage];
+    activityImageView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    activityImageView.layer.shadowOffset = CGSizeMake(0.f, 5.f);
+    activityImageView.layer.shadowOpacity = 1;
+    activityImageView.layer.shadowRadius = 10.0;
+    activityImageView.clipsToBounds = NO;
+    
     
     activityImageView.animationImages = [NSArray arrayWithObjects:
-                                         [UIImage imageNamed:@"iconGreen.png"],
                                          [UIImage imageNamed:@"icon7.png"],
                                          nil];
     activityImageView.animationDuration = 0.8 * 2;
@@ -639,7 +689,7 @@
     
     
     
-//    CATransform3DMakeRotation(-1.01f * M_PI, 0, 0, 1.0);
+//    CATransform3D rotationTransform = CATransform3DMakeRotation(-1.01f * M_PI, 0, 0, 1.0);
     CATransform3D rotationTransform = CATransform3DMakeRotation(M_PI_2, 0, 1.0, 0);
     CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
     
@@ -652,7 +702,10 @@
     
     
     [activityImageView startAnimating];
-    [self.view addSubview:activityImageView];
+    
+    
+    [hudView addSubview:activityImageView];
+    [self.navigationController.view insertSubview:hudView belowSubview:self.navigationController.navigationBar];
     
     
 }
@@ -663,6 +716,10 @@
     
     [activityImageView stopAnimating];
     [activityImageView removeFromSuperview];
+    
+    if (hudView) {
+        [[self.navigationController.view viewWithTag:kListingHUDViewTag] removeFromSuperview];
+    }
 }
 
 
@@ -771,6 +828,9 @@
         
         
         [NeediatorUtitity save:response.deliveryTypes forKey:kSAVE_DELIVERY_TYPES];
+        
+        self.sorting_list = response.sorting_list;
+        self.filter_list    = response.filter_list;
         
         
         [self hideHUD];

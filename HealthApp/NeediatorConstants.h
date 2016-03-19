@@ -48,6 +48,7 @@ static NSString *const kAPP_ID = @"1073622324";
 /* Listing VC */
 #define kListingConnectionViewTag 40
 #define kListingNoListingTag 41
+#define kListingHUDViewTag 42
 
 /* Store Taxon VC */
 
