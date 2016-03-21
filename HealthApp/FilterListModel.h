@@ -12,6 +12,7 @@
 
 @property (nonatomic, copy) NSString *filterName;
 @property (nonatomic, copy) NSArray *filterValues;
+@property (nonatomic, copy) NSString *filterParameter;
 
 
 @property(nonatomic) BOOL canBeExpanded;

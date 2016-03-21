@@ -19,9 +19,12 @@
 @property (nonatomic, copy) NSString *nearest_distance;
 @property (nonatomic, copy) NSString *ratings;
 @property (nonatomic, copy) NSString *timing;
+@property (nonatomic, copy) NSString *reviews_count;
+
 
 @property (nonatomic, copy) NSNumber *isBook;
 @property (nonatomic, copy) NSNumber *isCall;
 
 @property (nonatomic, copy) NSArray *images;
+@property (nonatomic, copy) NSArray *likeUnlike;
 @end

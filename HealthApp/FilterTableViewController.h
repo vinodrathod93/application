@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+
+@protocol FilterListingDelegate <NSObject>
+
+-(void)appliedFilterListingDelegate:(NSDictionary *)data;
+
+@end
+
 @interface FilterTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSArray *filterArray;
+@property (nonatomic, weak) id<FilterListingDelegate> delegate;
 
 @end

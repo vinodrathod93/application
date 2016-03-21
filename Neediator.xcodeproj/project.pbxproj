@@ -126,6 +126,7 @@
 		82B4245A1C8431BB00664A4B /* UploadPrescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B424591C8431BB00664A4B /* UploadPrescriptionViewController.m */; };
 		82B7AAF01C5D0C0E0031BA8E /* SubCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7AAEF1C5D0C0E0031BA8E /* SubCategoryViewController.m */; };
 		82B7AAF61C5D0CAF0031BA8E /* SubCategoryHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7AAF51C5D0CAF0031BA8E /* SubCategoryHeaderView.m */; };
+		82BB3DEB1CA01B1B00B282D0 /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */; };
 		82BD028E1B46A73C00108A0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD028D1B46A73C00108A0B /* main.m */; };
 		82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02901B46A73C00108A0B /* AppDelegate.m */; };
 		82BD02971B46A73C00108A0B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82BD02951B46A73C00108A0B /* Main.storyboard */; };
@@ -420,6 +421,8 @@
 		82B7AAEF1C5D0C0E0031BA8E /* SubCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryViewController.m; sourceTree = "<group>"; };
 		82B7AAF41C5D0CAF0031BA8E /* SubCategoryHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryHeaderView.h; sourceTree = "<group>"; };
 		82B7AAF51C5D0CAF0031BA8E /* SubCategoryHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryHeaderView.m; sourceTree = "<group>"; };
+		82BB3DE91CA01B1B00B282D0 /* QRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeViewController.h; sourceTree = "<group>"; };
+		82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeViewController.m; sourceTree = "<group>"; };
 		82BD02881B46A73C00108A0B /* Chemist Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chemist Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82BD028C1B46A73C00108A0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82BD028D1B46A73C00108A0B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1296,6 +1299,8 @@
 				823B73771C48F17000031596 /* Listing */,
 				82A1D3D71C5633D800E6B1D3 /* Entity Details Page */,
 				82ED53E11C4FB3B700FA7707 /* Spree */,
+				82BB3DE91CA01B1B00B282D0 /* QRCodeViewController.h */,
+				82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1940,6 +1945,7 @@
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
 				82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */,
 				82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */,
+				82BB3DEB1CA01B1B00B282D0 /* QRCodeViewController.m in Sources */,
 				82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */,
 				826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */,

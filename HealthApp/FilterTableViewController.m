@@ -14,7 +14,9 @@
 {
     BOOL _isExpanded;
     NSMutableArray *_tempArray;
-    BOOL _isOptionSelected;
+//    BOOL _isOptionSelected;
+    NSIndexPath *lastSelectedIndexPath;
+    NSMutableDictionary *_selectedIndexes;
 }
 @end
 
@@ -33,6 +35,9 @@
     _tempArray = [[NSMutableArray alloc] init];
     [_tempArray addObjectsFromArray:_filterArray];
     
+    
+    _selectedIndexes = [[NSMutableDictionary alloc] init];
+    
     UIButton *applyLabel = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
     applyLabel.titleLabel.font = [NeediatorUtitity mediumFontWithSize:15.f];
     applyLabel.backgroundColor = [UIColor clearColor];
@@ -42,6 +47,9 @@
     
     UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithCustomView:applyLabel];
     self.navigationItem.rightBarButtonItem = applyButton;
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,6 +59,30 @@
 
 -(void)applyTapped:(UIBarButtonItem *)item {
     NSLog(@"Applying Filter...");
+    
+    
+    
+    if ([self.delegate respondsToSelector:@selector(appliedFilterListingDelegate:)]) {
+        NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
+        
+        [_selectedIndexes enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSIndexPath * _Nonnull obj, BOOL * _Nonnull stop) {
+            
+            
+            FilterListModel *model = _filterArray[key.intValue];
+            FilterHelperModel *options = model.filterValues[obj.row];
+            
+            [parameter setObject:options.filterID forKey:model.filterParameter];
+            
+            
+        }];
+        
+        
+        NSLog(@"%@", parameter);
+        
+        [self.delegate appliedFilterListingDelegate:parameter];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 
@@ -58,12 +90,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
-    return 1;
+    return _filterArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return _tempArray.count;
+    FilterListModel *model = _filterArray[section];
+    
+    return model.filterValues.count;
 }
 
 
@@ -72,22 +106,16 @@
     
     // Configure the cell...
     
-    
-    
-    
     cell.textLabel.font = [NeediatorUtitity regularFontWithSize:17.f];
     cell.indentationWidth = 20;
     
-    
-    
-    
+    /*
     
     if ([_tempArray[indexPath.row] isKindOfClass:[FilterListModel class]]) {
         
         FilterListModel *model = _tempArray[indexPath.row];
         
         if (model.filterValues.count > 0) {
-            
             
             cell.textLabel.text = model.filterName;
             
@@ -112,6 +140,29 @@
             cell.accessoryView = nil;
         
     }
+     */
+    
+    
+    FilterListModel *model = _filterArray[indexPath.section];
+    
+    FilterHelperModel *helperModel = model.filterValues[indexPath.row];
+    
+    cell.textLabel.text = helperModel.name;
+    
+
+    
+    
+    NSIndexPath *selectedIndexPath = [_selectedIndexes objectForKey:@(indexPath.section)];
+    
+    if (selectedIndexPath != nil) {
+        if (selectedIndexPath.section == indexPath.section && selectedIndexPath.row == indexPath.row) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        else
+            cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
+    
     
     
     return cell;
@@ -120,7 +171,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
+    /*
     id allModel = _tempArray[indexPath.row];
     
     UITableViewCell *selected_cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -144,44 +195,68 @@
     else {
         NSLog(@"Selected");
         
-//        selected_cell.accessoryType = UITableViewCellAccessoryCheckmark;
         
-        if (_isOptionSelected) {
-            [self deselectPaymentOptionForTableview:tableView forIndexPath:indexPath];
+        if (lastSelectedIndexPath) {
+            [self deselectFilterOptionForTableview:tableView forIndexPath:lastSelectedIndexPath];
 
         }
-        else {
-            [self selectPaymentOptionForTableview:tableView forIndexPath:indexPath];
-
+        
+        [self selectFilterOptionForTableview:tableView forIndexPath:indexPath];
+        lastSelectedIndexPath = indexPath;
+        
+    }
+    */
+    
+    NSLog(@"Indexes %@", _selectedIndexes);
+    
+    NSIndexPath *savedIndexPath = [_selectedIndexes objectForKey:@(indexPath.section)];
+    
+    if (savedIndexPath == nil) {
+        
+        [self selectFilterOptionForTableview:tableView forIndexPath:indexPath];
+        [_selectedIndexes setObject:indexPath forKey:@(indexPath.section)];
+        
+    }
+    else {
+        if (indexPath.section == savedIndexPath.section) {
+            [self deselectFilterOptionForTableview:tableView forIndexPath:savedIndexPath];
+            
         }
+        
+        [self selectFilterOptionForTableview:tableView forIndexPath:indexPath];
+        [_selectedIndexes setObject:indexPath forKey:@(indexPath.section)];
+
     }
     
-    
+        NSLog(@"After Indexes %@", _selectedIndexes);
 }
 
 
--(void)deselectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    FilterListModel *model = _filterArray[section];
+    
+    return model.filterName;
+}
+
+
+
+-(void)deselectFilterOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    [_proceedPaymentOption setEnabled:NO];
-//    _proceedPaymentOption.alpha = 0.5f;
-    
-    _isOptionSelected = NO;
     
     UITableViewCell *unSelectCell = [tableView cellForRowAtIndexPath:indexPath];
     unSelectCell.accessoryType = UITableViewCellAccessoryNone;
 }
 
--(void)selectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
+-(void)selectFilterOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    [_proceedPaymentOption setEnabled:YES];
-//    _proceedPaymentOption.alpha = 1.f;
+    
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     
-    _isOptionSelected = YES;
 }
 
 

@@ -652,8 +652,29 @@ typedef NS_ENUM(uint16_t, sections) {
 -(StoreReviewsView *)storeReviewsView {
     StoreReviewsView *storeReviewsView = [[[NSBundle mainBundle] loadNibNamed:@"StoreReviewsView" owner:self options:nil] lastObject];
     storeReviewsView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kStoreReviewsViewHeight);
+    storeReviewsView.ratingView.rating = self.ratings.floatValue;
+    
+    NSString *reviews = [NSString stringWithFormat:@"✍ %@",self.reviewsCount];
+    
+    [storeReviewsView.reviewsLabel setTitle:reviews forState:UIControlStateNormal];
+    storeReviewsView.backgroundColor = [NeediatorUtitity defaultColor];
     
     
+    if (self.likeUnlikeArray.count == 0) {
+        [storeReviewsView.likeButton setTitle:@"0" forState:UIControlStateNormal];
+        [storeReviewsView.dislikeButton setTitle:@"0" forState:UIControlStateNormal];
+    }
+    else {
+        
+        NSLog(@"%@", self.likeUnlikeArray);
+        NSDictionary *likeUnlikeDict = [self.likeUnlikeArray lastObject];
+        
+        NSNumber *likeCount = likeUnlikeDict[@"like"];
+        NSNumber *dislikeCount = likeUnlikeDict[@"unlike"];
+        
+        [storeReviewsView.likeButton setTitle:likeCount.stringValue forState:UIControlStateNormal];
+        [storeReviewsView.dislikeButton setTitle:dislikeCount.stringValue forState:UIControlStateNormal];
+    }
     
     
     return storeReviewsView;

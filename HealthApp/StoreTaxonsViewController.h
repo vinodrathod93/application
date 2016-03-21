@@ -20,5 +20,8 @@
 
 @property (nonatomic, strong) NSArray *storePhoneNumbers;
 @property (nonatomic, strong) NSString *storeDistance;
+@property (nonatomic, strong) NSString *ratings;
+@property (nonatomic, strong) NSString *reviewsCount;
+@property (nonatomic, strong) NSArray *likeUnlikeArray;
 
 @end

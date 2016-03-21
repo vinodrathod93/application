@@ -18,6 +18,14 @@
     Location *location = [Location savedLocation];
     NSArray *string_array = [location.location_name componentsSeparatedByString:@","];
     
+    
+//    UIButton *locButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    locButton.titleLabel.numberOfLines = 0;
+//    [locButton setTitle:string_array[0] forState:UIControlStateNormal];
+//    [locButton sizeToFit];
+//    
+//    UIBarButtonItem *customButton = [[UIBarButtonItem alloc] initWithCustomView:locButton];
+    
     UIBarButtonItem *locationButton = [[UIBarButtonItem alloc] initWithTitle:string_array[0] style:UIBarButtonItemStyleDone target:self action:@selector(showLocationView)];
     
     [locationButton setTitleTextAttributes:@{
@@ -25,7 +33,6 @@
                                             NSForegroundColorAttributeName : [UIColor darkGrayColor]
                                             }
                                   forState:UIControlStateNormal];
-    
     
     
     return locationButton;

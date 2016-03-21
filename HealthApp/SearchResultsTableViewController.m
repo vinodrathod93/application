@@ -71,13 +71,20 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    UIButton *add = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
-    add.tag = indexPath.row;
+    if ([cell.textLabel.text isEqualToString:@"No Products"]) {
+        cell.accessoryView = nil;
+    }
+    else {
+        UIButton *add = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
+        add.tag = indexPath.row;
+        
+        [add setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+        [add addTarget:self action:@selector(addToCart:) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.accessoryView = add;
+    }
     
-    [add setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
-    [add addTarget:self action:@selector(addToCart:) forControlEvents:UIControlEventTouchUpInside];
     
-    cell.accessoryView = add;
     
     
     return cell;
@@ -90,11 +97,32 @@
     
     NSLog(@"Added to cart");
     
+    User *user = [User savedUser];
     
-    NSDictionary *product = self.searchResults[sender.tag];
+    if (user.userID != nil) {
+        
+        NSDictionary *product = self.searchResults[sender.tag];
+        [self addToCartButtonPressed:product];
+        [sender setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
+        
+    }
+    else {
+        // Login presentVC
+        
+        LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
+        logSignVC.isPlacingOrder = NO;
+        
+        UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
+        logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
+        }
+        
+        [self presentViewController:logSignNav animated:YES completion:nil];
+    }
     
-    [self addToCartButtonPressed:product];
-    [sender setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
+   
 }
 
 
@@ -139,27 +167,8 @@
         _lineItemsModel.option                = @"";
         
         
+        [self sendLineItem:product];
         
-        User *user = [User savedUser];
-        
-        if (user.userID != nil) {
-            [self sendLineItem:product];
-        }
-        else {
-            // Login presentVC
-            
-            LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
-            logSignVC.isPlacingOrder = NO;
-            
-            UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
-            logSignNav.navigationBar.tintColor = self.tableView.tintColor;
-            
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
-            }
-            
-            [self presentViewController:logSignNav animated:YES completion:nil];
-        }
         
     }
     else {

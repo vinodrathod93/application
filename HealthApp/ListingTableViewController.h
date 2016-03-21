@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "FilterTableViewController.h"
 
-@interface ListingTableViewController : UITableViewController<UIGestureRecognizerDelegate,UIScrollViewDelegate>
+
+@interface ListingTableViewController : UITableViewController<UIGestureRecognizerDelegate,UIScrollViewDelegate, FilterListingDelegate>
 
 @property (nonatomic, strong) NSString *root;
 @property (nonatomic, strong) NSString *nav_color;

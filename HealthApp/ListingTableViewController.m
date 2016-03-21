@@ -24,7 +24,6 @@
 #import "BannerTableViewCell.h"
 #import "SortListModel.h"
 #import "FilterListModel.h"
-#import "FilterTableViewController.h"
 
 #define kBannerSectionIndex 1
 
@@ -70,7 +69,7 @@
     self.bannerImages = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
     
     
-   
+    [self requestBasicListings];
     
 }
 
@@ -83,7 +82,7 @@
 
     self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
     
-    [self requestBasicListings];
+   
     
     
 }
@@ -286,6 +285,9 @@
             storeTaxonsVC.storeImages = model.images;
             storeTaxonsVC.storePhoneNumbers = model.phone_nos;
             storeTaxonsVC.storeDistance = model.nearest_distance.uppercaseString;
+            storeTaxonsVC.ratings   = model.ratings;
+            storeTaxonsVC.reviewsCount = model.reviews_count;
+            storeTaxonsVC.likeUnlikeArray = model.likeUnlike;
             
             storeTaxonsVC.hidesBottomBarWhenPushed = NO;
             [self.navigationController pushViewController:storeTaxonsVC animated:YES];
@@ -377,10 +379,36 @@
     
     FilterTableViewController *filterVC = [self.storyboard instantiateViewControllerWithIdentifier:@"filterTableVC"];
     filterVC.filterArray = self.filter_list;
+    filterVC.delegate = self;
     [self.navigationController pushViewController:filterVC animated:YES];
     
 }
 
+
+
+-(void)appliedFilterListingDelegate:(NSDictionary *)data {
+    
+    
+    
+    Location *location_store = [Location savedLocation];
+    
+    
+    ListingRequestModel *requestModel = [ListingRequestModel new];
+    requestModel.latitude             = location_store.latitude;
+    requestModel.longitude            = location_store.longitude;
+    requestModel.category_id          = self.category_id;
+    requestModel.subcategory_id       = self.subcategory_id;
+    requestModel.page                 = @"1";
+    requestModel.sortType_id          = @"";
+    requestModel.is24Hrs              = @"";
+    requestModel.hasOffers            = @"";
+    requestModel.minDelivery_id       = @"";
+    requestModel.ratings_id           = @"";
+    
+    [self requestListings:requestModel];
+    
+    
+}
 
 -(void)displaySortingSheet:(UIButton *)sender {
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Sort" message:nil

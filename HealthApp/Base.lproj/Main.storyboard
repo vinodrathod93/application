@@ -3959,6 +3959,52 @@
             </objects>
             <point key="canvasLocation" x="17691" y="-765"/>
         </scene>
+        <!--Code View Controller-->
+        <scene sceneID="gai-4N-wvM">
+            <objects>
+                <viewController storyboardIdentifier="qrCodeVC" id="Ldh-TL-Gkz" customClass="QRCodeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="L0G-fM-caM"/>
+                        <viewControllerLayoutGuide type="bottom" id="heD-cb-Cxb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mPQ-Zb-GLT">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IQy-bm-QXV">
+                                <rect key="frame" x="20" y="496" width="560" height="84"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="84" id="TJm-cf-upi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K1e-p4-LWd">
+                                <rect key="frame" x="20" y="20" width="560" height="468"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="K1e-p4-LWd" firstAttribute="leading" secondItem="mPQ-Zb-GLT" secondAttribute="leading" constant="20" id="HIM-EH-Jgh"/>
+                            <constraint firstItem="heD-cb-Cxb" firstAttribute="top" secondItem="IQy-bm-QXV" secondAttribute="bottom" constant="20" id="OJ9-0X-L4w"/>
+                            <constraint firstAttribute="trailing" secondItem="K1e-p4-LWd" secondAttribute="trailing" constant="20" id="OuP-SU-TRd"/>
+                            <constraint firstItem="IQy-bm-QXV" firstAttribute="leading" secondItem="mPQ-Zb-GLT" secondAttribute="leading" constant="20" id="ZrA-UF-eMI"/>
+                            <constraint firstAttribute="trailing" secondItem="IQy-bm-QXV" secondAttribute="trailing" constant="20" id="gR6-v2-XVv"/>
+                            <constraint firstItem="IQy-bm-QXV" firstAttribute="top" secondItem="K1e-p4-LWd" secondAttribute="bottom" constant="8" id="gzC-oE-mfc"/>
+                            <constraint firstItem="K1e-p4-LWd" firstAttribute="top" secondItem="L0G-fM-caM" secondAttribute="bottom" id="zYe-IS-DKa"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="IQy-bm-QXV" id="CSr-vP-NtH"/>
+                        <outlet property="videoPreview" destination="K1e-p4-LWd" id="hKm-Tj-t8I"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eRR-ey-FO3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="18433" y="-765"/>
+        </scene>
         <!--BAG-->
         <scene sceneID="rjj-uu-jnC">
             <objects>

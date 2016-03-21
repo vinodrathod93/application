@@ -20,6 +20,7 @@
 #import "Location.h"
 #import "ListingTableViewController.h"
 #import "SubCategoryViewController.h"
+#import "QRCodeViewController.h"
 
 #import "CategoryModel.h"
 #import "SubCategoryModel.h"
@@ -73,10 +74,22 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     /* Decorate Navigation Bar */
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.navigationItem.titleView    = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]];
+    UIImageView *neediatorLogoView    = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]];
+    neediatorLogoView.frame = CGRectMake(0, 0, 150, 28);
+    
+    self.navigationItem.titleView = neediatorLogoView;
 
-//    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithCustomView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]]];
-//    self.navigationItem.leftBarButtonItem = leftButton;
+    UIButton *QRButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 70, 20)];
+    QRButton.titleLabel.font = [NeediatorUtitity demiBoldFontWithSize:16.f];
+    QRButton.titleLabel.textAlignment = NSTextAlignmentLeft;
+    QRButton.backgroundColor = [UIColor clearColor];
+    [QRButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [QRButton setTitle:@"QR Scan" forState:UIControlStateNormal];
+    [QRButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
+    [QRButton addTarget:self action:@selector(QRButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *QRBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:QRButton];
+    self.navigationItem.leftBarButtonItem = QRBarButtonItem;
     
     
     /* Start the Location */
@@ -93,7 +106,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     [self checkLineItems];
-    NSString *count = [NSString stringWithFormat:@"%u", self.h_lineItemsFetchedResultsController.fetchedObjects.count];
+    NSString *count = [NSString stringWithFormat:@"%lu", self.h_lineItemsFetchedResultsController.fetchedObjects.count];
     
     if ([count isEqualToString:@"0"]) {
         [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:nil];
@@ -126,6 +139,14 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
      
 }
 
+
+
+-(void)QRButtonTapped:(UIButton *)sender {
+    
+    QRCodeViewController *QRCodeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"qrCodeVC"];
+    [self.navigationController pushViewController:QRCodeVC animated:YES];
+    
+}
 
 -(void)removeLaunchScreen {
     [_launchScreen removeFromSuperview];

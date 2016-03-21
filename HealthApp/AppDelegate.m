@@ -15,6 +15,7 @@
 #import "LogSignViewController.h"
 #import "Appirater.h"
 #import "UIColor+HexString.h"
+#import "ListingTableViewController.h"
 
 
 @interface AppDelegate ()
@@ -131,14 +132,34 @@
     
 }
 
-//-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-//    NSLog(@"openURL");
-//    
-//    return [[FBSDKApplicationDelegate sharedInstance] application:application
-//                                                   openURL:url
-//                                         sourceApplication:sourceApplication
-//                                                annotation:annotation];
-//}
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    NSLog(@"openURL");
+    
+    
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                             bundle: nil];
+    UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
+    
+    
+    NSLog(@"%@", [tabController selectedViewController]);
+    UINavigationController *navigationController = [tabController selectedViewController];
+    
+    if ([url.scheme isEqualToString:@"neediator"]) {
+        if ([url.host isEqualToString:@"chemist"]) {
+            
+            
+            
+            ListingTableViewController *listingVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+            listingVC.root                       = @"Chemist";
+            listingVC.category_id                 = @"1";
+            listingVC.subcategory_id              = @"";
+            
+            [navigationController pushViewController:listingVC animated:YES];
+        }
+    }
+    
+    return NO;
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     

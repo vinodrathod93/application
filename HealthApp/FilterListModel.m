@@ -14,7 +14,8 @@
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
              @"filterName"    : @"key",
-             @"filterValues"  : @"value"
+             @"filterValues"  : @"value",
+             @"filterParameter": @"parameter"
              
              };
 }

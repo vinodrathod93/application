@@ -63,16 +63,23 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 1;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return self.payment_methods.count;
+    
+    if (section == 0) {
+        return self.payment_methods.count;
+    }
+    else
+        return 1;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"paymentOptionCellIdentifier" forIndexPath:indexPath];
     
@@ -80,9 +87,13 @@
 //        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"paymentOptionCellIdentifier"];
 //    }
     
-    NSDictionary *payment_option = self.payment_methods[indexPath.row];
-    cell.textLabel.text = payment_option[@"payment"];
-    cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:17.f];
+    if (indexPath.section == 0) {
+        
+        NSDictionary *payment_option = self.payment_methods[indexPath.row];
+        cell.textLabel.text = payment_option[@"payment"];
+        cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:17.f];
+    }
+    
     
     return cell;
 }
@@ -96,7 +107,15 @@
 
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Select Payment Option";
+    
+    if (section == 0) {
+        return @"Select Payment Option";
+    }
+    else if (section == 1)
+        return @"Select Delivery Type";
+    else
+        return @"Select Pickup Time";
+    
 }
 
 
@@ -105,39 +124,48 @@
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    
     UIView *view = [[UIView alloc]initWithFrame:CGRectZero];
-    view.backgroundColor = [UIColor clearColor];
     
-    view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 60);
-    
-    _placeOrderButton = [[UIButton alloc]initWithFrame:CGRectMake(15, 20, self.view.frame.size.width - (2*15), 40)];
-    [_placeOrderButton setTitle:@"PLACE ORDER" forState:UIControlStateNormal];
-    _placeOrderButton.layer.cornerRadius = 5.f;
-    _placeOrderButton.layer.masksToBounds = YES;
-    [_placeOrderButton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-DemiBold" size:16.0f]];
-    _placeOrderButton.titleLabel.textColor = [UIColor whiteColor];
-    [_placeOrderButton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
-    [_placeOrderButton addTarget:self action:@selector(placeOrderPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    _placeOrderButton.alpha = 0.5f;
-//    _placeOrderButton.enabled = NO;
-    
-    [view addSubview:_placeOrderButton];
+    if (section == 2) {
+        view.backgroundColor = [UIColor clearColor];
+        
+        view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 60);
+        
+        _placeOrderButton = [[UIButton alloc]initWithFrame:CGRectMake(15, 20, self.view.frame.size.width - (2*15), 40)];
+        [_placeOrderButton setTitle:@"PLACE ORDER" forState:UIControlStateNormal];
+        _placeOrderButton.layer.cornerRadius = 5.f;
+        _placeOrderButton.layer.masksToBounds = YES;
+        [_placeOrderButton.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-DemiBold" size:16.0f]];
+        _placeOrderButton.titleLabel.textColor = [UIColor whiteColor];
+        [_placeOrderButton setBackgroundColor:[UIColor colorWithRed:22/255.0f green:160/255.0f blue:133/255.0f alpha:1.0f]];
+        [_placeOrderButton addTarget:self action:@selector(placeOrderPressed:) forControlEvents:UIControlEventTouchUpInside];
+        //    _placeOrderButton.alpha = 0.5f;
+        //    _placeOrderButton.enabled = NO;
+        
+        [view addSubview:_placeOrderButton];
+    }
     
     return view;
 }
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.isPaymentOptionSelected) {
-        [self deselectPaymentOptionForTableview:tableView forIndexPath:indexPath];
-        
-        self.payment_method_id = nil;
+    
+    if (indexPath.section == 0) {
+        if (self.isPaymentOptionSelected) {
+            [self deselectPaymentOptionForTableview:tableView forIndexPath:indexPath];
+            
+            self.payment_method_id = nil;
+        }
+        else {
+            [self selectPaymentOptionForTableview:tableView forIndexPath:indexPath];
+            
+            self.payment_method_id = [self.payment_methods[indexPath.row] valueForKey:@"id"];
+        }
     }
-    else {
-        [self selectPaymentOptionForTableview:tableView forIndexPath:indexPath];
-        
-        self.payment_method_id = [self.payment_methods[indexPath.row] valueForKey:@"id"];
-    }
+    
 }
 
 -(void)deselectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {

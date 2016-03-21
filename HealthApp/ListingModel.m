@@ -21,9 +21,11 @@
              @"nearest_distance"    : @"distance",
              @"ratings"             : @"ratings",
              @"timing"              : @"timing",
+             @"reviews_count"       : @"reviews_count",
              @"isBook"              : @"book",
              @"isCall"              : @"call",
-             @"images"              : @"Images"
+             @"images"              : @"Images",
+             @"likeUnlike"          : @"LikeUnlike"
              
              };
 }
@@ -33,9 +35,12 @@
     
     if (self == nil) return nil;
     
-    NSLog(@"Dictionary value %@", dictionaryValue);
-    NSLog(@"Phone %@", self.phone_nos);
-    NSLog(@"Images %@", self.images);
+    
+    NSLog(@"LikeUnlike %@", self.likeUnlike);
+    
+    if (self.likeUnlike == nil) {
+        self.likeUnlike = @[];
+    }
     
     return self;
 }
