@@ -388,24 +388,7 @@
 
 -(void)appliedFilterListingDelegate:(NSDictionary *)data {
     
-    
-    
-    Location *location_store = [Location savedLocation];
-    
-    
-    ListingRequestModel *requestModel = [ListingRequestModel new];
-    requestModel.latitude             = location_store.latitude;
-    requestModel.longitude            = location_store.longitude;
-    requestModel.category_id          = self.category_id;
-    requestModel.subcategory_id       = self.subcategory_id;
-    requestModel.page                 = @"1";
-    requestModel.sortType_id          = @"";
-    requestModel.is24Hrs              = @"";
-    requestModel.hasOffers            = @"";
-    requestModel.minDelivery_id       = @"";
-    requestModel.ratings_id           = @"";
-    
-    [self requestListings:requestModel];
+    [self requestListingByFilterData:data];
     
     
 }
@@ -787,6 +770,28 @@
 
 
 
+-(void)requestListingByFilterData:(NSDictionary *)data {
+    
+    Location *location_store = [Location savedLocation];
+    
+    NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
+    
+    [parameter addEntriesFromDictionary:data];
+    
+    [parameter setObject:location_store.latitude forKey:@"latitude"];
+    [parameter setObject:location_store.longitude forKey:@"longitude"];
+    [parameter setObject:self.category_id forKey:@"catid"];
+    [parameter setObject:self.subcategory_id forKey:@"subcatid"];
+    [parameter setObject:@"1" forKey:@"page"];
+    [parameter setObject:@"" forKey:@"type_id"];
+    
+    NSLog(@"%@", parameter);
+    
+    [self requestListings:parameter];
+}
+
+
+
 -(void)requestListingByType:(NSString *)type {
     
     
@@ -834,7 +839,7 @@
 }
 
 
--(void)requestListings:(ListingRequestModel *)requestModel {
+-(void)requestListings:(id)requestModel {
     
     [self removeConnectionView];
     

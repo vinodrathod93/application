@@ -40,9 +40,16 @@
 
 
 
--(NSURLSessionDataTask *)getListingsWithRequestModel:(ListingRequestModel *)request success:(void (^)(ListingResponseModel *response))success failure:(void (^)(NSError *error))failure {
+-(NSURLSessionDataTask *)getListingsWithRequestModel:(id)request success:(void (^)(ListingResponseModel *response))success failure:(void (^)(NSError *error))failure {
     
-    NSDictionary *parameters = [MTLJSONAdapter JSONDictionaryFromModel:request error:nil];
+    NSDictionary *parameters;
+    
+    if ([request isKindOfClass:[ListingRequestModel class]]) {
+        parameters = [MTLJSONAdapter JSONDictionaryFromModel:request error:nil];
+    }
+    else if ([request isKindOfClass:[NSDictionary class]])
+        parameters = request;
+    
     NSLog(@"Parameters %@", parameters);
     
     

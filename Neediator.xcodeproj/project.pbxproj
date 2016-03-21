@@ -1285,6 +1285,8 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				82BB3DE91CA01B1B00B282D0 /* QRCodeViewController.h */,
+				82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */,
 				823339331C9D7D3300E16852 /* FilterTableViewController.h */,
 				823339341C9D7D3300E16852 /* FilterTableViewController.m */,
 				8214157E1C99819900FDEFDB /* MapLocationViewController.h */,
@@ -1299,8 +1301,6 @@
 				823B73771C48F17000031596 /* Listing */,
 				82A1D3D71C5633D800E6B1D3 /* Entity Details Page */,
 				82ED53E11C4FB3B700FA7707 /* Spree */,
-				82BB3DE91CA01B1B00B282D0 /* QRCodeViewController.h */,
-				82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -2211,7 +2211,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
+					/Users/vinodrathod/Downloads/FacebookSDKs,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
@@ -2241,7 +2241,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
+					/Users/vinodrathod/Downloads/FacebookSDKs,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";

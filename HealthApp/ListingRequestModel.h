@@ -22,4 +22,6 @@
 @property (nonatomic, copy) NSString *subcategory_id;
 
 
+@property (nonatomic, copy) NSDictionary *data;
+
 @end

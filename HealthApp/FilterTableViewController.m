@@ -37,6 +37,7 @@
     
     
     _selectedIndexes = [[NSMutableDictionary alloc] init];
+   
     
     UIButton *applyLabel = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
     applyLabel.titleLabel.font = [NeediatorUtitity mediumFontWithSize:15.f];
@@ -65,11 +66,11 @@
     if ([self.delegate respondsToSelector:@selector(appliedFilterListingDelegate:)]) {
         NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
         
-        [_selectedIndexes enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSIndexPath * _Nonnull obj, BOOL * _Nonnull stop) {
+        [_selectedIndexes enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull section, NSIndexPath * _Nonnull selectedIndexPath, BOOL * _Nonnull stop) {
             
             
-            FilterListModel *model = _filterArray[key.intValue];
-            FilterHelperModel *options = model.filterValues[obj.row];
+            FilterListModel *model = _filterArray[section.intValue];
+            FilterHelperModel *options = model.filterValues[selectedIndexPath.row];
             
             [parameter setObject:options.filterID forKey:model.filterParameter];
             
@@ -161,6 +162,8 @@
         else
             cell.accessoryType = UITableViewCellAccessoryNone;
     }
+    else
+        cell.accessoryType = UITableViewCellAccessoryNone;
     
     
     
@@ -316,7 +319,7 @@
         
         for (FilterHelperModel *valuesModel in model.filterValues) {
             
-            NSLog(@"Inserting at index %ld", indexPath.row + i + 1);
+            NSLog(@"Inserting at index %d", indexPath.row + i + 1);
             [_tempArray insertObject:valuesModel atIndex:indexPath.row + i + 1];
             i++;
         }
@@ -326,7 +329,7 @@
         NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
         for (int i=0; i< expandedRange.length; i++) {
             [indexPaths addObject:[NSIndexPath indexPathForRow:expandedRange.location + i + 1 inSection:indexPath.section]];
-            NSLog(@"Adding at index %ld", expandedRange.location + i + 1);
+            NSLog(@"Adding at index %u", expandedRange.location + i + 1);
         }
         
         for (NSIndexPath *indexpath in indexPaths) {
