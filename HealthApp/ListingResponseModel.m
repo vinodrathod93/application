@@ -21,7 +21,11 @@
              @"type"            : @"type",
              @"deliveryTypes"   : @"deliverytype",
              @"sorting_list"    : @"sort",
-             @"filter_list"     : @"filter"
+             @"filter_list"     : @"filter",
+             @"current_count"   : @"current_count",
+             @"total_count"     : @"total_count",
+             @"total_pages"     : @"total_pages",
+             @"current_page"    : @"current_page"
              
              };
 }

@@ -15,9 +15,8 @@
 
 @property (nonatomic, strong) NSNumber *payment_method_id;
 @property (nonatomic, assign) BOOL isPaymentOptionSelected;
-@property (nonatomic, strong) NSArray *payment_methods;
 @property (nonatomic, strong) MBProgressHUD *hud;
-
+@property (nonatomic, strong) UIDatePicker *dateTimePickerView;
 @property (strong) AppDelegate *appDelegate;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
@@ -26,6 +25,8 @@
 @implementation PaymentOptionsViewController {
     UIButton *_placeOrderButton;
     NSURLSessionDataTask *_task;
+    NSString *_selectedDeliveryID;
+    NSString *_selectedDateTime;
 }
 
 
@@ -40,23 +41,12 @@
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     
-    [self showHUD];
-    _task = [[NAPIManager sharedManager] getPaymentOptionsWithSuccess:^(NSDictionary *response) {
-        
-        [self hideHUD];
-        self.payment_methods = response[@"payment"];
-        
-        [self.tableView reloadData];
-        
-    } failure:^(NSError *error) {
-        
-        [self hideHUD];
-        NSLog(@"Error in payment %@", error.localizedDescription);
-        
-        
-        [self alertWithTitle:@"Error while Payment" message:error.localizedDescription];
-    }];
+    
+    [self setupDatePicker];
+    
 }
+
+
 
 
 #pragma mark - Table view delegate
@@ -70,7 +60,7 @@
     // Return the number of rows in the section.
     
     if (section == 0) {
-        return self.payment_methods.count;
+        return self.payment_types.count;
     }
     else
         return 1;
@@ -89,9 +79,20 @@
     
     if (indexPath.section == 0) {
         
-        NSDictionary *payment_option = self.payment_methods[indexPath.row];
-        cell.textLabel.text = payment_option[@"payment"];
+        NSDictionary *payment_option = self.payment_types[indexPath.row];
+        cell.textLabel.text = payment_option[@"paymenttype"];
         cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:17.f];
+    }
+    else if (indexPath.section == 2) {
+        
+        cell.textLabel.text = @"";
+        
+        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 2, CGRectGetWidth(self.view.frame) - (2*10), 40)];
+        textField.placeholder = @"Select Time";
+        [cell.contentView addSubview:textField];
+        
+        [self showDateTimePicker:textField];
+        
     }
     
     
@@ -114,13 +115,18 @@
     else if (section == 1)
         return @"Select Delivery Type";
     else
-        return @"Select Pickup Time";
+        return @"Select Time";
     
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 60.f;
+    
+    if (section == 2) {
+        return 60.f;
+    }
+    else
+        return 1.f;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -146,12 +152,16 @@
         
         [view addSubview:_placeOrderButton];
     }
+    else
+        view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 1);
     
     return view;
 }
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     
     if (indexPath.section == 0) {
         if (self.isPaymentOptionSelected) {
@@ -162,11 +172,172 @@
         else {
             [self selectPaymentOptionForTableview:tableView forIndexPath:indexPath];
             
-            self.payment_method_id = [self.payment_methods[indexPath.row] valueForKey:@"id"];
+            self.payment_method_id = [self.payment_types[indexPath.row] valueForKey:@"id"];
+        }
+    }
+    else if (indexPath.section == 1) {
+        
+        [self showActivitySheet:cell];
+    }
+    else {
+        
+        
+    }
+    
+}
+
+
+-(void)setupDatePicker {
+    _dateTimePickerView = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame) - 216.f, CGRectGetWidth(self.view.frame), 216.f)];
+    _dateTimePickerView.datePickerMode = UIDatePickerModeDateAndTime;
+    
+    NSDate *currentDate = [NSDate date];
+    NSDate *nextDate = [currentDate dateByAddingTimeInterval:60*60*24*3];
+    
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
+    
+    NSLog(@"Current Date = %@", [dateFormat stringFromDate:currentDate]);
+    NSLog(@"Next Date = %@", [dateFormat stringFromDate:nextDate]);
+    
+    [_dateTimePickerView setMinimumDate:currentDate];
+    [_dateTimePickerView setMaximumDate:nextDate];
+    
+}
+
+
+
+
+-(void)showDateTimePicker:(UITextField *)textfield {
+    
+    [self setupDatePicker];
+    
+    textfield.inputView = _dateTimePickerView;
+    textfield.inputAccessoryView = [self pickupDatePickerToolBar];
+    
+    [_dateTimePickerView addTarget:self action:@selector(setSelectedOrderDateTime:) forControlEvents:UIControlEventValueChanged];
+    
+    
+}
+
+-(void)setSelectedOrderDateTime:(UIDatePicker *)picker {
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+    
+    for (id subView in cell.contentView.subviews) {
+        if ([subView isKindOfClass:[UITextField class]]) {
+            
+            UITextField *datetimeTextField = (UITextField *)subView;
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
+            
+            datetimeTextField.text = [NSString stringWithFormat:@"%@", [dateFormat stringFromDate:picker.date]];
+            
+            _selectedDateTime = datetimeTextField.text;
+        }
+    }
+    
+   
+    
+    
+}
+
+-(UIToolbar *)pickupDatePickerToolBar {
+    UIToolbar *toolbar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44)];
+    toolbar.barStyle = UIBarStyleDefault;
+    UIBarButtonItem *flexibleSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 150, 21.f)];
+    message.font = [NeediatorUtitity mediumFontWithSize:15.f];
+    message.textAlignment = NSTextAlignmentCenter;
+    message.backgroundColor = [UIColor clearColor];
+    message.textColor = [UIColor darkGrayColor];
+    message.text = @"Select Date and Time";
+    
+    
+    
+    UIBarButtonItem *flexibleSpaceRight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    UIBarButtonItem *titleButton = [[UIBarButtonItem alloc] initWithCustomView:message];
+    
+    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(dismissPickerView)];
+    
+    [toolbar setItems:@[flexibleSpaceLeft, titleButton, flexibleSpaceRight, doneButton] animated:YES];
+    
+    return toolbar;
+}
+
+
+-(void)dismissPickerView {
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+    
+    for (id subView in cell.contentView.subviews) {
+        if ([subView isKindOfClass:[UITextField class]]) {
+            
+            UITextField *datetimeTextField = (UITextField *)subView;
+            
+            [datetimeTextField resignFirstResponder];
         }
     }
     
 }
+
+-(void)showActivitySheet:(UITableViewCell *)sender {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Delivery Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    NSArray *names = [self deliveryTypes];
+    NSArray *ids   = [self deliveryIDs];
+    
+    [names enumerateObjectsUsingBlock:^(NSString * _Nonnull title, NSUInteger idx, BOOL * _Nonnull stop) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            sender.textLabel.text = action.title;
+            _selectedDeliveryID = ids[idx];
+            
+        }];
+        
+        [controller addAction:action];
+    }];
+    
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [controller dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [controller addAction:cancelAction];
+    
+    controller.popoverPresentationController.sourceView = sender;
+    controller.popoverPresentationController.sourceRect = sender.bounds;
+    [self presentViewController:controller animated:YES completion:nil];
+    
+}
+
+-(NSArray *)deliveryTypes {
+    NSArray *delivery_types = _delivery_types;
+    
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    
+    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+        [names addObject:[type valueForKey:@"type"]];
+    }];
+    
+    return names;
+}
+
+-(NSArray *)deliveryIDs {
+    NSArray *delivery_types = _delivery_types;
+    
+    NSMutableArray *ids = [[NSMutableArray alloc] init];
+    
+    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+        [ids addObject:[type valueForKey:@"id"]];
+    }];
+    
+    return ids;
+}
+
 
 -(void)deselectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
     
@@ -199,17 +370,43 @@
     
     
     if (self.payment_method_id != nil) {
-        if (netStatus != NotReachable) {
-            [self sendPaymentOptionToServer];
-        } else
-            [self displayNoConnection];
+        
+        
+        
+        if (_selectedDeliveryID == nil) {
+            
+            NSArray *allIndexPaths = [self allRowsindexPathsForSection:1];
+            [self calloutCells:allIndexPaths];
+        }
+        else if (_selectedDateTime == nil) {
+            NSArray *allIndexPaths = [self allRowsindexPathsForSection:2];
+            [self calloutCells:allIndexPaths];
+        }
+        else {
+            
+            
+            if (netStatus != NotReachable) {
+                [self sendPaymentOptionToServer];
+            } else
+                [self displayNoConnection];
+        }
+        
+        
+        
     }
     else {
+        
         // Highlight cell
         
         NSArray *allIndexPaths = [self allRowsindexPathsForSection:0];
         [self calloutCells:allIndexPaths];
     }
+    
+    
+    
+    
+    
+    
     
 
 }
@@ -222,7 +419,7 @@
     NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/addOrder"];
     NSLog(@"URL is --> %@", url);
     
-    NSString *parameter = [NSString stringWithFormat:@"user_id=%@&payment_id=%@&address_id=%@&store_id=%@&cat_id=%@", user.userID, self.payment_method_id.stringValue, self.address_id, self.orderModel.store_id, self.orderModel.cat_id.stringValue];
+    NSString *parameter = [NSString stringWithFormat:@"user_id=%@&payment_id=%@&address_id=%@&store_id=%@&cat_id=%@&delivery_type=%@&preffered_time=%@", user.userID, self.payment_method_id.stringValue, self.address_id, self.orderModel.store_id, self.orderModel.cat_id.stringValue, _selectedDeliveryID, _selectedDateTime];
     NSLog(@"Payment parameter ==> %@",parameter);
     
     
@@ -327,6 +524,32 @@
     
     NSError *saveError = nil;
     [self.managedObjectContext save:&saveError];
+    
+}
+
+
+
+
+-(void)requestPaymentOptions {
+    
+    /*
+     [self showHUD];
+     _task = [[NAPIManager sharedManager] getPaymentOptionsWithSuccess:^(NSDictionary *response) {
+     
+     [self hideHUD];
+     self.payment_methods = response[@"payment"];
+     
+     [self.tableView reloadData];
+     
+     } failure:^(NSError *error) {
+     
+     [self hideHUD];
+     NSLog(@"Error in payment %@", error.localizedDescription);
+     
+     
+     [self alertWithTitle:@"Error while Payment" message:error.localizedDescription];
+     }];
+     */
     
 }
 

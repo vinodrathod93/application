@@ -14,5 +14,6 @@
 
 @property (nonatomic, strong) NSString *address_id;
 @property (nonatomic, strong) Order *orderModel;
-
+@property (nonatomic, strong) NSArray *payment_types;
+@property (nonatomic, strong) NSArray *delivery_types;
 @end

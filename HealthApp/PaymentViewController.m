@@ -48,7 +48,6 @@ enum TABLEVIEWCELL {
 @property (nonatomic, strong) NSDictionary *shipAddress;
 @property (nonatomic, strong) NSString *total;
 @property (nonatomic, strong) NSString *order_id;
-//@property (nonatomic, strong) NSArray *payment_methods;
 @property (nonatomic, strong) NSString *store;
 @property (nonatomic, strong) NSString *store_url;
 
@@ -71,6 +70,8 @@ typedef void(^completion)(BOOL finished);
     NSDictionary *_userData;
     NSDictionary *_addressData;
     NSArray *_addresses;
+    NSArray *_payment_methods;
+    NSArray *_delivery_methods;
 }
 
 - (void)viewDidLoad {
@@ -273,6 +274,18 @@ typedef void(^completion)(BOOL finished);
         paymentOptionsVC.orderModel = self.orderModel;
         paymentOptionsVC.address_id = self.shipAddress[@"id"];
         
+        if (_delivery_methods != nil) {
+            paymentOptionsVC.delivery_types = _delivery_methods;
+        }
+        else
+            paymentOptionsVC.delivery_types = @[];
+        
+        if (_payment_methods != nil) {
+            paymentOptionsVC.payment_types  = _payment_methods;
+        }
+        else
+            paymentOptionsVC.payment_types  = @[];
+        
         
         NSLog(@"%@", self.shipAddress);
         
@@ -446,22 +459,16 @@ typedef void(^completion)(BOOL finished);
                 [headerCurrencyFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_IN"]];
                 
                 
-                NSArray *totalCart          = [json valueForKey:@"totalcart"];
-                NSDictionary *totalData         = [totalCart objectAtIndex:0];
+                NSArray *totalCart              = [json valueForKey:@"totalcart"];
+                NSArray *store                  = [json valueForKey:@"store"];
+                NSArray *user                   = [json valueForKey:@"user"];
+                _addresses                      = [json objectForKey:@"address"];
+                _payment_methods                = [json objectForKey:@"paymenttype"];
+                _delivery_methods               = [json objectForKey:@"deliverytype"];
                 
-                NSArray *store          = [json valueForKey:@"store"];
                 NSDictionary *storeData         = [store objectAtIndex:0];
-                
-                NSArray *user          = [json valueForKey:@"user"];
-                _userData         = [user objectAtIndex:0];
-                
-                _addresses          = [json valueForKey:@"address"];
-                
-//                [_addresses enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull address, NSUInteger idx, BOOL * _Nonnull stop) {
-//                    if ([[address valueForKey:@"deliverable"] boolValue] == TRUE) {
-//                        _addressData = address;
-//                    }
-//                }];
+                _userData                       = [user objectAtIndex:0];
+                NSDictionary *totalData         = [totalCart objectAtIndex:0];
                 
                 
                 self.display_total          = [headerCurrencyFormatter stringFromNumber:[totalData valueForKey:@"totalamount"]];
@@ -474,7 +481,6 @@ typedef void(^completion)(BOOL finished);
                 self.total                  = [headerCurrencyFormatter stringFromNumber:[totalData valueForKey:@"totalamount"]];
                 self.title                  = @"CHECKOUT";
                 self.store                  = [[storeData valueForKey:@"name"] capitalizedString];
-//                self.shipAddress            = _addressData;
 
                 _sectionCount               = kSECTION_COUNT;
                 

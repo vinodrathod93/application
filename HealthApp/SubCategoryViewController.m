@@ -92,7 +92,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    NSLog(@"Index of %lu SubCat. count %lu", indexPath.item, (unsigned long)self.subcategoryArray.count);
+    NSLog(@"Index of %lu SubCat. count %lu", (long)indexPath.item, (unsigned long)self.subcategoryArray.count);
     
     SubCategoryModel *category     = self.subcategoryArray[indexPath.row];
     

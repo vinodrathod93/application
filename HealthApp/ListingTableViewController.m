@@ -51,6 +51,7 @@
     UIView *header;
     UIButton *sort;
     UIView *hudView;
+    NSString *_totalCount;
 }
 
 
@@ -342,7 +343,7 @@
         header.backgroundColor = [NeediatorUtitity defaultColor];
         
         UILabel *resultsCount =[[ UILabel alloc] initWithFrame:CGRectMake(10, 5, CGRectGetWidth(self.view.frame) - 150, 20)];
-        resultsCount.text = @"Showing 150 results";
+        resultsCount.text = [NSString stringWithFormat:@"Showing %@ results", _totalCount];
         resultsCount.font = [NeediatorUtitity regularFontWithSize:13.f];
         resultsCount.backgroundColor = [UIColor clearColor];
         
@@ -854,6 +855,7 @@
         
         _listingArray = response.records;
         _isProductType  = response.isProductType;
+        _totalCount     = response.total_count.stringValue;
         
         if (_listingArray.count == 0) {
             [self shownoListingView:location_store];
