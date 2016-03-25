@@ -35,7 +35,7 @@
 
 @property (nonatomic, strong) NSArray *sorting_list;
 @property (nonatomic, strong) NSArray *filter_list;
-
+@property (nonatomic, assign) BOOL isFilterApplied;
 @property (nonatomic, strong) NSArray *bannerImages;
 
 @end
@@ -735,7 +735,7 @@
 }
 
 
--(void)goToSearchTab {
+-(void)listingGoToSearchTab {
     
     
     [self.noListingView removeFromSuperview];
@@ -747,17 +747,35 @@
     
 }
 
+
+
 -(void)shownoListingView:(Location *)location {
     
     self.noListingView = [[[NSBundle mainBundle] loadNibNamed:@"NoStores" owner:self options:nil] lastObject];
     self.noListingView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
     self.noListingView.tag = kListingNoListingTag;
-    self.noListingView.location.text = location.location_name;
     
     
-    [self.noListingView.changeButton addTarget:self action:@selector(goToSearchTab) forControlEvents:UIControlEventTouchUpInside];
+    
+    if (_isFilterApplied) {
+        
+        self.noListingView.message.text  = @"No Results Found. Try again changing the filter";
+        self.noListingView.location.text = @"Filter";
+        [self.noListingView.changeButton addTarget:self action:@selector(displayFilterVC:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else {
+        self.noListingView.location.text = location.location_name;
+        [self.noListingView.changeButton addTarget:self action:@selector(listingGoToSearchTab) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
     
     [self.navigationController.view insertSubview:self.noListingView belowSubview:self.navigationController.navigationBar];
+}
+
+
+-(void)showNoResultsFoundView {
+    
+    
 }
 
 
@@ -774,6 +792,7 @@
 -(void)requestListingByFilterData:(NSDictionary *)data {
     
     Location *location_store = [Location savedLocation];
+    User *user          = [User savedUser];
     
     NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
     
@@ -785,8 +804,11 @@
     [parameter setObject:self.subcategory_id forKey:@"subcatid"];
     [parameter setObject:@"1" forKey:@"page"];
     [parameter setObject:@"" forKey:@"type_id"];
+    [parameter setObject:user.userID forKey:@"userid"];
     
     NSLog(@"%@", parameter);
+    
+    _isFilterApplied = YES;
     
     [self requestListings:parameter];
 }
@@ -797,7 +819,7 @@
     
     
     Location *location_store = [Location savedLocation];
-    
+    User *user          = [User savedUser];
     
     ListingRequestModel *requestModel = [ListingRequestModel new];
     requestModel.latitude             = location_store.latitude;
@@ -810,6 +832,7 @@
     requestModel.hasOffers            = @"";
     requestModel.minDelivery_id       = @"";
     requestModel.ratings_id           = @"";
+    requestModel.user_id              = user.userID;
     
     [self requestListings:requestModel];
 }
@@ -820,6 +843,7 @@
     
     
     Location *location_store = [Location savedLocation];
+    User *user          = [User savedUser];
     
     
     ListingRequestModel *requestModel = [ListingRequestModel new];
@@ -833,6 +857,7 @@
     requestModel.hasOffers            = @"";
     requestModel.minDelivery_id       = @"";
     requestModel.ratings_id           = @"";
+    requestModel.user_id              = user.userID;
     
     [self requestListings:requestModel];
 
@@ -858,8 +883,11 @@
         _totalCount     = response.total_count.stringValue;
         
         if (_listingArray.count == 0) {
+            
             [self shownoListingView:location_store];
         }
+        
+        
         
         
         [NeediatorUtitity save:response.deliveryTypes forKey:kSAVE_DELIVERY_TYPES];

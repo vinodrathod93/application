@@ -66,6 +66,12 @@
     if ([self.delegate respondsToSelector:@selector(appliedFilterListingDelegate:)]) {
         NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
         
+        
+        for (FilterListModel *model in _filterArray) {
+            [parameter setObject:@"" forKey:model.filterParameter];
+        }
+        
+        
         [_selectedIndexes enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull section, NSIndexPath * _Nonnull selectedIndexPath, BOOL * _Nonnull stop) {
             
             

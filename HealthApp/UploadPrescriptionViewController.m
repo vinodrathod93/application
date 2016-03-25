@@ -8,10 +8,11 @@
 
 #import "UploadPrescriptionViewController.h"
 #import "OrderCompleteViewController.h"
+#import "ImageModalViewController.h"
 
 
 
-@interface UploadPrescriptionViewController ()
+@interface UploadPrescriptionViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
 {
     long long expectedLength;
     long long currentLength;
@@ -22,10 +23,13 @@
     
     NSString *_selectedDeliveryID;
     NSString *_selectedAddressID;
+    
+    UIImageView *_selectedImageView;
 }
 
 @property (nonatomic, strong) NSDictionary *dictionary;
 @property (nonatomic, strong) MBProgressHUD *hud;
+//@property (nonatomic, strong) NSMutableArray *selectedImagesArray;
 @end
 
 @implementation UploadPrescriptionViewController
@@ -33,6 +37,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.title = @"Upload Prescription";
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissVC:)];
+    
+//     self.selectedImagesArray = [[NSMutableArray alloc] init];
     
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -73,9 +83,31 @@
     UITapGestureRecognizer *tapGestureRecognize = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPicker:)];
     tapGestureRecognize.numberOfTapsRequired = 1;
     [self.contentView addGestureRecognizer:tapGestureRecognize];
+    
+    UITapGestureRecognizer *cellTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTapGestureAction:)];
+    [cellTapGestureRecognizer setNumberOfTapsRequired:1];
+    self.contentView.userInteractionEnabled = YES;
+    [self.contentView addGestureRecognizer:cellTapGestureRecognizer];
 }
 
 
+
+
+-(void)dismissVC:(UIBarButtonItem *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+-(void)cellTapGestureAction:(UITapGestureRecognizer *)sender
+{
+    CGPoint touchLocation = [sender locationOfTouch:0 inView:self.imagesCollectionView];
+    NSIndexPath *indexPath = [self.imagesCollectionView indexPathForItemAtPoint:touchLocation];
+    
+    NSLog(@"%d", indexPath.item);
+    
+    [self collectionViewTapGestureSelectAtIndex:indexPath];
+}
 
 #pragma mark - IBActions
 
@@ -245,6 +277,7 @@
 #pragma mark - ImagePicker Delegates
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+   
     _cameraImage = info[UIImagePickerControllerEditedImage];
 //    self.imageView.image = chosenImage;
 //    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -288,6 +321,12 @@
         
         [controller addAction:action];
     }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [controller dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [controller addAction:cancel];
     
     controller.popoverPresentationController.sourceView = sender;
     controller.popoverPresentationController.sourceRect = sender.bounds;
@@ -484,13 +523,20 @@
     return thumbnail;
 }
 
+-(void)removeImageAtIndex:(NSIndexPath *)indexPath {
+    
+    [_selections replaceObjectAtIndex:indexPath.item withObject:@0];
+    
+    NSLog(@"%@", _selections);
+}
+
 -(NSArray *)selectedImages {
     
-    NSMutableArray *selectedImages = [[NSMutableArray alloc] init];
+    NSMutableArray *selectedImagesArray = [[NSMutableArray alloc] init];
     NSArray *positions = [self positionArray];
     
     if (_cameraCaptured) {
-        [selectedImages addObject:_cameraImage];
+        [selectedImagesArray addObject:_cameraImage];
     }
     else {
         
@@ -500,14 +546,14 @@
             UIImage *image = [self getAssetThumbnail:photo];
             
             
-            [selectedImages addObject:image];
+            [selectedImagesArray addObject:image];
             
         }];
         
     }
     
     
-    return selectedImages;
+    return selectedImagesArray;
 }
 
 
@@ -563,16 +609,16 @@
 //    NSString *name = [[address valueForKey:@"Name"]capitalizedString];
 
 //    [NeediatorUtitity save:address[@"Id"] forKey:kSAVE_ADDRESS_ID];
-    _selectedAddressID = address[@"Id"];
+    _selectedAddressID = address[@"id"];
     
-    NSString *address1 = [[address valueForKey:@"Address"] capitalizedString];
+    NSString *address1 = [[address valueForKey:@"address"] capitalizedString];
     
     if (![address1 isEqual:[NSNull null]])
         address1       = [address1 capitalizedString];
     else
         address1       = @"";
     
-    NSString *zipcode  = [address valueForKey:@"Pincode"];
+    NSString *zipcode  = [address valueForKey:@"pincode"];
     
     NSString *complete_address = [NSString stringWithFormat:@"%@, - %@",address1, zipcode];
     
@@ -586,13 +632,41 @@
 #pragma mark - Network
 
 
+-(NSString *)validateInputs {
+    
+    NSString *errorMessage;
+    
+    if (_selectedAddressID == nil) {
+        errorMessage = @"Please Select an Delivery Address";
+    }
+    else if (_dateTimeField.text == nil) {
+        errorMessage = @"Please select an Delivery Date & Time";
+    }
+    
+    return errorMessage;
+}
+
+
+-(void)sendImagesToUpload {
+    
+    
+    NSString *error = [self validateInputs];
+    
+    if (error == nil) {
+        [self uploadImages];
+    }
+    else
+        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error onController:self];
+}
+
+
 -(void)uploadImages {
     
     NSArray *array = [self selectedImagesBase64];
     User *saved_user = [User savedUser];
     
     
-    if (saved_user != nil && _selectedAddressID != nil && _selectedAddressID != nil && self.dateTimeField.text != nil) {
+    if (saved_user != nil) {
         
         [self showHUD];
         self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
@@ -605,7 +679,7 @@
                                @"dateTime"  : self.dateTimeField.text
                                };
         
-        [[NAPIManager sharedManager] uploadImagesWithData:data withHUD:self.hud success:^(BOOL success) {
+        [[NAPIManager sharedManager] uploadImagesWithData:data withHUD:self.hud success:^(BOOL success, NSDictionary *responseData) {
             if (success) {
                 
                 NSLog(@"Success");
@@ -614,12 +688,14 @@
                 [self showHideCompletedHUD];
                 
                 
-                OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderConfirmationVC"];
-                [self.navigationController pushViewController:orderCompleteVC animated:YES];
+                NSDictionary *order = responseData[@"details"][0];
                 
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    [self dismissViewControllerAnimated:YES completion:nil];
-//                });
+                
+                OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+                orderCompleteVC.order_id    = order[@"OrderNo"];
+                orderCompleteVC.message     = [NSString stringWithFormat:@"Your Prescription has been successfully send to %@", [order[@"storename"] capitalizedString]];
+                orderCompleteVC.additonalInfo = [NSString stringWithFormat:@"Payment Type is %@\n Delivery Date is %@", order[@"PaymentType"], order[@"preferred_time"]];
+                [self.navigationController pushViewController:orderCompleteVC animated:YES];
                 
             }
             else
@@ -806,8 +882,11 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    
-    return [[self positionArray] count];
+    if ([[self selectedImages] count] != 0) {
+        return [[self selectedImages] count] + 1;
+    }
+    else
+        return 0;
 }
 
 
@@ -815,17 +894,29 @@
     static NSString *cellIdentifier = @"selectedImagesCellIdentifier";
     
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    
-    
-    NSArray *images = [self selectedImages];
-    
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+    
+    
+    if (indexPath.item != [self selectedImages].count) {
+        NSLog(@"Continue");
+        
+        NSArray *images = [self selectedImages];
+        imageView.image = (UIImage *)images[indexPath.item];
+    }
+    else {
+        
+        imageView.frame = CGRectMake(cell.frame.size.width/2 - (25/2), cell.frame.size.height/2 - (25/2), 25, 25);
+        imageView.image = [UIImage imageNamed:@"addPlus"];
+        
+    }
+   
     imageView.contentMode   = UIViewContentModeScaleAspectFit;
-    imageView.image = (UIImage *)images[indexPath.item];
+    imageView.userInteractionEnabled = YES;
 
     
     UIView *background = [[UIView alloc] initWithFrame:cell.frame];
-    background.backgroundColor = [UIColor lightGrayColor];
+    background.backgroundColor = [NeediatorUtitity defaultColor];
+    background.userInteractionEnabled = YES;
     background.layer.cornerRadius = 5.f;
     background.layer.masksToBounds = YES;
     [background addSubview:imageView];
@@ -835,18 +926,201 @@
     return cell;
 }
 
+-(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+
+
+
+-(void)collectionViewTapGestureSelectAtIndex:(NSIndexPath *)indexPath {
+    
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    if (indexPath.item == [[self selectedImages] count]) {
+        
+        
+        UIAlertAction *camera = [UIAlertAction actionWithTitle:@"Capture" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self takePhotoPressed:nil];
+        }];
+        
+        UIAlertAction *library = [UIAlertAction actionWithTitle:@"Select from Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self selectPhotoPressed:nil];
+        }];
+        
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [controller dismissViewControllerAnimated:YES completion:nil];
+        }];
+        
+        [controller addAction:camera];
+        [controller addAction:library];
+        [controller addAction:cancel];
+        
+        
+    }
+    else {
+        
+        UICollectionViewCell *cell = [self.imagesCollectionView cellForItemAtIndexPath:indexPath];
+        
+        for (id item in cell.subviews) {
+            if ([item isKindOfClass:[UIImageView class]]) {
+                _selectedImageView = (UIImageView *)item;
+            }
+        }
+        
+        UIAlertAction *viewImage = [UIAlertAction actionWithTitle:@"View Image" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            // View Image
+            
+            
+            NSArray *images = [self selectedImages];
+            
+            ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
+            imageModalVC.image  = images[indexPath.item];
+            
+            imageModalVC.transitioningDelegate = self;
+            imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
+            
+            [self presentViewController:imageModalVC animated:YES completion:nil];
+            
+        }];
+        
+        UIAlertAction *deleteImage = [UIAlertAction actionWithTitle:@"Delete Image" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            // Remvoe from selected Image
+            
+            [self removeImageAtIndex:indexPath];
+            [self.imagesCollectionView reloadData];
+            
+            
+        }];
+        
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [controller dismissViewControllerAnimated:YES completion:nil];
+        }];
+        
+        [controller addAction:viewImage];
+        [controller addAction:deleteImage];
+        [controller addAction:cancel];
+    }
+    
+    [self presentViewController:controller animated:YES completion:nil];
+}
 
 
 
 
 
 
+#pragma mark - UIViewControllerTransitioningDelegate
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    return self;
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    return self;
+}
 
 
+#pragma mark - UIViewControllerAnimatedTransitioning
 
+-(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
+    return 1.0;
+}
 
-
-
+-(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    
+    
+    UIView *container       = transitionContext.containerView;
+    
+    UIViewController *fromVC    = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    ImageModalViewController *toVC      = (ImageModalViewController *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    UIView *fromView            = fromVC.view;
+    UIView *toView              = toVC.view;
+    
+    
+    CGRect beginFrame;
+    CGRect endFrame             = toView.frame;
+    
+//    if (_isBooking) {
+//        BookCallListingCell *cell = (BookCallListingCell *)[[[_tappedImageView superview] superview] superview];
+//        beginFrame           = [container convertRect:cell.profileImageview.frame fromView:cell.profileImageview.superview];
+//    }
+//    else {
+//        ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
+//        beginFrame           = [container convertRect:cell.profileImageview.frame fromView:cell.profileImageview.superview];
+//    }
+//    
+    
+//    UICollectionViewCell *cell = (UICollectionViewCell *)[_selectedImageView superview];
+    
+    beginFrame = [container convertRect:_selectedImageView.frame fromView:_selectedImageView.superview];
+    
+    NSLog(@"%@",toView.subviews);
+    
+    UIView *move                = nil;
+    
+    if (toVC.isBeingPresented) {
+        toView.frame            = endFrame;
+        move                    = [toView snapshotViewAfterScreenUpdates:YES];
+        move.frame              = beginFrame;
+        
+//        if (_isBooking) {
+//            BookCallListingCell *cell = (BookCallListingCell *)[[[_tappedImageView superview] superview] superview];
+//            cell.profileImageview.hidden   = YES;
+//        }
+//        else {
+//            ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
+//            cell.profileImageview.hidden   = YES;
+//        }
+        
+        _selectedImageView.hidden = YES;
+        
+        
+    } else {
+        
+        ImageModalViewController *modalVC       = (ImageModalViewController *)fromVC;
+        modalVC.imageContentView.backgroundColor = [UIColor clearColor];
+        
+        move        = [fromView snapshotViewAfterScreenUpdates:NO];
+        move.frame  = fromView.frame;
+        
+        [fromView removeFromSuperview];
+        
+    }
+    
+    [container addSubview:move];
+    
+    [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:500 initialSpringVelocity:15 options:0 animations:^{
+        move.frame = toVC.isBeingPresented ? endFrame : beginFrame;
+        
+    } completion:^(BOOL finished) {
+        if (toVC.isBeingPresented) {
+            
+            [move removeFromSuperview];
+            toView.frame    = endFrame;
+            [container addSubview:toView];
+            
+        } else {
+            
+//            if (_isBooking) {
+//                BookCallListingCell *cell = (BookCallListingCell *)[[[_tappedImageView superview] superview] superview];
+//                cell.profileImageview.hidden   = NO;
+//            }
+//            else {
+//                ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
+//                cell.profileImageview.hidden   = NO;
+//            }
+            
+            _selectedImageView.hidden = NO;
+            
+        }
+        
+        [transitionContext completeTransition:YES];
+    }];
+    
+}
 
 
 

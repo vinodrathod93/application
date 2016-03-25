@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSString *minDelivery_id;
 @property (nonatomic, copy) NSString *ratings_id;
 @property (nonatomic, copy) NSString *subcategory_id;
+@property (nonatomic, copy) NSString *user_id;
 
 
 @property (nonatomic, copy) NSDictionary *data;

@@ -44,6 +44,17 @@
 
 
 
++ (void)alertWithTitle:(NSString *)title andMessage:(NSString *)message onController:(UIViewController *)controller {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [alertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [alertController addAction:cancelAction];
+    
+    [controller presentViewController:alertController animated:YES completion:nil];
+}
 
 
 

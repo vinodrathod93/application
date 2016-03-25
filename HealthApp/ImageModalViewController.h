@@ -15,5 +15,5 @@
 @property (weak, nonatomic) IBOutlet UIView *imageContentView;
 
 @property (strong, nonatomic) ListingModel *model;
-
+@property (strong, nonatomic) UIImage *image;
 @end

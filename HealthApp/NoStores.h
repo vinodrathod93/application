@@ -14,4 +14,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *changeButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *message;
+
+
+@property (nonatomic, copy) NSString *messageString;
+
 @end

@@ -27,6 +27,7 @@
     if (self.booking_id != nil) {
         self.order_number.text = self.booking_id;
         self.viewButton.hidden = YES;
+        
     }
     else if (self.order_id != nil) {
         self.order_number.text = self.order_id;
@@ -43,6 +44,11 @@
     if (self.heading != nil) {
         self.headingLabel.text = self.heading.uppercaseString;
     }
+    
+    if (self.additonalInfo != nil) {
+        self.additionalInfoLabel.text = self.additonalInfo;
+    }
+    
     
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
     for(UIViewController* vc in self.navigationController.viewControllers)

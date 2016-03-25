@@ -20,6 +20,7 @@
 + (id)savedDataForKey:(NSString *)key;
 + (void)clearDataForKey:(NSString *)key;
 
-+(UIColor *)defaultColor;
++ (UIColor *)defaultColor;
++ (void)alertWithTitle:(NSString *)title andMessage:(NSString *)message onController:(UIViewController *)controller;
 
 @end

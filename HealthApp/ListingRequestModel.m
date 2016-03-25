@@ -24,7 +24,7 @@
              @"hasOffers"       : @"offer",
              @"minDelivery_id"  : @"minimum_delivery_id",
              @"ratings_id"      : @"ratings_id",
-        
+             @"user_id"         : @"userid"
              };
 }
 

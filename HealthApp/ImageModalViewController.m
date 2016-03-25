@@ -13,8 +13,15 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
     
-    NSURL *url = [NSURL URLWithString:self.model.image_url];
-    [self.bigImageView sd_setImageWithURL:url];
+    if (self.model == nil) {
+        self.bigImageView.image = self.image;
+    }
+    else {
+        NSURL *url = [NSURL URLWithString:self.model.image_url];
+        [self.bigImageView sd_setImageWithURL:url];
+    }
+    
+    
     
     UIGestureRecognizer *touchGR = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                            action:@selector(didTouch:)];
