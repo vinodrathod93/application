@@ -16,15 +16,22 @@
 
 #define kDefaultLocationMessage @"Select Location"
 
-@interface SearchViewController ()<GMSAutocompleteResultsViewControllerDelegate>
+@interface SearchViewController ()<GMSAutocompleteResultsViewControllerDelegate, UISearchBarDelegate>
 
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, assign) BOOL isTapped;
 @property (nonatomic, strong) NSString *currentPlace;
 @property (nonatomic, strong) NSMutableArray *storesArray;
 
-
 @end
+
+
+typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
+{
+    searchScopeLocation = 0,
+    searchScopeCategory = 1,
+    searchScopeStore    = 2
+};
 
 @implementation SearchViewController {
     UISearchController *_searchController;
@@ -101,16 +108,18 @@
     
     
     _searchController           = [[UISearchController alloc]initWithSearchResultsController:_autoCompleteViewController];
-    _searchController.hidesNavigationBarDuringPresentation = NO;
+    _searchController.hidesNavigationBarDuringPresentation = YES;
     _searchController.dimsBackgroundDuringPresentation = YES;
-    _searchController.searchBar.placeholder = @"Search by Locality";
+    _searchController.searchBar.placeholder = @"Search";
+    _searchController.searchBar.delegate = self;
+    _searchController.searchBar.scopeButtonTitles = @[@"Location", @"Category", @"Store"];
     
     _searchController.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    _searchController.searchBar.searchBarStyle   = UISearchBarStyleMinimal;
+    _searchController.searchBar.searchBarStyle   = UISearchBarStyleDefault;
     
     [_searchController.searchBar sizeToFit];
     
-    self.navigationItem.titleView                = _searchController.searchBar;
+    self.tableView.tableHeaderView                = _searchController.searchBar;
     self.definesPresentationContext              = YES;
     
     // resolves the issue of repostioning the tableview when rotated to landscape.
@@ -382,6 +391,16 @@ didFailAutocompleteWithError:(NSError *)error {
 
 -(void)decorateDeselectCurrentLocation {
     [self.nearByButton setImage:[UIImage imageNamed:@"near_me"]];
+}
+
+
+#pragma mark -
+#pragma mark === UISearchBarDelegate ===
+#pragma mark -
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+{
+//    [self updateSearchResultsForSearchController:self.searchController];
 }
 
 

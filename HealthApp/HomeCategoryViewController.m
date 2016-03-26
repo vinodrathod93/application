@@ -75,21 +75,14 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     /* Decorate Navigation Bar */
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     UIImageView *neediatorLogoView    = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]];
-    neediatorLogoView.frame = CGRectMake(0, 0, 150, 28);
-    
     self.navigationItem.titleView = neediatorLogoView;
 
-    UIButton *QRButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 70, 20)];
-    QRButton.titleLabel.font = [NeediatorUtitity demiBoldFontWithSize:16.f];
-    QRButton.titleLabel.textAlignment = NSTextAlignmentLeft;
-    QRButton.backgroundColor = [UIColor clearColor];
-    [QRButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [QRButton setTitle:@"QR Scan" forState:UIControlStateNormal];
-    [QRButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
+    UIButton *QRButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    [QRButton setImage:[UIImage imageNamed:@"QRIcon"] forState:UIControlStateNormal];
     [QRButton addTarget:self action:@selector(QRButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *QRBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:QRButton];
-    self.navigationItem.leftBarButtonItem = QRBarButtonItem;
+    self.navigationItem.rightBarButtonItem = QRBarButtonItem;
     
     
     /* Start the Location */
@@ -158,7 +151,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [super viewWillAppear:animated];
     
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
-    self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
+//    self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
     
     
     [self.tabBarController.tabBar setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];

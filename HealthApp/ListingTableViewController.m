@@ -27,7 +27,7 @@
 
 #define kBannerSectionIndex 1
 
-@interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
+@interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate,UIViewControllerPreviewingDelegate>
 
 @property (nonatomic, strong) NSArray *listingArray;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -36,6 +36,7 @@
 @property (nonatomic, strong) NSArray *sorting_list;
 @property (nonatomic, strong) NSArray *filter_list;
 @property (nonatomic, assign) BOOL isFilterApplied;
+@property (nonatomic, strong) NSDictionary *filterData;
 @property (nonatomic, strong) NSArray *bannerImages;
 
 @end
@@ -70,7 +71,15 @@
     self.bannerImages = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
     
     
-    [self requestBasicListings];
+    
+    
+    
+    // Register for 3D Touch Previewing if available
+    if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &&
+        (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable))
+    {
+        [self registerForPreviewingWithDelegate:self sourceView:self.view];
+    }
     
 }
 
@@ -83,7 +92,11 @@
 
     self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
     
-   
+    if (_isFilterApplied) {
+        [self requestListingByFilterData:_filterData andSortType:@""];
+    }
+    else
+       [self requestBasicListings];
     
     
 }
@@ -113,6 +126,37 @@
     cell.scrollView.contentSize = CGSizeMake(CGRectGetWidth(cell.scrollView.frame) * self.bannerImages.count, CGRectGetHeight(cell.scrollView.frame));
 }
 
+
+#pragma mark -
+#pragma mark === UIViewControllerPreviewingDelegate Methods ===
+#pragma mark -
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+              viewControllerForLocation:(CGPoint)location {
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    ListingModel *model = self.listingArray[indexPath.section - 1];
+    
+    if (model) {
+        ListingCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        
+        if (cell) {
+            previewingContext.sourceRect = cell.frame;
+            
+            UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsNavVC"];
+            [self configureNavigationController:navController withModel:model];
+            return navController;
+        }
+    }
+    
+
+    return nil;
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+    
+    [self showDetailViewController:viewControllerToCommit sender:self];
+}
 
 
 #pragma mark - Table view data source
@@ -180,6 +224,10 @@
     
     cell.backgroundColor = [UIColor clearColor];
     
+    NSNumberFormatter *minOrderCurrencyFormatter = [[NSNumberFormatter alloc] init];
+    [minOrderCurrencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [minOrderCurrencyFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_IN"]];
+    
     _tap            = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayImageFullScreen:)];
     [cell.profileImageview addGestureRecognizer:_tap];
     [cell.profileImageview setUserInteractionEnabled:YES];
@@ -189,9 +237,23 @@
     
     cell.name.text = model.name.capitalizedString;
     cell.street.text = model.address.capitalizedString;
-    cell.rating.text = [NSString stringWithFormat:@"%.01f", model.ratings.floatValue];
+    cell.rating.text = [NSString stringWithFormat:@"⭐️ %.01f", model.ratings.floatValue];
     cell.distance.text = [NSString stringWithFormat:@"📍 %@",[model.nearest_distance uppercaseString]];
     cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",[model.timing uppercaseString]];
+    NSString *minOrderString =  [NSString stringWithFormat:@"Min. Order %@", [minOrderCurrencyFormatter stringFromNumber:@(model.minOrder.intValue)]];
+    
+    
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:minOrderString];
+    
+    NSRange range = [minOrderString rangeOfString:@"Min."];
+    
+    [attributedString setAttributes:@{
+                                     NSForegroundColorAttributeName : [UIColor redColor]
+                                     }range:range];
+    
+    cell.minOrderLabel.attributedText = attributedString;
+    
     
     cell.profileImageview.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
     cell.profileImageview.layer.cornerRadius = 5.f;
@@ -313,6 +375,40 @@
     
 }
 
+- (void)configureNavigationController:(UINavigationController *)navController withModel:(ListingModel *)model {
+    
+    if ([navController.topViewController isKindOfClass:[StoreTaxonsViewController class]]) {
+        StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
+        storeTaxonsVC.title = [model.name capitalizedString];
+        storeTaxonsVC.cat_id = self.category_id;
+        storeTaxonsVC.store_id = model.list_id;
+        storeTaxonsVC.storeImages = model.images;
+        storeTaxonsVC.storePhoneNumbers = model.phone_nos;
+        storeTaxonsVC.storeDistance = model.nearest_distance.uppercaseString;
+        storeTaxonsVC.ratings   = model.ratings;
+        storeTaxonsVC.reviewsCount = model.reviews_count;
+        storeTaxonsVC.likeUnlikeArray = model.likeUnlike;
+        
+        storeTaxonsVC.hidesBottomBarWhenPushed = NO;
+        [self.navigationController pushViewController:storeTaxonsVC animated:YES];
+        
+    }
+    else if ([navController.topViewController isKindOfClass:[NEntityDetailViewController class]]) {
+        
+        NEntityDetailViewController *NEntityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
+        NEntityVC.cat_id    = self.category_id;
+        NEntityVC.entity_id = model.list_id;
+        NEntityVC.title     = model.name.uppercaseString;
+        NEntityVC.isBooking = _isBooking;
+        
+        NEntityVC.entity_name = model.name;
+        NEntityVC.entity_meta_info = self.title;
+        NEntityVC.entity_image = model.image_url;
+        
+        [self.navigationController pushViewController:NEntityVC animated:YES];
+    }
+}
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -389,7 +485,7 @@
 
 -(void)appliedFilterListingDelegate:(NSDictionary *)data {
     
-    [self requestListingByFilterData:data];
+    [self requestListingByFilterData:data andSortType:@""];
     
     
 }
@@ -680,7 +776,7 @@
     activityImageView = [[UIImageView alloc]
                                       initWithImage:statusImage];
     activityImageView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
-    activityImageView.layer.shadowOffset = CGSizeMake(0.f, 5.f);
+    activityImageView.layer.shadowOffset = CGSizeMake(0.f, 15.f);
     activityImageView.layer.shadowOpacity = 1;
     activityImageView.layer.shadowRadius = 10.0;
     activityImageView.clipsToBounds = NO;
@@ -789,7 +885,7 @@
 
 
 
--(void)requestListingByFilterData:(NSDictionary *)data {
+-(void)requestListingByFilterData:(NSDictionary *)data andSortType:(NSString *)type {
     
     Location *location_store = [Location savedLocation];
     User *user          = [User savedUser];
@@ -803,12 +899,19 @@
     [parameter setObject:self.category_id forKey:@"catid"];
     [parameter setObject:self.subcategory_id forKey:@"subcatid"];
     [parameter setObject:@"1" forKey:@"page"];
-    [parameter setObject:@"" forKey:@"type_id"];
-    [parameter setObject:user.userID forKey:@"userid"];
+    [parameter setObject:type forKey:@"type_id"];
+    
+    
+    if (user.userID != nil) {
+        [parameter setObject:user.userID forKey:@"userid"];
+    }
+    else
+        [parameter setObject:@"" forKey:@"userid"];
     
     NSLog(@"%@", parameter);
     
     _isFilterApplied = YES;
+    _filterData      = data;
     
     [self requestListings:parameter];
 }
@@ -821,20 +924,31 @@
     Location *location_store = [Location savedLocation];
     User *user          = [User savedUser];
     
-    ListingRequestModel *requestModel = [ListingRequestModel new];
-    requestModel.latitude             = location_store.latitude;
-    requestModel.longitude            = location_store.longitude;
-    requestModel.category_id          = self.category_id;
-    requestModel.subcategory_id       = self.subcategory_id;
-    requestModel.page                 = @"1";
-    requestModel.sortType_id          = type;
-    requestModel.is24Hrs              = @"";
-    requestModel.hasOffers            = @"";
-    requestModel.minDelivery_id       = @"";
-    requestModel.ratings_id           = @"";
-    requestModel.user_id              = user.userID;
     
-    [self requestListings:requestModel];
+    
+    
+    
+    if (_filterData != nil) {
+        ListingRequestModel *requestModel = [ListingRequestModel new];
+        requestModel.latitude             = location_store.latitude;
+        requestModel.longitude            = location_store.longitude;
+        requestModel.category_id          = self.category_id;
+        requestModel.subcategory_id       = self.subcategory_id;
+        requestModel.page                 = @"1";
+        requestModel.sortType_id          = type;
+        requestModel.is24Hrs              = @"";
+        requestModel.hasOffers            = @"";
+        requestModel.minDelivery_id       = @"";
+        requestModel.ratings_id           = @"";
+        requestModel.user_id              = (user.userID != nil) ? user.userID : @"";
+        
+        [self requestListings:requestModel];
+    }
+    else {
+        
+        [self requestListingByFilterData:_filterData andSortType:type];
+    }
+    
 }
 
 -(void)requestBasicListings {
@@ -852,12 +966,12 @@
     requestModel.category_id          = self.category_id;
     requestModel.subcategory_id       = self.subcategory_id;
     requestModel.page                 = @"1";
-    requestModel.sortType_id          = @"2";
+    requestModel.sortType_id          = @"1";
     requestModel.is24Hrs              = @"";
     requestModel.hasOffers            = @"";
     requestModel.minDelivery_id       = @"";
     requestModel.ratings_id           = @"";
-    requestModel.user_id              = user.userID;
+    requestModel.user_id              = (user.userID != nil) ? user.userID : @"";
     
     [self requestListings:requestModel];
 

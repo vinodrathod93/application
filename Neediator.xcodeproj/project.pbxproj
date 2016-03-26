@@ -35,6 +35,7 @@
 		82217C481C96D4FA002570E3 /* StoreOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82217C471C96D4FA002570E3 /* StoreOptionsView.xib */; };
 		82217C4A1C96E293002570E3 /* UploadPrescriptionCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82217C491C96E293002570E3 /* UploadPrescriptionCellView.xib */; };
 		82217C4D1C96E2B4002570E3 /* UploadPrescriptionCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82217C4C1C96E2B4002570E3 /* UploadPrescriptionCellView.m */; };
+		822EF6061CA678DA00C67C91 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 822EF6051CA678DA00C67C91 /* AudioToolbox.framework */; };
 		8230D4571C11686400F585D1 /* NavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8230D4561C11686400F585D1 /* NavigationViewController.m */; };
 		82327F6E1B60B0EB00D92889 /* DetailProductViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F6D1B60B0EB00D92889 /* DetailProductViewModel.m */; };
 		82327F741B60C86B00D92889 /* CartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F731B60C86B00D92889 /* CartViewController.m */; };
@@ -248,6 +249,7 @@
 		82217C491C96E293002570E3 /* UploadPrescriptionCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UploadPrescriptionCellView.xib; sourceTree = "<group>"; };
 		82217C4B1C96E2B4002570E3 /* UploadPrescriptionCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadPrescriptionCellView.h; sourceTree = "<group>"; };
 		82217C4C1C96E2B4002570E3 /* UploadPrescriptionCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadPrescriptionCellView.m; sourceTree = "<group>"; };
+		822EF6051CA678DA00C67C91 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		8230D4551C11686400F585D1 /* NavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationViewController.h; sourceTree = "<group>"; };
 		8230D4561C11686400F585D1 /* NavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationViewController.m; sourceTree = "<group>"; };
 		82327F6C1B60B0EB00D92889 /* DetailProductViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailProductViewModel.h; sourceTree = "<group>"; };
@@ -550,6 +552,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				822EF6061CA678DA00C67C91 /* AudioToolbox.framework in Frameworks */,
 				82C3F55F1C8DB3C700BA266D /* QuartzCore.framework in Frameworks */,
 				82BF08511C1F07E90093B8CD /* MessageUI.framework in Frameworks */,
 				824D00371B6F2EBF000F1825 /* CoreLocation.framework in Frameworks */,
@@ -573,6 +576,7 @@
 		4D432D975D494ECD94D11A09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				822EF6051CA678DA00C67C91 /* AudioToolbox.framework */,
 				82C3F55E1C8DB3C700BA266D /* QuartzCore.framework */,
 				82EA67FC1C43B93B00F9924D /* libRealm.a */,
 				82EA67FA1C43B8D900F9924D /* libMantle.a */,

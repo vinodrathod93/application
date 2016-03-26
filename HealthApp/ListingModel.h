@@ -19,6 +19,7 @@
 @property (nonatomic, copy) NSString *nearest_distance;
 @property (nonatomic, copy) NSString *ratings;
 @property (nonatomic, copy) NSString *timing;
+@property (nonatomic, copy) NSString *minOrder;
 @property (nonatomic, copy) NSString *reviews_count;
 
 

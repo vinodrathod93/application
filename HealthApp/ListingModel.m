@@ -21,6 +21,7 @@
              @"nearest_distance"    : @"distance",
              @"ratings"             : @"ratings",
              @"timing"              : @"timing",
+             @"minOrder"            : @"charges",
              @"reviews_count"       : @"reviews_count",
              @"isBook"              : @"book",
              @"isCall"              : @"call",

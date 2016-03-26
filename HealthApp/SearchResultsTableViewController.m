@@ -65,8 +65,18 @@
     
     _product = self.searchResults[indexPath.row];
     
+    NSLog(@"%@", _product);
+    
+    NSNumberFormatter *priceCurrencyFormatter = [[NSNumberFormatter alloc] init];
+    [priceCurrencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [priceCurrencyFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_IN"]];
+    
+    
+    NSString *price = _product[@"rate"];
+    
     cell.textLabel.text     = [_product[@"productname"] capitalizedString];
-    cell.detailTextLabel.text = [_product[@"brandname"] capitalizedString];
+    cell.detailTextLabel.text = [priceCurrencyFormatter stringFromNumber:@(price.intValue)];
+    cell.detailTextLabel.textColor = [UIColor redColor];
     
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

@@ -515,6 +515,7 @@ NSString *cellReuseIdentifier;
                     [self.managedObjectContext save:nil];
                     
                     [self addedLabelButton];
+                    [self vibratePhone];
                     
                 }
                 
@@ -554,6 +555,14 @@ NSString *cellReuseIdentifier;
         [failed_alert show];
     });
     
+}
+
+
+
+-(void)vibratePhone {
+    
+    
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 

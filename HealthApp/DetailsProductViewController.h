@@ -10,6 +10,7 @@
 #import "DetailProductViewModel.h"
 #import "ProductDetail.h"
 #import "RMPZoomTransitionAnimator.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 
 @interface DetailsProductViewController : UITableViewController<UIScrollViewDelegate, RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>

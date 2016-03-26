@@ -19,4 +19,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *distance;
 @property (weak, nonatomic) IBOutlet RatingView *ratingView;
 @property (weak, nonatomic) IBOutlet UILabel *timing;
+@property (weak, nonatomic) IBOutlet UILabel *minOrderLabel;
 @end
