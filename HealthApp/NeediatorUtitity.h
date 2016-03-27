@@ -21,5 +21,5 @@
 + (void)clearDataForKey:(NSString *)key;
 
 +(UIColor *)defaultColor;
-
++ (void)alertWithTitle:(NSString *)title andMessage:(NSString *)message onViewController:(UIViewController *)controller;
 @end

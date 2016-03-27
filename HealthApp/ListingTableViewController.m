@@ -662,14 +662,6 @@
 #pragma mark - Helper Methods
 
 -(void)showHUD {
-//    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    self.hud.color = [UIColor blackColor];
-//    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon"]];
-//    self.hud.mode = MBProgressHUDModeCustomView;
-//    self.hud.labelText = @"Loading...";
-//    self.hud.labelColor = [UIColor darkGrayColor];
-//    self.hud.activityIndicatorColor = [UIColor blackColor];
-//    self.hud.detailsLabelColor = [UIColor darkGrayColor];
     
     hudView = [[UIView alloc] initWithFrame:self.tableView.frame];
     hudView.backgroundColor = [NeediatorUtitity defaultColor];

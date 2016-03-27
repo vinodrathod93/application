@@ -8,7 +8,7 @@
 
 #import "NeediatorUtitity.h"
 
-@implementation NeediatorUtitity
+@implementation NeediatorUtitity 
 
 
 /* Bar Button */
@@ -43,7 +43,17 @@
 }
 
 
-
++ (void)alertWithTitle:(NSString *)title andMessage:(NSString *)message onViewController:(UIViewController *)controller {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [alert addAction:cancelAction];
+    
+    [controller presentViewController:alert animated:YES completion:nil];
+}
 
 
 

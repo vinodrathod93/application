@@ -16,7 +16,7 @@
 
 #define kDefaultLocationMessage @"Select Location"
 
-@interface SearchViewController ()<GMSAutocompleteResultsViewControllerDelegate>
+@interface SearchViewController ()<GMSAutocompleteResultsViewControllerDelegate, UISearchBarDelegate, UISearchControllerDelegate>
 
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, assign) BOOL isTapped;
@@ -101,10 +101,11 @@
     
     
     _searchController           = [[UISearchController alloc]initWithSearchResultsController:_autoCompleteViewController];
+    _searchController.delegate = self;
     _searchController.hidesNavigationBarDuringPresentation = NO;
     _searchController.dimsBackgroundDuringPresentation = YES;
     _searchController.searchBar.placeholder = @"Search by Locality";
-    
+    _searchController.searchBar.delegate = self;
     _searchController.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _searchController.searchBar.searchBarStyle   = UISearchBarStyleMinimal;
     
@@ -126,7 +127,13 @@
     }
 }
 
-
+-(void)didPresentSearchController:(UISearchController *)searchController {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [searchController.searchBar becomeFirstResponder];
+    });
+    
+}
 
 
 #pragma mark - Table view data source
@@ -207,15 +214,14 @@
 }
 
 
-//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    if (section == 0) {
-//        
-//        return @"Location";
-//        
-//    } else
-//        return @"Browse By Stores";
-//    
-//}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        // active search bar
+        
+        [_searchController setActive:YES];
+
+    }
+}
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

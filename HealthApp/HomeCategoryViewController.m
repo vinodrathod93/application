@@ -46,7 +46,7 @@
 @property (nonatomic, strong) NSArray *categoryIcons;
 @property (nonatomic, strong) HeaderSliderView *headerView;
 
-@property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) NeediatorActivityIndicator *hud;
 
 @property (nonatomic, strong) NSDictionary *xmlDictionary;
 @property (nonatomic, strong) NSMutableArray *xmlCategories;
@@ -126,19 +126,50 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     /* Launch Screen */
     
+    [self showLoadingView];
+    
+    
+    
+    [self requestCategories];
+     
+}
+
+
+
+- (void)showLoadingView {
     self.tabBarController.tabBar.hidden = YES;
     
     _launchScreen = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] lastObject];
     _launchScreen.frame  = [[UIScreen mainScreen] bounds];
     
+    
+    
+    if (!UIAccessibilityIsReduceTransparencyEnabled()) {
+//        _launchScreen.backgroundColor = [UIColor clearColor];
+        
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        
+        blurEffectView.frame = _launchScreen.frame;
+        blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        
+        [_launchScreen addSubview:blurEffectView];
+        
+        
+        UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blurEffect];
+        UIVisualEffectView *vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
+        [vibrancyEffectView setFrame:_launchScreen.frame];
+        
+        [blurEffectView.contentView addSubview:vibrancyEffectView];
+        
+    }
+    
+    
+    
+    
+    
     [self.navigationController.view addSubview:_launchScreen];
-    
-    
-    
-    
-     
 }
-
 
 
 -(void)QRButtonTapped:(UIButton *)sender {
@@ -170,7 +201,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
     }];
     
-    [self requestCategories];
+    [self.collectionView reloadData];
 }
 
 
@@ -217,15 +248,20 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     HomeCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     
-    
     CategoryModel *category     = self.categoriesArray[indexPath.row];
     
     
     cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.categoryIcons[indexPath.item]]];
     cell.label.text = category.name;
-    cell.backgroundView.tag = 30+indexPath.item;
+    cell.tag = 30+indexPath.item;
     
     
+    
+    if (cell.isHighlighted) {
+        cell.contentView.backgroundColor = [UIColor colorWithRed:244/255.f green:237/255.f blue:7/255.f alpha:1.0];
+    }
+    else
+        cell.contentView.backgroundColor = [UIColor whiteColor];
     
     
     return cell;
@@ -259,22 +295,19 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 -(void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    HomeCollectionViewCell *cell = (HomeCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     
     
-    
-//    CategoryModel *model = self.categoriesArray[indexPath.row];
-    
-    UIView *view = [cell viewWithTag:30+indexPath.item];
-    view.backgroundColor = [UIColor colorWithRed:244/255.f green:237/255.f blue:7/255.f alpha:1.0];
+    cell.contentView.backgroundColor = [UIColor colorWithRed:244/255.f green:237/255.f blue:7/255.f alpha:1.0];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    HomeCollectionViewCell *cell = (HomeCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     
-    UIView *view = [cell viewWithTag:30+indexPath.item];
-    view.backgroundColor = [UIColor whiteColor];
+    
+    
+    cell.contentView.backgroundColor = [UIColor whiteColor];
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -598,23 +631,31 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)showHUD {
     if (_launchScreen) {
-        self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        
+//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+//            self.hud.yOffset = 150.f;
+//        }
+//        else
+//            self.hud.yOffset = 80.f;
+//        
+//        self.hud.activityIndicatorColor = [UIColor darkGrayColor];
+//        self.hud.color = [UIColor clearColor];
         
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            self.hud.yOffset = 150.f;
-        }
-        else
-            self.hud.yOffset = 80.f;
+        self.hud = [[NeediatorActivityIndicator alloc] initWithFrame:_launchScreen.frame];
+        self.hud.overlayColor = [UIColor clearColor];
+        [self.hud fadeInAnimated:YES];
+        [_launchScreen addSubview:self.hud];
         
-        self.hud.activityIndicatorColor = [UIColor darkGrayColor];
-        self.hud.color = [UIColor clearColor];
+        
     }
     
     
 }
 
 -(void)hideHUD {
-    [self.hud hide:YES];
+    [self.hud fadeOutAnimated:YES];
+    [_launchScreen removeFromSuperview];
 }
 
 

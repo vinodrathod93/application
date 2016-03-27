@@ -11,6 +11,8 @@
 		6795F0AB1C9C8F6200984A92 /* FilterListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AA1C9C8F6200984A92 /* FilterListModel.m */; };
 		6795F0AE1C9C93A500984A92 /* FilterHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */; };
 		6795F0B11C9C95A300984A92 /* FilterListRealm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0B01C9C95A300984A92 /* FilterListRealm.m */; };
+		67D650F01CA4556B0030C42C /* Human.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67D650EF1CA4556B0030C42C /* Human.jpg */; };
+		67EB396F1CA8769100F7E763 /* NeediatorActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EB396E1CA8769100F7E763 /* NeediatorActivityIndicator.m */; };
 		820883211C9C1E23000FDCB2 /* icon0.png in Resources */ = {isa = PBXBuildFile; fileRef = 820883191C9C1E23000FDCB2 /* icon0.png */; };
 		820883221C9C1E23000FDCB2 /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831A1C9C1E23000FDCB2 /* icon1.png */; };
 		820883231C9C1E23000FDCB2 /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831B1C9C1E23000FDCB2 /* icon2.png */; };
@@ -211,6 +213,9 @@
 		6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterHelperModel.m; sourceTree = "<group>"; };
 		6795F0AF1C9C95A300984A92 /* FilterListRealm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterListRealm.h; sourceTree = "<group>"; };
 		6795F0B01C9C95A300984A92 /* FilterListRealm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterListRealm.m; sourceTree = "<group>"; };
+		67D650EF1CA4556B0030C42C /* Human.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Human.jpg; sourceTree = "<group>"; };
+		67EB396D1CA8769100F7E763 /* NeediatorActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorActivityIndicator.h; sourceTree = "<group>"; };
+		67EB396E1CA8769100F7E763 /* NeediatorActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorActivityIndicator.m; sourceTree = "<group>"; };
 		7CED2C0B1CF6D1F8E6BC80C5 /* Pods-Neediator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.release.xcconfig"; sourceTree = "<group>"; };
 		820883191C9C1E23000FDCB2 /* icon0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon0.png; sourceTree = "<group>"; };
 		8208831A1C9C1E23000FDCB2 /* icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1.png; sourceTree = "<group>"; };
@@ -1285,6 +1290,7 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				67D650EF1CA4556B0030C42C /* Human.jpg */,
 				82BB3DE91CA01B1B00B282D0 /* QRCodeViewController.h */,
 				82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */,
 				823339331C9D7D3300E16852 /* FilterTableViewController.h */,
@@ -1457,6 +1463,8 @@
 		82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				67EB396D1CA8769100F7E763 /* NeediatorActivityIndicator.h */,
+				67EB396E1CA8769100F7E763 /* NeediatorActivityIndicator.m */,
 				82E07F2D1C906A5500F6480D /* HomeCollectionViewCell.h */,
 				82E07F2E1C906A5500F6480D /* HomeCollectionViewCell.m */,
 				82EA19861C297610001EBA16 /* Connection Error */,
@@ -1851,6 +1859,7 @@
 				82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */,
 				82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */,
 				820883241C9C1E23000FDCB2 /* icon3.png in Resources */,
+				67D650F01CA4556B0030C42C /* Human.jpg in Resources */,
 				82217C4A1C96E293002570E3 /* UploadPrescriptionCellView.xib in Resources */,
 				82BD02991B46A73C00108A0B /* Images.xcassets in Resources */,
 				826B14281BC2906800B6A1C3 /* OrderReviewFooterView.xib in Resources */,
@@ -2034,6 +2043,7 @@
 				82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */,
 				82E2E68B1C9AD42400B81CCE /* BannerTableViewCell.m in Sources */,
 				827026DE1BC650840054E16F /* Reachability.m in Sources */,
+				67EB396F1CA8769100F7E763 /* NeediatorActivityIndicator.m in Sources */,
 				823C46A61B73226900E37DBE /* DoctorDetailsViewController.m in Sources */,
 				8233CE101B873B8B00B5279B /* PaymentViewController.m in Sources */,
 				823F71B41C1B21F500E43731 /* NoStores.m in Sources */,
@@ -2211,7 +2221,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
+					/Users/vinodrathod/Downloads/FacebookSDKs,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
@@ -2241,7 +2251,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
+					/Users/vinodrathod/Downloads/FacebookSDKs,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";

@@ -32,6 +32,7 @@
     #import <Realm/Realm.h>
     #import "MainCategoryRealm.h"
     #import "SubCategoryRealm.h"
+    #import "NeediatorActivityIndicator.h"
 #endif
 
 #endif /* Neediator_Prefix_pch */

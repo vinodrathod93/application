@@ -177,7 +177,7 @@
         [myAlertView show];
         
     } else {
-        [self uploadImages];
+        [self sendImagesToUpload];
     }
     
 }
@@ -563,16 +563,16 @@
 //    NSString *name = [[address valueForKey:@"Name"]capitalizedString];
 
 //    [NeediatorUtitity save:address[@"Id"] forKey:kSAVE_ADDRESS_ID];
-    _selectedAddressID = address[@"Id"];
+    _selectedAddressID = address[@"id"];
     
-    NSString *address1 = [[address valueForKey:@"Address"] capitalizedString];
+    NSString *address1 = [[address valueForKey:@"address"] capitalizedString];
     
     if (![address1 isEqual:[NSNull null]])
         address1       = [address1 capitalizedString];
     else
         address1       = @"";
     
-    NSString *zipcode  = [address valueForKey:@"Pincode"];
+    NSString *zipcode  = [address valueForKey:@"pincode"];
     
     NSString *complete_address = [NSString stringWithFormat:@"%@, - %@",address1, zipcode];
     
@@ -583,7 +583,40 @@
 
 
 
+
+
+-(NSString *)validateInputData {
+    
+    NSString *errorMessage;
+    
+    if (_selectedAddressID == nil) {
+        errorMessage = @"Please Select Address";
+    }
+    else if (self.dateTimeField.text == nil)
+        errorMessage = @"Please Select Delivery/Pickup Time";
+    
+    
+    return errorMessage;
+}
+
+
+
+
 #pragma mark - Network
+
+
+
+-(void)sendImagesToUpload {
+    
+    NSString *error = [self validateInputData];
+    
+    if (error) {
+        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error onViewController:self];
+    }
+    else
+        [self uploadImages];
+}
+
 
 
 -(void)uploadImages {
@@ -592,7 +625,7 @@
     User *saved_user = [User savedUser];
     
     
-    if (saved_user != nil && _selectedAddressID != nil && _selectedAddressID != nil && self.dateTimeField.text != nil) {
+    if (saved_user != nil) {
         
         [self showHUD];
         self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
@@ -605,7 +638,7 @@
                                @"dateTime"  : self.dateTimeField.text
                                };
         
-        [[NAPIManager sharedManager] uploadImagesWithData:data withHUD:self.hud success:^(BOOL success) {
+        [[NAPIManager sharedManager] uploadImagesWithData:data withHUD:self.hud success:^(BOOL success, NSDictionary *response) {
             if (success) {
                 
                 NSLog(@"Success");
@@ -613,13 +646,14 @@
                 [self hideHUD];
                 [self showHideCompletedHUD];
                 
+                NSDictionary *order = response[@"details"][0];
                 
-                OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderConfirmationVC"];
+                
+                OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+                orderCompleteVC.order_id = order[@"OrderNo"];
+                orderCompleteVC.message = [NSString stringWithFormat:@"Your Prescription have been successfully sent to %@", [order[@"storename"] capitalizedString]];
                 [self.navigationController pushViewController:orderCompleteVC animated:YES];
                 
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    [self dismissViewControllerAnimated:YES completion:nil];
-//                });
                 
             }
             else
