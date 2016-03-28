@@ -16,7 +16,7 @@
 
 #define kDefaultLocationMessage @"Select Location"
 
-@interface SearchViewController ()<GMSAutocompleteResultsViewControllerDelegate, UISearchBarDelegate>
+@interface SearchViewController ()<GMSAutocompleteResultsViewControllerDelegate, UISearchBarDelegate, UISearchControllerDelegate>
 
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, assign) BOOL isTapped;
@@ -111,6 +111,7 @@ typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
     _searchController.hidesNavigationBarDuringPresentation = YES;
     _searchController.dimsBackgroundDuringPresentation = YES;
     _searchController.searchBar.placeholder = @"Search";
+    _searchController.delegate = self;
     _searchController.searchBar.delegate = self;
     _searchController.searchBar.scopeButtonTitles = @[@"Location", @"Category", @"Store"];
     
@@ -135,6 +136,16 @@ typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
     }
 }
 
+
+#pragma mark - UISearchController Delegate
+
+-(void)didPresentSearchController:(UISearchController *)searchController {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [searchController.searchBar becomeFirstResponder];
+    });
+    
+}
 
 
 
@@ -216,15 +227,14 @@ typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
 }
 
 
-//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    if (section == 0) {
-//        
-//        return @"Location";
-//        
-//    } else
-//        return @"Browse By Stores";
-//    
-//}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        // active search bar
+        
+        [_searchController setActive:YES];
+        
+    }
+}
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

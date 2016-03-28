@@ -178,7 +178,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     NSString *string = [self.viewModel infiniteImageAtIndex:indexPath.item];
     
     NSURL *url = [NSURL URLWithString:string];
-    [cell.productImageView sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [cell.productImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (error) {
             NSLog(@"%@", [error localizedDescription]);
             

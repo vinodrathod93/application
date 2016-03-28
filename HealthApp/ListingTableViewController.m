@@ -30,7 +30,7 @@
 @interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate,UIViewControllerPreviewingDelegate>
 
 @property (nonatomic, strong) NSArray *listingArray;
-@property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) NeediatorHUD *hud;
 @property (nonatomic, strong) NoStores *noListingView;
 
 @property (nonatomic, strong) NSArray *sorting_list;
@@ -414,10 +414,10 @@
     
     if (indexPath.section != 0) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            return 180;
+            return 160;
         }
         else
-            return 140.f;
+            return 130.f;
     }
     else {
         
@@ -642,7 +642,7 @@
         [self showPhoneNumbers:model.phone_nos];
         
     }];
-    callAction.backgroundColor = [UIColor greenColor];
+    callAction.backgroundColor = [UIColor colorWithRed:29/255.f green:162/255.f blue:97/255.f alpha:1.0];
     
     return @[callAction];
     
@@ -758,76 +758,23 @@
 #pragma mark - Helper Methods
 
 -(void)showHUD {
-//    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    self.hud.color = [UIColor blackColor];
-//    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon"]];
-//    self.hud.mode = MBProgressHUDModeCustomView;
-//    self.hud.labelText = @"Loading...";
-//    self.hud.labelColor = [UIColor darkGrayColor];
-//    self.hud.activityIndicatorColor = [UIColor blackColor];
-//    self.hud.detailsLabelColor = [UIColor darkGrayColor];
-    
-    hudView = [[UIView alloc] initWithFrame:self.tableView.frame];
-    hudView.backgroundColor = [NeediatorUtitity defaultColor];
-    hudView.userInteractionEnabled = NO;
-    hudView.tag = kListingHUDViewTag;
-    
-    UIImage *statusImage = [UIImage imageNamed:@"icon7.png"];
-    activityImageView = [[UIImageView alloc]
-                                      initWithImage:statusImage];
-    activityImageView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
-    activityImageView.layer.shadowOffset = CGSizeMake(0.f, 15.f);
-    activityImageView.layer.shadowOpacity = 1;
-    activityImageView.layer.shadowRadius = 10.0;
-    activityImageView.clipsToBounds = NO;
-    
-    
-    activityImageView.animationImages = [NSArray arrayWithObjects:
-                                         [UIImage imageNamed:@"icon7.png"],
-                                         nil];
-    activityImageView.animationDuration = 0.8 * 2;
-    
-    activityImageView.frame = CGRectMake(
-                                         self.view.frame.size.width/2
-                                         -statusImage.size.width/2,
-                                         self.view.frame.size.height/2
-                                         -statusImage.size.height/2, 
-                                         statusImage.size.width, 
-                                         statusImage.size.height);
-    
-    
-    
-//    CATransform3D rotationTransform = CATransform3DMakeRotation(-1.01f * M_PI, 0, 0, 1.0);
-    CATransform3D rotationTransform = CATransform3DMakeRotation(M_PI_2, 0, 1.0, 0);
-    CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
-    
-    rotationAnimation.toValue = [NSValue valueWithCATransform3D:rotationTransform];
-    rotationAnimation.duration = 0.8;
-    rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = LONG_MAX;
-    [activityImageView.layer addAnimation:rotationAnimation forKey:@"transform"];
-    
-    
-    
-    [activityImageView startAnimating];
-    
-    
-    [hudView addSubview:activityImageView];
-    [self.navigationController.view insertSubview:hudView belowSubview:self.navigationController.navigationBar];
+    self.hud = [[NeediatorHUD alloc] initWithFrame:self.tableView.frame];
+    [self.hud fadeInAnimated:YES];
+    [self.navigationController.view insertSubview:self.hud belowSubview:self.navigationController.navigationBar];
     
     
 }
 
 -(void)hideHUD {
-//    [self.hud hide:YES];
-//    [self.hud removeFromSuperViewOnHide];
+    [self.hud fadeOutAnimated:YES];
+    [self.hud removeFromSuperview];
     
-    [activityImageView stopAnimating];
-    [activityImageView removeFromSuperview];
-    
-    if (hudView) {
-        [[self.navigationController.view viewWithTag:kListingHUDViewTag] removeFromSuperview];
-    }
+//    [activityImageView stopAnimating];
+//    [activityImageView removeFromSuperview];
+//    
+//    if (hudView) {
+//        [[self.navigationController.view viewWithTag:kListingHUDViewTag] removeFromSuperview];
+//    }
 }
 
 

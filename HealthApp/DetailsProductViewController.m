@@ -211,12 +211,21 @@ NSString *cellReuseIdentifier;
         
         [spinner startAnimating];
         
-        [imageView sd_setImageWithURL:[NSURL URLWithString:image_url] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//        [imageView sd_setImageWithURL:[NSURL URLWithString:image_url] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//            if (image) {
+//                // hide indicator view
+//                
+//                
+//            }
+//        }];
+        
+        
+        [imageView sd_setImageWithURL:[NSURL URLWithString:image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            
             if (image) {
-                // hide indicator view
-                
                 [spinner stopAnimating];
             }
+            
         }];
 
         
@@ -236,7 +245,8 @@ NSString *cellReuseIdentifier;
         UIImageView *imageView = [[UIImageView alloc]init];
         imageView.frame = cRect;
         imageView.tag   = idx;
-        [imageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
+//        [imageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         [imageView setContentMode:UIViewContentModeScaleAspectFit];
         
         [cell.productImageScrollView addSubview:imageView];

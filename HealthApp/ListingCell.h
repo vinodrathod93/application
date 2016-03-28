@@ -20,4 +20,7 @@
 @property (weak, nonatomic) IBOutlet RatingView *ratingView;
 @property (weak, nonatomic) IBOutlet UILabel *timing;
 @property (weak, nonatomic) IBOutlet UILabel *minOrderLabel;
+
+@property (weak, nonatomic) IBOutlet UIButton *offersButton;
+
 @end

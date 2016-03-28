@@ -11,6 +11,7 @@
 		6795F0AB1C9C8F6200984A92 /* FilterListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AA1C9C8F6200984A92 /* FilterListModel.m */; };
 		6795F0AE1C9C93A500984A92 /* FilterHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */; };
 		6795F0B11C9C95A300984A92 /* FilterListRealm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0B01C9C95A300984A92 /* FilterListRealm.m */; };
+		82041C261CA9118A007F3B3C /* NeediatorHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 82041C251CA9118A007F3B3C /* NeediatorHUD.m */; };
 		820883211C9C1E23000FDCB2 /* icon0.png in Resources */ = {isa = PBXBuildFile; fileRef = 820883191C9C1E23000FDCB2 /* icon0.png */; };
 		820883221C9C1E23000FDCB2 /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831A1C9C1E23000FDCB2 /* icon1.png */; };
 		820883231C9C1E23000FDCB2 /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831B1C9C1E23000FDCB2 /* icon2.png */; };
@@ -213,6 +214,8 @@
 		6795F0AF1C9C95A300984A92 /* FilterListRealm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterListRealm.h; sourceTree = "<group>"; };
 		6795F0B01C9C95A300984A92 /* FilterListRealm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterListRealm.m; sourceTree = "<group>"; };
 		7CED2C0B1CF6D1F8E6BC80C5 /* Pods-Neediator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.release.xcconfig"; sourceTree = "<group>"; };
+		82041C241CA9118A007F3B3C /* NeediatorHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorHUD.h; sourceTree = "<group>"; };
+		82041C251CA9118A007F3B3C /* NeediatorHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorHUD.m; sourceTree = "<group>"; };
 		820883191C9C1E23000FDCB2 /* icon0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon0.png; sourceTree = "<group>"; };
 		8208831A1C9C1E23000FDCB2 /* icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1.png; sourceTree = "<group>"; };
 		8208831B1C9C1E23000FDCB2 /* icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon2.png; sourceTree = "<group>"; };
@@ -1483,6 +1486,8 @@
 				826F074E1C524A1A0033DD09 /* Listing */,
 				82681EAB1C50B8FA00035E6E /* NEntityDetailCell.h */,
 				82681EAC1C50B8FA00035E6E /* NEntityDetailCell.m */,
+				82041C241CA9118A007F3B3C /* NeediatorHUD.h */,
+				82041C251CA9118A007F3B3C /* NeediatorHUD.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1981,6 +1986,7 @@
 				82147FBA1C45272B00D6691E /* ListingModel.m in Sources */,
 				8208832D1C9C37F3000FDCB2 /* SortListObject.m in Sources */,
 				8286B2511BF089D600AFC533 /* ListingRequestModel.m in Sources */,
+				82041C261CA9118A007F3B3C /* NeediatorHUD.m in Sources */,
 				82FB520C1C281B2500E19626 /* LoginView.m in Sources */,
 				82CC99431C8863CA00F06EB3 /* MainPromotionRealm.m in Sources */,
 				82327F771B60F9A800D92889 /* CartViewCell.m in Sources */,
