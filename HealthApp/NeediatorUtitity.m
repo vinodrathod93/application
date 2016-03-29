@@ -111,4 +111,8 @@
     return [UIColor colorWithRed:235/255.f green:235/255.f blue:240/255.f alpha:1.0];
 }
 
++(UIColor *)blurredDefaultColor {
+    return [UIColor colorWithRed:247/255.f green:247/255.f blue:249/255.f alpha:1.0];
+}
+
 @end

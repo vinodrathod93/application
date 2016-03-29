@@ -16,4 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *locationButton;
 @property (weak, nonatomic) IBOutlet UIButton *callButton;
 
+
+@property (assign, nonatomic) BOOL favouriteStore;
 @end

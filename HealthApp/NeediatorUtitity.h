@@ -21,6 +21,7 @@
 + (void)clearDataForKey:(NSString *)key;
 
 + (UIColor *)defaultColor;
++ (UIColor *)blurredDefaultColor;
 + (void)alertWithTitle:(NSString *)title andMessage:(NSString *)message onController:(UIViewController *)controller;
 
 @end

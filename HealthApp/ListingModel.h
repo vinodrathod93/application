@@ -21,7 +21,9 @@
 @property (nonatomic, copy) NSString *timing;
 @property (nonatomic, copy) NSString *minOrder;
 @property (nonatomic, copy) NSString *reviews_count;
-
+@property (nonatomic, copy) NSNumber *isFavourite;
+@property (nonatomic, copy) NSNumber *isLike;
+@property (nonatomic, copy) NSNumber *isDislike;
 
 @property (nonatomic, copy) NSNumber *isBook;
 @property (nonatomic, copy) NSNumber *isCall;

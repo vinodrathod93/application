@@ -23,5 +23,8 @@
 @property (nonatomic, strong) NSString *ratings;
 @property (nonatomic, strong) NSString *reviewsCount;
 @property (nonatomic, strong) NSArray *likeUnlikeArray;
+@property (nonatomic, assign) BOOL isFavourite;
+@property (nonatomic, assign) BOOL isLikedStore;
+@property (nonatomic, assign) BOOL isDislikedStore;
 
 @end

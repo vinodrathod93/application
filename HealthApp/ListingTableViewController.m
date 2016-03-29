@@ -351,6 +351,9 @@
             storeTaxonsVC.ratings   = model.ratings;
             storeTaxonsVC.reviewsCount = model.reviews_count;
             storeTaxonsVC.likeUnlikeArray = model.likeUnlike;
+            storeTaxonsVC.isFavourite   = model.isFavourite.boolValue;
+            storeTaxonsVC.isLikedStore  = model.isLike.boolValue;
+            storeTaxonsVC.isDislikedStore = model.isDislike.boolValue;
             
             storeTaxonsVC.hidesBottomBarWhenPushed = NO;
             [self.navigationController pushViewController:storeTaxonsVC animated:YES];
@@ -375,39 +378,7 @@
     
 }
 
-- (void)configureNavigationController:(UINavigationController *)navController withModel:(ListingModel *)model {
-    
-    if ([navController.topViewController isKindOfClass:[StoreTaxonsViewController class]]) {
-        StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
-        storeTaxonsVC.title = [model.name capitalizedString];
-        storeTaxonsVC.cat_id = self.category_id;
-        storeTaxonsVC.store_id = model.list_id;
-        storeTaxonsVC.storeImages = model.images;
-        storeTaxonsVC.storePhoneNumbers = model.phone_nos;
-        storeTaxonsVC.storeDistance = model.nearest_distance.uppercaseString;
-        storeTaxonsVC.ratings   = model.ratings;
-        storeTaxonsVC.reviewsCount = model.reviews_count;
-        storeTaxonsVC.likeUnlikeArray = model.likeUnlike;
-        
-        storeTaxonsVC.hidesBottomBarWhenPushed = NO;
-        [self.navigationController pushViewController:storeTaxonsVC animated:YES];
-        
-    }
-    else if ([navController.topViewController isKindOfClass:[NEntityDetailViewController class]]) {
-        
-        NEntityDetailViewController *NEntityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
-        NEntityVC.cat_id    = self.category_id;
-        NEntityVC.entity_id = model.list_id;
-        NEntityVC.title     = model.name.uppercaseString;
-        NEntityVC.isBooking = _isBooking;
-        
-        NEntityVC.entity_name = model.name;
-        NEntityVC.entity_meta_info = self.title;
-        NEntityVC.entity_image = model.image_url;
-        
-        [self.navigationController pushViewController:NEntityVC animated:YES];
-    }
-}
+
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -472,59 +443,7 @@
 }
 
 
--(void)displayFilterVC:(UIButton *)sender {
-    
-    FilterTableViewController *filterVC = [self.storyboard instantiateViewControllerWithIdentifier:@"filterTableVC"];
-    filterVC.filterArray = self.filter_list;
-    filterVC.delegate = self;
-    [self.navigationController pushViewController:filterVC animated:YES];
-    
-}
 
-
-
--(void)appliedFilterListingDelegate:(NSDictionary *)data {
-    
-    [self requestListingByFilterData:data andSortType:@""];
-    
-    
-}
-
--(void)displaySortingSheet:(UIButton *)sender {
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Sort" message:nil
-                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    [self.sorting_list enumerateObjectsUsingBlock:^(SortListModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        NSString *name = [model.name capitalizedString];
-        
-        UIAlertAction *typeAction = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSLog(@"Sort by %@", name);
-            
-            [self requestListingByType:model.sortID.stringValue];
-            
-        }];
-        
-        [controller addAction:typeAction];
-    }];
-    
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"Cancel");
-    }];
-    [controller addAction:cancel];
-
-
-    
-    
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        [self presentViewController:controller animated:YES completion:nil];
-    }
-    else {
-        UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:controller];
-        [popup presentPopoverFromRect:sender.bounds inView:[sender superview] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
-}
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -585,41 +504,12 @@
 }
 
 
--(void)layoutBannerViewCell:(BannerTableViewCell *)cell {
-    
-    
-    
-    CGRect frame;
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Pad + 10);
-    }
-    else
-        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Phone + 10);
-    
-    cell.frame = frame;
-    [cell layoutIfNeeded];
-    
-    
-    
-    CGRect scrollViewFrame = cell.scrollView.frame;
-    CGRect currentFrame = self.view.frame;
-    
-    scrollViewFrame.size.width = currentFrame.size.width;
-    cell.scrollView.frame = scrollViewFrame;
-   
-    
-    cell.pageControl.numberOfPages = self.bannerImages.count;
-    
-}
+
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
 }
 
-//- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return NO;
-//}
 
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -650,93 +540,7 @@
 
 
 
--(void)makeCall:(NSString *)number {
-    
-    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",number]];
-    
-    if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
-        [[UIApplication sharedApplication] openURL:phoneUrl];
-    } else
-    {
-        UIAlertView *callAlertView = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Call facility is not available!!!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [callAlertView show];
-    }
-}
 
--(void)showPhoneNumbers:(NSArray *)phoneNumbers {
-    
-    if (phoneNumbers != nil) {
-        UIAlertController *phoneAlertController = [UIAlertController alertControllerWithTitle:@"Store Phone Numbers" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        
-        [phoneNumbers enumerateObjectsUsingBlock:^(NSString *_Nonnull phoneNumber, NSUInteger idx, BOOL * _Nonnull stop) {
-            UIAlertAction *action = [UIAlertAction actionWithTitle:phoneNumber style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self makeCall:phoneNumber];
-            }];
-            
-            [phoneAlertController addAction:action];
-        }];
-        
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [phoneAlertController dismissViewControllerAnimated:YES completion:nil];
-        }];
-        
-        [phoneAlertController addAction:cancelAction];
-        
-    
-        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-            [self presentViewController:phoneAlertController animated:YES completion:nil];
-        }
-        else {
-            UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:phoneAlertController];
-            [popup presentPopoverFromRect:sort.bounds inView:header permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        }
-        
-        
-    }
-    else
-        NSLog(@"Phone numbers are nil");
-    
-}
-
--(void)setupScrollViewImages:(BannerTableViewCell *)cell {
-    
-    [self.bannerImages enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.scrollView.frame) * idx, 0, CGRectGetWidth(cell.scrollView.frame), CGRectGetHeight(cell.scrollView.frame))];
-        imageView.tag = idx;
-        
-        NSURL *url = [NSURL URLWithString:imageName];
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            
-            [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                NSLog(@"Image %ld of %ld", (long)receivedSize, (long)expectedSize);
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                
-                if (image) {
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        CIImage *newImage = [[CIImage alloc] initWithImage:image];
-                        CIContext *context = [CIContext contextWithOptions:nil];
-                        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
-                        
-                        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-                    });
-                }
-                
-            }];
-        });
-       
-        
-        
-        [cell.scrollView addSubview:imageView];
-    }];
-    
-    
-}
 
 
 #pragma mark - Scroll view Delegate
@@ -759,7 +563,9 @@
 
 -(void)showHUD {
     self.hud = [[NeediatorHUD alloc] initWithFrame:self.tableView.frame];
+    self.hud.overlayColor = [NeediatorUtitity blurredDefaultColor];
     [self.hud fadeInAnimated:YES];
+    self.hud.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2);
     [self.navigationController.view insertSubview:self.hud belowSubview:self.navigationController.navigationBar];
     
     
@@ -769,12 +575,6 @@
     [self.hud fadeOutAnimated:YES];
     [self.hud removeFromSuperview];
     
-//    [activityImageView stopAnimating];
-//    [activityImageView removeFromSuperview];
-//    
-//    if (hudView) {
-//        [[self.navigationController.view viewWithTag:kListingHUDViewTag] removeFromSuperview];
-//    }
 }
 
 
@@ -830,6 +630,256 @@
     
 }
 
+
+-(void)displayImageFullScreen:(UITapGestureRecognizer *)tapGesture {
+    
+    
+    _tappedImageView = (UIImageView *)tapGesture.view;
+    
+    ListingCell *cell = (ListingCell *)[[[_tappedImageView superview] superview] superview];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    if (indexPath.section != 0) {
+        ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
+        imageModalVC.model                  = self.listingArray[indexPath.section - 1];
+        
+        imageModalVC.transitioningDelegate = self;
+        imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
+        
+        [self presentViewController:imageModalVC animated:YES completion:nil];
+    }
+    
+    
+    
+}
+
+-(void)makeCall:(NSString *)number {
+    
+    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",number]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+        [[UIApplication sharedApplication] openURL:phoneUrl];
+    } else
+    {
+        UIAlertView *callAlertView = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Call facility is not available!!!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [callAlertView show];
+    }
+}
+
+-(void)showPhoneNumbers:(NSArray *)phoneNumbers {
+    
+    if (phoneNumbers != nil) {
+        UIAlertController *phoneAlertController = [UIAlertController alertControllerWithTitle:@"Store Phone Numbers" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        [phoneNumbers enumerateObjectsUsingBlock:^(NSString *_Nonnull phoneNumber, NSUInteger idx, BOOL * _Nonnull stop) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:phoneNumber style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self makeCall:phoneNumber];
+            }];
+            
+            [phoneAlertController addAction:action];
+        }];
+        
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [phoneAlertController dismissViewControllerAnimated:YES completion:nil];
+        }];
+        
+        [phoneAlertController addAction:cancelAction];
+        
+        
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            [self presentViewController:phoneAlertController animated:YES completion:nil];
+        }
+        else {
+            UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:phoneAlertController];
+            [popup presentPopoverFromRect:sort.bounds inView:header permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
+        
+        
+    }
+    else
+        NSLog(@"Phone numbers are nil");
+    
+}
+
+-(void)setupScrollViewImages:(BannerTableViewCell *)cell {
+    
+    [self.bannerImages enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.scrollView.frame) * idx, 0, CGRectGetWidth(cell.scrollView.frame), CGRectGetHeight(cell.scrollView.frame))];
+        imageView.tag = idx;
+        
+        NSURL *url = [NSURL URLWithString:imageName];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            
+            [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                NSLog(@"Image %ld of %ld", (long)receivedSize, (long)expectedSize);
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                
+                if (image) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        CIImage *newImage = [[CIImage alloc] initWithImage:image];
+                        CIContext *context = [CIContext contextWithOptions:nil];
+                        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+                        
+                        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+                    });
+                }
+                
+            }];
+        });
+        
+        
+        
+        [cell.scrollView addSubview:imageView];
+    }];
+    
+    
+}
+
+-(void)layoutBannerViewCell:(BannerTableViewCell *)cell {
+    
+    
+    
+    CGRect frame;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Pad + 10);
+    }
+    else
+        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Phone + 10);
+    
+    cell.frame = frame;
+    [cell layoutIfNeeded];
+    
+    
+    
+    CGRect scrollViewFrame = cell.scrollView.frame;
+    CGRect currentFrame = self.view.frame;
+    
+    scrollViewFrame.size.width = currentFrame.size.width;
+    cell.scrollView.frame = scrollViewFrame;
+    
+    
+    cell.pageControl.numberOfPages = self.bannerImages.count;
+    
+}
+
+-(void)displayFilterVC:(UIButton *)sender {
+    
+    FilterTableViewController *filterVC = [self.storyboard instantiateViewControllerWithIdentifier:@"filterTableVC"];
+    filterVC.filterArray = self.filter_list;
+    filterVC.delegate = self;
+    [self.navigationController pushViewController:filterVC animated:YES];
+    
+}
+
+
+
+-(void)appliedFilterListingDelegate:(NSDictionary *)data {
+    
+    [self requestListingByFilterData:data andSortType:@""];
+    
+    
+}
+
+-(void)displaySortingSheet:(UIButton *)sender {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Sort" message:nil
+                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [self.sorting_list enumerateObjectsUsingBlock:^(SortListModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSString *name = [model.name capitalizedString];
+        
+        UIAlertAction *typeAction = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"Sort by %@", name);
+            
+            [self requestListingByType:model.sortID.stringValue];
+            
+        }];
+        
+        [controller addAction:typeAction];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Cancel");
+    }];
+    [controller addAction:cancel];
+    
+    
+    
+    
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self presentViewController:controller animated:YES completion:nil];
+    }
+    else {
+        UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:controller];
+        [popup presentPopoverFromRect:sender.bounds inView:[sender superview] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+}
+
+
+- (void)configureNavigationController:(UINavigationController *)navController withModel:(ListingModel *)model {
+    
+    if ([navController.topViewController isKindOfClass:[StoreTaxonsViewController class]]) {
+        StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
+        storeTaxonsVC.title = [model.name capitalizedString];
+        storeTaxonsVC.cat_id = self.category_id;
+        storeTaxonsVC.store_id = model.list_id;
+        storeTaxonsVC.storeImages = model.images;
+        storeTaxonsVC.storePhoneNumbers = model.phone_nos;
+        storeTaxonsVC.storeDistance = model.nearest_distance.uppercaseString;
+        storeTaxonsVC.ratings   = model.ratings;
+        storeTaxonsVC.reviewsCount = model.reviews_count;
+        storeTaxonsVC.likeUnlikeArray = model.likeUnlike;
+        
+        storeTaxonsVC.hidesBottomBarWhenPushed = NO;
+        [self.navigationController pushViewController:storeTaxonsVC animated:YES];
+        
+    }
+    else if ([navController.topViewController isKindOfClass:[NEntityDetailViewController class]]) {
+        
+        NEntityDetailViewController *NEntityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
+        NEntityVC.cat_id    = self.category_id;
+        NEntityVC.entity_id = model.list_id;
+        NEntityVC.title     = model.name.uppercaseString;
+        NEntityVC.isBooking = _isBooking;
+        
+        NEntityVC.entity_name = model.name;
+        NEntityVC.entity_meta_info = self.title;
+        NEntityVC.entity_image = model.image_url;
+        
+        [self.navigationController pushViewController:NEntityVC animated:YES];
+    }
+}
+
+
+-(void)goToAppointmentPage:(UIButton *)sender {
+    
+    ListingCell *cell = (ListingCell *)[[[sender superview] superview] superview];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSLog(@"Cell index %ld", (long)indexPath.section);
+    
+    ListingModel *model = self.listingArray[indexPath.section - 1];
+    
+    BookingViewController *bookingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"makeBookingVC"];
+    bookingVC.category_id               = self.category_id;
+    bookingVC.entity_id                 = model.list_id;
+    bookingVC.entity_name               = model.name;
+    bookingVC.image_url                 = model.image_url;
+    
+    [self.navigationController pushViewController:bookingVC animated:YES];
+}
+
+
+#pragma mark - Network
 
 
 -(void)requestListingByFilterData:(NSDictionary *)data andSortType:(NSString *)type {
@@ -981,28 +1031,7 @@
 
 
 
--(void)displayImageFullScreen:(UITapGestureRecognizer *)tapGesture {
-    
-    
-    _tappedImageView = (UIImageView *)tapGesture.view;
-    
-    ListingCell *cell = (ListingCell *)[[[_tappedImageView superview] superview] superview];
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    if (indexPath.section != 0) {
-        ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
-        imageModalVC.model                  = self.listingArray[indexPath.section - 1];
-        
-        imageModalVC.transitioningDelegate = self;
-        imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
-        
-        [self presentViewController:imageModalVC animated:YES completion:nil];
-    }
-    
-   
-    
-}
+
 
 
 #pragma mark - UIViewControllerTransitioningDelegate
@@ -1111,22 +1140,6 @@
 }
 
 
--(void)goToAppointmentPage:(UIButton *)sender {
-    
-    ListingCell *cell = (ListingCell *)[[[sender superview] superview] superview];
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    NSLog(@"Cell index %ld", (long)indexPath.section);
-    
-    ListingModel *model = self.listingArray[indexPath.section - 1];
-    
-    BookingViewController *bookingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"makeBookingVC"];
-    bookingVC.category_id               = self.category_id;
-    bookingVC.entity_id                 = model.list_id;
-    bookingVC.entity_name               = model.name;
-    bookingVC.image_url                 = model.image_url;
-    
-    [self.navigationController pushViewController:bookingVC animated:YES];
-}
+
 
 @end

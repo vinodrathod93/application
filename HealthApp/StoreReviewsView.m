@@ -36,4 +36,41 @@
     self.ratingView.leftMargin          = 0.f;
 }
 
+-(BOOL)likedStore {
+    if ([self.likeButton.imageView.image isEqual:[UIImage imageNamed:@"liked"]]) {
+        return YES;
+    }
+    else
+        return NO;
+}
+
+-(void)setLikedStore:(BOOL)likedStore {
+    if (likedStore) {
+        [self.likeButton setImage:[UIImage imageNamed:@"liked"] forState:UIControlStateNormal];
+    }
+    else
+        [self.likeButton setImage:[UIImage imageNamed:@"like"] forState:UIControlStateNormal];
+}
+
+
+#pragma mark -
+#pragma mark - Dislike Button
+
+
+-(BOOL)dislikedStore {
+    if ([self.dislikeButton.imageView.image isEqual:[UIImage imageNamed:@"disliked"]]) {
+        return YES;
+    }
+    else
+        return NO;
+}
+
+-(void)setDislikedStore:(BOOL)dislikedStore {
+    if (dislikedStore) {
+        [self.dislikeButton setImage:[UIImage imageNamed:@"disliked"] forState:UIControlStateNormal];
+    }
+    else
+        [self.dislikeButton setImage:[UIImage imageNamed:@"dislike"] forState:UIControlStateNormal];
+}
+
 @end

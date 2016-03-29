@@ -42,7 +42,7 @@
     
     
     
-    [self setupDatePicker];
+//    [self setupDatePicker];
     
 }
 
@@ -83,17 +83,17 @@
         cell.textLabel.text = payment_option[@"paymenttype"];
         cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:17.f];
     }
-    else if (indexPath.section == 2) {
-        
-        cell.textLabel.text = @"";
-        
-        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 2, CGRectGetWidth(self.view.frame) - (2*10), 40)];
-        textField.placeholder = @"Select Time";
-        [cell.contentView addSubview:textField];
-        
-        [self showDateTimePicker:textField];
-        
-    }
+//    else if (indexPath.section == 2) {
+//        
+//        cell.textLabel.text = @"";
+//        
+//        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 2, CGRectGetWidth(self.view.frame) - (2*10), 40)];
+//        textField.placeholder = @"Select Time";
+//        [cell.contentView addSubview:textField];
+//        
+//        [self showDateTimePicker:textField];
+//        
+//    }
     
     
     return cell;
@@ -112,10 +112,12 @@
     if (section == 0) {
         return @"Select Payment Option";
     }
-    else if (section == 1)
-        return @"Select Delivery Type";
     else
-        return @"Select Time";
+        return @"";
+//    else if (section == 1)
+//        return @"Select Delivery Type";
+//    else
+//        return @"Select Time";
     
 }
 
@@ -161,7 +163,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+//    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     
     if (indexPath.section == 0) {
         if (self.isPaymentOptionSelected) {
@@ -175,18 +177,11 @@
             self.payment_method_id = [self.payment_types[indexPath.row] valueForKey:@"id"];
         }
     }
-    else if (indexPath.section == 1) {
-        
-        [self showActivitySheet:cell];
-    }
-    else {
-        
-        
-    }
+    
     
 }
 
-
+/*
 -(void)setupDatePicker {
     _dateTimePickerView = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame) - 216.f, CGRectGetWidth(self.view.frame), 216.f)];
     _dateTimePickerView.datePickerMode = UIDatePickerModeDateAndTime;
@@ -238,9 +233,6 @@
         }
     }
     
-   
-    
-    
 }
 
 -(UIToolbar *)pickupDatePickerToolBar {
@@ -284,59 +276,60 @@
     }
     
 }
+ */
 
--(void)showActivitySheet:(UITableViewCell *)sender {
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Delivery Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    NSArray *names = [self deliveryTypes];
-    NSArray *ids   = [self deliveryIDs];
-    
-    [names enumerateObjectsUsingBlock:^(NSString * _Nonnull title, NSUInteger idx, BOOL * _Nonnull stop) {
-        UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            sender.textLabel.text = action.title;
-            _selectedDeliveryID = ids[idx];
-            
-        }];
-        
-        [controller addAction:action];
-    }];
-    
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [controller dismissViewControllerAnimated:YES completion:nil];
-    }];
-    
-    [controller addAction:cancelAction];
-    
-    controller.popoverPresentationController.sourceView = sender;
-    controller.popoverPresentationController.sourceRect = sender.bounds;
-    [self presentViewController:controller animated:YES completion:nil];
-    
-}
+//-(void)showActivitySheet:(UITableViewCell *)sender {
+//    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Delivery Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+//    
+//    NSArray *names = [self deliveryTypes];
+//    NSArray *ids   = [self deliveryIDs];
+//    
+//    [names enumerateObjectsUsingBlock:^(NSString * _Nonnull title, NSUInteger idx, BOOL * _Nonnull stop) {
+//        UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            sender.textLabel.text = action.title;
+//            _selectedDeliveryID = ids[idx];
+//            
+//        }];
+//        
+//        [controller addAction:action];
+//    }];
+//    
+//    
+//    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//        [controller dismissViewControllerAnimated:YES completion:nil];
+//    }];
+//    
+//    [controller addAction:cancelAction];
+//    
+//    controller.popoverPresentationController.sourceView = sender;
+//    controller.popoverPresentationController.sourceRect = sender.bounds;
+//    [self presentViewController:controller animated:YES completion:nil];
+//    
+//}
 
--(NSArray *)deliveryTypes {
-    NSArray *delivery_types = _delivery_types;
-    
-    NSMutableArray *names = [[NSMutableArray alloc] init];
-    
-    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
-        [names addObject:[type valueForKey:@"type"]];
-    }];
-    
-    return names;
-}
-
--(NSArray *)deliveryIDs {
-    NSArray *delivery_types = _delivery_types;
-    
-    NSMutableArray *ids = [[NSMutableArray alloc] init];
-    
-    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
-        [ids addObject:[type valueForKey:@"id"]];
-    }];
-    
-    return ids;
-}
+//-(NSArray *)deliveryTypes {
+//    NSArray *delivery_types = _delivery_types;
+//    
+//    NSMutableArray *names = [[NSMutableArray alloc] init];
+//    
+//    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+//        [names addObject:[type valueForKey:@"type"]];
+//    }];
+//    
+//    return names;
+//}
+//
+//-(NSArray *)deliveryIDs {
+//    NSArray *delivery_types = _delivery_types;
+//    
+//    NSMutableArray *ids = [[NSMutableArray alloc] init];
+//    
+//    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+//        [ids addObject:[type valueForKey:@"id"]];
+//    }];
+//    
+//    return ids;
+//}
 
 
 -(void)deselectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {

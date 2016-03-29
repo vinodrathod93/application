@@ -11,8 +11,6 @@
 #import "HeaderSliderView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "AppDelegate.h"
-//#import <FBSDKLoginKit/FBSDKLoginKit.h>
-//#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "SignUpViewController.h"
 #import "StoresViewController.h"
 #import "DoctorViewController.h"
@@ -122,7 +120,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [self showLoadingView];
     
     
-    
+    [self requestCategories];
     
      
 }
@@ -196,7 +194,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
     }];
     
-    [self requestCategories];
+    [self.collectionView reloadData];
 }
 
 
@@ -620,13 +618,14 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 #pragma mark - HUD
 
 -(void)showHUD {
+    
     if (_launchScreen) {
         self.hud = [[NeediatorHUD alloc] initWithFrame:_launchScreen.frame];
         self.hud.overlayColor = [UIColor clearColor];
+        self.hud.hudCenter = CGPointMake(CGRectGetWidth(_launchScreen.bounds) / 2, CGRectGetHeight(_launchScreen.bounds) / 2 + 120.f);
         [self.hud fadeInAnimated:YES];
         [_launchScreen addSubview:self.hud];
     }
-    
     
 }
 

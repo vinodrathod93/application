@@ -278,7 +278,9 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
    
-    _cameraImage = info[UIImagePickerControllerEditedImage];
+    
+    NSLog(@"%@", info);
+    _cameraImage = info[UIImagePickerControllerOriginalImage];
 //    self.imageView.image = chosenImage;
 //    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
@@ -895,7 +897,8 @@
     
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
-    
+    imageView.contentMode   = UIViewContentModeScaleAspectFill;
+    imageView.userInteractionEnabled = YES;
     
     if (indexPath.item != [self selectedImages].count) {
         NSLog(@"Continue");
@@ -910,8 +913,7 @@
         
     }
    
-    imageView.contentMode   = UIViewContentModeScaleAspectFit;
-    imageView.userInteractionEnabled = YES;
+    
 
     
     UIView *background = [[UIView alloc] initWithFrame:cell.frame];

@@ -17,4 +17,21 @@
 }
 
 
+-(BOOL)favouriteStore {
+    
+    if ([self.favButton.imageView.image isEqual:[UIImage imageNamed:@"store_fav_filled"]]) {
+        return YES;
+    }
+    else
+        return NO;
+}
+
+-(void)setFavouriteStore:(BOOL)favouriteStore {
+    if (favouriteStore) {
+        [self.favButton setImage:[UIImage imageNamed:@"store_fav_filled"] forState:UIControlStateNormal];
+    }
+    else
+        [self.favButton setImage:[UIImage imageNamed:@"store_fav"] forState:UIControlStateNormal];
+}
+
 @end

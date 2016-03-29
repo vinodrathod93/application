@@ -342,18 +342,6 @@ typedef NS_ENUM(uint16_t, sections) {
         }
         
         
-            
-            
-        
-            
-            
-        
-        
-        
-        
-            
-        
-        
         
         return cell;
         
@@ -653,6 +641,11 @@ typedef NS_ENUM(uint16_t, sections) {
     StoreReviewsView *storeReviewsView = [[[NSBundle mainBundle] loadNibNamed:@"StoreReviewsView" owner:self options:nil] lastObject];
     storeReviewsView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kStoreReviewsViewHeight);
     storeReviewsView.ratingView.rating = self.ratings.floatValue;
+    storeReviewsView.likedStore     =  self.isLikedStore;
+    storeReviewsView.dislikedStore  =  self.isDislikedStore;
+    
+    [storeReviewsView.likeButton addTarget:self action:@selector(requestLike:) forControlEvents:UIControlEventTouchUpInside];
+    [storeReviewsView.dislikeButton addTarget:self action:@selector(requestDislike:) forControlEvents:UIControlEventTouchUpInside];
     
     NSString *reviews = [NSString stringWithFormat:@"✍ %@",self.reviewsCount];
     
@@ -680,12 +673,24 @@ typedef NS_ENUM(uint16_t, sections) {
     return storeReviewsView;
 }
 
+
+-(void)requestLike:(UIButton *)button {
+    
+}
+
+-(void)requestDislike:(UIButton *)button {
+    
+}
+
+
+
 -(StoreOptionsView *)storeOptionView {
     
     StoreOptionsView *storeOptionView = [[[NSBundle mainBundle] loadNibNamed:@"StoreOptionsView" owner:self options:nil] lastObject];
     storeOptionView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kStoreButtonOptionsViewHeight);
     
     [storeOptionView.locationButton setTitle:self.storeDistance forState:UIControlStateNormal];
+    storeOptionView.favouriteStore = self.isFavourite;
     
     [storeOptionView.favButton addTarget:self action:@selector(requestFavourites:) forControlEvents:UIControlEventTouchUpInside];
     [storeOptionView.infoButton addTarget:self action:@selector(goToStoreInfoDetailVC) forControlEvents:UIControlEventTouchUpInside];

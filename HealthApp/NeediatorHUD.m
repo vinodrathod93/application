@@ -58,7 +58,8 @@ CGFloat RotationDuration = 0.5;
     _activityImageView.layer.shadowOpacity = 1;
     _activityImageView.layer.shadowRadius = 2.0;
     _activityImageView.layer.masksToBounds = NO;
-    //    _activityImageView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:_activityImageView.bounds cornerRadius:80.f].CGPath;
+//    _activityImageView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) / 2 + 120);
+//    _activityImageView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:_activityImageView.bounds cornerRadius:80.f].CGPath;
     _activityImageView.layer.shadowPath = path;
     
     _activityImageView.animationImages = [NSArray arrayWithObjects:
@@ -77,11 +78,11 @@ CGFloat RotationDuration = 0.5;
 //    [self addSubview:blurView];
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    _activityImageView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) / 2 + 120.f);
-}
+//- (void)layoutSubviews
+//{
+//    [super layoutSubviews];
+//    _activityImageView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) / 2 + 120.f);
+//}
 
 - (void)fadeInAnimated:(BOOL)animated
 {
@@ -150,6 +151,14 @@ CGFloat RotationDuration = 0.5;
 
 -(void)setOverlayColor:(UIColor *)overlayColor {
     self.backgroundColor = overlayColor;
+}
+
+-(CGPoint)hudCenter {
+    return _activityImageView.center;
+}
+
+-(void)setHudCenter:(CGPoint)hudCenter {
+    _activityImageView.center = hudCenter;
 }
 
 @end

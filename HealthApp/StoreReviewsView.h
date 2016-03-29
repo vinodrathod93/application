@@ -16,4 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *dislikeButton;
 
+
+@property (assign, nonatomic) BOOL likedStore;
+@property (assign, nonatomic) BOOL dislikedStore;
 @end

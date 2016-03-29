@@ -188,12 +188,6 @@ NSString *cellReuseIdentifier;
             
         }
         
-//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-//            [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:cell.productImage attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:300.f]];
-//        } else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-//            [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:cell.productImage attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:450.f]];
-//        }
-        
         
         
         // Imageview constraints
