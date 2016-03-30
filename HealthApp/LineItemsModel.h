@@ -12,8 +12,8 @@
 
 @property (nonatomic, copy) NSString *variantName;
 @property (nonatomic, copy) NSString *variantPrice;
-@property (nonatomic, copy) NSNumber *quantity;
+@property (nonatomic, copy) NSString *quantity;
 @property (nonatomic, copy) NSString *amount;
-@property (nonatomic, copy) NSArray *images;
+@property (nonatomic, copy) NSString *imageURL;
 
 @end

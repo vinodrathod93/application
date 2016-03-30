@@ -861,6 +861,7 @@ static NSString *cellIdentifier = @"cartCell";
                                 [self decorateNoCartDimmView];
                                 return;
                             }
+                           
                             
                             
                             
@@ -883,6 +884,12 @@ static NSString *cellIdentifier = @"cartCell";
                                 
                                 NSArray *orders = [json objectForKey:@"stores"];
                                 
+                                
+                                if (orders.count == 0) {
+                                    [self decorateNoCartDimmView];
+                                    
+                                    return;
+                                }
                                 
                                 for (int i=0; i<orders.count; i++) {
                                     

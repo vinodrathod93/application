@@ -56,7 +56,22 @@
     [controller presentViewController:alertController animated:YES completion:nil];
 }
 
-
++ (void)showLoginOnController:(UIViewController *)controller isPlacingOrder:(BOOL)isPlacing {
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                             bundle: nil];
+    
+    LogSignViewController *logSignVC = (LogSignViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
+    logSignVC.isPlacingOrder = isPlacing;
+    
+    UINavigationController *logSignNav = [[UINavigationController alloc]initWithRootViewController:logSignVC];
+    logSignNav.navigationBar.tintColor = controller.view.tintColor;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
+    }
+    
+    [controller presentViewController:logSignNav animated:YES completion:nil];
+}
 
 
 

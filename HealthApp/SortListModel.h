@@ -11,7 +11,7 @@
 @interface SortListModel : MTLModel<MTLJSONSerializing>
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *type;
+@property (nonatomic, copy) NSArray *typeArray;
 @property (nonatomic, copy) NSNumber *sortID;
 
 @end

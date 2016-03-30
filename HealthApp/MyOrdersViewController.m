@@ -11,7 +11,7 @@
 #import "APIManager.h"
 #import "MyOrdersModel.h"
 #import "LineItemsModel.h"
-#import "VariantImagesModel.h"
+//#import "VariantImagesModel.h"
 #import "CustomCollectionViewCell.h"
 
 @interface MyOrdersViewController ()
@@ -40,7 +40,8 @@
     _itemsImages = [NSMutableArray array];
     
     
-    [[APIManager sharedManager] getMyOrdersWithSuccess:^(MyOrdersResponseModel *myOrdersModel) {
+    
+    [[NAPIManager sharedManager] getMyOrdersListingWithSuccess:^(MyOrdersResponseModel *myOrdersModel) {
         
         [hud hide:YES];
         
@@ -59,6 +60,8 @@
         UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertError show];
     }];
+    
+    
     
     
     /*
@@ -221,11 +224,14 @@
         
         [lineItems enumerateObjectsUsingBlock:^(LineItemsModel * _Nonnull line_item, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            if (line_item.images.count != 0) {
-                VariantImagesModel *image = line_item.images[0];
-                
-                [imagesParticularOrder addObject:image.small_url];
-            }
+//            if (line_item.images.count != 0) {
+//                VariantImagesModel *image = line_item.images[0];
+//                
+//                [imagesParticularOrder addObject:image.small_url];
+//            }
+            
+            
+            [imagesParticularOrder addObject:line_item.imageURL];
             
         }];
         

@@ -88,7 +88,6 @@ typedef void(^completion)(BOOL finished);
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
     
-    [self setupDatePicker];
     
 }
 
@@ -122,7 +121,34 @@ typedef void(^completion)(BOOL finished);
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *cellIdentifier = (indexPath.section == 0) ? ((indexPath.row == 0) ? kPAYMENT_SUMMARY_CELLIDENTIFIER: kPAY_CELLIDENTIFIER): (indexPath.section == 1)? kADDRESS_CELLIDENTIFIER: (indexPath.section == 2) ? kPAYMENT_DELVIERY_CELLIDENTIFIER : (indexPath.section == 3) ? kPAYMENT_DELVIERY_CELLIDENTIFIER : kOPTIONS_CELLIDENTIFIER;
+//    NSString *cellIdentifier = (indexPath.section == 0) ? ((indexPath.row == 0) ? kPAYMENT_SUMMARY_CELLIDENTIFIER: kPAY_CELLIDENTIFIER): (indexPath.section == 1)? kADDRESS_CELLIDENTIFIER: (indexPath.section == 2) ? kPAYMENT_DELVIERY_CELLIDENTIFIER : (indexPath.section == 3) ? kPAYMENT_DELVIERY_CELLIDENTIFIER : kOPTIONS_CELLIDENTIFIER;
+    
+    
+    NSString *cellIdentifier;
+    
+    switch (indexPath.section) {
+        case 0:
+            cellIdentifier = (indexPath.row == 0) ? kPAYMENT_SUMMARY_CELLIDENTIFIER: kPAY_CELLIDENTIFIER;
+            break;
+            
+        case 1:
+            cellIdentifier = kADDRESS_CELLIDENTIFIER;
+            break;
+            
+        case 2:
+            cellIdentifier = kPAYMENT_DELVIERY_CELLIDENTIFIER;
+            break;
+            
+        case 3:
+            cellIdentifier = kPAYMENT_DELVIERY_CELLIDENTIFIER;
+            break;
+            
+        default:
+            cellIdentifier = kOPTIONS_CELLIDENTIFIER;
+            break;
+    }
+    
+    
     
     id cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
@@ -155,13 +181,30 @@ typedef void(^completion)(BOOL finished);
 
 
 -(void)configureDeliveryTimeCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = @"";
+    cell.textLabel.text = nil;
+    BOOL containsTF = NO;
     
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 2, CGRectGetWidth(self.view.frame) - (2*10), 40)];
-    textField.placeholder = @"Select Time";
-    [cell.contentView addSubview:textField];
+    UITextField *unitTextField;
     
-    [self showDateTimePicker:textField];
+    for (id subView in cell.contentView.subviews) {
+        if ([subView isKindOfClass:[UITextField class]]) {
+            containsTF = YES;
+            
+            unitTextField = (UITextField *)subView;
+        }
+    }
+    
+    if (!containsTF) {
+        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 2, CGRectGetWidth(self.view.frame) - (2*10), 40)];
+        textField.placeholder = @"Select Time";
+        [cell.contentView addSubview:textField];
+        
+        unitTextField = textField;
+    }
+    
+    [self showDateTimePicker:unitTextField];
+    
+    
 }
 
 -(void)showDateTimePicker:(UITextField *)textfield {
@@ -394,6 +437,7 @@ typedef void(^completion)(BOOL finished);
     
     if (indexPath.section == DELIVERY_TYPE_SECTION) {
         
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self showActivitySheet:cell];
     }
     
@@ -420,7 +464,7 @@ typedef void(^completion)(BOOL finished);
         [controller dismissViewControllerAnimated:YES completion:^{
             
             NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            
         }];
     }];
     
@@ -481,17 +525,11 @@ typedef void(^completion)(BOOL finished);
             paymentOptionsVC.selectedOrderDeliveryType = _selectedDeliveryID;
             paymentOptionsVC.selectedOrderTime  = _selectedDateTime;
             
-//            if (_delivery_methods != nil) {
-//                paymentOptionsVC.delivery_types = _delivery_methods;
-//            }
-//            else
-//                paymentOptionsVC.delivery_types = @[];
-//            
-//            if (_payment_methods != nil) {
-//                paymentOptionsVC.payment_types  = _payment_methods;
-//            }
-//            else
-//                paymentOptionsVC.payment_types  = @[];
+            if (_payment_methods != nil) {
+                paymentOptionsVC.payment_types  = _payment_methods;
+            }
+            else
+                paymentOptionsVC.payment_types  = @[];
             
             
             NSLog(@"%@", self.shipAddress);
@@ -722,6 +760,8 @@ typedef void(^completion)(BOOL finished);
             });
         }
         else {
+            
+            [self.hud hide:YES];
             [self displayConnectionFailed];
         }
         

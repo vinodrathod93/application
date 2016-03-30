@@ -131,13 +131,13 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if (self.view.frame.size.width <= 320) {
-            return CGSizeMake(100, 100);
+            return CGSizeMake(90, 90);
         }
         else
-            return CGSizeMake(120, 120);
+            return CGSizeMake(110, 110);
     }
     else
-        return CGSizeMake(148, 148);
+        return CGSizeMake(138, 138);
     
 }
 

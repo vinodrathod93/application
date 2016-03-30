@@ -693,7 +693,7 @@
         }
         else {
             UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:phoneAlertController];
-            [popup presentPopoverFromRect:sort.bounds inView:header permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            [popup presentPopoverFromRect:sort.bounds inView:[sort superview] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }
         
         
@@ -897,6 +897,7 @@
     [parameter setObject:self.subcategory_id forKey:@"subcatid"];
     [parameter setObject:@"1" forKey:@"page"];
     [parameter setObject:type forKey:@"type_id"];
+//    [parameter setObject:@"" forKey:@"sort_type"];
     
     
     if (user.userID != nil) {
@@ -933,6 +934,7 @@
         requestModel.subcategory_id       = self.subcategory_id;
         requestModel.page                 = @"1";
         requestModel.sortType_id          = type;
+//        requestModel.sortSubType_id       = @"1";
         requestModel.is24Hrs              = @"";
         requestModel.hasOffers            = @"";
         requestModel.minDelivery_id       = @"";
@@ -964,6 +966,7 @@
     requestModel.subcategory_id       = self.subcategory_id;
     requestModel.page                 = @"1";
     requestModel.sortType_id          = @"1";
+    requestModel.sortSubType_id       = @"1";
     requestModel.is24Hrs              = @"";
     requestModel.hasOffers            = @"";
     requestModel.minDelivery_id       = @"";

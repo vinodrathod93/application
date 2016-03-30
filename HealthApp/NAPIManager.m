@@ -351,7 +351,7 @@
         
         NSString *status = responseObject[@"status"];
         
-        if ([status isEqualToString:@"succes"]) {
+        if ([status isEqualToString:@"success"]) {
             success(YES);
         }
         else
@@ -362,6 +362,77 @@
         failure(error);
     }];
 }
+
+-(NSURLSessionDataTask *)postlikeDislikeWithData:(NSDictionary *)data success:(void (^)(NSDictionary *likeDislikes))success failure:(void (^)(NSError *error))failure {
+    
+    self.requestSerializer = [AFHTTPRequestSerializer serializer];
+    
+    
+    return [self POST:kADD_TO_LIKEDISLIKE_PATH parameters:data progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"Adding to LikeUnlike %@", uploadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Response %@", responseObject);
+        
+        NSString *status = responseObject[@"test"];
+        
+        
+        if ([status isEqualToString:@"success"]) {
+            
+            NSArray *responseArray = responseObject[@"LikeUnlike"];
+            success(responseArray[0]);
+        }
+        else
+            success(@{});
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
+
+-(NSURLSessionDataTask *)getMyOrdersListingWithSuccess:(void(^)(MyOrdersResponseModel *))success failure:(void (^)(NSError *))failure {
+    
+    
+    User *user = [User savedUser];
+    
+    if (user.userID == nil) {
+        NSLog(@"User not logged in");
+        
+        return nil;
+    } else {
+        
+        
+        NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] init];
+        [parametersWithKey setObject:user.userID forKey:@"user_id"];
+        
+        return [self GET:kMY_ORDERS_PATH parameters:parametersWithKey progress:^(NSProgress * _Nonnull downloadProgress) {
+            NSLog(@"Getting myorder %@", downloadProgress.localizedDescription);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+            NSError *error;
+            
+            MyOrdersResponseModel *myOrders = [MTLJSONAdapter modelOfClass:[MyOrdersResponseModel class] fromJSONDictionary:responseDictionary error:&error];
+            if (error) {
+                NSLog(@"%@", [error localizedDescription]);
+            }
+            
+            success(myOrders);
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            failure(error);
+        }];
+        
+    }
+    
+    
+    
+}
+
+
+
+
 
 
 

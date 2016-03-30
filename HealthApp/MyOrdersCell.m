@@ -42,7 +42,7 @@
     [self.orderNumber setTextAlignment:NSTextAlignmentRight];
     [self.contentView addSubview:self.orderNumber];
     
-    
+//    
     self.orderDate = [[UILabel alloc] initWithFrame:CGRectMake(8, 38, CGRectGetWidth(self.bounds) - 8, 38)];
     self.orderDate.font = [UIFont fontWithName:@"AvenirNext-Regular" size:13.f];
     self.orderDate.textColor = [UIColor darkGrayColor];
@@ -52,7 +52,7 @@
     
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-//    layout.sectionInset = UIEdgeInsetsMake(2, 2, 0, 2);
+    layout.sectionInset = UIEdgeInsetsMake(2, 2, 0, 2);
     layout.itemSize = CGSizeMake(75, 90);
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     self.collectionView = [[HorizontalCollectionView alloc] initWithFrame:CGRectMake(8, 84, CGRectGetWidth(self.bounds) - (2 * 8), 100) collectionViewLayout:layout];

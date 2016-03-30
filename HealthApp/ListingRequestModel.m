@@ -20,6 +20,7 @@
              @"subcategory_id"  : @"subcatid",
              @"page"            : @"page",
              @"sortType_id"     : @"type_id",
+             @"sortSubType_id"  : @"sort_type",
              @"is24Hrs"         : @"twenty_four_hr",
              @"hasOffers"       : @"offer",
              @"minDelivery_id"  : @"minimum_delivery_id",

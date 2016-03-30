@@ -10,6 +10,7 @@
 #import "ListingModel.h"
 #import "PromotionModel.h"
 #import "FilterListModel.h"
+#import "SortListModel.h"
 
 @implementation ListingResponseModel
 

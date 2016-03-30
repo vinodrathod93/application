@@ -20,7 +20,8 @@
 #import "LoginView.h"
 
 enum MyAccountCells {
-    MyOrdersCell = 0,
+    FavouriteCell = 0,
+    MyOrdersCell,
     MyAddressesCell,
     TrackOrdersCell
 };
@@ -311,11 +312,11 @@ enum MyAccountCells {
     User *user = [User savedUser];
     
     if (user != nil) {
-        _options = @[ @"", @[@"My Orders", @"My Addresses", @"Track Order"],
+        _options = @[ @"", @[@"Favourites", @"My Orders", @"My Addresses", @"Track Order"],
                       @"Sign Out"];
         _iconsArray  = @[
                          @"",
-                         @[@"my_orders", @"address", @"track"],
+                         @[@"store_fav", @"my_orders", @"address", @"track"],
                          @"signout"
                          ];
         

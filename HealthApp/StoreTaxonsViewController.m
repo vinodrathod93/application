@@ -22,6 +22,7 @@
 #import "NEntityDetailViewController.h"
 #import "EntityDetailModel.h"
 #import "MapLocationViewController.h"
+#import "OffersPopViewController.h"
 
 
 #define kImageViewSection 0;
@@ -52,7 +53,7 @@ typedef NS_ENUM(uint16_t, sections) {
     NSInteger _footerHeight;
     UIActivityIndicatorView *_search_activityIndicator;
     NSArray *_offersArray, *_shopInfoArray, *_storeAddresses;
-    UITapGestureRecognizer *_uploadPrsGestureRecognizer, *_quickOrderGestureRecognizer;
+    UITapGestureRecognizer *_uploadPrsGestureRecognizer, *_quickOrderGestureRecognizer, *_offersGestureRecognizer;
 }
 
 - (void)viewDidLoad {
@@ -229,10 +230,39 @@ typedef NS_ENUM(uint16_t, sections) {
         offerView.layer.masksToBounds = YES;
         offerView.tag = idx;
         
+        _offersGestureRecognizer    = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayPopupView:)];
+        [offerView addGestureRecognizer:_offersGestureRecognizer];
+        
         [cell.offersScrollView addSubview:offerView];
     }];
     
     
+}
+
+
+-(void)displayPopupView:(UITapGestureRecognizer *)recognizer {
+    
+    
+    OffersPopViewController *offersPopVC = [self.storyboard instantiateViewControllerWithIdentifier:@"offersPopVC"];
+    [StoreTaxonsViewController setPresentationStyleForSelfController:self presentingController:offersPopVC];
+}
+
+
++ (void)setPresentationStyleForSelfController:(UIViewController *)selfController presentingController:(UIViewController *)presentingController
+{
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)])
+    {
+        //iOS 8.0 and above
+        presentingController.providesPresentationContextTransitionStyle = YES;
+        presentingController.definesPresentationContext = YES;
+        
+        [presentingController setModalPresentationStyle:UIModalPresentationOverCurrentContext];
+    }
+    else
+    {
+        [selfController setModalPresentationStyle:UIModalPresentationCurrentContext];
+        [selfController.navigationController setModalPresentationStyle:UIModalPresentationCurrentContext];
+    }
 }
 
 
@@ -541,10 +571,12 @@ typedef NS_ENUM(uint16_t, sections) {
                 if (taxonomy.isExpanded) {
                     [self collapseCellsFromIndexOf:taxonomy indexPath:indexPath tableView:tableView];
                     selected_cell.accessoryView = [self viewForDisclosureForState:NO];
+                    _isExpanded = NO;
                 }
                 else {
                     [self expandCellsFromIndexOf:taxonomy indexPath:indexPath tableView:tableView];
                     selected_cell.accessoryView = [self viewForDisclosureForState:YES];
+                    _isExpanded = YES;
                 }
             }
         }
@@ -562,14 +594,9 @@ typedef NS_ENUM(uint16_t, sections) {
             
             [self.navigationController pushViewController:productsVC animated:YES];
             
-            
-            
         }
         
     }
-    
-    
-    
     
 }
 
@@ -676,12 +703,129 @@ typedef NS_ENUM(uint16_t, sections) {
 
 -(void)requestLike:(UIButton *)button {
     
-}
-
--(void)requestDislike:(UIButton *)button {
+    NSString *likeTag;
+    NSString *dislikeTag;
+    
+    StoreReviewsView *storeReviewsView = (StoreReviewsView *)button.superview;
+    
+    if (!storeReviewsView.dislikeButton.isSelected) {
+        button.selected = !button.selected;
+        
+        if (button.isSelected) {
+            
+            likeTag = @"1";
+            dislikeTag = @"0";
+            
+            [button setImage:[UIImage imageNamed:@"liked"] forState:UIControlStateNormal];
+        }
+        else {
+            likeTag = @"0";
+            dislikeTag = @"0";
+            
+            [button setImage:[UIImage imageNamed:@"like"] forState:UIControlStateNormal];
+        }
+        
+        
+    }
+    else
+    {
+        likeTag = @"1";
+        dislikeTag = @"0";
+        
+        storeReviewsView.dislikeButton.selected = NO;
+        [storeReviewsView.dislikeButton setImage:[UIImage imageNamed:@"dislike"] forState:UIControlStateNormal];
+        
+        storeReviewsView.likeButton.selected = YES;
+        [storeReviewsView.likeButton setImage:[UIImage imageNamed:@"liked"] forState:UIControlStateNormal];
+    }
+    
+    
+    
+    [self requestLikeDislike:button withLike:likeTag andDislike:dislikeTag];
     
 }
 
+-(void)requestDislike:(UIButton *)sender {
+    
+    StoreReviewsView *storeReviewsView = (StoreReviewsView *)sender.superview;
+    NSString *likeTag;
+    NSString *dislikeTag;
+    
+    
+    if (!storeReviewsView.likeButton.isSelected) {
+        sender.selected = !sender.selected;
+        
+        if (sender.isSelected) {
+            
+            likeTag = @"0";
+            dislikeTag = @"-1";
+            [sender setImage:[UIImage imageNamed:@"disliked"] forState:UIControlStateNormal];
+        }
+        else {
+            
+            likeTag = @"0";
+            dislikeTag = @"0";
+            
+            [sender setImage:[UIImage imageNamed:@"dislike"] forState:UIControlStateNormal];
+        }
+        
+        
+    }
+    else
+    {
+        likeTag = @"0";
+        dislikeTag = @"-1";
+        
+        
+        storeReviewsView.likeButton.selected = NO;
+        [storeReviewsView.likeButton setImage:[UIImage imageNamed:@"like"] forState:UIControlStateNormal];
+        
+        storeReviewsView.dislikeButton.selected = YES;
+        [storeReviewsView.dislikeButton setImage:[UIImage imageNamed:@"disliked"] forState:UIControlStateNormal];
+    }
+    
+    
+    [self requestLikeDislike:sender withLike:likeTag andDislike:dislikeTag];
+    
+    
+}
+
+
+
+
+-(void)requestLikeDislike:(UIButton *)sender withLike:(NSString *)likeTag andDislike:(NSString *)dislikeTag {
+    
+    
+    User *user = [User savedUser];
+    
+    if (user != nil) {
+        
+        
+        NSDictionary *parameter = @{
+                                    @"user_id": user.userID,
+                                    @"cat_id" : [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID],
+                                    @"store_id" : [NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],
+                                    @"like"     : likeTag,
+                                    @"dislike"  : dislikeTag
+                                    };
+        
+        [[NAPIManager sharedManager] postlikeDislikeWithData:parameter success:^(NSDictionary *likeDislikes) {
+            NSNumber *likeCount = likeDislikes[@"like"];
+            NSNumber *dislikeCount = likeDislikes[@"dislike"];
+            
+            StoreReviewsView *storeReviewsView = (StoreReviewsView *)sender.superview;
+            [storeReviewsView.likeButton setTitle:likeCount.stringValue forState:UIControlStateNormal];
+            [storeReviewsView.dislikeButton setTitle:dislikeCount.stringValue forState:UIControlStateNormal];
+            
+            
+            
+        } failure:^(NSError *error) {
+            [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+        }];
+    }
+    else
+        [NeediatorUtitity showLoginOnController:self isPlacingOrder:NO];
+}
 
 
 -(StoreOptionsView *)storeOptionView {
@@ -767,7 +911,16 @@ typedef NS_ENUM(uint16_t, sections) {
         [phoneAlertController addAction:cancelAction];
         
         
-        [self presentViewController:phoneAlertController animated:YES completion:nil];
+        
+        
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            [self presentViewController:phoneAlertController animated:YES completion:nil];
+        }
+        else {
+            UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:phoneAlertController];
+            [popup presentPopoverFromRect:button.frame inView:[button superview] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
     }
     else
         NSLog(@"Phone numbers are nil");
@@ -874,6 +1027,11 @@ typedef NS_ENUM(uint16_t, sections) {
 }
 
 
+-(void)showNeediatorHUD {
+    
+}
+
+
 -(UIView *)getHudView {
     
     UIView *hudView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, _footerHeight)];
@@ -892,11 +1050,11 @@ typedef NS_ENUM(uint16_t, sections) {
     NSString *imageName;
     if(isExpanded)
     {
-        imageName = @"Expand Arrow";
+        imageName = @"Collapse Arrow";
     }
     else
     {
-        imageName = @"Collapse Arrow";
+        imageName = @"Expand Arrow";
     }
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
@@ -1001,8 +1159,13 @@ typedef NS_ENUM(uint16_t, sections) {
             NSLog(@"Fav. Error = %@", [error localizedDescription]);
         }];
     }
-    else
+    else {
         NSLog(@"User Not Logged In");
+        
+        [NeediatorUtitity showLoginOnController:self isPlacingOrder:NO];
+        
+    }
+    
     
     
     

@@ -23,5 +23,6 @@
 + (UIColor *)defaultColor;
 + (UIColor *)blurredDefaultColor;
 + (void)alertWithTitle:(NSString *)title andMessage:(NSString *)message onController:(UIViewController *)controller;
++ (void)showLoginOnController:(UIViewController *)controller isPlacingOrder:(BOOL)isPlacing;
 
 @end

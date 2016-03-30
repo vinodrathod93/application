@@ -62,7 +62,6 @@
     NSLog(@"Applying Filter...");
     
     
-    
     if ([self.delegate respondsToSelector:@selector(appliedFilterListingDelegate:)]) {
         NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
         

@@ -25,8 +25,6 @@
 @implementation PaymentOptionsViewController {
     UIButton *_placeOrderButton;
     NSURLSessionDataTask *_task;
-    NSString *_selectedDeliveryID;
-    NSString *_selectedDateTime;
 }
 
 
@@ -41,9 +39,6 @@
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     
-    
-//    [self setupDatePicker];
-    
 }
 
 
@@ -53,7 +48,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 3;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -114,17 +109,14 @@
     }
     else
         return @"";
-//    else if (section == 1)
-//        return @"Select Delivery Type";
-//    else
-//        return @"Select Time";
+
     
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
-    if (section == 2) {
+    if (section == 0) {
         return 60.f;
     }
     else
@@ -136,7 +128,7 @@
     
     UIView *view = [[UIView alloc]initWithFrame:CGRectZero];
     
-    if (section == 2) {
+    if (section == 0) {
         view.backgroundColor = [UIColor clearColor];
         
         view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 60);
@@ -181,155 +173,6 @@
     
 }
 
-/*
--(void)setupDatePicker {
-    _dateTimePickerView = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame) - 216.f, CGRectGetWidth(self.view.frame), 216.f)];
-    _dateTimePickerView.datePickerMode = UIDatePickerModeDateAndTime;
-    
-    NSDate *currentDate = [NSDate date];
-    NSDate *nextDate = [currentDate dateByAddingTimeInterval:60*60*24*3];
-    
-    
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
-    
-    NSLog(@"Current Date = %@", [dateFormat stringFromDate:currentDate]);
-    NSLog(@"Next Date = %@", [dateFormat stringFromDate:nextDate]);
-    
-    [_dateTimePickerView setMinimumDate:currentDate];
-    [_dateTimePickerView setMaximumDate:nextDate];
-    
-}
-
-
-
-
--(void)showDateTimePicker:(UITextField *)textfield {
-    
-    [self setupDatePicker];
-    
-    textfield.inputView = _dateTimePickerView;
-    textfield.inputAccessoryView = [self pickupDatePickerToolBar];
-    
-    [_dateTimePickerView addTarget:self action:@selector(setSelectedOrderDateTime:) forControlEvents:UIControlEventValueChanged];
-    
-    
-}
-
--(void)setSelectedOrderDateTime:(UIDatePicker *)picker {
-    
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
-    
-    for (id subView in cell.contentView.subviews) {
-        if ([subView isKindOfClass:[UITextField class]]) {
-            
-            UITextField *datetimeTextField = (UITextField *)subView;
-            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
-            
-            datetimeTextField.text = [NSString stringWithFormat:@"%@", [dateFormat stringFromDate:picker.date]];
-            
-            _selectedDateTime = datetimeTextField.text;
-        }
-    }
-    
-}
-
--(UIToolbar *)pickupDatePickerToolBar {
-    UIToolbar *toolbar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44)];
-    toolbar.barStyle = UIBarStyleDefault;
-    UIBarButtonItem *flexibleSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    
-    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 150, 21.f)];
-    message.font = [NeediatorUtitity mediumFontWithSize:15.f];
-    message.textAlignment = NSTextAlignmentCenter;
-    message.backgroundColor = [UIColor clearColor];
-    message.textColor = [UIColor darkGrayColor];
-    message.text = @"Select Date and Time";
-    
-    
-    
-    UIBarButtonItem *flexibleSpaceRight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    
-    UIBarButtonItem *titleButton = [[UIBarButtonItem alloc] initWithCustomView:message];
-    
-    
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(dismissPickerView)];
-    
-    [toolbar setItems:@[flexibleSpaceLeft, titleButton, flexibleSpaceRight, doneButton] animated:YES];
-    
-    return toolbar;
-}
-
-
--(void)dismissPickerView {
-    
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
-    
-    for (id subView in cell.contentView.subviews) {
-        if ([subView isKindOfClass:[UITextField class]]) {
-            
-            UITextField *datetimeTextField = (UITextField *)subView;
-            
-            [datetimeTextField resignFirstResponder];
-        }
-    }
-    
-}
- */
-
-//-(void)showActivitySheet:(UITableViewCell *)sender {
-//    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Delivery Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-//    
-//    NSArray *names = [self deliveryTypes];
-//    NSArray *ids   = [self deliveryIDs];
-//    
-//    [names enumerateObjectsUsingBlock:^(NSString * _Nonnull title, NSUInteger idx, BOOL * _Nonnull stop) {
-//        UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            sender.textLabel.text = action.title;
-//            _selectedDeliveryID = ids[idx];
-//            
-//        }];
-//        
-//        [controller addAction:action];
-//    }];
-//    
-//    
-//    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//        [controller dismissViewControllerAnimated:YES completion:nil];
-//    }];
-//    
-//    [controller addAction:cancelAction];
-//    
-//    controller.popoverPresentationController.sourceView = sender;
-//    controller.popoverPresentationController.sourceRect = sender.bounds;
-//    [self presentViewController:controller animated:YES completion:nil];
-//    
-//}
-
-//-(NSArray *)deliveryTypes {
-//    NSArray *delivery_types = _delivery_types;
-//    
-//    NSMutableArray *names = [[NSMutableArray alloc] init];
-//    
-//    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
-//        [names addObject:[type valueForKey:@"type"]];
-//    }];
-//    
-//    return names;
-//}
-//
-//-(NSArray *)deliveryIDs {
-//    NSArray *delivery_types = _delivery_types;
-//    
-//    NSMutableArray *ids = [[NSMutableArray alloc] init];
-//    
-//    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
-//        [ids addObject:[type valueForKey:@"id"]];
-//    }];
-//    
-//    return ids;
-//}
 
 
 -(void)deselectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
@@ -366,12 +209,12 @@
         
         
         
-        if (_selectedDeliveryID == nil) {
+        if (_selectedOrderDeliveryType == nil) {
             
             NSArray *allIndexPaths = [self allRowsindexPathsForSection:1];
             [self calloutCells:allIndexPaths];
         }
-        else if (_selectedDateTime == nil) {
+        else if (_selectedOrderTime == nil) {
             NSArray *allIndexPaths = [self allRowsindexPathsForSection:2];
             [self calloutCells:allIndexPaths];
         }
@@ -395,12 +238,6 @@
         [self calloutCells:allIndexPaths];
     }
     
-    
-    
-    
-    
-    
-    
 
 }
 
@@ -412,7 +249,7 @@
     NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/addOrder"];
     NSLog(@"URL is --> %@", url);
     
-    NSString *parameter = [NSString stringWithFormat:@"user_id=%@&payment_id=%@&address_id=%@&store_id=%@&cat_id=%@&delivery_type=%@&preffered_time=%@", user.userID, self.payment_method_id.stringValue, self.address_id, self.orderModel.store_id, self.orderModel.cat_id.stringValue, _selectedDeliveryID, _selectedDateTime];
+    NSString *parameter = [NSString stringWithFormat:@"user_id=%@&payment_id=%@&address_id=%@&store_id=%@&cat_id=%@&delivery_type=%@&preffered_time=%@", user.userID, self.payment_method_id.stringValue, self.address_id, self.orderModel.store_id, self.orderModel.cat_id.stringValue, _selectedOrderDeliveryType, _selectedOrderTime];
     NSLog(@"Payment parameter ==> %@",parameter);
     
     

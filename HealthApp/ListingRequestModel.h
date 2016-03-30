@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSString *longitude;
 @property (nonatomic, copy) NSString *page;
 @property (nonatomic, copy) NSString *sortType_id;
+@property (nonatomic, copy) NSString *sortSubType_id;
 @property (nonatomic, copy) NSString *is24Hrs;
 @property (nonatomic, copy) NSString *hasOffers;
 @property (nonatomic, copy) NSString *minDelivery_id;
