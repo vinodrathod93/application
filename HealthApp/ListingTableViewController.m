@@ -39,6 +39,8 @@
 @property (nonatomic, strong) NSDictionary *filterData;
 @property (nonatomic, strong) NSArray *bannerImages;
 
+@property (nonatomic, strong) id previewingContext;
+
 @end
 
 @implementation ListingTableViewController {
@@ -75,15 +77,22 @@
     
     
     // Register for 3D Touch Previewing if available
-    if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &&
-        (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable))
-    {
-        [self registerForPreviewingWithDelegate:self sourceView:self.view];
+    
+    if ([self isForceTouchAvailable]) {
+        self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
     }
     
 }
 
 
+
+-(BOOL)isForceTouchAvailable {
+    BOOL isForceTouchAvailable = NO;
+    if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)]) {
+        isForceTouchAvailable = self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable;
+    }
+    return isForceTouchAvailable;
+}
 
 
 
@@ -134,19 +143,42 @@
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
               viewControllerForLocation:(CGPoint)location {
     
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    
+    if ([self.presentedViewController isKindOfClass:[StoreTaxonsViewController class]] || [self.presentedViewController isKindOfClass:[NEntityDetailViewController class]]) {
+        return nil;
+    }
+    
+    CGPoint cellPosition = [self.tableView convertPoint:location fromView:self.view];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:cellPosition];
     ListingModel *model = self.listingArray[indexPath.section - 1];
     
-    if (model) {
+    if (indexPath) {
         ListingCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
         
-        if (cell) {
-            previewingContext.sourceRect = cell.frame;
-            
-            UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsNavVC"];
-            [self configureNavigationController:navController withModel:model];
-            return navController;
-        }
+//        UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsNavVC"];
+//        [self configureNavigationController:navController withModel:model];
+        
+        
+        
+        
+        StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
+        storeTaxonsVC.title = [model.name capitalizedString];
+        storeTaxonsVC.cat_id = self.category_id;
+        storeTaxonsVC.store_id = model.list_id;
+        storeTaxonsVC.storeImages = model.images;
+        storeTaxonsVC.storePhoneNumbers = model.phone_nos;
+        storeTaxonsVC.storeDistance = model.nearest_distance.uppercaseString;
+        storeTaxonsVC.ratings   = model.ratings;
+        storeTaxonsVC.reviewsCount = model.reviews_count;
+        storeTaxonsVC.likeUnlikeArray = model.likeUnlike;
+        
+        
+        
+        previewingContext.sourceRect = [self.view convertRect:cell.frame fromView:self.tableView];
+        
+        
+        return storeTaxonsVC;
+        
     }
     
 
@@ -155,9 +187,24 @@
 
 - (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
     
-    [self showDetailViewController:viewControllerToCommit sender:self];
+//    [self showDetailViewController:viewControllerToCommit sender:self];
+    [self.navigationController showViewController:viewControllerToCommit sender:nil];
 }
 
+
+-(void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if ([self isForceTouchAvailable]) {
+        if (!self.previewingContext) {
+            self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
+        }
+    } else {
+        if (self.previewingContext) {
+            [self unregisterForPreviewingWithContext:self.previewingContext];
+            self.previewingContext = nil;
+        }
+    }
+}
 
 #pragma mark - Table view data source
 
@@ -273,6 +320,24 @@
     cell.ratingView.minImageSize        = CGSizeMake(10.f, 10.f);
     cell.ratingView.midMargin           = 0.f;
     cell.ratingView.leftMargin          = 0.f;
+    
+    
+    
+    if (model.premium.count != 0) {
+        NSDictionary *premiumDict = model.premium[0];
+        
+        if (premiumDict != nil) {
+            if ([premiumDict[@"name"] isEqualToString:@"Gold"]) {
+                cell.roundedContentView.backgroundColor = [UIColor colorWithRed:255/255.f green:223/255.f blue:0/255.f alpha:1.0];
+            }
+            else if ([premiumDict[@"name"] isEqualToString:@"Silver"]) {
+                cell.roundedContentView.backgroundColor = [UIColor colorWithRed:192/255.f green:192/255.f blue:192/255.f alpha:1.0];
+            }
+            else if ([premiumDict[@"name"] isEqualToString:@"Bronze"]) {
+                cell.roundedContentView.backgroundColor = [UIColor brownColor];
+            }
+        }
+    }
     
     
 }
@@ -839,8 +904,8 @@
         storeTaxonsVC.reviewsCount = model.reviews_count;
         storeTaxonsVC.likeUnlikeArray = model.likeUnlike;
         
-        storeTaxonsVC.hidesBottomBarWhenPushed = NO;
-        [self.navigationController pushViewController:storeTaxonsVC animated:YES];
+//        storeTaxonsVC.hidesBottomBarWhenPushed = NO;
+//        [self.navigationController pushViewController:storeTaxonsVC animated:YES];
         
     }
     else if ([navController.topViewController isKindOfClass:[NEntityDetailViewController class]]) {
@@ -855,7 +920,7 @@
         NEntityVC.entity_meta_info = self.title;
         NEntityVC.entity_image = model.image_url;
         
-        [self.navigationController pushViewController:NEntityVC animated:YES];
+//        [self.navigationController pushViewController:NEntityVC animated:YES];
     }
 }
 

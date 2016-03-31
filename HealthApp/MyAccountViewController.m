@@ -312,11 +312,11 @@ enum MyAccountCells {
     User *user = [User savedUser];
     
     if (user != nil) {
-        _options = @[ @"", @[@"Favourites", @"My Orders", @"My Addresses", @"Track Order"],
+        _options = @[ @"", @[@"Favourites", @"My Orders", @"My Addresses", @"Track Order", @"Leaderboard"],
                       @"Sign Out"];
         _iconsArray  = @[
                          @"",
-                         @[@"store_fav", @"my_orders", @"address", @"track"],
+                         @[@"store_fav", @"my_orders", @"address", @"track", @"user"],
                          @"signout"
                          ];
         

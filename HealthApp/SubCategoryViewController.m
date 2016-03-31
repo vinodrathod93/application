@@ -98,9 +98,23 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     
     // Configure the cell
-    cell.backgroundColor = [UIColor clearColor];
-    cell.layer.cornerRadius = 3.f;
-    cell.layer.masksToBounds = YES;
+    
+    
+    
+    cell.contentView.layer.cornerRadius = 3.f;
+    cell.contentView.layer.borderWidth = 1.0f;
+    cell.contentView.layer.borderColor = [UIColor clearColor].CGColor;
+    cell.contentView.layer.masksToBounds = YES;
+    
+    cell.layer.shadowColor = [UIColor blackColor].CGColor;
+    cell.layer.shadowOffset = CGSizeMake(0, 5.f);
+    cell.layer.shadowOpacity = 1.0f;
+    cell.layer.shadowRadius = 2.0f;
+    cell.layer.masksToBounds = NO;
+    cell.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds cornerRadius:cell.contentView.layer.cornerRadius].CGPath;
+    
+    
+    
     
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(25, 10, cell.frame.size.width - (2*25.f), cell.frame.size.height - 10 - 40)];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -131,13 +145,13 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if (self.view.frame.size.width <= 320) {
-            return CGSizeMake(90, 90);
+            return CGSizeMake(100, 100);
         }
         else
-            return CGSizeMake(110, 110);
+            return CGSizeMake(120, 120);
     }
     else
-        return CGSizeMake(138, 138);
+        return CGSizeMake(148, 148);
     
 }
 

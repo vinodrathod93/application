@@ -52,6 +52,8 @@ NSString *cellReuseIdentifier;
     
     self.viewModel = [[DetailProductViewModel alloc]initWithModel:self.detail];
     
+    NSLog(@"%@", self.viewModel);
+    
 //    UIBarButtonItem *cartItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cart"] style:UIBarButtonItemStylePlain target:self action:@selector(showCartView:)];
 //    self.navigationItem.rightBarButtonItem = cartItem;
     
@@ -161,63 +163,64 @@ NSString *cellReuseIdentifier;
     __block UIImageView *previousImageView;
     
     
-    [self.viewModel.images enumerateObjectsUsingBlock:^(NSString *image_url, NSUInteger idx, BOOL *stop) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.productImageScrollView.frame) * idx, 10, CGRectGetWidth(cell.productImageScrollView.frame), CGRectGetHeight(cell.productImageScrollView.frame) - 10)];
-        
-        NSLog(@"%@", NSStringFromCGRect(imageView.frame));
-        
-        imageView.tag = idx;
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
-        imageView.translatesAutoresizingMaskIntoConstraints = NO;
-        imageView.clipsToBounds = YES;
-        
-        [cell.productImageScrollView addGestureRecognizer:_imageViewTapGestureRecognizer];
-        [cell.productImageScrollView addSubview:imageView];
-        
-        if (idx == 0) {
+    
+    
+        [self.viewModel.images enumerateObjectsUsingBlock:^(NSString *image_url, NSUInteger idx, BOOL *stop) {
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.productImageScrollView.frame) * idx, 10, CGRectGetWidth(cell.productImageScrollView.frame), CGRectGetHeight(cell.productImageScrollView.frame) - 10)];
             
-            [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.productImageScrollView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
+            NSLog(@"%@", NSStringFromCGRect(imageView.frame));
             
-        } else {
-            [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:previousImageView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+            imageView.tag = idx;
+            imageView.contentMode = UIViewContentModeScaleAspectFit;
+            imageView.translatesAutoresizingMaskIntoConstraints = NO;
+            imageView.clipsToBounds = YES;
             
-            if (idx == [self.viewModel.images indexOfObject:[self.viewModel.images lastObject]]) {
+            [cell.productImageScrollView addGestureRecognizer:_imageViewTapGestureRecognizer];
+            [cell.productImageScrollView addSubview:imageView];
+            
+            if (idx == 0) {
                 
-                [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.productImageScrollView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+                [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.productImageScrollView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
+                
+            } else {
+                [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:previousImageView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+                
+                if (idx == [self.viewModel.images indexOfObject:[self.viewModel.images lastObject]]) {
+                    
+                    [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.productImageScrollView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+                }
+                
             }
             
-        }
-        
-        
-        
-        // Imageview constraints
-        [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeWidth multiplier:1.f constant:0.f]];
-        [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:cell.productImageScrollView.frame.size.height]];
-        
-        
-        [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.productImageScrollView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
-        
-        previousImageView = imageView;
-        
-        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [spinner setCenter:CGPointMake(imageView.frame.size.width/2.0, imageView.frame.size.height/2.0)]; // I do this because I'm in landscape mode
-        [imageView addSubview:spinner];
-        
-        [spinner startAnimating];
-        
-        
-        
-        [imageView sd_setImageWithURL:[NSURL URLWithString:image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             
-            if (image) {
-                [spinner stopAnimating];
-            }
+            
+            // Imageview constraints
+            [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeWidth multiplier:1.f constant:0.f]];
+            [cell.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:cell.productImageScrollView.frame.size.height]];
+            
+            
+            [cell.productImageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.productImageScrollView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
+            
+            previousImageView = imageView;
+            
+            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [spinner setCenter:CGPointMake(imageView.frame.size.width/2.0, imageView.frame.size.height/2.0)]; // I do this because I'm in landscape mode
+            [imageView addSubview:spinner];
+            
+            [spinner startAnimating];
+            
+            
+            
+            [imageView sd_setImageWithURL:[NSURL URLWithString:image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                
+                if (image) {
+                    [spinner stopAnimating];
+                }
+                
+            }];
+
             
         }];
-
-        
-    }];
-    
     
     cell.pageControl.numberOfPages = self.viewModel.images.count;
     

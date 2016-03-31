@@ -29,7 +29,8 @@
              @"isBook"              : @"book",
              @"isCall"              : @"call",
              @"images"              : @"Images",
-             @"likeUnlike"          : @"LikeUnlike"
+             @"likeUnlike"          : @"LikeUnlike",
+             @"premium"             : @"premium"
              
              };
 }

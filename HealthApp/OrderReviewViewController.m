@@ -124,6 +124,7 @@ typedef void (^completion)(BOOL finished);
 //            NSLog(@"Could not send Complete Request");
 //    }];
     
+    
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
     

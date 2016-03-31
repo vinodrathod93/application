@@ -354,16 +354,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseSupplementaryIdentifier forIndexPath:indexPath];
         
-        
-        /*
-        CGRect scrollViewFrame = self.headerView.scrollView.frame;
-        CGRect currentFrame = self.view.frame;
-        
-        scrollViewFrame.size.width = currentFrame.size.width;
-        
-        self.headerView.scrollView.frame = scrollViewFrame;
-        */
-        
         self.headerView.scrollView.frame           = self.headerView.frame;
         self.headerView.scrollView.backgroundColor = [UIColor whiteColor];
         
@@ -378,27 +368,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
             NSURL *image_url = [NSURL URLWithString:promotion.image_url];
             
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                
-                
-//                UIImageView *tempImageView = [[UIImageView alloc] init];
-//                [tempImageView sd_setImageWithURL:image_url];
-//                
-//                 UIImage *image = tempImageView.image;
-                
-                
-                
-                UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:image_url]];
-               
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    CIImage *newImage = [[CIImage alloc] initWithImage:image];
-                    CIContext *context = [CIContext contextWithOptions:nil];
-                    CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
-                    
-                    imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-                });
-            });
+            [imageView sd_setImageWithURL:image_url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
             
             
             [self.headerView.scrollView addSubview:imageView];

@@ -29,6 +29,7 @@
 		82147FCD1C452CD000D6691E /* RestaurantResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FCC1C452CD000D6691E /* RestaurantResponseModel.m */; };
 		82147FD31C452DB500D6691E /* ListingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FD21C452DB500D6691E /* ListingTableViewController.m */; };
 		82147FD61C452E7D00D6691E /* ListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FD51C452E7D00D6691E /* ListingCell.m */; };
+		82157D461CAD3D21005A812B /* UploadPrsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82157D451CAD3D21005A812B /* UploadPrsCollectionViewCell.m */; };
 		82217C441C96B162002570E3 /* StoreReviewsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82217C431C96B162002570E3 /* StoreReviewsView.m */; };
 		82217C461C96CE50002570E3 /* StoreReviewsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82217C451C96CE50002570E3 /* StoreReviewsView.xib */; };
 		82217C481C96D4FA002570E3 /* StoreOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82217C471C96D4FA002570E3 /* StoreOptionsView.xib */; };
@@ -241,6 +242,8 @@
 		82147FD21C452DB500D6691E /* ListingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingTableViewController.m; sourceTree = "<group>"; };
 		82147FD41C452E7D00D6691E /* ListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingCell.h; sourceTree = "<group>"; };
 		82147FD51C452E7D00D6691E /* ListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingCell.m; sourceTree = "<group>"; };
+		82157D441CAD3D21005A812B /* UploadPrsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadPrsCollectionViewCell.h; sourceTree = "<group>"; };
+		82157D451CAD3D21005A812B /* UploadPrsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadPrsCollectionViewCell.m; sourceTree = "<group>"; };
 		82217C421C96B162002570E3 /* StoreReviewsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreReviewsView.h; sourceTree = "<group>"; };
 		82217C431C96B162002570E3 /* StoreReviewsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreReviewsView.m; sourceTree = "<group>"; };
 		82217C451C96CE50002570E3 /* StoreReviewsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreReviewsView.xib; sourceTree = "<group>"; };
@@ -1486,6 +1489,8 @@
 				82681EAC1C50B8FA00035E6E /* NEntityDetailCell.m */,
 				82041C241CA9118A007F3B3C /* NeediatorHUD.h */,
 				82041C251CA9118A007F3B3C /* NeediatorHUD.m */,
+				82157D441CAD3D21005A812B /* UploadPrsCollectionViewCell.h */,
+				82157D451CAD3D21005A812B /* UploadPrsCollectionViewCell.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1955,6 +1960,7 @@
 				82BB3DEB1CA01B1B00B282D0 /* QRCodeViewController.m in Sources */,
 				82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */,
+				82157D461CAD3D21005A812B /* UploadPrsCollectionViewCell.m in Sources */,
 				826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */,
 				82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */,
 				82327F741B60C86B00D92889 /* CartViewController.m in Sources */,

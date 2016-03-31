@@ -12,4 +12,5 @@
 
 @property (weak, nonatomic) IBOutlet UIView *offerContentView;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
 @end

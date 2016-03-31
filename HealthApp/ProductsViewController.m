@@ -225,19 +225,6 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 
 
-//-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    DetailsProductViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsVC"];
-//    details.detail = self.viewModel.viewModelProducts[indexPath.item];
-//    
-////    ProductDetailsViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsViewController"];
-////    details.detail = self.viewModel.viewModelProducts[indexPath.item];
-//    
-//    [self setTabBarVisible:[self tabBarIsVisible] animated:YES completion:^(BOOL finished) {
-//        NSLog(@"Finished");
-//    }];
-//    
-//    [self.navigationController pushViewController:details animated:YES];
-//}
 
 
 
@@ -245,7 +232,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     DetailsProductViewController *detailsVC = segue.destinationViewController;
     
     NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
-    detailsVC.detail = self.viewModel.viewModelProducts[selectedIndexPath.row];
+    detailsVC.detail = self.viewModel.viewModelProducts[selectedIndexPath.item];
     detailsVC.title  = [self.navigationTitleString uppercaseString];
     
     [self setTabBarVisible:[self tabBarIsVisible] animated:YES completion:^(BOOL finished) {

@@ -30,4 +30,6 @@
 
 @property (nonatomic, copy) NSArray *images;
 @property (nonatomic, copy) NSArray *likeUnlike;
+@property (nonatomic, copy) NSArray *premium;
+
 @end

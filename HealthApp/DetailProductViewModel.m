@@ -50,7 +50,14 @@
 }
 
 -(NSArray *)images {
-    NSArray *allImages = self.model.product_img;
+//    NSArray *allImages = self.model.product_img;
+    
+    NSMutableArray *allImages = [[NSMutableArray alloc] init];
+    [allImages addObjectsFromArray:self.model.product_img];
+    
+    if (allImages.count == 0) {
+        [allImages addObject:[self default_image]];
+    }
     
     return allImages;
 }

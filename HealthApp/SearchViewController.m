@@ -410,7 +410,25 @@ didFailAutocompleteWithError:(NSError *)error {
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
-//    [self updateSearchResultsForSearchController:self.searchController];
+    
+    if (selectedScope == searchScopeStore) {
+        self.searchController.searchBar.placeholder = @"Search by Stores";
+    }
+    else if (selectedScope == searchScopeCategory)
+        self.searchController.searchBar.placeholder = @"Search by Categories";
+    
+    [self updateSearchResultsForSearchController:self.searchController];
+}
+
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    NSString *searchString = searchController.searchBar.text;
+    [self searchForText:searchString scope:searchController.searchBar.selectedScopeButtonIndex];
+    [self.tableView reloadData];
+}
+
+- (void)searchForText:(NSString *)searchText scope:(NeediatorSearchScope)scopeOption
+{
+    
 }
 
 

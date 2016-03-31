@@ -9,6 +9,7 @@
 #import "UploadPrescriptionViewController.h"
 #import "OrderCompleteViewController.h"
 #import "ImageModalViewController.h"
+#import "UploadPrsCollectionViewCell.h"
 
 
 
@@ -71,6 +72,9 @@
     self.imagesCollectionView.layer.cornerRadius = 5.f;
     self.imagesCollectionView.layer.masksToBounds = YES;
     
+    
+    [self.imagesCollectionView registerClass:[UploadPrsCollectionViewCell class] forCellWithReuseIdentifier:@"selectedImagesCellIdentifier"];
+    
     [self hideCollectionView];
     
     
@@ -80,14 +84,14 @@
     [self decorateButtons];
     [self showDateTimePicker];
     
-    UITapGestureRecognizer *tapGestureRecognize = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPicker:)];
-    tapGestureRecognize.numberOfTapsRequired = 1;
-    [self.contentView addGestureRecognizer:tapGestureRecognize];
+//    UITapGestureRecognizer *tapGestureRecognize = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPicker:)];
+//    tapGestureRecognize.numberOfTapsRequired = 1;
+//    [self.contentView addGestureRecognizer:tapGestureRecognize];
     
-    UITapGestureRecognizer *cellTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTapGestureAction:)];
-    [cellTapGestureRecognizer setNumberOfTapsRequired:1];
-    self.contentView.userInteractionEnabled = YES;
-    [self.contentView addGestureRecognizer:cellTapGestureRecognizer];
+//    UITapGestureRecognizer *cellTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTapGestureAction:)];
+//    [cellTapGestureRecognizer setNumberOfTapsRequired:1];
+//    self.contentView.userInteractionEnabled = YES;
+//    [self.contentView addGestureRecognizer:cellTapGestureRecognizer];
 }
 
 
@@ -104,7 +108,7 @@
     CGPoint touchLocation = [sender locationOfTouch:0 inView:self.imagesCollectionView];
     NSIndexPath *indexPath = [self.imagesCollectionView indexPathForItemAtPoint:touchLocation];
     
-    NSLog(@"%d", indexPath.item);
+    NSLog(@"%ld", (long)indexPath.item);
     
     [self collectionViewTapGestureSelectAtIndex:indexPath];
 }
@@ -374,11 +378,49 @@
     [_dateTimePicker setMaximumDate:nextDate];
     
     self.dateTimeField.inputView = _dateTimePicker;
+    self.dateTimeField.inputAccessoryView = [self pickupDateTimePickerToolBar];
     
     [_dateTimePicker addTarget:self action:@selector(setSelectedDateTime:) forControlEvents:UIControlEventValueChanged];
     
     
 }
+
+
+-(UIToolbar *)pickupDateTimePickerToolBar {
+    UIToolbar *toolbar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44)];
+    toolbar.barStyle = UIBarStyleDefault;
+    UIBarButtonItem *flexibleSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 150, 21.f)];
+    message.font = [NeediatorUtitity mediumFontWithSize:15.f];
+    message.textAlignment = NSTextAlignmentCenter;
+    message.backgroundColor = [UIColor clearColor];
+    message.textColor = [UIColor darkGrayColor];
+    message.text = @"Select Date and Time";
+    
+    
+    
+    UIBarButtonItem *flexibleSpaceRight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    UIBarButtonItem *titleButton = [[UIBarButtonItem alloc] initWithCustomView:message];
+    
+    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(dismissDateTimePickerView)];
+    
+    [toolbar setItems:@[flexibleSpaceLeft, titleButton, flexibleSpaceRight, doneButton] animated:YES];
+    
+    return toolbar;
+}
+
+
+-(void)dismissDateTimePickerView {
+    
+    [self.dateTimeField resignFirstResponder];
+    
+    
+}
+
+
 
 
 -(void)setSelectedDateTime:(UIDatePicker *)picker {
@@ -596,7 +638,7 @@
         [self presentViewController:navigationController animated:YES completion:nil];
     }
     else
-        NSLog(@"Not Logged in");
+        [NeediatorUtitity showLoginOnController:self isPlacingOrder:NO];
     
 }
 
@@ -895,43 +937,62 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"selectedImagesCellIdentifier";
     
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
-    imageView.contentMode   = UIViewContentModeScaleAspectFill;
-    imageView.userInteractionEnabled = YES;
+    UploadPrsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+//    imageView.contentMode   = UIViewContentModeScaleAspectFill;
+//    imageView.userInteractionEnabled = YES;
+    
+    if(!cell) {
+        NSLog(@"Cell not initialized");
+    }
+    
+    cell.pImageView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    [cell.deleteButton addTarget:self action:@selector(deleteConfirmation) forControlEvents:UIControlEventTouchUpInside];
     
     if (indexPath.item != [self selectedImages].count) {
         NSLog(@"Continue");
         
         NSArray *images = [self selectedImages];
-        imageView.image = (UIImage *)images[indexPath.item];
+        cell.pImageView.image = (UIImage *)images[indexPath.item];
     }
     else {
         
-        imageView.frame = CGRectMake(cell.frame.size.width/2 - (25/2), cell.frame.size.height/2 - (25/2), 25, 25);
-        imageView.image = [UIImage imageNamed:@"addPlus"];
+        cell.pImageView.frame = CGRectMake(cell.frame.size.width/2 - (25/2), cell.frame.size.height/2 - (25/2), 25, 25);
+        cell.pImageView.image = [UIImage imageNamed:@"addPlus"];
         
     }
-   
-    
 
-    
-    UIView *background = [[UIView alloc] initWithFrame:cell.frame];
-    background.backgroundColor = [NeediatorUtitity defaultColor];
-    background.userInteractionEnabled = YES;
-    background.layer.cornerRadius = 5.f;
-    background.layer.masksToBounds = YES;
-    [background addSubview:imageView];
-    
-    cell.backgroundView = background;
     
     return cell;
 }
 
--(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+
+-(void)deleteConfirmation {
+    [NeediatorUtitity alertWithTitle:@"Are u Sure" andMessage:@"Delete the Image" onController:self];
 }
 
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    if (indexPath.item == [[self selectedImages] count]) {
+        // New Image
+    }
+    else {
+        
+        NSArray *images = [self selectedImages];
+        
+        ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
+        imageModalVC.image  = images[indexPath.item];
+        
+        imageModalVC.transitioningDelegate = self;
+        imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
+        
+        [self presentViewController:imageModalVC animated:YES completion:nil];
+    }
+    
+}
 
 
 

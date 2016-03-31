@@ -545,9 +545,6 @@ static NSString *cellIdentifier = @"cartCell";
     NetworkStatus netStatus = [self.appDelegate.googleReach currentReachabilityStatus];
     User *user = [User savedUser];
     
-    
-    
-    
     [self checkOrders];
     
     Order *order = self.orderNumFetchedResultsController.fetchedObjects[sender.tag];

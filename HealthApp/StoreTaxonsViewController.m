@@ -53,7 +53,8 @@ typedef NS_ENUM(uint16_t, sections) {
     NSInteger _footerHeight;
     UIActivityIndicatorView *_search_activityIndicator;
     NSArray *_offersArray, *_shopInfoArray, *_storeAddresses;
-    UITapGestureRecognizer *_uploadPrsGestureRecognizer, *_quickOrderGestureRecognizer, *_offersGestureRecognizer;
+    UITapGestureRecognizer *_uploadPrsGestureRecognizer, *_quickOrderGestureRecognizer;
+    UILongPressGestureRecognizer *_offersGestureRecognizer;
 }
 
 - (void)viewDidLoad {
@@ -82,6 +83,7 @@ typedef NS_ENUM(uint16_t, sections) {
     
     _uploadPrsGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(popUploadPrescriptionVC)];
     _quickOrderGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(popQuickOrderSearchVC)];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -230,7 +232,8 @@ typedef NS_ENUM(uint16_t, sections) {
         offerView.layer.masksToBounds = YES;
         offerView.tag = idx;
         
-        _offersGestureRecognizer    = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayPopupView:)];
+        _offersGestureRecognizer    = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(displayPopupView:)];
+        _offersGestureRecognizer.minimumPressDuration = 0;
         [offerView addGestureRecognizer:_offersGestureRecognizer];
         
         [cell.offersScrollView addSubview:offerView];
@@ -240,15 +243,24 @@ typedef NS_ENUM(uint16_t, sections) {
 }
 
 
--(void)displayPopupView:(UITapGestureRecognizer *)recognizer {
+-(void)displayPopupView:(UILongPressGestureRecognizer *)recognizer {
+    
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        
+        UIView *offerView = (UIView *)[recognizer view];
+        NSLog(@"Tapped on %ld", (long)offerView.tag);
+
+        OffersPopViewController *offersPopVC = [self.storyboard instantiateViewControllerWithIdentifier:@"offersPopVC"];
+        
+        [self setPresentationStyleForSelfController:self presentingController:offersPopVC];
+        [self presentViewController:offersPopVC animated:YES completion:nil];
+    }
     
     
-    OffersPopViewController *offersPopVC = [self.storyboard instantiateViewControllerWithIdentifier:@"offersPopVC"];
-    [StoreTaxonsViewController setPresentationStyleForSelfController:self presentingController:offersPopVC];
 }
 
 
-+ (void)setPresentationStyleForSelfController:(UIViewController *)selfController presentingController:(UIViewController *)presentingController
+- (void)setPresentationStyleForSelfController:(UIViewController *)selfController presentingController:(UIViewController *)presentingController
 {
     if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)])
     {
@@ -1027,21 +1039,30 @@ typedef NS_ENUM(uint16_t, sections) {
 }
 
 
--(void)showNeediatorHUD {
+-(UIView *)showNeediatorHUD {
     
+    
+    NeediatorHUD *hud = [[NeediatorHUD alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, _footerHeight)];
+    hud.overlayColor = [UIColor clearColor];
+    hud.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds)/2, _footerHeight/2);
+    [hud fadeInAnimated:YES];
+    
+    return hud;
 }
 
 
 -(UIView *)getHudView {
     
-    UIView *hudView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, _footerHeight)];
+//    UIView *hudView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, _footerHeight)];
+//    
+//    self.hud = [MBProgressHUD showHUDAddedTo:hudView animated:YES];
+//    self.hud.color          = [UIColor clearColor];
+//    self.hud.activityIndicatorColor = [UIColor blackColor];
+//    
+//    
+//    return hudView;
     
-    self.hud = [MBProgressHUD showHUDAddedTo:hudView animated:YES];
-    self.hud.color          = [UIColor clearColor];
-    self.hud.activityIndicatorColor = [UIColor blackColor];
-    
-    
-    return hudView;
+    return [self showNeediatorHUD];
 }
 
 
