@@ -149,7 +149,7 @@ typedef void(^completion)(BOOL finished);
     else {
         UIButton *edit = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
         [edit setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
-        [edit addTarget:self action:@selector(editAddress) forControlEvents:UIControlEventTouchUpInside];
+        [edit addTarget:self action:@selector(editAddress:) forControlEvents:UIControlEventTouchUpInside];
         
         cell.accessoryView = edit;
     }
@@ -170,10 +170,17 @@ typedef void(^completion)(BOOL finished);
 }
 
 
--(void)editAddress {
+-(void)editAddress:(UIButton *)sender {
+    
+    NSLog(@"%@", [sender superview]);
+    
+    AddressCell *cell = (AddressCell *)[sender superview];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
     EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
     editAddressVC.title = @"Edit Address";
+    editAddressVC.shipAddress = _available_addresses[indexPath.row];
+    
     editAddressVC.delegate = self;
     
     

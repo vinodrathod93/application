@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		676A18311CADC3310031BFF0 /* NSString+AddressValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 676A182F1CADC3310031BFF0 /* NSString+AddressValidation.m */; };
 		6795F0A81C9C8E9000984A92 /* SortListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0A71C9C8E9000984A92 /* SortListModel.m */; };
 		6795F0AB1C9C8F6200984A92 /* FilterListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AA1C9C8F6200984A92 /* FilterListModel.m */; };
 		6795F0AE1C9C93A500984A92 /* FilterHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */; };
@@ -206,6 +207,8 @@
 /* Begin PBXFileReference section */
 		26E4DE3B6A3BA531177D5ECA /* Pods-Chemist Plus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.debug.xcconfig"; sourceTree = "<group>"; };
 		34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		676A182F1CADC3310031BFF0 /* NSString+AddressValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AddressValidation.m"; sourceTree = "<group>"; };
+		676A18301CADC3310031BFF0 /* NSString+AddressValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AddressValidation.h"; sourceTree = "<group>"; };
 		6795F0A61C9C8E9000984A92 /* SortListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortListModel.h; sourceTree = "<group>"; };
 		6795F0A71C9C8E9000984A92 /* SortListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortListModel.m; sourceTree = "<group>"; };
 		6795F0A91C9C8F6200984A92 /* FilterListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterListModel.h; sourceTree = "<group>"; };
@@ -1601,6 +1604,8 @@
 		82EF2DD51BE8C2BC00D87DE2 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				676A18301CADC3310031BFF0 /* NSString+AddressValidation.h */,
+				676A182F1CADC3310031BFF0 /* NSString+AddressValidation.m */,
 				82C38A8C1C086BBE0006A73B /* UIColor+CustomColors.h */,
 				82C38A8D1C086BBE0006A73B /* UIColor+CustomColors.m */,
 				82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */,
@@ -1992,6 +1997,7 @@
 				8286B2511BF089D600AFC533 /* ListingRequestModel.m in Sources */,
 				82041C261CA9118A007F3B3C /* NeediatorHUD.m in Sources */,
 				82FB520C1C281B2500E19626 /* LoginView.m in Sources */,
+				676A18311CADC3310031BFF0 /* NSString+AddressValidation.m in Sources */,
 				82CC99431C8863CA00F06EB3 /* MainPromotionRealm.m in Sources */,
 				82327F771B60F9A800D92889 /* CartViewCell.m in Sources */,
 				82A542861C22B00800383253 /* LineItemsModel.m in Sources */,
@@ -2225,7 +2231,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
+					/Users/vinodrathod/Downloads/FacebookSDKs,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
@@ -2255,7 +2261,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
+					/Users/vinodrathod/Downloads/FacebookSDKs,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";

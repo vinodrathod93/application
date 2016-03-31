@@ -142,7 +142,7 @@
             
             NSString *addressID = self.shipAddress[@"id"];
             
-            path = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/updateaddress"];
+            path = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/updateAddress"];
             complete_address = [NSString stringWithFormat:@"%@, %@", self.address1TextField.text, self.address2TextField.text];
             fullname = [NSString stringWithFormat:@"%@ %@", [self.firstNameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] , [self.lastNameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
             
@@ -159,7 +159,7 @@
             
             
             // Path URL
-            path = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/address"];
+            path = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/addAddress"];
             complete_address = [NSString stringWithFormat:@"%@, %@", self.address1TextField.text, self.address2TextField.text];
             fullname = [NSString stringWithFormat:@"%@ %@", [self.firstNameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] , [self.lastNameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
             

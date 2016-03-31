@@ -402,6 +402,7 @@
     if (indexPath.section != 0) {
         ListingModel *model = self.listingArray[indexPath.section - 1];
         
+        [NeediatorUtitity save:model.list_id forKey:kSAVE_STORE_ID];
         
         if (_isProductType == TRUE) {
             // Show taxons VC

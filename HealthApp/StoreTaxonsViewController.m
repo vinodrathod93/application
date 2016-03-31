@@ -54,7 +54,7 @@ typedef NS_ENUM(uint16_t, sections) {
     UIActivityIndicatorView *_search_activityIndicator;
     NSArray *_offersArray, *_shopInfoArray, *_storeAddresses;
     UITapGestureRecognizer *_uploadPrsGestureRecognizer, *_quickOrderGestureRecognizer;
-    UILongPressGestureRecognizer *_offersGestureRecognizer;
+//    UILongPressGestureRecognizer *_offersGestureRecognizer;
 }
 
 - (void)viewDidLoad {
@@ -84,6 +84,7 @@ typedef NS_ENUM(uint16_t, sections) {
     _uploadPrsGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(popUploadPrescriptionVC)];
     _quickOrderGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(popQuickOrderSearchVC)];
     
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -223,27 +224,32 @@ typedef NS_ENUM(uint16_t, sections) {
 
 -(void)setupOffersScrollView:(StoreTaxonHeaderViewCell *)cell {
     
+    cell.offersScrollView.frame = CGRectMake(cell.offersScrollView.frame.origin.x, cell.offersScrollView.frame.origin.y, cell.offersScrollView.frame.size.width - 30, cell.offersScrollView.frame.size.height);
+    cell.offersScrollView.center = CGPointMake(CGRectGetWidth(self.view.bounds)/2, CGRectGetHeight(cell.offersContentView.bounds)/2 + 6);
+    
     [self.storeImages enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull imageData, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        UIView *offerView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.offersScrollView.frame) * idx + 5, 5, CGRectGetWidth(cell.offersScrollView.frame) -10 , kStoreOffersViewHeight - (2*5))];
+        UIView *offerView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.offersScrollView.frame) * idx + 3, 5, CGRectGetWidth(cell.offersScrollView.frame) - 6 , kStoreOffersViewHeight - (2*5))];
 
         offerView.backgroundColor = [UIColor lightGrayColor];
         offerView.layer.cornerRadius = 5.f;
         offerView.layer.masksToBounds = YES;
+        
+        UITapGestureRecognizer *offersGestureRecognizer    = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayPopupView:)];
+        [offerView addGestureRecognizer:offersGestureRecognizer];
+        
         offerView.tag = idx;
         
-        _offersGestureRecognizer    = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(displayPopupView:)];
-        _offersGestureRecognizer.minimumPressDuration = 0;
-        [offerView addGestureRecognizer:_offersGestureRecognizer];
-        
         [cell.offersScrollView addSubview:offerView];
+        
+        cell.offersScrollView.clipsToBounds = NO;
     }];
     
     
 }
 
 
--(void)displayPopupView:(UILongPressGestureRecognizer *)recognizer {
+-(void)displayPopupView:(UITapGestureRecognizer *)recognizer {
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         
@@ -977,8 +983,8 @@ typedef NS_ENUM(uint16_t, sections) {
 }
 
 -(void)popUploadPrescriptionVC {
-    [NeediatorUtitity save:self.store_id forKey:kSAVE_STORE_ID];
-    [NeediatorUtitity save:self.cat_id forKey:kSAVE_CAT_ID];
+//    [NeediatorUtitity save:self.store_id forKey:kSAVE_STORE_ID];
+//    [NeediatorUtitity save:self.cat_id forKey:kSAVE_CAT_ID];
     
     
     UploadPrescriptionViewController *uploadVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPrescriptionVC"];

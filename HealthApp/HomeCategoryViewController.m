@@ -316,6 +316,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         }
     }
     
+    [NeediatorUtitity save:model.cat_id forKey:kSAVE_CAT_ID];
     
     if (array.count == 0) {
         

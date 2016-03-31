@@ -416,6 +416,9 @@ didFailAutocompleteWithError:(NSError *)error {
     }
     else if (selectedScope == searchScopeCategory)
         self.searchController.searchBar.placeholder = @"Search by Categories";
+    else if (selectedScope == searchScopeLocation)
+        self.searchController.searchBar.placeholder = @"Search by Location";
+    
     
     [self updateSearchResultsForSearchController:self.searchController];
 }

@@ -51,6 +51,8 @@
     [self.dislikeButton addTarget:self action:@selector(dislikePressed:) forControlEvents:UIControlEventTouchUpInside];
      
     */
+    
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -65,50 +67,7 @@
     
 }
 
-/*
 
--(void)dislikePressed:(UIButton *)sender {
-    
-    if (!self.likeButton.isSelected) {
-        sender.selected = !sender.selected;
-        
-        if (sender.isSelected) {
-            [sender setImage:[UIImage imageNamed:@"disliked"] forState:UIControlStateNormal];
-        }
-        else
-            [sender setImage:[UIImage imageNamed:@"dislike"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        self.likeButton.selected = NO;
-        [self.likeButton setImage:[UIImage imageNamed:@"like"] forState:UIControlStateNormal];
-    }
-    
-    
-    
-    
-}
-
--(void)likePressed:(UIButton *)sender {
-    
-    if (!self.dislikeButton.isSelected) {
-        sender.selected = !sender.selected;
-        
-        if (sender.isSelected) {
-            [sender setImage:[UIImage imageNamed:@"liked"] forState:UIControlStateNormal];
-        }
-        else
-            [sender setImage:[UIImage imageNamed:@"like"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        self.dislikeButton.selected = NO;
-        [self.dislikeButton setImage:[UIImage imageNamed:@"dislike"] forState:UIControlStateNormal];
-    }
-    
-}
-
-*/
 
 
 @end
