@@ -14,4 +14,5 @@
 @property (nonatomic, copy) NSArray *typeArray;
 @property (nonatomic, copy) NSNumber *sortID;
 
+@property (nonatomic, retain) NSNumber *currentSortOrderIndex;
 @end

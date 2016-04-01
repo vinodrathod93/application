@@ -27,4 +27,7 @@
 @property (nonatomic, assign) BOOL isLikedStore;
 @property (nonatomic, assign) BOOL isDislikedStore;
 
+
+@property (nonatomic, strong) UIColor *background_color;
+
 @end

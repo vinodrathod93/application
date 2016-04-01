@@ -18,12 +18,15 @@
 #import "AppDelegate.h"
 #import "MyOrdersViewController.h"
 #import "LoginView.h"
+#import "FavouritesViewController.h"
+
 
 enum MyAccountCells {
     FavouriteCell = 0,
     MyOrdersCell,
     MyAddressesCell,
-    TrackOrdersCell
+    TrackOrdersCell,
+    LeaderBoardCell
 };
 
 #define kLoginViewTag 20
@@ -188,6 +191,12 @@ enum MyAccountCells {
             AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
             addressesVC.isGettingOrder = NO;
             [self.navigationController pushViewController:addressesVC animated:YES];
+        }
+        else if (indexPath.row == FavouriteCell) {
+            
+            FavouritesViewController *favouritesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"favouritesVC"];
+            
+            [self.navigationController pushViewController:favouritesVC animated:YES];
         }
         
 

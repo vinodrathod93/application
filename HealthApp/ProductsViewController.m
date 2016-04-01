@@ -20,7 +20,7 @@
 #define kPhoneTitleViewWidth 160
 #define kPadTitleViewWidth 250
 
-@interface ProductsViewController ()<UIViewControllerTransitioningDelegate,UISearchBarDelegate, UISearchControllerDelegate>
+@interface ProductsViewController ()<UIViewControllerTransitioningDelegate,UISearchBarDelegate, UISearchControllerDelegate, UIViewControllerPreviewingDelegate>
 
 @property (nonatomic, strong) NSURLSessionDataTask *task;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -40,6 +40,8 @@
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic)        float          searchBarBoundsY;
 
+
+@property (nonatomic, strong) id previewingContext;
 
 @end
 
@@ -135,6 +137,10 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     [self.collectionView reloadData];
     
+    if ([self isForceTouchAvailable]) {
+        self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
+    }
+    
 }
 
 - (IBAction)searchBarButtonPressed:(id)sender {
@@ -147,14 +153,83 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
-    
+    [super viewWillDisappear:animated];
     [self.task suspend];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    
+
+-(BOOL)isForceTouchAvailable {
+    BOOL isForceTouchAvailable = NO;
+    if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)]) {
+        isForceTouchAvailable = self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable;
+    }
+    return isForceTouchAvailable;
 }
+
+
+#pragma mark -
+#pragma mark === UIViewControllerPreviewingDelegate Methods ===
+#pragma mark -
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+              viewControllerForLocation:(CGPoint)location {
+    
+    
+    if ([self.presentedViewController isKindOfClass:[DetailsProductViewController class]]) {
+        return nil;
+    }
+    
+    CGPoint cellPosition = [self.collectionView convertPoint:location fromView:self.view];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:cellPosition];
+    
+    
+    if (indexPath) {
+        ProductViewCell *cell = (ProductViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+        
+        
+        
+        DetailsProductViewController *detailsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"productDetailsVC"];
+        
+        NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
+        detailsVC.detail = self.viewModel.viewModelProducts[selectedIndexPath.item];
+        detailsVC.title  = [self.navigationTitleString uppercaseString];
+        
+        
+        
+        
+        previewingContext.sourceRect = [self.view convertRect:cell.frame fromView:self.collectionView];
+        
+        
+        return detailsVC;
+        
+    }
+    
+    
+    return nil;
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+    
+    //    [self showDetailViewController:viewControllerToCommit sender:self];
+    [self.navigationController showViewController:viewControllerToCommit sender:nil];
+}
+
+
+-(void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if ([self isForceTouchAvailable]) {
+        if (!self.previewingContext) {
+            self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
+        }
+    } else {
+        if (self.previewingContext) {
+            [self unregisterForPreviewingWithContext:self.previewingContext];
+            self.previewingContext = nil;
+        }
+    }
+}
+
+
 
 
 #pragma mark <UICollectionViewDataSource>

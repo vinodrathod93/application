@@ -24,6 +24,7 @@
 #import "BannerTableViewCell.h"
 #import "SortListModel.h"
 #import "FilterListModel.h"
+#import "SortOrderModel.h"
 
 #define kBannerSectionIndex 1
 
@@ -41,6 +42,7 @@
 
 @property (nonatomic, strong) id previewingContext;
 
+
 @end
 
 @implementation ListingTableViewController {
@@ -50,6 +52,7 @@
     UIImageView *_tappedImageView;
     BOOL _isBooking;
     BOOL _isProductType;
+    BOOL _viewDidLoadFlag;
     UIImageView *activityImageView;
     UIView *header;
     UIButton *sort;
@@ -74,14 +77,21 @@
     
     
     
-    
-    
     // Register for 3D Touch Previewing if available
     
     if ([self isForceTouchAvailable]) {
         self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
     }
     
+    _viewDidLoadFlag = YES;
+    
+    self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
+    
+    if (_isFilterApplied) {
+        [self requestListingByFilterData:_filterData sortID:@"" andTypeID:@""];
+    }
+    else
+        [self requestBasicListings];
 }
 
 
@@ -99,13 +109,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
     
-    if (_isFilterApplied) {
-        [self requestListingByFilterData:_filterData andSortType:@""];
-    }
-    else
-       [self requestBasicListings];
     
     
 }
@@ -321,23 +325,45 @@
     cell.ratingView.midMargin           = 0.f;
     cell.ratingView.leftMargin          = 0.f;
     
-    
+//    CAGradientLayer *gradient = [CAGradientLayer layer];
+//    gradient.frame = cell.roundedContentView.bounds;
     
     if (model.premium.count != 0) {
         NSDictionary *premiumDict = model.premium[0];
         
+        
+        
+        
         if (premiumDict != nil) {
             if ([premiumDict[@"name"] isEqualToString:@"Gold"]) {
+                
+                
+                
+//                gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor colorWithRed:255/255.f green:223/255.f blue:0/255.f alpha:1.0] CGColor], nil];
+                
+                
                 cell.roundedContentView.backgroundColor = [UIColor colorWithRed:255/255.f green:223/255.f blue:0/255.f alpha:1.0];
             }
             else if ([premiumDict[@"name"] isEqualToString:@"Silver"]) {
+                
+//                gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor colorWithRed:192/255.f green:192/255.f blue:192/255.f alpha:1.0] CGColor], nil];
                 cell.roundedContentView.backgroundColor = [UIColor colorWithRed:192/255.f green:192/255.f blue:192/255.f alpha:1.0];
             }
             else if ([premiumDict[@"name"] isEqualToString:@"Bronze"]) {
-                cell.roundedContentView.backgroundColor = [UIColor brownColor];
+                
+//                gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor colorWithRed:205/255.f green:127/255.f blue:50/255.f alpha:1.0] CGColor], nil];
+                cell.roundedContentView.backgroundColor = [UIColor colorWithRed:205/255.f green:127/255.f blue:50/255.f alpha:1.0];
             }
         }
+        
+//        [cell.roundedContentView.layer insertSublayer:gradient atIndex:0];
     }
+    else {
+        
+        cell.roundedContentView.backgroundColor = [UIColor whiteColor];
+        
+    }
+   
     
     
 }
@@ -420,6 +446,52 @@
             storeTaxonsVC.isFavourite   = model.isFavourite.boolValue;
             storeTaxonsVC.isLikedStore  = model.isLike.boolValue;
             storeTaxonsVC.isDislikedStore = model.isDislike.boolValue;
+            
+            
+            
+            
+            
+            
+            
+            /*
+            
+            if (model.premium.count != 0) {
+                NSDictionary *premiumDict = model.premium[0];
+                
+                
+                
+                
+                if (premiumDict != nil) {
+                    if ([premiumDict[@"name"] isEqualToString:@"Gold"]) {
+                        
+                        
+                        
+                        storeTaxonsVC.background_color = [UIColor colorWithRed:255/255.f green:223/255.f blue:0/255.f alpha:1.0];
+                    }
+                    else if ([premiumDict[@"name"] isEqualToString:@"Silver"]) {
+                        
+                        storeTaxonsVC.background_color = [UIColor colorWithRed:192/255.f green:192/255.f blue:192/255.f alpha:1.0];
+                    }
+                    else if ([premiumDict[@"name"] isEqualToString:@"Bronze"]) {
+                        
+                        storeTaxonsVC.background_color = [UIColor colorWithRed:205/255.f green:127/255.f blue:50/255.f alpha:1.0];
+                    }
+                }
+            }
+            else {
+                
+                storeTaxonsVC.background_color = [NeediatorUtitity defaultColor];
+                
+            }
+            
+            
+            
+            */
+            
+            
+            
+            
+            
             
             storeTaxonsVC.hidesBottomBarWhenPushed = NO;
             [self.navigationController pushViewController:storeTaxonsVC animated:YES];
@@ -849,7 +921,7 @@
 
 -(void)appliedFilterListingDelegate:(NSDictionary *)data {
     
-    [self requestListingByFilterData:data andSortType:@""];
+    [self requestListingByFilterData:data sortID:@"" andTypeID:@""];
     
     
 }
@@ -860,12 +932,34 @@
     
     [self.sorting_list enumerateObjectsUsingBlock:^(SortListModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        NSString *name = [model.name capitalizedString];
+        
+        if ([model.currentSortOrderIndex  isEqual: @-1]) {
+            model.currentSortOrderIndex = @0;
+        }
+        
+        
+        
+        
+        SortOrderModel *sortOrderModel = model.typeArray[model.currentSortOrderIndex.intValue];
+        
+        
+        NSString *name = [NSString stringWithFormat:@"%@ - %@", model.name.capitalizedString, sortOrderModel.name.capitalizedString];
+        
         
         UIAlertAction *typeAction = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             NSLog(@"Sort by %@", name);
             
-            [self requestListingByType:model.sortID.stringValue];
+            
+            
+            [self requestListingBySortID:model.sortID.stringValue andTypeID:sortOrderModel.sortOrderID.stringValue];
+            
+            int index = model.currentSortOrderIndex.intValue;
+            
+            if (++index == model.typeArray.count) {
+                model.currentSortOrderIndex = 0;
+            }
+            else
+                model.currentSortOrderIndex = @(index);
             
         }];
         
@@ -948,7 +1042,7 @@
 #pragma mark - Network
 
 
--(void)requestListingByFilterData:(NSDictionary *)data andSortType:(NSString *)type {
+-(void)requestListingByFilterData:(NSDictionary *)data sortID:(NSString *)sort_id andTypeID:(NSString *)type_id {
     
     Location *location_store = [Location savedLocation];
     User *user          = [User savedUser];
@@ -962,8 +1056,8 @@
     [parameter setObject:self.category_id forKey:@"catid"];
     [parameter setObject:self.subcategory_id forKey:@"subcatid"];
     [parameter setObject:@"1" forKey:@"page"];
-    [parameter setObject:type forKey:@"type_id"];
-//    [parameter setObject:@"" forKey:@"sort_type"];
+    [parameter setObject:sort_id forKey:@"type_id"];
+    [parameter setObject:type_id forKey:@"sort_type"];
     
     
     if (user.userID != nil) {
@@ -982,7 +1076,7 @@
 
 
 
--(void)requestListingByType:(NSString *)type {
+-(void)requestListingBySortID:(NSString *)sort_id andTypeID:(NSString *)type_id {
     
     
     Location *location_store = [Location savedLocation];
@@ -992,15 +1086,15 @@
     
     
     
-    if (_filterData != nil) {
+    if (_filterData == nil) {
         ListingRequestModel *requestModel = [ListingRequestModel new];
         requestModel.latitude             = location_store.latitude;
         requestModel.longitude            = location_store.longitude;
         requestModel.category_id          = self.category_id;
         requestModel.subcategory_id       = self.subcategory_id;
         requestModel.page                 = @"1";
-        requestModel.sortType_id          = type;
-//        requestModel.sortSubType_id       = @"1";
+        requestModel.sort_id              = sort_id;
+        requestModel.sortOrder_id         = type_id;
         requestModel.is24Hrs              = @"";
         requestModel.hasOffers            = @"";
         requestModel.minDelivery_id       = @"";
@@ -1011,15 +1105,12 @@
     }
     else {
         
-        [self requestListingByFilterData:_filterData andSortType:type];
+        [self requestListingByFilterData:_filterData sortID:sort_id andTypeID:type_id];
     }
     
 }
 
 -(void)requestBasicListings {
-    
-    
-    
     
     Location *location_store = [Location savedLocation];
     User *user          = [User savedUser];
@@ -1031,8 +1122,8 @@
     requestModel.category_id          = self.category_id;
     requestModel.subcategory_id       = self.subcategory_id;
     requestModel.page                 = @"1";
-    requestModel.sortType_id          = @"1";
-    requestModel.sortSubType_id       = @"1";
+    requestModel.sort_id              = @"1";
+    requestModel.sortOrder_id         = @"1";
     requestModel.is24Hrs              = @"";
     requestModel.hasOffers            = @"";
     requestModel.minDelivery_id       = @"";
@@ -1069,11 +1160,16 @@
         
         
         
+        if (_viewDidLoadFlag) {
+            [NeediatorUtitity save:response.deliveryTypes forKey:kSAVE_DELIVERY_TYPES];
+            
+            self.sorting_list = response.sorting_list;
+            self.filter_list    = response.filter_list;
+            
+            _viewDidLoadFlag = NO;
+        }
         
-        [NeediatorUtitity save:response.deliveryTypes forKey:kSAVE_DELIVERY_TYPES];
         
-        self.sorting_list = response.sorting_list;
-        self.filter_list    = response.filter_list;
         
         
         [self hideHUD];

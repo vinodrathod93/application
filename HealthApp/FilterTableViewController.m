@@ -115,42 +115,8 @@
     cell.textLabel.font = [NeediatorUtitity regularFontWithSize:17.f];
     cell.indentationWidth = 20;
     
-    /*
-    
-    if ([_tempArray[indexPath.row] isKindOfClass:[FilterListModel class]]) {
-        
-        FilterListModel *model = _tempArray[indexPath.row];
-        
-        if (model.filterValues.count > 0) {
-            
-            cell.textLabel.text = model.filterName;
-            
-            model.canBeExpanded = YES;
-            cell.accessoryView  = [self viewForDisclosureForState:_isExpanded];
-        }
-        else {
-            
-            cell.accessoryView  = nil;
-        }
-    }
-    else if ([_tempArray[indexPath.row] isKindOfClass:[FilterHelperModel class]]) {
-        FilterHelperModel *valueModel = _tempArray[indexPath.row];
-        
-        cell.textLabel.text = valueModel.name;
-        cell.indentationLevel = 1;
-        
-        if (valueModel.canBeExpanded) {
-            cell.accessoryView = [self viewForDisclosureForState:_isExpanded];
-        }
-        else
-            cell.accessoryView = nil;
-        
-    }
-     */
-    
     
     FilterListModel *model = _filterArray[indexPath.section];
-    
     FilterHelperModel *helperModel = model.filterValues[indexPath.row];
     
     cell.textLabel.text = helperModel.name;

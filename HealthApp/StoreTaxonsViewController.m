@@ -84,6 +84,11 @@ typedef NS_ENUM(uint16_t, sections) {
     _uploadPrsGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(popUploadPrescriptionVC)];
     _quickOrderGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(popQuickOrderSearchVC)];
     
+    
+    
+    
+//    self.tableView.backgroundColor = self.background_color;
+    
 
 }
 

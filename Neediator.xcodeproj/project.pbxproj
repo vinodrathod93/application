@@ -172,6 +172,11 @@
 		82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED31C4CFEC0005EBDB3 /* RatingView.m */; };
 		82E07F2F1C906A5500F6480D /* HomeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E07F2E1C906A5500F6480D /* HomeCollectionViewCell.m */; };
 		82E2E68B1C9AD42400B81CCE /* BannerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E2E68A1C9AD42400B81CCE /* BannerTableViewCell.m */; };
+		82E509F31CAE79110013289F /* SortOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E509F21CAE79110013289F /* SortOrderModel.m */; };
+		82E509F61CAE97E00013289F /* FavouritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E509F51CAE97E00013289F /* FavouritesViewController.m */; };
+		82E509FA1CAE98BA0013289F /* FavouriteCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E509F91CAE98BA0013289F /* FavouriteCategoryModel.m */; };
+		82E509FD1CAE9A0E0013289F /* FavouriteStoreModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E509FC1CAE9A0E0013289F /* FavouriteStoreModel.m */; };
+		82E50A001CAE9C1A0013289F /* FavouritesResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E509FF1CAE9C1A0013289F /* FavouritesResponseModel.m */; };
 		82EA19881C297639001EBA16 /* NoConnectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82EA19871C297639001EBA16 /* NoConnectionView.xib */; };
 		82EA198B1C29775F001EBA16 /* NoConnectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EA198A1C29775F001EBA16 /* NoConnectionView.m */; };
 		82EA68001C43BB6B00F9924D /* DoctorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EA67FF1C43BB6B00F9924D /* DoctorModel.m */; };
@@ -512,6 +517,16 @@
 		82E07F2E1C906A5500F6480D /* HomeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeCollectionViewCell.m; sourceTree = "<group>"; };
 		82E2E6891C9AD42400B81CCE /* BannerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerTableViewCell.h; sourceTree = "<group>"; };
 		82E2E68A1C9AD42400B81CCE /* BannerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerTableViewCell.m; sourceTree = "<group>"; };
+		82E509F11CAE79110013289F /* SortOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortOrderModel.h; sourceTree = "<group>"; };
+		82E509F21CAE79110013289F /* SortOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortOrderModel.m; sourceTree = "<group>"; };
+		82E509F41CAE97E00013289F /* FavouritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavouritesViewController.h; sourceTree = "<group>"; };
+		82E509F51CAE97E00013289F /* FavouritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavouritesViewController.m; sourceTree = "<group>"; };
+		82E509F81CAE98BA0013289F /* FavouriteCategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavouriteCategoryModel.h; sourceTree = "<group>"; };
+		82E509F91CAE98BA0013289F /* FavouriteCategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavouriteCategoryModel.m; sourceTree = "<group>"; };
+		82E509FB1CAE9A0E0013289F /* FavouriteStoreModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavouriteStoreModel.h; sourceTree = "<group>"; };
+		82E509FC1CAE9A0E0013289F /* FavouriteStoreModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavouriteStoreModel.m; sourceTree = "<group>"; };
+		82E509FE1CAE9C1A0013289F /* FavouritesResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavouritesResponseModel.h; sourceTree = "<group>"; };
+		82E509FF1CAE9C1A0013289F /* FavouritesResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavouritesResponseModel.m; sourceTree = "<group>"; };
 		82EA19871C297639001EBA16 /* NoConnectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoConnectionView.xib; sourceTree = "<group>"; };
 		82EA19891C29775F001EBA16 /* NoConnectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionView.h; sourceTree = "<group>"; };
 		82EA198A1C29775F001EBA16 /* NoConnectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoConnectionView.m; sourceTree = "<group>"; };
@@ -1074,12 +1089,13 @@
 				82DCBECD1C4CE3F6005EBDB3 /* Category */,
 				82DCBECE1C4CE3FF005EBDB3 /* Promotions */,
 				82ED53E01C4FB39800FA7707 /* Spree */,
-				6795F0A61C9C8E9000984A92 /* SortListModel.h */,
-				6795F0A71C9C8E9000984A92 /* SortListModel.m */,
-				6795F0A91C9C8F6200984A92 /* FilterListModel.h */,
-				6795F0AA1C9C8F6200984A92 /* FilterListModel.m */,
-				6795F0AC1C9C93A500984A92 /* FilterHelperModel.h */,
-				6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */,
+				82E509F71CAE98960013289F /* Sort & Filter */,
+				82E509F81CAE98BA0013289F /* FavouriteCategoryModel.h */,
+				82E509F91CAE98BA0013289F /* FavouriteCategoryModel.m */,
+				82E509FB1CAE9A0E0013289F /* FavouriteStoreModel.h */,
+				82E509FC1CAE9A0E0013289F /* FavouriteStoreModel.m */,
+				82E509FE1CAE9C1A0013289F /* FavouritesResponseModel.h */,
+				82E509FF1CAE9C1A0013289F /* FavouritesResponseModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1207,6 +1223,21 @@
 			name = "not needed";
 			sourceTree = "<group>";
 		};
+		82E509F71CAE98960013289F /* Sort & Filter */ = {
+			isa = PBXGroup;
+			children = (
+				6795F0A61C9C8E9000984A92 /* SortListModel.h */,
+				6795F0A71C9C8E9000984A92 /* SortListModel.m */,
+				82E509F11CAE79110013289F /* SortOrderModel.h */,
+				82E509F21CAE79110013289F /* SortOrderModel.m */,
+				6795F0A91C9C8F6200984A92 /* FilterListModel.h */,
+				6795F0AA1C9C8F6200984A92 /* FilterListModel.m */,
+				6795F0AC1C9C93A500984A92 /* FilterHelperModel.h */,
+				6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */,
+			);
+			name = "Sort & Filter";
+			sourceTree = "<group>";
+		};
 		82EA19861C297610001EBA16 /* Connection Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -1312,6 +1343,8 @@
 				823B73771C48F17000031596 /* Listing */,
 				82A1D3D71C5633D800E6B1D3 /* Entity Details Page */,
 				82ED53E11C4FB3B700FA7707 /* Spree */,
+				82E509F41CAE97E00013289F /* FavouritesViewController.h */,
+				82E509F51CAE97E00013289F /* FavouritesViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1958,6 +1991,7 @@
 				82CE35DF1C159425003744C9 /* CartOrderModel.m in Sources */,
 				82DCBED11C4CEFE7005EBDB3 /* ListingResponseModel.m in Sources */,
 				82EA68031C43BC9000F9924D /* DoctorResponseModel.m in Sources */,
+				82E50A001CAE9C1A0013289F /* FavouritesResponseModel.m in Sources */,
 				82F856D31C80833B000B68A9 /* StateCityResponseModel.m in Sources */,
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
 				82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */,
@@ -2006,6 +2040,7 @@
 				823C46B01B7392FE00E37DBE /* ProfileViewCell.m in Sources */,
 				8230D4571C11686400F585D1 /* NavigationViewController.m in Sources */,
 				82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */,
+				82E509F61CAE97E00013289F /* FavouritesViewController.m in Sources */,
 				82147FB71C45230D00D6691E /* ChemistResponseModel.m in Sources */,
 				823C46A91B73327600E37DBE /* DoctorDetailsViewCell.m in Sources */,
 				823B738B1C4920EA00031596 /* MainCategoriesResponseModel.m in Sources */,
@@ -2070,6 +2105,7 @@
 				823B73881C491C3800031596 /* PromotionModel.m in Sources */,
 				82CE35E41C15B7E1003744C9 /* SearchViewController.m in Sources */,
 				8250A32D1B55142E0026ADCE /* ProductsViewController.m in Sources */,
+				82E509F31CAE79110013289F /* SortOrderModel.m in Sources */,
 				8238A7061B5E4538005CC0A5 /* ProductDetail.m in Sources */,
 				8255671E1B68EC5E009F013A /* AddShippingViewModel.m in Sources */,
 				82147FCA1C452B9300D6691E /* DessertResponseModel.m in Sources */,
@@ -2081,6 +2117,8 @@
 				82F856CB1C8077B0000B68A9 /* SubCategoryModel.m in Sources */,
 				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,
 				8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */,
+				82E509FD1CAE9A0E0013289F /* FavouriteStoreModel.m in Sources */,
+				82E509FA1CAE98BA0013289F /* FavouriteCategoryModel.m in Sources */,
 				82F856DA1C8091CF000B68A9 /* SubCategoryRealm.m in Sources */,
 				82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */,
 				82C095081C5F614100727C25 /* AddToCart+CoreDataProperties.m in Sources */,
@@ -2231,7 +2269,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/vinodrathod/Downloads/FacebookSDKs,
+					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
@@ -2261,7 +2299,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/vinodrathod/Downloads/FacebookSDKs,
+					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";

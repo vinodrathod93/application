@@ -22,6 +22,8 @@
     self.offerContentView.layer.masksToBounds = YES;
     
     self.closeButton.layer.cornerRadius = self.closeButton.frame.size.width/2;
+    self.closeButton.layer.borderWidth  = 1.f;
+    self.closeButton.layer.borderColor  = [UIColor redColor].CGColor;
     self.closeButton.layer.masksToBounds = YES;
     
     [self.closeButton addTarget:self action:@selector(closeTapped:) forControlEvents:UIControlEventTouchUpInside];

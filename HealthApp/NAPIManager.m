@@ -78,6 +78,7 @@
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
+        NSLog(@"Error : %@ & %@", error.localizedFailureReason, error.localizedDescription);
         failure(error);
     }];
 }
@@ -430,7 +431,41 @@
     
 }
 
-
+-(NSURLSessionDataTask *)getMyFavouritesListingWithSuccess:(void(^)(FavouritesResponseModel *))success failure:(void (^)(NSError *))failure {
+    
+    User *user = [User savedUser];
+    
+    if (user.userID == nil) {
+        NSLog(@"User not logged in");
+        
+        return nil;
+    } else {
+        NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] init];
+        [parametersWithKey setObject:user.userID forKey:@"userid"];
+        
+        
+        return [self GET:kMY_FAVOURITES_PATH parameters:parametersWithKey progress:^(NSProgress * _Nonnull downloadProgress) {
+            NSLog(@"Getting Favourites %@", downloadProgress.localizedDescription);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            
+            NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+            NSError *error;
+            
+            FavouritesResponseModel *myfavourites = [MTLJSONAdapter modelOfClass:[FavouritesResponseModel class] fromJSONDictionary:responseDictionary error:&error];
+            if (error) {
+                NSLog(@"%@", [error localizedDescription]);
+            }
+            
+            success(myfavourites);
+            
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            failure(error);
+        }];
+        
+    }
+}
 
 
 

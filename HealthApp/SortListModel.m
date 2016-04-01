@@ -7,6 +7,7 @@
 //
 
 #import "SortListModel.h"
+#import "SortOrderModel.h"
 
 @implementation SortListModel
 
@@ -19,6 +20,11 @@
              };
 }
 
++(NSValueTransformer *)typeArrayJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[SortOrderModel class]];
+}
+
+
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error {
     self = [super initWithDictionary:dictionaryValue error:error];
@@ -27,15 +33,7 @@
     
     NSLog(@"%@", dictionaryValue);
     
-    
-    if ([dictionaryValue[@"type"] isKindOfClass:[NSArray class]]) {
-        
-        self.typeArray = dictionaryValue[@"type"];
-        
-    }
-    else
-        NSLog(@"Something is nil");
-    
+    _currentSortOrderIndex = @-1;
     
     return self;
 }

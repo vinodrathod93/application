@@ -90,6 +90,7 @@ static NSString *const kAUTOCOMPLETE_SEARCH_PRODUCT = @"/NeediatorWS.asmx/search
 static NSString *const kADD_TO_FAVOURTIE_PATH = @"/NeediatorWS.asmx/addToFavourites";
 static NSString *const kADD_TO_LIKEDISLIKE_PATH = @"/NeediatorWS.asmx/addToLikedislike";
 static NSString *const kMY_ORDERS_PATH = @"/NeediatorWS.asmx/myOrder";
+static NSString *const kMY_FAVOURITES_PATH = @"/NeediatorWS.asmx/viewFavourites";
 
 
 /* Helper Constants */

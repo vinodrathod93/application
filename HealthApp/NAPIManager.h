@@ -12,6 +12,7 @@
 #import "EntityDetailsResponseModel.h"
 #import "TimeSlotResponseModel.h"
 #import "StateCityResponseModel.h"
+#import "FavouritesResponseModel.h"
 
 @interface NAPIManager : NSessionManager
 
@@ -30,4 +31,5 @@
 -(NSURLSessionDataTask *)postFavouritesWithData:(NSDictionary *)data success:(void (^)(BOOL))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)postlikeDislikeWithData:(NSDictionary *)data success:(void (^)(NSDictionary *likeDislikes))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)getMyOrdersListingWithSuccess:(void(^)(MyOrdersResponseModel *))success failure:(void (^)(NSError *))failure;
+-(NSURLSessionDataTask *)getMyFavouritesListingWithSuccess:(void(^)(FavouritesResponseModel *))success failure:(void (^)(NSError *))failure;
 @end
