@@ -96,6 +96,14 @@
 
 
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Send-Prescription Screen"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
 
 -(void)dismissVC:(UIBarButtonItem *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -937,34 +945,35 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"selectedImagesCellIdentifier";
     
-    UploadPrsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    UploadPrsCollectionViewCell *uploadPrsCell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
 //    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
 //    imageView.contentMode   = UIViewContentModeScaleAspectFill;
 //    imageView.userInteractionEnabled = YES;
     
-    if(!cell) {
+    if(!uploadPrsCell) {
         NSLog(@"Cell not initialized");
     }
     
-    cell.pImageView.contentMode = UIViewContentModeScaleAspectFill;
+    uploadPrsCell.pContentView.backgroundColor = [NeediatorUtitity defaultColor];
+    uploadPrsCell.pImageView.contentMode = UIViewContentModeScaleAspectFill;
     
-    [cell.deleteButton addTarget:self action:@selector(deleteConfirmation) forControlEvents:UIControlEventTouchUpInside];
+    [uploadPrsCell.deleteButton addTarget:self action:@selector(deleteConfirmation) forControlEvents:UIControlEventTouchUpInside];
     
     if (indexPath.item != [self selectedImages].count) {
         NSLog(@"Continue");
         
         NSArray *images = [self selectedImages];
-        cell.pImageView.image = (UIImage *)images[indexPath.item];
+        uploadPrsCell.pImageView.image = (UIImage *)images[indexPath.item];
     }
     else {
         
-        cell.pImageView.frame = CGRectMake(cell.frame.size.width/2 - (25/2), cell.frame.size.height/2 - (25/2), 25, 25);
-        cell.pImageView.image = [UIImage imageNamed:@"addPlus"];
+        uploadPrsCell.pImageView.frame = CGRectMake(uploadPrsCell.frame.size.width/2 - (25/2), uploadPrsCell.frame.size.height/2 - (25/2), 25, 25);
+        uploadPrsCell.pImageView.image = [UIImage imageNamed:@"addPlus"];
         
     }
 
     
-    return cell;
+    return uploadPrsCell;
 }
 
 

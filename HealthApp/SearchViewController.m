@@ -88,6 +88,16 @@ typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
     
 }
 
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Search Screen"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

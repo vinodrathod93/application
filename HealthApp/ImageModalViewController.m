@@ -17,7 +17,19 @@
         self.bigImageView.image = self.image;
     }
     else {
-        NSURL *url = [NSURL URLWithString:self.model.image_url];
+        
+        NSString *image_string;
+        
+        if (self.model.images.count > 0) {
+            NSDictionary *image_dict = [self.model.images objectAtIndex:0];
+            image_string = image_dict[@"image_url"];
+        }
+        else
+            image_string = @"";
+
+        
+        
+        NSURL *url = [NSURL URLWithString:image_string];
         [self.bigImageView sd_setImageWithURL:url];
     }
     

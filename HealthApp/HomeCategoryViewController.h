@@ -12,5 +12,6 @@
 
 @interface HomeCategoryViewController : UICollectionViewController<UIScrollViewDelegate, CLLocationManagerDelegate>
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *notificationButton;
 
 @end

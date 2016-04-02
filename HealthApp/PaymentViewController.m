@@ -91,6 +91,17 @@ typedef void(^completion)(BOOL finished);
     
 }
 
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Checkout Screen"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

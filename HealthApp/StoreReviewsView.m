@@ -24,7 +24,7 @@
     
     /* Ratings View */
     self.ratingView.backgroundColor     = [UIColor clearColor];
-    self.ratingView.notSelectedImage    = [UIImage imageNamed:@"Star"];
+    self.ratingView.notSelectedImage    = [UIImage imageNamed:@"star-1"];
     self.ratingView.halfSelectedImage   = [UIImage imageNamed:@"Star Half Empty"];
     self.ratingView.fullSelectedImage   = [UIImage imageNamed:@"Star Filled"];
     

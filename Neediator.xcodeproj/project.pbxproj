@@ -163,6 +163,7 @@
 		82CE35DF1C159425003744C9 /* CartOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE35DE1C159425003744C9 /* CartOrderModel.m */; };
 		82CE35E41C15B7E1003744C9 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE35E31C15B7E1003744C9 /* SearchViewController.m */; };
 		82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CE513D1C0443020073EF3A /* ProductDetailsViewCell.m */; };
+		82D0A7671CAFCB39000456D8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82D0A7661CAFCB39000456D8 /* GoogleService-Info.plist */; };
 		82D3840C1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D3840B1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m */; };
 		82D3840F1C2C0DB700D05FB7 /* PaymentDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D3840E1C2C0DB700D05FB7 /* PaymentDetailViewCell.m */; };
 		82D47D281CABF839006B7996 /* behind_alert_view.png in Resources */ = {isa = PBXBuildFile; fileRef = 82D47D271CABF839006B7996 /* behind_alert_view.png */; };
@@ -499,6 +500,7 @@
 		82CE35E31C15B7E1003744C9 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		82CE513C1C0443020073EF3A /* ProductDetailsViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailsViewCell.h; sourceTree = "<group>"; };
 		82CE513D1C0443020073EF3A /* ProductDetailsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailsViewCell.m; sourceTree = "<group>"; };
+		82D0A7661CAFCB39000456D8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		82D3840A1C2BF22F00D05FB7 /* AddressInPaymentViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressInPaymentViewCell.h; sourceTree = "<group>"; };
 		82D3840B1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressInPaymentViewCell.m; sourceTree = "<group>"; };
 		82D3840D1C2C0DB700D05FB7 /* PaymentDetailViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentDetailViewCell.h; sourceTree = "<group>"; };
@@ -1017,6 +1019,7 @@
 		82BD028B1B46A73C00108A0B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				82D0A7661CAFCB39000456D8 /* GoogleService-Info.plist */,
 				82BF08571C1F18AD0093B8CD /* about_us.txt */,
 				82BD028C1B46A73C00108A0B /* Info.plist */,
 				82BD028D1B46A73C00108A0B /* main.m */,
@@ -1898,6 +1901,7 @@
 				82BD02971B46A73C00108A0B /* Main.storyboard in Resources */,
 				82C36C5B1C81DA900038EA5F /* TaxonHeaderView.xib in Resources */,
 				82217C481C96D4FA002570E3 /* StoreOptionsView.xib in Resources */,
+				82D0A7671CAFCB39000456D8 /* GoogleService-Info.plist in Resources */,
 				82217C461C96CE50002570E3 /* StoreReviewsView.xib in Resources */,
 				82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */,
 				82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */,

@@ -106,12 +106,12 @@
 
 
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
-    
-    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Listing Screen"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 
@@ -310,11 +310,22 @@
     cell.profileImageview.layer.cornerRadius = 5.f;
     cell.profileImageview.layer.masksToBounds = YES;
     
+    
+    NSString *image_string;
+    
+    if (model.images.count > 0) {
+        NSDictionary *image_dict = [model.images objectAtIndex:0];
+        image_string = image_dict[@"image_url"];
+    }
+    else
+        image_string = @"";
+    
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell.profileImageview sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+    [cell.profileImageview sd_setImageWithURL:[NSURL URLWithString:image_string] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
     
     
-    cell.ratingView.notSelectedImage    = [UIImage imageNamed:@"Star"];
+    cell.ratingView.notSelectedImage    = [UIImage imageNamed:@"star-1"];
     cell.ratingView.halfSelectedImage   = [UIImage imageNamed:@"Star Half Empty"];
     cell.ratingView.fullSelectedImage   = [UIImage imageNamed:@"Star Filled"];
     
@@ -342,7 +353,7 @@
 //                gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor colorWithRed:255/255.f green:223/255.f blue:0/255.f alpha:1.0] CGColor], nil];
                 
                 
-                cell.roundedContentView.backgroundColor = [UIColor colorWithRed:255/255.f green:223/255.f blue:0/255.f alpha:1.0];
+                cell.roundedContentView.backgroundColor = [UIColor colorWithRed:235/255.f green:197/255.f blue:87/255.f alpha:1.0];
             }
             else if ([premiumDict[@"name"] isEqualToString:@"Silver"]) {
                 
@@ -352,7 +363,7 @@
             else if ([premiumDict[@"name"] isEqualToString:@"Bronze"]) {
                 
 //                gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor colorWithRed:205/255.f green:127/255.f blue:50/255.f alpha:1.0] CGColor], nil];
-                cell.roundedContentView.backgroundColor = [UIColor colorWithRed:205/255.f green:127/255.f blue:50/255.f alpha:1.0];
+                cell.roundedContentView.backgroundColor = [UIColor colorWithRed:215/255.f green:173/255.f blue:127/255.f alpha:1.0];
             }
         }
         

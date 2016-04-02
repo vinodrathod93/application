@@ -13,7 +13,14 @@
 -(void)awakeFromNib {
     [super awakeFromNib];
     
+//    self.deleteButton.layer.cornerRadius = self.deleteButton.frame.size.width;
+//    self.deleteButton.layer.masksToBounds = YES;
     
+    
+//    self.pContentView.backgroundColor = [NeediatorUtitity defaultColor];
+//    self.pContentView.userInteractionEnabled = YES;
+//    self.pContentView.layer.cornerRadius = 5.f;
+//    self.pContentView.layer.masksToBounds = YES;
 }
 
 
@@ -21,14 +28,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.deleteButton.layer.cornerRadius = self.deleteButton.frame.size.width;
-        self.deleteButton.layer.masksToBounds = YES;
         
-        
-        self.pContentView.backgroundColor = [NeediatorUtitity defaultColor];
-        self.pContentView.userInteractionEnabled = YES;
-        self.pContentView.layer.cornerRadius = 5.f;
-        self.pContentView.layer.masksToBounds = YES;
     }
     return self;
 }

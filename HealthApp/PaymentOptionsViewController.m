@@ -42,6 +42,14 @@
 }
 
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Payment Screen"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
 
 
 #pragma mark - Table view delegate

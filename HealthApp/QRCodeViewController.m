@@ -40,7 +40,13 @@
 }
 
 
-
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"QRCode Screen"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
 
 -(void)startStopReading {
     
@@ -173,6 +179,10 @@
     
     
 }
+
+
+
+
 
 
 @end

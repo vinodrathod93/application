@@ -60,6 +60,16 @@ typedef void(^completion)(BOOL finished);
     // Dispose of any resources that can be recreated.
 }
 
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Addresses Screen"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
+
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     

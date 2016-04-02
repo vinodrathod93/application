@@ -32,6 +32,7 @@
 #import "FilterListModel.h"
 
 
+
 @interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate>
 
 
@@ -51,6 +52,8 @@
 @property (nonatomic, strong) NSMutableString *jsonString;
 
 @end
+
+
 
 @implementation HomeCategoryViewController {
     CLLocationManager *_locationManager;
@@ -122,7 +125,9 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     [self requestCategories];
     
-     
+    
+//    self.notificationButton
+    
 }
 
 -(void)showLoadingView {
@@ -132,33 +137,12 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     _launchScreen = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] lastObject];
     _launchScreen.frame  = [[UIScreen mainScreen] bounds];
     
+    // Add blurview
+    UIView *blurView = [[UIView alloc] initWithFrame:_launchScreen.frame];
+    blurView.backgroundColor = [UIColor whiteColor];
+    blurView.alpha = 0.6f;
     
-    
-    if (!UIAccessibilityIsReduceTransparencyEnabled()) {
-        
-//        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-//        UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-//        
-//        blurEffectView.frame = _launchScreen.frame;
-//        blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        
-        UIView *blurView = [[UIView alloc] initWithFrame:_launchScreen.frame];
-        blurView.backgroundColor = [UIColor whiteColor];
-        blurView.alpha = 0.6f;
-        
-        [_launchScreen addSubview:blurView];
-        
-        
-////        UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blurEffect];
-////        UIVisualEffectView *vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
-////        [vibrancyEffectView setFrame:_launchScreen.frame];
-//        
-//        [blurEffectView.contentView addSubview:vibrancyEffectView];
-        
-    }
-    
-    
-    
+    [_launchScreen addSubview:blurView];
     
     
     [self.navigationController.view addSubview:_launchScreen];
@@ -197,7 +181,13 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [self.collectionView reloadData];
 }
 
-
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Home Screen"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -584,6 +574,10 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
 }
 
+- (IBAction)notificationPressed:(id)sender {
+    
+    
+}
 
 
 #pragma mark - HUD

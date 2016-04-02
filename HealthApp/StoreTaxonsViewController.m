@@ -92,10 +92,12 @@ typedef NS_ENUM(uint16_t, sections) {
 
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
-    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Store Screen"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -188,6 +190,9 @@ typedef NS_ENUM(uint16_t, sections) {
 -(void)setupScrollViewImages:(StoreTaxonHeaderViewCell *)cell {
     
     NSLog(@"setupScrollViewImages");
+    
+    
+    
     
     [self.storeImages enumerateObjectsUsingBlock:^(NSDictionary *imageData, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.scrollView.frame) * idx, 0, CGRectGetWidth(cell.scrollView.frame), CGRectGetHeight(cell.scrollView.frame))];
@@ -1134,6 +1139,8 @@ typedef NS_ENUM(uint16_t, sections) {
                                 @"storeid" : self.store_id
                                 
                                 };
+    
+    NSLog(@"Parameter %@", parameter);
     
     _task = [[NAPIManager sharedManager] getTaxonomiesWithRequest:parameter WithSuccess:^(TaxonomyListResponseModel *responseModel) {
         

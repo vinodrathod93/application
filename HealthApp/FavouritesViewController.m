@@ -9,6 +9,7 @@
 #import "FavouritesViewController.h"
 #import "FavouriteCategoryModel.h"
 #import "FavouriteStoreModel.h"
+#import "StoreTaxonsViewController.h"
 
 @interface FavouritesViewController ()
 
@@ -95,6 +96,40 @@
     
     return category.category.capitalizedString;
 }
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    FavouriteCategoryModel *category = _favouriteCategories[indexPath.section];
+    FavouriteStoreModel *model = category.stores[indexPath.row];
+    
+    StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
+    storeTaxonsVC.title = [model.store_name capitalizedString];
+    storeTaxonsVC.cat_id = category.cat_id.stringValue;
+    storeTaxonsVC.store_id = model.store_id.stringValue;
+    storeTaxonsVC.storeImages = @[@{ @"image_url" : model.store_image_url }];
+    storeTaxonsVC.storePhoneNumbers = @[model.storePhoneNumber];
+    storeTaxonsVC.storeDistance = @"? KM";
+    storeTaxonsVC.ratings   = model.ratings.stringValue;
+    storeTaxonsVC.reviewsCount = @"?";
+    storeTaxonsVC.likeUnlikeArray = @[];
+    storeTaxonsVC.isFavourite   = YES;
+    storeTaxonsVC.isLikedStore  = YES;
+    storeTaxonsVC.isDislikedStore = NO;
+    
+    
+    
+    
+    
+//    [self presentViewController:storeTaxonsVC animated:YES completion:nil];
+    
+    
+    storeTaxonsVC.hidesBottomBarWhenPushed = NO;
+    [self.navigationController pushViewController:storeTaxonsVC animated:YES];
+    
+    
+}
+
+
 
 -(void)showHUD {
     self.hud = [[NeediatorHUD alloc] initWithFrame:self.tableView.frame];

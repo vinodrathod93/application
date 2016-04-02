@@ -18,6 +18,7 @@
 #import "ListingTableViewController.h"
 
 
+
 @interface AppDelegate ()
 
 
@@ -75,7 +76,6 @@
     [[UITabBar appearance] setTintColor:[UIColor blackColor]];
     [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:235/255.f green:235/255.f blue:240/255.f alpha:1.0]];
     [[UITabBar appearance] setTranslucent:NO];
-    
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
     
@@ -84,30 +84,27 @@
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                           [UIColor blackColor], NSForegroundColorAttributeName,
                                                           [UIFont fontWithName:@"AvenirNext-DemiBold" size:19.f], NSFontAttributeName , nil]];
-    
-//    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:235/255.f green:235/255.f blue:240/255.f alpha:1.0]];
-    
-    
     [[UINavigationBar appearance] setTranslucent:NO];
     
-    // Facebook Method
-//    [FBSDKLoginButton class];
     
     
     
-    
+    // Google Maps
     [GMSServices provideAPIKey:kGoogleAPIKey];
     
+    // Configure tracker from GoogleService-Info.plist.
+    NSError *configureError;
+    [[GGLContext sharedInstance] configureWithError:&configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
     
-//    return [[FBSDKApplicationDelegate sharedInstance] application:application
-//                                    didFinishLaunchingWithOptions:launchOptions];
-    
-    
+    // Optional: configure GAI options.
+    GAI *gai = [GAI sharedInstance];
+    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+    gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
     
     
     /* Migration of Realm */
-    
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
     config.schemaVersion = 2;
     config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
@@ -187,9 +184,6 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     NSLog(@"applicationDidBecomeActive");
-    
-//    [FBSDKAppEvents activateApp];
-    
     
     
     

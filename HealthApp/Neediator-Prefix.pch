@@ -33,6 +33,7 @@
     #import "MainCategoryRealm.h"
     #import "SubCategoryRealm.h"
     #import "NeediatorHUD.h"
+    #import <Google/Analytics.h>
 #endif
 
 #endif /* Neediator_Prefix_pch */

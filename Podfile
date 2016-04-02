@@ -22,6 +22,7 @@ platform :ios, '8.1'
 pod 'GoogleMaps'
 
 pod 'SVPullToRefresh'
+pod 'Google/Analytics'
 
 end
 

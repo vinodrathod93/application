@@ -62,6 +62,15 @@ typedef void(^completion)(BOOL finished);
 
 
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Login Screen"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
+
 - (IBAction)cancelPressed:(id)sender {
     
     User *user = [User savedUser];
