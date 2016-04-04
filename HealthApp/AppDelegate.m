@@ -31,8 +31,8 @@
     // Override point for customization after application launch.
     
     NSLog(@"didFinishLaunchingWithOptions");
+    [NSThread sleepForTimeInterval:2.0];
     
-//    [NSThread sleepForTimeInterval:3.0];
     
     // Initialize Reachability
     self.googleReach = [Reachability reachabilityWithHostName:@"www.google.com"];

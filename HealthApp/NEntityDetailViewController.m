@@ -125,11 +125,18 @@
     
     height = MAX(height, kHeight);
     
-    if (![self cellIsSelected:indexPath]) {
+    if (model.isExpanded) {
         return kHeight + height;
     }
+    else
+        return kHeight;
     
-    return kHeight;
+    
+//    if (![self cellIsSelected:indexPath]) {
+//        return kHeight + height;
+//    }
+//    
+//    return kHeight;
 }
 
 
@@ -255,6 +262,11 @@
 
 -(BOOL)cellIsSelected:(NSIndexPath *)indexPath {
     NSNumber *selectedIndex     = [_selectedIndexes objectForKey:indexPath];
+    
+    
+    
+    EntityDetailModel *model = _entityDescriptionArray[indexPath.row];
+    model.isExpanded = [selectedIndex boolValue];
     
     return selectedIndex == nil ? FALSE : [selectedIndex boolValue];
 }

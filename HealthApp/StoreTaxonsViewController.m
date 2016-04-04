@@ -204,25 +204,28 @@ typedef NS_ENUM(uint16_t, sections) {
         
          NSLog(@"Start Manager");
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                NSLog(@"Image %ld", (long)receivedSize);
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                if (image) {
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        CIImage *newImage = [[CIImage alloc] initWithImage:image];
-                        CIContext *context = [CIContext contextWithOptions:nil];
-                        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
-                        
-                        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-                    });
-                
-                    
-                }
-            }];
-        });
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+//            [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//                NSLog(@"Image %ld", (long)receivedSize);
+//            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+//                if (image) {
+//                    
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        CIImage *newImage = [[CIImage alloc] initWithImage:image];
+//                        CIContext *context = [CIContext contextWithOptions:nil];
+//                        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+//                        
+//                        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+//                    });
+//                
+//                    
+//                }
+//            }];
+//        });
+        
+        
+        [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         
         
         [cell.scrollView addSubview:imageView];

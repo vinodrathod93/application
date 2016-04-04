@@ -11,6 +11,7 @@
 		6795F0A81C9C8E9000984A92 /* SortListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0A71C9C8E9000984A92 /* SortListModel.m */; };
 		6795F0AB1C9C8F6200984A92 /* FilterListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AA1C9C8F6200984A92 /* FilterListModel.m */; };
 		6795F0AE1C9C93A500984A92 /* FilterHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */; };
+		6849FE5AA2EFFA07E41A7784 /* libPods-Neediator-AppleWatch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B064C3CD265E3E900B49901 /* libPods-Neediator-AppleWatch.a */; };
 		82041C261CA9118A007F3B3C /* NeediatorHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 82041C251CA9118A007F3B3C /* NeediatorHUD.m */; };
 		820883211C9C1E23000FDCB2 /* icon0.png in Resources */ = {isa = PBXBuildFile; fileRef = 820883191C9C1E23000FDCB2 /* icon0.png */; };
 		820883221C9C1E23000FDCB2 /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831A1C9C1E23000FDCB2 /* icon1.png */; };
@@ -82,6 +83,16 @@
 		825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825892811BBEB21C0032B0A3 /* DeliveryViewController.m */; };
 		826212F61BFB25BC00F75254 /* BannerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 826212F51BFB25BC00F75254 /* BannerView.xib */; };
 		826212F91BFB25CE00F75254 /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826212F81BFB25CE00F75254 /* BannerView.m */; };
+		8267AB731CB281E300CF1632 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8267AB711CB281E300CF1632 /* Interface.storyboard */; };
+		8267AB751CB281E300CF1632 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8267AB741CB281E300CF1632 /* Assets.xcassets */; };
+		8267AB7C1CB281E400CF1632 /* Neediator-AppleWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8267AB7B1CB281E300CF1632 /* Neediator-AppleWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8267AB841CB281E400CF1632 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8267AB831CB281E400CF1632 /* InterfaceController.m */; };
+		8267AB871CB281E400CF1632 /* ExtensionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8267AB861CB281E400CF1632 /* ExtensionDelegate.m */; };
+		8267AB8A1CB281E400CF1632 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8267AB891CB281E400CF1632 /* NotificationController.m */; };
+		8267AB8C1CB281E400CF1632 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8267AB8B1CB281E400CF1632 /* Assets.xcassets */; };
+		8267AB901CB281E400CF1632 /* Neediator-AppleWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 8267AB6F1CB281E300CF1632 /* Neediator-AppleWatch.app */; };
+		8267AB9B1CB286C100CF1632 /* ListingRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8267AB9A1CB286C100CF1632 /* ListingRow.m */; };
+		8267ABA01CB29E6C00CF1632 /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8267AB9F1CB29E6C00CF1632 /* NotificationViewController.m */; };
 		82681EAD1C50B8FA00035E6E /* NEntityDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82681EAC1C50B8FA00035E6E /* NEntityDetailCell.m */; };
 		826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B141F1BC28C9100B6A1C3 /* OrderReviewViewController.m */; };
 		826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B14221BC28D4800B6A1C3 /* OrderReviewCell.m */; };
@@ -201,6 +212,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8267AB7D1CB281E400CF1632 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82BD02801B46A73C00108A0B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8267AB7A1CB281E300CF1632;
+			remoteInfo = "Neediator-AppleWatch Extension";
+		};
+		8267AB8E1CB281E400CF1632 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82BD02801B46A73C00108A0B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8267AB6E1CB281E300CF1632;
+			remoteInfo = "Neediator-AppleWatch";
+		};
 		82BD02A21B46A73C00108A0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82BD02801B46A73C00108A0B /* Project object */;
@@ -210,7 +235,33 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8267AB941CB281E400CF1632 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8267AB7C1CB281E400CF1632 /* Neediator-AppleWatch Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8267AB981CB281E400CF1632 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				8267AB901CB281E400CF1632 /* Neediator-AppleWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		1756E12D5CF521CB88AE9C4E /* Pods-Neediator-AppleWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch.debug.xcconfig"; sourceTree = "<group>"; };
 		26E4DE3B6A3BA531177D5ECA /* Pods-Chemist Plus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chemist Plus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Chemist Plus/Pods-Chemist Plus.debug.xcconfig"; sourceTree = "<group>"; };
 		34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Chemist Plus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		676A182F1CADC3310031BFF0 /* NSString+AddressValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AddressValidation.m"; sourceTree = "<group>"; };
@@ -221,6 +272,8 @@
 		6795F0AA1C9C8F6200984A92 /* FilterListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterListModel.m; sourceTree = "<group>"; };
 		6795F0AC1C9C93A500984A92 /* FilterHelperModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterHelperModel.h; sourceTree = "<group>"; };
 		6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterHelperModel.m; sourceTree = "<group>"; };
+		6B064C3CD265E3E900B49901 /* libPods-Neediator-AppleWatch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator-AppleWatch.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7401B298C9DC1D0E22545228 /* Pods-Neediator-AppleWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch.release.xcconfig"; sourceTree = "<group>"; };
 		7CED2C0B1CF6D1F8E6BC80C5 /* Pods-Neediator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.release.xcconfig"; sourceTree = "<group>"; };
 		82041C241CA9118A007F3B3C /* NeediatorHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorHUD.h; sourceTree = "<group>"; };
 		82041C251CA9118A007F3B3C /* NeediatorHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorHUD.m; sourceTree = "<group>"; };
@@ -346,6 +399,24 @@
 		826212F51BFB25BC00F75254 /* BannerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BannerView.xib; sourceTree = "<group>"; };
 		826212F71BFB25CE00F75254 /* BannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerView.h; sourceTree = "<group>"; };
 		826212F81BFB25CE00F75254 /* BannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
+		8267AB6F1CB281E300CF1632 /* Neediator-AppleWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Neediator-AppleWatch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8267AB721CB281E300CF1632 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		8267AB741CB281E300CF1632 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8267AB761CB281E300CF1632 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8267AB7B1CB281E300CF1632 /* Neediator-AppleWatch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Neediator-AppleWatch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8267AB811CB281E400CF1632 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		8267AB821CB281E400CF1632 /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		8267AB831CB281E400CF1632 /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		8267AB851CB281E400CF1632 /* ExtensionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtensionDelegate.h; sourceTree = "<group>"; };
+		8267AB861CB281E400CF1632 /* ExtensionDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtensionDelegate.m; sourceTree = "<group>"; };
+		8267AB881CB281E400CF1632 /* NotificationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
+		8267AB891CB281E400CF1632 /* NotificationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
+		8267AB8B1CB281E400CF1632 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8267AB8D1CB281E400CF1632 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8267AB991CB286C100CF1632 /* ListingRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingRow.h; sourceTree = "<group>"; };
+		8267AB9A1CB286C100CF1632 /* ListingRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingRow.m; sourceTree = "<group>"; };
+		8267AB9E1CB29E6C00CF1632 /* NotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationViewController.h; sourceTree = "<group>"; };
+		8267AB9F1CB29E6C00CF1632 /* NotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationViewController.m; sourceTree = "<group>"; };
 		82681EAB1C50B8FA00035E6E /* NEntityDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEntityDetailCell.h; sourceTree = "<group>"; };
 		82681EAC1C50B8FA00035E6E /* NEntityDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEntityDetailCell.m; sourceTree = "<group>"; };
 		826B141E1BC28C9100B6A1C3 /* OrderReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderReviewViewController.h; sourceTree = "<group>"; };
@@ -573,6 +644,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		46E4D24237C7D37380ED434D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6849FE5AA2EFFA07E41A7784 /* libPods-Neediator-AppleWatch.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8267AB781CB281E300CF1632 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82BD02851B46A73C00108A0B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -610,6 +696,7 @@
 				8255671F1B68F9B6009F013A /* CoreTelephony.framework */,
 				34BF4F3B3099B66D6C584019 /* libPods-Chemist Plus.a */,
 				CFB7072175B0B9AD34BC27C8 /* libPods-Neediator.a */,
+				6B064C3CD265E3E900B49901 /* libPods-Neediator-AppleWatch.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -717,6 +804,78 @@
 				823B73811C49152F00031596 /* NAPIManager.m */,
 			);
 			name = "Neediator API";
+			sourceTree = "<group>";
+		};
+		8267AB691CB2663A00CF1632 /* QR Code */ = {
+			isa = PBXGroup;
+			children = (
+				82BB3DE91CA01B1B00B282D0 /* QRCodeViewController.h */,
+				82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */,
+			);
+			name = "QR Code";
+			sourceTree = "<group>";
+		};
+		8267AB6A1CB2664300CF1632 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				823339331C9D7D3300E16852 /* FilterTableViewController.h */,
+				823339341C9D7D3300E16852 /* FilterTableViewController.m */,
+			);
+			name = Filter;
+			sourceTree = "<group>";
+		};
+		8267AB6B1CB2664D00CF1632 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				8214157E1C99819900FDEFDB /* MapLocationViewController.h */,
+				8214157F1C99819900FDEFDB /* MapLocationViewController.m */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		8267AB6C1CB2666200CF1632 /* Favourites */ = {
+			isa = PBXGroup;
+			children = (
+				82E509F41CAE97E00013289F /* FavouritesViewController.h */,
+				82E509F51CAE97E00013289F /* FavouritesViewController.m */,
+			);
+			name = Favourites;
+			sourceTree = "<group>";
+		};
+		8267AB701CB281E300CF1632 /* Neediator-AppleWatch */ = {
+			isa = PBXGroup;
+			children = (
+				8267AB711CB281E300CF1632 /* Interface.storyboard */,
+				8267AB741CB281E300CF1632 /* Assets.xcassets */,
+				8267AB761CB281E300CF1632 /* Info.plist */,
+			);
+			path = "Neediator-AppleWatch";
+			sourceTree = "<group>";
+		};
+		8267AB7F1CB281E400CF1632 /* Neediator-AppleWatch Extension */ = {
+			isa = PBXGroup;
+			children = (
+				8267AB821CB281E400CF1632 /* InterfaceController.h */,
+				8267AB831CB281E400CF1632 /* InterfaceController.m */,
+				8267AB991CB286C100CF1632 /* ListingRow.h */,
+				8267AB9A1CB286C100CF1632 /* ListingRow.m */,
+				8267AB851CB281E400CF1632 /* ExtensionDelegate.h */,
+				8267AB861CB281E400CF1632 /* ExtensionDelegate.m */,
+				8267AB881CB281E400CF1632 /* NotificationController.h */,
+				8267AB891CB281E400CF1632 /* NotificationController.m */,
+				8267AB8B1CB281E400CF1632 /* Assets.xcassets */,
+				8267AB8D1CB281E400CF1632 /* Info.plist */,
+				8267AB801CB281E400CF1632 /* Supporting Files */,
+			);
+			path = "Neediator-AppleWatch Extension";
+			sourceTree = "<group>";
+		};
+		8267AB801CB281E400CF1632 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8267AB811CB281E400CF1632 /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		826F074E1C524A1A0033DD09 /* Listing */ = {
@@ -977,6 +1136,8 @@
 			children = (
 				82BD028A1B46A73C00108A0B /* HealthApp */,
 				82BD02A41B46A73C00108A0B /* HealthAppTests */,
+				8267AB701CB281E300CF1632 /* Neediator-AppleWatch */,
+				8267AB7F1CB281E400CF1632 /* Neediator-AppleWatch Extension */,
 				82BD02891B46A73C00108A0B /* Products */,
 				95BE41776404844E9379F46C /* Pods */,
 				4D432D975D494ECD94D11A09 /* Frameworks */,
@@ -988,6 +1149,8 @@
 			children = (
 				82BD02881B46A73C00108A0B /* Chemist Plus.app */,
 				82BD02A11B46A73C00108A0B /* Chemist PlusTests.xctest */,
+				8267AB6F1CB281E300CF1632 /* Neediator-AppleWatch.app */,
+				8267AB7B1CB281E300CF1632 /* Neediator-AppleWatch Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1328,12 +1491,9 @@
 			isa = PBXGroup;
 			children = (
 				82D47D271CABF839006B7996 /* behind_alert_view.png */,
-				82BB3DE91CA01B1B00B282D0 /* QRCodeViewController.h */,
-				82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */,
-				823339331C9D7D3300E16852 /* FilterTableViewController.h */,
-				823339341C9D7D3300E16852 /* FilterTableViewController.m */,
-				8214157E1C99819900FDEFDB /* MapLocationViewController.h */,
-				8214157F1C99819900FDEFDB /* MapLocationViewController.m */,
+				8267AB691CB2663A00CF1632 /* QR Code */,
+				8267AB6A1CB2664300CF1632 /* Filter */,
+				8267AB6B1CB2664D00CF1632 /* Map */,
 				82C3F5631C8DCD2300BA266D /* SearchResultsTableViewController.h */,
 				82C3F5641C8DCD2300BA266D /* SearchResultsTableViewController.m */,
 				82D47D2D1CABF928006B7996 /* OffersPopViewController.h */,
@@ -1346,8 +1506,9 @@
 				823B73771C48F17000031596 /* Listing */,
 				82A1D3D71C5633D800E6B1D3 /* Entity Details Page */,
 				82ED53E11C4FB3B700FA7707 /* Spree */,
-				82E509F41CAE97E00013289F /* FavouritesViewController.h */,
-				82E509F51CAE97E00013289F /* FavouritesViewController.m */,
+				8267AB6C1CB2666200CF1632 /* Favourites */,
+				8267AB9E1CB29E6C00CF1632 /* NotificationViewController.h */,
+				8267AB9F1CB29E6C00CF1632 /* NotificationViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1799,6 +1960,8 @@
 				D1F400F2EC7F15D32196CDE1 /* Pods-Chemist Plus.release.xcconfig */,
 				D12B16F82B6D83EA4EC150ED /* Pods-Neediator.debug.xcconfig */,
 				7CED2C0B1CF6D1F8E6BC80C5 /* Pods-Neediator.release.xcconfig */,
+				1756E12D5CF521CB88AE9C4E /* Pods-Neediator-AppleWatch.debug.xcconfig */,
+				7401B298C9DC1D0E22545228 /* Pods-Neediator-AppleWatch.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1806,6 +1969,43 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8267AB6E1CB281E300CF1632 /* Neediator-AppleWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8267AB951CB281E400CF1632 /* Build configuration list for PBXNativeTarget "Neediator-AppleWatch" */;
+			buildPhases = (
+				DE7973203789204B858F4E33 /* Check Pods Manifest.lock */,
+				8267AB6D1CB281E300CF1632 /* Resources */,
+				8267AB941CB281E400CF1632 /* Embed App Extensions */,
+				46E4D24237C7D37380ED434D /* Frameworks */,
+				967D45933561E0A60DE7749E /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8267AB7E1CB281E400CF1632 /* PBXTargetDependency */,
+			);
+			name = "Neediator-AppleWatch";
+			productName = "Neediator-AppleWatch";
+			productReference = 8267AB6F1CB281E300CF1632 /* Neediator-AppleWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		8267AB7A1CB281E300CF1632 /* Neediator-AppleWatch Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8267AB911CB281E400CF1632 /* Build configuration list for PBXNativeTarget "Neediator-AppleWatch Extension" */;
+			buildPhases = (
+				8267AB771CB281E300CF1632 /* Sources */,
+				8267AB781CB281E300CF1632 /* Frameworks */,
+				8267AB791CB281E300CF1632 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Neediator-AppleWatch Extension";
+			productName = "Neediator-AppleWatch Extension";
+			productReference = 8267AB7B1CB281E300CF1632 /* Neediator-AppleWatch Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		82BD02871B46A73C00108A0B /* Neediator */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82BD02AB1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "Neediator" */;
@@ -1816,10 +2016,12 @@
 				82BD02861B46A73C00108A0B /* Resources */,
 				BCEB34B768A8987F3544B538 /* Copy Pods Resources */,
 				25D35F44936B9F253036DFF3 /* Embed Pods Frameworks */,
+				8267AB981CB281E400CF1632 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8267AB8F1CB281E400CF1632 /* PBXTargetDependency */,
 			);
 			name = Neediator;
 			productName = HealthApp;
@@ -1854,6 +2056,13 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = adverto;
 				TargetAttributes = {
+					8267AB6E1CB281E300CF1632 = {
+						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = KMK576W42B;
+					};
+					8267AB7A1CB281E300CF1632 = {
+						CreatedOnToolsVersion = 7.3;
+					};
 					82BD02871B46A73C00108A0B = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = KMK576W42B;
@@ -1879,11 +2088,30 @@
 			targets = (
 				82BD02871B46A73C00108A0B /* Neediator */,
 				82BD02A01B46A73C00108A0B /* NeediatorTests */,
+				8267AB6E1CB281E300CF1632 /* Neediator-AppleWatch */,
+				8267AB7A1CB281E300CF1632 /* Neediator-AppleWatch Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8267AB6D1CB281E300CF1632 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8267AB751CB281E300CF1632 /* Assets.xcassets in Resources */,
+				8267AB731CB281E300CF1632 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8267AB791CB281E300CF1632 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8267AB8C1CB281E400CF1632 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82BD02861B46A73C00108A0B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1957,6 +2185,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		967D45933561E0A60DE7749E /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		BCEB34B768A8987F3544B538 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1972,9 +2215,35 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator/Pods-Neediator-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		DE7973203789204B858F4E33 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8267AB771CB281E300CF1632 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8267AB871CB281E400CF1632 /* ExtensionDelegate.m in Sources */,
+				8267AB9B1CB286C100CF1632 /* ListingRow.m in Sources */,
+				8267AB841CB281E400CF1632 /* InterfaceController.m in Sources */,
+				8267AB8A1CB281E400CF1632 /* NotificationController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82BD02841B46A73C00108A0B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2026,6 +2295,7 @@
 				82147FBD1C4528ED00D6691E /* MetaPagingModel.m in Sources */,
 				82ED53E41C4FB48100FA7707 /* EntityDetailsResponseModel.m in Sources */,
 				82A542831C229ECF00383253 /* MyOrdersModel.m in Sources */,
+				8267ABA01CB29E6C00CF1632 /* NotificationViewController.m in Sources */,
 				829F73941C257FEE001670A8 /* CustomCollectionViewCell.m in Sources */,
 				821415801C99819900FDEFDB /* MapLocationViewController.m in Sources */,
 				823B738E1C49262000031596 /* UIColor+HexString.m in Sources */,
@@ -2149,6 +2419,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8267AB7E1CB281E400CF1632 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8267AB7A1CB281E300CF1632 /* Neediator-AppleWatch Extension */;
+			targetProxy = 8267AB7D1CB281E400CF1632 /* PBXContainerItemProxy */;
+		};
+		8267AB8F1CB281E400CF1632 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8267AB6E1CB281E300CF1632 /* Neediator-AppleWatch */;
+			targetProxy = 8267AB8E1CB281E400CF1632 /* PBXContainerItemProxy */;
+		};
 		82BD02A31B46A73C00108A0B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82BD02871B46A73C00108A0B /* Neediator */;
@@ -2157,6 +2437,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		8267AB711CB281E300CF1632 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8267AB721CB281E300CF1632 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		82BD02951B46A73C00108A0B /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2176,6 +2464,76 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8267AB921CB281E400CF1632 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = "Neediator-AppleWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.linkcube.neediator.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.2;
+			};
+			name = Debug;
+		};
+		8267AB931CB281E400CF1632 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = "Neediator-AppleWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.linkcube.neediator.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 2.2;
+			};
+			name = Release;
+		};
+		8267AB961CB281E400CF1632 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1756E12D5CF521CB88AE9C4E /* Pods-Neediator-AppleWatch.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				IBSC_MODULE = Neediator_AppleWatch_Extension;
+				INFOPLIST_FILE = "Neediator-AppleWatch/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.linkcube.neediator.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.2;
+			};
+			name = Debug;
+		};
+		8267AB971CB281E400CF1632 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7401B298C9DC1D0E22545228 /* Pods-Neediator-AppleWatch.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IBSC_MODULE = Neediator_AppleWatch_Extension;
+				INFOPLIST_FILE = "Neediator-AppleWatch/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.linkcube.neediator.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 2.2;
+			};
+			name = Release;
+		};
 		82BD02A91B46A73C00108A0B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2360,6 +2718,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8267AB911CB281E400CF1632 /* Build configuration list for PBXNativeTarget "Neediator-AppleWatch Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8267AB921CB281E400CF1632 /* Debug */,
+				8267AB931CB281E400CF1632 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8267AB951CB281E400CF1632 /* Build configuration list for PBXNativeTarget "Neediator-AppleWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8267AB961CB281E400CF1632 /* Debug */,
+				8267AB971CB281E400CF1632 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		82BD02831B46A73C00108A0B /* Build configuration list for PBXProject "Neediator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

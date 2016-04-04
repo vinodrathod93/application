@@ -13,25 +13,18 @@
 -(void)awakeFromNib {
     [super awakeFromNib];
     
-//    self.deleteButton.layer.cornerRadius = self.deleteButton.frame.size.width;
-//    self.deleteButton.layer.masksToBounds = YES;
+    self.deleteButton.layer.cornerRadius = 15.f;
+    self.deleteButton.layer.borderColor = [UIColor redColor].CGColor;
+    self.deleteButton.layer.borderWidth = 2.f;
+    self.deleteButton.layer.masksToBounds = YES;
     
     
-//    self.pContentView.backgroundColor = [NeediatorUtitity defaultColor];
-//    self.pContentView.userInteractionEnabled = YES;
-//    self.pContentView.layer.cornerRadius = 5.f;
-//    self.pContentView.layer.masksToBounds = YES;
+    self.pContentView.backgroundColor = [NeediatorUtitity defaultColor];
+    self.pContentView.userInteractionEnabled = YES;
+    self.pContentView.layer.cornerRadius = 5.f;
+    self.pContentView.layer.masksToBounds = YES;
 }
 
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        
-    }
-    return self;
-}
 
 
 @end

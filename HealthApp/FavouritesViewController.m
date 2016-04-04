@@ -118,11 +118,6 @@
     
     
     
-    
-    
-//    [self presentViewController:storeTaxonsVC animated:YES completion:nil];
-    
-    
     storeTaxonsVC.hidesBottomBarWhenPushed = NO;
     [self.navigationController pushViewController:storeTaxonsVC animated:YES];
     

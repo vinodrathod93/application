@@ -13,6 +13,7 @@
 @property (nonatomic, copy) NSString *list_id;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *address;
+@property (nonatomic, copy) NSString *area;
 @property (nonatomic, copy) NSString *image_url;
 @property (nonatomic, copy) NSString *city;
 @property (nonatomic, copy) NSArray *phone_nos;
@@ -27,6 +28,7 @@
 
 @property (nonatomic, copy) NSNumber *isBook;
 @property (nonatomic, copy) NSNumber *isCall;
+@property (nonatomic, copy) NSNumber *isHomeRequest;
 
 @property (nonatomic, copy) NSArray *images;
 @property (nonatomic, copy) NSArray *likeUnlike;

@@ -30,6 +30,7 @@
 #import "HomeCollectionViewCell.h"
 #import "SortListModel.h"
 #import "FilterListModel.h"
+#import "NotificationViewController.h"
 
 
 
@@ -125,9 +126,16 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     [self requestCategories];
     
+    self.promotions = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
     
-//    self.notificationButton
     
+    
+}
+- (IBAction)notificationDidTapped:(id)sender {
+    
+    NotificationViewController *notificationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationListVC"];
+    
+    [self.navigationController pushViewController:notificationVC animated:YES];
 }
 
 -(void)showLoadingView {
@@ -280,7 +288,15 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     
     
-    cell.contentView.backgroundColor = [UIColor colorWithRed:244/255.f green:237/255.f blue:7/255.f alpha:1.0];
+    [UIView animateWithDuration:0.1
+                          delay:0
+                        options:(UIViewAnimationOptionAllowUserInteraction)
+                     animations:^{
+                         cell.contentView.backgroundColor = [UIColor colorWithRed:244/255.f green:237/255.f blue:7/255.f alpha:1.0];
+                     }
+                     completion:nil];
+    
+    
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -288,7 +304,14 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     
     
-    cell.contentView.backgroundColor = [UIColor whiteColor];
+    [UIView animateWithDuration:0.1
+                          delay:0
+                        options:(UIViewAnimationOptionAllowUserInteraction)
+                     animations:^{
+                         cell.contentView.backgroundColor = [UIColor whiteColor];
+                     }
+                     completion:nil];
+    
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -350,13 +373,15 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         
 //        [self setupScrollViewImages];
+        // Changed the promotion model with static string url
         
-        [self.promotions enumerateObjectsUsingBlock:^(PromotionModel *promotion, NSUInteger idx, BOOL *stop) {
+        
+        [self.promotions enumerateObjectsUsingBlock:^(NSString *promotion_url, NSUInteger idx, BOOL *stop) {
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
             imageView.tag = idx;
             
             
-            NSURL *image_url = [NSURL URLWithString:promotion.image_url];
+            NSURL *image_url = [NSURL URLWithString:promotion_url];
             
             
             [imageView sd_setImageWithURL:image_url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
@@ -590,11 +615,15 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         self.hud.hudCenter = CGPointMake(CGRectGetWidth(_launchScreen.bounds) / 2, CGRectGetHeight(_launchScreen.bounds) / 2 + 120.f);
         [self.hud fadeInAnimated:YES];
         [_launchScreen addSubview:self.hud];
+        
+        
     }
     
 }
 
 -(void)hideHUD {
+    
+    
     [self.hud fadeOutAnimated:YES];
     [_launchScreen removeFromSuperview];
 }
@@ -660,9 +689,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
             });
         });
         
+                [NSThread sleepForTimeInterval:2.0];
         
                 [self hideHUD];
                 self.promotions         = response.promotions;
+        
         
         
         
@@ -671,6 +702,8 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
     } failure:^(NSError *error) {
         // Display error
+        
+        [NSThread sleepForTimeInterval:2.0];
         [self hideHUD];
         
         self.categoriesArray = [MainCategoryRealm allObjects];

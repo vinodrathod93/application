@@ -287,7 +287,7 @@
     cell.roundedContentView.layer.masksToBounds = YES;
     
     cell.name.text = model.name.capitalizedString;
-    cell.street.text = model.address.capitalizedString;
+    cell.street.text = [NSString stringWithFormat:@"➥ %@", model.area.capitalizedString];
     cell.rating.text = [NSString stringWithFormat:@"⭐️ %.01f", model.ratings.floatValue];
     cell.distance.text = [NSString stringWithFormat:@"📍 %@",[model.nearest_distance uppercaseString]];
     cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",[model.timing uppercaseString]];
@@ -860,29 +860,31 @@
         
         NSURL *url = [NSURL URLWithString:imageName];
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            
-            [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                NSLog(@"Image %ld of %ld", (long)receivedSize, (long)expectedSize);
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                
-                if (image) {
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        CIImage *newImage = [[CIImage alloc] initWithImage:image];
-                        CIContext *context = [CIContext contextWithOptions:nil];
-                        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
-                        
-                        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-                    });
-                }
-                
-            }];
-        });
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            
+//            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+//            
+//            [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//                NSLog(@"Image %ld of %ld", (long)receivedSize, (long)expectedSize);
+//            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+//                
+//                if (image) {
+//                    
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        
+//                        CIImage *newImage = [[CIImage alloc] initWithImage:image];
+//                        CIContext *context = [CIContext contextWithOptions:nil];
+//                        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+//                        
+//                        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+//                    });
+//                }
+//                
+//            }];
+//        });
         
+        
+        [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         
         
         [cell.scrollView addSubview:imageView];

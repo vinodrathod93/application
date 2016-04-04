@@ -115,6 +115,17 @@
     return nil;
 }
 
+
+
++ (UIView *)showDimViewWithFrame:(CGRect)frame {
+    UIView *dimView = [[UIView alloc] initWithFrame:frame];
+    
+    
+    return dimView;
+}
+
+
+
 + (void)clearDataForKey:(NSString *)key
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

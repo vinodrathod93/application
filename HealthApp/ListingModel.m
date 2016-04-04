@@ -15,6 +15,7 @@
              @"list_id"             : @"id",
              @"name"                : @"name",
              @"address"             : @"address",
+             @"area"                : @"area",
              @"image_url"           : @"image_url",
              @"city"                : @"city",
              @"phone_nos"           : @"phone_no",
@@ -28,6 +29,7 @@
              @"isDislike"           : @"dislike",
              @"isBook"              : @"book",
              @"isCall"              : @"call",
+             @"isHomeRequest"       : @"home_request",
              @"images"              : @"Images",
              @"likeUnlike"          : @"LikeUnlike",
              @"premium"             : @"premium"

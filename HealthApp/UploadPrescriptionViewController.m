@@ -73,7 +73,7 @@
     self.imagesCollectionView.layer.masksToBounds = YES;
     
     
-    [self.imagesCollectionView registerClass:[UploadPrsCollectionViewCell class] forCellWithReuseIdentifier:@"selectedImagesCellIdentifier"];
+//    [self.imagesCollectionView registerClass:[UploadPrsCollectionViewCell class] forCellWithReuseIdentifier:@"selectedImagesCellIdentifier"];
     
     [self hideCollectionView];
     
@@ -293,8 +293,6 @@
     
     NSLog(@"%@", info);
     _cameraImage = info[UIImagePickerControllerOriginalImage];
-//    self.imageView.image = chosenImage;
-//    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     
     _cameraCaptured = YES;
@@ -561,14 +559,14 @@
 }
 
 
--(UIImage *)getAssetThumbnail:(PHAsset *)asset {
+-(UIImage *)getAssetThumbnail:(PHAsset *)asset withTargetSize:(CGSize)size {
     PHImageManager *manager = [PHImageManager defaultManager];
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     
     __block UIImage *thumbnail = [[UIImage alloc] init];
     options.synchronous = TRUE;
     
-    [manager requestImageForAsset:asset targetSize:CGSizeMake(100, 100) contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+    [manager requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         thumbnail = result;
     }];
     
@@ -595,7 +593,7 @@
         [positions enumerateObjectsUsingBlock:^(NSNumber  *_Nonnull index, NSUInteger idx, BOOL * _Nonnull stop) {
             
             PHAsset *photo = _assets[index.intValue];
-            UIImage *image = [self getAssetThumbnail:photo];
+            UIImage *image = [self getAssetThumbnail:photo withTargetSize:self.view.frame.size];
             
             
             [selectedImagesArray addObject:image];
@@ -946,18 +944,8 @@
     static NSString *cellIdentifier = @"selectedImagesCellIdentifier";
     
     UploadPrsCollectionViewCell *uploadPrsCell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
-//    imageView.contentMode   = UIViewContentModeScaleAspectFill;
-//    imageView.userInteractionEnabled = YES;
-    
-    if(!uploadPrsCell) {
-        NSLog(@"Cell not initialized");
-    }
-    
-    uploadPrsCell.pContentView.backgroundColor = [NeediatorUtitity defaultColor];
-    uploadPrsCell.pImageView.contentMode = UIViewContentModeScaleAspectFill;
-    
-    [uploadPrsCell.deleteButton addTarget:self action:@selector(deleteConfirmation) forControlEvents:UIControlEventTouchUpInside];
+
+    [uploadPrsCell.deleteButton addTarget:self action:@selector(deleteConfirmation:) forControlEvents:UIControlEventTouchUpInside];
     
     if (indexPath.item != [self selectedImages].count) {
         NSLog(@"Continue");
@@ -967,7 +955,7 @@
     }
     else {
         
-        uploadPrsCell.pImageView.frame = CGRectMake(uploadPrsCell.frame.size.width/2 - (25/2), uploadPrsCell.frame.size.height/2 - (25/2), 25, 25);
+//        uploadPrsCell.pImageView.frame = CGRectMake(uploadPrsCell.frame.size.width/2 - (25/2), uploadPrsCell.frame.size.height/2 - (25/2), 25, 25);
         uploadPrsCell.pImageView.image = [UIImage imageNamed:@"addPlus"];
         
     }
@@ -977,8 +965,19 @@
 }
 
 
--(void)deleteConfirmation {
+-(void)deleteConfirmation:(UIButton *)sender {
     [NeediatorUtitity alertWithTitle:@"Are u Sure" andMessage:@"Delete the Image" onController:self];
+    
+    
+    NSLog(@"%@ and %@", sender.superview, sender.superview.superview.superview);
+    
+    UploadPrsCollectionViewCell *cell = (UploadPrsCollectionViewCell *)[[sender superview] superview];
+    NSIndexPath *selectIndexpath = [self.imagesCollectionView indexPathForCell:cell];
+    
+    [self removeImageAtIndex:selectIndexpath];
+    
+    [self.imagesCollectionView reloadData];
+    
 }
 
 
@@ -987,6 +986,12 @@
     
     if (indexPath.item == [[self selectedImages] count]) {
         // New Image
+        
+        
+        
+        
+        
+        
     }
     else {
         
