@@ -56,9 +56,8 @@
         [myAlertView show];
     }
     
-    [self.uploadButton setTintColor:[UIColor lightGrayColor]];
-    [self.uploadButton setUserInteractionEnabled:NO];
     
+    [self disableUploadButton];
     
     self.closeButton.layer.cornerRadius = self.closeButton.frame.size.height/2;
     self.closeButton.layer.masksToBounds = YES;
@@ -73,7 +72,6 @@
     self.imagesCollectionView.layer.masksToBounds = YES;
     
     
-//    [self.imagesCollectionView registerClass:[UploadPrsCollectionViewCell class] forCellWithReuseIdentifier:@"selectedImagesCellIdentifier"];
     
     [self hideCollectionView];
     
@@ -105,21 +103,28 @@
 }
 
 
+
+-(void)disableUploadButton {
+    [self.uploadButton setTintColor:[UIColor lightGrayColor]];
+    [self.uploadButton setUserInteractionEnabled:NO];
+}
+
+
 -(void)dismissVC:(UIBarButtonItem *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
-
--(void)cellTapGestureAction:(UITapGestureRecognizer *)sender
-{
-    CGPoint touchLocation = [sender locationOfTouch:0 inView:self.imagesCollectionView];
-    NSIndexPath *indexPath = [self.imagesCollectionView indexPathForItemAtPoint:touchLocation];
-    
-    NSLog(@"%ld", (long)indexPath.item);
-    
-    [self collectionViewTapGestureSelectAtIndex:indexPath];
-}
+//
+//-(void)cellTapGestureAction:(UITapGestureRecognizer *)sender
+//{
+//    CGPoint touchLocation = [sender locationOfTouch:0 inView:self.imagesCollectionView];
+//    NSIndexPath *indexPath = [self.imagesCollectionView indexPathForItemAtPoint:touchLocation];
+//    
+//    NSLog(@"%ld", (long)indexPath.item);
+//    
+//    [self collectionViewTapGestureSelectAtIndex:indexPath];
+//}
 
 #pragma mark - IBActions
 
@@ -134,15 +139,6 @@
 
 
 -(IBAction)selectPhotoPressed:(id)sender {
-    
-    /*
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    picker.allowsEditing = YES;
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
-    [self presentViewController:picker animated:YES completion:NULL];
-    */
     
     NSMutableArray *photos = [[NSMutableArray alloc] init];
     NSMutableArray *thumbs = [[NSMutableArray alloc] init];
@@ -193,7 +189,10 @@
     [browser setCurrentPhotoIndex:0];
     
     
-    if (browser.displaySelectionButtons) {
+    if (_selections != nil) {
+        NSLog(@"Already Selected");
+    }
+    else if (browser.displaySelectionButtons) {
         _selections = [NSMutableArray new];
         for (int i = 0; i < photos.count; i++) {
             [_selections addObject:[NSNumber numberWithBool:NO]];
@@ -209,7 +208,7 @@
 
 - (IBAction)uploadPhotoPressed:(id)sender {
     
-    NSArray *selectedImages = [self selectedImages];
+    NSArray *selectedImages = [self thumbnailSelectedImages];
     
     if (selectedImages.count <= 0) {
         UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Cannot Upload"
@@ -271,10 +270,13 @@
     NSLog(@"Selections %@", _selections);
     [self dismissViewControllerAnimated:YES completion:^{
         
+        if ([_selections containsObject:[NSNumber numberWithBool:YES]]) {
+            [self showCollectionImages];
+            
+            [self enableUploadButton];
+        }
         
-        [self showCollectionImages];
         
-        [self enableUploadButton];
         
     }];
     
@@ -298,7 +300,7 @@
     _cameraCaptured = YES;
     
     
-    NSLog(@"Captured Images %@", [self selectedImages]);
+    NSLog(@"Captured Images %@", [self thumbnailSelectedImages]);
     
     // Show Image in collection view
     [self showCollectionImages];
@@ -464,9 +466,7 @@
     [self.view bringSubviewToFront:self.imagesCollectionView];
     [self.imagesCollectionView reloadData];
     
-    self.selectPhotoButton.hidden = YES;
-    self.takePhotoButton.hidden = YES;
-    self.selectPhotoLabel.hidden = YES;
+    [self hideNewUploadView];
     
     self.imagesCollectionView.hidden = NO;
     self.deliveryTypeLabel.hidden = NO;
@@ -489,6 +489,21 @@
     
     self.dataTimeLabel.hidden = YES;
     self.dateTimeField.hidden = YES;
+}
+
+
+
+-(void)hideNewUploadView {
+    self.selectPhotoButton.hidden = YES;
+    self.takePhotoButton.hidden = YES;
+    self.selectPhotoLabel.hidden = YES;
+}
+
+
+-(void)showNewUploadView {
+    self.selectPhotoButton.hidden = NO;
+    self.takePhotoButton.hidden = NO;
+    self.selectPhotoLabel.hidden = NO;
 }
 
 
@@ -573,15 +588,22 @@
     return thumbnail;
 }
 
--(void)removeImageAtIndex:(NSIndexPath *)indexPath {
+-(void)removeImageSelectionAtIndex:(NSIndexPath *)indexPath {
     
-    [_selections replaceObjectAtIndex:indexPath.item withObject:@0];
+    
+    NSArray *positions = [self positionArray];
+    
+    NSNumber *index = positions[indexPath.item];
+    NSLog(@"Index, %d", index.intValue);
+    
+    
+    [_selections replaceObjectAtIndex:index.intValue withObject:@0];
     
     NSLog(@"%@", _selections);
 }
 
--(NSArray *)selectedImages {
-    
+
+-(NSArray *)commonSelectedImagesWithSize:(CGSize)size {
     NSMutableArray *selectedImagesArray = [[NSMutableArray alloc] init];
     NSArray *positions = [self positionArray];
     
@@ -593,7 +615,7 @@
         [positions enumerateObjectsUsingBlock:^(NSNumber  *_Nonnull index, NSUInteger idx, BOOL * _Nonnull stop) {
             
             PHAsset *photo = _assets[index.intValue];
-            UIImage *image = [self getAssetThumbnail:photo withTargetSize:self.view.frame.size];
+            UIImage *image = [self getAssetThumbnail:photo withTargetSize:size];
             
             
             [selectedImagesArray addObject:image];
@@ -603,13 +625,33 @@
     }
     
     
+    
     return selectedImagesArray;
+}
+
+
+-(NSArray *)thumbnailSelectedImages {
+    
+    NSMutableArray *thumbnails = [NSMutableArray array];
+    
+    thumbnails = (NSMutableArray *)[self commonSelectedImagesWithSize:CGSizeMake(100, 100)];
+    
+    
+    [thumbnails addObject:[UIImage imageNamed:@"addPlus"]];
+    
+    return thumbnails;
+}
+
+
+-(NSArray *)largeSelectedImages {
+    
+    return [self commonSelectedImagesWithSize:self.view.frame.size];
 }
 
 
 -(NSArray *)selectedImagesBase64 {
     
-    NSArray *images = [self selectedImages];
+    NSArray *images = [self thumbnailSelectedImages];
     
     NSMutableArray *base64Images = [[NSMutableArray alloc] init];
     
@@ -932,8 +974,8 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    if ([[self selectedImages] count] != 0) {
-        return [[self selectedImages] count] + 1;
+    if ([[self thumbnailSelectedImages] count] != 0) {
+        return [[self thumbnailSelectedImages] count];
     }
     else
         return 0;
@@ -945,49 +987,66 @@
     
     UploadPrsCollectionViewCell *uploadPrsCell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
 
-    [uploadPrsCell.deleteButton addTarget:self action:@selector(deleteConfirmation:) forControlEvents:UIControlEventTouchUpInside];
+    [uploadPrsCell.deleteButton addTarget:self action:@selector(removeImage:) forControlEvents:UIControlEventTouchUpInside];
     
-    if (indexPath.item != [self selectedImages].count) {
+    if ([self thumbnailSelectedImages]) {
         NSLog(@"Continue");
         
-        NSArray *images = [self selectedImages];
+        NSArray *images = [self thumbnailSelectedImages];
         uploadPrsCell.pImageView.image = (UIImage *)images[indexPath.item];
-    }
-    else {
         
+    }
+//    else {
+//        
 //        uploadPrsCell.pImageView.frame = CGRectMake(uploadPrsCell.frame.size.width/2 - (25/2), uploadPrsCell.frame.size.height/2 - (25/2), 25, 25);
-        uploadPrsCell.pImageView.image = [UIImage imageNamed:@"addPlus"];
-        
-    }
+//        uploadPrsCell.pImageView.image = [UIImage imageNamed:@"addPlus"];
+//        [uploadPrsCell hideDeleteButton];
+//        
+//    }
 
     
     return uploadPrsCell;
 }
 
 
--(void)deleteConfirmation:(UIButton *)sender {
-    [NeediatorUtitity alertWithTitle:@"Are u Sure" andMessage:@"Delete the Image" onController:self];
+-(void)removeImage:(UIButton *)sender {
     
-    
-    NSLog(@"%@ and %@", sender.superview, sender.superview.superview.superview);
-    
-    UploadPrsCollectionViewCell *cell = (UploadPrsCollectionViewCell *)[[sender superview] superview];
+    UploadPrsCollectionViewCell *cell = (UploadPrsCollectionViewCell *)[[[sender superview] superview] superview];
     NSIndexPath *selectIndexpath = [self.imagesCollectionView indexPathForCell:cell];
     
-    [self removeImageAtIndex:selectIndexpath];
+    [self removeImageSelectionAtIndex:selectIndexpath];
     
     [self.imagesCollectionView reloadData];
     
 }
 
+//
+//-(NSInteger)lastImageInSelections {
+//    NSArray *positions = [self positionArray];
+//    
+//    NSInteger index = [positions indexOfObject:[positions lastObject]];
+//    
+//    
+////    PHAsset *photo = _assets[lastPosition.intValue];
+////    UIImage *image = [self getAssetThumbnail:photo withTargetSize:CGSizeMake(100, 110)];
+//    
+//    
+//    return index;
+//}
+
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    if (indexPath.item == [[self selectedImages] count]) {
+    if (indexPath.item == [[self thumbnailSelectedImages] count]) {
         // New Image
         
-        
+        [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:200 initialSpringVelocity:50 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            [self hideCollectionView];
+            [self showNewUploadView];
+        } completion:^(BOOL finished) {
+            NSLog(@"Done");
+        }];
         
         
         
@@ -995,7 +1054,7 @@
     }
     else {
         
-        NSArray *images = [self selectedImages];
+        NSArray *images = [self largeSelectedImages];
         
         ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
         imageModalVC.image  = images[indexPath.item];
@@ -1009,7 +1068,7 @@
 }
 
 
-
+/*
 -(void)collectionViewTapGestureSelectAtIndex:(NSIndexPath *)indexPath {
     
     
@@ -1082,7 +1141,7 @@
     
     [self presentViewController:controller animated:YES completion:nil];
 }
-
+*/
 
 
 
@@ -1120,17 +1179,6 @@
     CGRect beginFrame;
     CGRect endFrame             = toView.frame;
     
-//    if (_isBooking) {
-//        BookCallListingCell *cell = (BookCallListingCell *)[[[_tappedImageView superview] superview] superview];
-//        beginFrame           = [container convertRect:cell.profileImageview.frame fromView:cell.profileImageview.superview];
-//    }
-//    else {
-//        ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
-//        beginFrame           = [container convertRect:cell.profileImageview.frame fromView:cell.profileImageview.superview];
-//    }
-//    
-    
-//    UICollectionViewCell *cell = (UICollectionViewCell *)[_selectedImageView superview];
     
     beginFrame = [container convertRect:_selectedImageView.frame fromView:_selectedImageView.superview];
     
@@ -1143,14 +1191,6 @@
         move                    = [toView snapshotViewAfterScreenUpdates:YES];
         move.frame              = beginFrame;
         
-//        if (_isBooking) {
-//            BookCallListingCell *cell = (BookCallListingCell *)[[[_tappedImageView superview] superview] superview];
-//            cell.profileImageview.hidden   = YES;
-//        }
-//        else {
-//            ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
-//            cell.profileImageview.hidden   = YES;
-//        }
         
         _selectedImageView.hidden = YES;
         
@@ -1181,14 +1221,6 @@
             
         } else {
             
-//            if (_isBooking) {
-//                BookCallListingCell *cell = (BookCallListingCell *)[[[_tappedImageView superview] superview] superview];
-//                cell.profileImageview.hidden   = NO;
-//            }
-//            else {
-//                ListingCell *cell       = (ListingCell *)[[[_tappedImageView superview] superview] superview];
-//                cell.profileImageview.hidden   = NO;
-//            }
             
             _selectedImageView.hidden = NO;
             

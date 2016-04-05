@@ -1,4 +1,4 @@
-Pods
+
 ### Xcode ###
 # Xcode
 #
@@ -7,6 +7,9 @@ Pods
 ## Build generated
 build/
 DerivedData/
+
+
+Pods
 
 ## Various settings
 *.pbxuser

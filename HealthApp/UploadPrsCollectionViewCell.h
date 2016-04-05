@@ -14,4 +14,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *pImageView;
 @property (weak, nonatomic) IBOutlet UIView *pContentView;
 
+-(void)hideDeleteButton;
+
 @end

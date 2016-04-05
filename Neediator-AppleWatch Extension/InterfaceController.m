@@ -17,7 +17,8 @@
 //#import "NeediatorConstants.h"
 //#import "User.h"
 
-
+@class NAPIManager;
+@class NeediatorUtitity;
 
 @interface InterfaceController()
 {

@@ -1,6 +1,14 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '6.0'
+#"platforms": {
+#    "iOS": "8.0",
+#    "watchos": "2.0"
+#}
 
+source 'https://github.com/CocoaPods/Specs.git'
+
+
+
+#use_frameworks!
 
 def shared_pods
     pod 'AFNetworking'
@@ -9,7 +17,7 @@ end
 
 
 target 'Neediator' do
-
+    platform :ios, '8.1'
     shared_pods
     
     pod 'SDWebImage', '~>3.7'
@@ -24,8 +32,6 @@ target 'Neediator' do
     pod 'Appirater'
     pod 'DIDatepicker'
     
-    source 'https://github.com/CocoaPods/Specs.git'
-    platform :ios, '8.1'
     pod 'GoogleMaps'
     
     pod 'SVPullToRefresh'
@@ -33,22 +39,15 @@ target 'Neediator' do
 end
 
 
-target 'Neediator-AppleWatch' do
-    shared_pods
-end
+#target 'Neediator-AppleWatch Extension' do
+#
+#    platform :watchos, '2.0'
+#    shared_pods
+#end
 
 
 target 'NeediatorTests' do
 
 end
 
-post_install do |add_app_extension_macro|
-    add_app_extension_macro.pods_project.targets.each do |target|
-        if target.name.include?("Pods-Neediator-AppleWatch")
-            target.build_configurations.each do |config|
-                config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)', 'AF_APP_EXTENSIONS=1']
-            end
-        end
-    end
-end
-
+#link_with 'Neediator', 'Neediator-AppleWatch Extension'

@@ -24,23 +24,43 @@
 	</array>
 	<key>Category</key>
 	<array>
+		<string>Chemist</string>
 		<string>General Stores</string>
-		<string>Restaurants &amp; Cafe</string>
-		<string>Desserts</string>
-		<string>Chemists</string>
 		<string>Doctors</string>
 		<string>Hospitals</string>
 		<string>Ambulance</string>
-		<string>Diagnotic Centres</string>
-		<string>Wellness</string>
-		<string>Banquets</string>
-		<string>Sweet Shop</string>
-		<string>Vehicle Showrooms</string>
+		<string>Diagnostic Centres</string>
 		<string>Insurance</string>
+		<string>Wellness</string>
+		<string>Restaurants</string>
+		<string>Banquets</string>
+		<string>Desserts</string>
+		<string>Vehicle Showroom</string>
 		<string>Bar Shop</string>
 		<string>Laundry</string>
 		<string>Courier</string>
 		<string>Home Services</string>
+		<string>Salon</string>
+	</array>
+	<key>subCategory</key>
+	<array>
+		<false/>
+		<false/>
+		<true/>
+		<false/>
+		<false/>
+		<false/>
+		<false/>
+		<true/>
+		<true/>
+		<false/>
+		<false/>
+		<true/>
+		<false/>
+		<false/>
+		<false/>
+		<true/>
+		<false/>
 	</array>
 </dict>
 </plist>

@@ -43,12 +43,10 @@ typedef void(^completion)(BOOL finished);
     
     self.title = @"My Addresses";
     
+    [self loadAddresses];
     
-    if (!self.isGettingOrder) {
-        [self loadAddresses];
+    if (self.isGettingOrder) {
         
-    }
-    else {
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed:)];
         self.navigationItem.rightBarButtonItem = cancelButton;
     }

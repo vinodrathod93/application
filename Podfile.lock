@@ -1,18 +1,18 @@
 PODS:
-  - AFNetworking (3.0.4):
-    - AFNetworking/NSURLSession (= 3.0.4)
-    - AFNetworking/Reachability (= 3.0.4)
-    - AFNetworking/Security (= 3.0.4)
-    - AFNetworking/Serialization (= 3.0.4)
-    - AFNetworking/UIKit (= 3.0.4)
-  - AFNetworking/NSURLSession (3.0.4):
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.0.4)
-  - AFNetworking/Security (3.0.4)
-  - AFNetworking/Serialization (3.0.4)
-  - AFNetworking/UIKit (3.0.4):
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - Appirater (2.0.5)
   - DACircularProgress (2.3.1)
@@ -28,7 +28,7 @@ PODS:
   - GoogleAnalytics (3.14.0)
   - GoogleInterchangeUtilities (1.2.0):
     - GoogleSymbolUtilities (~> 1.0)
-  - GoogleMaps (1.12.2)
+  - GoogleMaps (1.13.0)
   - GoogleNetworkingUtilities (1.2.0):
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleSymbolUtilities (1.1.0)
@@ -44,9 +44,9 @@ PODS:
     - MBProgressHUD (~> 0.9)
     - SDWebImage (!= 3.7.2, ~> 3.7)
   - pop (1.0.9)
-  - Realm (0.98.2):
-    - Realm/Headers (= 0.98.2)
-  - Realm/Headers (0.98.2)
+  - Realm (0.98.6):
+    - Realm/Headers (= 0.98.6)
+  - Realm/Headers (0.98.6)
   - RMPZoomTransitionAnimator (1.0.2)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
@@ -74,14 +74,14 @@ DEPENDENCIES:
   - XLForm (~> 3.0.0)
 
 SPEC CHECKSUMS:
-  AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   DIDatepicker: c990ce1cdc8a6169cf7eb6369cd97604864eed27
   Google: 61379f0072bc561a7e174d23a6cbe41bd6d8599c
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleInterchangeUtilities: 427382e42d8a340038bec37c6fdfd316e14b5fa2
-  GoogleMaps: cc76edaa94a4284e80ecd7089ed319d1cca5f37e
+  GoogleMaps: 7a6caeb8336d7cb42982e969fc9b1b20a889fe79
   GoogleNetworkingUtilities: ec1e9911aca811eb18b7144394fee6168b607785
   GoogleSymbolUtilities: eb3965ea12710569c7b80db198a39e39b18613f7
   GoogleUtilities: 85f8ad6b251544286a97163133d042ec95f889c5
@@ -90,7 +90,7 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MWPhotoBrowser: ba0d0c09ffda3a7ea10093518738c502c1c7141c
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  Realm: 88a147fe04b8f07191a676b15c779b2b448991de
+  Realm: 44803f35418c5d89b27825a564247fcd190de37e
   RMPZoomTransitionAnimator: fa1a0726e8e227069d9d63d30ef403aa12323960
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SLExpandableTableView: ff63a4bb4b71c6c3ae2b7cb1cde6a36c1645f23c
