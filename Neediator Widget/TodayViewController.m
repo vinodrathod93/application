@@ -18,6 +18,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    
+    self.preferredContentSize = CGSizeMake(0, 120);
+    
+    [self.ordersButton addTarget:self action:@selector(openMyOrders) forControlEvents:UIControlEventTouchUpInside];
+    [self.searchButton addTarget:self action:@selector(openSearch) forControlEvents:UIControlEventTouchUpInside];
+    [self.qrButton addTarget:self action:@selector(openQRCode) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,4 +42,23 @@
     completionHandler(NCUpdateResultNewData);
 }
 
+
+-(UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)defaultMarginInsets {
+    return UIEdgeInsetsZero;
+}
+
+-(void)openMyOrders {
+    NSURL *url = [NSURL URLWithString:@"neediator://myOrders"];
+    [self.extensionContext openURL:url completionHandler:nil];
+}
+
+-(void)openSearch {
+    NSURL *url = [NSURL URLWithString:@"neediator://search"];
+    [self.extensionContext openURL:url completionHandler:nil];
+}
+
+-(void)openQRCode {
+    NSURL *url = [NSURL URLWithString:@"neediator://qrcode"];
+    [self.extensionContext openURL:url completionHandler:nil];
+}
 @end

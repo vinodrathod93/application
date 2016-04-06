@@ -12,14 +12,14 @@
                     <items>
                         <table alignment="left" id="L9R-8C-whp">
                             <items>
-                                <tableRow identifier="listingRow" id="3SN-Hk-yvu" customClass="ListingRow">
+                                <tableRow identifier="categoryRow" id="3SN-Hk-yvu" customClass="CategoryRow">
                                     <group key="rootItem" width="1" height="40.5" alignment="left" id="M4F-VV-66N">
                                         <items>
-                                            <label width="126.5" alignment="left" text="Store name" id="Esd-5v-3wM"/>
+                                            <label width="126.5" alignment="left" text="Category name" id="Esd-5v-3wM"/>
                                         </items>
                                     </group>
                                     <connections>
-                                        <outlet property="storenameLabel" destination="Esd-5v-3wM" id="d2y-nK-Ykn"/>
+                                        <outlet property="categorynameLabel" destination="Esd-5v-3wM" id="r7s-Ek-TXL"/>
                                     </connections>
                                 </tableRow>
                             </items>
@@ -31,6 +31,30 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="273" y="342"/>
+        </scene>
+        <!--Listing Interface Controller-->
+        <scene sceneID="Po6-CX-Ewq">
+            <objects>
+                <controller id="Ifj-F6-Pha" customClass="ListingInterfaceController">
+                    <items>
+                        <table alignment="left" id="wol-6c-T93">
+                            <items>
+                                <tableRow identifier="listingRow" id="XRD-Kx-t4c" customClass="ListingRow">
+                                    <group key="rootItem" width="1" alignment="left" id="GB9-wK-jSy">
+                                        <items>
+                                            <label alignment="left" text="Store name" id="QZt-05-suo"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="storenameLabel" destination="QZt-05-suo" id="Ii2-Ox-Btg"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="598" y="337"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">

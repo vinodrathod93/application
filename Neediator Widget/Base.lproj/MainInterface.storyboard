@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="M4Y-Lb-cyx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="M4Y-Lb-cyx">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TVG-XI-XNq">
-                                <rect key="frame" x="67" y="32" width="54" height="25"/>
+                                <rect key="frame" x="83" y="32" width="25" height="25"/>
                                 <state key="normal" image="Search"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ox4-h7-gba">
@@ -28,7 +28,7 @@
                                 <state key="normal" image="QRCode"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IS7-lJ-Gnp">
-                                <rect key="frame" x="12" y="86" width="296" height="29"/>
+                                <rect key="frame" x="119" y="86" width="83" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="4vK-FX-O7t"/>
                                 </constraints>
@@ -38,22 +38,15 @@
                                 </state>
                             </button>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="IS7-lJ-Gnp" secondAttribute="bottom" constant="5" id="Hrz-ZS-BLY"/>
                             <constraint firstItem="TVG-XI-XNq" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" constant="-15.5" id="I6O-7l-3YC"/>
-                            <constraint firstItem="IS7-lJ-Gnp" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="MVq-wT-hKx"/>
                             <constraint firstItem="Ox4-h7-gba" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" constant="-15" id="Q6V-A7-Icg"/>
                             <constraint firstItem="Ox4-h7-gba" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="trailingMargin" multiplier="0.7" constant="9" id="R2P-bP-VN3"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="IS7-lJ-Gnp" secondAttribute="leading" constant="4" id="UYn-Vl-D3Y"/>
-                            <constraint firstItem="TVG-XI-XNq" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" constant="51" id="dr4-Gj-ZlT"/>
-                            <constraint firstItem="TVG-XI-XNq" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="trailingMargin" multiplier="0.3" constant="3" id="fji-It-ea5"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="IS7-lJ-Gnp" secondAttribute="trailing" constant="-4" id="ieZ-2i-8kZ"/>
+                            <constraint firstItem="TVG-XI-XNq" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="trailingMargin" multiplier="0.3" constant="4" id="fji-It-ea5"/>
+                            <constraint firstItem="IS7-lJ-Gnp" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="fmD-q0-bYm"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="MVq-wT-hKx"/>
-                            </mask>
-                        </variation>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -69,7 +62,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="306" y="310"/>
+            <point key="canvasLocation" x="238.40000000000001" y="292.51999999999998"/>
         </scene>
     </scenes>
     <resources>

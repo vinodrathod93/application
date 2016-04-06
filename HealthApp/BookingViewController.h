@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <DIDatepicker/DIDatepicker.h>
+#import "BookingDIDatePicker.h"
 
 @interface BookingViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet UILabel *metaInfo;
-@property (weak, nonatomic) IBOutlet DIDatepicker *calendar;
+@property (weak, nonatomic) IBOutlet BookingDIDatePicker *calendar;
 
 @property (weak, nonatomic) IBOutlet UILabel *selected_dateLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;

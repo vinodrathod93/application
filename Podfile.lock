@@ -63,7 +63,6 @@ DEPENDENCIES:
   - GoogleMaps
   - libPhoneNumber-iOS (~> 0.8)
   - Mantle
-  - MBProgressHUD (~> 0.9.1)
   - MWPhotoBrowser
   - pop
   - Realm

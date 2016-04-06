@@ -7,8 +7,6 @@
 //
 
 #import "AppDelegate.h"
-//#import <FBSDKCoreKit/FBSDKCoreKit.h>
-//#import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <CoreData/CoreData.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import "NeediatorAPIKey.h"
@@ -16,6 +14,8 @@
 #import "Appirater.h"
 #import "UIColor+HexString.h"
 #import "ListingTableViewController.h"
+#import "MyOrdersViewController.h"
+#import "QRCodeViewController.h"
 
 
 
@@ -152,6 +152,20 @@
             listingVC.subcategory_id              = @"";
             
             [navigationController pushViewController:listingVC animated:YES];
+        }
+        else if ([url.host isEqualToString:@"myOrders"]) {
+//            MyOrdersViewController *myOrdersVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
+            MyOrdersViewController *myOrdersVC = [[MyOrdersViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            [navigationController pushViewController:myOrdersVC animated:YES];
+        }
+        else if ([url.host isEqualToString:@"search"]) {
+            UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
+            
+            [tabBarController setSelectedIndex:1];
+        }
+        else if ([url.host isEqualToString:@"qrcode"]) {
+            QRCodeViewController *QRCodeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"qrCodeVC"];
+            [navigationController pushViewController:QRCodeVC animated:YES];
         }
     }
     

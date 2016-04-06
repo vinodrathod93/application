@@ -10,7 +10,6 @@
 #import "ProductImageViewCell.h"
 #import "ProductDetailsViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import <MBProgressHUD.h>
 #import "AppDelegate.h"
 #import "Order.h"
 #import "LineItems.h"

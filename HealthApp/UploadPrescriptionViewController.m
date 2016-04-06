@@ -82,14 +82,6 @@
     [self decorateButtons];
     [self showDateTimePicker];
     
-//    UITapGestureRecognizer *tapGestureRecognize = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPicker:)];
-//    tapGestureRecognize.numberOfTapsRequired = 1;
-//    [self.contentView addGestureRecognizer:tapGestureRecognize];
-    
-//    UITapGestureRecognizer *cellTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTapGestureAction:)];
-//    [cellTapGestureRecognizer setNumberOfTapsRequired:1];
-//    self.contentView.userInteractionEnabled = YES;
-//    [self.contentView addGestureRecognizer:cellTapGestureRecognizer];
 }
 
 
@@ -115,16 +107,7 @@
 }
 
 
-//
-//-(void)cellTapGestureAction:(UITapGestureRecognizer *)sender
-//{
-//    CGPoint touchLocation = [sender locationOfTouch:0 inView:self.imagesCollectionView];
-//    NSIndexPath *indexPath = [self.imagesCollectionView indexPathForItemAtPoint:touchLocation];
-//    
-//    NSLog(@"%ld", (long)indexPath.item);
-//    
-//    [self collectionViewTapGestureSelectAtIndex:indexPath];
-//}
+
 
 #pragma mark - IBActions
 
@@ -995,14 +978,12 @@
         NSArray *images = [self thumbnailSelectedImages];
         uploadPrsCell.pImageView.image = (UIImage *)images[indexPath.item];
         
+        if (indexPath.item == [[self thumbnailSelectedImages] count] -1) {
+            uploadPrsCell.pImageView.frame = CGRectMake(uploadPrsCell.frame.size.width/2 - (25/2), uploadPrsCell.frame.size.height/2 - (25/2), 25, 25);
+            [uploadPrsCell hideDeleteButton];
+        }
+        
     }
-//    else {
-//        
-//        uploadPrsCell.pImageView.frame = CGRectMake(uploadPrsCell.frame.size.width/2 - (25/2), uploadPrsCell.frame.size.height/2 - (25/2), 25, 25);
-//        uploadPrsCell.pImageView.image = [UIImage imageNamed:@"addPlus"];
-//        [uploadPrsCell hideDeleteButton];
-//        
-//    }
 
     
     return uploadPrsCell;
@@ -1038,7 +1019,7 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    if (indexPath.item == [[self thumbnailSelectedImages] count]) {
+    if (indexPath.item == [[self thumbnailSelectedImages] count] -1) {
         // New Image
         
         [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:200 initialSpringVelocity:50 options:UIViewAnimationOptionCurveEaseIn animations:^{

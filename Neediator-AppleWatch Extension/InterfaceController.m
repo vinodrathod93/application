@@ -7,9 +7,8 @@
 //
 
 #import "InterfaceController.h"
-#import "ListingRow.h"
+#import "CategoryRow.h"
 //#import "NAPIManager.h"
-//#import "ListingRequestModel.h"
 //#import "ListingResponseModel.h"
 //#import "ListingModel.h"
 //#import "Location.h"
@@ -52,23 +51,45 @@
     
 //    Location *location_store = [Location savedLocation];
 //    User *user          = [User savedUser];
-//    
-//    
-//    ListingRequestModel *requestModel = [ListingRequestModel new];
-//    requestModel.latitude             = location_store.latitude;
-//    requestModel.longitude            = location_store.longitude;
-//    requestModel.category_id          = [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID];
-//    requestModel.subcategory_id       = @"";
-//    requestModel.page                 = @"1";
-//    requestModel.sort_id              = @"1";
-//    requestModel.sortOrder_id         = @"1";
-//    requestModel.is24Hrs              = @"";
-//    requestModel.hasOffers            = @"";
-//    requestModel.minDelivery_id       = @"";
-//    requestModel.ratings_id           = @"";
-//    requestModel.user_id              = (user.userID != nil) ? user.userID : @"";
+    
+    /*
+    
+    
+    NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
+    
+    [parameter setObject:location_store.latitude forKey:@"latitude"];
+    [parameter setObject:location_store.longitude forKey:@"longitude"];
+    [parameter setObject:[NeediatorUtitity savedDataForKey:kSAVE_CAT_ID] forKey:@"catid"];
+    [parameter setObject:@"" forKey:@"subcatid"];
+    [parameter setObject:@"1" forKey:@"page"];
+    [parameter setObject:@"" forKey:@"type_id"];
+    [parameter setObject:@"" forKey:@"sort_type"];
+    [parameter setObject:@"" forKey:@"twenty_four_hr"];
+    [parameter setObject:@"" forKey:@"offer"];
+    [parameter setObject:@"" forKey:@"minimum_delivery_id"];
+    [parameter setObject:@"" forKey:@"ratings_id"];
+    
+    
+    if (user.userID != nil) {
+        [parameter setObject:user.userID forKey:@"userid"];
+    }
+    else
+        [parameter setObject:@"" forKey:@"userid"];
+    
+    NSDictionary *dicParameter = (NSDictionary *)parameter;
+    
+    
+    
+    
+    
+    */
+    
+    
+    
+    
+    
 
-//    [[NAPIManager sharedManager] getListingsWithRequestModel:requestModel success:^(ListingResponseModel *response) {
+//    [[NAPIManager sharedManager] getListingsWithRequestModel:dicParameter success:^(ListingResponseModel *response) {
 //        _listingArray = response.records;
 //        [self.tableview setNumberOfRows:_listingArray.count withRowType:@"listingRow"];
 //        
@@ -86,16 +107,17 @@
 //        NSLog(@"Error %@", [error localizedDescription]);
 //    }];
     
+    [self.tableview setNumberOfRows:_categoriesArray.count withRowType:@"categoryRow"];
     
     for (int i=0; i< _categoriesArray.count; i++) {
-        ListingRow *row = [self.tableview rowControllerAtIndex:i];
+        CategoryRow *row = [self.tableview rowControllerAtIndex:i];
 
 //        ListingModel *model = _listingArray[i];
 
-        [row.storenameLabel setText:_categoriesArray[i]];
+        [row.categorynameLabel setText:_categoriesArray[i]];
     }
     
-    [self.tableview setNumberOfRows:10 withRowType:@"listingRow"];
+    
     
     
 }

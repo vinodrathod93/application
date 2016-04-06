@@ -24,6 +24,7 @@
 enum MyAccountCells {
     FavouriteCell = 0,
     MyOrdersCell,
+    MyBookingCell,
     MyAddressesCell,
     TrackOrdersCell,
     LeaderBoardCell
@@ -184,6 +185,7 @@ enum MyAccountCells {
         if (indexPath.row == MyOrdersCell) {
             
             MyOrdersViewController *myOrdersVC = [[MyOrdersViewController alloc] initWithStyle:UITableViewStyleGrouped];
+//            MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
             [self.navigationController pushViewController:myOrdersVC animated:YES];
         }
         else if (indexPath.row == MyAddressesCell) {
@@ -321,11 +323,13 @@ enum MyAccountCells {
     User *user = [User savedUser];
     
     if (user != nil) {
-        _options = @[ @"", @[@"Favourites", @"My Orders", @"My Addresses", @"Track Order", @"Leaderboard"],
+        _options = @[ @"", @[@"Favourites", @"My Orders", @"My Bookings", @"My Addresses", @"Track Order", @"Leaderboard"],
                       @"Sign Out"];
+        
+#warning change the my booking icon.
         _iconsArray  = @[
                          @"",
-                         @[@"store_fav", @"my_orders", @"address", @"track", @"user"],
+                         @[@"store_fav", @"my_orders", @"my_orders", @"address", @"track", @"user"],
                          @"signout"
                          ];
         

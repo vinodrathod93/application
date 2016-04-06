@@ -77,6 +77,7 @@ typedef void(^completion)(BOOL finished);
     NSArray *_delivery_methods;
     NSString *_selectedDateTime;
     NSString *_selectedDeliveryID;
+    UIAlertView *_promoAlertView;
     
 }
 
@@ -84,6 +85,10 @@ typedef void(^completion)(BOOL finished);
     [super viewDidLoad];
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    UIBarButtonItem *promoButton = [[UIBarButtonItem alloc] initWithTitle:@"Promo Code" style:UIBarButtonItemStylePlain target:self action:@selector(promoAlertView)];
+    
+    self.navigationItem.rightBarButtonItem = promoButton;
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
@@ -116,6 +121,30 @@ typedef void(^completion)(BOOL finished);
     [self loadCheckoutProcess];
 }
 
+
+-(void)promoAlertView {
+    _promoAlertView = [[UIAlertView alloc]initWithTitle:@"Enter Promo Code" message:@"" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+    [_promoAlertView setDelegate:self];
+    [_promoAlertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [_promoAlertView addButtonWithTitle:@"Apply"];
+    [_promoAlertView addButtonWithTitle:@"Dismiss"];
+    [_promoAlertView show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([alertView isEqual:_promoAlertView]) {
+        if (buttonIndex == 0) {
+            NSLog(@"Promo Applied");
+            NSString *reasonString = [[alertView textFieldAtIndex:0] text];
+            NSLog(@"%@",reasonString);
+            
+//            [self sendTheCancellationStatusWithReasonID:OTHER_REASON_ID andReason:reasonString];
+            
+        } else
+            NSLog(@"Not send");
+    }
+    
+}
 
 
 #pragma mark - Table view data source
@@ -413,7 +442,7 @@ typedef void(^completion)(BOOL finished);
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return (section == DELIVERY_TIME_SECTION )? 60.0f : 0.0f;
+    return (section == DELIVERY_TIME_SECTION )? 80.0f : 0.0f;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -421,7 +450,7 @@ typedef void(^completion)(BOOL finished);
     view.backgroundColor = [UIColor clearColor];
     
     if (section == DELIVERY_TIME_SECTION) {
-        view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 60);
+        view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 80);
         
         _proceedPaymentOption = [[UIButton alloc]initWithFrame:CGRectMake(15, 20, self.view.frame.size.width - (2*15), 40)];
         [_proceedPaymentOption setTitle:@"PROCEED TO PAYMENT" forState:UIControlStateNormal];
