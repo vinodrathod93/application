@@ -13,4 +13,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *searchButton;
 @property (weak, nonatomic) IBOutlet UIButton *qrButton;
 @property (weak, nonatomic) IBOutlet UIButton *ordersButton;
+@property (weak, nonatomic) IBOutlet UIButton *favouriteButton;
 @end

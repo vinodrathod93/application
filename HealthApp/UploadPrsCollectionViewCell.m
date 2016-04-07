@@ -30,4 +30,8 @@
     self.deleteButton.hidden = YES;
 }
 
+-(void)showDeleteButton {
+    self.deleteButton.hidden = NO;
+}
+
 @end

@@ -14,8 +14,9 @@
 #import "Appirater.h"
 #import "UIColor+HexString.h"
 #import "ListingTableViewController.h"
-#import "MyOrdersViewController.h"
+#import "FavouritesViewController.h"
 #import "QRCodeViewController.h"
+#import "MyAccountViewController.h"
 
 
 
@@ -153,10 +154,10 @@
             
             [navigationController pushViewController:listingVC animated:YES];
         }
-        else if ([url.host isEqualToString:@"myOrders"]) {
-//            MyOrdersViewController *myOrdersVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
-            MyOrdersViewController *myOrdersVC = [[MyOrdersViewController alloc] initWithStyle:UITableViewStyleGrouped];
-            [navigationController pushViewController:myOrdersVC animated:YES];
+        else if ([url.host isEqualToString:@"myaccount"]) {
+            UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
+            
+            [tabBarController setSelectedIndex:2];
         }
         else if ([url.host isEqualToString:@"search"]) {
             UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
@@ -166,6 +167,11 @@
         else if ([url.host isEqualToString:@"qrcode"]) {
             QRCodeViewController *QRCodeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"qrCodeVC"];
             [navigationController pushViewController:QRCodeVC animated:YES];
+        }
+        else if ([url.host isEqualToString:@"myFavourites"]) {
+            FavouritesViewController *favouritesVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"favouritesVC"];
+            
+            [navigationController pushViewController:favouritesVC animated:YES];
         }
     }
     

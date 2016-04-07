@@ -972,19 +972,29 @@
 
     [uploadPrsCell.deleteButton addTarget:self action:@selector(removeImage:) forControlEvents:UIControlEventTouchUpInside];
     
-    if ([self thumbnailSelectedImages]) {
-        NSLog(@"Continue");
+    NSLog(@"images count %lu", (unsigned long)[[self thumbnailSelectedImages] count]);
+    
+    if ([[self thumbnailSelectedImages] count] > 1) {
+        NSLog(@"Entered the loop");
         
         NSArray *images = [self thumbnailSelectedImages];
         uploadPrsCell.pImageView.image = (UIImage *)images[indexPath.item];
         
+        NSLog(@"Index %ld",(long)indexPath.item);
+        
         if (indexPath.item == [[self thumbnailSelectedImages] count] -1) {
+            NSLog(@"Removed Delete Button");
+            
             uploadPrsCell.pImageView.frame = CGRectMake(uploadPrsCell.frame.size.width/2 - (25/2), uploadPrsCell.frame.size.height/2 - (25/2), 25, 25);
             [uploadPrsCell hideDeleteButton];
         }
+        else
+        {
+            uploadPrsCell.pImageView.frame = CGRectMake(0, 0, 90, 110);
+            [uploadPrsCell showDeleteButton];
+        }
         
     }
-
     
     return uploadPrsCell;
 }
@@ -1021,15 +1031,13 @@
     
     if (indexPath.item == [[self thumbnailSelectedImages] count] -1) {
         // New Image
+     
         
-        [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:200 initialSpringVelocity:50 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        
+        [UIView animateWithDuration:5 animations:^{
             [self hideCollectionView];
             [self showNewUploadView];
-        } completion:^(BOOL finished) {
-            NSLog(@"Done");
-        }];
-        
-        
+        } completion:nil];
         
         
     }

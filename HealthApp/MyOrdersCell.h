@@ -28,4 +28,11 @@
 
 - (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath;
 
+@property (weak, nonatomic) IBOutlet UILabel *n_orderNumber;
+@property (weak, nonatomic) IBOutlet UILabel *n_orderAmount;
+@property (weak, nonatomic) IBOutlet HorizontalCollectionView *n_collectionView;
+@property (weak, nonatomic) IBOutlet UILabel *n_orderStatus;
+@property (weak, nonatomic) IBOutlet UIButton *returnButton;
+@property (weak, nonatomic) IBOutlet UIButton *replaceButton;
+@property (weak, nonatomic) IBOutlet UIButton *trackButton;
 @end

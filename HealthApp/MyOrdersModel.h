@@ -18,4 +18,6 @@
 @property (nonatomic, copy) NSString *completed_date;
 @property (nonatomic, copy) NSString *storeName;
 @property (nonatomic, copy) NSArray *line_items;
+
+@property (nonatomic) BOOL isExpanded;
 @end

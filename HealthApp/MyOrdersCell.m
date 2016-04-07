@@ -19,6 +19,27 @@
 - (void)awakeFromNib {
     // Initialization code
     
+    
+//    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+//    layout.sectionInset = UIEdgeInsetsMake(2, 2, 0, 2);
+//    layout.itemSize = CGSizeMake(75, 90);
+//    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+//    self.n_collectionView = [[HorizontalCollectionView alloc] initWithFrame:CGRectMake(8, 84, CGRectGetWidth(self.bounds) - (2 * 8), 100) collectionViewLayout:layout];
+    self.n_collectionView.backgroundColor = [UIColor whiteColor];
+    [self.n_collectionView registerClass:[CustomCollectionViewCell class] forCellWithReuseIdentifier:@"MyOrderCollectionViewCellIdentifier"];
+    self.n_collectionView.showsHorizontalScrollIndicator = NO;
+    
+    
+    self.returnButton.layer.cornerRadius = 5.f;
+    self.replaceButton.layer.cornerRadius = 5.f;
+    self.trackButton.layer.cornerRadius = 5.f;
+    
+    self.returnButton.layer.masksToBounds = YES;
+    self.replaceButton.layer.masksToBounds = YES;
+    self.trackButton.layer.masksToBounds = YES;
+    
+    
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -75,11 +96,11 @@
 
 - (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath
 {
-    self.collectionView.dataSource = dataSourceDelegate;
-    self.collectionView.delegate = dataSourceDelegate;
-    self.collectionView.indexPath = indexPath;
+    self.n_collectionView.dataSource = dataSourceDelegate;
+    self.n_collectionView.delegate = dataSourceDelegate;
+    self.n_collectionView.indexPath = indexPath;
     
-    [self.collectionView reloadData];
+    [self.n_collectionView reloadData];
 }
 
 

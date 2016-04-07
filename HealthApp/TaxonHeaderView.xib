@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StoreTaxonsViewController"/>
@@ -88,92 +87,5 @@
             </connections>
             <point key="canvasLocation" x="-36" y="248"/>
         </tableViewCell>
-        <view contentMode="scaleToFill" id="w64-L8-LRC">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="228"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wov-nw-Z5i">
-                    <rect key="frame" x="273" y="0.0" width="230" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="230" id="FQA-2c-nq6"/>
-                    </constraints>
-                    <state key="normal" title="Order Placed"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bw3-u3-H6r">
-                    <rect key="frame" x="273" y="38" width="230" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="230" id="hec-e5-QJ1"/>
-                    </constraints>
-                    <state key="normal" title="Approval Pending"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gT7-fm-9pd">
-                    <rect key="frame" x="273" y="76" width="230" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="230" id="q94-zD-QO3"/>
-                    </constraints>
-                    <state key="normal" title="Processing"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wMd-nE-pU1">
-                    <rect key="frame" x="273" y="114" width="230" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="230" id="pYA-UR-wqJ"/>
-                    </constraints>
-                    <state key="normal" title="Order Ready"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XO6-MM-S66">
-                    <rect key="frame" x="273" y="152" width="230" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="230" id="YBQ-0f-azt"/>
-                    </constraints>
-                    <state key="normal" title="Out for Delivery"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7dL-9Y-A8m">
-                    <rect key="frame" x="273" y="190" width="230" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="230" id="eXO-R6-3bL"/>
-                    </constraints>
-                    <state key="normal" title="Completed"/>
-                </button>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JCg-sH-JIV">
-                    <rect key="frame" x="529" y="-42" width="11" height="250"/>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="11" id="2eR-Gu-OY4"/>
-                        <constraint firstAttribute="height" constant="250" id="uMn-CD-oid"/>
-                    </constraints>
-                </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="vGx-Lz-sCa">
-                    <rect key="frame" x="522" y="192" width="25" height="25"/>
-                </imageView>
-            </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="XO6-MM-S66" firstAttribute="trailing" secondItem="JCg-sH-JIV" secondAttribute="leading" multiplier="0.95" id="2nn-70-ydr"/>
-                <constraint firstItem="gT7-fm-9pd" firstAttribute="top" secondItem="w64-L8-LRC" secondAttribute="top" constant="118" id="6bG-Pp-4Yw"/>
-                <constraint firstItem="Wov-nw-Z5i" firstAttribute="trailing" secondItem="JCg-sH-JIV" secondAttribute="leading" multiplier="0.95" id="6q0-hh-J5e"/>
-                <constraint firstItem="gT7-fm-9pd" firstAttribute="trailing" secondItem="JCg-sH-JIV" secondAttribute="leading" multiplier="0.95" id="8vQ-Eg-RUS"/>
-                <constraint firstItem="XO6-MM-S66" firstAttribute="top" secondItem="wMd-nE-pU1" secondAttribute="bottom" constant="8" symbolic="YES" id="BTK-ia-MOY"/>
-                <constraint firstItem="wMd-nE-pU1" firstAttribute="top" secondItem="gT7-fm-9pd" secondAttribute="bottom" constant="8" symbolic="YES" id="GZ0-59-DqC"/>
-                <constraint firstItem="JCg-sH-JIV" firstAttribute="trailing" secondItem="w64-L8-LRC" secondAttribute="trailing" multiplier="0.9" id="IP6-5s-fsA"/>
-                <constraint firstItem="7dL-9Y-A8m" firstAttribute="top" secondItem="XO6-MM-S66" secondAttribute="bottom" constant="8" symbolic="YES" id="NvF-zn-SLU"/>
-                <constraint firstItem="wMd-nE-pU1" firstAttribute="trailing" secondItem="JCg-sH-JIV" secondAttribute="leading" multiplier="0.95" id="XQW-pZ-KyF"/>
-                <constraint firstItem="Bw3-u3-H6r" firstAttribute="trailing" secondItem="JCg-sH-JIV" secondAttribute="leading" multiplier="0.95" id="a1U-7s-7vj"/>
-                <constraint firstItem="gT7-fm-9pd" firstAttribute="top" secondItem="Bw3-u3-H6r" secondAttribute="bottom" constant="8" symbolic="YES" id="clo-eQ-Edw"/>
-                <constraint firstItem="7dL-9Y-A8m" firstAttribute="trailing" secondItem="JCg-sH-JIV" secondAttribute="leading" multiplier="0.95" id="eRX-k7-S5h"/>
-                <constraint firstItem="JCg-sH-JIV" firstAttribute="top" secondItem="w64-L8-LRC" secondAttribute="top" id="foA-zX-e2p"/>
-                <constraint firstItem="Bw3-u3-H6r" firstAttribute="top" secondItem="Wov-nw-Z5i" secondAttribute="bottom" constant="8" symbolic="YES" id="fts-X1-3p7"/>
-                <constraint firstAttribute="bottom" secondItem="JCg-sH-JIV" secondAttribute="bottom" id="vkc-bh-Rpm"/>
-            </constraints>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="vkc-bh-Rpm"/>
-                </mask>
-            </variation>
-            <point key="canvasLocation" x="175" y="641"/>
-        </view>
     </objects>
-    <resources>
-        <image name="icon" width="50" height="50"/>
-    </resources>
 </document>

@@ -13,6 +13,7 @@
 #import "LineItemsModel.h"
 //#import "VariantImagesModel.h"
 #import "CustomCollectionViewCell.h"
+#import "TrackPipelineView.h"
 
 @interface MyOrdersViewController ()
 
@@ -24,6 +25,7 @@
 @implementation MyOrdersViewController {
     NSMutableArray *_itemsImages;
     NSArray *_orders;
+    BOOL _isTrackTapped;
 }
 
 - (void)viewDidLoad {
@@ -115,7 +117,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    MyOrdersCell *cell = (MyOrdersCell *)[tableView dequeueReusableCellWithIdentifier:@"myOrdersCell"];
+//    MyOrdersCell *cell = (MyOrdersCell *)[tableView dequeueReusableCellWithIdentifier:@"myOrdersCell"];
+    MyOrdersCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"myOrdersCell" forIndexPath:indexPath];
     
     MyOrdersModel *model = _orders[indexPath.section];
     
@@ -124,15 +127,47 @@
     }
     
     
-    NSArray *lineItems = model.line_items;
+//    NSArray *lineItems = model.line_items;
     
-    cell.orderState.text         = [model.orderState capitalizedString];
-    cell.orderNumber.text        = [NSString stringWithFormat:@"Order #%@",model.orderNumber];
-    cell.orderDate.text          = [NSString stringWithFormat:@"%@/%lu Items/%@", [self getFormattedDate:model.completed_date], (unsigned long)lineItems.count, model.orderTotal];
+//    cell.orderState.text         = [model.orderState capitalizedString];
+//    cell.orderNumber.text        = [NSString stringWithFormat:@"Order #%@",model.orderNumber];
+//    cell.orderDate.text          = [NSString stringWithFormat:@"%@/%lu Items/%@", [self getFormattedDate:model.completed_date], (unsigned long)lineItems.count, model.orderTotal];
+    
+    
+    cell.n_orderAmount.text = [NSString stringWithFormat:@"Rs.%@",model.orderTotal];
+    cell.n_orderNumber.text = model.orderNumber;
+    cell.n_orderStatus.text = model.orderState;
+
+    [cell.trackButton addTarget:self action:@selector(showTrackView:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
 
+
+
+-(void)showTrackView:(UIButton *)sender {
+    
+    _isTrackTapped = !_isTrackTapped;
+    
+    MyOrdersCell *cell = (MyOrdersCell *)[[sender superview] superview];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    
+    MyOrdersModel *model = _orders[indexPath.section];
+    model.isExpanded = _isTrackTapped;
+    
+    TrackPipelineView *trackView = [[[NSBundle mainBundle] loadNibNamed:@"TrackPipelineView" owner:self options:nil] lastObject];
+    
+    [cell.contentView addSubview:trackView];
+    
+    trackView.frame = CGRectMake(0, 230, self.view.frame.size.width, 228);
+    
+    
+    
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+}
 
 
 
@@ -143,9 +178,22 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 193.f;
+    MyOrdersModel *model = _orders[indexPath.section];
+    
+    
+    if (model.isExpanded) {
+        return 228+230;
+    }
+    else
+        return 230.f;
 }
 
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    MyOrdersModel *model = _orders[section];
+    
+    return model.completed_date;
+}
 
 
 #pragma mark - UICollectionViewDataSource Methods
@@ -171,11 +219,6 @@
     if (collectionImages[indexPath.item] != nil) {
         
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", collectionImages[indexPath.item]]];
-//        [cell.imageView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//            if(error) {
-//                NSLog(@"Image error %@", [error localizedDescription]);
-//            }
-//        }];
         
         [cell.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (error) {
