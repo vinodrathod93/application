@@ -41,7 +41,7 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) RLMResults *categoriesArray;
 @property (nonatomic, strong) RLMResults *subCategoriesArray;
-@property (nonatomic, strong) NSArray *promotions;
+@property (nonatomic, strong) RLMResults *promotions;
 
 @property (nonatomic, strong) NSArray *categoryIcons;
 @property (nonatomic, strong) HeaderSliderView *headerView;
@@ -124,9 +124,23 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [self showLoadingView];
     
     
-    [self requestCategories];
     
-    self.promotions = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
+    [self showHUD];
+
+    
+    if ([self isCategoriesSaved]) {
+        [NSThread sleepForTimeInterval:2.0];
+        [self hideHUD];
+        
+        [self loadSavedCategories];
+        
+        [self removeLaunchScreen];
+    }
+    else
+        [self requestCategories];
+    
+    
+//    self.promotions = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
     
     
     
@@ -372,23 +386,26 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         self.headerView.scrollView.backgroundColor = [UIColor whiteColor];
         
         
-//        [self setupScrollViewImages];
+        [self setupScrollViewImages];
+        
+        
+        
         // Changed the promotion model with static string url
         
         
-        [self.promotions enumerateObjectsUsingBlock:^(NSString *promotion_url, NSUInteger idx, BOOL *stop) {
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
-            imageView.tag = idx;
-            
-            
-            NSURL *image_url = [NSURL URLWithString:promotion_url];
-            
-            
-            [imageView sd_setImageWithURL:image_url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
-            
-            
-            [self.headerView.scrollView addSubview:imageView];
-        }];
+//        [self.promotions enumerateObjectsUsingBlock:^(NSString *promotion_url, NSUInteger idx, BOOL *stop) {
+//            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
+//            imageView.tag = idx;
+//            
+//            
+//            NSURL *image_url = [NSURL URLWithString:promotion_url];
+//            
+//            
+//            [imageView sd_setImageWithURL:image_url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+//            
+//            
+//            [self.headerView.scrollView addSubview:imageView];
+//        }];
         
         
         
@@ -429,7 +446,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)setupScrollViewImages {
     
-    /*
+    
     
     for (int idx=0; idx < self.promotions.count; idx++) {
         
@@ -439,55 +456,26 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         imageView.tag = idx;
         
         
-//        NSURL *image_url = [NSURL URLWithString:promotion.image_url];
+        NSURL *image_url = [NSURL URLWithString:promotion.image_url];
         
-        UIImage *image   = [UIImage imageWithData:promotion.image_data];
-        
-        CIImage *newImage = [[CIImage alloc] initWithImage:image];
-        CIContext *context = [CIContext contextWithOptions:nil];
-        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
-        
-        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+        [imageView sd_setImageWithURL:image_url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         
         
         [self.headerView.scrollView addSubview:imageView];
     }
     
-    */
     
     
-    [self.promotions enumerateObjectsUsingBlock:^(PromotionModel *promotion, NSUInteger idx, BOOL *stop) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
-        imageView.tag = idx;
-        
-       
-        NSURL *image_url = [NSURL URLWithString:promotion.image_url];
-        
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            
-            UIImageView *tempImageView = [[UIImageView alloc] init];
-            [tempImageView sd_setImageWithURL:image_url];
-            
-//            UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:image_url]];
-            UIImage *image = tempImageView.image;
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                CIImage *newImage = [[CIImage alloc] initWithImage:image];
-                CIContext *context = [CIContext contextWithOptions:nil];
-                CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
-                
-                imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-            });
-        });
-        
-        
+    
+//    [self.promotions enumerateObjectsUsingBlock:^(PromotionModel *promotion, NSUInteger idx, BOOL *stop) {
+//        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
+//        imageView.tag = idx;
+//        
+//        
 //        [imageView sd_setImageWithURL:[NSURL URLWithString:promotion.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
-//        imageView.contentMode = UIViewContentModeScaleAspectFit;
-        
-        [self.headerView.scrollView addSubview:imageView];
-    }];
+//        
+//        [self.headerView.scrollView addSubview:imageView];
+//    }];
 
     
 }
@@ -635,13 +623,12 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 -(void)requestCategories {
     
     
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        [self showHUD];
-    });
+    
     
     
     self.subCategoriesArray = [[NSMutableArray alloc] init];
+    
+    
     
     
     /* Get Category names & Promotion Images */
@@ -669,6 +656,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                 
             }
             
+            for (PromotionModel *promotion in response.promotions) {
+                MainPromotionRealm *promotionRealm = [[MainPromotionRealm alloc] initWithMantleModel:promotion];
+                [realm addObject:promotionRealm];
+            }
+            
             
             [realm commitWriteTransaction];
             
@@ -679,9 +671,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                 
                 RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
                 RLMResults *subCategories = [SubCategoryRealm allObjectsInRealm:realmMainThread];
+                RLMResults *promotions = [MainPromotionRealm allObjectsInRealm:realmMainThread];
                 
                 self.categoriesArray = categories;
                 self.subCategoriesArray = subCategories;
+                self.promotions = promotions;
                 
                 [self.collectionView reloadData];
                 [self hideHUD];
@@ -689,33 +683,49 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
             });
         });
         
-                [NSThread sleepForTimeInterval:2.0];
-        
-                [self hideHUD];
-                self.promotions         = response.promotions;
-        
-        
-        
-        
-                [self.collectionView reloadData];
-                [self removeLaunchScreen];
+//                [NSThread sleepForTimeInterval:2.0];
+//        
+//                [self hideHUD];
+//                self.promotions         = response.promotions;
+//        
+//        
+//        
+//        
+//                [self.collectionView reloadData];
+//                [self removeLaunchScreen];
         
     } failure:^(NSError *error) {
         // Display error
-        
         [NSThread sleepForTimeInterval:2.0];
         [self hideHUD];
         
-        self.categoriesArray = [MainCategoryRealm allObjects];
-        self.subCategoriesArray = [SubCategoryRealm allObjects];
+        [self loadSavedCategories];
         
-        [self.collectionView reloadData];
         [self removeLaunchScreen];
         
         NSLog(@"HomeCategory Error: %@", error.localizedDescription);
     }];
 }
 
+
+
+-(void)loadSavedCategories {
+    
+    
+    self.categoriesArray = [MainCategoryRealm allObjects];
+    self.subCategoriesArray = [SubCategoryRealm allObjects];
+    self.promotions = [MainPromotionRealm allObjects];
+    
+    [self.collectionView reloadData];
+    
+}
+
+-(BOOL)isCategoriesSaved {
+    
+    self.categoriesArray = [MainCategoryRealm allObjects];
+    
+    return (self.categoriesArray.count) ? YES : NO;
+}
 
 
 /*

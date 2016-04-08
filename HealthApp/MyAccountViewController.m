@@ -26,7 +26,6 @@ enum MyAccountCells {
     MyOrdersCell,
     MyBookingCell,
     MyAddressesCell,
-    TrackOrdersCell,
     LeaderBoardCell
 };
 
@@ -66,12 +65,7 @@ enum MyAccountCells {
     
     NSLog(@"viewWillAppear");
     
-    
     [self showViewAfterLogin];
-    
-    
-    
-    
     
 }
 
@@ -184,7 +178,6 @@ enum MyAccountCells {
         
         if (indexPath.row == MyOrdersCell) {
             
-//            MyOrdersViewController *myOrdersVC = [[MyOrdersViewController alloc] initWithStyle:UITableViewStyleGrouped];
             MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
             [self.navigationController pushViewController:myOrdersVC animated:YES];
         }
@@ -323,13 +316,12 @@ enum MyAccountCells {
     User *user = [User savedUser];
     
     if (user != nil) {
-        _options = @[ @"", @[@"Favourites", @"My Orders", @"My Bookings", @"My Addresses", @"Track Order", @"Leaderboard"],
+        _options = @[ @"", @[@"Favourites", @"My Orders", @"My Bookings", @"My Addresses", @"Leaderboard"],
                       @"Sign Out"];
         
-
         _iconsArray  = @[
                          @"",
-                         @[@"store_fav", @"my_orders", @"booking", @"address", @"track", @"user"],
+                         @[@"store_fav", @"my_orders", @"booking", @"address", @"user"],
                          @"signout"
                          ];
         

@@ -75,7 +75,7 @@ static NSString *const kSign_in_url             = @"http://neediator.in/Neediato
 
 /* Neediator API Manager */
 
-static NSString *const kMAIN_CATEGORIES_PATH    = @"/NeediatorWS.asmx/getCatSubs";
+static NSString *const kMAIN_CATEGORIES_PATH    = @"/NeediatorWS.asmx/getCatSub";
 static NSString *const kLISTING_PATH            = @"/NeediatorWS.asmx/getListing1";
 static NSString *const kENTITY_DETAILS_PATH     = @"/NeediatorWS.asmx/getDetails";
 static NSString *const kTIME_SLOTS_PATH         = @"/NeediatorWS.asmx/getTimeSlot";
