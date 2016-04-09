@@ -12,18 +12,24 @@
 
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"fav_id" : @"id",
+             @"store_id" : @"id",
              @"store_name" : @"name",
-             @"storePhoneNumber" : @"phone",
-             @"mobile_number" : @"mobile",
              @"store_image_url" : @"image_url",
-             @"store_id" : @"store_id",
              @"timing" : @"timing",
              @"charges" : @"charges",
              @"address" : @"address",
+             @"area"    : @"area",
              @"city" : @"city",
              @"state" : @"state",
-             @"ratings" : @"ratings"
+             @"ratings" : @"ratings",
+             @"reviews_count"   : @"reviews_count",
+             @"isBook"          : @"book",
+             @"isFavourite"     : @"isfavourite",
+             @"isLike"          : @"islike",
+             @"isDislike"       : @"dislike",
+             @"phone_numbers"   : @"phone_no",
+             @"likeDislikes"    : @"LikeUnlike",
+             @"images"          : @"Images"
              };
 }
 @end

@@ -9,6 +9,7 @@
 #import "FavouritesViewController.h"
 #import "FavouriteCategoryModel.h"
 #import "FavouriteStoreModel.h"
+#import "FavouriteStoreDetailModel.h"
 #import "StoreTaxonsViewController.h"
 
 @interface FavouritesViewController ()
@@ -24,22 +25,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Fav." style:UIBarButtonItemStylePlain target:nil action:nil];
     self.title         = @"My Favourites";
     
     
-    [self showHUD];
-    [[NAPIManager sharedManager] getMyFavouritesListingWithSuccess:^(FavouritesResponseModel *response) {
-        _favouriteCategories = response.favouriteCategories;
-        
-        [self hideHUD];
-        [self.tableView reloadData];
-        
-    } failure:^(NSError *error) {
-        
-        [self hideHUD];
-        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-    }];
+    [self requestFavourites];
     
     
     
@@ -74,8 +64,8 @@
     }
     
     FavouriteCategoryModel *category = _favouriteCategories[indexPath.section];
-    FavouriteStoreModel *store = category.stores[indexPath.row];
-    
+    FavouriteStoreDetailModel *detailModel = category.stores[indexPath.row];
+    FavouriteStoreModel *store = detailModel.listing_stores[0];
     
     cell.textLabel.text = store.store_name.capitalizedString;
     cell.detailTextLabel.text = store.city.capitalizedString;
@@ -100,27 +90,57 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     FavouriteCategoryModel *category = _favouriteCategories[indexPath.section];
-    FavouriteStoreModel *model = category.stores[indexPath.row];
+    FavouriteStoreDetailModel *detailModel = category.stores[indexPath.row];
+    FavouriteStoreModel *model = detailModel.listing_stores[0];
     
     StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
     storeTaxonsVC.title = [model.store_name capitalizedString];
     storeTaxonsVC.cat_id = category.cat_id.stringValue;
-    storeTaxonsVC.store_id = model.store_id.stringValue;
-    storeTaxonsVC.storeImages = @[@{ @"image_url" : model.store_image_url }];
-    storeTaxonsVC.storePhoneNumbers = @[model.storePhoneNumber];
-    storeTaxonsVC.storeDistance = @"? KM";
-    storeTaxonsVC.ratings   = model.ratings.stringValue;
-    storeTaxonsVC.reviewsCount = @"?";
-    storeTaxonsVC.likeUnlikeArray = @[];
-    storeTaxonsVC.isFavourite   = YES;
-    storeTaxonsVC.isLikedStore  = YES;
-    storeTaxonsVC.isDislikedStore = NO;
+    storeTaxonsVC.store_id = model.store_id;
+    storeTaxonsVC.storeImages = model.images;
+    storeTaxonsVC.storePhoneNumbers = model.phone_numbers;
+#warning remove this static distance and show the calculated distance.
+    storeTaxonsVC.storeDistance = @"2 KM";
+    storeTaxonsVC.ratings   = model.ratings;
+    storeTaxonsVC.reviewsCount =model.reviews_count;
+    storeTaxonsVC.likeUnlikeArray = model.likeDislikes;
+    storeTaxonsVC.isFavourite   = model.isFavourite.boolValue;
+    storeTaxonsVC.isLikedStore  = model.isLike.boolValue;
+    storeTaxonsVC.isDislikedStore = model.isDislike.boolValue;
     
     
     
     storeTaxonsVC.hidesBottomBarWhenPushed = NO;
     [self.navigationController pushViewController:storeTaxonsVC animated:YES];
     
+    
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return UITableViewCellEditingStyleDelete;
+}
+
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    FavouriteCategoryModel *category = _favouriteCategories[indexPath.section];
+    FavouriteStoreDetailModel *detailModel = category.stores[indexPath.row];
+    
+    [[NAPIManager sharedManager] deleteFavouriteStore:detailModel.favouriteID.stringValue WithSuccess:^(BOOL success) {
+        if (success) {
+            // reload data
+            
+            [self requestFavourites];
+            
+        }
+    } failure:^(NSError *error) {
+        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+    }];
     
 }
 
@@ -142,5 +162,20 @@
     
 }
 
+
+-(void)requestFavourites {
+    [self showHUD];
+    [[NAPIManager sharedManager] getMyFavouritesListingWithSuccess:^(FavouritesResponseModel *response) {
+        _favouriteCategories = response.favouriteCategories;
+        
+        [self hideHUD];
+        [self.tableView reloadData];
+        
+    } failure:^(NSError *error) {
+        
+        [self hideHUD];
+        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+    }];
+}
 
 @end

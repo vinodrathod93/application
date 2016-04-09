@@ -8,6 +8,7 @@
 
 #import "FavouriteCategoryModel.h"
 #import "FavouriteStoreModel.h"
+#import "FavouriteStoreDetailModel.h"
 
 @implementation FavouriteCategoryModel
 
@@ -23,7 +24,7 @@
 
 
 + (NSValueTransformer *)storesJSONTransformer {
-    return [MTLJSONAdapter arrayTransformerWithModelClass:[FavouriteStoreModel class]];
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[FavouriteStoreDetailModel class]];
 }
 
 @end

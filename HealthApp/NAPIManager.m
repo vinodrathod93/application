@@ -468,7 +468,37 @@
 }
 
 
-
+-(NSURLSessionDataTask *)deleteFavouriteStore:(NSString *)favouriteID WithSuccess:(void(^)(BOOL))success failure:(void (^)(NSError *))failure {
+    
+    User *user = [User savedUser];
+    
+    if (user.userID == nil) {
+        NSLog(@"User not logged in");
+        
+        return nil;
+    } else {
+        NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] init];
+        [parametersWithKey setObject:favouriteID forKey:@"id"];
+        
+        
+        return [self GET:kDELETE_FAVOURITE_PATH parameters:parametersWithKey progress:^(NSProgress * _Nonnull downloadProgress) {
+            NSLog(@"Getting Favourites %@", downloadProgress.localizedDescription);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                success(YES);
+            }
+            else
+                success(NO);
+            
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            failure(error);
+        }];
+        
+    }
+}
 
 
 @end

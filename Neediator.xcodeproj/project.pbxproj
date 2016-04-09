@@ -153,6 +153,7 @@
 		82B4245A1C8431BB00664A4B /* UploadPrescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B424591C8431BB00664A4B /* UploadPrescriptionViewController.m */; };
 		82B7AAF01C5D0C0E0031BA8E /* SubCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7AAEF1C5D0C0E0031BA8E /* SubCategoryViewController.m */; };
 		82B7AAF61C5D0CAF0031BA8E /* SubCategoryHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7AAF51C5D0CAF0031BA8E /* SubCategoryHeaderView.m */; };
+		82B93B611CB918D700D1EC8C /* FavouriteStoreDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B93B601CB918D700D1EC8C /* FavouriteStoreDetailModel.m */; };
 		82BB3DEB1CA01B1B00B282D0 /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */; };
 		82BD028E1B46A73C00108A0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD028D1B46A73C00108A0B /* main.m */; };
 		82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02901B46A73C00108A0B /* AppDelegate.m */; };
@@ -550,6 +551,8 @@
 		82B7AAEF1C5D0C0E0031BA8E /* SubCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryViewController.m; sourceTree = "<group>"; };
 		82B7AAF41C5D0CAF0031BA8E /* SubCategoryHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryHeaderView.h; sourceTree = "<group>"; };
 		82B7AAF51C5D0CAF0031BA8E /* SubCategoryHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryHeaderView.m; sourceTree = "<group>"; };
+		82B93B5F1CB918D700D1EC8C /* FavouriteStoreDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavouriteStoreDetailModel.h; sourceTree = "<group>"; };
+		82B93B601CB918D700D1EC8C /* FavouriteStoreDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavouriteStoreDetailModel.m; sourceTree = "<group>"; };
 		82BB3DE91CA01B1B00B282D0 /* QRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeViewController.h; sourceTree = "<group>"; };
 		82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeViewController.m; sourceTree = "<group>"; };
 		82BD02881B46A73C00108A0B /* Chemist Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chemist Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1335,6 +1338,8 @@
 				82E509FC1CAE9A0E0013289F /* FavouriteStoreModel.m */,
 				82E509FE1CAE9C1A0013289F /* FavouritesResponseModel.h */,
 				82E509FF1CAE9C1A0013289F /* FavouritesResponseModel.m */,
+				82B93B5F1CB918D700D1EC8C /* FavouriteStoreDetailModel.h */,
+				82B93B601CB918D700D1EC8C /* FavouriteStoreDetailModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2524,6 +2529,7 @@
 				82A1D3CF1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.m in Sources */,
 				82C97ED01C19939C00E6ED4C /* Location.m in Sources */,
 				82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */,
+				82B93B611CB918D700D1EC8C /* FavouriteStoreDetailModel.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,
 				82681EAD1C50B8FA00035E6E /* NEntityDetailCell.m in Sources */,
 				82ED53E71C4FB58300FA7707 /* EntityDetailModel.m in Sources */,

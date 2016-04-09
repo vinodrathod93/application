@@ -91,6 +91,7 @@ static NSString *const kADD_TO_FAVOURTIE_PATH = @"/NeediatorWS.asmx/addToFavouri
 static NSString *const kADD_TO_LIKEDISLIKE_PATH = @"/NeediatorWS.asmx/addToLikedislike";
 static NSString *const kMY_ORDERS_PATH = @"/NeediatorWS.asmx/myOrder";
 static NSString *const kMY_FAVOURITES_PATH = @"/NeediatorWS.asmx/viewFavourites";
+static NSString *const kDELETE_FAVOURITE_PATH = @"/NeediatorWS.asmx/deleteFavourites";
 
 
 /* Helper Constants */

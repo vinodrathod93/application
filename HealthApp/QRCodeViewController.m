@@ -93,6 +93,9 @@
     // Initialize the captureSession object.
     _captureSession = [[AVCaptureSession alloc] init];
     // Set the input device on the capture session.
+    
+    _captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
+    
     [_captureSession addInput:input];
     
     
@@ -109,8 +112,8 @@
     // Initialize the video preview layer and add it as a sublayer to the viewPreview view's layer.
     _videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
     [_videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    [_videoPreviewLayer setFrame:self.videoPreview.layer.bounds];
-    [self.videoPreview.layer addSublayer:_videoPreviewLayer];
+    [_videoPreviewLayer setFrame:self.view.layer.bounds];
+    [self.view.layer addSublayer:_videoPreviewLayer];
     
     
     // Start video capture.

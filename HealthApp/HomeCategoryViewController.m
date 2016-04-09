@@ -722,9 +722,10 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(BOOL)isCategoriesSaved {
     
-    self.categoriesArray = [MainCategoryRealm allObjects];
+    RLMResults *categoriesArray = [MainCategoryRealm allObjects];
+    RLMResults *promotions = [MainPromotionRealm allObjects];
     
-    return (self.categoriesArray.count) ? YES : NO;
+    return (categoriesArray.count && promotions.count) ? YES : NO;
 }
 
 
