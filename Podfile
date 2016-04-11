@@ -9,7 +9,7 @@ def shared_pods
 end
 
 target 'Neediator' do
-platform :ios, '8.1'
+    platform :ios, '8.1'
     shared_pods
     
     pod 'SDWebImage', '~>3.7'
@@ -27,6 +27,7 @@ platform :ios, '8.1'
     
     pod 'SVPullToRefresh'
     pod 'Google/Analytics'
+    pod 'BBBadgeBarButtonItem'
 end
 
 target 'NeediatorTests' do
@@ -34,7 +35,7 @@ target 'NeediatorTests' do
 end
 
 target 'Neediator-AppleWatch' do
-platform :watchos, '2.0'
+   platform :watchos, '2.0'
    shared_pods
 end
 

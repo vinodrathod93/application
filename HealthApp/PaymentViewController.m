@@ -41,7 +41,7 @@ enum TABLEVIEWCELL {
     DELIVERY_TIME_SECTION
 };
 
-@interface PaymentViewController ()
+@interface PaymentViewController ()<UIAlertViewDelegate>
 
 // Data source Properties
 @property (nonatomic, strong) NSString *display_total;

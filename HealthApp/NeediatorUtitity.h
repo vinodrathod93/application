@@ -21,6 +21,7 @@
 + (void)clearDataForKey:(NSString *)key;
 
 + (UIColor *)defaultColor;
++ (UIColor *)mainColor;
 + (UIColor *)blurredDefaultColor;
 + (void)alertWithTitle:(NSString *)title andMessage:(NSString *)message onController:(UIViewController *)controller;
 + (void)showLoginOnController:(UIViewController *)controller isPlacingOrder:(BOOL)isPlacing;

@@ -87,6 +87,20 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.navigationItem.rightBarButtonItem = QRBarButtonItem;
     
     
+    UIButton *notificationButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [notificationButton setBackgroundImage:[UIImage imageNamed:@"notification"] forState:UIControlStateNormal];
+    [notificationButton addTarget:self action:@selector(notificationDidTapped:) forControlEvents:UIControlEventTouchUpInside];
+    BBBadgeBarButtonItem *notificationItem = [[BBBadgeBarButtonItem alloc] initWithCustomUIButton:notificationButton];
+    [notificationItem setBadgeValue:@"3"];
+    [notificationItem setBadgeOriginX:10];
+    [notificationItem setBadgeBGColor:[NeediatorUtitity mainColor]];
+    [notificationItem setBadgeTextColor:[UIColor blackColor]];
+    
+    
+    self.navigationItem.leftBarButtonItem = notificationItem;
+    
+    
+    
     /* Start the Location */
     Location *location = [Location savedLocation];
     if (location == nil)
@@ -138,9 +152,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     }
     else
         [self requestCategories];
-    
-    
-//    self.promotions = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
     
     
     

@@ -10,6 +10,7 @@
 #import "OrderCompleteViewController.h"
 #import "ImageModalViewController.h"
 #import "UploadPrsCollectionViewCell.h"
+#import "UploadPreviewController.h"
 
 
 
@@ -22,8 +23,9 @@
     UIImage *_cameraImage;
     UIDatePicker *_dateTimePicker;
     
-    NSString *_selectedDeliveryID;
-    NSString *_selectedAddressID;
+    NSNumber *_selectedDeliveryID;
+    NSNumber *_selectedAddressID;
+    NSString *_shippingAddress;
     
     UIImageView *_selectedImageView;
 }
@@ -42,8 +44,8 @@
     self.title = @"Upload Prescription";
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissVC:)];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-//     self.selectedImagesArray = [[NSMutableArray alloc] init];
     
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -76,7 +78,7 @@
     [self hideCollectionView];
     
     
-    [self.deliveryTypeButton addTarget:self action:@selector(showActivitySheet:) forControlEvents:UIControlEventTouchUpInside];
+    [self.deliveryTypeButton addTarget:self action:@selector(showShippingTypeSheet:) forControlEvents:UIControlEventTouchUpInside];
     [self.addressButton addTarget:self action:@selector(showAddresses:) forControlEvents:UIControlEventTouchUpInside];
     
     [self decorateButtons];
@@ -92,6 +94,13 @@
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"Send-Prescription Screen"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - self.topLayoutGuide.length - self.bottomLayoutGuide.length);
 }
 
 
@@ -194,7 +203,7 @@
     NSArray *selectedImages = [self thumbnailSelectedImages];
     
     if (selectedImages.count <= 0) {
-        UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Cannot Upload"
+        UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Cannot Proceed"
                                                               message:@"First Select Images"
                                                              delegate:nil
                                                     cancelButtonTitle:@"OK"
@@ -203,7 +212,25 @@
         [myAlertView show];
         
     } else {
-        [self uploadImages];
+//        [self uploadImages];
+        
+        UploadPreviewController *uploadPreviewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPreviewVC"];
+        
+        uploadPreviewVC.base64Images = [self selectedImagesBase64];
+        uploadPreviewVC.selectedImages = [self thumbnailSelectedImages];
+        uploadPreviewVC.shippingTypeID = _selectedDeliveryID;
+        uploadPreviewVC.shippingAddressID = _selectedAddressID;
+        
+        uploadPreviewVC.deliveryTime = self.dateTimeField.text;
+        
+        NSArray *names = [self deliveryTypes];
+        
+        uploadPreviewVC.shippingType = names[_selectedDeliveryID.intValue];
+        uploadPreviewVC.shippingAddress = _shippingAddress;
+        
+        
+        [self.navigationController pushViewController:uploadPreviewVC animated:YES];
+        
     }
     
 }
@@ -304,8 +331,8 @@
 
 
 #pragma mark - Helper Methods
--(void)showActivitySheet:(UIButton *)sender {
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Delivery Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+-(void)showShippingTypeSheet:(UIButton *)sender {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Shipping Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     NSArray *names = [self deliveryTypes];
     NSArray *ids   = [self deliveryIDs];
@@ -314,6 +341,19 @@
         UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [sender setTitle:action.title forState:UIControlStateNormal];
             _selectedDeliveryID = ids[idx];
+            
+            
+            if (![_selectedDeliveryID isEqual:@1]) {
+                // hide time.
+                
+                self.dataTimeLabel.hidden = YES;
+                self.dateTimeField.hidden = YES;
+            
+            }
+            else {
+                self.dataTimeLabel.hidden = NO;
+                self.dateTimeField.hidden = NO;
+            }
         }];
         
         [controller addAction:action];
@@ -344,23 +384,6 @@
     [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
     
     
-    
-    
-//    NSCalendar *indianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierIndian];
-    
-    
-//    NSDateComponents *components = [indianCalendar components:NSUIntegerMax fromDate:currentDate];
-    
-//    [components setHour:7];
-//    [components setMinute:15];
-//    
-//    currentDate = [indianCalendar dateFromComponents:components];
-//    
-//    
-//    [components setHour:20];
-//    [components setMinute:0];
-//    
-//    nextDate = [indianCalendar dateFromComponents:components];
     
     NSLog(@"Current Date = %@", [dateFormat stringFromDate:currentDate]);
     NSLog(@"Next Date = %@", [dateFormat stringFromDate:nextDate]);
@@ -591,7 +614,10 @@
     NSArray *positions = [self positionArray];
     
     if (_cameraCaptured) {
-        [selectedImagesArray addObject:_cameraImage];
+        
+        
+        UIImage *scaledImage = [self imageWithImage:_cameraImage scaledToSize:size];
+        [selectedImagesArray addObject:scaledImage];
     }
     else {
         
@@ -613,11 +639,23 @@
 }
 
 
+-(UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    //UIGraphicsBeginImageContext(newSize);
+    // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
+    // Pass 1.0 to force exact pixel size.
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
+
 -(NSArray *)thumbnailSelectedImages {
     
     NSMutableArray *thumbnails = [NSMutableArray array];
     
-    thumbnails = (NSMutableArray *)[self commonSelectedImagesWithSize:CGSizeMake(100, 100)];
+    thumbnails = (NSMutableArray *)[self commonSelectedImagesWithSize:CGSizeMake(100, 150)];
     
     
     [thumbnails addObject:[UIImage imageNamed:@"addPlus"]];
@@ -640,12 +678,17 @@
     
     [images enumerateObjectsUsingBlock:^(UIImage  *_Nonnull image, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        NSData *data = UIImageJPEGRepresentation(image, 1.0);
-        NSData *base64data = [data base64EncodedDataWithOptions:0];
-        
-        NSString *imageBase64String = [[NSString alloc] initWithData:base64data encoding:NSUTF8StringEncoding];
-        
-        [base64Images addObject:imageBase64String];
+        if (idx == images.count-1) {
+            ;
+        }
+        else {
+            NSData *data = UIImageJPEGRepresentation(image, 1.0);
+            NSData *base64data = [data base64EncodedDataWithOptions:0];
+            
+            NSString *imageBase64String = [[NSString alloc] initWithData:base64data encoding:NSUTF8StringEncoding];
+            
+            [base64Images addObject:imageBase64String];
+        }
         
     }];
     
@@ -696,6 +739,8 @@
     NSString *zipcode  = [address valueForKey:@"pincode"];
     
     NSString *complete_address = [NSString stringWithFormat:@"%@, - %@",address1, zipcode];
+    
+    _shippingAddress = complete_address;
     
     
     [self.addressButton setTitle:complete_address forState:UIControlStateNormal];
@@ -957,8 +1002,10 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    if ([[self thumbnailSelectedImages] count] != 0) {
-        return [[self thumbnailSelectedImages] count];
+    NSArray *thumbnailImages = [self thumbnailSelectedImages];
+    
+    if (thumbnailImages.count != 0) {
+        return [thumbnailImages count];
     }
     else
         return 0;
@@ -972,17 +1019,19 @@
 
     [uploadPrsCell.deleteButton addTarget:self action:@selector(removeImage:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSLog(@"images count %lu", (unsigned long)[[self thumbnailSelectedImages] count]);
+    NSArray *thumbnailImages = [self thumbnailSelectedImages];
     
-    if ([[self thumbnailSelectedImages] count] > 1) {
+    NSLog(@"images count %lu", (unsigned long)[thumbnailImages count]);
+    
+    if ([thumbnailImages count] > 1) {
         NSLog(@"Entered the loop");
         
-        NSArray *images = [self thumbnailSelectedImages];
-        uploadPrsCell.pImageView.image = (UIImage *)images[indexPath.item];
+        
+        uploadPrsCell.pImageView.image = (UIImage *)thumbnailImages[indexPath.item];
         
         NSLog(@"Index %ld",(long)indexPath.item);
         
-        if (indexPath.item == [[self thumbnailSelectedImages] count] -1) {
+        if (indexPath.item == [thumbnailImages count] -1) {
             NSLog(@"Removed Delete Button");
             
             uploadPrsCell.pImageView.frame = CGRectMake(uploadPrsCell.frame.size.width/2 - (25/2), uploadPrsCell.frame.size.height/2 - (25/2), 25, 25);

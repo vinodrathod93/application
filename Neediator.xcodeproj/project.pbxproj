@@ -114,6 +114,7 @@
 		82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CDA1B58F81000FCCACC /* DetailsProductViewController.m */; };
 		82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CDD1B58F92600FCCACC /* ProductImageViewCell.m */; };
 		82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82842CE01B590B8600FCCACC /* DetailViewModel.m */; };
+		82845C371CBBBB6B001D7D80 /* UploadPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82845C361CBBBB6B001D7D80 /* UploadPreviewController.m */; };
 		8286B2511BF089D600AFC533 /* ListingRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2501BF089D600AFC533 /* ListingRequestModel.m */; };
 		8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2531BF08A7F00AFC533 /* StoreListResponseModel.m */; };
 		8286B2581BF08F3F00AFC533 /* StoreRealm.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2571BF08F3F00AFC533 /* StoreRealm.m */; };
@@ -481,6 +482,8 @@
 		82842CDD1B58F92600FCCACC /* ProductImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductImageViewCell.m; sourceTree = "<group>"; };
 		82842CDF1B590B8600FCCACC /* DetailViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailViewModel.h; path = ../DetailViewModel.h; sourceTree = "<group>"; };
 		82842CE01B590B8600FCCACC /* DetailViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailViewModel.m; path = ../DetailViewModel.m; sourceTree = "<group>"; };
+		82845C351CBBBB6B001D7D80 /* UploadPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadPreviewController.h; path = ../UploadPreviewController.h; sourceTree = "<group>"; };
+		82845C361CBBBB6B001D7D80 /* UploadPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadPreviewController.m; path = ../UploadPreviewController.m; sourceTree = "<group>"; };
 		8286B24F1BF089D600AFC533 /* ListingRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingRequestModel.h; sourceTree = "<group>"; };
 		8286B2501BF089D600AFC533 /* ListingRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingRequestModel.m; sourceTree = "<group>"; };
 		8286B2521BF08A7F00AFC533 /* StoreListResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreListResponseModel.h; sourceTree = "<group>"; };
@@ -1305,6 +1308,8 @@
 		82C3F5621C8DCCDD00BA266D /* Upload Prescription */ = {
 			isa = PBXGroup;
 			children = (
+				82845C351CBBBB6B001D7D80 /* UploadPreviewController.h */,
+				82845C361CBBBB6B001D7D80 /* UploadPreviewController.m */,
 				82B424581C8431BB00664A4B /* UploadPrescriptionViewController.h */,
 				82B424591C8431BB00664A4B /* UploadPrescriptionViewController.m */,
 			);
@@ -2517,6 +2522,7 @@
 				82F856CB1C8077B0000B68A9 /* SubCategoryModel.m in Sources */,
 				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,
 				8294E0281CB51B8E00DF2313 /* BookingDIDatePicker.m in Sources */,
+				82845C371CBBBB6B001D7D80 /* UploadPreviewController.m in Sources */,
 				8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */,
 				82E509FD1CAE9A0E0013289F /* FavouriteStoreModel.m in Sources */,
 				82E509FA1CAE98BA0013289F /* FavouriteCategoryModel.m in Sources */,

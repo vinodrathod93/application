@@ -11,6 +11,8 @@
 #import "BookConfirmViewController.h"
 #import "BookingViewController.h"
 #import "PaymentOptionsViewController.h"
+#import "UploadPrescriptionViewController.h"
+#import "UploadPreviewController.h"
 
 @interface OrderCompleteViewController ()
 
@@ -22,6 +24,9 @@
     [super viewDidLoad];
     
     
+    
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(closeVC)];
     
     
     if (self.booking_id != nil) {
@@ -68,6 +73,17 @@
         if ([vc isKindOfClass:[PaymentOptionsViewController class]]) {
             [viewControllers removeObject:vc];
         }
+        
+        if ([vc isKindOfClass:[UploadPreviewController class]]) {
+            [viewControllers removeObject:vc];
+        }
+        
+        
+        if ([vc isKindOfClass:[UploadPrescriptionViewController class]]) {
+            [viewControllers removeObject:vc];
+        }
+        
+        
     }
     self.navigationController.viewControllers = [NSArray arrayWithArray:viewControllers];
     
@@ -96,10 +112,14 @@
 */
 
 - (IBAction)viewOrderPressed:(id)sender {
+    
+    [self closeVC];
 }
 
 
-
+-(void)closeVC {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 

@@ -867,6 +867,12 @@ typedef NS_ENUM(uint16_t, sections) {
     [storeOptionView.locationButton setTitle:self.storeDistance forState:UIControlStateNormal];
     storeOptionView.favouriteStore = self.isFavourite;
     
+    if (self.isFavourite) {
+        storeOptionView.favButton.selected = YES;
+    }
+    else
+        storeOptionView.favButton.selected = NO;
+    
     [storeOptionView.favButton addTarget:self action:@selector(requestFavourites:) forControlEvents:UIControlEventTouchUpInside];
     [storeOptionView.infoButton addTarget:self action:@selector(goToStoreInfoDetailVC) forControlEvents:UIControlEventTouchUpInside];
     [storeOptionView.shareButton addTarget:self action:@selector(shareStoreDetails:) forControlEvents:UIControlEventTouchUpInside];
