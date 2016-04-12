@@ -32,7 +32,7 @@
 
 @property (nonatomic, strong) NSDictionary *dictionary;
 @property (nonatomic, strong) MBProgressHUD *hud;
-//@property (nonatomic, strong) NSMutableArray *selectedImagesArray;
+@property (nonatomic, strong) NSMutableArray *selectedImagesArray;
 @end
 
 @implementation UploadPrescriptionViewController
@@ -46,6 +46,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissVC:)];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
+    self.selectedImagesArray = [[NSMutableArray alloc] init];
     
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -200,9 +201,8 @@
 
 - (IBAction)uploadPhotoPressed:(id)sender {
     
-    NSArray *selectedImages = [self thumbnailSelectedImages];
     
-    if (selectedImages.count <= 0) {
+    if (self.selectedImagesArray.count <= 0) {
         UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Cannot Proceed"
                                                               message:@"First Select Images"
                                                              delegate:nil
@@ -212,12 +212,11 @@
         [myAlertView show];
         
     } else {
-//        [self uploadImages];
         
         UploadPreviewController *uploadPreviewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPreviewVC"];
         
         uploadPreviewVC.base64Images = [self selectedImagesBase64];
-        uploadPreviewVC.selectedImages = [self thumbnailSelectedImages];
+        uploadPreviewVC.selectedImages = self.selectedImagesArray;
         uploadPreviewVC.shippingTypeID = _selectedDeliveryID;
         uploadPreviewVC.shippingAddressID = _selectedAddressID;
         
@@ -225,7 +224,7 @@
         
         NSArray *names = [self deliveryTypes];
         
-        uploadPreviewVC.shippingType = names[_selectedDeliveryID.intValue];
+        uploadPreviewVC.shippingType = names[_selectedDeliveryID.integerValue];
         uploadPreviewVC.shippingAddress = _shippingAddress;
         
         
@@ -281,6 +280,8 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
         if ([_selections containsObject:[NSNumber numberWithBool:YES]]) {
+            
+            
             [self showCollectionImages];
             
             [self enableUploadButton];
@@ -310,7 +311,10 @@
     _cameraCaptured = YES;
     
     
-    NSLog(@"Captured Images %@", [self thumbnailSelectedImages]);
+   
+    
+    [self.selectedImagesArray addObjectsFromArray:[self thumbnailSelectedImages]];
+     NSLog(@"Captured Images %@", self.selectedImagesArray);
     
     // Show Image in collection view
     [self showCollectionImages];
@@ -599,13 +603,18 @@
     
     NSArray *positions = [self positionArray];
     
-    NSNumber *index = positions[indexPath.item];
-    NSLog(@"Index, %d", index.intValue);
-    
-    
-    [_selections replaceObjectAtIndex:index.intValue withObject:@0];
-    
-    NSLog(@"%@", _selections);
+    if (positions.count == 0) {
+        ;
+    }
+    else {
+        NSNumber *index = positions[indexPath.item];
+        NSLog(@"Index, %d", index.intValue);
+        
+        
+        [_selections replaceObjectAtIndex:index.intValue withObject:@0];
+        
+        NSLog(@"%@", _selections);
+    }
 }
 
 
@@ -672,7 +681,7 @@
 
 -(NSArray *)selectedImagesBase64 {
     
-    NSArray *images = [self thumbnailSelectedImages];
+    NSArray *images = self.selectedImagesArray;
     
     NSMutableArray *base64Images = [[NSMutableArray alloc] init];
     
@@ -724,9 +733,6 @@
 
 -(void)deliverableAddressDidSelect:(NSDictionary *)address {
     
-//    NSString *name = [[address valueForKey:@"Name"]capitalizedString];
-
-//    [NeediatorUtitity save:address[@"Id"] forKey:kSAVE_ADDRESS_ID];
     _selectedAddressID = address[@"id"];
     
     NSString *address1 = [[address valueForKey:@"address"] capitalizedString];
@@ -1002,7 +1008,9 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    NSArray *thumbnailImages = [self thumbnailSelectedImages];
+    [self.selectedImagesArray addObjectsFromArray:[self thumbnailSelectedImages]];
+    
+    NSArray *thumbnailImages = self.selectedImagesArray;
     
     if (thumbnailImages.count != 0) {
         return [thumbnailImages count];
@@ -1019,7 +1027,7 @@
 
     [uploadPrsCell.deleteButton addTarget:self action:@selector(removeImage:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSArray *thumbnailImages = [self thumbnailSelectedImages];
+    NSArray *thumbnailImages = self.selectedImagesArray;
     
     NSLog(@"images count %lu", (unsigned long)[thumbnailImages count]);
     
@@ -1056,29 +1064,18 @@
     
     [self removeImageSelectionAtIndex:selectIndexpath];
     
+    [self.selectedImagesArray addObjectsFromArray:[self thumbnailSelectedImages]];
+    
     [self.imagesCollectionView reloadData];
     
 }
 
-//
-//-(NSInteger)lastImageInSelections {
-//    NSArray *positions = [self positionArray];
-//    
-//    NSInteger index = [positions indexOfObject:[positions lastObject]];
-//    
-//    
-////    PHAsset *photo = _assets[lastPosition.intValue];
-////    UIImage *image = [self getAssetThumbnail:photo withTargetSize:CGSizeMake(100, 110)];
-//    
-//    
-//    return index;
-//}
 
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    if (indexPath.item == [[self thumbnailSelectedImages] count] -1) {
+    if (indexPath.item == [self.selectedImagesArray count] -1) {
         // New Image
      
         

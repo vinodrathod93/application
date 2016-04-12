@@ -254,7 +254,7 @@ enum SECTIONS {
 
 -(void)shareUsFromCell:(UITableViewCell *)cell {
     
-    NSString *texttoshare = @"Hey! I Found this Awesome HyperLocal - Shopping App for Shopping your Daily needs from Nearby Stores.\n Download it Today and Enjoy Shopping \n https://play.google.com/store/apps/details?id=info.adverto.neediator\n";
+    NSString *texttoshare = @"Hey! I Found this Awesome HyperLocal App for Shopping or Searching for your Daily needs around your location.\nDownload it Today and Enjoy Shopping \n\nAndroid: https://play.google.com/store/apps/details?id=info.adverto.neediator\n\niOS: https://itunes.apple.com/in/app/neediator/id1073622324?mt=8";
     
     NSArray *activityItems = @[texttoshare];
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];

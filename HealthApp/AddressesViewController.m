@@ -339,7 +339,7 @@ typedef void(^completion)(BOOL finished);
     
     [self showHUD];
     
-    NSString *addressID = [address valueForKey:@"Id"];
+    NSString *addressID = [address valueForKey:@"id"];
     
     [[NAPIManager sharedManager] deleteAddress:addressID withSuccess:^(BOOL success) {
         

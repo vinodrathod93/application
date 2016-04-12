@@ -33,4 +33,5 @@
 -(NSURLSessionDataTask *)getMyOrdersListingWithSuccess:(void(^)(MyOrdersResponseModel *))success failure:(void (^)(NSError *))failure;
 -(NSURLSessionDataTask *)getMyFavouritesListingWithSuccess:(void(^)(FavouritesResponseModel *))success failure:(void (^)(NSError *))failure;
 -(NSURLSessionDataTask *)deleteFavouriteStore:(NSString *)favouriteID WithSuccess:(void(^)(BOOL))success failure:(void (^)(NSError *))failure;
+-(NSURLSessionDataTask *)updateUserProfile:(NSDictionary *)data withHUD:(MBProgressHUD *)hud success:(void (^)(BOOL success, NSDictionary *response))success failure:(void (^)(NSError *error))failure;
 @end

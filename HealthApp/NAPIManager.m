@@ -501,4 +501,45 @@
 }
 
 
+-(NSURLSessionDataTask *)updateUserProfile:(NSDictionary *)data withHUD:(MBProgressHUD *)hud success:(void (^)(BOOL success, NSDictionary *response))success failure:(void (^)(NSError *error))failure {
+    User *user = [User savedUser];
+    
+    
+    NSDictionary *object = @{
+                             @"first_name"      : data[@"firstname"],
+                             @"last_name"       : data[@"lastname"],
+                             @"userid"         : user.userID,
+                             @"imageprofile"    : data[@"imageprofile"]
+                             };
+    
+    
+    NSError *error;
+    NSData *json_data = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:&error];
+    
+    NSString *json_string = [[NSString alloc] initWithData:json_data encoding:NSUTF8StringEncoding];
+    
+    
+    NSDictionary *parameter = @{
+                                @"json": json_string
+                                };
+    
+    self.requestSerializer = [AFHTTPRequestSerializer serializer];
+    
+    return [self POST:kUPDATE_PROFILE_PATH parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"Profile Image Uploading progess %@", uploadProgress.localizedDescription);
+        
+        hud.progress = uploadProgress.fractionCompleted;
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Response = %@", responseObject);
+        
+        success(YES, responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
+
+
 @end

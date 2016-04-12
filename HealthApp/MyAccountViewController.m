@@ -19,6 +19,7 @@
 #import "MyOrdersViewController.h"
 #import "LoginView.h"
 #import "FavouritesViewController.h"
+#import "EditProfileViewController.h"
 
 
 enum MyAccountCells {
@@ -54,6 +55,7 @@ enum MyAccountCells {
     NSLog(@"viewDidLoad");
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editProfile:)];
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
@@ -67,6 +69,8 @@ enum MyAccountCells {
     
     [self showViewAfterLogin];
     
+    [self.tableView reloadData];
+    
 }
 
 
@@ -78,7 +82,12 @@ enum MyAccountCells {
 }
 
 
-
+-(void)editProfile:(id)sender {
+    
+    EditProfileViewController *editProfileVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfileVC"];
+    [self.navigationController pushViewController:editProfileVC animated:YES];
+    
+}
 
 
 - (void)didReceiveMemoryWarning {
@@ -133,7 +142,7 @@ enum MyAccountCells {
     
     NSLog(@"%f",cell.profileImage.frame.size.width);
     
-    cell.userName.text = user.fullName;
+    cell.userName.text = [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
     cell.userEmail.text = user.email;
     
     NSURL *url = [NSURL URLWithString:user.profilePic];

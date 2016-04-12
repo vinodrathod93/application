@@ -29,8 +29,9 @@
 typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
 {
     searchScopeLocation = 0,
-    searchScopeCategory = 1,
-    searchScopeStore    = 2
+    searchScopeCategory,
+    searchScopeStore,
+    searchScopeProduct
 };
 
 @implementation SearchViewController {
@@ -123,7 +124,7 @@ typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
     _searchController.searchBar.placeholder = @"Search";
     _searchController.delegate = self;
     _searchController.searchBar.delegate = self;
-    _searchController.searchBar.scopeButtonTitles = @[@"Location", @"Category", @"Store"];
+    _searchController.searchBar.scopeButtonTitles = @[@"Location", @"Category", @"Store", @"Product"];
     
     _searchController.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _searchController.searchBar.searchBarStyle   = UISearchBarStyleDefault;
@@ -422,12 +423,14 @@ didFailAutocompleteWithError:(NSError *)error {
 {
     
     if (selectedScope == searchScopeStore) {
-        self.searchController.searchBar.placeholder = @"Search by Stores";
+        self.searchController.searchBar.placeholder = @"Search by Store";
     }
     else if (selectedScope == searchScopeCategory)
-        self.searchController.searchBar.placeholder = @"Search by Categories";
+        self.searchController.searchBar.placeholder = @"Search by Category";
     else if (selectedScope == searchScopeLocation)
         self.searchController.searchBar.placeholder = @"Search by Location";
+    else if (selectedScope == searchScopeProduct)
+        self.searchController.searchBar.placeholder = @"Search by Product";
     
     
     [self updateSearchResultsForSearchController:self.searchController];
@@ -472,10 +475,6 @@ didFailAutocompleteWithError:(NSError *)error {
                                    initWithTitle:@"Neediator" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [errorAlert show];
     }
-    
-    
-    
-    
     
     
     

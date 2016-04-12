@@ -222,7 +222,7 @@ typedef void(^completion)(BOOL finished);
                         User *user              = [[User alloc]init];
                         user.userID             = [userData[0] valueForKey:@"id"];
                         user.email              = [userData[0] valueForKey:@"email"];
-                        user.fullName           = [userData[0] valueForKey:@"name"];
+                        user.firstName           = [userData[0] valueForKey:@"name"];
                         
                         [user save];
                         

@@ -174,6 +174,7 @@ typedef void(^completion)(BOOL finished);
                         
                         User *user              = [[User alloc]init];
                         user.userID             = [data valueForKey:@"id"];
+                        user.firstName          = [data valueForKey:@"name"];
                         user.email              = [data valueForKey:@"username"];
                         user.addresses          = [data objectForKey:@"addreslist"];
                         
