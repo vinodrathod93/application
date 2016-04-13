@@ -61,8 +61,6 @@
     [self.editProfileButton addTarget:self action:@selector(editPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self loadAssets];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardDidDisappear:) name:UIKeyboardDidHideNotification object:nil];
     
 }
 
@@ -70,7 +68,13 @@
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - self.topLayoutGuide.length - self.bottomLayoutGuide.length);
+    CGFloat lastViewHeight = CGRectGetHeight(((UIView *)[self.contentView.subviews lastObject]).frame);
+    int lastViewY = CGRectGetMaxY(((UIView *)[self.contentView.subviews lastObject]).frame);
+    
+    CGFloat height = lastViewHeight + lastViewY;
+    
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), height);
+    
 }
 
 
@@ -83,7 +87,14 @@
 
 -(void)saveButtonPressed:(id)sender {
     
-    NSString *convertedImage = [self selectedImagesBase64][0];
+    NSString *convertedImage = @"";
+    
+    if (self.selectedImagesArray.count != 0) {
+        convertedImage = [self selectedImagesBase64][0];
+    }
+    
+    
+    
     [self showHUD];
     self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
 
@@ -109,10 +120,11 @@
             NSDictionary *response = responseData[@"update_profile"][0];
             
             User *savedUser = [User savedUser];
-            savedUser.firstName = response[@"FirstName"];
-            savedUser.lastName  = response[@"LastName"];
-            savedUser.profilePic    = response[@"imageurl"];
-            savedUser.email         = response[@"Email"];
+            
+            savedUser.firstName = response[@"FirstName"] == [NSNull null] ? @"" : response[@"FirstName"];
+            savedUser.lastName  = response[@"LastName"] == [NSNull null] ? @"" : response[@"LastName"];
+            savedUser.profilePic    = response[@"imageurl"] == [NSNull null] ? @"" : response[@"imageurl"];
+            savedUser.email         = response[@"Email"] == [NSNull null] ? @"" : response[@"Email"];
             
             [savedUser save];
             
@@ -615,31 +627,6 @@
 
 
 
--(void)keyboardDidShow:(NSNotification *)notification
-{
-    NSLog(@"KeyBoard appeared");
-    NSDictionary *info=[notification userInfo];
-    NSValue *aValue=[info objectForKey:UIKeyboardFrameEndUserInfoKey];
-    
-    CGRect keyBoardRect=[aValue CGRectValue];
-    keyBoardRect=[self.view convertRect:keyBoardRect fromView:nil];
-    CGFloat keyBoardTop=keyBoardRect.origin.y; //i am getting the height of the keyboard
-    
-    self.scrollView.contentInset=UIEdgeInsetsMake(0, 0, keyBoardTop+50, 0); //adjust the height by setting the "contentInset"
-    
-    
-}
 
--(void)keyboardDidDisappear:(NSNotification *)notification
-{
-    NSLog(@"KeyBoard Disappeared");
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.2];
-    self.scrollView.contentInset=UIEdgeInsetsMake(10, 0, 10, 0); //set to normal by setting the "contentInset"
-    
-    [UIView commitAnimations];
-    
-}
 
 @end

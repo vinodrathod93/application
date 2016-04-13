@@ -196,6 +196,7 @@
 		82D3840F1C2C0DB700D05FB7 /* PaymentDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D3840E1C2C0DB700D05FB7 /* PaymentDetailViewCell.m */; };
 		82D47D281CABF839006B7996 /* behind_alert_view.png in Resources */ = {isa = PBXBuildFile; fileRef = 82D47D271CABF839006B7996 /* behind_alert_view.png */; };
 		82D47D2F1CABF928006B7996 /* OffersPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D47D2E1CABF928006B7996 /* OffersPopViewController.m */; };
+		82D5891E1CBE8B4C0051A074 /* NeediatorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D5891D1CBE8B4C0051A074 /* NeediatorScrollView.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
 		82DCBED11C4CEFE7005EBDB3 /* ListingResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED01C4CEFE7005EBDB3 /* ListingResponseModel.m */; };
 		82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED31C4CFEC0005EBDB3 /* RatingView.m */; };
@@ -633,6 +634,8 @@
 		82D47D271CABF839006B7996 /* behind_alert_view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = behind_alert_view.png; sourceTree = "<group>"; };
 		82D47D2D1CABF928006B7996 /* OffersPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OffersPopViewController.h; sourceTree = "<group>"; };
 		82D47D2E1CABF928006B7996 /* OffersPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OffersPopViewController.m; sourceTree = "<group>"; };
+		82D5891C1CBE8B4C0051A074 /* NeediatorScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorScrollView.h; sourceTree = "<group>"; };
+		82D5891D1CBE8B4C0051A074 /* NeediatorScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorScrollView.m; sourceTree = "<group>"; };
 		82D6EE301C1802B6007CE5F2 /* NeediatorAPIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorAPIKey.h; sourceTree = "<group>"; };
 		82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+InfiniteScroll.h"; sourceTree = "<group>"; };
 		82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+InfiniteScroll.m"; sourceTree = "<group>"; };
@@ -1753,6 +1756,8 @@
 		82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				82D5891C1CBE8B4C0051A074 /* NeediatorScrollView.h */,
+				82D5891D1CBE8B4C0051A074 /* NeediatorScrollView.m */,
 				82E07F2D1C906A5500F6480D /* HomeCollectionViewCell.h */,
 				82E07F2E1C906A5500F6480D /* HomeCollectionViewCell.m */,
 				82EA19861C297610001EBA16 /* Connection Error */,
@@ -2454,6 +2459,7 @@
 				823C46A91B73327600E37DBE /* DoctorDetailsViewCell.m in Sources */,
 				823B738B1C4920EA00031596 /* MainCategoriesResponseModel.m in Sources */,
 				82F856D41C80833B000B68A9 /* StatesModel.m in Sources */,
+				82D5891E1CBE8B4C0051A074 /* NeediatorScrollView.m in Sources */,
 				82217C4D1C96E2B4002570E3 /* UploadPrescriptionCellView.m in Sources */,
 				82217C441C96B162002570E3 /* StoreReviewsView.m in Sources */,
 				82ED53DF1C4FAFC500FA7707 /* NEntityDetailViewController.m in Sources */,

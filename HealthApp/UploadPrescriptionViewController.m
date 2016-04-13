@@ -60,7 +60,7 @@
     }
     
     
-    [self disableUploadButton];
+    [self disableHideUploadButton];
     
     self.closeButton.layer.cornerRadius = self.closeButton.frame.size.height/2;
     self.closeButton.layer.masksToBounds = YES;
@@ -101,14 +101,29 @@
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - self.topLayoutGuide.length - self.bottomLayoutGuide.length);
+    
+    CGFloat lastViewHeight = CGRectGetHeight(((UIView *)[self.contentView.subviews lastObject]).frame);
+    int lastViewY = CGRectGetMaxY(((UIView *)[self.contentView.subviews lastObject]).frame);
+    
+    CGFloat height = lastViewHeight + lastViewY;
+    
+    
+    
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), height);
+    
+    NSLog(@"%@", NSStringFromCGRect(self.contentView.frame));
+    NSLog(@"Scrollview %@", NSStringFromCGRect(self.scrollView.frame));
+    
+    NSLog(@"%@", self.uploadButton.superview);
+    NSLog(@"%@", NSStringFromCGRect(self.uploadButton.frame));
 }
 
 
 
--(void)disableUploadButton {
+-(void)disableHideUploadButton {
     [self.uploadButton setTintColor:[UIColor lightGrayColor]];
     [self.uploadButton setUserInteractionEnabled:NO];
+    self.uploadButton.hidden = YES;
 }
 
 
@@ -281,6 +296,8 @@
         
         if ([_selections containsObject:[NSNumber numberWithBool:YES]]) {
             
+            [self.selectedImagesArray removeAllObjects];
+            [self.selectedImagesArray addObjectsFromArray:[self thumbnailSelectedImages]];
             
             [self showCollectionImages];
             
@@ -520,6 +537,8 @@
 -(void)enableUploadButton {
     [self.uploadButton setTintColor:self.view.tintColor];
     [self.uploadButton setUserInteractionEnabled:YES];
+    self.uploadButton.hidden = NO;
+    self.uploadButton.clipsToBounds = YES;
 }
 
 -(void)decorateButtons {
@@ -882,9 +901,6 @@
 
 
 
-
-
-
 #pragma mark - Assests
 
 
@@ -1008,7 +1024,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    [self.selectedImagesArray addObjectsFromArray:[self thumbnailSelectedImages]];
+    
     
     NSArray *thumbnailImages = self.selectedImagesArray;
     

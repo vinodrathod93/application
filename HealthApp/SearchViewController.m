@@ -421,6 +421,11 @@ didFailAutocompleteWithError:(NSError *)error {
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
+    // to find the autocomplete.
+//    https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:IN&key=AIzaSyDKhfrd69hGKU2ZqUA5Lv5Zd0q00movdPA&input=marin
+    
+    // to get the lat-lng.
+//    https://maps.googleapis.com/maps/api/geocode/json?address=Marine%20Lines,%20Mumbai,%20Maharashtra,%20India&sensor=false
     
     if (selectedScope == searchScopeStore) {
         self.searchController.searchBar.placeholder = @"Search by Store";

@@ -142,8 +142,11 @@ enum MyAccountCells {
     
     NSLog(@"%f",cell.profileImage.frame.size.width);
     
-    cell.userName.text = [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
-    cell.userEmail.text = user.email;
+    NSString *firstname = [user.firstName isEqual:[NSNull null]] ? @"" : user.firstName;
+    NSString *lastname = [user.lastName isEqual:[NSNull null]] ? @"" : user.lastName;
+    
+    cell.userName.text = [NSString stringWithFormat:@"%@ %@", firstname, lastname];
+    cell.userEmail.text = [user.email isEqual:[NSNull null]] ? @"" : user.email;
     
     NSURL *url = [NSURL URLWithString:user.profilePic];
     [cell.profileImage sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"profile_placeholder"] options:SDWebImageRefreshCached];
