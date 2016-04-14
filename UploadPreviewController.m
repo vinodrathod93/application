@@ -79,7 +79,7 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     if ([self.selectedImages count] != 0) {
-        return [self.selectedImages count] -1;
+        return [self.selectedImages count];
     }
     else
         return 0;

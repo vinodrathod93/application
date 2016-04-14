@@ -19,7 +19,6 @@
     long long expectedLength;
     long long currentLength;
     MWPhotoBrowser *browser;
-    BOOL _cameraCaptured;
     UIImage *_cameraImage;
     UIDatePicker *_dateTimePicker;
     
@@ -28,11 +27,18 @@
     NSString *_shippingAddress;
     
     UIImageView *_selectedImageView;
+    NSMutableArray *_allThumbnails;
 }
 
 @property (nonatomic, strong) NSDictionary *dictionary;
 @property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) NSMutableArray *cameraCapturedArray;
 @property (nonatomic, strong) NSMutableArray *selectedImagesArray;
+@property (nonatomic, strong) NSMutableArray *finalDisplayArray;
+
+@property (nonatomic, strong) NSMutableArray *cameraThumbnails;
+@property (nonatomic, strong) NSMutableArray *galleryThumbnails;
+
 @end
 
 @implementation UploadPrescriptionViewController
@@ -47,7 +53,13 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     self.selectedImagesArray = [[NSMutableArray alloc] init];
+    self.finalDisplayArray = [[NSMutableArray alloc] init];
+    self.cameraCapturedArray = [[NSMutableArray alloc] init];
     
+    self.cameraThumbnails = [[NSMutableArray alloc] init];
+    self.galleryThumbnails = [[NSMutableArray alloc] init];
+    
+    _allThumbnails = [[NSMutableArray alloc] init];
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -217,7 +229,7 @@
 - (IBAction)uploadPhotoPressed:(id)sender {
     
     
-    if (self.selectedImagesArray.count <= 0) {
+    if (self.finalDisplayArray.count <= 0) {
         UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Cannot Proceed"
                                                               message:@"First Select Images"
                                                              delegate:nil
@@ -230,8 +242,10 @@
         
         UploadPreviewController *uploadPreviewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPreviewVC"];
         
-        uploadPreviewVC.base64Images = [self selectedImagesBase64];
-        uploadPreviewVC.selectedImages = self.selectedImagesArray;
+        NSArray *readyImages = [self readyImages];
+        
+        uploadPreviewVC.base64Images = [self base64Images:readyImages];
+        uploadPreviewVC.selectedImages = readyImages;
         uploadPreviewVC.shippingTypeID = _selectedDeliveryID;
         uploadPreviewVC.shippingAddressID = _selectedAddressID;
         
@@ -297,7 +311,24 @@
         if ([_selections containsObject:[NSNumber numberWithBool:YES]]) {
             
             [self.selectedImagesArray removeAllObjects];
-            [self.selectedImagesArray addObjectsFromArray:[self thumbnailSelectedImages]];
+            [self.galleryThumbnails removeAllObjects];
+            
+            [self.selectedImagesArray addObjectsFromArray:[self largeSelectedImages]];
+            [self.galleryThumbnails addObjectsFromArray:[self thumbnailSelectedImages]];
+            
+            
+            if (self.finalDisplayArray.count > 0) {
+                [self.finalDisplayArray removeAllObjects];
+                [_allThumbnails removeAllObjects];
+            }
+            
+            [self.finalDisplayArray addObjectsFromArray:self.cameraCapturedArray];
+            [self.finalDisplayArray addObjectsFromArray:self.selectedImagesArray];
+            [self.finalDisplayArray addObject:[UIImage imageNamed:@"addPlus"]];
+            
+            [_allThumbnails addObjectsFromArray:self.cameraThumbnails];
+            [_allThumbnails addObjectsFromArray:self.galleryThumbnails];
+            [_allThumbnails addObject:[UIImage imageNamed:@"addPlus"]];
             
             [self showCollectionImages];
             
@@ -307,11 +338,6 @@
         
         
     }];
-    
-    
-    
-    
-    
     
 }
 
@@ -325,13 +351,24 @@
     _cameraImage = info[UIImagePickerControllerOriginalImage];
     
     
-    _cameraCaptured = YES;
+    
+    [self.cameraCapturedArray addObject:_cameraImage];
+    [self.cameraThumbnails addObject:[self imageWithImage:_cameraImage scaledToSize:CGSizeMake(100, 150)]];
+    
+    if (self.finalDisplayArray.count > 0) {
+        [self.finalDisplayArray removeAllObjects];
+        [_allThumbnails removeAllObjects];
+    }
     
     
-   
     
-    [self.selectedImagesArray addObjectsFromArray:[self thumbnailSelectedImages]];
-     NSLog(@"Captured Images %@", self.selectedImagesArray);
+    [self.finalDisplayArray addObjectsFromArray:self.selectedImagesArray];
+    [self.finalDisplayArray addObjectsFromArray:self.cameraCapturedArray];
+    [self.finalDisplayArray addObject:[UIImage imageNamed:@"addPlus"]];
+    
+    [_allThumbnails addObjectsFromArray:self.galleryThumbnails];
+    [_allThumbnails addObjectsFromArray:self.cameraThumbnails];
+    [_allThumbnails addObject:[UIImage imageNamed:@"addPlus"]];
     
     // Show Image in collection view
     [self showCollectionImages];
@@ -617,7 +654,7 @@
     return thumbnail;
 }
 
--(void)removeImageSelectionAtIndex:(NSIndexPath *)indexPath {
+-(void)removeImageSelectionAtIndex:(int)itemIndex {
     
     
     NSArray *positions = [self positionArray];
@@ -626,7 +663,7 @@
         ;
     }
     else {
-        NSNumber *index = positions[indexPath.item];
+        NSNumber *index = positions[itemIndex];
         NSLog(@"Index, %d", index.intValue);
         
         
@@ -641,14 +678,7 @@
     NSMutableArray *selectedImagesArray = [[NSMutableArray alloc] init];
     NSArray *positions = [self positionArray];
     
-    if (_cameraCaptured) {
-        
-        
-        UIImage *scaledImage = [self imageWithImage:_cameraImage scaledToSize:size];
-        [selectedImagesArray addObject:scaledImage];
-    }
-    else {
-        
+    
         [positions enumerateObjectsUsingBlock:^(NSNumber  *_Nonnull index, NSUInteger idx, BOOL * _Nonnull stop) {
             
             PHAsset *photo = _assets[index.intValue];
@@ -658,8 +688,6 @@
             [selectedImagesArray addObject:image];
             
         }];
-        
-    }
     
     
     
@@ -686,8 +714,6 @@
     thumbnails = (NSMutableArray *)[self commonSelectedImagesWithSize:CGSizeMake(100, 150)];
     
     
-    [thumbnails addObject:[UIImage imageNamed:@"addPlus"]];
-    
     return thumbnails;
 }
 
@@ -698,9 +724,23 @@
 }
 
 
--(NSArray *)selectedImagesBase64 {
+-(NSArray *)readyImages {
+    NSMutableArray *array = [[NSMutableArray alloc] init];
     
-    NSArray *images = self.selectedImagesArray;
+    if (_allThumbnails.count > 0) {
+        
+        
+        array = _allThumbnails;
+        
+        [array removeLastObject];
+    }
+    
+    return array;
+}
+
+
+-(NSArray *)base64Images:(NSArray *)images {
+    
     
     NSMutableArray *base64Images = [[NSMutableArray alloc] init];
     
@@ -791,7 +831,7 @@
     return errorMessage;
 }
 
-
+/*
 -(void)sendImagesToUpload {
     
     
@@ -868,7 +908,7 @@
     
     
 }
-
+*/
 
 #pragma mark - HUD
 
@@ -1026,7 +1066,7 @@
     
     
     
-    NSArray *thumbnailImages = self.selectedImagesArray;
+    NSArray *thumbnailImages = self.finalDisplayArray;
     
     if (thumbnailImages.count != 0) {
         return [thumbnailImages count];
@@ -1043,19 +1083,16 @@
 
     [uploadPrsCell.deleteButton addTarget:self action:@selector(removeImage:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSArray *thumbnailImages = self.selectedImagesArray;
     
-    NSLog(@"images count %lu", (unsigned long)[thumbnailImages count]);
     
-    if ([thumbnailImages count] > 1) {
+    if ([_allThumbnails count] > 1) {
         NSLog(@"Entered the loop");
         
         
-        uploadPrsCell.pImageView.image = (UIImage *)thumbnailImages[indexPath.item];
+        uploadPrsCell.pImageView.image = (UIImage *)_allThumbnails[indexPath.item];
         
-        NSLog(@"Index %ld",(long)indexPath.item);
         
-        if (indexPath.item == [thumbnailImages count] -1) {
+        if (indexPath.item == [_allThumbnails count] -1) {
             NSLog(@"Removed Delete Button");
             
             uploadPrsCell.pImageView.frame = CGRectMake(uploadPrsCell.frame.size.width/2 - (25/2), uploadPrsCell.frame.size.height/2 - (25/2), 25, 25);
@@ -1073,14 +1110,46 @@
 }
 
 
+
+
 -(void)removeImage:(UIButton *)sender {
     
     UploadPrsCollectionViewCell *cell = (UploadPrsCollectionViewCell *)[[[sender superview] superview] superview];
-    NSIndexPath *selectIndexpath = [self.imagesCollectionView indexPathForCell:cell];
     
-    [self removeImageSelectionAtIndex:selectIndexpath];
+    UIImage *tappedImage = [cell.pImageView image];
     
-    [self.selectedImagesArray addObjectsFromArray:[self thumbnailSelectedImages]];
+    
+    if ([self.cameraThumbnails containsObject:tappedImage]) {
+        
+        int index = [self.cameraThumbnails indexOfObject:tappedImage];
+        [self.cameraThumbnails removeObject:tappedImage];
+        
+        
+        [self.cameraCapturedArray removeObjectAtIndex:index];
+        
+    }
+    else if ([self.galleryThumbnails containsObject:tappedImage]) {
+        
+        int index = [self.galleryThumbnails indexOfObject:tappedImage];
+        [self removeImageSelectionAtIndex:index];
+    }
+    
+    
+    self.selectedImagesArray = (NSMutableArray *)[self largeSelectedImages];
+    self.galleryThumbnails = (NSMutableArray *)[self thumbnailSelectedImages];
+    
+    if (self.finalDisplayArray.count > 0) {
+        [self.finalDisplayArray removeAllObjects];
+        [_allThumbnails removeAllObjects];
+    }
+    
+    [self.finalDisplayArray addObjectsFromArray:self.selectedImagesArray];
+    [self.finalDisplayArray addObjectsFromArray:self.cameraCapturedArray];
+    [self.finalDisplayArray addObject:[UIImage imageNamed:@"addPlus"]];
+    
+    [_allThumbnails addObjectsFromArray:self.galleryThumbnails];
+    [_allThumbnails addObjectsFromArray:self.cameraThumbnails];
+    [_allThumbnails addObject:[UIImage imageNamed:@"addPlus"]];
     
     [self.imagesCollectionView reloadData];
     
@@ -1091,21 +1160,18 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    if (indexPath.item == [self.selectedImagesArray count] -1) {
+    if (indexPath.item == [self.finalDisplayArray indexOfObject:self.finalDisplayArray.lastObject]) {
         // New Image
+        
+        
+        UploadPrsCollectionViewCell *cell = (UploadPrsCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
      
-        
-        
-        [UIView animateWithDuration:5 animations:^{
-            [self hideCollectionView];
-            [self showNewUploadView];
-        } completion:nil];
-        
+        [self showNewActionSheet:cell];
         
     }
     else {
         
-        NSArray *images = [self largeSelectedImages];
+        NSArray *images = self.finalDisplayArray;
         
         ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
         imageModalVC.image  = images[indexPath.item];
@@ -1118,6 +1184,33 @@
     
 }
 
+
+
+-(void)showNewActionSheet:(UploadPrsCollectionViewCell *)sender {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Send Prescription" message:@"Select Mode to Add Images" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"Camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self takePhotoPressed:nil];
+    }];
+    
+    UIAlertAction *galleryAction = [UIAlertAction actionWithTitle:@"Gallery" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self selectPhotoPressed:nil];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [controller dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    
+    [controller addAction:cameraAction];
+    [controller addAction:galleryAction];
+    [controller addAction:cancelAction];
+    
+    controller.popoverPresentationController.sourceView = sender;
+    controller.popoverPresentationController.sourceRect = sender.bounds;
+    
+    [self presentViewController:controller animated:YES completion:nil];
+}
 
 /*
 -(void)collectionViewTapGestureSelectAtIndex:(NSIndexPath *)indexPath {

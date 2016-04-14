@@ -13,6 +13,7 @@
 #import "PaymentOptionsViewController.h"
 #import "UploadPrescriptionViewController.h"
 #import "UploadPreviewController.h"
+#import "MyOrdersViewController.h"
 
 @interface OrderCompleteViewController ()
 
@@ -27,6 +28,7 @@
     
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(closeVC)];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     
     if (self.booking_id != nil) {
@@ -113,7 +115,8 @@
 
 - (IBAction)viewOrderPressed:(id)sender {
     
-    [self closeVC];
+    MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
+    [self.navigationController pushViewController:myOrdersVC animated:YES];
 }
 
 
