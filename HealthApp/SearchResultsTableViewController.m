@@ -29,16 +29,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    
-//    self.edgesForExtendedLayout = UIRectEdgeNone;
-//    self.extendedLayoutIncludesOpaqueBars = NO;
-//    self.automaticallyAdjustsScrollViewInsets = NO;
     
 }
 
@@ -63,9 +53,52 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchResultCell" forIndexPath:indexPath];
     
-    _product = self.searchResults[indexPath.row];
+    
     
     NSLog(@"%@", _product);
+    
+    if (_neediatorSearchScope == searchScopeLocation) {
+        [self configureLocationCell:cell forIndexPath:indexPath];
+    }
+    else if (_neediatorSearchScope == searchScopeCategory) {
+        [self configureCategoryCell:cell forIndexPath:indexPath];
+    }
+    else if (_neediatorSearchScope == searchScopeStore) {
+        [self configureStoreCell:cell forIndexPath:indexPath];
+    }
+    else {
+        [self configureProductCell:cell forIndexPath:indexPath];
+    }
+    
+    
+    return cell;
+}
+
+
+-(void)configureLocationCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    
+    NSDictionary *location = self.searchResults[indexPath.row];
+    NSString *place = location[@"description"];
+    
+    cell.textLabel.text = place;
+    cell.detailTextLabel.text = [self formattedLocation:place];
+    
+}
+
+-(void)configureCategoryCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    NSDictionary *category = self.searchResults[indexPath.row];
+    NSString *name = category[@"Catname"];
+    
+    cell.textLabel.text = name;
+    cell.detailTextLabel.text = @"";
+    
+}
+
+-(void)configureProductCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    
+    _product = self.searchResults[indexPath.row];
     
     NSNumberFormatter *priceCurrencyFormatter = [[NSNumberFormatter alloc] init];
     [priceCurrencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
@@ -93,13 +126,12 @@
         
         cell.accessoryView = add;
     }
-    
-    
-    
-    
-    return cell;
 }
 
+-(void)configureStoreCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    
+    
+}
 
 
 
@@ -138,7 +170,32 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (_neediatorSearchScope == searchScopeLocation) {
+        
+        NSDictionary *location = self.searchResults[indexPath.row];
+        NSString *place = location[@"description"];
+        
+        [[NAPIManager sharedManager] getCoordinatesOf:place withSuccess:^(BOOL success, NSDictionary *locationGeometry) {
+            
+            NSMutableDictionary *locationData = [[NSMutableDictionary alloc] init];
+            [locationData addEntriesFromDictionary:locationGeometry];
+            [locationData setValue:place forKey:@"place"];
+            [locationData setValue:searchScopeLocation forKey:@"NeediatorSearchScope"];
+            
+            if ([self.delegate respondsToSelector:@selector(searchResultsTableviewControllerDidSelectResult:)]) {
+                
+                [self.delegate searchResultsTableviewControllerDidSelectResult:locationData];
+            }
+            
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        } failure:^(NSError *error) {
+            [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+        }];
+    }
 }
+
+
 
 
 
@@ -313,9 +370,34 @@
 
 
 
+#pragma mark - Location
 
-
-
+-(NSString *)formattedLocation:(NSString *)place {
+    
+    NSArray *trimmedLocation        = [place componentsSeparatedByString:@","];
+    
+    NSInteger count = trimmedLocation.count;
+    NSString *endingLocation;
+    
+    if (count == 1) {
+        endingLocation          = [NSString stringWithFormat:@"%@", trimmedLocation[count-1]];
+    }
+    else if (count == 2) {
+        endingLocation          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-2 ], trimmedLocation[count-1]];
+    }
+    else if (count == 3) {
+        endingLocation          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-2 ], trimmedLocation[count-1]];
+    }
+    else if (count == 4) {
+        endingLocation          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-3 ], trimmedLocation[count-2]];
+    }
+    else if (count > 4) {
+        endingLocation          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-4 ], trimmedLocation[count-3]];
+    }
+    
+    
+    return endingLocation;
+}
 
 
 

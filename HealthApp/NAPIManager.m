@@ -325,6 +325,8 @@
 
 -(NSURLSessionDataTask *)getSearchedProductsWithData:(NSDictionary *)data success:(void (^)(NSArray *products))success failure:(void (^)(NSError *error))failure {
     
+    
+    
     return [self GET:kAUTOCOMPLETE_SEARCH_PRODUCT parameters:data progress:^(NSProgress * _Nonnull downloadProgress) {
         NSLog(@"Searching product %@", downloadProgress.localizedDescription);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -540,6 +542,77 @@
     }];
 }
 
+
+-(NSURLSessionDataTask *)searchLocations:(NSString *)keyword withSuccess:(void (^)(BOOL success, NSArray *predictions))success failure:(void (^)(NSError *error))failure {
+    
+    NSString *urlstring = [NSString stringWithFormat:@"%@&key=%@&input=%@", kAUTOCOMPLETE_LOCATION, kGoogleAPIServerKey,keyword];
+    
+    NSString *encodedString = [urlstring stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    return [self GET:encodedString  parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Location autocomplete progess %@", downloadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        // send locations
+        
+        NSArray *predictionArray = responseObject[@"predictions"];
+        
+        success(YES, predictionArray);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
+
+-(NSURLSessionDataTask *)getCoordinatesOf:(NSString *)address withSuccess:(void (^)(BOOL success, NSDictionary *location))success failure:(void (^)(NSError *error))failure {
+    NSString *urlstring = [NSString stringWithFormat:@"%@&address=%@", kGOOGLE_GEOCODE_URL, address];
+    
+    NSString *encodedURLString = [urlstring stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    return [self GET:encodedURLString parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Coordinate progess %@", downloadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSArray *results = responseObject[@"results"];
+        if (results.count > 0) {
+            NSDictionary *firstResult = results[0];
+            
+            NSDictionary *geometry = firstResult[@"geometry"];
+            
+            success(YES, geometry[@"location"]);
+        }
+        else {
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"No Results Found in Google API Geocode" forKey:NSLocalizedDescriptionKey];
+            NSError *error = [NSError errorWithDomain:@"NORESULTS" code:123 userInfo:userInfo];
+            failure(error);
+        }
+            
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
+
+-(NSURLSessionDataTask *)searchCategoriesFor:(NSString *)keyword withSuccess:(void (^)(BOOL success, NSArray *predictions))success failure:(void (^)(NSError *error))failure {
+    
+    NSDictionary *parameter = @{
+                                @"search" : keyword
+                                };
+    
+    return [self GET:kAUTOCOMPLETE_SEARCH_CATEGORIES  parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Categories autocomplete progess %@", downloadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        // send locations
+        
+        NSArray *predictionArray = responseObject[@"Categories"];
+        
+        success(YES, predictionArray);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
 
 
 @end

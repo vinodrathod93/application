@@ -93,7 +93,17 @@ static NSString *const kMY_ORDERS_PATH = @"/NeediatorWS.asmx/myOrder";
 static NSString *const kMY_FAVOURITES_PATH = @"/NeediatorWS.asmx/viewFavourites";
 static NSString *const kDELETE_FAVOURITE_PATH = @"/NeediatorWS.asmx/deleteFavourites";
 static NSString *const kUPDATE_PROFILE_PATH     = @"/NeediatorWS.asmx/update_profile";
+static NSString *const kAUTOCOMPLETE_LOCATION = @" https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:IN";
+static NSString *const kGOOGLE_GEOCODE_URL = @"https://maps.googleapis.com/maps/api/geocode/json?sensor=false";
+static NSString *const kAUTOCOMPLETE_SEARCH_CATEGORIES = @"/NeediatorWS.asmx/search_category";
 
+typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
+{
+    searchScopeLocation = 0,
+    searchScopeCategory,
+    searchScopeStore,
+    searchScopeProduct
+};
 
 /* Helper Constants */
 

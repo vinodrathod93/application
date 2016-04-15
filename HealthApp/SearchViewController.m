@@ -7,36 +7,30 @@
 //
 
 #import "SearchViewController.h"
-#import <GoogleMaps/GoogleMaps.h>
 #import "Location.h"
 #import "ListingRequestModel.h"
 #import "StoreListResponseModel.h"
 #import "APIManager.h"
+#import "SearchResultsTableViewController.h"
 
 
 #define kDefaultLocationMessage @"Select Location"
 
-@interface SearchViewController ()<GMSAutocompleteResultsViewControllerDelegate, UISearchBarDelegate, UISearchControllerDelegate>
+@interface SearchViewController ()<SearchResultsTableviewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, assign) BOOL isTapped;
 @property (nonatomic, strong) NSString *currentPlace;
 @property (nonatomic, strong) NSMutableArray *storesArray;
+@property (nonatomic, strong) NSMutableArray *searchResultsArray;
 
 @end
 
 
-typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
-{
-    searchScopeLocation = 0,
-    searchScopeCategory,
-    searchScopeStore,
-    searchScopeProduct
-};
+
 
 @implementation SearchViewController {
     UISearchController *_searchController;
-    GMSAutocompleteResultsViewController *_autoCompleteViewController;
     CLLocationManager *_locationManager;
     CLGeocoder *_geocoder;
     CLPlacemark *_placemark;
@@ -54,6 +48,8 @@ typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
     
     _storesArray = [NSMutableArray array];
     [_storesArray addObject:@"Searching..."];
+    
+    _searchResultsArray = [NSMutableArray array];
     
 }
 
@@ -78,7 +74,7 @@ typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
 //            
 //        }
         
-        [self loadStoresWithLocation:location];
+//        [self loadStoresWithLocation:location];
         self.currentPlace = location.location_name;
         [self.tableView reloadData];
         
@@ -107,18 +103,12 @@ typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
 
 -(void)initializeSearchController {
     
-    _autoCompleteViewController = [[GMSAutocompleteResultsViewController alloc] init];
-    _autoCompleteViewController.delegate = self;
+    
+    SearchResultsTableViewController *searchResultsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"searchResultsVC"];
+    searchResultsVC.delegate = self;
     
     
-    GMSAutocompleteFilter *filter = [[GMSAutocompleteFilter alloc] init];
-    filter.type                   = kGMSPlacesAutocompleteTypeFilterAddress;
-    filter.country                = @"IN";
-    
-    _autoCompleteViewController.autocompleteFilter = filter;
-    
-    
-    _searchController           = [[UISearchController alloc]initWithSearchResultsController:_autoCompleteViewController];
+    _searchController           = [[UISearchController alloc]initWithSearchResultsController:searchResultsVC];
     _searchController.hidesNavigationBarDuringPresentation = YES;
     _searchController.dimsBackgroundDuringPresentation = YES;
     _searchController.searchBar.placeholder = @"Search";
@@ -138,7 +128,7 @@ typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
     self.edgesForExtendedLayout = UIRectEdgeAll;
     self.extendedLayoutIncludesOpaqueBars = YES;
     
-    _searchController.searchResultsUpdater       = _autoCompleteViewController;
+    _searchController.searchResultsUpdater       = self;
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         _searchController.modalPresentationStyle = UIModalPresentationPopover;
@@ -274,6 +264,7 @@ typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
 
 #pragma mark - GMSAutocompleteResultsViewControllerDelegate
 
+/*
 - (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
  didAutocompleteWithPlace:(GMSPlace *)place {
     [_searchController setActive:NO];
@@ -347,6 +338,12 @@ typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
     
 }
 
+
+
+
+
+
+
 - (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
 didFailAutocompleteWithError:(NSError *)error {
     [_searchController setActive:NO];
@@ -358,6 +355,65 @@ didFailAutocompleteWithError:(NSError *)error {
     [self.tableView reloadData];
     
 }
+
+*/
+
+
+-(void)searchResultsTableviewControllerDidSelectResult:(NSDictionary *)location {
+    
+    
+    [_searchController setActive:NO];
+    
+    NeediatorSearchScope scope = (NeediatorSearchScope)location[@"NeediatorSearchScope"];
+    
+    if (scope == searchScopeLocation) {
+        NSNumber *latitude = location[@"lat"];
+        NSNumber *longitude = location[@"lng"];
+        
+        NSString *place = location[@"place"];
+        
+        NSLog(@"Place co-ordinates %f and %f", latitude.floatValue, longitude.floatValue);
+        NSLog(@"Place name %@", place);
+        
+        if (self.isTapped) {
+            [self deselectCurrentLocation];
+        }
+        
+        
+        Location *location = [Location savedLocation];
+        if (location == nil) {
+            
+            location = [[Location alloc] init];
+            
+            self.currentPlace = kDefaultLocationMessage;
+        }
+        
+        
+        self.currentPlace               = place;
+        
+        
+        location.location_name          = self.currentPlace;
+        location.latitude               = [NSString stringWithFormat:@"%f", latitude.floatValue];
+        location.longitude              = [NSString stringWithFormat:@"%f", longitude.floatValue];
+        location.isCurrentLocation      = NO;
+        [location save];
+        
+        
+        
+//        [self loadStoresWithLocation:location];
+        
+        
+        if (self.storesArray.count != 0) {
+            [self.storesArray removeAllObjects];
+            [self.storesArray addObject:@"Searching..."];
+        }
+    }
+    
+    
+    [self.tableView reloadData];
+    
+}
+
 
 
 
@@ -379,6 +435,9 @@ didFailAutocompleteWithError:(NSError *)error {
     
     
 }
+
+
+
 
 
 -(void)selectCurrentLocation {
@@ -441,6 +500,10 @@ didFailAutocompleteWithError:(NSError *)error {
     [self updateSearchResultsForSearchController:self.searchController];
 }
 
+#pragma mark -
+#pragma mark === UISearchResultsUpdating ===
+#pragma mark -
+
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     NSString *searchString = searchController.searchBar.text;
     [self searchForText:searchString scope:searchController.searchBar.selectedScopeButtonIndex];
@@ -449,7 +512,81 @@ didFailAutocompleteWithError:(NSError *)error {
 
 - (void)searchForText:(NSString *)searchText scope:(NeediatorSearchScope)scopeOption
 {
-    
+    switch (scopeOption) {
+        case searchScopeLocation:
+        {
+            
+            // call location
+            [[NAPIManager sharedManager] searchLocations:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                //
+                
+                self.searchResultsArray = (NSMutableArray *)predictions;
+                
+                
+                if (self.searchController.searchResultsController) {
+                    
+                    SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+                    vc.neediatorSearchScope = scopeOption;
+                    
+                    // Update searchResults
+                    vc.searchResults = self.searchResultsArray;
+                    
+                    [vc.tableView reloadData];
+                }
+                
+            } failure:^(NSError *error) {
+                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+            }];
+            
+            
+            
+        }
+            break;
+            
+        case searchScopeCategory:
+        {
+            // call category
+            
+            [[NAPIManager sharedManager] searchCategoriesFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                
+                self.searchResultsArray = (NSMutableArray *)predictions;
+                
+                
+                if (self.searchController.searchResultsController) {
+                    
+                    SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+                    vc.neediatorSearchScope = scopeOption;
+                    
+                    // Update searchResults
+                    vc.searchResults = self.searchResultsArray;
+                    
+                    [vc.tableView reloadData];
+                }
+                
+                
+            } failure:^(NSError *error) {
+                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+            }];
+            
+            
+            
+        }
+            break;
+            
+        case searchScopeStore:
+        {
+            // call stores
+        }
+            break;
+            
+        case searchScopeProduct:
+        {
+            // call product
+        }
+            
+        default:
+            break;
+    }
 }
 
 
@@ -543,7 +680,7 @@ didFailAutocompleteWithError:(NSError *)error {
             [self.tableView reloadData];
             
             
-            [self loadStoresWithLocation:location];
+//            [self loadStoresWithLocation:location];
             
             
             

@@ -9,8 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
+@protocol SearchResultsTableviewDelegate <NSObject>
+
+-(void)searchResultsTableviewControllerDidSelectResult:(NSDictionary *)data;
+
+@end
+
 @interface SearchResultsTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSMutableArray *searchResults;
+@property (nonatomic) NeediatorSearchScope neediatorSearchScope;
+@property (nonatomic, weak) id <SearchResultsTableviewDelegate> delegate;
 
 @end
