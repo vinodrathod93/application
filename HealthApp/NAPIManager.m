@@ -614,5 +614,45 @@
     }];
 }
 
+-(NSURLSessionDataTask *)searchStoresFor:(NSString *)keyword withSuccess:(void (^)(BOOL success, NSArray *predictions))success failure:(void (^)(NSError *error))failure {
+    
+    NSDictionary *parameter = @{
+                                @"store_name" : keyword
+                                };
+    
+    return [self GET:kAUTOCOMPLETE_SEARCH_STORES  parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Categories autocomplete progess %@", downloadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        // send locations
+        
+        NSArray *predictionArray = responseObject[@"stores"];
+        
+        success(YES, predictionArray);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
+
+-(NSURLSessionDataTask *)searchUniveralProductsWithData:(NSString *)keyword success:(void (^)(NSArray *products))success failure:(void (^)(NSError *error))failure {
+    
+    NSDictionary *parameter = @{
+                                @"productname" : keyword
+                                };
+    
+    return [self GET:kAUTOCOMPLETE_SEARCH_UNIVERSAL_PRODUCT parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Searching Universal product %@", downloadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Response %@", responseObject);
+        
+        NSArray *products = [responseObject objectForKey:@"Products"];
+        
+        success(products);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
 
 @end

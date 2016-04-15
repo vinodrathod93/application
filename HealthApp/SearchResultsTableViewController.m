@@ -14,6 +14,7 @@
 @interface SearchResultsTableViewController ()
 {
     NSDictionary *_product;
+    NSInteger _footerHeight;
 }
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -21,6 +22,7 @@
 @property (nonatomic, strong) NSFetchedResultsController *pd_orderFetchedResultsController;
 @property (nonatomic, strong) NSFetchedResultsController *pd_lineItemFetchedResultsController;
 @property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) NeediatorHUD *neediatorHUD;
 
 @end
 
@@ -29,7 +31,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,8 +38,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+}
+
 #pragma mark - Table view data source
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -75,6 +84,63 @@
 }
 
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (_neediatorSearchScope == searchScopeLocation) {
+        
+        NSDictionary *location = self.searchResults[indexPath.row];
+        NSString *place = location[@"description"];
+        
+        UIView *dimView = [NeediatorUtitity showDimViewWithFrame:self.tableView.frame];
+        [dimView addSubview:self.neediatorHUD];
+        [self startNeediatorHUD];
+        
+        
+        [[NAPIManager sharedManager] getCoordinatesOf:place withSuccess:^(BOOL success, NSDictionary *locationGeometry) {
+            
+            [self.neediatorHUD fadeOutAnimated:YES];
+            
+            NSMutableDictionary *locationData = [[NSMutableDictionary alloc] init];
+            [locationData addEntriesFromDictionary:locationGeometry];
+            [locationData setValue:place forKey:@"place"];
+            [locationData setValue:searchScopeLocation forKey:@"NeediatorSearchScope"];
+            
+            if ([self.delegate respondsToSelector:@selector(searchResultsTableviewControllerDidSelectResult:)]) {
+                
+                [self.delegate searchResultsTableviewControllerDidSelectResult:locationData];
+            }
+            
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        } failure:^(NSError *error) {
+            
+            [self.neediatorHUD fadeOutAnimated:YES];
+            [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+        }];
+    }
+}
+
+
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (_footerHeight > 0) {
+        return [self showNeediatorHUD];
+    }
+    else
+        return nil;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    
+    return _footerHeight;
+    
+}
+
+
+
+
+#pragma mark - Custom Tableviewcell Methods
+
 -(void)configureLocationCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     
     NSDictionary *location = self.searchResults[indexPath.row];
@@ -82,6 +148,7 @@
     
     cell.textLabel.text = place;
     cell.detailTextLabel.text = [self formattedLocation:place];
+    cell.imageView.image = [UIImage imageNamed:@"store_location"];
     
 }
 
@@ -90,9 +157,23 @@
     
     NSDictionary *category = self.searchResults[indexPath.row];
     NSString *name = category[@"Catname"];
+    NSString *imageURL = category[@"Imageurl"];
     
     cell.textLabel.text = name;
     cell.detailTextLabel.text = @"";
+    
+    
+//    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:imageURL]
+//                                                    options:SDWebImageRefreshCached
+//                                                   progress:nil
+//                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+//                                                      CGSize size = CGSizeMake(25, 25);
+//                                                      
+//                                                      cell.imageView.image = [NeediatorUtitity imageWithImage:image scaledToSize:size];
+//                                                  }];
+    
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"category"]];
     
 }
 
@@ -129,11 +210,19 @@
 }
 
 -(void)configureStoreCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *store = self.searchResults[indexPath.row];
+    NSString *name = store[@"Name"];
+    NSString *category = store[@"catname"];
     
-    
+    cell.textLabel.text = [name capitalizedString];
+    cell.detailTextLabel.text = category;
+    cell.imageView.image = [UIImage imageNamed:@"shop"];
 }
 
 
+
+
+#pragma mark - Quick Order Add_To_Cart
 
 -(void)addToCart:(UIButton *)sender {
     
@@ -168,32 +257,6 @@
 }
 
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (_neediatorSearchScope == searchScopeLocation) {
-        
-        NSDictionary *location = self.searchResults[indexPath.row];
-        NSString *place = location[@"description"];
-        
-        [[NAPIManager sharedManager] getCoordinatesOf:place withSuccess:^(BOOL success, NSDictionary *locationGeometry) {
-            
-            NSMutableDictionary *locationData = [[NSMutableDictionary alloc] init];
-            [locationData addEntriesFromDictionary:locationGeometry];
-            [locationData setValue:place forKey:@"place"];
-            [locationData setValue:searchScopeLocation forKey:@"NeediatorSearchScope"];
-            
-            if ([self.delegate respondsToSelector:@selector(searchResultsTableviewControllerDidSelectResult:)]) {
-                
-                [self.delegate searchResultsTableviewControllerDidSelectResult:locationData];
-            }
-            
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
-        } failure:^(NSError *error) {
-            [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-        }];
-    }
-}
 
 
 
@@ -400,6 +463,36 @@
 }
 
 
+
+
+-(UIView *)showNeediatorHUD {
+    
+    
+    self.neediatorHUD = [[NeediatorHUD alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, _footerHeight)];
+    self.neediatorHUD.overlayColor = [UIColor clearColor];
+    
+    NSLog(@"%@", NSStringFromCGSize(self.neediatorHUD.logoSize));
+    self.neediatorHUD.logoSize = CGSizeMake(25, 25);
+    self.neediatorHUD.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds)/2, _footerHeight/2);
+    
+    return self.neediatorHUD;
+}
+
+-(void)startNeediatorHUD {
+    _footerHeight = 100;
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+    [self.neediatorHUD fadeInAnimated:YES];
+}
+
+-(void)hideHUD {
+    
+    _footerHeight = 0;
+    
+    [self tableView:self.tableView viewForFooterInSection:0];
+    
+    [self.tableView reloadData];
+}
 
 /*
 // Override to support conditional editing of the table view.

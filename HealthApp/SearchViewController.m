@@ -9,6 +9,7 @@
 #import "SearchViewController.h"
 #import "Location.h"
 #import "ListingRequestModel.h"
+#import "ListingModel.h"
 #import "StoreListResponseModel.h"
 #import "APIManager.h"
 #import "SearchResultsTableViewController.h"
@@ -75,13 +76,17 @@
 //        }
         
 //        [self loadStoresWithLocation:location];
+        
+        
+        
+        
         self.currentPlace = location.location_name;
-        [self.tableView reloadData];
+        
         
     }
     
-    
-    
+    self.storesArray = [NeediatorUtitity savedDataForKey:kSAVE_RECENT_STORES];
+    [self.tableView reloadData];
     
 }
 
@@ -207,10 +212,10 @@
         
         id store = [self.storesArray objectAtIndex:indexPath.row];
         
-        if ([store isKindOfClass:[StoresModel class]]) {
-            StoresModel *model = (StoresModel *)store;
+        if ([store isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *model = (NSDictionary *)store;
             
-            cell.textLabel.text      = model.storeName;
+            cell.textLabel.text      = model[@"name"];
         }
         else
             cell.textLabel.text      = [self.storesArray objectAtIndex:indexPath.row];
@@ -254,7 +259,7 @@
         label.text = [NSString stringWithFormat:@"LOCATION"];
     }
     else
-        label.text = @"BROWSE BY STORES";
+        label.text = @"RECENT STORES";
     
     [headerView addSubview:label];
     
@@ -403,10 +408,10 @@ didFailAutocompleteWithError:(NSError *)error {
 //        [self loadStoresWithLocation:location];
         
         
-        if (self.storesArray.count != 0) {
-            [self.storesArray removeAllObjects];
-            [self.storesArray addObject:@"Searching..."];
-        }
+//        if (self.storesArray.count != 0) {
+//            [self.storesArray removeAllObjects];
+//            [self.storesArray addObject:@"Searching..."];
+//        }
     }
     
     
@@ -480,11 +485,8 @@ didFailAutocompleteWithError:(NSError *)error {
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
-    // to find the autocomplete.
-//    https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:IN&key=AIzaSyDKhfrd69hGKU2ZqUA5Lv5Zd0q00movdPA&input=marin
-    
-    // to get the lat-lng.
-//    https://maps.googleapis.com/maps/api/geocode/json?address=Marine%20Lines,%20Mumbai,%20Maharashtra,%20India&sensor=false
+    SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+    [self sendResults:nil resultsController:vc forScope:selectedScope];
     
     if (selectedScope == searchScopeStore) {
         self.searchController.searchBar.placeholder = @"Search by Store";
@@ -512,29 +514,23 @@ didFailAutocompleteWithError:(NSError *)error {
 
 - (void)searchForText:(NSString *)searchText scope:(NeediatorSearchScope)scopeOption
 {
+    
+    SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+    [vc startNeediatorHUD];
+    
     switch (scopeOption) {
         case searchScopeLocation:
         {
+            
             
             // call location
             [[NAPIManager sharedManager] searchLocations:searchText withSuccess:^(BOOL success, NSArray *predictions) {
                 //
                 
-                self.searchResultsArray = (NSMutableArray *)predictions;
-                
-                
-                if (self.searchController.searchResultsController) {
-                    
-                    SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
-                    vc.neediatorSearchScope = scopeOption;
-                    
-                    // Update searchResults
-                    vc.searchResults = self.searchResultsArray;
-                    
-                    [vc.tableView reloadData];
-                }
+                [self sendResults:predictions resultsController:vc forScope:scopeOption];
                 
             } failure:^(NSError *error) {
+                [vc hideHUD];
                 [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
             }];
             
@@ -545,26 +541,16 @@ didFailAutocompleteWithError:(NSError *)error {
             
         case searchScopeCategory:
         {
+            
             // call category
             
             [[NAPIManager sharedManager] searchCategoriesFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
                 
-                self.searchResultsArray = (NSMutableArray *)predictions;
-                
-                
-                if (self.searchController.searchResultsController) {
-                    
-                    SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
-                    vc.neediatorSearchScope = scopeOption;
-                    
-                    // Update searchResults
-                    vc.searchResults = self.searchResultsArray;
-                    
-                    [vc.tableView reloadData];
-                }
+                [self sendResults:predictions resultsController:vc forScope:scopeOption];
                 
                 
             } failure:^(NSError *error) {
+                [vc hideHUD];
                 [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
             }];
             
@@ -575,17 +561,54 @@ didFailAutocompleteWithError:(NSError *)error {
             
         case searchScopeStore:
         {
+            
             // call stores
+            
+            [[NAPIManager sharedManager] searchStoresFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                
+                [self sendResults:predictions resultsController:vc forScope:scopeOption];
+                
+            } failure:^(NSError *error) {
+                [vc hideHUD];
+                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+            }];
+            
         }
             break;
             
         case searchScopeProduct:
         {
+            
             // call product
+            
+            [[NAPIManager sharedManager] searchUniveralProductsWithData:searchText success:^(NSArray *products) {
+                [self sendResults:products resultsController:vc forScope:scopeOption];
+            } failure:^(NSError *error) {
+                [vc hideHUD];
+                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+            }];
         }
             
         default:
             break;
+    }
+}
+
+
+-(void)sendResults:(NSArray *)predictions resultsController:(SearchResultsTableViewController *)vc forScope:(NeediatorSearchScope)scopeOption {
+    self.searchResultsArray = (NSMutableArray *)predictions;
+    
+    
+    if (self.searchController.searchResultsController) {
+        
+        
+        vc.neediatorSearchScope = scopeOption;
+
+        // Update searchResults
+        vc.searchResults = self.searchResultsArray;
+        
+        [vc.tableView reloadData];
+        [vc hideHUD];
     }
 }
 

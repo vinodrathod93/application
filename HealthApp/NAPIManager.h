@@ -37,5 +37,7 @@
 -(NSURLSessionDataTask *)searchLocations:(NSString *)keyword withSuccess:(void (^)(BOOL success, NSArray *predictions))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)getCoordinatesOf:(NSString *)address withSuccess:(void (^)(BOOL success, NSDictionary *location))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)searchCategoriesFor:(NSString *)keyword withSuccess:(void (^)(BOOL success, NSArray *predictions))success failure:(void (^)(NSError *error))failure;
+-(NSURLSessionDataTask *)searchStoresFor:(NSString *)keyword withSuccess:(void (^)(BOOL success, NSArray *predictions))success failure:(void (^)(NSError *error))failure;
+-(NSURLSessionDataTask *)searchUniveralProductsWithData:(NSString *)keyword success:(void (^)(NSArray *products))success failure:(void (^)(NSError *error))failure;
 
 @end

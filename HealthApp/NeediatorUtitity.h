@@ -26,5 +26,6 @@
 + (void)alertWithTitle:(NSString *)title andMessage:(NSString *)message onController:(UIViewController *)controller;
 + (void)showLoginOnController:(UIViewController *)controller isPlacingOrder:(BOOL)isPlacing;
 + (UIView *)showDimViewWithFrame:(CGRect)frame;
++ (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 
 @end

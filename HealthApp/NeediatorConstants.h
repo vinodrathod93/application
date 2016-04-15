@@ -93,9 +93,13 @@ static NSString *const kMY_ORDERS_PATH = @"/NeediatorWS.asmx/myOrder";
 static NSString *const kMY_FAVOURITES_PATH = @"/NeediatorWS.asmx/viewFavourites";
 static NSString *const kDELETE_FAVOURITE_PATH = @"/NeediatorWS.asmx/deleteFavourites";
 static NSString *const kUPDATE_PROFILE_PATH     = @"/NeediatorWS.asmx/update_profile";
-static NSString *const kAUTOCOMPLETE_LOCATION = @" https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:IN";
+static NSString *const kAUTOCOMPLETE_LOCATION = @"https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:IN";
 static NSString *const kGOOGLE_GEOCODE_URL = @"https://maps.googleapis.com/maps/api/geocode/json?sensor=false";
 static NSString *const kAUTOCOMPLETE_SEARCH_CATEGORIES = @"/NeediatorWS.asmx/search_category";
+static NSString *const kAUTOCOMPLETE_SEARCH_STORES = @"/NeediatorWS.asmx/universal_storesname";
+static NSString *const kAUTOCOMPLETE_SEARCH_UNIVERSAL_PRODUCT = @"/NeediatorWS.asmx/universal_searchproduct";
+
+
 
 typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
 {
@@ -113,6 +117,7 @@ static NSString *const kSAVE_DELIVERY_TYPES = @"kSaveDeliveryTypes";
 static NSString *const kSAVE_ADDRESS_ID = @"kSaveAddressID";
 static NSString *const kSAVE_DELIVERY_ID = @"kSaveDeliveryID";
 
+static NSString *const kSAVE_RECENT_STORES    = @"kSaveRecentStoreData";
 
 
 

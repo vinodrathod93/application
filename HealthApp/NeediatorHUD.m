@@ -54,7 +54,7 @@ CGFloat RotationDuration = 0.5;
     CGPathAddEllipseInRect(path, NULL, CGRectMake(2.5f, 35, 40, 10));
     
     _activityImageView.layer.shadowColor = [UIColor colorWithRed:235/255.f green:235/255.f blue:235/255.f alpha:1.0].CGColor;
-    _activityImageView.layer.shadowOffset = CGSizeMake(0.f, 20.f);
+    _activityImageView.layer.shadowOffset = CGSizeMake(0.f, (0.44 * _activityImageView.frame.size.height));
     _activityImageView.layer.shadowOpacity = 1;
     _activityImageView.layer.shadowRadius = 2.0;
     _activityImageView.layer.masksToBounds = NO;
@@ -159,6 +159,25 @@ CGFloat RotationDuration = 0.5;
 
 -(void)setHudCenter:(CGPoint)hudCenter {
     _activityImageView.center = hudCenter;
+}
+
+
+-(CGSize)logoSize {
+    return _activityImageView.frame.size;
+}
+
+-(void)setLogoSize:(CGSize)logoSize {
+    _activityImageView.frame = CGRectMake(0, 0, logoSize.width, logoSize.height);
+    _activityImageView.layer.shadowOffset = CGSizeMake(0.f, (0.34 * _activityImageView.frame.size.height));
+    NSLog(@"%@", NSStringFromCGSize(CGSizeMake(0.f, (0.44 * _activityImageView.frame.size.height))));
+    _activityImageView.layer.shadowOpacity = 1;
+    _activityImageView.layer.shadowRadius = 2.0;
+    _activityImageView.layer.masksToBounds = NO;
+    
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddEllipseInRect(path, NULL, CGRectMake(0, _activityImageView.frame.size.height, logoSize.width, (0.24 * _activityImageView.frame.size.height)));
+    _activityImageView.layer.shadowPath = path;
+    CFRelease(path);
 }
 
 @end

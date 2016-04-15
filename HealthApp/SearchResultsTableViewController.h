@@ -21,4 +21,7 @@
 @property (nonatomic) NeediatorSearchScope neediatorSearchScope;
 @property (nonatomic, weak) id <SearchResultsTableviewDelegate> delegate;
 
+-(void)startNeediatorHUD;
+-(void)hideHUD;
+
 @end

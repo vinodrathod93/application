@@ -42,7 +42,6 @@
 
 @property (nonatomic, strong) id previewingContext;
 
-
 @end
 
 @implementation ListingTableViewController {
@@ -92,6 +91,9 @@
     }
     else
         [self requestBasicListings];
+    
+    
+    
 }
 
 
@@ -438,6 +440,29 @@
     
     if (indexPath.section != 0) {
         ListingModel *model = self.listingArray[indexPath.section - 1];
+        
+        NSMutableArray *recentStoresArray = [[NSMutableArray alloc] initWithCapacity:10];
+        NSLog(@"%@", [NeediatorUtitity savedDataForKey:kSAVE_RECENT_STORES]);
+        NSArray *savedStores = [NeediatorUtitity savedDataForKey:kSAVE_RECENT_STORES];
+        
+        if (savedStores != nil) {
+            
+            [recentStoresArray addObjectsFromArray:savedStores];
+            
+            if ([recentStoresArray containsObject:model]) {
+                [recentStoresArray removeObject:model];
+            }
+        }
+        
+        NSDictionary *storeData = @{
+                                    @"name" : model.name,
+                                    @"storeid" : model.list_id,
+                                    @"categoryid" : self.category_id
+                                    };
+        
+        [recentStoresArray insertObject:storeData atIndex:0];
+        
+        [NeediatorUtitity save:recentStoresArray forKey:kSAVE_RECENT_STORES];
         
         [NeediatorUtitity save:model.list_id forKey:kSAVE_STORE_ID];
         
