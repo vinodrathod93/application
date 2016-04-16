@@ -117,7 +117,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    MyOrdersCell *cell = (MyOrdersCell *)[tableView dequeueReusableCellWithIdentifier:@"myOrdersCell"];
     MyOrdersCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"myOrdersCell" forIndexPath:indexPath];
     
     MyOrdersModel *model = _orders[indexPath.section];
@@ -137,7 +136,8 @@
     cell.n_orderAmount.text = [NSString stringWithFormat:@"Rs.%@",model.orderTotal];
     cell.n_orderNumber.text = model.orderNumber;
     cell.n_orderStatus.text = model.orderState;
-
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     [cell.trackButton addTarget:self action:@selector(showTrackView:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
@@ -263,9 +263,18 @@
         NSMutableArray *imagesParticularOrder = [NSMutableArray array];
         
         MyOrdersModel *model = _orders[i];
-        NSArray *lineItems = model.line_items;
+        NSArray *items;
         
-        [lineItems enumerateObjectsUsingBlock:^(LineItemsModel * _Nonnull line_item, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (model.isPrescription.boolValue) {
+            items = model.prescriptionArray;
+        }
+        else
+            items = model.line_items;
+        
+        
+        
+        
+        [items enumerateObjectsUsingBlock:^(LineItemsModel * _Nonnull line_item, NSUInteger idx, BOOL * _Nonnull stop) {
             
 //            if (line_item.images.count != 0) {
 //                VariantImagesModel *image = line_item.images[0];
@@ -277,6 +286,21 @@
             [imagesParticularOrder addObject:line_item.imageURL];
             
         }];
+        
+        
+        for (id item in items) {
+            if ([item isKindOfClass:[LineItemsModel class]]) {
+                
+                LineItemsModel *model = (LineItemsModel *)item;
+                
+                [imagesParticularOrder addObject:model.imageURL];
+            }
+            else {
+                NSDictionary *prescription = (NSDictionary *)item;
+            }
+        }
+        
+        
         
         [_itemsImages addObject:imagesParticularOrder];
         

@@ -22,8 +22,10 @@
              @"paymentState" : @"status",
              @"completed_date"   : @"orderdate",
              @"storeName"        : @"storename",
-             @"line_items"   : @"myorder_productlist"
-             
+             @"line_items"   : @"myorder_productlist",
+             @"isPrescription"  : @"isprescription",
+             @"prescriptionArray" : @"uploadPrescription",
+             @"statusCode"          : @"status_code"
              };
 }
 
@@ -34,6 +36,10 @@
 }
 
 +(NSValueTransformer *)line_itemsJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[LineItemsModel class]];
+}
+
++(NSValueTransformer *)prescriptionArrayJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[LineItemsModel class]];
 }
 

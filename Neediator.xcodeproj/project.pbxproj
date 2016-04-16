@@ -1046,6 +1046,21 @@
 			name = Taxons;
 			sourceTree = "<group>";
 		};
+		828BE1831CC2560E00131DA8 /* Favourites */ = {
+			isa = PBXGroup;
+			children = (
+				82E509F81CAE98BA0013289F /* FavouriteCategoryModel.h */,
+				82E509F91CAE98BA0013289F /* FavouriteCategoryModel.m */,
+				82E509FB1CAE9A0E0013289F /* FavouriteStoreModel.h */,
+				82E509FC1CAE9A0E0013289F /* FavouriteStoreModel.m */,
+				82E509FE1CAE9C1A0013289F /* FavouritesResponseModel.h */,
+				82E509FF1CAE9C1A0013289F /* FavouritesResponseModel.m */,
+				82B93B5F1CB918D700D1EC8C /* FavouriteStoreDetailModel.h */,
+				82B93B601CB918D700D1EC8C /* FavouriteStoreDetailModel.m */,
+			);
+			name = Favourites;
+			sourceTree = "<group>";
+		};
 		82999E931BEB1D2F00F0EDE3 /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -1343,14 +1358,7 @@
 				82DCBECE1C4CE3FF005EBDB3 /* Promotions */,
 				82ED53E01C4FB39800FA7707 /* Spree */,
 				82E509F71CAE98960013289F /* Sort & Filter */,
-				82E509F81CAE98BA0013289F /* FavouriteCategoryModel.h */,
-				82E509F91CAE98BA0013289F /* FavouriteCategoryModel.m */,
-				82E509FB1CAE9A0E0013289F /* FavouriteStoreModel.h */,
-				82E509FC1CAE9A0E0013289F /* FavouriteStoreModel.m */,
-				82E509FE1CAE9C1A0013289F /* FavouritesResponseModel.h */,
-				82E509FF1CAE9C1A0013289F /* FavouritesResponseModel.m */,
-				82B93B5F1CB918D700D1EC8C /* FavouriteStoreDetailModel.h */,
-				82B93B601CB918D700D1EC8C /* FavouriteStoreDetailModel.m */,
+				828BE1831CC2560E00131DA8 /* Favourites */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2832,7 +2840,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/vinodrathod/Downloads/FacebookSDKs,
+					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
@@ -2862,7 +2870,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/vinodrathod/Downloads/FacebookSDKs,
+					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";

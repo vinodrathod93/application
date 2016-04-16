@@ -190,6 +190,8 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.textColor    = [UIColor darkGrayColor];
         cell.textLabel.font         = [UIFont fontWithName:@"AvenirNext-Regular" size:15.f];
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"edit"]];
+        
         
         if (self.currentPlace == nil) {
             cell.textLabel.text = kDefaultLocationMessage;
@@ -205,7 +207,7 @@
         
         if(cell == nil) {
             
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellReuseId];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellReuseId];
         }
         
         
@@ -216,6 +218,7 @@
             NSDictionary *model = (NSDictionary *)store;
             
             cell.textLabel.text      = model[@"name"];
+            cell.detailTextLabel.text = model[@"area"];
         }
         else
             cell.textLabel.text      = [self.storesArray objectAtIndex:indexPath.row];
@@ -515,13 +518,13 @@ didFailAutocompleteWithError:(NSError *)error {
 - (void)searchForText:(NSString *)searchText scope:(NeediatorSearchScope)scopeOption
 {
     
-    SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
-    [vc startNeediatorHUD];
+    
     
     switch (scopeOption) {
         case searchScopeLocation:
         {
-            
+            SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+            [vc startNeediatorHUD];
             
             // call location
             [[NAPIManager sharedManager] searchLocations:searchText withSuccess:^(BOOL success, NSArray *predictions) {
@@ -541,7 +544,8 @@ didFailAutocompleteWithError:(NSError *)error {
             
         case searchScopeCategory:
         {
-            
+            SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+            [vc startNeediatorHUD];
             // call category
             
             [[NAPIManager sharedManager] searchCategoriesFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
@@ -561,7 +565,8 @@ didFailAutocompleteWithError:(NSError *)error {
             
         case searchScopeStore:
         {
-            
+            SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+            [vc startNeediatorHUD];
             // call stores
             
             [[NAPIManager sharedManager] searchStoresFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
@@ -578,7 +583,8 @@ didFailAutocompleteWithError:(NSError *)error {
             
         case searchScopeProduct:
         {
-            
+            SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+            [vc startNeediatorHUD];
             // call product
             
             [[NAPIManager sharedManager] searchUniveralProductsWithData:searchText success:^(NSArray *products) {

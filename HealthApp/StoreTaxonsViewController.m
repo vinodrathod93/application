@@ -1018,7 +1018,7 @@ typedef NS_ENUM(uint16_t, sections) {
 -(void)popQuickOrderSearchVC {
     
     SearchResultsTableViewController *searchResultsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"searchResultsVC"];
-    
+    searchResultsVC.isQuickOrder = YES;
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsVC];
     
     [UIView transitionWithView:self.searchController.view duration:0.53 options:UIViewAnimationOptionTransitionFlipFromTop animations:^{

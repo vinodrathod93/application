@@ -457,7 +457,8 @@
         NSDictionary *storeData = @{
                                     @"name" : model.name,
                                     @"storeid" : model.list_id,
-                                    @"categoryid" : self.category_id
+                                    @"categoryid" : self.category_id,
+                                    @"area" : model.area
                                     };
         
         [recentStoresArray insertObject:storeData atIndex:0];

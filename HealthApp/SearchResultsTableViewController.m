@@ -63,20 +63,23 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchResultCell" forIndexPath:indexPath];
     
     
-    
-    NSLog(@"%@", _product);
-    
-    if (_neediatorSearchScope == searchScopeLocation) {
-        [self configureLocationCell:cell forIndexPath:indexPath];
-    }
-    else if (_neediatorSearchScope == searchScopeCategory) {
-        [self configureCategoryCell:cell forIndexPath:indexPath];
-    }
-    else if (_neediatorSearchScope == searchScopeStore) {
-        [self configureStoreCell:cell forIndexPath:indexPath];
+    if (_isQuickOrder) {
+        [self configureProductCell:cell forIndexPath:indexPath];
     }
     else {
-        [self configureProductCell:cell forIndexPath:indexPath];
+    
+        if (_neediatorSearchScope == searchScopeLocation) {
+            [self configureLocationCell:cell forIndexPath:indexPath];
+        }
+        else if (_neediatorSearchScope == searchScopeCategory) {
+            [self configureCategoryCell:cell forIndexPath:indexPath];
+        }
+        else if (_neediatorSearchScope == searchScopeStore) {
+            [self configureStoreCell:cell forIndexPath:indexPath];
+        }
+        else {
+            [self configureProductCell:cell forIndexPath:indexPath];
+        }
     }
     
     
@@ -146,7 +149,7 @@
     NSDictionary *location = self.searchResults[indexPath.row];
     NSString *place = location[@"description"];
     
-    cell.textLabel.text = place;
+    cell.textLabel.text = [self formattedAreaPlace:place];
     cell.detailTextLabel.text = [self formattedLocation:place];
     cell.imageView.image = [UIImage imageNamed:@"store_location"];
     
@@ -163,17 +166,17 @@
     cell.detailTextLabel.text = @"";
     
     
-//    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:imageURL]
-//                                                    options:SDWebImageRefreshCached
-//                                                   progress:nil
-//                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-//                                                      CGSize size = CGSizeMake(25, 25);
-//                                                      
-//                                                      cell.imageView.image = [NeediatorUtitity imageWithImage:image scaledToSize:size];
-//                                                  }];
+    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:imageURL]
+                                                    options:SDWebImageRefreshCached
+                                                   progress:nil
+                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                                      CGSize size = CGSizeMake(25, 25);
+                                                      
+                                                      cell.imageView.image = [NeediatorUtitity imageWithImage:image scaledToSize:size];
+                                                  }];
     
     cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"category"]];
+//    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"category"]];
     
 }
 
@@ -190,23 +193,28 @@
     
     cell.textLabel.text     = [_product[@"productname"] capitalizedString];
     cell.detailTextLabel.text = [priceCurrencyFormatter stringFromNumber:@(price.intValue)];
-    cell.detailTextLabel.textColor = [UIColor redColor];
+    cell.imageView.image = nil;
     
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if ([cell.textLabel.text isEqualToString:@"No Products"]) {
-        cell.accessoryView = nil;
+    if (_isQuickOrder) {
+        if ([cell.textLabel.text isEqualToString:@"No Products"]) {
+            cell.detailTextLabel.text = nil;
+            cell.accessoryView = nil;
+        }
+        else {
+            UIButton *add = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
+            add.tag = indexPath.row;
+            
+            [add setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+            [add addTarget:self action:@selector(addToCart:) forControlEvents:UIControlEventTouchUpInside];
+            
+            cell.accessoryView = add;
+        }
     }
-    else {
-        UIButton *add = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
-        add.tag = indexPath.row;
-        
-        [add setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
-        [add addTarget:self action:@selector(addToCart:) forControlEvents:UIControlEventTouchUpInside];
-        
-        cell.accessoryView = add;
-    }
+    
+    
 }
 
 -(void)configureStoreCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
@@ -462,7 +470,19 @@
     return endingLocation;
 }
 
-
+-(NSString *)formattedAreaPlace:(NSString *)place {
+    
+    NSArray *trimmedLocation        = [place componentsSeparatedByString:@","];
+    
+    NSInteger count = trimmedLocation.count;
+    NSString *area;
+    
+    if (count > 0) {
+        area          = [NSString stringWithFormat:@"%@", trimmedLocation[0]];
+    }
+    
+    return area;
+}
 
 
 -(UIView *)showNeediatorHUD {

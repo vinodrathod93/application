@@ -19,5 +19,9 @@
 @property (nonatomic, copy) NSString *storeName;
 @property (nonatomic, copy) NSArray *line_items;
 
+@property (nonatomic, copy) NSNumber *isPrescription;
+@property (nonatomic, copy) NSArray *prescriptionArray;
+@property (nonatomic, copy) NSNumber *statusCode;
+
 @property (nonatomic) BOOL isExpanded;
 @end

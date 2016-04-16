@@ -102,8 +102,8 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     /* Start the Location */
-    Location *location = [Location savedLocation];
-    if (location == nil)
+//    Location *location = [Location savedLocation];
+//    if (location == nil)
         [self startCurrentLocation];
     
     
