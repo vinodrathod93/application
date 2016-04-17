@@ -96,8 +96,7 @@
 //    [self geocodeCurrentPlaceString];
     
     GMSMarker *currentLocationMarker = [[GMSMarker alloc] init];
-//    currentLocationMarker.position = CLLocationCoordinate2DMake(self.locationManager.location.coordinate.latitude, self.locationManager.location.coordinate.longitude);
-    currentLocationMarker.position = CLLocationCoordinate2DMake(19.014320, 72.828299);
+    currentLocationMarker.position = CLLocationCoordinate2DMake(self.locationManager.location.coordinate.latitude, self.locationManager.location.coordinate.longitude);
     currentLocationMarker.title = @"Current Location";
     currentLocationMarker.icon = [GMSMarker markerImageWithColor:[UIColor lightGrayColor]];
     currentLocationMarker.appearAnimation = kGMSMarkerAnimationPop;
