@@ -75,7 +75,7 @@
     
     self.mapView.settings.compassButton = YES;
     self.mapView.settings.myLocationButton = YES;
-    [self.mapView setMinZoom:10 maxZoom:20];
+    [self.mapView setMinZoom:0 maxZoom:20];
     
     
     
@@ -96,14 +96,15 @@
 //    [self geocodeCurrentPlaceString];
     
     GMSMarker *currentLocationMarker = [[GMSMarker alloc] init];
-    currentLocationMarker.position = CLLocationCoordinate2DMake(self.locationManager.location.coordinate.latitude, self.locationManager.location.coordinate.longitude);
+//    currentLocationMarker.position = CLLocationCoordinate2DMake(self.locationManager.location.coordinate.latitude, self.locationManager.location.coordinate.longitude);
+    currentLocationMarker.position = CLLocationCoordinate2DMake(19.014320, 72.828299);
     currentLocationMarker.title = @"Current Location";
     currentLocationMarker.icon = [GMSMarker markerImageWithColor:[UIColor lightGrayColor]];
     currentLocationMarker.appearAnimation = kGMSMarkerAnimationPop;
     currentLocationMarker.map = self.mapView;
     
-    
-    [self requestDirectionFromMarker:marker1];
+    [self focusMapShow:marker1 andDestination:currentLocationMarker];
+    [self requestDirectionFromMarker:marker1 toDestination:currentLocationMarker];
     
 //    GMSMutablePath *path = [[GMSMutablePath alloc] init];
 //    [path addLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude];
@@ -122,6 +123,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    GMSCameraUpdate *zoomCamera = [GMSCameraUpdate zoomOut];
+    [self.mapView animateWithCameraUpdate:zoomCamera];
+}
+
 -(void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
@@ -133,7 +143,23 @@
 }
 
 
--(void)requestDirectionFromMarker:(GMSMarker *)marker {
+
+- (void)focusMapShow:(GMSMarker *)origin andDestination:(GMSMarker *)destination
+{
+    NSArray *markers = @[origin, destination];
+    
+    GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] init];
+    
+    for (GMSMarker *marker in markers)
+        bounds = [bounds includingCoordinate:marker.position];
+    
+    [self.mapView animateToBearing:0];
+    [self.mapView animateWithCameraUpdate:[GMSCameraUpdate fitBounds:bounds withPadding:40]];
+    
+}
+
+
+-(void)requestDirectionFromMarker:(GMSMarker *)marker toDestination:(GMSMarker *)destination {
     
     
     
@@ -143,8 +169,8 @@
     
         NSString *urlString = [NSString stringWithFormat:@"%@?origin=%f,%f&destination=%f,%f&sensor=true&key=%@",
                                @"https://maps.googleapis.com/maps/api/directions/json",
-                               self.locationManager.location.coordinate.latitude,
-                               self.locationManager.location.coordinate.longitude,
+                               destination.position.latitude,
+                               destination.position.longitude,
                                marker.position.latitude,
                                marker.position.longitude,
                                kGoogleAPIServerKey
@@ -158,12 +184,17 @@
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
             if (!error) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    GMSPath *path = [GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
                     
-                    self.polyline = [GMSPolyline polylineWithPath:path];
-                    self.polyline.strokeWidth = 7;
-                    self.polyline.strokeColor = [UIColor yellowColor];
-                    self.polyline.map = self.mapView;
+                    NSArray *routes = json[@"routes"];
+                    if (routes.count > 0) {
+                        GMSPath *path = [GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
+                        
+                        self.polyline = [GMSPolyline polylineWithPath:path];
+                        self.polyline.strokeWidth = 7;
+                        self.polyline.strokeColor = [UIColor yellowColor];
+                        self.polyline.map = self.mapView;
+                    }
+                    
                 }];
             }
             

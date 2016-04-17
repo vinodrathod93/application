@@ -106,8 +106,6 @@
 		826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826B142D1BC2A01E00B6A1C3 /* OrderCompleteViewController.m */; };
 		826F07511C524A310033DD09 /* BookCallListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 826F07501C524A310033DD09 /* BookCallListingCell.m */; };
 		827026DE1BC650840054E16F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 827026DD1BC650840054E16F /* Reachability.m */; };
-		827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632821B4A3DB800230833 /* FBSDKCoreKit.framework */; };
-		827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827632831B4A3DB800230833 /* FBSDKLoginKit.framework */; };
 		827A80181B85E15C008085F1 /* AddressesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827A80171B85E15C008085F1 /* AddressesViewController.m */; };
 		827DD31A1B8AE39F00714985 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD3191B8AE39F00714985 /* Address.m */; };
 		827FD14B1C455D16000EB0A4 /* Neediator_Logo_Final.png in Resources */ = {isa = PBXBuildFile; fileRef = 827FD14A1C455D16000EB0A4 /* Neediator_Logo_Final.png */; };
@@ -733,8 +731,6 @@
 				82BF08511C1F07E90093B8CD /* MessageUI.framework in Frameworks */,
 				824D00371B6F2EBF000F1825 /* CoreLocation.framework in Frameworks */,
 				825567201B68F9B6009F013A /* CoreTelephony.framework in Frameworks */,
-				827632851B4A3DB800230833 /* FBSDKLoginKit.framework in Frameworks */,
-				827632841B4A3DB800230833 /* FBSDKCoreKit.framework in Frameworks */,
 				0C908C364CC939481E020D86 /* libPods-Neediator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2840,7 +2836,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
@@ -2870,7 +2865,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthApp",
-					/Users/adverto/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
