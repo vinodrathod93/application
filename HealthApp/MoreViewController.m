@@ -34,14 +34,14 @@ enum SECTIONS {
     
     _moreData   = @[
                     @[@"Rate us", @"Share us"],
-                    @[@"Privacy Policy", @"Terms & Conditions"],
+                    @[ @"Privacy Policy", @"Return Policy",@"Terms of Use"],
                     @"Contact us",
                     @"About us"
                     ];
     
     _moreDataIcons = @[
                        @[@"rate", @"share"],
-                       @[@"privacy", @"terms_condition"],
+                       @[ @"privacy",@"return_policy", @"terms_condition"],
                        @"contact_us",
                        @"about_us"
                        ];
@@ -167,8 +167,6 @@ enum SECTIONS {
     }
     else if (indexPath.section == PolicySection) {
         
-        
-        
         if (indexPath.row == 0) {
             WebViewController *privacyWebViewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewVC"];
             privacyWebViewVC.urlString = [NSString stringWithFormat:@"http://neediator.in/privacy_policy.html"];
@@ -179,6 +177,15 @@ enum SECTIONS {
             
         }
         else if (indexPath.row == 1) {
+            WebViewController *returnPolicyWebViewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewVC"];
+#warning change the url to return policy
+            returnPolicyWebViewVC.urlString = [NSString stringWithFormat:@"http://neediator.in/return_policy.html"];
+            returnPolicyWebViewVC.hidesBottomBarWhenPushed = YES;
+            returnPolicyWebViewVC.title = @"Return Policy";
+            
+            [self.navigationController pushViewController:returnPolicyWebViewVC animated:YES];
+        }
+        else if (indexPath.row == 2) {
             WebViewController *termsConditionWebViewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewVC"];
             termsConditionWebViewVC.urlString = [NSString stringWithFormat:@"http://neediator.in/terms_of_usage.html"];
             termsConditionWebViewVC.hidesBottomBarWhenPushed = YES;
@@ -187,6 +194,8 @@ enum SECTIONS {
             [self.navigationController pushViewController:termsConditionWebViewVC animated:YES];
             
         }
+        
+        
     }
     else if (indexPath.section == AboutUs) {
         NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"about_us" ofType:@"txt"];

@@ -19,7 +19,6 @@
 
 @interface SearchViewController ()<SearchResultsTableviewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
-@property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, assign) BOOL isTapped;
 @property (nonatomic, strong) NSString *currentPlace;
 @property (nonatomic, strong) NSMutableArray *storesArray;
@@ -85,7 +84,7 @@
         
     }
     
-    self.storesArray = [NeediatorUtitity savedDataForKey:kSAVE_RECENT_STORES];
+    self.storesArray = [[NeediatorUtitity savedDataForKey:kSAVE_RECENT_STORES] mutableCopy];
     [self.tableView reloadData];
     
 }
@@ -97,6 +96,13 @@
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"Search Screen"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self deselectCurrentLocation];
 }
 
 
@@ -119,7 +125,7 @@
     _searchController.searchBar.placeholder = @"Search";
     _searchController.delegate = self;
     _searchController.searchBar.delegate = self;
-    _searchController.searchBar.scopeButtonTitles = @[@"Location", @"Category", @"Store", @"Product"];
+    _searchController.searchBar.scopeButtonTitles = @[@"Location", @"Category", @"Listing", @"Product"];
     
     _searchController.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _searchController.searchBar.searchBarStyle   = UISearchBarStyleDefault;
@@ -240,7 +246,8 @@
     if (indexPath.section == 0) {
         // active search bar
         
-        [_searchController setActive:YES];
+        [self activateSearchBar];
+        [self showLocationScope];
         
     }
 }
@@ -262,7 +269,7 @@
         label.text = [NSString stringWithFormat:@"LOCATION"];
     }
     else
-        label.text = @"RECENT STORES";
+        label.text = @"RECENTLY VIEWED";
     
     [headerView addSubview:label];
     
@@ -492,7 +499,7 @@ didFailAutocompleteWithError:(NSError *)error {
     [self sendResults:nil resultsController:vc forScope:selectedScope];
     
     if (selectedScope == searchScopeStore) {
-        self.searchController.searchBar.placeholder = @"Search by Store";
+        self.searchController.searchBar.placeholder = @"Search by Listing";
     }
     else if (selectedScope == searchScopeCategory)
         self.searchController.searchBar.placeholder = @"Search by Category";
@@ -701,11 +708,11 @@ didFailAutocompleteWithError:(NSError *)error {
             
             [self decorateSelectCurrentLocation];
             
-            if (self.storesArray.count != 0) {
-                [self.storesArray removeAllObjects];
-                [self.storesArray addObject:@"Searching..."];
-            }
-            
+//            if (self.storesArray.count != 0) {
+//                [self.storesArray removeAllObjects];
+//                [self.storesArray addObject:@"Searching..."];
+//            }
+//            
             [self.tableView reloadData];
             
             
@@ -721,7 +728,7 @@ didFailAutocompleteWithError:(NSError *)error {
     
 }
 
-
+/*
 
 -(void)loadStoresWithLocation:(Location *)location {
     ListingRequestModel *requestModel = [ListingRequestModel new];
@@ -767,7 +774,7 @@ didFailAutocompleteWithError:(NSError *)error {
     }];
 }
 
-
+*/
 
 -(void)alertLocationPermission {
     
@@ -802,6 +809,18 @@ didFailAutocompleteWithError:(NSError *)error {
     
     [self presentViewController:alertLocationController animated:YES completion:nil];
     
+}
+
+
+
+#pragma mark - Other Methods 
+
+-(void)activateSearchBar {
+    [self.searchController setActive:YES];
+}
+
+-(void)showLocationScope {
+    [self.searchController.searchBar setSelectedScopeButtonIndex:searchScopeLocation];
 }
 
 

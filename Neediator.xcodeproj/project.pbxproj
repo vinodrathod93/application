@@ -195,6 +195,7 @@
 		82D47D281CABF839006B7996 /* behind_alert_view.png in Resources */ = {isa = PBXBuildFile; fileRef = 82D47D271CABF839006B7996 /* behind_alert_view.png */; };
 		82D47D2F1CABF928006B7996 /* OffersPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D47D2E1CABF928006B7996 /* OffersPopViewController.m */; };
 		82D5891E1CBE8B4C0051A074 /* NeediatorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D5891D1CBE8B4C0051A074 /* NeediatorScrollView.m */; };
+		82D65ADF1CC510E700A24A30 /* CallBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D65ADE1CC510E700A24A30 /* CallBackViewController.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
 		82DCBED11C4CEFE7005EBDB3 /* ListingResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED01C4CEFE7005EBDB3 /* ListingResponseModel.m */; };
 		82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED31C4CFEC0005EBDB3 /* RatingView.m */; };
@@ -634,6 +635,8 @@
 		82D47D2E1CABF928006B7996 /* OffersPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OffersPopViewController.m; sourceTree = "<group>"; };
 		82D5891C1CBE8B4C0051A074 /* NeediatorScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorScrollView.h; sourceTree = "<group>"; };
 		82D5891D1CBE8B4C0051A074 /* NeediatorScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorScrollView.m; sourceTree = "<group>"; };
+		82D65ADD1CC510E700A24A30 /* CallBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallBackViewController.h; sourceTree = "<group>"; };
+		82D65ADE1CC510E700A24A30 /* CallBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallBackViewController.m; sourceTree = "<group>"; };
 		82D6EE301C1802B6007CE5F2 /* NeediatorAPIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorAPIKey.h; sourceTree = "<group>"; };
 		82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+InfiniteScroll.h"; sourceTree = "<group>"; };
 		82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+InfiniteScroll.m"; sourceTree = "<group>"; };
@@ -1137,6 +1140,8 @@
 				82F80CD51C1EE01100C8E076 /* MoreViewController.m */,
 				82BF08521C1F0B790093B8CD /* WebViewController.h */,
 				82BF08531C1F0B790093B8CD /* WebViewController.m */,
+				82D65ADD1CC510E700A24A30 /* CallBackViewController.h */,
+				82D65ADE1CC510E700A24A30 /* CallBackViewController.m */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -2183,6 +2188,7 @@
 					};
 					8267AB7A1CB281E300CF1632 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = KMK576W42B;
 					};
 					82BD02871B46A73C00108A0B = {
 						CreatedOnToolsVersion = 6.4;
@@ -2415,6 +2421,7 @@
 				82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */,
 				82BB3DEB1CA01B1B00B282D0 /* QRCodeViewController.m in Sources */,
 				82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
+				82D65ADF1CC510E700A24A30 /* CallBackViewController.m in Sources */,
 				82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */,
 				82157D461CAD3D21005A812B /* UploadPrsCollectionViewCell.m in Sources */,
 				826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */,
@@ -2663,6 +2670,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "Neediator-AppleWatch Extension/Info.plist";
@@ -2670,6 +2679,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.linkcube.neediator.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -2681,12 +2691,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "Neediator-AppleWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.linkcube.neediator.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;

@@ -7,6 +7,7 @@
 //
 
 #import "NeediatorUtitity.h"
+#import "SearchViewController.h"
 
 @implementation NeediatorUtitity
 
@@ -40,6 +41,22 @@
 
 + (void)showLocationView {
     NSLog(@"Location");
+    
+    UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
+    
+    [tabBarController setSelectedIndex:1];
+    
+    NSLog(@"%@", [tabBarController selectedViewController]);
+    
+    UINavigationController *searchNavigation = [tabBarController selectedViewController];
+    
+    NSLog(@"%@", [searchNavigation topViewController]);
+    SearchViewController *searchVC = (SearchViewController *)[searchNavigation topViewController];
+    
+    
+    [searchVC activateSearchBar];
+    [searchVC showLocationScope];
+    
 }
 
 

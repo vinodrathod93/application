@@ -84,31 +84,31 @@
 			<key>UIApplicationShortcutItemTitle</key>
 			<string>Search</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>com.neediator.favourites</string>
+			<string>com.neediator.search</string>
 		</dict>
 		<dict>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeSearch</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>store_fav</string>
 			<key>UIApplicationShortcutItemTitle</key>
 			<string>Favourites</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>com.neediator.favourites</string>
 		</dict>
 		<dict>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeSearch</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>cart</string>
 			<key>UIApplicationShortcutItemTitle</key>
 			<string>Cart</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>com.neediator.favourites</string>
+			<string>com.neediator.cart</string>
 		</dict>
 		<dict>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeSearch</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>QRIcon</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>My Orders</string>
+			<string>Scan QR</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>com.neediator.favourites</string>
+			<string>com.neediator.scanqr</string>
 		</dict>
 	</array>
 	<key>UILaunchStoryboardName</key>

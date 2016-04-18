@@ -170,7 +170,6 @@
         }
         else if ([url.host isEqualToString:@"myFavourites"]) {
             FavouritesViewController *favouritesVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"favouritesVC"];
-            
             [navigationController pushViewController:favouritesVC animated:YES];
         }
     }
@@ -222,6 +221,35 @@
 -(void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
     NSLog(@"3D Touch");
     
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                             bundle: nil];
+    UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
+    
+    
+    NSLog(@"%@", [tabController selectedViewController]);
+    UINavigationController *navigationController = [tabController selectedViewController];
+    
+    if([shortcutItem.type isEqualToString:@"com.neediator.search"]) {
+        UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
+        
+        [tabBarController setSelectedIndex:1];
+    }
+    else if ([shortcutItem.type isEqualToString:@"com.neediator.favourites"]) {
+        
+        FavouritesViewController *favouritesVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"favouritesVC"];
+        [navigationController pushViewController:favouritesVC animated:YES];
+    }
+    else if ([shortcutItem.type isEqualToString:@"com.neediator.cart"]) {
+        
+        UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
+        
+        [tabBarController setSelectedIndex:3];
+    }
+    else if ([shortcutItem.type isEqualToString:@"com.neediator.scanqr"]) {
+        QRCodeViewController *QRCodeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"qrCodeVC"];
+        [navigationController pushViewController:QRCodeVC animated:YES];
+    }
+        
     
 }
 

@@ -19,7 +19,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 
 @property (nonatomic, strong) NSArray *subcategoryIcons;
 @property (nonatomic, strong) NSArray *subcategoryPromotions;
-@property (nonatomic, strong) SubCategoryHeaderView *headerView;
+//@property (nonatomic, strong) SubCategoryHeaderView *headerView;
 
 @end
 
@@ -42,7 +42,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     
     /* Create Promotion Header View */
-    self.headerView = [[SubCategoryHeaderView alloc]init];
+//    self.headerView = [[SubCategoryHeaderView alloc]init];
     
     
     
@@ -63,7 +63,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    self.headerView.scrollview.contentSize = CGSizeMake(CGRectGetWidth(self.headerView.scrollview.frame) * self.subcategoryPromotions.count, CGRectGetHeight(self.headerView.scrollview.frame));
+//    self.headerView.scrollview.contentSize = CGSizeMake(CGRectGetWidth(self.headerView.scrollview.frame) * self.subcategoryPromotions.count, CGRectGetHeight(self.headerView.scrollview.frame));
 }
 
 -(NSArray *)getPListIconsArray {
@@ -201,10 +201,6 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     listingVC.category_id                 = model.cat_id.stringValue;
     [self.navigationController pushViewController:listingVC animated:YES];
     
-    
-    
-    
-    
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -215,6 +211,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
 }
 
+/*
 -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     
     UICollectionReusableView *reusableView = nil;
@@ -249,7 +246,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
         return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Phone);
     
 }
-
+*/
 
 //
 //#pragma mark - Scroll view Delegate

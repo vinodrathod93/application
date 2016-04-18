@@ -23,10 +23,11 @@
 
 
 enum MyAccountCells {
-    FavouriteCell = 0,
+    MyRequestsCell = 0,
     MyOrdersCell,
     MyBookingCell,
     MyAddressesCell,
+    FavouriteCell,
     LeaderBoardCell
 };
 
@@ -188,7 +189,12 @@ enum MyAccountCells {
     
     if (indexPath.section == 1) {
         
-        if (indexPath.row == MyOrdersCell) {
+        if (indexPath.row == MyRequestsCell) {
+            MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
+            myOrdersVC.title = @"My Requests";
+            [self.navigationController pushViewController:myOrdersVC animated:YES];
+        }
+        else if (indexPath.row == MyOrdersCell) {
             
             MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
             [self.navigationController pushViewController:myOrdersVC animated:YES];
@@ -328,12 +334,12 @@ enum MyAccountCells {
     User *user = [User savedUser];
     
     if (user != nil) {
-        _options = @[ @"", @[@"Favourites", @"My Orders", @"My Bookings", @"My Addresses", @"Leaderboard"],
+        _options = @[ @"", @[ @"My Requests", @"My Orders", @"My Bookings", @"My Addresses",@"Favourites", @"Leaderboard"],
                       @"Sign Out"];
         
         _iconsArray  = @[
                          @"",
-                         @[@"store_fav", @"my_orders", @"booking", @"address", @"user"],
+                         @[ @"my_orders", @"my_orders", @"booking", @"address",@"store_fav", @"user"],
                          @"signout"
                          ];
         

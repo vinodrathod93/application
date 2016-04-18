@@ -12,4 +12,9 @@
 @interface SearchViewController : UITableViewController<CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *nearByButton;
+@property (nonatomic, strong) UISearchController *searchController;
+
+-(void)activateSearchBar;
+-(void)showLocationScope;
+
 @end

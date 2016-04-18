@@ -291,8 +291,9 @@
     cell.name.text = model.name.capitalizedString;
     cell.street.text = [NSString stringWithFormat:@"➥ %@", model.area.capitalizedString];
     cell.rating.text = [NSString stringWithFormat:@"⭐️ %.01f", model.ratings.floatValue];
-    cell.distance.text = [NSString stringWithFormat:@"📍 %@",[model.nearest_distance uppercaseString]];
-    cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",[model.timing uppercaseString]];
+    cell.distance.text = [NSString stringWithFormat:@"📍 %@",[model.nearest_distance lowercaseString]];
+    
+    cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",[model.timing lowercaseString]];
     NSString *minOrderString =  [NSString stringWithFormat:@"Min. Order %@", [minOrderCurrencyFormatter stringFromNumber:@(model.minOrder.intValue)]];
     
     
@@ -302,7 +303,7 @@
     NSRange range = [minOrderString rangeOfString:@"Min."];
     
     [attributedString setAttributes:@{
-                                     NSForegroundColorAttributeName : [UIColor redColor]
+                                     NSForegroundColorAttributeName : [UIColor darkGrayColor]
                                      }range:range];
     
     cell.minOrderLabel.attributedText = attributedString;
