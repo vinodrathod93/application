@@ -84,7 +84,7 @@
     
     _viewDidLoadFlag = YES;
     
-    self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
+//    self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
     
     if (_isFilterApplied) {
         [self requestListingByFilterData:_filterData sortID:@"" andTypeID:@""];
@@ -116,6 +116,12 @@
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestBasicListings) name:@"NeediatorLocationChanged" object:nil];
+}
 
 
 
@@ -1152,6 +1158,8 @@
 
 -(void)requestBasicListings {
     
+    
+    
     Location *location_store = [Location savedLocation];
     User *user          = [User savedUser];
     
@@ -1178,6 +1186,8 @@
 
 -(void)requestListings:(id)requestModel {
     
+    
+    self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
     [self removeConnectionView];
     
     Location *location_store = [Location savedLocation];

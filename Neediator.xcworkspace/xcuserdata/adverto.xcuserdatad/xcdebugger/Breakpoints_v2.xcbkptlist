@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthApp/ListingTableViewController.m"
-            timestampString = "482682659.768196"
+            timestampString = "482759188.348174"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1085"
-            endingLineNumber = "1085"
+            startingLineNumber = "1091"
+            endingLineNumber = "1091"
             landmarkName = "-requestListingByFilterData:sortID:andTypeID:"
             landmarkType = "5">
          </BreakpointContent>
@@ -32,38 +32,6 @@
             startingLineNumber = "82"
             endingLineNumber = "82"
             landmarkName = "-getListingsWithRequestModel:success:failure:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/NAPIManager.m"
-            timestampString = "482418455.590276"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "592"
-            endingLineNumber = "592"
-            landmarkName = "-getCoordinatesOf:withSuccess:failure:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthApp/LogSignViewController.m"
-            timestampString = "482667094.400973"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
-            landmarkName = "-submitSigninDataWithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

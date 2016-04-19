@@ -189,11 +189,23 @@
     [priceCurrencyFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_IN"]];
     
     
-    NSString *price = _product[@"rate"];
+//    NSString *price = _product[@"rate"];
+    NSString *imageURL = _product[@"imageurl"];
     
     cell.textLabel.text     = [_product[@"productname"] capitalizedString];
-    cell.detailTextLabel.text = [priceCurrencyFormatter stringFromNumber:@(price.intValue)];
-    cell.imageView.image = nil;
+    cell.detailTextLabel.text = @"";
+//    cell.detailTextLabel.text = [priceCurrencyFormatter stringFromNumber:@(price.intValue)];
+    
+    
+    
+    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:imageURL]
+                                                    options:SDWebImageRefreshCached
+                                                   progress:nil
+                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                                      CGSize size = CGSizeMake(25, 25);
+                                                      
+                                                      cell.imageView.image = [NeediatorUtitity imageWithImage:image scaledToSize:size];
+                                                  }];
     
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -220,11 +232,27 @@
 -(void)configureStoreCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *store = self.searchResults[indexPath.row];
     NSString *name = store[@"Name"];
-    NSString *category = store[@"catname"];
+    NSString *category = store[@"CatName"];
+    NSString *imageurl = store[@"images"];
     
     cell.textLabel.text = [name capitalizedString];
     cell.detailTextLabel.text = category;
     cell.imageView.image = [UIImage imageNamed:@"shop"];
+    
+    
+    if ([imageurl isEqual:[NSNull null]]) {
+        cell.imageView.image = [UIImage imageNamed:@"shop"];
+    }
+    else {
+        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:imageurl]
+                                                        options:SDWebImageRefreshCached
+                                                       progress:nil
+                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                                          CGSize size = CGSizeMake(25, 25);
+                                                          
+                                                          cell.imageView.image = [NeediatorUtitity imageWithImage:image scaledToSize:size];
+                                                      }];
+    }
 }
 
 

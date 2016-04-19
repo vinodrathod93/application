@@ -35,13 +35,14 @@ typedef NS_ENUM(uint16_t, sections) {
     SectionStoreTaxonTaxonomies,
 };
 
-@interface StoreTaxonsViewController ()<UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
+@interface StoreTaxonsViewController ()<UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, MWPhotoBrowserDelegate>
 
 @property (nonatomic, strong) NSMutableArray *taxonomies;
 @property (nonatomic, strong) MBProgressHUD *hud;
 
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSMutableArray *searchResults;
+@property (nonatomic, strong) UITapGestureRecognizer *storeImageViewTapGestureRecognizer;
 
 @end
 
@@ -63,6 +64,9 @@ typedef NS_ENUM(uint16_t, sections) {
     // Navigation Bar
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
+    
+    _storeImageViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showLargeImages)];
+    _storeImageViewTapGestureRecognizer.numberOfTapsRequired = 1;
     
     // Tableview
     self.tableView.delegate = self;
@@ -654,6 +658,8 @@ typedef NS_ENUM(uint16_t, sections) {
         // Animate and delete
         [tableView deleteRowsAtIndexPaths:indexPaths
                          withRowAnimation:UITableViewRowAnimationTop];
+        
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     
     
@@ -931,7 +937,7 @@ typedef NS_ENUM(uint16_t, sections) {
 -(void)showPhoneNumbers:(UIButton *)button {
     
     if (self.storePhoneNumbers != nil) {
-        UIAlertController *phoneAlertController = [UIAlertController alertControllerWithTitle:@"Store Phone Numbers" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *phoneAlertController = [UIAlertController alertControllerWithTitle:@"Select Number" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         [self.storePhoneNumbers enumerateObjectsUsingBlock:^(NSString *_Nonnull phoneNumber, NSUInteger idx, BOOL * _Nonnull stop) {
             UIAlertAction *action = [UIAlertAction actionWithTitle:phoneNumber style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -1045,8 +1051,49 @@ typedef NS_ENUM(uint16_t, sections) {
 
 
 
+-(void)showLargeImages {
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc]initWithDelegate:self];
+    //
+    //    browser.backgroundColor = [UIColor whiteColor];
+    //    browser.navBarTintColor = self.tableView.tintColor;
+    //    browser.barStyle        = UIBarStyleDefault;
+    browser.displayActionButton = NO;
+    browser.zoomPhotosToFill = YES;
+    browser.enableSwipeToDismiss = NO;
+    
+    //    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
+    //    nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    //    [self presentViewController:nc animated:YES completion:nil];
+    
+    [self.navigationController pushViewController:browser animated:YES];
+}
 
 
+#pragma mark - MWPhotoBrowserDelegate
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return self.storeImages.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < self.storeImages.count)
+        return [self.storeImages objectAtIndex:index];
+    return nil;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
+    if (index < self.storeImages.count)
+        return [self.storeImages objectAtIndex:index];
+    return nil;
+}
+
+
+
+- (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
+    // If we subscribe to this method we must dismiss the view controller ourselves
+    NSLog(@"Did finish modal presentation");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark
 #pragma mark - Private Methods
@@ -1191,17 +1238,17 @@ typedef NS_ENUM(uint16_t, sections) {
         
         [[NAPIManager sharedManager] postFavouritesWithData:parameter success:^(BOOL success) {
             if (success) {
-                
-                
-                button.selected = !button.selected;
-                
-                if (button.isSelected) {
-                    [button setImage:[UIImage imageNamed:@"store_fav_filled"] forState:UIControlStateNormal];
-                }
-                else
-                    [button setImage:[UIImage imageNamed:@"store_fav"] forState:UIControlStateNormal];
-                
+                button.selected = YES;
             }
+            else {
+                button.selected = NO;
+            }
+            
+            if (button.isSelected) {
+                [button setImage:[UIImage imageNamed:@"store_fav_filled"] forState:UIControlStateNormal];
+            }
+            else
+                [button setImage:[UIImage imageNamed:@"store_fav"] forState:UIControlStateNormal];
             
         } failure:^(NSError *error) {
             NSLog(@"Fav. Error = %@", [error localizedDescription]);

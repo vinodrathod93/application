@@ -25,14 +25,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Fav." style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Fav" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.title         = @"My Favourites";
     
     
+    
+    
+    
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     [self requestFavourites];
-    
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {

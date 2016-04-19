@@ -8,6 +8,7 @@
 
 #import "MoreViewController.h"
 #import "WebViewController.h"
+#import "CallBackViewController.h"
 #import <MessageUI/MessageUI.h>
 
 
@@ -143,6 +144,8 @@ enum SECTIONS {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.section == SharingSection) {
         
         if (indexPath.row == 0) {
@@ -163,7 +166,10 @@ enum SECTIONS {
         
     }
     else if (indexPath.section == ContactUs) {
-        [self prepareMail];
+        
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        [self contactUsOptions:cell];
+        
     }
     else if (indexPath.section == PolicySection) {
         
@@ -234,6 +240,42 @@ enum SECTIONS {
     
 }
 
+
+-(void)callbackVC {
+    CallBackViewController *callbackVC = [self.storyboard instantiateViewControllerWithIdentifier:@"callbackVC"];
+    [self.navigationController pushViewController:callbackVC animated:YES];
+}
+
+-(void)contactUsOptions:(UITableViewCell *)sender {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Contact Option" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    
+    UIAlertAction *callBackAction = [UIAlertAction actionWithTitle:@"Call Me Back" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self callbackVC];
+    }];
+    
+    UIAlertAction *mail = [UIAlertAction actionWithTitle:@"Give Feedback" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self prepareMail];
+    }];
+    
+    UIAlertAction *meetus = [UIAlertAction actionWithTitle:@"Meet Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [controller addAction:callBackAction];
+    [controller addAction:mail];
+    [controller addAction:meetus];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [controller dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [controller addAction:cancel];
+    
+    controller.popoverPresentationController.sourceView = sender;
+    controller.popoverPresentationController.sourceRect = sender.bounds;
+    [self presentViewController:controller animated:YES completion:nil];
+}
 
 
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error

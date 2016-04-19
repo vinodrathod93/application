@@ -484,7 +484,7 @@ typedef void(^completion)(BOOL finished);
 }
 
 -(void)showActivitySheet:(UITableViewCell *)sender {
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Delivery Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Order Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     NSArray *names = [self deliveryTypes];
     NSArray *ids   = [self deliveryIDs];
@@ -503,7 +503,7 @@ typedef void(^completion)(BOOL finished);
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [controller dismissViewControllerAnimated:YES completion:^{
             
-            NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+            [controller dismissViewControllerAnimated:YES completion:nil];
             
         }];
     }];

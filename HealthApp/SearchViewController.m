@@ -39,7 +39,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    UIImageView *neediatorLogoView    = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]];
+    self.navigationItem.titleView = neediatorLogoView;
     
     [self initializeSearchController];
     
@@ -413,7 +414,7 @@ didFailAutocompleteWithError:(NSError *)error {
         location.isCurrentLocation      = NO;
         [location save];
         
-        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NeediatorLocationChanged" object:nil];
         
 //        [self loadStoresWithLocation:location];
         
@@ -543,7 +544,6 @@ didFailAutocompleteWithError:(NSError *)error {
                 [vc hideHUD];
                 [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
             }];
-            
             
             
         }

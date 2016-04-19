@@ -354,7 +354,7 @@
         
         NSString *status = responseObject[@"status"];
         
-        if ([status isEqualToString:@"success"]) {
+        if ([status isEqualToString:@"Add"]) {
             success(YES);
         }
         else

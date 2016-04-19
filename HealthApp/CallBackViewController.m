@@ -18,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
+    self.title = @"Call Me Back";
     self.callmeButton.layer.cornerRadius = 8.0;
 }
 

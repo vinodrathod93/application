@@ -39,8 +39,5 @@
     return [MTLJSONAdapter arrayTransformerWithModelClass:[LineItemsModel class]];
 }
 
-+(NSValueTransformer *)prescriptionArrayJSONTransformer {
-    return [MTLJSONAdapter arrayTransformerWithModelClass:[LineItemsModel class]];
-}
 
 @end

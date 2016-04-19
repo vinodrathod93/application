@@ -24,8 +24,8 @@
                                 <state key="normal" image="Search"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ox4-h7-gba">
-                                <rect key="frame" x="247" y="21" width="28" height="28"/>
-                                <state key="normal" image="QRCode"/>
+                                <rect key="frame" x="251" y="24" width="20" height="22"/>
+                                <state key="normal" image="QRIcon"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IS7-lJ-Gnp">
                                 <rect key="frame" x="72" y="96" width="177" height="29"/>
@@ -61,7 +61,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scan QR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBs-fz-d5j">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Scan QR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBs-fz-d5j">
                                 <rect key="frame" x="231" y="58" width="59" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="59" id="PlJ-mo-eiQ"/>
@@ -108,7 +108,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="QRCode" width="28" height="28"/>
+        <image name="QRIcon" width="20" height="20"/>
         <image name="Search" width="25" height="25"/>
         <image name="store_fav_filled" width="30" height="30"/>
     </resources>

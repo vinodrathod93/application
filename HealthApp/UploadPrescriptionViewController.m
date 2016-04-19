@@ -390,7 +390,7 @@
 
 #pragma mark - Helper Methods
 -(void)showShippingTypeSheet:(UIButton *)sender {
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Shipping Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Order Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     NSArray *names = [self deliveryTypes];
     NSArray *ids   = [self deliveryIDs];
@@ -404,13 +404,13 @@
             if (![_selectedDeliveryID isEqual:@1]) {
                 // hide time.
                 
-                self.dataTimeLabel.hidden = YES;
-                self.dateTimeField.hidden = YES;
+                self.deliveryTypeButton.hidden = YES;
+                self.deliveryTypeButton.hidden = YES;
             
             }
             else {
-                self.dataTimeLabel.hidden = NO;
-                self.dateTimeField.hidden = NO;
+                self.deliveryTypeButton.hidden = NO;
+                self.deliveryTypeButton.hidden = NO;
             }
         }];
         

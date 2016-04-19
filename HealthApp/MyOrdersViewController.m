@@ -274,18 +274,18 @@
         
         
         
-        [items enumerateObjectsUsingBlock:^(LineItemsModel * _Nonnull line_item, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-//            if (line_item.images.count != 0) {
-//                VariantImagesModel *image = line_item.images[0];
-//                
-//                [imagesParticularOrder addObject:image.small_url];
-//            }
-            
-            
-            [imagesParticularOrder addObject:line_item.imageURL];
-            
-        }];
+//        [items enumerateObjectsUsingBlock:^(LineItemsModel * _Nonnull line_item, NSUInteger idx, BOOL * _Nonnull stop) {
+//            
+////            if (line_item.images.count != 0) {
+////                VariantImagesModel *image = line_item.images[0];
+////                
+////                [imagesParticularOrder addObject:image.small_url];
+////            }
+//            
+//            
+//            [imagesParticularOrder addObject:line_item.imageURL];
+//            
+//        }];
         
         
         for (id item in items) {
@@ -297,6 +297,8 @@
             }
             else {
                 NSDictionary *prescription = (NSDictionary *)item;
+                
+                [imagesParticularOrder addObject:prescription[@"image_url"]];
             }
         }
         

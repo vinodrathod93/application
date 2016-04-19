@@ -27,8 +27,8 @@ static NSString *const kAPP_ID = @"1073622324";
 
 
 /* Taxon - Taxonomy VC */
-#define kTaxonHeaderViewHeight_Pad 480
-#define kTaxonHeaderViewHeight_Phone 240
+#define kTaxonHeaderViewHeight_Pad 512
+#define kTaxonHeaderViewHeight_Phone 256
 
 
 /* Cart VC */

@@ -32,6 +32,8 @@
     [super viewDidLoad];
     
     
+    self.title = @"Information";
+    
     _footerHeight = 0.0f;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -98,7 +100,10 @@
     
     NSLog(@"%@", _selectedIndexes);
     
-    [_selectedIndexes setObject:@1 forKey:indexPath];
+    if (_selectedIndexes.count == 0) {
+        [_selectedIndexes setObject:@0 forKey:indexPath];
+    }
+    
     
     NEntityDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
@@ -146,10 +151,13 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    BOOL isSelected = ![self cellIsSelected:indexPath];
+    EntityDetailModel *model = _entityDescriptionArray[indexPath.row];
+    
+    BOOL isSelected = !model.isExpanded;
     
     NSNumber *selectedIndex = [NSNumber numberWithBool:isSelected];
     [_selectedIndexes setObject:selectedIndex forKey:indexPath];
+    [self cellIsSelected:indexPath];
     
     NEntityDetailCell *cell = (NEntityDetailCell *)[tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryView      = [self viewForDisclosureForState:isSelected];
@@ -162,22 +170,22 @@
 }
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return 130.f;
-    }
-    else
-        return 0.f;
-}
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 0 && self.isBooking == TRUE && _hasLoaded == TRUE) {
-        return _footerHeight;
-    }
-    else
-        return 0.0f;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    if (section == 0) {
+//        return 130.f;
+//    }
+//    else
+//        return 0.f;
+//}
+//
+//
+//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+//    if (section == 0 && self.isBooking == TRUE && _hasLoaded == TRUE) {
+//        return _footerHeight;
+//    }
+//    else
+//        return 0.0f;
+//}
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (section == 0 && self.isBooking == TRUE && _hasLoaded == TRUE) {
@@ -233,11 +241,11 @@
     NSString *imageName;
     if(isExpanded)
     {
-        imageName = @"Expand Arrow";
+        imageName = @"Collapse Arrow";
     }
     else
     {
-        imageName = @"Collapse Arrow";
+        imageName = @"Expand Arrow";
     }
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
