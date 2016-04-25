@@ -11,6 +11,7 @@
 #import "ListingRequestModel.h"
 #import "ListingModel.h"
 #import "StoreListResponseModel.h"
+#import "StoreTaxonsViewController.h"
 #import "APIManager.h"
 #import "SearchResultsTableViewController.h"
 
@@ -244,7 +245,7 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    if (indexPath.section == searchScopeLocation) {
         // active search bar
         
         [self activateSearchBar];
@@ -375,18 +376,19 @@ didFailAutocompleteWithError:(NSError *)error {
 */
 
 
--(void)searchResultsTableviewControllerDidSelectResult:(NSDictionary *)location {
-    
+-(void)searchResultsTableviewControllerDidSelectResult:(NSDictionary *)result {
     
     [_searchController setActive:NO];
     
-    NeediatorSearchScope scope = (NeediatorSearchScope)location[@"NeediatorSearchScope"];
+    NSLog(@"%lu", (unsigned long)result[@"NeediatorSearchScope"]);
+    int searchScope = (int)[result[@"NeediatorSearchScope"] intValue];
+    NeediatorSearchScope scope = (NeediatorSearchScope)searchScope;
     
     if (scope == searchScopeLocation) {
-        NSNumber *latitude = location[@"lat"];
-        NSNumber *longitude = location[@"lng"];
+        NSNumber *latitude = result[@"lat"];
+        NSNumber *longitude = result[@"lng"];
         
-        NSString *place = location[@"place"];
+        NSString *place = result[@"place"];
         
         NSLog(@"Place co-ordinates %f and %f", latitude.floatValue, longitude.floatValue);
         NSLog(@"Place name %@", place);
@@ -416,15 +418,30 @@ didFailAutocompleteWithError:(NSError *)error {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NeediatorLocationChanged" object:nil];
         
-//        [self loadStoresWithLocation:location];
-        
-        
-//        if (self.storesArray.count != 0) {
-//            [self.storesArray removeAllObjects];
-//            [self.storesArray addObject:@"Searching..."];
-//        }
     }
-    
+    else if (scope == searchScopeStore) {
+            
+            NSDictionary *storeBasicDetails = [result[@"stores"] lastObject];
+            NSDictionary *storeLikes = [result[@"like"] lastObject];
+            NSNumber *liked             = storeLikes[@"liked"];
+            
+            StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
+            storeTaxonsVC.title = [storeBasicDetails[@"name"] capitalizedString];
+            storeTaxonsVC.cat_id = storeBasicDetails[@"catid"];
+            storeTaxonsVC.store_id = storeBasicDetails[@"id"];
+            storeTaxonsVC.storeImages = result[@"images"];
+            storeTaxonsVC.storePhoneNumbers = storeBasicDetails[@"phone"];
+#warning change this static distance with api distance.
+            storeTaxonsVC.storeDistance = @"2 KM";
+            storeTaxonsVC.ratings   = storeBasicDetails[@"ratings"];
+            storeTaxonsVC.reviewsCount = storeBasicDetails[@"reviews_count"];
+            storeTaxonsVC.likeUnlikeArray = [result[@"like"] lastObject];
+            storeTaxonsVC.isFavourite   = NO;
+            storeTaxonsVC.isLikedStore  = liked.boolValue;
+            storeTaxonsVC.isDislikedStore = NO;
+            
+            [self.navigationController pushViewController:storeTaxonsVC animated:YES];
+        }
     
     [self.tableView reloadData];
     
@@ -525,86 +542,90 @@ didFailAutocompleteWithError:(NSError *)error {
 
 - (void)searchForText:(NSString *)searchText scope:(NeediatorSearchScope)scopeOption
 {
-    
-    
-    
-    switch (scopeOption) {
-        case searchScopeLocation:
-        {
-            SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
-            [vc startNeediatorHUD];
-            
-            // call location
-            [[NAPIManager sharedManager] searchLocations:searchText withSuccess:^(BOOL success, NSArray *predictions) {
-                //
+    if (![searchText isEqualToString:@""]) {
+        
+        NSLog(@"Search Text is_%@_done", searchText);
+        switch (scopeOption) {
+            case searchScopeLocation:
+            {
+                SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+                [vc startNeediatorHUD];
                 
-                [self sendResults:predictions resultsController:vc forScope:scopeOption];
+                // call location
+                [[NAPIManager sharedManager] searchLocations:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                    //
+                    
+                    [self sendResults:predictions resultsController:vc forScope:scopeOption];
+                    
+                } failure:^(NSError *error) {
+                    [vc hideHUD];
+                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                }];
                 
-            } failure:^(NSError *error) {
-                [vc hideHUD];
-                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-            }];
-            
-            
+                
+            }
+                break;
+                
+            case searchScopeCategory:
+            {
+                SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+                [vc startNeediatorHUD];
+                // call category
+                
+                [[NAPIManager sharedManager] searchCategoriesFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                    
+                    [self sendResults:predictions resultsController:vc forScope:scopeOption];
+                    
+                    
+                } failure:^(NSError *error) {
+                    [vc hideHUD];
+                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                }];
+                
+                
+                
+            }
+                break;
+                
+            case searchScopeStore:
+            {
+                SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+                [vc startNeediatorHUD];
+                // call stores
+                
+                [[NAPIManager sharedManager] searchStoresFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                    
+                    [self sendResults:predictions resultsController:vc forScope:scopeOption];
+                    
+                } failure:^(NSError *error) {
+                    [vc hideHUD];
+                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                }];
+                
+            }
+                break;
+                
+            case searchScopeProduct:
+            {
+                SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+                [vc startNeediatorHUD];
+                // call product
+                
+                [[NAPIManager sharedManager] searchUniveralProductsWithData:searchText success:^(NSArray *products) {
+                    [self sendResults:products resultsController:vc forScope:scopeOption];
+                } failure:^(NSError *error) {
+                    [vc hideHUD];
+                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                }];
+            }
+                
+            default:
+                break;
         }
-            break;
-            
-        case searchScopeCategory:
-        {
-            SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
-            [vc startNeediatorHUD];
-            // call category
-            
-            [[NAPIManager sharedManager] searchCategoriesFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
-                
-                [self sendResults:predictions resultsController:vc forScope:scopeOption];
-                
-                
-            } failure:^(NSError *error) {
-                [vc hideHUD];
-                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-            }];
-            
-            
-            
-        }
-            break;
-            
-        case searchScopeStore:
-        {
-            SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
-            [vc startNeediatorHUD];
-            // call stores
-            
-            [[NAPIManager sharedManager] searchStoresFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
-                
-                [self sendResults:predictions resultsController:vc forScope:scopeOption];
-                
-            } failure:^(NSError *error) {
-                [vc hideHUD];
-                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-            }];
-            
-        }
-            break;
-            
-        case searchScopeProduct:
-        {
-            SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
-            [vc startNeediatorHUD];
-            // call product
-            
-            [[NAPIManager sharedManager] searchUniveralProductsWithData:searchText success:^(NSArray *products) {
-                [self sendResults:products resultsController:vc forScope:scopeOption];
-            } failure:^(NSError *error) {
-                [vc hideHUD];
-                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-            }];
-        }
-            
-        default:
-            break;
+        
     }
+    
+    
 }
 
 

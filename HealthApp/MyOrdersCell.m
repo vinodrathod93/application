@@ -25,6 +25,7 @@
 //    layout.itemSize = CGSizeMake(75, 90);
 //    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 //    self.n_collectionView = [[HorizontalCollectionView alloc] initWithFrame:CGRectMake(8, 84, CGRectGetWidth(self.bounds) - (2 * 8), 100) collectionViewLayout:layout];
+    
     self.n_collectionView.backgroundColor = [UIColor whiteColor];
     [self.n_collectionView registerClass:[CustomCollectionViewCell class] forCellWithReuseIdentifier:@"MyOrderCollectionViewCellIdentifier"];
     self.n_collectionView.showsHorizontalScrollIndicator = NO;
@@ -63,7 +64,7 @@
     [self.orderNumber setTextAlignment:NSTextAlignmentRight];
     [self.contentView addSubview:self.orderNumber];
     
-//    
+
     self.orderDate = [[UILabel alloc] initWithFrame:CGRectMake(8, 38, CGRectGetWidth(self.bounds) - 8, 38)];
     self.orderDate.font = [UIFont fontWithName:@"AvenirNext-Regular" size:13.f];
     self.orderDate.textColor = [UIColor darkGrayColor];

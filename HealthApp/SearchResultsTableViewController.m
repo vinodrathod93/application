@@ -106,7 +106,7 @@
             NSMutableDictionary *locationData = [[NSMutableDictionary alloc] init];
             [locationData addEntriesFromDictionary:locationGeometry];
             [locationData setValue:place forKey:@"place"];
-            [locationData setValue:searchScopeLocation forKey:@"NeediatorSearchScope"];
+            [locationData setValue:@(searchScopeLocation) forKey:@"NeediatorSearchScope"];
             
             if ([self.delegate respondsToSelector:@selector(searchResultsTableviewControllerDidSelectResult:)]) {
                 
@@ -121,6 +121,33 @@
             [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
         }];
     }
+    else if (_neediatorSearchScope == searchScopeStore) {
+            NSDictionary *store = self.searchResults[indexPath.row];
+            NSString *code = store[@"code"];
+            
+            [[NAPIManager sharedManager] requestStoreByCode:code success:^(NSDictionary *store) {
+                // go to storefront page
+                
+                [self.neediatorHUD fadeOutAnimated:YES];
+                
+                NSMutableDictionary *storeDataDictionary = [[NSMutableDictionary alloc] init];
+                [storeDataDictionary addEntriesFromDictionary:store];
+                [storeDataDictionary setValue:@"value" forKey:@"value"];
+                [storeDataDictionary setValue:@(searchScopeStore) forKey:@"NeediatorSearchScope"];
+                
+                if ([self.delegate respondsToSelector:@selector(searchResultsTableviewControllerDidSelectResult:)]) {
+                    [self.delegate searchResultsTableviewControllerDidSelectResult:storeDataDictionary];
+                }
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
+                
+                
+            } failure:^(NSError *error) {
+                [self.neediatorHUD fadeOutAnimated:YES];
+                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+            }];
+            
+        }
 }
 
 

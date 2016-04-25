@@ -39,5 +39,6 @@
 -(NSURLSessionDataTask *)searchCategoriesFor:(NSString *)keyword withSuccess:(void (^)(BOOL success, NSArray *predictions))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)searchStoresFor:(NSString *)keyword withSuccess:(void (^)(BOOL success, NSArray *predictions))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)searchUniveralProductsWithData:(NSString *)keyword success:(void (^)(NSArray *products))success failure:(void (^)(NSError *error))failure;
+-(NSURLSessionDataTask *)requestStoreByCode:(NSString *)keyword success:(void (^)(NSDictionary *storeDetails))success failure:(void (^)(NSError *error))failure;
 
 @end

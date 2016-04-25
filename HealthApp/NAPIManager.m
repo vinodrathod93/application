@@ -655,4 +655,26 @@
     }];
 }
 
+
+-(NSURLSessionDataTask *)requestStoreByCode:(NSString *)keyword success:(void (^)(NSDictionary *storeDetails))success failure:(void (^)(NSError *error))failure {
+    
+    NSDictionary *parameter = @{
+                                @"code" : keyword
+                                };
+    
+    return [self GET:kSTORE_DETAILS_BY_CODE_PATH parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Getting Store Details by Code %@", downloadProgress.localizedDescription);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"Response %@", responseObject);
+        
+        
+        success(responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
+
+
 @end
