@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthApp/ListingTableViewController.m"
-            timestampString = "482759188.348174"
+            timestampString = "483280721.743658"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1091"
-            endingLineNumber = "1091"
+            startingLineNumber = "1108"
+            endingLineNumber = "1108"
             landmarkName = "-requestListingByFilterData:sortID:andTypeID:"
             landmarkType = "5">
          </BreakpointContent>

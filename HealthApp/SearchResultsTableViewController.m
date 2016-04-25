@@ -43,6 +43,12 @@
     [super viewDidLayoutSubviews];
 }
 
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self.neediatorHUD removeFromSuperview];
+}
+
 #pragma mark - Table view data source
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -89,65 +95,77 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (_neediatorSearchScope == searchScopeLocation) {
-        
-        NSDictionary *location = self.searchResults[indexPath.row];
-        NSString *place = location[@"description"];
-        
-        UIView *dimView = [NeediatorUtitity showDimViewWithFrame:self.tableView.frame];
-        [dimView addSubview:self.neediatorHUD];
-        [self startNeediatorHUD];
-        
-        
-        [[NAPIManager sharedManager] getCoordinatesOf:place withSuccess:^(BOOL success, NSDictionary *locationGeometry) {
+    if (!_isQuickOrder) {
+    
+    
+        if (_neediatorSearchScope == searchScopeLocation) {
             
-            [self.neediatorHUD fadeOutAnimated:YES];
+            NSDictionary *location = self.searchResults[indexPath.row];
+            NSString *place = location[@"description"];
             
-            NSMutableDictionary *locationData = [[NSMutableDictionary alloc] init];
-            [locationData addEntriesFromDictionary:locationGeometry];
-            [locationData setValue:place forKey:@"place"];
-            [locationData setValue:@(searchScopeLocation) forKey:@"NeediatorSearchScope"];
+            UIView *dimView = [NeediatorUtitity showDimViewWithFrame:self.tableView.frame];
+            [dimView addSubview:self.neediatorHUD];
+            [self startNeediatorHUD];
             
-            if ([self.delegate respondsToSelector:@selector(searchResultsTableviewControllerDidSelectResult:)]) {
-                
-                [self.delegate searchResultsTableviewControllerDidSelectResult:locationData];
-            }
             
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
-        } failure:^(NSError *error) {
-            
-            [self.neediatorHUD fadeOutAnimated:YES];
-            [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-        }];
-    }
-    else if (_neediatorSearchScope == searchScopeStore) {
-            NSDictionary *store = self.searchResults[indexPath.row];
-            NSString *code = store[@"code"];
-            
-            [[NAPIManager sharedManager] requestStoreByCode:code success:^(NSDictionary *store) {
-                // go to storefront page
+            [[NAPIManager sharedManager] getCoordinatesOf:place withSuccess:^(BOOL success, NSDictionary *locationGeometry) {
                 
                 [self.neediatorHUD fadeOutAnimated:YES];
                 
-                NSMutableDictionary *storeDataDictionary = [[NSMutableDictionary alloc] init];
-                [storeDataDictionary addEntriesFromDictionary:store];
-                [storeDataDictionary setValue:@"value" forKey:@"value"];
-                [storeDataDictionary setValue:@(searchScopeStore) forKey:@"NeediatorSearchScope"];
+                NSMutableDictionary *locationData = [[NSMutableDictionary alloc] init];
+                [locationData addEntriesFromDictionary:locationGeometry];
+                [locationData setValue:place forKey:@"place"];
+                [locationData setValue:@(searchScopeLocation) forKey:@"NeediatorSearchScope"];
                 
-                if ([self.delegate respondsToSelector:@selector(searchResultsTableviewControllerDidSelectResult:)]) {
-                    [self.delegate searchResultsTableviewControllerDidSelectResult:storeDataDictionary];
-                }
+                [self dismissViewControllerAnimated:YES completion:^{
+                    if ([self.delegate respondsToSelector:@selector(searchResultsTableviewControllerDidSelectResult:)]) {
+                        
+                        [self.delegate searchResultsTableviewControllerDidSelectResult:locationData];
+                    }
+                }];
                 
-                [self dismissViewControllerAnimated:YES completion:nil];
+                
+                
                 
                 
             } failure:^(NSError *error) {
+                
                 [self.neediatorHUD fadeOutAnimated:YES];
                 [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
             }];
-            
         }
+        else if (_neediatorSearchScope == searchScopeStore) {
+                NSDictionary *store = self.searchResults[indexPath.row];
+                NSString *code = store[@"code"];
+                
+                [[NAPIManager sharedManager] requestStoreByCode:code success:^(NSDictionary *store) {
+                    // go to storefront page
+                    
+                    [self.neediatorHUD fadeOutAnimated:YES];
+                    
+                    NSMutableDictionary *storeDataDictionary = [[NSMutableDictionary alloc] init];
+                    [storeDataDictionary addEntriesFromDictionary:store];
+                    [storeDataDictionary setValue:@"value" forKey:@"value"];
+                    [storeDataDictionary setValue:@(searchScopeStore) forKey:@"NeediatorSearchScope"];
+                    
+                    
+                    
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        if ([self.delegate respondsToSelector:@selector(searchResultsTableviewControllerDidSelectResult:)]) {
+                            [self.delegate searchResultsTableviewControllerDidSelectResult:storeDataDictionary];
+                        }
+                    }];
+                    
+                    
+                } failure:^(NSError *error) {
+                    [self.neediatorHUD fadeOutAnimated:YES];
+                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                }];
+                
+        }
+        
+      // end of quickorder bool condition
+    }
 }
 
 

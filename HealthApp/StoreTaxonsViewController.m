@@ -8,7 +8,6 @@
 
 #import "StoreTaxonsViewController.h"
 #import "APIManager.h"
-//#import <MBProgressHUD.h>
 #import "ProductsViewController.h"
 #import "StoreRealm.h"
 #import "User.h"
@@ -23,6 +22,7 @@
 #import "EntityDetailModel.h"
 #import "MapLocationViewController.h"
 #import "OffersPopViewController.h"
+#import "NeediatorPhotoBrowser.h"
 
 
 #define kImageViewSection 0;
@@ -42,7 +42,7 @@ typedef NS_ENUM(uint16_t, sections) {
 
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSMutableArray *searchResults;
-@property (nonatomic, strong) UITapGestureRecognizer *storeImageViewTapGestureRecognizer;
+@property (nonatomic, strong) NSMutableArray *largeStoreImages;
 
 @end
 
@@ -65,8 +65,7 @@ typedef NS_ENUM(uint16_t, sections) {
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     
-    _storeImageViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showLargeImages)];
-    _storeImageViewTapGestureRecognizer.numberOfTapsRequired = 1;
+    
     
     // Tableview
     self.tableView.delegate = self;
@@ -232,7 +231,15 @@ typedef NS_ENUM(uint16_t, sections) {
         [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         
         
+        (imageView.isUserInteractionEnabled) ? NSLog(@"Yes") : NSLog(@"No");
+        imageView.userInteractionEnabled = YES;
+        // add tap gesture to see large images.
+        UITapGestureRecognizer *storeImageViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showLargeImages)];
+        [imageView addGestureRecognizer:storeImageViewTapGestureRecognizer];
+        
+        
         [cell.scrollView addSubview:imageView];
+        cell.scrollView.clipsToBounds = NO;
     }];
     
     
@@ -727,7 +734,12 @@ typedef NS_ENUM(uint16_t, sections) {
         NSDictionary *likeUnlikeDict = [self.likeUnlikeArray lastObject];
         
         NSNumber *likeCount = likeUnlikeDict[@"like"];
+        
         NSNumber *dislikeCount = likeUnlikeDict[@"unlike"];
+        
+        if ([dislikeCount isEqual:[NSNull null]]) {
+            dislikeCount = @0;
+        }
         
         [storeReviewsView.likeButton setTitle:likeCount.stringValue forState:UIControlStateNormal];
         [storeReviewsView.dislikeButton setTitle:dislikeCount.stringValue forState:UIControlStateNormal];
@@ -1049,10 +1061,32 @@ typedef NS_ENUM(uint16_t, sections) {
 }
 
 
-
+-(void)storeMWPhotos {
+    
+    self.largeStoreImages = [NSMutableArray array];
+    
+    NSMutableArray *largePhotos = [NSMutableArray array];
+    
+    for (NSDictionary *store in self.storeImages) {
+        [largePhotos addObject:store[@"image_url"]];
+    }
+    
+    MWPhoto *photo;
+    
+    if (largePhotos.count != 0) {
+        for (NSString *largeImageString in largePhotos) {
+            photo = [MWPhoto photoWithURL:[NSURL URLWithString:largeImageString]];
+            photo.caption = @"Store Fronts";
+            
+            [self.largeStoreImages addObject:photo];
+        }
+    }
+}
 
 -(void)showLargeImages {
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc]initWithDelegate:self];
+    
+    [self storeMWPhotos];
+    NeediatorPhotoBrowser *browser = [[NeediatorPhotoBrowser alloc]initWithDelegate:self];
     //
     //    browser.backgroundColor = [UIColor whiteColor];
     //    browser.navBarTintColor = self.tableView.tintColor;
@@ -1060,6 +1094,7 @@ typedef NS_ENUM(uint16_t, sections) {
     browser.displayActionButton = NO;
     browser.zoomPhotosToFill = YES;
     browser.enableSwipeToDismiss = NO;
+    browser.enableGrid = NO;
     
     //    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
     //    nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
@@ -1072,18 +1107,18 @@ typedef NS_ENUM(uint16_t, sections) {
 #pragma mark - MWPhotoBrowserDelegate
 
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    return self.storeImages.count;
+    return self.largeStoreImages.count;
 }
 
 - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    if (index < self.storeImages.count)
-        return [self.storeImages objectAtIndex:index];
+    if (index < self.largeStoreImages.count)
+        return [self.largeStoreImages objectAtIndex:index];
     return nil;
 }
 
 - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
-    if (index < self.storeImages.count)
-        return [self.storeImages objectAtIndex:index];
+    if (index < self.largeStoreImages.count)
+        return [self.largeStoreImages objectAtIndex:index];
     return nil;
 }
 

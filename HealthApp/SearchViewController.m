@@ -16,6 +16,7 @@
 #import "SearchResultsTableViewController.h"
 
 
+
 #define kDefaultLocationMessage @"Select Location"
 
 @interface SearchViewController ()<SearchResultsTableviewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
@@ -24,6 +25,7 @@
 @property (nonatomic, strong) NSString *currentPlace;
 @property (nonatomic, strong) NSMutableArray *storesArray;
 @property (nonatomic, strong) NSMutableArray *searchResultsArray;
+@property (nonatomic, strong) NeediatorHUD *neediatorHUD;
 
 @end
 
@@ -39,6 +41,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Search" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     UIImageView *neediatorLogoView    = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]];
     self.navigationItem.titleView = neediatorLogoView;
@@ -103,6 +107,8 @@
 
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    [self hideHUD];
     
     [self deselectCurrentLocation];
 }
@@ -176,6 +182,7 @@
         return self.storesArray.count;
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellReuseId = @"SearchReuseCell";
@@ -216,6 +223,7 @@
         if(cell == nil) {
             
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellReuseId];
+            
         }
         
         
@@ -231,10 +239,11 @@
         else
             cell.textLabel.text      = [self.storesArray objectAtIndex:indexPath.row];
         
-        cell.imageView.image    = [UIImage imageNamed:@"shop"];
-        cell.textLabel.textColor = [UIColor darkGrayColor];
         cell.backgroundColor = [UIColor clearColor];
         cell.textLabel.font         = [UIFont fontWithName:@"AvenirNext-Regular" size:15.f];
+        cell.imageView.image    = [UIImage imageNamed:@"shop"];
+        cell.detailTextLabel.font = [NeediatorUtitity regularFontWithSize:11.f];
+        cell.detailTextLabel.textColor = [UIColor darkGrayColor];
         
     }
     
@@ -250,6 +259,38 @@
         
         [self activateSearchBar];
         [self showLocationScope];
+        
+    }
+    else if (indexPath.section == 1) {
+        
+        NSDictionary *store = [self.storesArray objectAtIndex:indexPath.row];
+        NSString *code = store[@"code"];
+        
+        
+        if (![code isEqual:[NSNull null]]) {
+            
+            [self showHUD];
+            
+            [[NAPIManager sharedManager] requestStoreByCode:code success:^(NSDictionary *store) {
+                // go to storefront page
+                
+                [self hideHUD];
+                
+                
+                // push to store taxon vc.
+                
+                [self pushToStoreFront:store];
+                
+                
+            } failure:^(NSError *error) {
+                
+                [self hideHUD];
+                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+            }];
+            
+        }
+        
+        
         
     }
 }
@@ -420,34 +461,13 @@ didFailAutocompleteWithError:(NSError *)error {
         
     }
     else if (scope == searchScopeStore) {
-            
-            NSDictionary *storeBasicDetails = [result[@"stores"] lastObject];
-            NSDictionary *storeLikes = [result[@"like"] lastObject];
-            NSNumber *liked             = storeLikes[@"liked"];
-            
-            StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
-            storeTaxonsVC.title = [storeBasicDetails[@"name"] capitalizedString];
-            storeTaxonsVC.cat_id = storeBasicDetails[@"catid"];
-            storeTaxonsVC.store_id = storeBasicDetails[@"id"];
-            storeTaxonsVC.storeImages = result[@"images"];
-            storeTaxonsVC.storePhoneNumbers = storeBasicDetails[@"phone"];
-#warning change this static distance with api distance.
-            storeTaxonsVC.storeDistance = @"2 KM";
-            storeTaxonsVC.ratings   = storeBasicDetails[@"ratings"];
-            storeTaxonsVC.reviewsCount = storeBasicDetails[@"reviews_count"];
-            storeTaxonsVC.likeUnlikeArray = [result[@"like"] lastObject];
-            storeTaxonsVC.isFavourite   = NO;
-            storeTaxonsVC.isLikedStore  = liked.boolValue;
-            storeTaxonsVC.isDislikedStore = NO;
-            
-            [self.navigationController pushViewController:storeTaxonsVC animated:YES];
+        [self pushToStoreFront:result];
+        
         }
     
     [self.tableView reloadData];
     
 }
-
-
 
 
 
@@ -467,6 +487,34 @@ didFailAutocompleteWithError:(NSError *)error {
     
     
     
+}
+
+
+
+-(void)pushToStoreFront:(NSDictionary *)result {
+    NSDictionary *storeBasicDetails = [result[@"records"] lastObject];
+    NSDictionary *storeLikes = [storeBasicDetails[@"LikeUnlike"] lastObject];
+    NSNumber *liked             = storeLikes[@"like"];
+    
+    StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
+    storeTaxonsVC.title = [storeBasicDetails[@"name"] capitalizedString];
+    storeTaxonsVC.cat_id = storeBasicDetails[@"catid"];
+    storeTaxonsVC.store_id = storeBasicDetails[@"id"];
+    storeTaxonsVC.storeImages = storeBasicDetails[@"Images"];
+    storeTaxonsVC.storePhoneNumbers = storeBasicDetails[@"phone_no"];
+#warning change this static distance with api distance.
+    storeTaxonsVC.storeDistance = @"2 KM";
+    storeTaxonsVC.ratings   = storeBasicDetails[@"ratings"];
+    storeTaxonsVC.reviewsCount = storeBasicDetails[@"reviews_count"];
+    storeTaxonsVC.likeUnlikeArray = result[@"LikeUnlike"];
+    storeTaxonsVC.isFavourite   = NO;
+    storeTaxonsVC.isLikedStore  = liked.boolValue;
+    storeTaxonsVC.isDislikedStore = NO;
+    
+    //        [self presentViewController:storeTaxonsVC animated:YES completion:nil];
+    
+    
+    [self.navigationController pushViewController:storeTaxonsVC animated:YES];
 }
 
 
@@ -727,6 +775,7 @@ didFailAutocompleteWithError:(NSError *)error {
             
             [location save];
             
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"NeediatorLocationChanged" object:nil];
             [self decorateSelectCurrentLocation];
             
 //            if (self.storesArray.count != 0) {
@@ -844,6 +893,21 @@ didFailAutocompleteWithError:(NSError *)error {
     [self.searchController.searchBar setSelectedScopeButtonIndex:searchScopeLocation];
 }
 
+-(void)showHUD {
+    self.neediatorHUD = [[NeediatorHUD alloc] initWithFrame:self.tableView.frame];
+    self.neediatorHUD.overlayColor = [NeediatorUtitity blurredDefaultColor];
+    [self.neediatorHUD fadeInAnimated:YES];
+    self.neediatorHUD.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2);
+    [self.navigationController.view insertSubview:self.neediatorHUD belowSubview:self.navigationController.navigationBar];
+    
+    
+}
+
+-(void)hideHUD {
+    [self.neediatorHUD fadeOutAnimated:YES];
+    [self.neediatorHUD removeFromSuperview];
+    
+}
 
 
 @end

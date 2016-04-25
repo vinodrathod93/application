@@ -24,6 +24,7 @@
              @"timing"              : @"timing",
              @"minOrder"            : @"charges",
              @"reviews_count"       : @"reviews_count",
+             @"code"                : @"code",
              @"isFavourite"         : @"isfavourite",
              @"isLike"              : @"islike",
              @"isDislike"           : @"dislike",

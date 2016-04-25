@@ -155,7 +155,19 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     
+    
+    
+    // auto sliding of banners
+    
+    [[NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(changeDot:) userInfo:nil repeats:YES] fire];
+    
+    
 }
+
+
+
+
+
 - (IBAction)notificationDidTapped:(id)sender {
     
     NotificationViewController *notificationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationListVC"];
@@ -451,6 +463,20 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         self.headerView.pageControl.currentPage = index;
     }
+}
+
+-(void)scrollToPage:(NSInteger)aPage{
+    float myPageWidth = [self.headerView.scrollView frame].size.width;
+    [self.headerView.scrollView setContentOffset:CGPointMake(aPage*myPageWidth,0) animated:YES];
+}
+
+-(void)changeDot:(id)sender {
+    
+    NSLog(@"%ld and %lu", (long)self.headerView.pageControl.currentPage, (unsigned long)self.promotions.count);
+    
+    [self scrollToPage:self.headerView.pageControl.currentPage%self.promotions.count];
+    
+    self.headerView.pageControl.currentPage++;
 }
 
 #pragma mark - Scroll view Methods

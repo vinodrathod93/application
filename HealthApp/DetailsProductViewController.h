@@ -11,6 +11,7 @@
 #import "ProductDetail.h"
 #import "RMPZoomTransitionAnimator.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "NeediatorPhotoBrowser.h"
 
 
 @interface DetailsProductViewController : UITableViewController<UIScrollViewDelegate, RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>

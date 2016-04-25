@@ -18,6 +18,7 @@
 #import "StoreRealm.h"
 
 
+
 #define FOOTER_HEIGHT 35
 
 @interface DetailsProductViewController ()<NSFetchedResultsControllerDelegate,MWPhotoBrowserDelegate, UIGestureRecognizerDelegate>
@@ -716,7 +717,7 @@ NSString *cellReuseIdentifier;
 {
     [self getPhotosArray];
     
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc]initWithDelegate:self];
+    NeediatorPhotoBrowser *browser = [[NeediatorPhotoBrowser alloc]initWithDelegate:self];
 //    
 //    browser.backgroundColor = [UIColor whiteColor];
 //    browser.navBarTintColor = self.tableView.tintColor;

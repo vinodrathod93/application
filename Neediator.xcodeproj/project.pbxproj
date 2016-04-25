@@ -149,6 +149,8 @@
 		82AA54B31CB68E11009E9717 /* TrackPipelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82AA54B21CB68E11009E9717 /* TrackPipelineView.xib */; };
 		82AA54B61CB68F59009E9717 /* TrackPipelineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA54B51CB68F59009E9717 /* TrackPipelineView.m */; };
 		82AB0C961C2E882100675567 /* EditAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0C951C2E882100675567 /* EditAddressViewController.m */; };
+		82AE1F851CCE320600458CBB /* NeediatorPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AE1F841CCE320600458CBB /* NeediatorPhotoBrowser.m */; };
+		82AE1F881CCE355800458CBB /* NeediatorMWZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AE1F871CCE355800458CBB /* NeediatorMWZoomingScrollView.m */; };
 		82B4245A1C8431BB00664A4B /* UploadPrescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B424591C8431BB00664A4B /* UploadPrescriptionViewController.m */; };
 		82B7AAF01C5D0C0E0031BA8E /* SubCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7AAEF1C5D0C0E0031BA8E /* SubCategoryViewController.m */; };
 		82B7AAF61C5D0CAF0031BA8E /* SubCategoryHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7AAF51C5D0CAF0031BA8E /* SubCategoryHeaderView.m */; };
@@ -549,6 +551,10 @@
 		82AB0C931C2E7B2D00675567 /* NeediatorConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorConstants.h; sourceTree = "<group>"; };
 		82AB0C941C2E882100675567 /* EditAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAddressViewController.h; sourceTree = "<group>"; };
 		82AB0C951C2E882100675567 /* EditAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAddressViewController.m; sourceTree = "<group>"; };
+		82AE1F831CCE320600458CBB /* NeediatorPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorPhotoBrowser.h; sourceTree = "<group>"; };
+		82AE1F841CCE320600458CBB /* NeediatorPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorPhotoBrowser.m; sourceTree = "<group>"; };
+		82AE1F861CCE355800458CBB /* NeediatorMWZoomingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorMWZoomingScrollView.h; sourceTree = "<group>"; };
+		82AE1F871CCE355800458CBB /* NeediatorMWZoomingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorMWZoomingScrollView.m; sourceTree = "<group>"; };
 		82B424581C8431BB00664A4B /* UploadPrescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadPrescriptionViewController.h; sourceTree = "<group>"; };
 		82B424591C8431BB00664A4B /* UploadPrescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadPrescriptionViewController.m; sourceTree = "<group>"; };
 		82B7AAEE1C5D0C0E0031BA8E /* SubCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryViewController.h; sourceTree = "<group>"; };
@@ -1259,6 +1265,10 @@
 			children = (
 				8294E0261CB51B8E00DF2313 /* BookingDIDatePicker.h */,
 				8294E0271CB51B8E00DF2313 /* BookingDIDatePicker.m */,
+				82AE1F831CCE320600458CBB /* NeediatorPhotoBrowser.h */,
+				82AE1F841CCE320600458CBB /* NeediatorPhotoBrowser.m */,
+				82AE1F861CCE355800458CBB /* NeediatorMWZoomingScrollView.h */,
+				82AE1F871CCE355800458CBB /* NeediatorMWZoomingScrollView.m */,
 				82EF2DDB1BE8C55E00D87DE2 /* AppDelegate */,
 				82EF2DB71BE8BD8F00D87DE2 /* Libraries */,
 				82EF2DDA1BE8C46900D87DE2 /* Custom CollectionViews */,
@@ -2401,6 +2411,7 @@
 				829113C11BB90746000DA995 /* Cart.xcdatamodeld in Sources */,
 				82147FC71C452B2800D6691E /* HospitalResponseModel.m in Sources */,
 				82AB0C961C2E882100675567 /* EditAddressViewController.m in Sources */,
+				82AE1F851CCE320600458CBB /* NeediatorPhotoBrowser.m in Sources */,
 				82E07F2F1C906A5500F6480D /* HomeCollectionViewCell.m in Sources */,
 				82B4245A1C8431BB00664A4B /* UploadPrescriptionViewController.m in Sources */,
 				82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */,
@@ -2496,6 +2507,7 @@
 				82C722F61B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m in Sources */,
 				8286B25C1BF0A2BA00AFC533 /* StoresViewCell.m in Sources */,
 				826B14261BC2904700B6A1C3 /* OrderReviewFooterView.m in Sources */,
+				82AE1F881CCE355800458CBB /* NeediatorMWZoomingScrollView.m in Sources */,
 				8286B27A1BF0CFCE00AFC533 /* TaxonomyListResponseModel.m in Sources */,
 				82BD028E1B46A73C00108A0B /* main.m in Sources */,
 				82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */,

@@ -448,30 +448,47 @@
     if (indexPath.section != 0) {
         ListingModel *model = self.listingArray[indexPath.section - 1];
         
-        NSMutableArray *recentStoresArray = [[NSMutableArray alloc] initWithCapacity:10];
-        NSLog(@"%@", [NeediatorUtitity savedDataForKey:kSAVE_RECENT_STORES]);
+        NSMutableArray *recentStoresArray = [[NSMutableArray alloc] init];
         NSArray *savedStores = [NeediatorUtitity savedDataForKey:kSAVE_RECENT_STORES];
         
-        if (savedStores != nil) {
-            
-            [recentStoresArray addObjectsFromArray:savedStores];
-            
-            if ([recentStoresArray containsObject:model]) {
-                [recentStoresArray removeObject:model];
-            }
-        }
         
         NSDictionary *storeData = @{
                                     @"name" : model.name,
                                     @"storeid" : model.list_id,
                                     @"categoryid" : self.category_id,
-                                    @"area" : model.area
+                                    @"area" : model.area,
+                                    @"code" : model.code
                                     };
         
-        [recentStoresArray insertObject:storeData atIndex:0];
+        // check if the saved store has reached limit
+        if (savedStores != nil && savedStores.count < 10) {
+            
+            // copy all saved stores to array
+            [recentStoresArray addObjectsFromArray:savedStores];
+            
+            
+        }
+        else {
+            
+            // copy the first 9 elements and save to array
+            NSRange range = NSMakeRange(0, 9);
+            
+            NSArray *array = [savedStores subarrayWithRange:range];
+            
+            [recentStoresArray addObjectsFromArray:array];
+        }
         
+        // remove duplicates from the array.
+        if ([recentStoresArray containsObject:storeData]) {
+            [recentStoresArray removeObject:storeData];
+        }
+        
+        // finally insert the selected store to array and save it.
+        [recentStoresArray insertObject:storeData atIndex:0];
         [NeediatorUtitity save:recentStoresArray forKey:kSAVE_RECENT_STORES];
         
+        
+        // save the store_id for remembering current store id.
         [NeediatorUtitity save:model.list_id forKey:kSAVE_STORE_ID];
         
         if (_isProductType == TRUE) {
