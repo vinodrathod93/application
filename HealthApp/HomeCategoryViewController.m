@@ -159,7 +159,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     // auto sliding of banners
     
-    [[NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(changeDot:) userInfo:nil repeats:YES] fire];
+   
     
     
 }
@@ -209,20 +209,22 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    // Change tint color in navigation Bar
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
-//    self.navigationItem.rightBarButtonItem = [NeediatorUtitity locationBarButton];
     
-    
+    // Customize TabBar
     [self.tabBarController.tabBar setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
-    
     [self.tabBarController.tabBar setTintColor:[UIColor blackColor]];
-    
     [self.tabBarController.tabBar.items enumerateObjectsUsingBlock:^(UITabBarItem * _Nonnull tabBarItem, NSUInteger idx, BOOL * _Nonnull stop) {
         [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
         [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
     }];
     
+    // automatic sliding of banner
+    
+    [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.0f];
+    
+    // reload to remove all highlighting issues.
     [self.collectionView reloadData];
 }
 
@@ -238,6 +240,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [super viewWillDisappear:animated];
     
     [_task suspend];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(changeDot:) object:nil];
 }
 
 
@@ -472,11 +475,27 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)changeDot:(id)sender {
     
-    NSLog(@"%ld and %lu", (long)self.headerView.pageControl.currentPage, (unsigned long)self.promotions.count);
+//    NSLog(@"%ld and %lu", (long)self.headerView.pageControl.currentPage, (unsigned long)self.promotions.count);
+//    
+//    [self scrollToPage:self.headerView.pageControl.currentPage%self.promotions.count];
+//    
+//    self.headerView.pageControl.currentPage++;
     
-    [self scrollToPage:self.headerView.pageControl.currentPage%self.promotions.count];
+    NSLog(@"changing");
     
-    self.headerView.pageControl.currentPage++;
+    [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.0f];
+    
+    // Calclulate new offset
+    CGPoint pt = self.headerView.scrollView.contentOffset;
+    pt.x += self.headerView.scrollView.frame.size.width;
+    
+    ++self.headerView.pageControl.currentPage;
+    // If it's a last subview in scrollview return back
+    if (!(pt.x < self.headerView.scrollView.contentSize.width)) {
+        pt.x = 0;
+        self.headerView.pageControl.currentPage = 0;
+    }
+    [self.headerView.scrollView setContentOffset:pt animated:YES];
 }
 
 #pragma mark - Scroll view Methods

@@ -1263,12 +1263,7 @@
 		82BD028A1B46A73C00108A0B /* HealthApp */ = {
 			isa = PBXGroup;
 			children = (
-				8294E0261CB51B8E00DF2313 /* BookingDIDatePicker.h */,
-				8294E0271CB51B8E00DF2313 /* BookingDIDatePicker.m */,
-				82AE1F831CCE320600458CBB /* NeediatorPhotoBrowser.h */,
-				82AE1F841CCE320600458CBB /* NeediatorPhotoBrowser.m */,
-				82AE1F861CCE355800458CBB /* NeediatorMWZoomingScrollView.h */,
-				82AE1F871CCE355800458CBB /* NeediatorMWZoomingScrollView.m */,
+				82F1F1151CCFA5BD00AB1B93 /* Overrides */,
 				82EF2DDB1BE8C55E00D87DE2 /* AppDelegate */,
 				82EF2DB71BE8BD8F00D87DE2 /* Libraries */,
 				82EF2DDA1BE8C46900D87DE2 /* Custom CollectionViews */,
@@ -2037,6 +2032,19 @@
 				824AE07F1BF9B1D4008A49A9 /* StoreTaxonsViewController.m */,
 			);
 			name = Taxons;
+			sourceTree = "<group>";
+		};
+		82F1F1151CCFA5BD00AB1B93 /* Overrides */ = {
+			isa = PBXGroup;
+			children = (
+				8294E0261CB51B8E00DF2313 /* BookingDIDatePicker.h */,
+				8294E0271CB51B8E00DF2313 /* BookingDIDatePicker.m */,
+				82AE1F831CCE320600458CBB /* NeediatorPhotoBrowser.h */,
+				82AE1F841CCE320600458CBB /* NeediatorPhotoBrowser.m */,
+				82AE1F861CCE355800458CBB /* NeediatorMWZoomingScrollView.h */,
+				82AE1F871CCE355800458CBB /* NeediatorMWZoomingScrollView.m */,
+			);
+			name = Overrides;
 			sourceTree = "<group>";
 		};
 		82F80CD21C1ED8A600C8E076 /* No Stores View */ = {

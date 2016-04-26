@@ -149,11 +149,11 @@
     
     _searchController.searchResultsUpdater       = self;
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        _searchController.modalPresentationStyle = UIModalPresentationPopover;
-    } else {
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+//        _searchController.modalPresentationStyle = UIModalPresentationPopover;
+//    } else {
         _searchController.modalPresentationStyle = UIModalPresentationFullScreen;
-    }
+//    }
 }
 
 

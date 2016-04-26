@@ -14,6 +14,7 @@
 
 
 @property (nonatomic, strong) AVCaptureSession *captureSession;
+@property (nonatomic, strong) AVCaptureMetadataOutput *captureMetadataOutput;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 @property (nonatomic) BOOL isReading;
@@ -33,7 +34,28 @@
     
     [self startStopReading];
     
+//    self.overlayImageView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if (self.view.frame.size.width <= 768) {
+            self.overlayImageView.image = [UIImage imageNamed:@"iPad-768x1024"];
+        }
+        else if (self.view.frame.size.width >= 1536) {
+            self.overlayImageView.image = [UIImage imageNamed:@"iPad-1536x2048"];
+        }
+    }
+    else {
+        if (self.view.frame.size.width <= 750) {
+            self.overlayImageView.image = [UIImage imageNamed:@"iPhone6_(750 x 1334)"];
+        }
+        else if (self.view.frame.size.width >= 1242) {
+            self.overlayImageView.image = [UIImage imageNamed:@"iPhone6_plus(1242 x 2208)"];
+        }
+    }
+    
     [self.view bringSubviewToFront:self.overlayImageView];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(avCaptureInputPortFormatDescriptionDidChangeNotification:) name:AVCaptureInputPortFormatDescriptionDidChangeNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,6 +71,14 @@
     [tracker set:kGAIScreenName value:@"QRCode Screen"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
+
+
+//-(void)avCaptureInputPortFormatDescriptionDidChangeNotification:(NSNotification *)notification {
+//    
+//    CGFloat width = CGRectGetWidth(self.view.frame);
+//    CGFloat height = CGRectGetHeight(self.view.frame);
+//    _captureMetadataOutput.rectOfInterest = CGRectMake(width/4, height/7, 400, 400);
+//}
 
 -(void)startStopReading {
     
@@ -102,19 +132,34 @@
     
     
     // Initialize a AVCaptureMetadataOutput object and set it as the output device to the capture session.
-    AVCaptureMetadataOutput *captureMetadataOutput = [[AVCaptureMetadataOutput alloc] init];
-    [_captureSession addOutput:captureMetadataOutput];
+    _captureMetadataOutput = [[AVCaptureMetadataOutput alloc] init];
+    [_captureSession addOutput:_captureMetadataOutput];
     
     // Create a new serial dispatch queue.
     dispatch_queue_t dispatchQueue;
     dispatchQueue = dispatch_queue_create("myQueue", NULL);
-    [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatchQueue];
-    [captureMetadataOutput setMetadataObjectTypes:[NSArray arrayWithObject:AVMetadataObjectTypeQRCode]];
+    [_captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatchQueue];
+    [_captureMetadataOutput setMetadataObjectTypes:[NSArray arrayWithObject:AVMetadataObjectTypeQRCode]];
     
     // Initialize the video preview layer and add it as a sublayer to the viewPreview view's layer.
     _videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
     [_videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
     [_videoPreviewLayer setFrame:self.view.layer.bounds];
+    
+    
+    
+//    CGFloat width = CGRectGetWidth(self.view.frame);
+//    CGFloat height = CGRectGetHeight(self.view.frame);
+    
+    
+//    CGRect visibleMetaDataOutputRect = [_videoPreviewLayer metadataOutputRectOfInterestForRect:CGRectMake(width/4, height/7, 400, 400)];
+//    
+//    
+//    [_captureMetadataOutput setRectOfInterest:visibleMetaDataOutputRect];
+//    
+//    NSLog(@"%@", NSStringFromCGRect(CGRectMake(width/4, height/7, 400, 400)));
+    
+    
     [self.view.layer addSublayer:_videoPreviewLayer];
     
     
@@ -164,6 +209,9 @@
     if (metadataObjects != nil && [metadataObjects count] > 0) {
         // Get the metadata object.
         AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
+        
+        
+        
         if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode]) {
             // If the found metadata is equal to the QR code metadata then update the status label's text,
             // stop reading and change the bar button item's title and the flag's value.
@@ -184,8 +232,6 @@
     
     
 }
-
-
 
 
 
