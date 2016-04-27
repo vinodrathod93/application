@@ -11,7 +11,6 @@
 #import "APIManager.h"
 #import "MyOrdersModel.h"
 #import "LineItemsModel.h"
-//#import "VariantImagesModel.h"
 #import "CustomCollectionViewCell.h"
 #import "TrackPipelineView.h"
 
@@ -136,9 +135,14 @@
     cell.n_orderAmount.text = [NSString stringWithFormat:@"Rs.%@",model.orderTotal];
     cell.n_orderNumber.text = model.orderNumber;
     cell.n_orderStatus.text = model.orderState;
+    cell.storeImage = @"http://www.ourcommunitystores.com/images/community_stores_online_shopping.jpg";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    
+    [cell hideButtonsSeenAfter7Days:YES];
+    
     [cell.trackButton addTarget:self action:@selector(showTrackView:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.beforeCompleteTrackOrderButton addTarget:self action:@selector(showTrackView:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
@@ -147,22 +151,25 @@
 
 -(void)showTrackView:(UIButton *)sender {
     
+    
     _isTrackTapped = !_isTrackTapped;
     
     MyOrdersCell *cell = (MyOrdersCell *)[[sender superview] superview];
     
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    if (![cell isKindOfClass:[MyOrdersCell class]]) {
+        cell = (MyOrdersCell *)[[[sender superview] superview] superview];
+    }
     
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
     MyOrdersModel *model = _orders[indexPath.section];
     model.isExpanded = _isTrackTapped;
     
-    TrackPipelineView *trackView = [[[NSBundle mainBundle] loadNibNamed:@"TrackPipelineView" owner:self options:nil] lastObject];
-    
+    TrackPipelineView *trackView = [[[NSBundle mainBundle] loadNibNamed:@"TrackPipelineView" owner:self options:nil] firstObject];
+    [trackView drawCurrentOrderState:model.orderState orderDateTime:model.completed_date withCode:model.statusCode.intValue];
     [cell.contentView addSubview:trackView];
     
-    trackView.frame = CGRectMake(0, 230, self.view.frame.size.width, 228);
-    
+    trackView.frame = CGRectMake(0, 230, self.view.frame.size.width, 186);
     
     
     [self.tableView beginUpdates];
@@ -179,7 +186,6 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     MyOrdersModel *model = _orders[indexPath.section];
-    
     
     if (model.isExpanded) {
         return 228+230;

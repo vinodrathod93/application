@@ -24,6 +24,7 @@
         self.contentView.layer.borderColor = [UIColor clearColor].CGColor;
         self.contentView.layer.masksToBounds = YES;
         
+        
         self.layer.shadowColor = [UIColor blackColor].CGColor;
         self.layer.shadowOffset = CGSizeMake(0, 5.f);
         self.layer.shadowOpacity = 1.0f;

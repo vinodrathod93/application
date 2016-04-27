@@ -30,4 +30,40 @@
     self.pipelineView.layer.masksToBounds = YES;
 }
 
+
+-(void)drawCurrentOrderState:(NSString *)orderState orderDateTime:(NSString *)dateTime withCode:(int)statusCode {
+    CGFloat actualHeight = self.pipelineView.frame.size.height;
+    
+    NSString *value = [NSString stringWithFormat:@"0.%d",statusCode];
+    CGFloat toDrawHeight = actualHeight * value.floatValue;
+    
+    
+    
+    
+    self.pipelineView.currentHeight = toDrawHeight;
+    [self.pipelineView setNeedsDisplay];
+    
+    
+    
+    if (statusCode < self.stages.count) {
+        
+        
+        NSString *date = [NeediatorUtitity getFormattedDate:dateTime];
+        NSString *time = [NeediatorUtitity getFormattedTime:dateTime];
+        
+//        int ceilInt = (int)value.floatValue;
+        
+        UIButton *button = self.stages[statusCode-1];
+        UIImageView *imageView = self.stageImages[statusCode-1];
+        
+        NSString *currentOrderState = [NSString stringWithFormat:@"(%@, %@) %@",date, time, button.titleLabel.text];
+        
+        [button setTitle:currentOrderState forState:UIControlStateNormal];
+        [imageView setImage:[UIImage imageNamed:@"icon"]];
+        
+    }
+    
+    
+    
+}
 @end

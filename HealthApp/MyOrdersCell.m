@@ -26,18 +26,25 @@
 //    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 //    self.n_collectionView = [[HorizontalCollectionView alloc] initWithFrame:CGRectMake(8, 84, CGRectGetWidth(self.bounds) - (2 * 8), 100) collectionViewLayout:layout];
     
-    self.n_collectionView.backgroundColor = [UIColor whiteColor];
+    self.n_collectionView.backgroundColor = [UIColor clearColor];
+    
     [self.n_collectionView registerClass:[CustomCollectionViewCell class] forCellWithReuseIdentifier:@"MyOrderCollectionViewCellIdentifier"];
     self.n_collectionView.showsHorizontalScrollIndicator = NO;
     
     
-    self.returnButton.layer.cornerRadius = 5.f;
-    self.replaceButton.layer.cornerRadius = 5.f;
-    self.trackButton.layer.cornerRadius = 5.f;
+    self.returnButton.layer.cornerRadius        = 5.f;
+    self.replaceButton.layer.cornerRadius       = 5.f;
+    self.trackButton.layer.cornerRadius         = 5.f;
+    self.cancelOrderButton.layer.cornerRadius   = 5.f;
+    self.beforeCompleteTrackOrderButton.layer.cornerRadius = 5.f;
     
-    self.returnButton.layer.masksToBounds = YES;
-    self.replaceButton.layer.masksToBounds = YES;
-    self.trackButton.layer.masksToBounds = YES;
+    
+    
+    self.returnButton.layer.masksToBounds       = YES;
+    self.replaceButton.layer.masksToBounds      = YES;
+    self.trackButton.layer.masksToBounds        = YES;
+    self.cancelOrderButton.layer.masksToBounds  = YES;
+    self.beforeCompleteTrackOrderButton.layer.masksToBounds = YES;
     
     
 
@@ -104,5 +111,41 @@
     [self.n_collectionView reloadData];
 }
 
+
+-(void)hideButtonsSeenAfter7Days:(BOOL)hide {
+    if (hide) {
+        self.returnButton.hidden    = hide;
+        self.replaceButton.hidden   = hide;
+        self.trackButton.hidden     = hide;
+    }
+    else {
+        self.returnButton.hidden = !hide;
+        self.replaceButton.hidden = !hide;
+        self.trackButton.hidden = !hide;
+    }
+}
+
+-(void)hideButtonsAndViewSeenBefore7Days:(BOOL)hide {
+    if (hide) {
+        self.cancelOrderButton.hidden               = hide;
+        self.beforeCompleteTrackOrderButton.hidden  = hide;
+        self.beforeCompleteOptionView.hidden        = hide;
+    }
+    else {
+        self.cancelOrderButton.hidden               = !hide;
+        self.beforeCompleteTrackOrderButton.hidden  = !hide;
+        self.beforeCompleteOptionView.hidden        = !hide;
+    }
+}
+
+-(void)setStoreImage:(NSString *)storeImage {
+    
+//    UIImageView *backgroundImage = [[UIImageView alloc] initWithFrame:self.n_collectionView.frame];
+//    [backgroundImage sd_setImageWithURL:[NSURL URLWithString:storeImage]];
+//    [backgroundImage setAlpha:0.2];
+    
+    [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:storeImage]];
+    [self.storeImageView setAlpha:0.2];
+}
 
 @end

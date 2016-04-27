@@ -140,7 +140,16 @@
     return nil;
 }
 
++ (void)clearDataForKey:(NSString *)key
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:key];
+    [defaults synchronize];
+}
 
+
+
+#pragma mark - Views
 
 + (UIView *)showDimViewWithFrame:(CGRect)frame {
     UIView *dimView = [[UIView alloc] initWithFrame:frame];
@@ -151,12 +160,9 @@
 
 
 
-+ (void)clearDataForKey:(NSString *)key
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:key];
-    [defaults synchronize];
-}
+
+
+#pragma mark - Color
 
 +(UIColor *)defaultColor {
     return [UIColor colorWithRed:235/255.f green:235/255.f blue:240/255.f alpha:1.0];
@@ -172,4 +178,39 @@
     return [UIColor colorWithRed:247/255.f green:247/255.f blue:249/255.f alpha:1.0];
 }
 
+
+#pragma mark - Functions 
+
+
+
++(NSString *)getFormattedDate:(NSString *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSS'Z'"];
+    
+    NSDate *completedDate = [dateFormatter dateFromString:date];
+    
+    [dateFormatter setDateFormat:@"EEEE, MMMM dd, yyyy"];
+    NSString *dateString = [dateFormatter stringFromDate:completedDate];
+    
+    
+    return dateString;
+}
+
+
++(NSString *)getFormattedTime:(NSString *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSS'Z'"];
+    
+    NSDate *completedDate = [dateFormatter dateFromString:date];
+    
+    
+    [dateFormatter setDateFormat:@"hh:mm a"];
+    NSString *timeString = [dateFormatter stringFromDate:completedDate];
+    
+    return timeString;
+}
+
+
+
+//+(void)checkRunningTask:(NSURLSessionDataTask *)task WithCompletion:()
 @end

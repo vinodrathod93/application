@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NATextView.h"
 
 @interface CallBackViewController : UIViewController
 
@@ -17,4 +18,5 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 
+@property (weak, nonatomic) IBOutlet NATextView *problemTextView;
 @end

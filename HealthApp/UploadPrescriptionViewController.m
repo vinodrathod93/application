@@ -404,13 +404,13 @@
             if (![_selectedDeliveryID isEqual:@1]) {
                 // hide time.
                 
-                self.deliveryTypeButton.hidden = YES;
-                self.deliveryTypeButton.hidden = YES;
+                self.addressLabel.hidden = YES;
+                self.addressButton.hidden = YES;
             
             }
             else {
-                self.deliveryTypeButton.hidden = NO;
-                self.deliveryTypeButton.hidden = NO;
+                self.addressButton.hidden = NO;
+                self.addressLabel.hidden = NO;
             }
         }];
         

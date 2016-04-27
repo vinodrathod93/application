@@ -14,15 +14,11 @@
 		6795F0AB1C9C8F6200984A92 /* FilterListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AA1C9C8F6200984A92 /* FilterListModel.m */; };
 		6795F0AE1C9C93A500984A92 /* FilterHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */; };
 		82041C261CA9118A007F3B3C /* NeediatorHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 82041C251CA9118A007F3B3C /* NeediatorHUD.m */; };
-		820883211C9C1E23000FDCB2 /* icon0.png in Resources */ = {isa = PBXBuildFile; fileRef = 820883191C9C1E23000FDCB2 /* icon0.png */; };
-		820883221C9C1E23000FDCB2 /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831A1C9C1E23000FDCB2 /* icon1.png */; };
-		820883231C9C1E23000FDCB2 /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831B1C9C1E23000FDCB2 /* icon2.png */; };
-		820883241C9C1E23000FDCB2 /* icon3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831C1C9C1E23000FDCB2 /* icon3.png */; };
-		820883251C9C1E23000FDCB2 /* icon4.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831D1C9C1E23000FDCB2 /* icon4.png */; };
-		820883261C9C1E23000FDCB2 /* icon5.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831E1C9C1E23000FDCB2 /* icon5.png */; };
-		820883271C9C1E23000FDCB2 /* icon6.png in Resources */ = {isa = PBXBuildFile; fileRef = 8208831F1C9C1E23000FDCB2 /* icon6.png */; };
-		820883281C9C1E23000FDCB2 /* icon7.png in Resources */ = {isa = PBXBuildFile; fileRef = 820883201C9C1E23000FDCB2 /* icon7.png */; };
-		8208832A1C9C20E8000FDCB2 /* iconGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 820883291C9C20E8000FDCB2 /* iconGreen.png */; };
+		820D4C0F1CD0A246002F137D /* NATextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 820D4C0E1CD0A246002F137D /* NATextView.m */; };
+		820D4C191CD0CE3A002F137D /* CancelOrderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 820D4C181CD0CE3A002F137D /* CancelOrderView.m */; };
+		820D4C1B1CD0CE81002F137D /* CancelOrderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 820D4C1A1CD0CE81002F137D /* CancelOrderView.xib */; };
+		820D4C1D1CD0CEA5002F137D /* icon7.png in Resources */ = {isa = PBXBuildFile; fileRef = 820D4C1C1CD0CEA5002F137D /* icon7.png */; };
+		820D4C201CD0E660002F137D /* PipelineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 820D4C1F1CD0E660002F137D /* PipelineView.m */; };
 		821415801C99819900FDEFDB /* MapLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8214157F1C99819900FDEFDB /* MapLocationViewController.m */; };
 		82147FB71C45230D00D6691E /* ChemistResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FB61C45230D00D6691E /* ChemistResponseModel.m */; };
 		82147FBA1C45272B00D6691E /* ListingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FB91C45272B00D6691E /* ListingModel.m */; };
@@ -196,7 +192,6 @@
 		82D3840F1C2C0DB700D05FB7 /* PaymentDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D3840E1C2C0DB700D05FB7 /* PaymentDetailViewCell.m */; };
 		82D47D281CABF839006B7996 /* behind_alert_view.png in Resources */ = {isa = PBXBuildFile; fileRef = 82D47D271CABF839006B7996 /* behind_alert_view.png */; };
 		82D47D2F1CABF928006B7996 /* OffersPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D47D2E1CABF928006B7996 /* OffersPopViewController.m */; };
-		82D5891E1CBE8B4C0051A074 /* NeediatorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D5891D1CBE8B4C0051A074 /* NeediatorScrollView.m */; };
 		82D65ADF1CC510E700A24A30 /* CallBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D65ADE1CC510E700A24A30 /* CallBackViewController.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
 		82DCBED11C4CEFE7005EBDB3 /* ListingResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED01C4CEFE7005EBDB3 /* ListingResponseModel.m */; };
@@ -311,15 +306,14 @@
 		6A16AC5A4C6DEBE2546E9713 /* libPods-Neediator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82041C241CA9118A007F3B3C /* NeediatorHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorHUD.h; sourceTree = "<group>"; };
 		82041C251CA9118A007F3B3C /* NeediatorHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorHUD.m; sourceTree = "<group>"; };
-		820883191C9C1E23000FDCB2 /* icon0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon0.png; sourceTree = "<group>"; };
-		8208831A1C9C1E23000FDCB2 /* icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1.png; sourceTree = "<group>"; };
-		8208831B1C9C1E23000FDCB2 /* icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon2.png; sourceTree = "<group>"; };
-		8208831C1C9C1E23000FDCB2 /* icon3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon3.png; sourceTree = "<group>"; };
-		8208831D1C9C1E23000FDCB2 /* icon4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon4.png; sourceTree = "<group>"; };
-		8208831E1C9C1E23000FDCB2 /* icon5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon5.png; sourceTree = "<group>"; };
-		8208831F1C9C1E23000FDCB2 /* icon6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon6.png; sourceTree = "<group>"; };
-		820883201C9C1E23000FDCB2 /* icon7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon7.png; sourceTree = "<group>"; };
-		820883291C9C20E8000FDCB2 /* iconGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconGreen.png; sourceTree = "<group>"; };
+		820D4C0D1CD0A246002F137D /* NATextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NATextView.h; sourceTree = "<group>"; };
+		820D4C0E1CD0A246002F137D /* NATextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NATextView.m; sourceTree = "<group>"; };
+		820D4C171CD0CE3A002F137D /* CancelOrderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelOrderView.h; sourceTree = "<group>"; };
+		820D4C181CD0CE3A002F137D /* CancelOrderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelOrderView.m; sourceTree = "<group>"; };
+		820D4C1A1CD0CE81002F137D /* CancelOrderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelOrderView.xib; sourceTree = "<group>"; };
+		820D4C1C1CD0CEA5002F137D /* icon7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon7.png; sourceTree = "<group>"; };
+		820D4C1E1CD0E660002F137D /* PipelineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PipelineView.h; sourceTree = "<group>"; };
+		820D4C1F1CD0E660002F137D /* PipelineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PipelineView.m; sourceTree = "<group>"; };
 		8214157E1C99819900FDEFDB /* MapLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLocationViewController.h; sourceTree = "<group>"; };
 		8214157F1C99819900FDEFDB /* MapLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLocationViewController.m; sourceTree = "<group>"; };
 		82147FB51C45230D00D6691E /* ChemistResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemistResponseModel.h; sourceTree = "<group>"; };
@@ -639,8 +633,6 @@
 		82D47D271CABF839006B7996 /* behind_alert_view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = behind_alert_view.png; sourceTree = "<group>"; };
 		82D47D2D1CABF928006B7996 /* OffersPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OffersPopViewController.h; sourceTree = "<group>"; };
 		82D47D2E1CABF928006B7996 /* OffersPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OffersPopViewController.m; sourceTree = "<group>"; };
-		82D5891C1CBE8B4C0051A074 /* NeediatorScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorScrollView.h; sourceTree = "<group>"; };
-		82D5891D1CBE8B4C0051A074 /* NeediatorScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorScrollView.m; sourceTree = "<group>"; };
 		82D65ADD1CC510E700A24A30 /* CallBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallBackViewController.h; sourceTree = "<group>"; };
 		82D65ADE1CC510E700A24A30 /* CallBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallBackViewController.m; sourceTree = "<group>"; };
 		82D6EE301C1802B6007CE5F2 /* NeediatorAPIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorAPIKey.h; sourceTree = "<group>"; };
@@ -779,6 +771,76 @@
 				827026DD1BC650840054E16F /* Reachability.m */,
 			);
 			name = Reachability;
+			sourceTree = "<group>";
+		};
+		820D4C101CD0B966002F137D /* Orders */ = {
+			isa = PBXGroup;
+			children = (
+				82AA54B21CB68E11009E9717 /* TrackPipelineView.xib */,
+				82AA54B41CB68F59009E9717 /* TrackPipelineView.h */,
+				82AA54B51CB68F59009E9717 /* TrackPipelineView.m */,
+				820D4C171CD0CE3A002F137D /* CancelOrderView.h */,
+				820D4C181CD0CE3A002F137D /* CancelOrderView.m */,
+				820D4C1A1CD0CE81002F137D /* CancelOrderView.xib */,
+				820D4C1E1CD0E660002F137D /* PipelineView.h */,
+				820D4C1F1CD0E660002F137D /* PipelineView.m */,
+			);
+			name = Orders;
+			sourceTree = "<group>";
+		};
+		820D4C111CD0B971002F137D /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				820D4C1C1CD0CEA5002F137D /* icon7.png */,
+				82041C241CA9118A007F3B3C /* NeediatorHUD.h */,
+				82041C251CA9118A007F3B3C /* NeediatorHUD.m */,
+			);
+			name = HUD;
+			sourceTree = "<group>";
+		};
+		820D4C121CD0B979002F137D /* NEntity */ = {
+			isa = PBXGroup;
+			children = (
+				82681EAB1C50B8FA00035E6E /* NEntityDetailCell.h */,
+				82681EAC1C50B8FA00035E6E /* NEntityDetailCell.m */,
+			);
+			name = NEntity;
+			sourceTree = "<group>";
+		};
+		820D4C131CD0B982002F137D /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				82157D441CAD3D21005A812B /* UploadPrsCollectionViewCell.h */,
+				82157D451CAD3D21005A812B /* UploadPrsCollectionViewCell.m */,
+			);
+			name = Upload;
+			sourceTree = "<group>";
+		};
+		820D4C141CD0B994002F137D /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				82E07F2D1C906A5500F6480D /* HomeCollectionViewCell.h */,
+				82E07F2E1C906A5500F6480D /* HomeCollectionViewCell.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		820D4C151CD0B9A5002F137D /* Offers */ = {
+			isa = PBXGroup;
+			children = (
+				82D47D2D1CABF928006B7996 /* OffersPopViewController.h */,
+				82D47D2E1CABF928006B7996 /* OffersPopViewController.m */,
+			);
+			name = Offers;
+			sourceTree = "<group>";
+		};
+		820D4C161CD0B9FF002F137D /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				8267AB9E1CB29E6C00CF1632 /* NotificationViewController.h */,
+				8267AB9F1CB29E6C00CF1632 /* NotificationViewController.m */,
+			);
+			name = Notification;
 			sourceTree = "<group>";
 		};
 		82147FBE1C452A7E00D6691E /* Meta Model */ = {
@@ -1152,15 +1214,6 @@
 			name = More;
 			sourceTree = "<group>";
 		};
-		82A2659D1C21848A0031BDC9 /* Custom TextField */ = {
-			isa = PBXGroup;
-			children = (
-				82A2659A1C2169B50031BDC9 /* NTextField.h */,
-				82A2659B1C2169B50031BDC9 /* NTextField.m */,
-			);
-			name = "Custom TextField";
-			sourceTree = "<group>";
-		};
 		82A265A11C2195B10031BDC9 /* My Orders */ = {
 			isa = PBXGroup;
 			children = (
@@ -1278,6 +1331,7 @@
 				82BD02951B46A73C00108A0B /* Main.storyboard */,
 				82BD029A1B46A73C00108A0B /* LaunchScreen.xib */,
 				827FD14A1C455D16000EB0A4 /* Neediator_Logo_Final.png */,
+				82D47D271CABF839006B7996 /* behind_alert_view.png */,
 				82BD02981B46A73C00108A0B /* Images.xcassets */,
 				827632861B4A3DC900230833 /* Frameworks */,
 				82BD028B1B46A73C00108A0B /* Supporting Files */,
@@ -1593,14 +1647,10 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				82D47D271CABF839006B7996 /* behind_alert_view.png */,
 				8267AB691CB2663A00CF1632 /* QR Code */,
 				8267AB6A1CB2664300CF1632 /* Filter */,
 				8267AB6B1CB2664D00CF1632 /* Map */,
-				82C3F5631C8DCD2300BA266D /* SearchResultsTableViewController.h */,
-				82C3F5641C8DCD2300BA266D /* SearchResultsTableViewController.m */,
-				82D47D2D1CABF928006B7996 /* OffersPopViewController.h */,
-				82D47D2E1CABF928006B7996 /* OffersPopViewController.m */,
+				820D4C151CD0B9A5002F137D /* Offers */,
 				82C3F5621C8DCCDD00BA266D /* Upload Prescription */,
 				82C3F5611C8DCCD000BA266D /* Checkout */,
 				82C3F5601C8DCCC500BA266D /* SubCategory */,
@@ -1610,10 +1660,7 @@
 				82A1D3D71C5633D800E6B1D3 /* Entity Details Page */,
 				82ED53E11C4FB3B700FA7707 /* Spree */,
 				8267AB6C1CB2666200CF1632 /* Favourites */,
-				8267AB9E1CB29E6C00CF1632 /* NotificationViewController.h */,
-				8267AB9F1CB29E6C00CF1632 /* NotificationViewController.m */,
-				82C6FC351CBD0B5800DF1C9A /* EditProfileViewController.h */,
-				82C6FC361CBD0B5800DF1C9A /* EditProfileViewController.m */,
+				820D4C161CD0B9FF002F137D /* Notification */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1709,6 +1756,8 @@
 			children = (
 				823C46B11B73934F00E37DBE /* MyAccountViewController.h */,
 				823C46B21B73934F00E37DBE /* MyAccountViewController.m */,
+				82C6FC351CBD0B5800DF1C9A /* EditProfileViewController.h */,
+				82C6FC361CBD0B5800DF1C9A /* EditProfileViewController.m */,
 			);
 			name = "My Account";
 			sourceTree = "<group>";
@@ -1770,10 +1819,7 @@
 		82EF2DCA1BE8C0AF00D87DE2 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
-				82D5891C1CBE8B4C0051A074 /* NeediatorScrollView.h */,
-				82D5891D1CBE8B4C0051A074 /* NeediatorScrollView.m */,
-				82E07F2D1C906A5500F6480D /* HomeCollectionViewCell.h */,
-				82E07F2E1C906A5500F6480D /* HomeCollectionViewCell.m */,
+				820D4C141CD0B994002F137D /* Home */,
 				82EA19861C297610001EBA16 /* Connection Error */,
 				82FB52091C281B0800E19626 /* Login View */,
 				82A265A11C2195B10031BDC9 /* My Orders */,
@@ -1781,7 +1827,6 @@
 				8286B2591BF0A2A400AFC533 /* Stores */,
 				82EF2DD41BE8C27100D87DE2 /* Add Address */,
 				82EF2DD31BE8C1D200D87DE2 /* Order Review */,
-				82EF2DD21BE8C18200D87DE2 /* Product List */,
 				82EF2DD11BE8C16B00D87DE2 /* Product Details */,
 				82EF2DD01BE8C14E00D87DE2 /* Cart */,
 				82EF2DCF1BE8C13A00D87DE2 /* My Account */,
@@ -1790,17 +1835,11 @@
 				82EF2DCB1BE8C0D100D87DE2 /* Addresses */,
 				82EF2DCC1BE8C0DA00D87DE2 /* Doctor Details */,
 				82F80CD21C1ED8A600C8E076 /* No Stores View */,
-				82A2659D1C21848A0031BDC9 /* Custom TextField */,
 				826F074E1C524A1A0033DD09 /* Listing */,
-				82681EAB1C50B8FA00035E6E /* NEntityDetailCell.h */,
-				82681EAC1C50B8FA00035E6E /* NEntityDetailCell.m */,
-				82041C241CA9118A007F3B3C /* NeediatorHUD.h */,
-				82041C251CA9118A007F3B3C /* NeediatorHUD.m */,
-				82157D441CAD3D21005A812B /* UploadPrsCollectionViewCell.h */,
-				82157D451CAD3D21005A812B /* UploadPrsCollectionViewCell.m */,
-				82AA54B21CB68E11009E9717 /* TrackPipelineView.xib */,
-				82AA54B41CB68F59009E9717 /* TrackPipelineView.h */,
-				82AA54B51CB68F59009E9717 /* TrackPipelineView.m */,
+				820D4C121CD0B979002F137D /* NEntity */,
+				820D4C111CD0B971002F137D /* HUD */,
+				820D4C131CD0B982002F137D /* Upload */,
+				820D4C101CD0B966002F137D /* Orders */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1957,6 +1996,7 @@
 		82EF2DDA1BE8C46900D87DE2 /* Custom CollectionViews */ = {
 			isa = PBXGroup;
 			children = (
+				82EF2DD21BE8C18200D87DE2 /* Product List */,
 				82A1D3CD1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.h */,
 				82A1D3CE1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.m */,
 				8250A3251B54E9D70026ADCE /* HeaderSliderView.h */,
@@ -1972,15 +2012,6 @@
 		82EF2DDB1BE8C55E00D87DE2 /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
-				820883291C9C20E8000FDCB2 /* iconGreen.png */,
-				820883191C9C1E23000FDCB2 /* icon0.png */,
-				8208831A1C9C1E23000FDCB2 /* icon1.png */,
-				8208831B1C9C1E23000FDCB2 /* icon2.png */,
-				8208831C1C9C1E23000FDCB2 /* icon3.png */,
-				8208831D1C9C1E23000FDCB2 /* icon4.png */,
-				8208831E1C9C1E23000FDCB2 /* icon5.png */,
-				8208831F1C9C1E23000FDCB2 /* icon6.png */,
-				820883201C9C1E23000FDCB2 /* icon7.png */,
 				82BD028F1B46A73C00108A0B /* AppDelegate.h */,
 				82BD02901B46A73C00108A0B /* AppDelegate.m */,
 				82C722F41B7B1B7600E0C5EF /* RootTabBarControllerDelegate.h */,
@@ -2037,6 +2068,10 @@
 		82F1F1151CCFA5BD00AB1B93 /* Overrides */ = {
 			isa = PBXGroup;
 			children = (
+				82A2659A1C2169B50031BDC9 /* NTextField.h */,
+				82A2659B1C2169B50031BDC9 /* NTextField.m */,
+				820D4C0D1CD0A246002F137D /* NATextView.h */,
+				820D4C0E1CD0A246002F137D /* NATextView.m */,
 				8294E0261CB51B8E00DF2313 /* BookingDIDatePicker.h */,
 				8294E0271CB51B8E00DF2313 /* BookingDIDatePicker.m */,
 				82AE1F831CCE320600458CBB /* NeediatorPhotoBrowser.h */,
@@ -2060,6 +2095,8 @@
 		82F80CD31C1EDD3200C8E076 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				82C3F5631C8DCD2300BA266D /* SearchResultsTableViewController.h */,
+				82C3F5641C8DCD2300BA266D /* SearchResultsTableViewController.m */,
 				82CE35E21C15B7E1003744C9 /* SearchViewController.h */,
 				82CE35E31C15B7E1003744C9 /* SearchViewController.m */,
 			);
@@ -2275,31 +2312,24 @@
 			files = (
 				826212F61BFB25BC00F75254 /* BannerView.xib in Resources */,
 				824C25531B56374900C58F97 /* Categories.plist in Resources */,
-				8208832A1C9C20E8000FDCB2 /* iconGreen.png in Resources */,
 				823F71B11C1B206E00E43731 /* NoStores.xib in Resources */,
-				820883271C9C1E23000FDCB2 /* icon6.png in Resources */,
 				82D47D281CABF839006B7996 /* behind_alert_view.png in Resources */,
 				827FD14B1C455D16000EB0A4 /* Neediator_Logo_Final.png in Resources */,
-				820883221C9C1E23000FDCB2 /* icon1.png in Resources */,
 				82FB520E1C281B3300E19626 /* LoginView.xib in Resources */,
-				820883211C9C1E23000FDCB2 /* icon0.png in Resources */,
 				82BD02971B46A73C00108A0B /* Main.storyboard in Resources */,
 				82C36C5B1C81DA900038EA5F /* TaxonHeaderView.xib in Resources */,
+				820D4C1B1CD0CE81002F137D /* CancelOrderView.xib in Resources */,
 				82217C481C96D4FA002570E3 /* StoreOptionsView.xib in Resources */,
 				82D0A7671CAFCB39000456D8 /* GoogleService-Info.plist in Resources */,
 				82217C461C96CE50002570E3 /* StoreReviewsView.xib in Resources */,
 				82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */,
 				82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */,
 				82AA54B31CB68E11009E9717 /* TrackPipelineView.xib in Resources */,
-				820883241C9C1E23000FDCB2 /* icon3.png in Resources */,
 				82217C4A1C96E293002570E3 /* UploadPrescriptionCellView.xib in Resources */,
+				820D4C1D1CD0CEA5002F137D /* icon7.png in Resources */,
 				82BD02991B46A73C00108A0B /* Images.xcassets in Resources */,
 				826B14281BC2906800B6A1C3 /* OrderReviewFooterView.xib in Resources */,
-				820883261C9C1E23000FDCB2 /* icon5.png in Resources */,
-				820883251C9C1E23000FDCB2 /* icon4.png in Resources */,
 				82EA19881C297639001EBA16 /* NoConnectionView.xib in Resources */,
-				820883281C9C1E23000FDCB2 /* icon7.png in Resources */,
-				820883231C9C1E23000FDCB2 /* icon2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2435,6 +2465,7 @@
 				82EA68031C43BC9000F9924D /* DoctorResponseModel.m in Sources */,
 				82E50A001CAE9C1A0013289F /* FavouritesResponseModel.m in Sources */,
 				82F856D31C80833B000B68A9 /* StateCityResponseModel.m in Sources */,
+				820D4C191CD0CE3A002F137D /* CancelOrderView.m in Sources */,
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
 				82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */,
 				82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */,
@@ -2479,6 +2510,7 @@
 				82CC99431C8863CA00F06EB3 /* MainPromotionRealm.m in Sources */,
 				82327F771B60F9A800D92889 /* CartViewCell.m in Sources */,
 				82A542861C22B00800383253 /* LineItemsModel.m in Sources */,
+				820D4C0F1CD0A246002F137D /* NATextView.m in Sources */,
 				8286B2741BF0CF7500AFC533 /* TaxonModel.m in Sources */,
 				8233CE161B874FB200B5279B /* PaymentViewCell.m in Sources */,
 				823C46B01B7392FE00E37DBE /* ProfileViewCell.m in Sources */,
@@ -2489,7 +2521,6 @@
 				823C46A91B73327600E37DBE /* DoctorDetailsViewCell.m in Sources */,
 				823B738B1C4920EA00031596 /* MainCategoriesResponseModel.m in Sources */,
 				82F856D41C80833B000B68A9 /* StatesModel.m in Sources */,
-				82D5891E1CBE8B4C0051A074 /* NeediatorScrollView.m in Sources */,
 				82217C4D1C96E2B4002570E3 /* UploadPrescriptionCellView.m in Sources */,
 				82217C441C96B162002570E3 /* StoreReviewsView.m in Sources */,
 				82ED53DF1C4FAFC500FA7707 /* NEntityDetailViewController.m in Sources */,
@@ -2537,6 +2568,7 @@
 				827026DE1BC650840054E16F /* Reachability.m in Sources */,
 				823C46A61B73226900E37DBE /* DoctorDetailsViewController.m in Sources */,
 				8233CE101B873B8B00B5279B /* PaymentViewController.m in Sources */,
+				820D4C201CD0E660002F137D /* PipelineView.m in Sources */,
 				823F71B41C1B21F500E43731 /* NoStores.m in Sources */,
 				82A1D3DA1C5663F700E6B1D3 /* BookConfirmViewController.m in Sources */,
 				82C095101C5F7E2A00727C25 /* PaymentOptionsViewController.m in Sources */,

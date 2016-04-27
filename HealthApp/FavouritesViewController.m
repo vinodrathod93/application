@@ -16,6 +16,7 @@
 
 
 @property (nonatomic, strong) NeediatorHUD *hud;
+@property (nonatomic, strong) NSURLSessionDataTask *task;
 
 @end
 
@@ -39,6 +40,12 @@
     [super viewWillAppear:animated];
     
     [self requestFavourites];
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self hideHUD];
 }
 
 - (void)didReceiveMemoryWarning {

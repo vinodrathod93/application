@@ -1,14 +1,14 @@
 //
-//  NeediatorScrollView.m
+//  CancelOrderView.m
 //  Neediator
 //
-//  Created by adverto on 13/04/16.
+//  Created by adverto on 27/04/16.
 //  Copyright © 2016 adverto. All rights reserved.
 //
 
-#import "NeediatorScrollView.h"
+#import "CancelOrderView.h"
 
-@implementation NeediatorScrollView
+@implementation CancelOrderView
 
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -17,9 +17,5 @@
     // Drawing code
 }
 */
-
-- (BOOL)touchesShouldCancelInContentView:(UIView *)view {
-    return NO;
-}
 
 @end

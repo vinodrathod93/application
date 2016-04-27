@@ -254,8 +254,16 @@ enum SECTIONS {
         [self callbackVC];
     }];
     
-    UIAlertAction *mail = [UIAlertAction actionWithTitle:@"Give Feedback" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *feedback = [UIAlertAction actionWithTitle:@"Give Feedback" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self prepareMail];
+    }];
+    
+    UIAlertAction *emailUs = [UIAlertAction actionWithTitle:@"Email Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self prepareMail];
+    }];
+    
+    UIAlertAction *callUs = [UIAlertAction actionWithTitle:@"Call Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
     }];
     
     UIAlertAction *meetus = [UIAlertAction actionWithTitle:@"Meet Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -263,8 +271,11 @@ enum SECTIONS {
     }];
     
     [controller addAction:callBackAction];
-    [controller addAction:mail];
+    [controller addAction:emailUs];
+    [controller addAction:callUs];
+    [controller addAction:feedback];
     [controller addAction:meetus];
+    
     
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [controller dismissViewControllerAnimated:YES completion:nil];

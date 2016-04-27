@@ -27,5 +27,6 @@
 + (void)showLoginOnController:(UIViewController *)controller isPlacingOrder:(BOOL)isPlacing;
 + (UIView *)showDimViewWithFrame:(CGRect)frame;
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
-
++ (NSString *)getFormattedDate:(NSString *)date;
++(NSString *)getFormattedTime:(NSString *)date;
 @end
