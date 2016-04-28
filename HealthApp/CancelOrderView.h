@@ -10,4 +10,8 @@
 
 @interface CancelOrderView : UIView
 
+@property (weak, nonatomic) IBOutlet UITextField *selectProductTF;
+@property (weak, nonatomic) IBOutlet UITextField *selectReasonTF;
+@property (weak, nonatomic) IBOutlet UITextField *justifyTF;
+@property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @end

@@ -13,6 +13,7 @@
 #import "LineItemsModel.h"
 #import "CustomCollectionViewCell.h"
 #import "TrackPipelineView.h"
+#import "CancelOrderView.h"
 
 @interface MyOrdersViewController ()
 
@@ -25,6 +26,7 @@
     NSMutableArray *_itemsImages;
     NSArray *_orders;
     BOOL _isTrackTapped;
+    BOOL _isCancelTapped;
 }
 
 - (void)viewDidLoad {
@@ -135,7 +137,7 @@
     cell.n_orderAmount.text = [NSString stringWithFormat:@"Rs.%@",model.orderTotal];
     cell.n_orderNumber.text = model.orderNumber;
     cell.n_orderStatus.text = model.orderState;
-    cell.storeImage = @"http://www.ourcommunitystores.com/images/community_stores_online_shopping.jpg";
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     
@@ -143,16 +145,18 @@
     
     [cell.trackButton addTarget:self action:@selector(showTrackView:) forControlEvents:UIControlEventTouchUpInside];
     [cell.beforeCompleteTrackOrderButton addTarget:self action:@selector(showTrackView:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.cancelOrderButton addTarget:self action:@selector(showCancelView:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     
     return cell;
 }
 
 
 
+
+
 -(void)showTrackView:(UIButton *)sender {
-    
-    
-    _isTrackTapped = !_isTrackTapped;
     
     MyOrdersCell *cell = (MyOrdersCell *)[[sender superview] superview];
     
@@ -160,22 +164,70 @@
         cell = (MyOrdersCell *)[[[sender superview] superview] superview];
     }
     
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    MyOrdersModel *model = _orders[indexPath.section];
-    model.isExpanded = _isTrackTapped;
-    
-    TrackPipelineView *trackView = [[[NSBundle mainBundle] loadNibNamed:@"TrackPipelineView" owner:self options:nil] firstObject];
-    [trackView drawCurrentOrderState:model.orderState orderDateTime:model.completed_date withCode:model.statusCode.intValue];
-    [cell.contentView addSubview:trackView];
-    
-    trackView.frame = CGRectMake(0, 230, self.view.frame.size.width, 186);
-    
-    
-    [self.tableView beginUpdates];
-    [self.tableView endUpdates];
+    if (!_isCancelTapped) {
+        
+        cell.cancelOrderButton.alpha = 0.5;
+        cell.beforeCompleteTrackOrderButton.alpha = 1.0;
+        
+        _isTrackTapped = !_isTrackTapped;
+        
+        
+        
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+        
+        MyOrdersModel *model = _orders[indexPath.section];
+        model.isExpanded = _isTrackTapped;
+        
+        TrackPipelineView *trackView = [[[NSBundle mainBundle] loadNibNamed:@"TrackPipelineView" owner:self options:nil] firstObject];
+        [trackView drawCurrentOrderState:model.orderState orderDateTime:model.completed_date withCode:model.statusCode.intValue];
+        [cell.contentView addSubview:trackView];
+        
+        trackView.frame = CGRectMake(0, 230, self.view.frame.size.width, 186);
+        
+        
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+    }
 }
 
+
+
+
+
+-(void)showCancelView:(UIButton *)sender {
+    
+    MyOrdersCell *cell = (MyOrdersCell *)[[sender superview] superview];
+    
+    if (![cell isKindOfClass:[MyOrdersCell class]]) {
+        cell = (MyOrdersCell *)[[[sender superview] superview] superview];
+    }
+    
+    if (!_isTrackTapped) {
+        _isCancelTapped = !_isCancelTapped;
+        
+        cell.beforeCompleteTrackOrderButton.alpha = 0.5;
+        cell.cancelOrderButton.alpha = 1.0;
+        
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+        
+        MyOrdersModel *model = _orders[indexPath.section];
+        model.isCancelExpanded = _isCancelTapped;
+        
+        CancelOrderView *cancelView = [[[NSBundle mainBundle] loadNibNamed:@"CancelOrderView" owner:self options:nil] firstObject];
+        [cell.contentView addSubview:cancelView];
+        
+        cancelView.frame = CGRectMake(0, 230, self.view.frame.size.width, 134);
+        
+        
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+    }
+//    else
+//        cell.beforeCompleteTrackOrderButton.alpha = 0.5;
+    
+    
+    
+}
 
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(MyOrdersCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -188,7 +240,10 @@
     MyOrdersModel *model = _orders[indexPath.section];
     
     if (model.isExpanded) {
-        return 228+230;
+        return 196+230;
+    }
+    else if (model.isCancelExpanded) {
+        return 134+230;
     }
     else
         return 230.f;

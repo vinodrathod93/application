@@ -1522,9 +1522,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="229"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zcC-cg-4lx">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="182"/>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RK89378973" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsj-N3-Nlh">
                                             <rect key="frame" x="128" y="8" width="268" height="24"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1630,12 +1627,14 @@
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lh0-KI-o1X">
                                             <rect key="frame" x="221" y="190" width="150" height="33"/>
-                                            <color key="backgroundColor" red="0.93860479799999996" green="0.93831746869999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="100" id="hSg-WB-rnT"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
-                                            <state key="normal" title="Replace"/>
+                                            <state key="normal" title="Replace">
+                                                <color key="titleColor" red="0.96644176140000004" green="0.96614591049999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="hSg-WB-rnT"/>
@@ -1667,12 +1666,14 @@
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="61v-WN-lgQ">
                                             <rect key="frame" x="18" y="190" width="150" height="33"/>
-                                            <color key="backgroundColor" red="0.93860479799999996" green="0.93831746869999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="100" id="cWo-NK-UDm"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
-                                            <state key="normal" title="Return"/>
+                                            <state key="normal" title="Return">
+                                                <color key="titleColor" red="0.96644176140000004" green="0.96614591049999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            </state>
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="cWo-NK-UDm"/>
@@ -1735,12 +1736,14 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PAd-cm-fLh">
                                                     <rect key="frame" x="60" y="8" width="180" height="33"/>
-                                                    <color key="backgroundColor" red="0.96644176140000004" green="0.96614591049999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="33" id="DND-Vi-TNf"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
-                                                    <state key="normal" title="Cancel"/>
+                                                    <state key="normal" title="Cancel">
+                                                        <color key="titleColor" red="0.96644176140000004" green="0.96614591049999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NMR-sy-HDA">
                                                     <rect key="frame" x="360" y="9" width="180" height="33"/>
@@ -1771,15 +1774,12 @@
                                         <constraint firstItem="HxB-jR-rUf" firstAttribute="top" secondItem="d8R-jU-n4B" secondAttribute="bottom" constant="12" id="62P-Bh-sTg"/>
                                         <constraint firstAttribute="trailing" secondItem="9fF-ID-hxN" secondAttribute="trailing" constant="16" id="72I-ho-JSS"/>
                                         <constraint firstItem="nXw-Js-D4h" firstAttribute="leading" secondItem="tsj-N3-Nlh" secondAttribute="trailing" constant="8" id="8q7-Uu-VnY"/>
-                                        <constraint firstItem="zcC-cg-4lx" firstAttribute="leading" secondItem="Cht-ot-5VS" secondAttribute="leading" id="96T-Rs-FBc"/>
-                                        <constraint firstItem="zcC-cg-4lx" firstAttribute="top" secondItem="Cht-ot-5VS" secondAttribute="top" id="AFo-nP-FMi"/>
                                         <constraint firstItem="9z7-R4-miP" firstAttribute="leading" secondItem="Cht-ot-5VS" secondAttribute="leading" constant="8" id="AKg-Ov-Tio"/>
                                         <constraint firstItem="61v-WN-lgQ" firstAttribute="centerX" secondItem="Cht-ot-5VS" secondAttribute="leadingMargin" multiplier="0.9" id="ALe-J0-1Xx"/>
                                         <constraint firstItem="9fF-ID-hxN" firstAttribute="top" secondItem="d8R-jU-n4B" secondAttribute="bottom" constant="8" id="BDl-oi-vwg"/>
                                         <constraint firstAttribute="trailing" secondItem="nXw-Js-D4h" secondAttribute="trailing" constant="16" id="CeY-Ee-hNi"/>
                                         <constraint firstItem="eHE-IB-dmU" firstAttribute="top" secondItem="d8R-jU-n4B" secondAttribute="bottom" constant="12" id="DbD-FD-5wU"/>
                                         <constraint firstItem="61v-WN-lgQ" firstAttribute="width" secondItem="Cht-ot-5VS" secondAttribute="width" multiplier="0.25" id="EId-Fb-qhA"/>
-                                        <constraint firstItem="5sR-0H-tlS" firstAttribute="top" secondItem="zcC-cg-4lx" secondAttribute="bottom" id="Egj-BO-REL"/>
                                         <constraint firstItem="5sR-0H-tlS" firstAttribute="leading" secondItem="Cht-ot-5VS" secondAttribute="leading" id="Hwt-Ts-dS0"/>
                                         <constraint firstAttribute="topMargin" secondItem="tsj-N3-Nlh" secondAttribute="top" id="Kjw-NZ-VeP"/>
                                         <constraint firstItem="nXw-Js-D4h" firstAttribute="width" secondItem="Cht-ot-5VS" secondAttribute="width" multiplier="0.3" id="Lp1-Pg-iuA"/>
@@ -1801,7 +1801,6 @@
                                         <constraint firstItem="d8R-jU-n4B" firstAttribute="leading" secondItem="Cht-ot-5VS" secondAttribute="leading" constant="8" id="kdv-AQ-biA"/>
                                         <constraint firstAttribute="trailing" secondItem="5sR-0H-tlS" secondAttribute="trailing" id="nm3-oQ-pff"/>
                                         <constraint firstItem="tsj-N3-Nlh" firstAttribute="leading" secondItem="9z7-R4-miP" secondAttribute="trailing" constant="8" id="oGS-Jt-FAH"/>
-                                        <constraint firstAttribute="trailing" secondItem="zcC-cg-4lx" secondAttribute="trailing" id="sZP-fG-BP9"/>
                                         <constraint firstItem="nXw-Js-D4h" firstAttribute="top" secondItem="Cht-ot-5VS" secondAttribute="top" constant="7" id="uHe-FF-Vp7"/>
                                         <constraint firstItem="Lh0-KI-o1X" firstAttribute="top" secondItem="eHE-IB-dmU" secondAttribute="bottom" constant="16" id="x1d-kI-9wg"/>
                                     </constraints>
@@ -1823,7 +1822,6 @@
                                     <outlet property="n_orderStatus" destination="eHE-IB-dmU" id="48W-T2-bBz"/>
                                     <outlet property="replaceButton" destination="Lh0-KI-o1X" id="pwx-1W-1V1"/>
                                     <outlet property="returnButton" destination="61v-WN-lgQ" id="rYe-Na-XKd"/>
-                                    <outlet property="storeImageView" destination="zcC-cg-4lx" id="ad2-Pi-GIO"/>
                                     <outlet property="trackButton" destination="MwD-yv-4Ms" id="vle-wi-srH"/>
                                 </connections>
                             </tableViewCell>

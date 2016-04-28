@@ -12,7 +12,7 @@
 #import "StoreRealm.h"
 #import "User.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "StoreTaxonHeaderViewCell.h"
+#import "StoreTaxonHeaderViewCell.h"]
 #import "UploadPrescriptionViewController.h"
 #import "SearchResultsTableViewController.h"
 #import "StoreReviewsView.h"

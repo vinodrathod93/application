@@ -17,6 +17,7 @@
 @property (nonatomic, strong) AVCaptureMetadataOutput *captureMetadataOutput;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
+@property (nonnull, strong) NeediatorHUD *neediatorHUD;
 @property (nonatomic) BOOL isReading;
 
 
@@ -54,6 +55,11 @@
     }
     
     [self.view bringSubviewToFront:self.overlayImageView];
+    [self showHUD];
+    
+    
+    
+    
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(avCaptureInputPortFormatDescriptionDidChangeNotification:) name:AVCaptureInputPortFormatDescriptionDidChangeNotification object:nil];
 }
@@ -63,6 +69,22 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+-(void)showHUD {
+    self.neediatorHUD = [[NeediatorHUD alloc] initWithFrame:self.view.frame];
+    self.neediatorHUD.overlayColor = [UIColor clearColor];
+    [self.neediatorHUD fadeInAnimated:YES];
+    self.neediatorHUD.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2+150);
+    [self.navigationController.view insertSubview:self.neediatorHUD belowSubview:self.navigationController.navigationBar];
+    
+    
+}
+
+-(void)hideHUD {
+    [self.neediatorHUD fadeOutAnimated:YES];
+    [self.neediatorHUD removeFromSuperview];
+    
+}
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];

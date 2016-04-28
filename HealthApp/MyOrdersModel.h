@@ -24,4 +24,5 @@
 @property (nonatomic, copy) NSNumber *statusCode;
 
 @property (nonatomic) BOOL isExpanded;
+@property (nonatomic) BOOL isCancelExpanded;
 @end

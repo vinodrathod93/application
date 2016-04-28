@@ -144,8 +144,44 @@
 //    [backgroundImage sd_setImageWithURL:[NSURL URLWithString:storeImage]];
 //    [backgroundImage setAlpha:0.2];
     
+    
+    
+    
+    
+    
+    
+    
     [self.storeImageView sd_setImageWithURL:[NSURL URLWithString:storeImage]];
-    [self.storeImageView setAlpha:0.2];
+    
+    UIView *view = [[UIView alloc] initWithFrame:self.storeImageView.frame];
+    view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+    
+    [self.storeImageView addSubview:view];
+    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+//        UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+//        
+//        blurEffectView.frame = self.storeImageView.frame;
+//        blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//        
+////        
+////        
+////        UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blurEffect];
+////        UIVisualEffectView *vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
+////        [vibrancyEffectView setFrame:self.storeImageView.frame];
+//        
+////        [blurEffectView.contentView addSubview:vibrancyEffectView];
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.storeImageView addSubview:blurEffectView];
+//        });
+//    });
+    
+    
+    
+    
+    
 }
 
 @end

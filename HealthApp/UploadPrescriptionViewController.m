@@ -11,6 +11,7 @@
 #import "ImageModalViewController.h"
 #import "UploadPrsCollectionViewCell.h"
 #import "UploadPreviewController.h"
+#import "NeediatorPhotoBrowser.h"
 
 
 
@@ -18,7 +19,7 @@
 {
     long long expectedLength;
     long long currentLength;
-    MWPhotoBrowser *browser;
+    NeediatorPhotoBrowser *browser;
     UIImage *_cameraImage;
     UIDatePicker *_dateTimePicker;
     
@@ -196,7 +197,7 @@
     self.photos = photos;
     self.thumbs = thumbs;
     
-    browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    browser = [[NeediatorPhotoBrowser alloc] initWithDelegate:self];
     browser.displayActionButton = NO;
     browser.displayNavArrows = NO;
     browser.displaySelectionButtons = YES;
@@ -1085,7 +1086,7 @@
     
     
     
-    if ([_allThumbnails count] > 1) {
+    if ([_allThumbnails count] >= 1) {
         NSLog(@"Entered the loop");
         
         

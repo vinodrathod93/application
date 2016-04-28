@@ -20,7 +20,16 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
+    
     for (id view in self.view.subviews) {
+        
+        
+        if ([view isKindOfClass:[UIToolbar class]]) {
+            UIToolbar *toolbar = (UIToolbar *)view;
+            
+            toolbar.barStyle = UIBarStyleDefault;
+        }
+        
         if ([view isKindOfClass:[UIScrollView class]]) {
             
             UIScrollView *_pagingScrollView = (UIScrollView *)view;
@@ -59,10 +68,29 @@
     // Do any additional setup after loading the view.
 }
 
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
+    [self.navigationController.navigationBar setTintColor:[UIColor blackColor]];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    
+}
+
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
+
 
 /*
 #pragma mark - Navigation

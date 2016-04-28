@@ -34,7 +34,7 @@
 
 
 
-@interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate>
+@interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate,UIViewControllerPreviewingDelegate>
 
 
 @property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
@@ -51,6 +51,8 @@
 @property (nonatomic, strong) NSDictionary *xmlDictionary;
 @property (nonatomic, strong) NSMutableArray *xmlCategories;
 @property (nonatomic, strong) NSMutableString *jsonString;
+@property (nonatomic, strong) id previewingContext;
+
 
 @end
 
@@ -137,6 +139,10 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     [self showLoadingView];
     
+    
+    if ([self isForceTouchAvailable]) {
+        self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
+    }
     
     
     [self showHUD];
@@ -354,13 +360,133 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
 }
 
+
+
+#pragma mark -
+#pragma mark === UIViewControllerPreviewingDelegate Methods ===
+#pragma mark -
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+              viewControllerForLocation:(CGPoint)location {
+    
+    
+    if ([self.presentedViewController isKindOfClass:[ListingTableViewController class]]) {
+        return nil;
+    }
+    
+    
+    CGPoint cellPosition = [self.collectionView convertPoint:location fromView:self.view];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:cellPosition];
+    
+    
+    if (indexPath) {
+        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+        
+        //        UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsNavVC"];
+        //        [self configureNavigationController:navController withModel:model];
+        
+        
+        
+        
+        CategoryModel *model = self.categoriesArray[indexPath.row];
+        
+        
+        NSMutableArray *array = [NSMutableArray array];
+        for (SubCategoryModel *subcat_model in self.subCategoriesArray) {
+            if ([model.cat_id isEqual:subcat_model.cat_id]) {
+                [array addObject:subcat_model];
+            }
+        }
+        
+        [NeediatorUtitity save:model.cat_id forKey:kSAVE_CAT_ID];
+        
+        if (array.count == 0) {
+            
+            ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+            listingVC.root                       = model.name;
+            listingVC.nav_color                  = model.color_code;
+            listingVC.category_id                 = model.cat_id.stringValue;
+            listingVC.subcategory_id              = @"";
+            
+            
+            previewingContext.sourceRect = [self.view convertRect:cell.frame fromView:self.collectionView];
+            
+            
+            return listingVC;
+            
+        }
+        else {
+            
+            SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCategoryCollectionVC"];
+            subCatVC.subcategoryArray       = array;
+            
+            
+            previewingContext.sourceRect = [self.view convertRect:cell.frame fromView:self.collectionView];
+            
+            
+            return subCatVC;
+        }
+        
+        
+        
+        
+        
+    }
+    
+    
+    return nil;
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+    
+    //    [self showDetailViewController:viewControllerToCommit sender:self];
+    [self.navigationController showViewController:viewControllerToCommit sender:nil];
+}
+
+
+-(void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if ([self isForceTouchAvailable]) {
+        if (!self.previewingContext) {
+            self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
+        }
+    } else {
+        if (self.previewingContext) {
+            [self unregisterForPreviewingWithContext:self.previewingContext];
+            self.previewingContext = nil;
+        }
+    }
+}
+
+-(BOOL)isForceTouchAvailable {
+    BOOL isForceTouchAvailable = NO;
+    if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)]) {
+        isForceTouchAvailable = self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable;
+    }
+    return isForceTouchAvailable;
+}
+
+
 #pragma mark <UICollectionViewDelegate>
 
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
+//    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    
+//    [UIView animateWithDuration:0.5
+//                          delay:0
+//                        options:(UIViewAnimationOptionAllowUserInteraction)
+//                     animations:^{
+//                         cell.frame = CGRectMake(cell.frame.origin.x+5, cell.frame.origin.y+5, CGRectGetWidth(cell.frame)-10, CGRectGetHeight(cell.frame)-10);
+//                     }
+//                     completion:^(BOOL finished) {
+//                         
+//                     }];
+    
+    
     CategoryModel *model = self.categoriesArray[indexPath.row];
-        
+    
     
     NSMutableArray *array = [NSMutableArray array];
     for (SubCategoryModel *subcat_model in self.subCategoriesArray) {
@@ -381,7 +507,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         [self.navigationController pushViewController:listingVC animated:YES];
         
-
+        
     }
     else {
         
@@ -390,6 +516,59 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         [self.navigationController pushViewController:subCatVC animated:YES];
     }
     
+    
+    /*
+    [UIView transitionWithView:collectionView
+                      duration:.5
+                       options:UIViewAnimationOptionTransitionCurlUp
+                    animations:^{
+     
+                        //any animatable attribute here.
+                        cell.frame = CGRectMake(5, 5, CGRectGetWidth(cell.frame)-10, CGRectGetHeight(cell.frame)-10);
+     
+                    } completion:^(BOOL finished) {
+     
+                        //whatever you want to do upon completion
+     
+     
+                        CategoryModel *model = self.categoriesArray[indexPath.row];
+                        
+                        
+                        NSMutableArray *array = [NSMutableArray array];
+                        for (SubCategoryModel *subcat_model in self.subCategoriesArray) {
+                            if ([model.cat_id isEqual:subcat_model.cat_id]) {
+                                [array addObject:subcat_model];
+                            }
+                        }
+                        
+                        [NeediatorUtitity save:model.cat_id forKey:kSAVE_CAT_ID];
+                        
+                        if (array.count == 0) {
+                            
+                            ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+                            listingVC.root                       = model.name;
+                            listingVC.nav_color                  = model.color_code;
+                            listingVC.category_id                 = model.cat_id.stringValue;
+                            listingVC.subcategory_id              = @"";
+                            
+                            [self.navigationController pushViewController:listingVC animated:YES];
+                            
+                            
+                        }
+                        else {
+                            
+                            SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCategoryCollectionVC"];
+                            subCatVC.subcategoryArray       = array;
+                            [self.navigationController pushViewController:subCatVC animated:YES];
+                        }
+                        
+                    }];
+    
+    
+    
+    
+    
+    */
     
     
     
