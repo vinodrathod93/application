@@ -29,6 +29,7 @@
 		82147FD31C452DB500D6691E /* ListingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FD21C452DB500D6691E /* ListingTableViewController.m */; };
 		82147FD61C452E7D00D6691E /* ListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82147FD51C452E7D00D6691E /* ListingCell.m */; };
 		82157D461CAD3D21005A812B /* UploadPrsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82157D451CAD3D21005A812B /* UploadPrsCollectionViewCell.m */; };
+		821868AC1CD3997100C3A3EE /* NeediatorQR - AppStore.png in Resources */ = {isa = PBXBuildFile; fileRef = 821868AB1CD3997100C3A3EE /* NeediatorQR - AppStore.png */; };
 		82217C441C96B162002570E3 /* StoreReviewsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82217C431C96B162002570E3 /* StoreReviewsView.m */; };
 		82217C461C96CE50002570E3 /* StoreReviewsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82217C451C96CE50002570E3 /* StoreReviewsView.xib */; };
 		82217C481C96D4FA002570E3 /* StoreOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82217C471C96D4FA002570E3 /* StoreOptionsView.xib */; };
@@ -334,6 +335,7 @@
 		82147FD51C452E7D00D6691E /* ListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingCell.m; sourceTree = "<group>"; };
 		82157D441CAD3D21005A812B /* UploadPrsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadPrsCollectionViewCell.h; sourceTree = "<group>"; };
 		82157D451CAD3D21005A812B /* UploadPrsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadPrsCollectionViewCell.m; sourceTree = "<group>"; };
+		821868AB1CD3997100C3A3EE /* NeediatorQR - AppStore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NeediatorQR - AppStore.png"; sourceTree = "<group>"; };
 		82217C421C96B162002570E3 /* StoreReviewsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreReviewsView.h; sourceTree = "<group>"; };
 		82217C431C96B162002570E3 /* StoreReviewsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreReviewsView.m; sourceTree = "<group>"; };
 		82217C451C96CE50002570E3 /* StoreReviewsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreReviewsView.xib; sourceTree = "<group>"; };
@@ -1332,6 +1334,7 @@
 				82BD029A1B46A73C00108A0B /* LaunchScreen.xib */,
 				827FD14A1C455D16000EB0A4 /* Neediator_Logo_Final.png */,
 				82D47D271CABF839006B7996 /* behind_alert_view.png */,
+				821868AB1CD3997100C3A3EE /* NeediatorQR - AppStore.png */,
 				82BD02981B46A73C00108A0B /* Images.xcassets */,
 				827632861B4A3DC900230833 /* Frameworks */,
 				82BD028B1B46A73C00108A0B /* Supporting Files */,
@@ -2313,6 +2316,7 @@
 				826212F61BFB25BC00F75254 /* BannerView.xib in Resources */,
 				824C25531B56374900C58F97 /* Categories.plist in Resources */,
 				823F71B11C1B206E00E43731 /* NoStores.xib in Resources */,
+				821868AC1CD3997100C3A3EE /* NeediatorQR - AppStore.png in Resources */,
 				82D47D281CABF839006B7996 /* behind_alert_view.png in Resources */,
 				827FD14B1C455D16000EB0A4 /* Neediator_Logo_Final.png in Resources */,
 				82FB520E1C281B3300E19626 /* LoginView.xib in Resources */,

@@ -74,11 +74,13 @@
     
     
     // UITabBar appearance
-    [[UITabBar appearance] setTintColor:[UIColor blackColor]];
-    [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:235/255.f green:235/255.f blue:240/255.f alpha:1.0]];
+//    [[UIView appearanceWhenContainedIn:[UITabBar class], nil] setTintColor:[UIColor whiteColor]];
+    [[UITabBar appearance] setTintColor:[UIColor yellowColor]];
+    [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
+    [[UITabBar appearance] setBackgroundColor:[UIColor blackColor]];
     [[UITabBar appearance] setTranslucent:NO];
-    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor yellowColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
     
     
     

@@ -149,7 +149,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
     
     if ([self isCategoriesSaved]) {
-        [NSThread sleepForTimeInterval:2.0];
+        [NSThread sleepForTimeInterval:3];
         [self hideHUD];
         
         [self loadSavedCategories];
@@ -219,16 +219,18 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
     
     // Customize TabBar
-    [self.tabBarController.tabBar setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
-    [self.tabBarController.tabBar setTintColor:[UIColor blackColor]];
+//    [[UIView appearanceWhenContainedIn:[UITabBar class], nil] setTintColor:[UIColor whiteColor]];
+    [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
+    [self.tabBarController.tabBar setTintColor:[UIColor yellowColor]];
     [self.tabBarController.tabBar.items enumerateObjectsUsingBlock:^(UITabBarItem * _Nonnull tabBarItem, NSUInteger idx, BOOL * _Nonnull stop) {
-        [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-        [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
+        [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+        [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"AvenirNext-DemiBold" size:9.f], NSFontAttributeName, nil] forState:UIControlStateSelected];
     }];
     
-    // automatic sliding of banner
+    [self.tabBarController.tabBar setBackgroundImage:[UIImage imageNamed:@"tabbar"]];
     
-    [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.0f];
+    // automatic sliding of banner
+    [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.5f];
     
     // reload to remove all highlighting issues.
     [self.collectionView reloadData];

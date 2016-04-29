@@ -597,6 +597,7 @@ didFailAutocompleteWithError:(NSError *)error {
             case searchScopeLocation:
             {
                 SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+                vc.searchString = searchText;
                 [vc startNeediatorHUD];
                 
                 // call location
@@ -617,6 +618,7 @@ didFailAutocompleteWithError:(NSError *)error {
             case searchScopeCategory:
             {
                 SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+                vc.searchString = searchText;
                 [vc startNeediatorHUD];
                 // call category
                 
@@ -638,6 +640,8 @@ didFailAutocompleteWithError:(NSError *)error {
             case searchScopeStore:
             {
                 SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+                vc.searchString = searchText;
+                
                 [vc startNeediatorHUD];
                 // call stores
                 
@@ -656,6 +660,7 @@ didFailAutocompleteWithError:(NSError *)error {
             case searchScopeProduct:
             {
                 SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+                vc.searchString = searchText;
                 [vc startNeediatorHUD];
                 // call product
                 

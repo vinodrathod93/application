@@ -128,12 +128,13 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [_task cancel];
-    
-    [self hideHUD];
+//    [_task cancel];
+//    
+//    [self hideHUD];
     
     [[self.navigationController.view viewWithTag:kListingNoListingTag] removeFromSuperview];
     [self removeConnectionView];
+    [self hideHUD];
     
 }
 

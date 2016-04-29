@@ -29,4 +29,5 @@
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 + (NSString *)getFormattedDate:(NSString *)date;
 +(NSString *)getFormattedTime:(NSString *)date;
++(void)checkRunningTask:(NSURLSessionDataTask *)task withCompletionHandler:(void(^)(BOOL success))finished;
 @end

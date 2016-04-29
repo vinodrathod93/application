@@ -39,7 +39,13 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self requestFavourites];
+    
+    [NeediatorUtitity checkRunningTask:_task withCompletionHandler:^(BOOL success) {
+        if (success) {
+            [self requestFavourites];
+        }
+    }];
+    
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -178,7 +184,7 @@
 
 -(void)requestFavourites {
     [self showHUD];
-    [[NAPIManager sharedManager] getMyFavouritesListingWithSuccess:^(FavouritesResponseModel *response) {
+    _task = [[NAPIManager sharedManager] getMyFavouritesListingWithSuccess:^(FavouritesResponseModel *response) {
         _favouriteCategories = response.favouriteCategories;
         
         [self hideHUD];

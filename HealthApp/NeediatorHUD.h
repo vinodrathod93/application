@@ -22,6 +22,8 @@
 @property (nonatomic, strong) UIColor *overlayColor;
 @property (nonatomic, assign) CGPoint hudCenter;
 @property (nonatomic, assign) CGSize logoSize;
+@property (nonatomic, assign) UIColor *shadowColor;
+
 
 
 @end

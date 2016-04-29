@@ -193,8 +193,11 @@
     
     NSDictionary *location = self.searchResults[indexPath.row];
     NSString *place = location[@"description"];
+    NSString *formattedPlace = [self formattedAreaPlace:place];
     
-    cell.textLabel.text = [self formattedAreaPlace:place];
+    
+    
+    cell.textLabel.attributedText = [self highlightSearchedTextWithResult:formattedPlace];
     cell.detailTextLabel.text = [self formattedLocation:place];
     cell.imageView.image = [UIImage imageNamed:@"store_location"];
     
@@ -207,7 +210,7 @@
     NSString *name = category[@"Catname"];
     NSString *imageURL = category[@"Imageurl"];
     
-    cell.textLabel.text = name;
+    cell.textLabel.attributedText = [self highlightSearchedTextWithResult:name];
     cell.detailTextLabel.text = @"";
     
     
@@ -236,8 +239,9 @@
     
 //    NSString *price = _product[@"rate"];
     NSString *imageURL = _product[@"imageurl"];
+    NSString *productName = [_product[@"productname"] capitalizedString];
     
-    cell.textLabel.text     = [_product[@"productname"] capitalizedString];
+    cell.textLabel.attributedText = [self highlightSearchedTextWithResult:productName];
     cell.detailTextLabel.text = @"";
 //    cell.detailTextLabel.text = [priceCurrencyFormatter stringFromNumber:@(price.intValue)];
     
@@ -280,7 +284,13 @@
     NSString *category = store[@"CatName"];
     NSString *imageurl = store[@"images"];
     
-    cell.textLabel.text = [name capitalizedString];
+    
+    
+    
+    
+    // Replace your result string with the updated attributed string
+    
+    cell.textLabel.attributedText = [self highlightSearchedTextWithResult:name];
     cell.detailTextLabel.text = category;
     cell.imageView.image = [UIImage imageNamed:@"shop"];
     
@@ -301,6 +311,35 @@
 }
 
 
+
+
+-(NSMutableAttributedString *)highlightSearchedTextWithResult:(NSString *)result {
+    
+    NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithString:result];
+    
+    NSString * regexPattern = [NSString stringWithFormat:@"(%@)", self.searchString];
+    
+    // We create a case insensitive regex passing in our pattern
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:NSRegularExpressionCaseInsensitive error:nil];
+    
+    NSRange range = NSMakeRange(0,result.length);
+    
+    [regex enumerateMatchesInString:result
+                            options:kNilOptions
+                              range:range
+                         usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+                             
+                             NSRange subStringRange = [result rangeAtIndex:1];
+                             
+                             // Make the range bold
+                             [mutableAttributedString addAttribute:NSFontAttributeName
+                                                             value:[NeediatorUtitity boldFontWithSize:15.f]
+                                                             range:subStringRange];
+                         }];
+    
+    return mutableAttributedString;
+    
+}
 
 
 #pragma mark - Quick Order Add_To_Cart

@@ -29,6 +29,9 @@
     
     UIImageView *_selectedImageView;
     NSMutableArray *_allThumbnails;
+    
+    CGFloat previousTopConstant, previousBottomConstant;
+    CGFloat previousAddressLabelHeight, previousAddressButtonHeight;
 }
 
 @property (nonatomic, strong) NSDictionary *dictionary;
@@ -40,6 +43,7 @@
 @property (nonatomic, strong) NSMutableArray *cameraThumbnails;
 @property (nonatomic, strong) NSMutableArray *galleryThumbnails;
 
+@property (nonatomic) CGFloat previousTopConstant, previousBottomConstant, previousAddressLabelHeight, previousAddressButtonHeight;
 @end
 
 @implementation UploadPrescriptionViewController
@@ -403,15 +407,48 @@
             
             
             if (![_selectedDeliveryID isEqual:@1]) {
-                // hide time.
+                // hide addresss.
                 
-                self.addressLabel.hidden = YES;
-                self.addressButton.hidden = YES;
-            
+                
+                
+                [self.view layoutIfNeeded];
+                [UIView animateWithDuration:0.3 animations:^{
+                    
+                    
+//                    self.addressLabel.hidden = YES;
+//                    self.addressButton.hidden = YES;
+                    
+                    previousTopConstant = self.addresslabelTopConstraint.constant;
+                    previousBottomConstant = self.addressLabelBottomConstraint.constant;
+                    
+                    previousAddressLabelHeight = self.addressLabelHeight.constant;
+                    previousAddressButtonHeight = self.addressButtonHeight.constant;
+                    
+                    
+                    self.addresslabelTopConstraint.constant=0;
+                    self.addressLabelBottomConstraint.constant=0;
+                    self.addressLabelHeight.constant = 0;
+                    self.addressButtonHeight.constant = 0;
+                    
+                    [self.view layoutIfNeeded];
+                }];
             }
             else {
-                self.addressButton.hidden = NO;
-                self.addressLabel.hidden = NO;
+                
+                
+                [self.view layoutIfNeeded];
+                [UIView animateWithDuration:0.3 animations:^{
+                
+//                    self.addressButton.hidden = NO;
+//                    self.addressLabel.hidden = NO;
+                    
+                    self.addresslabelTopConstraint.constant = previousTopConstant;
+                    self.addressLabelBottomConstraint.constant = previousBottomConstant;
+                    self.addressLabelHeight.constant = previousAddressLabelHeight;
+                    self.addressButtonHeight.constant = previousAddressButtonHeight;
+                    
+                    [self.view layoutIfNeeded];
+                }];
             }
         }];
         

@@ -71,8 +71,10 @@
 
 
 -(void)showHUD {
+    
     self.neediatorHUD = [[NeediatorHUD alloc] initWithFrame:self.view.frame];
     self.neediatorHUD.overlayColor = [UIColor clearColor];
+    self.neediatorHUD.shadowColor = [UIColor clearColor];
     [self.neediatorHUD fadeInAnimated:YES];
     self.neediatorHUD.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2+150);
     [self.navigationController.view insertSubview:self.neediatorHUD belowSubview:self.navigationController.navigationBar];
@@ -94,6 +96,12 @@
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self hideHUD];
+}
 
 //-(void)avCaptureInputPortFormatDescriptionDidChangeNotification:(NSNotification *)notification {
 //    

@@ -167,8 +167,8 @@
                                                     <action selector="takePhotoPressed:" destination="ZWo-1h-Ph7" eventType="touchUpInside" id="mRh-SS-cPC"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9rA-cr-sW6">
-                                                <rect key="frame" x="275" y="346" width="50" height="50"/>
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9rA-cr-sW6">
+                                                <rect key="frame" x="275" y="402" width="50" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="NOx-yw-FuT"/>
                                                     <constraint firstAttribute="width" constant="50" id="ouL-BG-U4L"/>
@@ -273,7 +273,11 @@
                     <navigationItem key="navigationItem" id="Asq-2r-XeV"/>
                     <connections>
                         <outlet property="addressButton" destination="C7t-a4-DKt" id="DbY-ga-mJu"/>
+                        <outlet property="addressButtonHeight" destination="A38-9d-edy" id="QvA-1q-QO1"/>
                         <outlet property="addressLabel" destination="N21-O5-Dkc" id="Knl-HA-39K"/>
+                        <outlet property="addressLabelBottomConstraint" destination="iUe-lx-Tkg" id="wF1-fc-HY7"/>
+                        <outlet property="addressLabelHeight" destination="gRP-Ji-uFX" id="7NU-t9-DCn"/>
+                        <outlet property="addresslabelTopConstraint" destination="EB8-Cx-3QO" id="Z9V-gA-Rkq"/>
                         <outlet property="contentView" destination="kXS-eu-QjV" id="988-9m-X8Q"/>
                         <outlet property="dataTimeLabel" destination="fAv-Fm-OY2" id="HdL-i7-c7K"/>
                         <outlet property="dateTimeField" destination="Psq-Xr-Cdj" id="63Y-gZ-EAf"/>

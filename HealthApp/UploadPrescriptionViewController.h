@@ -48,4 +48,11 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
+
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *addresslabelTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *addressLabelBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *addressLabelHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *addressButtonHeight;
+
 @end

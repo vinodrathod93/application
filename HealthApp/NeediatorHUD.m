@@ -180,4 +180,9 @@ CGFloat RotationDuration = 0.5;
     CFRelease(path);
 }
 
+
+-(void)setShadowColor:(UIColor *)shadowColor {
+    _activityImageView.layer.shadowColor = shadowColor.CGColor;
+}
+
 @end

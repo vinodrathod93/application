@@ -212,5 +212,21 @@
 
 
 
-//+(void)checkRunningTask:(NSURLSessionDataTask *)task WithCompletion:()
++(void)checkRunningTask:(NSURLSessionDataTask *)task withCompletionHandler:(void(^)(BOOL success))finished {
+    if (task == nil) {
+        finished(YES);
+        
+    } else if (task.state == NSURLSessionTaskStateRunning) {
+        NSLog(@"State running");
+        
+    } else if (task.state == NSURLSessionTaskStateCanceling) {
+        NSLog(@"State Canceling");
+    } else if (task.state == NSURLSessionTaskStateCompleted) {
+        NSLog(@"State Completed");
+        finished(YES);
+        
+    } else if (task.state == NSURLSessionTaskStateSuspended) {
+        NSLog(@"State Suspended");
+    }
+}
 @end

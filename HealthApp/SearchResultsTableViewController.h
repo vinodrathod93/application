@@ -25,4 +25,6 @@
 -(void)startNeediatorHUD;
 -(void)hideHUD;
 
+@property (nonatomic, copy) NSString *searchString;
+
 @end
