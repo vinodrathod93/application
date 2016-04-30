@@ -37,6 +37,7 @@
 		82217C4D1C96E2B4002570E3 /* UploadPrescriptionCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82217C4C1C96E2B4002570E3 /* UploadPrescriptionCellView.m */; };
 		822EF6061CA678DA00C67C91 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 822EF6051CA678DA00C67C91 /* AudioToolbox.framework */; };
 		8230D4571C11686400F585D1 /* NavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8230D4561C11686400F585D1 /* NavigationViewController.m */; };
+		8231AF4F1CD4D862001A5379 /* ListingOptionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8231AF4D1CD4D862001A5379 /* ListingOptionsCell.m */; };
 		82327F6E1B60B0EB00D92889 /* DetailProductViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F6D1B60B0EB00D92889 /* DetailProductViewModel.m */; };
 		82327F741B60C86B00D92889 /* CartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F731B60C86B00D92889 /* CartViewController.m */; };
 		82327F771B60F9A800D92889 /* CartViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F761B60F9A800D92889 /* CartViewCell.m */; };
@@ -346,6 +347,8 @@
 		822EF6051CA678DA00C67C91 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		8230D4551C11686400F585D1 /* NavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationViewController.h; sourceTree = "<group>"; };
 		8230D4561C11686400F585D1 /* NavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationViewController.m; sourceTree = "<group>"; };
+		8231AF4C1CD4D862001A5379 /* ListingOptionsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingOptionsCell.h; sourceTree = "<group>"; };
+		8231AF4D1CD4D862001A5379 /* ListingOptionsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingOptionsCell.m; sourceTree = "<group>"; };
 		82327F6C1B60B0EB00D92889 /* DetailProductViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailProductViewModel.h; sourceTree = "<group>"; };
 		82327F6D1B60B0EB00D92889 /* DetailProductViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailProductViewModel.m; sourceTree = "<group>"; };
 		82327F721B60C86B00D92889 /* CartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartViewController.h; sourceTree = "<group>"; };
@@ -910,6 +913,15 @@
 			name = Restaurants;
 			sourceTree = "<group>";
 		};
+		8231AF4B1CD4D615001A5379 /* Store Options */ = {
+			isa = PBXGroup;
+			children = (
+				8231AF4C1CD4D862001A5379 /* ListingOptionsCell.h */,
+				8231AF4D1CD4D862001A5379 /* ListingOptionsCell.m */,
+			);
+			name = "Store Options";
+			sourceTree = "<group>";
+		};
 		823571B51CB3E9C200D27BEC /* Neediator Widget */ = {
 			isa = PBXGroup;
 			children = (
@@ -1087,6 +1099,7 @@
 				82C8AFDD1C92D218006ED890 /* StoreTaxonHeaderViewCell.h */,
 				82C8AFDE1C92D218006ED890 /* StoreTaxonHeaderViewCell.m */,
 				82C36C5A1C81DA900038EA5F /* TaxonHeaderView.xib */,
+				8231AF4B1CD4D615001A5379 /* Store Options */,
 			);
 			name = Taxons;
 			sourceTree = "<group>";
@@ -2498,6 +2511,7 @@
 				82A1D3CC1C5602BF00E6B1D3 /* BookingViewController.m in Sources */,
 				82EA68061C43D89900F9924D /* ClinicsModel.m in Sources */,
 				82147FBD1C4528ED00D6691E /* MetaPagingModel.m in Sources */,
+				8231AF4F1CD4D862001A5379 /* ListingOptionsCell.m in Sources */,
 				82ED53E41C4FB48100FA7707 /* EntityDetailsResponseModel.m in Sources */,
 				82A542831C229ECF00383253 /* MyOrdersModel.m in Sources */,
 				8267ABA01CB29E6C00CF1632 /* NotificationViewController.m in Sources */,

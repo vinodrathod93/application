@@ -138,7 +138,7 @@
                 <outlet property="uploadPrpButton" destination="4BT-px-c8f" id="qtw-St-6e0"/>
                 <outlet property="uploadPrsView" destination="KM6-U7-yuC" id="pEL-kN-gjc"/>
             </connections>
-            <point key="canvasLocation" x="241" y="209"/>
+            <point key="canvasLocation" x="366" y="203"/>
         </view>
     </objects>
     <resources>

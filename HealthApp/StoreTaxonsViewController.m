@@ -23,6 +23,7 @@
 #import "MapLocationViewController.h"
 #import "OffersPopViewController.h"
 #import "NeediatorPhotoBrowser.h"
+#import "ListingOptionsCell.h"
 
 
 #define kImageViewSection 0;
@@ -373,6 +374,9 @@ typedef NS_ENUM(uint16_t, sections) {
     }
     else if (section == SectionStoreTaxonTaxonomies)
         return [self.taxonomies count];
+    else if (section == SectionStoreOptionsView) {
+        return 4;
+    }
     else
         return 0;
 }
@@ -384,6 +388,7 @@ typedef NS_ENUM(uint16_t, sections) {
     
     NSLog(@"cellForRowAtIndexPath");
     static NSString *CellIdentifier = @"storeTaxonomyCell";
+    static NSString *optionsCellIdentifier = @"storeOptionsCellIdentifier";
     
     
     if (indexPath.section == SectionStoreImageViews) {
@@ -467,8 +472,21 @@ typedef NS_ENUM(uint16_t, sections) {
         
         return cell;
     }
-    else
-        return nil;
+    else {
+        
+        ListingOptionsCell *cell = [tableView dequeueReusableCellWithIdentifier:optionsCellIdentifier forIndexPath:indexPath];
+        
+        
+        UploadPrescriptionCellView *view =  [self uploadPrescriptionCellView];
+        view.frame = CGRectMake(0, 5, CGRectGetWidth(self.view.frame), kStoreUploadPrsViewHeight);
+        
+        cell.categoryView = view;
+
+        
+        
+        return cell;
+    }
+    
     
 }
 
@@ -491,6 +509,9 @@ typedef NS_ENUM(uint16_t, sections) {
     }
     else if (indexPath.section == SectionStoreTaxonTaxonomies)
         return kStoreTaxonTaxonomyCellHeight;
+    else if (indexPath.section == SectionStoreOptionsView) {
+        return kStoreUploadPrsViewHeight;
+    }
     else
         return 0.0f;
 }
@@ -511,6 +532,23 @@ typedef NS_ENUM(uint16_t, sections) {
         
         return [self storeOptionView];
     }
+    else if (section == SectionStoreTaxonTaxonomies) {
+        
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
+        footer.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 50);
+        footer.backgroundColor = [NeediatorUtitity defaultColor];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, CGRectGetWidth(self.view.frame), 30)];
+        label.backgroundColor = [UIColor clearColor];
+        label.text = @"Browse by Categories";
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [NeediatorUtitity mediumFontWithSize:17];
+        
+        [footer addSubview:label];
+        
+        return footer;
+        
+    }
     
     return header;
     
@@ -526,8 +564,13 @@ typedef NS_ENUM(uint16_t, sections) {
     if (section == SectionStoreImageViews) {
         return kStoreReviewsViewHeight;
     }
-    else if (section == SectionStoreOptionsView)
+    else if (section == SectionStoreOptionsView) {
         return kStoreButtonOptionsViewHeight;
+    }
+    else if (section == SectionStoreTaxonTaxonomies) {
+        
+        return 50;
+    }
     else
         return 0;
 }
@@ -549,27 +592,27 @@ typedef NS_ENUM(uint16_t, sections) {
         else
             return nil;
     }
-    else if (section == SectionStoreOptionsView) {
-        
-        UploadPrescriptionCellView *view =  [self uploadPrescriptionCellView];
-        view.frame = CGRectMake(0, 5, CGRectGetWidth(self.view.frame), kStoreUploadPrsViewHeight);
-        
-        UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
-        footer.frame = CGRectMake(0, view.frame.size.height, CGRectGetWidth(self.view.frame), 50 + view.frame.size.height);
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10 + view.frame.size.height, CGRectGetWidth(self.view.frame), 30)];
-        label.backgroundColor = [UIColor clearColor];
-        label.text = @"Browse by Categories";
-        label.textAlignment = NSTextAlignmentCenter;
-        label.font = [NeediatorUtitity mediumFontWithSize:17];
-        
-        [footer addSubview:label];
-        [footer addSubview:view];
-        
-        return footer;
-        
-        
-    }
+//    else if (section == SectionStoreOptionsView) {
+//        
+//        UploadPrescriptionCellView *view =  [self uploadPrescriptionCellView];
+//        view.frame = CGRectMake(0, 5, CGRectGetWidth(self.view.frame), kStoreUploadPrsViewHeight);
+//        
+//        UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
+//        footer.frame = CGRectMake(0, view.frame.size.height, CGRectGetWidth(self.view.frame), 50 + view.frame.size.height);
+//        
+//        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10 + view.frame.size.height, CGRectGetWidth(self.view.frame), 30)];
+//        label.backgroundColor = [UIColor clearColor];
+//        label.text = @"Browse by Categories";
+//        label.textAlignment = NSTextAlignmentCenter;
+//        label.font = [NeediatorUtitity mediumFontWithSize:17];
+//        
+//        [footer addSubview:label];
+//        [footer addSubview:view];
+//        
+//        return footer;
+//        
+//        
+//    }
     else
         return nil;
 }
@@ -582,9 +625,9 @@ typedef NS_ENUM(uint16_t, sections) {
     if (section == SectionStoreTaxonTaxonomies) {
         return _footerHeight;
     }
-    else if (section == SectionStoreOptionsView)
-        return kStoreUploadPrsViewHeight + 50;
-    else
+//    else if (section == SectionStoreOptionsView)
+//        return kStoreUploadPrsViewHeight + 50;
+//    else
         return 0;
     
 }
