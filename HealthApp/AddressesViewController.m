@@ -25,7 +25,7 @@
 {
     NSString *cellIdentifier;
 }
-@property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) NeediatorHUD *hud;
 @property (nonatomic, strong) NSMutableArray *available_addresses;
 
 
@@ -71,6 +71,7 @@ typedef void(^completion)(BOOL finished);
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [self hideHUD];
 }
 
 - (void)cancelPressed:(id)sender {
@@ -383,16 +384,19 @@ typedef void(^completion)(BOOL finished);
 #pragma mark - MBProgressHUD
 
 -(void)showHUD {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    self.hud.color = [UIColor clearColor];
-    self.hud.labelText = @"Loading...";
-    self.hud.labelColor = [UIColor darkGrayColor];
-    self.hud.activityIndicatorColor = [UIColor blackColor];
-    self.hud.detailsLabelColor = [UIColor darkGrayColor];
+    self.hud = [[NeediatorHUD alloc] initWithFrame:self.tableView.frame];
+    self.hud.overlayColor = [UIColor clearColor];
+    [self.hud fadeInAnimated:YES];
+    self.hud.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2);
+    [self.navigationController.view insertSubview:self.hud belowSubview:self.navigationController.navigationBar];
+    
+    
 }
 
 -(void)hideHUD {
-    [self.hud hide:YES];
+    [self.hud fadeOutAnimated:YES];
+    [self.hud removeFromSuperview];
+    
 }
 
 

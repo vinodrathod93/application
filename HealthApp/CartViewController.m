@@ -49,11 +49,10 @@ static NSString *cellIdentifier = @"cartCell";
 @property (nonatomic, strong) NSIndexPath *selectIndexPath;
 @property (nonatomic, strong) CartViewModel *viewModel;
 @property (nonatomic, assign) BOOL isAlreadyLoggedIn;
-@property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) NeediatorHUD *hud;
 @property (nonatomic, strong) AppDelegate *appDelegate;
 
 @property (nonatomic, strong) UIView *dimmView;
-@property (nonatomic, strong) UIView *loadingView;
 
 @property (nonatomic, strong) NoConnectionView *connectionErrorView;
 
@@ -129,6 +128,7 @@ static NSString *cellIdentifier = @"cartCell";
     
     [self removeNoCartDimmView];
     [self removeConnectionErrorView];
+    [self hideHUD];
     
 //    if (self.dimmView) {
 //        
@@ -743,29 +743,50 @@ static NSString *cellIdentifier = @"cartCell";
 
 
 
--(void)showHUD:(NSString *)text andDetailText:(NSString *)detail {
+//-(void)showHUD:(NSString *)text andDetailText:(NSString *)detail {
+//    
+//    self.loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.frame), self.view.frame.size.height)];
+//    self.loadingView.backgroundColor = [UIColor whiteColor];
+////    [self.view addSubview:self.loadingView];
+//    [self.navigationController.view insertSubview:self.loadingView belowSubview:self.navigationController.navigationBar];
+//    
+////    [self.view insertSubview:self.loadingView aboveSubview:self.tableView];
+//    
+//    self.hud = [MBProgressHUD showHUDAddedTo:self.loadingView animated:YES];
+//    self.hud.color = [UIColor blackColor];
+//    self.hud.labelText = text;
+//    self.hud.detailsLabelText = detail;
+//    self.hud.center = self.loadingView.center;
+//    self.hud.dimBackground = YES;
+//}
+//
+//-(void)hideHUD {
+//    
+//    [self.hud hide:YES];
+//    
+//    [self.loadingView removeFromSuperview];
+//}
+
+
+
+-(void)showHUD {
+    self.hud = [[NeediatorHUD alloc] initWithFrame:self.tableView.frame];
+    self.hud.overlayColor = [NeediatorUtitity blurredDefaultColor];
+    [self.hud fadeInAnimated:YES];
+    self.hud.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2);
+    [self.navigationController.view insertSubview:self.hud belowSubview:self.navigationController.navigationBar];
     
-    self.loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.frame), self.view.frame.size.height)];
-    self.loadingView.backgroundColor = [UIColor whiteColor];
-//    [self.view addSubview:self.loadingView];
-    [self.navigationController.view insertSubview:self.loadingView belowSubview:self.navigationController.navigationBar];
     
-//    [self.view insertSubview:self.loadingView aboveSubview:self.tableView];
-    
-    self.hud = [MBProgressHUD showHUDAddedTo:self.loadingView animated:YES];
-    self.hud.color = [UIColor blackColor];
-    self.hud.labelText = text;
-    self.hud.detailsLabelText = detail;
-    self.hud.center = self.loadingView.center;
-    self.hud.dimBackground = YES;
 }
 
 -(void)hideHUD {
+    [self.hud fadeOutAnimated:YES];
+    [self.hud removeFromSuperview];
     
-    [self.hud hide:YES];
-    
-    [self.loadingView removeFromSuperview];
 }
+
+
+
 
 
 #pragma mark - Network
@@ -1032,7 +1053,8 @@ static NSString *cellIdentifier = @"cartCell";
         
         [self.task resume];
         
-        [self showHUD:@"Loading..." andDetailText:@"Cart Details"];
+//        [self showHUD:@"Loading..." andDetailText:@"Cart Details"];
+        [self showHUD];
         
     } else {
         [self showLoginPageAndIsPlacingOrder:NO];
@@ -1142,7 +1164,8 @@ static NSString *cellIdentifier = @"cartCell";
         
         [self.task resume];
         
-        [self showHUD:@"Removing..." andDetailText:nil];
+//        [self showHUD:@"Removing..." andDetailText:nil];
+        [self showHUD];
         
     } else {
         [self showLoginPageAndIsPlacingOrder:NO];
@@ -1260,7 +1283,8 @@ static NSString *cellIdentifier = @"cartCell";
         
         [self.task resume];
         
-        [self showHUD:@"Updating..." andDetailText:nil];
+//        [self showHUD:@"Updating..." andDetailText:nil];
+        [self showHUD];
         
     } else {
         [self showLoginPageAndIsPlacingOrder:NO];

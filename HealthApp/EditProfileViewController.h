@@ -23,4 +23,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *editProfileButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UITextField *dateOfBirthTF;
+@property (weak, nonatomic) IBOutlet UIButton *maleButton;
+@property (weak, nonatomic) IBOutlet UIButton *femaleButton;
+@property (weak, nonatomic) IBOutlet UILabel *emailLabel;
+@property (weak, nonatomic) IBOutlet UILabel *mobileNumberLabel;
+@property (weak, nonatomic) IBOutlet UIButton *mobileVerificationButton;
+@property (weak, nonatomic) IBOutlet UIButton *emailVerificationButton;
 @end

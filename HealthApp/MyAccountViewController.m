@@ -150,6 +150,7 @@ enum MyAccountCells {
     cell.userEmail.text = [user.email isEqual:[NSNull null]] ? @"" : user.email;
     
     NSURL *url = [NSURL URLWithString:user.profilePic];
+    cell.backgroundColor = [UIColor whiteColor];
     [cell.profileImage sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"profile_placeholder"] options:SDWebImageRefreshCached];
     cell.profileImage.layer.cornerRadius = cell.profileImage.frame.size.width/2.0f;
     cell.profileImage.clipsToBounds = YES;
@@ -180,10 +181,36 @@ enum MyAccountCells {
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return 212.0f;
+        return 238.f;
     } else
         return 44.0f;
 }
+
+
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    if (section == 0) {
+        header.frame = CGRectMake(0, 0, self.view.frame.size.width, 1);
+    }
+    else if (section == 1) {
+        header.frame = CGRectMake(0, 0, self.view.frame.size.width, 10);
+    }
+    
+    
+    return header;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1.f;
+    }
+    else
+        return 10.f;
+}
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -339,7 +366,7 @@ enum MyAccountCells {
         
         _iconsArray  = @[
                          @"",
-                         @[ @"my_orders", @"my_orders", @"booking", @"address",@"store_fav", @"user"],
+                         @[ @"my_orders", @"myorder", @"booking", @"address",@"store_fav", @"leaderboard"],
                          @"signout"
                          ];
         

@@ -24,6 +24,6 @@
 @property (nonatomic, assign) CGSize logoSize;
 @property (nonatomic, assign) UIColor *shadowColor;
 
-
+@property (nonatomic) CGSize imageSize;
 
 @end

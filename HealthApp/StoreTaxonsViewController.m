@@ -23,7 +23,8 @@
 #import "MapLocationViewController.h"
 #import "OffersPopViewController.h"
 #import "NeediatorPhotoBrowser.h"
-#import "ListingOptionsCell.h"
+#import "ChemistOptionViewCell.h"
+#import "DoctorOptionsViewCell.h"
 
 
 #define kImageViewSection 0;
@@ -375,7 +376,7 @@ typedef NS_ENUM(uint16_t, sections) {
     else if (section == SectionStoreTaxonTaxonomies)
         return [self.taxonomies count];
     else if (section == SectionStoreOptionsView) {
-        return 4;
+        return 1;
     }
     else
         return 0;
@@ -388,7 +389,8 @@ typedef NS_ENUM(uint16_t, sections) {
     
     NSLog(@"cellForRowAtIndexPath");
     static NSString *CellIdentifier = @"storeTaxonomyCell";
-    static NSString *optionsCellIdentifier = @"storeOptionsCellIdentifier";
+    static NSString *chemistOptionsCellIdentifier = @"chemistStoreOptionsCellIdentifier";
+    static NSString *doctorOptionsCellIdentifier = @"doctorStoreOptionsCellIdentifier";
     
     
     if (indexPath.section == SectionStoreImageViews) {
@@ -474,14 +476,30 @@ typedef NS_ENUM(uint16_t, sections) {
     }
     else {
         
-        ListingOptionsCell *cell = [tableView dequeueReusableCellWithIdentifier:optionsCellIdentifier forIndexPath:indexPath];
+        id cell;
         
+        if ([self.cat_id isEqualToString:@"2"]) {
+            DoctorOptionsViewCell *doctorOptionsCell = [tableView dequeueReusableCellWithIdentifier:doctorOptionsCellIdentifier forIndexPath:indexPath];
+            doctorOptionsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            doctorOptionsCell.backgroundColor = [UIColor clearColor];
+            
+            cell = doctorOptionsCell;
+        }
+        else {
         
-        UploadPrescriptionCellView *view =  [self uploadPrescriptionCellView];
-        view.frame = CGRectMake(0, 5, CGRectGetWidth(self.view.frame), kStoreUploadPrsViewHeight);
-        
-        cell.categoryView = view;
-
+            ChemistOptionViewCell *chemistOptionCell = [tableView dequeueReusableCellWithIdentifier:chemistOptionsCellIdentifier forIndexPath:indexPath];
+            chemistOptionCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            [chemistOptionCell.sendPrescriptionView addGestureRecognizer:_uploadPrsGestureRecognizer];
+            [chemistOptionCell.quickOrderView addGestureRecognizer:_quickOrderGestureRecognizer];
+            [chemistOptionCell.sendPresButton addTarget:self action:@selector(popUploadPrescriptionVC) forControlEvents:UIControlEventTouchUpInside];
+            [chemistOptionCell.quickOrderButton addTarget:self action:@selector(popQuickOrderSearchVC) forControlEvents:UIControlEventTouchUpInside];
+            
+            
+            chemistOptionCell.backgroundColor = [UIColor clearColor];
+            
+            cell = chemistOptionCell;
+        }
         
         
         return cell;
@@ -510,7 +528,11 @@ typedef NS_ENUM(uint16_t, sections) {
     else if (indexPath.section == SectionStoreTaxonTaxonomies)
         return kStoreTaxonTaxonomyCellHeight;
     else if (indexPath.section == SectionStoreOptionsView) {
-        return kStoreUploadPrsViewHeight;
+        
+        if([self.cat_id isEqualToString:@"2"])
+            return 172.f;
+        else
+            return kStoreUploadPrsViewHeight;
     }
     else
         return 0.0f;

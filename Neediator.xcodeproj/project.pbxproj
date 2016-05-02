@@ -37,7 +37,6 @@
 		82217C4D1C96E2B4002570E3 /* UploadPrescriptionCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82217C4C1C96E2B4002570E3 /* UploadPrescriptionCellView.m */; };
 		822EF6061CA678DA00C67C91 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 822EF6051CA678DA00C67C91 /* AudioToolbox.framework */; };
 		8230D4571C11686400F585D1 /* NavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8230D4561C11686400F585D1 /* NavigationViewController.m */; };
-		8231AF4F1CD4D862001A5379 /* ListingOptionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8231AF4D1CD4D862001A5379 /* ListingOptionsCell.m */; };
 		82327F6E1B60B0EB00D92889 /* DetailProductViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F6D1B60B0EB00D92889 /* DetailProductViewModel.m */; };
 		82327F741B60C86B00D92889 /* CartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F731B60C86B00D92889 /* CartViewController.m */; };
 		82327F771B60F9A800D92889 /* CartViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82327F761B60F9A800D92889 /* CartViewCell.m */; };
@@ -194,6 +193,8 @@
 		82D3840F1C2C0DB700D05FB7 /* PaymentDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D3840E1C2C0DB700D05FB7 /* PaymentDetailViewCell.m */; };
 		82D47D281CABF839006B7996 /* behind_alert_view.png in Resources */ = {isa = PBXBuildFile; fileRef = 82D47D271CABF839006B7996 /* behind_alert_view.png */; };
 		82D47D2F1CABF928006B7996 /* OffersPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D47D2E1CABF928006B7996 /* OffersPopViewController.m */; };
+		82D4D2681CD740DC00EB140D /* ChemistOptionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D4D2671CD740DC00EB140D /* ChemistOptionViewCell.m */; };
+		82D4D26B1CD74BA700EB140D /* DoctorOptionsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D4D26A1CD74BA700EB140D /* DoctorOptionsViewCell.m */; };
 		82D65ADF1CC510E700A24A30 /* CallBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D65ADE1CC510E700A24A30 /* CallBackViewController.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
 		82DCBED11C4CEFE7005EBDB3 /* ListingResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED01C4CEFE7005EBDB3 /* ListingResponseModel.m */; };
@@ -347,8 +348,6 @@
 		822EF6051CA678DA00C67C91 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		8230D4551C11686400F585D1 /* NavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationViewController.h; sourceTree = "<group>"; };
 		8230D4561C11686400F585D1 /* NavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationViewController.m; sourceTree = "<group>"; };
-		8231AF4C1CD4D862001A5379 /* ListingOptionsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingOptionsCell.h; sourceTree = "<group>"; };
-		8231AF4D1CD4D862001A5379 /* ListingOptionsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingOptionsCell.m; sourceTree = "<group>"; };
 		82327F6C1B60B0EB00D92889 /* DetailProductViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailProductViewModel.h; sourceTree = "<group>"; };
 		82327F6D1B60B0EB00D92889 /* DetailProductViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailProductViewModel.m; sourceTree = "<group>"; };
 		82327F721B60C86B00D92889 /* CartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartViewController.h; sourceTree = "<group>"; };
@@ -638,6 +637,10 @@
 		82D47D271CABF839006B7996 /* behind_alert_view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = behind_alert_view.png; sourceTree = "<group>"; };
 		82D47D2D1CABF928006B7996 /* OffersPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OffersPopViewController.h; sourceTree = "<group>"; };
 		82D47D2E1CABF928006B7996 /* OffersPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OffersPopViewController.m; sourceTree = "<group>"; };
+		82D4D2661CD740DC00EB140D /* ChemistOptionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemistOptionViewCell.h; sourceTree = "<group>"; };
+		82D4D2671CD740DC00EB140D /* ChemistOptionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChemistOptionViewCell.m; sourceTree = "<group>"; };
+		82D4D2691CD74BA700EB140D /* DoctorOptionsViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoctorOptionsViewCell.h; sourceTree = "<group>"; };
+		82D4D26A1CD74BA700EB140D /* DoctorOptionsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoctorOptionsViewCell.m; sourceTree = "<group>"; };
 		82D65ADD1CC510E700A24A30 /* CallBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallBackViewController.h; sourceTree = "<group>"; };
 		82D65ADE1CC510E700A24A30 /* CallBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallBackViewController.m; sourceTree = "<group>"; };
 		82D6EE301C1802B6007CE5F2 /* NeediatorAPIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorAPIKey.h; sourceTree = "<group>"; };
@@ -916,8 +919,10 @@
 		8231AF4B1CD4D615001A5379 /* Store Options */ = {
 			isa = PBXGroup;
 			children = (
-				8231AF4C1CD4D862001A5379 /* ListingOptionsCell.h */,
-				8231AF4D1CD4D862001A5379 /* ListingOptionsCell.m */,
+				82D4D2661CD740DC00EB140D /* ChemistOptionViewCell.h */,
+				82D4D2671CD740DC00EB140D /* ChemistOptionViewCell.m */,
+				82D4D2691CD74BA700EB140D /* DoctorOptionsViewCell.h */,
+				82D4D26A1CD74BA700EB140D /* DoctorOptionsViewCell.m */,
 			);
 			name = "Store Options";
 			sourceTree = "<group>";
@@ -2511,7 +2516,6 @@
 				82A1D3CC1C5602BF00E6B1D3 /* BookingViewController.m in Sources */,
 				82EA68061C43D89900F9924D /* ClinicsModel.m in Sources */,
 				82147FBD1C4528ED00D6691E /* MetaPagingModel.m in Sources */,
-				8231AF4F1CD4D862001A5379 /* ListingOptionsCell.m in Sources */,
 				82ED53E41C4FB48100FA7707 /* EntityDetailsResponseModel.m in Sources */,
 				82A542831C229ECF00383253 /* MyOrdersModel.m in Sources */,
 				8267ABA01CB29E6C00CF1632 /* NotificationViewController.m in Sources */,
@@ -2556,6 +2560,7 @@
 				82A8B4131C4E610D00FCDF79 /* ImageModalViewController.m in Sources */,
 				82147FD31C452DB500D6691E /* ListingTableViewController.m in Sources */,
 				82A542891C22B3A100383253 /* VariantImagesModel.m in Sources */,
+				82D4D26B1CD74BA700EB140D /* DoctorOptionsViewCell.m in Sources */,
 				827DD31A1B8AE39F00714985 /* Address.m in Sources */,
 				823339351C9D7D3300E16852 /* FilterTableViewController.m in Sources */,
 				8286B2711BF0CF6A00AFC533 /* TaxonomyModel.m in Sources */,
@@ -2611,6 +2616,7 @@
 				6795F0A81C9C8E9000984A92 /* SortListModel.m in Sources */,
 				82AA54B61CB68F59009E9717 /* TrackPipelineView.m in Sources */,
 				82C6FC371CBD0B5800DF1C9A /* EditProfileViewController.m in Sources */,
+				82D4D2681CD740DC00EB140D /* ChemistOptionViewCell.m in Sources */,
 				82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */,
 				82F856CB1C8077B0000B68A9 /* SubCategoryModel.m in Sources */,
 				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,

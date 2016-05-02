@@ -13,10 +13,10 @@
 
 
 enum SECTIONS {
-    SharingSection = 0,
+    FAQSection = 0,
     PolicySection,
-    ContactUs,
-    AboutUs
+    SharingSection,
+    ContactUs
 };
 
 @interface MoreViewController ()<MFMailComposeViewControllerDelegate>
@@ -34,18 +34,25 @@ enum SECTIONS {
 //    _moreData = [[NSArray alloc] initWithObjects:@"Rate us", @"Share us", @"Privacy Policy", @"About us", nil];
     
     _moreData   = @[
-                    @[@"Rate us", @"Share us"],
+                    @"FAQ",
                     @[ @"Privacy Policy", @"Return Policy",@"Terms of Use"],
-                    @"Contact us",
-                    @"About us"
+                    @[@"About Us", @"Rate Us", @"Share Us"],
+                    @"Contact Us"
                     ];
     
     _moreDataIcons = @[
-                       @[@"rate", @"share"],
+                       @"about_us",
                        @[ @"privacy",@"return_policy", @"terms_condition"],
-                       @"contact_us",
-                       @"about_us"
+                       @[@"about_us", @"rate", @"share"],
+                       @"contact_us"
                        ];
+    
+//    _moreDataIcons = @[
+//                       @[@"rate", @"share"],
+//                       @[ @"privacy",@"return_policy", @"terms_condition"],
+//                       @"contact_us",
+//                       @"about_us"
+//                       ];
 }
 
 
@@ -146,15 +153,30 @@ enum SECTIONS {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+
+    
     if (indexPath.section == SharingSection) {
         
+        
         if (indexPath.row == 0) {
+            NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"about_us" ofType:@"txt"];
+            NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
+            
+            WebViewController *aboutUsWebViewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewVC"];
+            aboutUsWebViewVC.hidesBottomBarWhenPushed = YES;
+            aboutUsWebViewVC.title = @"About us";
+            
+            aboutUsWebViewVC.htmlString = htmlString;
+            
+            [self.navigationController pushViewController:aboutUsWebViewVC animated:YES];
+        }
+        else if (indexPath.row == 1) {
             // Rate us
             
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString: kAPP_URL_STRING]];
             
         }
-        else if (indexPath.row == 1) {
+        else if (indexPath.row == 2) {
             // Share us
             
             UITableViewCell *selected_cell = [self.tableView cellForRowAtIndexPath:indexPath];
@@ -203,18 +225,7 @@ enum SECTIONS {
         
         
     }
-    else if (indexPath.section == AboutUs) {
-        NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"about_us" ofType:@"txt"];
-        NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
-        
-        WebViewController *aboutUsWebViewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewVC"];
-        aboutUsWebViewVC.hidesBottomBarWhenPushed = YES;
-        aboutUsWebViewVC.title = @"About us";
-        
-        aboutUsWebViewVC.htmlString = htmlString;
-        
-        [self.navigationController pushViewController:aboutUsWebViewVC animated:YES];
-    }
+    
 }
 
 
@@ -241,6 +252,32 @@ enum SECTIONS {
 }
 
 
+
+-(void)prepareFeedbackMail {
+    // Email Subject
+    NSString *emailTitle = @"Feedback";
+    // Email Content
+    NSString *messageBody = @"Hi Neediator Team, \n"; // Change the message body to HTML
+    // To address
+    NSArray *toRecipents = [NSArray arrayWithObject:@"care@neediator.in"];
+    
+    MFMailComposeViewController *mailComposerVC = [[MFMailComposeViewController alloc] init];
+    
+    if ([MFMailComposeViewController canSendMail]) {
+        mailComposerVC.mailComposeDelegate = self;
+        [mailComposerVC setSubject:emailTitle];
+        [mailComposerVC setMessageBody:messageBody isHTML:YES];
+        [mailComposerVC setToRecipients:toRecipents];
+        
+        // Present mail view controller on screen
+        [self presentViewController:mailComposerVC animated:YES completion:NULL];
+    }
+    
+}
+
+
+
+
 -(void)callbackVC {
     CallBackViewController *callbackVC = [self.storyboard instantiateViewControllerWithIdentifier:@"callbackVC"];
     [self.navigationController pushViewController:callbackVC animated:YES];
@@ -255,7 +292,7 @@ enum SECTIONS {
     }];
     
     UIAlertAction *feedback = [UIAlertAction actionWithTitle:@"Give Feedback" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self prepareMail];
+        [self prepareFeedbackMail];
     }];
     
     UIAlertAction *emailUs = [UIAlertAction actionWithTitle:@"Email Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -263,18 +300,27 @@ enum SECTIONS {
     }];
     
     UIAlertAction *callUs = [UIAlertAction actionWithTitle:@"Call Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //
+        
+            
+        NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",@"+91-XXX-XXX-XXXX"]];
+        
+        if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+            [[UIApplication sharedApplication] openURL:phoneUrl];
+        } else
+        {
+            UIAlertView *callAlertView = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Call facility is not available!!!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [callAlertView show];
+        }
         
     }];
     
-    UIAlertAction *meetus = [UIAlertAction actionWithTitle:@"Meet Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
+    
     
     [controller addAction:callBackAction];
     [controller addAction:emailUs];
     [controller addAction:callUs];
     [controller addAction:feedback];
-    [controller addAction:meetus];
     
     
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {

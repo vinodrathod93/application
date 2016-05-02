@@ -20,6 +20,13 @@
     
     self.title = @"Call Me Back";
     self.callmeButton.layer.cornerRadius = 8.0;
+    
+    
+    
+    self.problemTextView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.problemTextView.layer.borderWidth = 0.5f;
+    self.problemTextView.layer.cornerRadius = 6.f;
+    self.problemTextView.layer.masksToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {

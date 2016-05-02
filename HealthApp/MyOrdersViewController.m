@@ -19,6 +19,7 @@
 
 @property (nonatomic, strong) NSArray *colorArray;
 @property (nonatomic, strong) NSMutableDictionary *contentOffsetDictionary;
+@property (nonatomic, strong) NeediatorHUD *hud;
 
 @end
 
@@ -35,9 +36,7 @@
     
     self.title         = @"My Orders";
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText      = @"Loading...";
-    hud.dimBackground  = YES;
+    [self showHUD];
     
     
     _itemsImages = [NSMutableArray array];
@@ -46,7 +45,7 @@
     
     [[NAPIManager sharedManager] getMyOrdersListingWithSuccess:^(MyOrdersResponseModel *myOrdersModel) {
         
-        [hud hide:YES];
+        [self hideHUD];
         
         NSLog(@"%@", myOrdersModel.orders);
         
@@ -59,7 +58,7 @@
         
     } failure:^(NSError *error) {
         
-        [hud hide:YES];
+        [self hideHUD];
         UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertError show];
     }];
@@ -102,6 +101,15 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self hideHUD];
+}
+
+
 
 #pragma mark - Table view data source
 
@@ -463,7 +471,23 @@
 
 
 
+#pragma mark - HUD
 
+-(void)showHUD {
+    self.hud = [[NeediatorHUD alloc] initWithFrame:self.tableView.frame];
+    self.hud.overlayColor = [NeediatorUtitity blurredDefaultColor];
+    [self.hud fadeInAnimated:YES];
+    self.hud.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2);
+    [self.navigationController.view insertSubview:self.hud belowSubview:self.navigationController.navigationBar];
+    
+    
+}
+
+-(void)hideHUD {
+    [self.hud fadeOutAnimated:YES];
+    [self.hud removeFromSuperview];
+    
+}
 
 
 

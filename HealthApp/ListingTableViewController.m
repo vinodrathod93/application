@@ -449,6 +449,15 @@
     if (indexPath.section != 0) {
         ListingModel *model = self.listingArray[indexPath.section - 1];
         
+        NSString *image_string;
+        
+        if (model.images.count > 0) {
+            NSDictionary *image_dict = [model.images objectAtIndex:0];
+            image_string = image_dict[@"image_url"];
+        }
+        else
+            image_string = @"";
+        
         NSMutableArray *recentStoresArray = [[NSMutableArray alloc] init];
         NSArray *savedStores = [NeediatorUtitity savedDataForKey:kSAVE_RECENT_STORES];
         
@@ -458,7 +467,8 @@
                                     @"storeid" : model.list_id,
                                     @"categoryid" : self.category_id,
                                     @"area" : model.area,
-                                    @"code" : model.code
+                                    @"code" : model.code,
+                                    @"image": image_string
                                     };
         
         // check if the saved store has reached limit
@@ -492,7 +502,7 @@
         // save the store_id for remembering current store id.
         [NeediatorUtitity save:model.list_id forKey:kSAVE_STORE_ID];
         
-        if (_isProductType == TRUE) {
+//        if (_isProductType == TRUE) {
             // Show taxons VC
             
             StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
@@ -558,20 +568,20 @@
             storeTaxonsVC.hidesBottomBarWhenPushed = NO;
             [self.navigationController pushViewController:storeTaxonsVC animated:YES];
             
-        }
-        else {
-            NEntityDetailViewController *NEntityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
-            NEntityVC.cat_id    = self.category_id;
-            NEntityVC.entity_id = model.list_id;
-            NEntityVC.title     = model.name.uppercaseString;
-            NEntityVC.isBooking = _isBooking;
-            
-            NEntityVC.entity_name = model.name;
-            NEntityVC.entity_meta_info = self.title;
-            NEntityVC.entity_image = model.image_url;
-            
-            [self.navigationController pushViewController:NEntityVC animated:YES];
-        }
+//        }
+//        else {
+//            NEntityDetailViewController *NEntityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NEntityVC"];
+//            NEntityVC.cat_id    = self.category_id;
+//            NEntityVC.entity_id = model.list_id;
+//            NEntityVC.title     = model.name.uppercaseString;
+//            NEntityVC.isBooking = _isBooking;
+//            
+//            NEntityVC.entity_name = model.name;
+//            NEntityVC.entity_meta_info = self.title;
+//            NEntityVC.entity_image = model.image_url;
+//            
+//            [self.navigationController pushViewController:NEntityVC animated:YES];
+//        }
     }
     
     

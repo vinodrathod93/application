@@ -235,13 +235,15 @@
             
             cell.textLabel.text      = model[@"name"];
             cell.detailTextLabel.text = model[@"area"];
+            [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model[@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         }
         else
             cell.textLabel.text      = [self.storesArray objectAtIndex:indexPath.row];
         
         cell.backgroundColor = [UIColor clearColor];
         cell.textLabel.font         = [UIFont fontWithName:@"AvenirNext-Regular" size:15.f];
-        cell.imageView.image    = [UIImage imageNamed:@"shop"];
+        cell.imageView.image    = [UIImage imageNamed:@"placeholder_neediator"];
+        
         cell.detailTextLabel.font = [NeediatorUtitity regularFontWithSize:11.f];
         cell.detailTextLabel.textColor = [UIColor darkGrayColor];
         

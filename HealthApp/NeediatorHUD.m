@@ -185,4 +185,8 @@ CGFloat RotationDuration = 0.5;
     _activityImageView.layer.shadowColor = shadowColor.CGColor;
 }
 
+-(void)setImageSize:(CGSize)imageSize {
+    _activityImageView.frame = CGRectMake(0, 0, imageSize.width, imageSize.height);
+}
+
 @end

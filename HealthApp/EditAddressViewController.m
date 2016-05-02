@@ -52,10 +52,11 @@
         NSArray *names = [name componentsSeparatedByString:@" "];
 //        NSArray *addressLines = [address componentsSeparatedByString:@","];
         
-        self.firstNameTextField.text    = [names firstObject];
-        self.lastNameTextField.text     = [names lastObject];
-        self.address1TextField.text     = address;
-        self.address2TextField.text     = @"";
+        self.billingNametTextField.text    = [names firstObject];
+//        self.lastNameTextField.text     = [names lastObject];
+        self.buildingNameTextField.text     = address;
+        self.roadTextField.text = @"";
+        self.areaTextField.text     = @"";
         
         self.pincodeTextField.text      = self.shipAddress[@"pincode"];
         self.cityTextField.text         = self.shipAddress[@"cityname"];
@@ -103,6 +104,20 @@
 }
 
 
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    CGFloat lastViewHeight = CGRectGetHeight(((UIView *)[self.contentView.subviews lastObject]).frame);
+    int lastViewY = CGRectGetMaxY(((UIView *)[self.contentView.subviews lastObject]).frame);
+    
+    CGFloat height = lastViewHeight + lastViewY + 50;
+    
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), height);
+}
+
+
+
 -(void)dismissPickerView:(id)sender {
     
     NSLog(@"Sender %@", sender);
@@ -143,8 +158,8 @@
             NSString *addressID = self.shipAddress[@"id"];
             
             path = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/updateAddress"];
-            complete_address = [NSString stringWithFormat:@"%@, %@", self.address1TextField.text, self.address2TextField.text];
-            fullname = [NSString stringWithFormat:@"%@ %@", [self.firstNameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] , [self.lastNameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
+            complete_address = [NSString stringWithFormat:@"%@, %@, %@, %@, %@",  self.wingTextFiedl.text, self.flatNoTextField.text, self.floorNoTextField.text, self.buildingNameTextField.text, self.roadTextField.text];
+            fullname = [NSString stringWithFormat:@"%@", [self.billingNametTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
             
             // Parameter
             parameter = [NSString stringWithFormat:@"address=%@&id=%@&latitude=%@&longitude=%@&name=%@&pincode=%@&stateid=%@&cityid=%@", complete_address, addressID, location.latitude, location.longitude, fullname, self.pincodeTextField.text, _selected_state.stateID.stringValue, _selected_city.cityID.stringValue];
@@ -160,8 +175,8 @@
             
             // Path URL
             path = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/addAddress"];
-            complete_address = [NSString stringWithFormat:@"%@, %@", self.address1TextField.text, self.address2TextField.text];
-            fullname = [NSString stringWithFormat:@"%@ %@", [self.firstNameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""] , [self.lastNameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
+            complete_address = [NSString stringWithFormat:@"%@, %@, %@, %@, %@",  self.wingTextFiedl.text, self.flatNoTextField.text, self.floorNoTextField.text, self.buildingNameTextField.text, self.roadTextField.text];
+            fullname = [NSString stringWithFormat:@"%@", [self.billingNametTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
             
             // Parameter
             parameter = [NSString stringWithFormat:@"address=%@&user_id=%@&latitude=%@&longitude=%@&name=%@&pincode=%@&stateid=%@&cityid=%@", complete_address, user.userID, location.latitude, location.longitude, fullname, self.pincodeTextField.text, _selected_state.stateID.stringValue, _selected_city.cityID.stringValue];
@@ -453,7 +468,7 @@
 -(NSString *)validateForm {
     NSString *errorMessage;
     
-    if (![self.address1TextField.text isValidAddress1]) {
+    if (![self.billingNametTextField.text isValidAddress1]) {
         errorMessage = @"Please enter a valid address";
     } else if (![self.pincodeTextField.text isValidatePinCode]) {
         errorMessage = @"Please enter a valid Pincode";
@@ -461,9 +476,9 @@
         errorMessage = @"Please select a state";
     } else if (![self.cityTextField.text isValidCity]) {
         errorMessage = @"Please select a city";
-    } else if (![self.firstNameTextField.text isValidFirstName]) {
+    } else if (![self.billingNametTextField.text isValidFirstName]) {
         errorMessage = @"Please enter a valid firstname";
-    } else if (![self.lastNameTextField.text isValidLastName])
+    } else if (![self.roadTextField.text isValidLastName])
         errorMessage = @"Please enter a valid lastname";
     
     return errorMessage;
