@@ -2051,45 +2051,37 @@
                             <rect key="frame" x="0.0" y="64" width="600" height="130"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
-                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nRo-DY-wic">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g8V-tl-lcO" customClass="iCarousel">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
-                                    <connections>
-                                        <outlet property="delegate" destination="kWE-bs-ize" id="ebS-pc-Oll"/>
-                                    </connections>
-                                </scrollView>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3r9-2p-FGO" userLabel="BlurView">
-                                    <rect key="frame" x="0.0" y="110" width="600" height="20"/>
+                                    <rect key="frame" x="578" y="0.0" width="22" height="130"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="20" id="F1X-Qw-cLZ"/>
+                                        <constraint firstAttribute="width" constant="22" id="rHQ-VN-5ha"/>
                                     </constraints>
                                 </view>
                                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="5NN-r0-iJc">
-                                    <rect key="frame" x="551" y="101" width="39" height="37"/>
-                                    <color key="pageIndicatorTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="currentPageIndicatorTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <rect key="frame" x="570" y="47" width="39" height="37"/>
+                                    <color key="pageIndicatorTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="currentPageIndicatorTintColor" red="0.96644176140000004" green="0.96614591049999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </pageControl>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="3r9-2p-FGO" firstAttribute="leading" secondItem="b2E-lD-Kdh" secondAttribute="leadingMargin" constant="-8" id="DE0-dd-irh"/>
-                                <constraint firstItem="5NN-r0-iJc" firstAttribute="trailing" secondItem="3r9-2p-FGO" secondAttribute="trailing" constant="-10" id="HOE-po-2rg"/>
-                                <constraint firstAttribute="trailingMargin" secondItem="3r9-2p-FGO" secondAttribute="trailing" constant="-8" id="MA6-aO-GaJ"/>
-                                <constraint firstItem="nRo-DY-wic" firstAttribute="leading" secondItem="b2E-lD-Kdh" secondAttribute="leadingMargin" constant="-8" id="TAd-jw-8BV"/>
-                                <constraint firstAttribute="bottom" secondItem="5NN-r0-iJc" secondAttribute="bottom" constant="-8" id="ZtJ-5D-Id6"/>
-                                <constraint firstAttribute="centerX" secondItem="5NN-r0-iJc" secondAttribute="centerX" id="knw-8w-BDz"/>
-                                <constraint firstItem="nRo-DY-wic" firstAttribute="top" secondItem="b2E-lD-Kdh" secondAttribute="topMargin" constant="-8" id="mwx-q4-H4h"/>
-                                <constraint firstAttribute="trailingMargin" secondItem="nRo-DY-wic" secondAttribute="trailing" constant="-8" id="suY-Zk-WTw"/>
-                                <constraint firstAttribute="bottomMargin" secondItem="3r9-2p-FGO" secondAttribute="bottom" constant="-8" id="yOE-VE-bOe"/>
-                                <constraint firstAttribute="bottomMargin" secondItem="nRo-DY-wic" secondAttribute="bottom" constant="-8" id="yg3-7c-WBp"/>
+                                <constraint firstItem="g8V-tl-lcO" firstAttribute="leading" secondItem="b2E-lD-Kdh" secondAttribute="leading" id="0VZ-ez-wxf"/>
+                                <constraint firstItem="5NN-r0-iJc" firstAttribute="centerY" secondItem="3r9-2p-FGO" secondAttribute="centerY" id="3Ee-e5-2o5"/>
+                                <constraint firstAttribute="bottom" secondItem="3r9-2p-FGO" secondAttribute="bottom" id="6yK-DI-qDf"/>
+                                <constraint firstAttribute="bottom" secondItem="g8V-tl-lcO" secondAttribute="bottom" id="7wj-Nh-23y"/>
+                                <constraint firstItem="g8V-tl-lcO" firstAttribute="top" secondItem="b2E-lD-Kdh" secondAttribute="top" id="EIE-v7-Jls"/>
+                                <constraint firstAttribute="trailing" secondItem="g8V-tl-lcO" secondAttribute="trailing" id="Im4-kn-7gs"/>
+                                <constraint firstItem="5NN-r0-iJc" firstAttribute="centerX" secondItem="3r9-2p-FGO" secondAttribute="centerX" id="Rl3-Xt-GhT"/>
+                                <constraint firstItem="3r9-2p-FGO" firstAttribute="top" secondItem="b2E-lD-Kdh" secondAttribute="top" id="Uhz-wP-w0F"/>
+                                <constraint firstAttribute="trailing" secondItem="3r9-2p-FGO" secondAttribute="trailing" id="rld-gS-4ad"/>
                             </constraints>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="knw-8w-BDz"/>
-                                </mask>
-                            </variation>
                             <connections>
+                                <outlet property="carousel" destination="g8V-tl-lcO" id="Vtm-WF-Lsr"/>
                                 <outlet property="pageControl" destination="5NN-r0-iJc" id="0bj-u9-E78"/>
-                                <outlet property="scrollView" destination="nRo-DY-wic" id="Rf4-jU-eqv"/>
                             </connections>
                         </collectionReusableView>
                         <connections>
@@ -2101,7 +2093,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HYd-80-taa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4860" y="-1515.8450704225352"/>
+            <point key="canvasLocation" x="4860" y="-1516"/>
         </scene>
         <!--Sub Category View Controller-->
         <scene sceneID="dIx-MN-vTd">

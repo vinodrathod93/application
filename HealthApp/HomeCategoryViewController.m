@@ -34,7 +34,7 @@
 
 
 
-@interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate,UIViewControllerPreviewingDelegate>
+@interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate,UIViewControllerPreviewingDelegate,iCarouselDataSource,iCarouselDelegate>
 
 
 @property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
@@ -231,6 +231,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     // automatic sliding of banner
     [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.5f];
+//    [NSTimer timerWithTimeInterval:2.5f target:self selector:@selector(changeDot:) userInfo:nil repeats:YES];
     
     // reload to remove all highlighting issues.
     [self.collectionView reloadData];
@@ -258,7 +259,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.headerView.askDoctorButton.layer.cornerRadius = self.headerView.askDoctorButton.frame.size.width/2;
     self.headerView.askPharmacistButton.layer.cornerRadius = self.headerView.askPharmacistButton.frame.size.width/2;
     
-    self.headerView.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.headerView.scrollView.frame) * self.promotions.count, CGRectGetHeight(self.headerView.scrollView.frame));
+//    self.headerView.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.headerView.scrollView.frame) * self.promotions.count, CGRectGetHeight(self.headerView.scrollView.frame));
 }
 
 -(NSArray *)getPListIconsArray {
@@ -519,58 +520,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     }
     
     
-    /*
-    [UIView transitionWithView:collectionView
-                      duration:.5
-                       options:UIViewAnimationOptionTransitionCurlUp
-                    animations:^{
-     
-                        //any animatable attribute here.
-                        cell.frame = CGRectMake(5, 5, CGRectGetWidth(cell.frame)-10, CGRectGetHeight(cell.frame)-10);
-     
-                    } completion:^(BOOL finished) {
-     
-                        //whatever you want to do upon completion
-     
-     
-                        CategoryModel *model = self.categoriesArray[indexPath.row];
-                        
-                        
-                        NSMutableArray *array = [NSMutableArray array];
-                        for (SubCategoryModel *subcat_model in self.subCategoriesArray) {
-                            if ([model.cat_id isEqual:subcat_model.cat_id]) {
-                                [array addObject:subcat_model];
-                            }
-                        }
-                        
-                        [NeediatorUtitity save:model.cat_id forKey:kSAVE_CAT_ID];
-                        
-                        if (array.count == 0) {
-                            
-                            ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
-                            listingVC.root                       = model.name;
-                            listingVC.nav_color                  = model.color_code;
-                            listingVC.category_id                 = model.cat_id.stringValue;
-                            listingVC.subcategory_id              = @"";
-                            
-                            [self.navigationController pushViewController:listingVC animated:YES];
-                            
-                            
-                        }
-                        else {
-                            
-                            SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCategoryCollectionVC"];
-                            subCatVC.subcategoryArray       = array;
-                            [self.navigationController pushViewController:subCatVC animated:YES];
-                        }
-                        
-                    }];
-    
-    
-    
-    
-    
-    */
     
     
     
@@ -589,11 +538,16 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseSupplementaryIdentifier forIndexPath:indexPath];
         
-        self.headerView.scrollView.frame           = self.headerView.frame;
-        self.headerView.scrollView.backgroundColor = [UIColor whiteColor];
+        self.headerView.carousel.type = iCarouselTypeCylinder;
+        self.headerView.carousel.vertical = YES;
+        self.headerView.carousel.delegate = self;
+        self.headerView.carousel.dataSource = self;
+        self.headerView.pageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
+        self.headerView.carousel.pagingEnabled = YES;
         
         
-        [self setupScrollViewImages];
+        
+//        [self setupScrollViewImages];
         
         
         
@@ -638,7 +592,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 }
 
 
-
+/*
 #pragma mark - Scroll view Delegate
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -653,32 +607,76 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     float myPageWidth = [self.headerView.scrollView frame].size.width;
     [self.headerView.scrollView setContentOffset:CGPointMake(aPage*myPageWidth,0) animated:YES];
 }
-
+*/
+ 
 -(void)changeDot:(id)sender {
-    
-//    NSLog(@"%ld and %lu", (long)self.headerView.pageControl.currentPage, (unsigned long)self.promotions.count);
-//    
-//    [self scrollToPage:self.headerView.pageControl.currentPage%self.promotions.count];
-//    
-//    self.headerView.pageControl.currentPage++;
     
     NSLog(@"changing");
     
-    [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.0f];
+    
     
     // Calclulate new offset
-    CGPoint pt = self.headerView.scrollView.contentOffset;
-    pt.x += self.headerView.scrollView.frame.size.width;
+    NSInteger index = self.headerView.carousel.currentItemIndex;
     
-    ++self.headerView.pageControl.currentPage;
-    // If it's a last subview in scrollview return back
-    if (!(pt.x < self.headerView.scrollView.contentSize.width)) {
-        pt.x = 0;
-        self.headerView.pageControl.currentPage = 0;
+    NSLog(@"Current Index is %ld", (long)index);
+    
+    if (self.headerView.carousel.currentItemIndex == 0) {
+        index = self.promotions.count-1;
+        
+        NSLog(@"oval Index is %ld", (long)index);
     }
-    [self.headerView.scrollView setContentOffset:pt animated:YES];
+    else {
+        index--;
+        NSLog(@"deduced Index is %ld", (long)index);
+    }
+        
+    [self.headerView.carousel scrollToItemAtIndex:index animated:YES];
+    [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.5f];
 }
 
+
+#pragma mark -
+#pragma mark iCarousel methods
+
+- (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel
+{
+    return self.promotions.count;
+}
+
+
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
+{
+    
+    
+    if (view == nil)
+    {
+        
+        PromotionModel *promotion = self.promotions[index];
+        
+        view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.headerView.carousel.frame), CGRectGetHeight(self.headerView.carousel.frame))];
+        NSURL *image_url = [NSURL URLWithString:promotion.image_url];
+        
+        [(UIImageView *)view sd_setImageWithURL:image_url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+    }
+    
+    return view;
+}
+
+
+-(void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel {
+
+    
+//    self.headerView.pageControl.currentPage = carousel.currentItemIndex;
+    NSInteger index = self.promotions.count -1 - carousel.currentItemIndex;
+    
+    
+    NSLog(@"Current Index is %ld and calc. index is %ld", (long)carousel.currentItemIndex, (long)index);
+    
+    
+    self.headerView.pageControl.currentPage = index;
+}
+
+/*
 #pragma mark - Scroll view Methods
 
 -(void)setupScrollViewImages {
@@ -701,22 +699,8 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         [self.headerView.scrollView addSubview:imageView];
     }
     
-    
-    
-    
-//    [self.promotions enumerateObjectsUsingBlock:^(PromotionModel *promotion, NSUInteger idx, BOOL *stop) {
-//        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
-//        imageView.tag = idx;
-//        
-//        
-//        [imageView sd_setImageWithURL:[NSURL URLWithString:promotion.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
-//        
-//        [self.headerView.scrollView addSubview:imageView];
-//    }];
-
-    
 }
-
+*/
 
 
 

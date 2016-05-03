@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "iCarousel.h"
 
 @interface HeaderSliderView : UICollectionReusableView
 
-@property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, weak) IBOutlet iCarousel *carousel;
 @property (nonatomic, weak) IBOutlet UIPageControl *pageControl;
 
 @property (weak, nonatomic) IBOutlet UIButton *uploadButton;

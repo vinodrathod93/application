@@ -18,6 +18,9 @@
         
         
 //        self.clipsToBounds = YES;
+        
+        
+        
     }
     return self;
 }
