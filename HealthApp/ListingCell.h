@@ -22,5 +22,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *minOrderLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *offersButton;
+@property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 
 @end

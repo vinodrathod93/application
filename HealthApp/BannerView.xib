@@ -14,48 +14,37 @@
                 <rect key="frame" x="0.0" y="0.0" width="600" height="179"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c8S-AU-NSH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="166"/>
-                    </scrollView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ihz-ls-rLP" customClass="iCarousel">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="179"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xor-Xa-FNj">
-                        <rect key="frame" x="0.0" y="146" width="600" height="20"/>
+                        <rect key="frame" x="576" y="0.0" width="24" height="179"/>
                         <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="0.30033255910000001" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="l7e-OM-sma"/>
+                            <constraint firstAttribute="width" constant="24" id="Dox-hg-vFQ"/>
                         </constraints>
                     </view>
                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="57D-pX-rLv">
-                        <rect key="frame" x="280" y="137" width="39" height="37"/>
+                        <rect key="frame" x="569" y="71" width="39" height="37"/>
                         <color key="pageIndicatorTintColor" red="0.086274509799999996" green="0.62745098040000002" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </pageControl>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l8X-jg-grU">
-                        <rect key="frame" x="0.0" y="165" width="600" height="14"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="14" id="p6B-HK-Lst"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="l8X-jg-grU" secondAttribute="bottom" id="91J-4X-WuY"/>
-                    <constraint firstItem="c8S-AU-NSH" firstAttribute="leading" secondItem="kwg-zP-HpH" secondAttribute="leading" id="Ca7-Jn-qoV"/>
-                    <constraint firstItem="57D-pX-rLv" firstAttribute="centerX" secondItem="Xor-Xa-FNj" secondAttribute="centerX" id="IAA-Pz-YK1"/>
-                    <constraint firstItem="l8X-jg-grU" firstAttribute="top" secondItem="c8S-AU-NSH" secondAttribute="bottom" constant="-1" id="MLr-Pd-40q"/>
-                    <constraint firstItem="c8S-AU-NSH" firstAttribute="top" secondItem="kwg-zP-HpH" secondAttribute="top" id="NwJ-Nu-1mg"/>
-                    <constraint firstAttribute="trailing" secondItem="c8S-AU-NSH" secondAttribute="trailing" id="Wm5-Vg-Hfx"/>
-                    <constraint firstItem="57D-pX-rLv" firstAttribute="centerY" secondItem="Xor-Xa-FNj" secondAttribute="centerY" id="eIe-jq-szR"/>
-                    <constraint firstItem="c8S-AU-NSH" firstAttribute="top" secondItem="kwg-zP-HpH" secondAttribute="top" id="g0Z-kD-ny8"/>
-                    <constraint firstAttribute="trailing" secondItem="l8X-jg-grU" secondAttribute="trailing" id="sEN-aB-klH"/>
-                    <constraint firstAttribute="trailing" secondItem="Xor-Xa-FNj" secondAttribute="trailing" id="ttG-jR-wDl"/>
-                    <constraint firstItem="l8X-jg-grU" firstAttribute="leading" secondItem="kwg-zP-HpH" secondAttribute="leading" id="uTq-aX-Kwv"/>
-                    <constraint firstItem="Xor-Xa-FNj" firstAttribute="leading" secondItem="kwg-zP-HpH" secondAttribute="leading" id="uU5-GU-zzs"/>
-                    <constraint firstItem="Xor-Xa-FNj" firstAttribute="bottom" secondItem="c8S-AU-NSH" secondAttribute="bottom" id="ubH-x5-x9W"/>
+                    <constraint firstItem="Xor-Xa-FNj" firstAttribute="top" secondItem="kwg-zP-HpH" secondAttribute="top" id="CDA-tk-nbz"/>
+                    <constraint firstItem="57D-pX-rLv" firstAttribute="centerX" secondItem="Xor-Xa-FNj" secondAttribute="centerX" id="GQ7-Fn-VMi"/>
+                    <constraint firstAttribute="trailing" secondItem="Xor-Xa-FNj" secondAttribute="trailing" id="Tpn-OO-zRN"/>
+                    <constraint firstAttribute="bottom" secondItem="Ihz-ls-rLP" secondAttribute="bottom" id="WWd-Oi-CnU"/>
+                    <constraint firstAttribute="trailing" secondItem="Ihz-ls-rLP" secondAttribute="trailing" id="aGq-92-CCH"/>
+                    <constraint firstAttribute="bottom" secondItem="Xor-Xa-FNj" secondAttribute="bottom" id="lWK-wG-ejH"/>
+                    <constraint firstItem="Ihz-ls-rLP" firstAttribute="top" secondItem="kwg-zP-HpH" secondAttribute="top" id="seQ-Hw-cMU"/>
+                    <constraint firstItem="57D-pX-rLv" firstAttribute="centerY" secondItem="Xor-Xa-FNj" secondAttribute="centerY" id="ukM-Jo-1NR"/>
+                    <constraint firstItem="Ihz-ls-rLP" firstAttribute="leading" secondItem="kwg-zP-HpH" secondAttribute="leading" id="wFf-qB-Xbx"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="blurView" destination="Xor-Xa-FNj" id="5qY-QC-ZPQ"/>
                 <outlet property="pageControl" destination="57D-pX-rLv" id="NeP-cZ-GB9"/>
-                <outlet property="scrollView" destination="c8S-AU-NSH" id="na4-LU-ouf"/>
             </connections>
             <point key="canvasLocation" x="602" y="266"/>
         </tableViewCell>

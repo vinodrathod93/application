@@ -231,7 +231,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     // automatic sliding of banner
     [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.5f];
-//    [NSTimer timerWithTimeInterval:2.5f target:self selector:@selector(changeDot:) userInfo:nil repeats:YES];
     
     // reload to remove all highlighting issues.
     [self.collectionView reloadData];
@@ -620,7 +619,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     NSLog(@"Current Index is %ld", (long)index);
     
-    if (self.headerView.carousel.currentItemIndex == 0) {
+    if (index == 0) {
         index = self.promotions.count-1;
         
         NSLog(@"oval Index is %ld", (long)index);
@@ -666,41 +665,19 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 -(void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel {
 
     
-//    self.headerView.pageControl.currentPage = carousel.currentItemIndex;
     NSInteger index = self.promotions.count -1 - carousel.currentItemIndex;
     
-    
+    index ++;
     NSLog(@"Current Index is %ld and calc. index is %ld", (long)carousel.currentItemIndex, (long)index);
+    
+    if(index == self.promotions.count) {
+        index = 0;
+    }
     
     
     self.headerView.pageControl.currentPage = index;
 }
 
-/*
-#pragma mark - Scroll view Methods
-
--(void)setupScrollViewImages {
-    
-    
-    
-    for (int idx=0; idx < self.promotions.count; idx++) {
-        
-        PromotionModel *promotion = self.promotions[idx];
-        
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
-        imageView.tag = idx;
-        
-        
-        NSURL *image_url = [NSURL URLWithString:promotion.image_url];
-        
-        [imageView sd_setImageWithURL:image_url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
-        
-        
-        [self.headerView.scrollView addSubview:imageView];
-    }
-    
-}
-*/
 
 
 
@@ -899,21 +876,12 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                 self.promotions = promotions;
                 
                 [self.collectionView reloadData];
+                [self.headerView.carousel reloadData];
                 [self hideHUD];
                 [self removeLaunchScreen];
             });
         });
         
-//                [NSThread sleepForTimeInterval:2.0];
-//        
-//                [self hideHUD];
-//                self.promotions         = response.promotions;
-//        
-//        
-//        
-//        
-//                [self.collectionView reloadData];
-//                [self removeLaunchScreen];
         
     } failure:^(NSError *error) {
         // Display error
@@ -949,64 +917,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     return (categoriesArray.count && promotions.count) ? YES : NO;
 }
 
-
-/*
-#pragma mark - NSXMLParserDelegate
-
-- (void)parserDidStartDocument:(NSXMLParser *)parser
-{
-    self.xmlDictionary = [[NSDictionary alloc] init];
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
-{
-    if ([elementName isEqualToString:@"string"]) {
-        NSLog(@"Yeah! Found");
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
-{
-    NSLog(@"JSoN string %@",string);
-    if (!self.jsonString) {
-        self.jsonString = [[NSMutableString alloc] initWithString:string];
-    } else
-        [self.jsonString appendString:string];
-    
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
-{
-    if ([elementName isEqualToString:@"string"]) {
-        NSLog(@"Parsing Ended");
-    }
-}
-
-- (void) parserDidEndDocument:(NSXMLParser *)parser
-{
-    
-    
-    NSData *data = [self.jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-    NSLog(@"%@", json);
-    
-    self.xmlDictionary = json;
-    
-    self.xmlCategories = [NSMutableArray array];
-    
-    NSArray *allCategories = [json valueForKey:@"Table"];
-    
-    [allCategories enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull category, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self.xmlCategories addObject:[category valueForKey:@"CategoryName"]];
-    }];
-    
-    [self.collectionView reloadData];
-    
-}
-
-
-*/
 
 
 

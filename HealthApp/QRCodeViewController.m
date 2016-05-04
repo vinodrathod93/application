@@ -77,7 +77,7 @@
     self.neediatorHUD.shadowColor = [UIColor clearColor];
     self.neediatorHUD.imageSize = CGSizeMake(60.f, 60.f);
     [self.neediatorHUD fadeInAnimated:YES];
-    self.neediatorHUD.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2 + (CGRectGetWidth(self.view.bounds)/5));
+    self.neediatorHUD.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2 + (CGRectGetWidth(self.view.bounds)/2.7f));
     [self.navigationController.view insertSubview:self.neediatorHUD belowSubview:self.navigationController.navigationBar];
     
     

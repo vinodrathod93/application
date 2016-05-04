@@ -23,7 +23,9 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 
 @end
 
-@implementation SubCategoryViewController
+@implementation SubCategoryViewController {
+    SDWebImageManager *manager;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,7 +35,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     
     
-    
+    manager = [SDWebImageManager sharedManager];
     
     self.subcategoryIcons   = [self getPListIconsArray];
     
@@ -116,12 +118,20 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     
     
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(25, 10, cell.frame.size.width - (2*25.f), cell.frame.size.height - 10 - 40)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(35, 25, cell.frame.size.width - (2*35.f), cell.frame.size.height - 10 - 70)];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
-    imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", category.image_url]];
     
     
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 10, cell.frame.size.width - 10.f, 40)];
+    
+    [manager downloadImageWithURL:[NSURL URLWithString:category.image_url] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        UIImage* imageForRendering = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        imageView.image = imageForRendering;
+        imageView.tintColor = [UIColor colorWithRed:4/255.f green:29/255.f blue:187/255.f alpha:1.0];
+    }];
+    
+    
+    
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 10 + 20, cell.frame.size.width - 10.f, 40)];
     label.textColor = [UIColor blackColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
