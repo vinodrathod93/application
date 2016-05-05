@@ -116,9 +116,16 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     cell.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds cornerRadius:cell.contentView.layer.cornerRadius].CGPath;
     
     
+    UIImageView *imageView;
+    UILabel *label;
     
+    if(self.view.frame.size.width <= 320) {
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(30, 20, cell.frame.size.width - (2*30.f), cell.frame.size.height - 60)];
+        label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 20, cell.frame.size.width - 10.f, 40)];
+    }
+    else
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(35, 25, cell.frame.size.width - (2*35.f), cell.frame.size.height - 10 - 70)];
     
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(35, 25, cell.frame.size.width - (2*35.f), cell.frame.size.height - 10 - 70)];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     
@@ -131,7 +138,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     
     
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 10 + 20, cell.frame.size.width - 10.f, 40)];
+    label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 10 + 20, cell.frame.size.width - 10.f, 40)];
     label.textColor = [UIColor blackColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
@@ -155,7 +162,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if (self.view.frame.size.width <= 320) {
-            return CGSizeMake(100, 100);
+            return CGSizeMake(152.5f, 100);
         }
         else
             return CGSizeMake(120, 120);

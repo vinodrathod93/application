@@ -82,7 +82,7 @@
     CGFloat lastViewHeight = CGRectGetHeight(((UIView *)[self.contentView.subviews lastObject]).frame);
     int lastViewY = CGRectGetMaxY(((UIView *)[self.contentView.subviews lastObject]).frame);
     
-    CGFloat height = lastViewHeight + lastViewY + 50;
+    CGFloat height = lastViewHeight + lastViewY;
     
     self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), height);
     

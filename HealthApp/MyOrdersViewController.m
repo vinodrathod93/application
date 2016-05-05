@@ -230,8 +230,6 @@
         [self.tableView beginUpdates];
         [self.tableView endUpdates];
     }
-//    else
-//        cell.beforeCompleteTrackOrderButton.alpha = 0.5;
     
     
     

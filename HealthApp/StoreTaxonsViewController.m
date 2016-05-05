@@ -1085,9 +1085,6 @@ typedef NS_ENUM(uint16_t, sections) {
 }
 
 -(void)popUploadPrescriptionVC {
-//    [NeediatorUtitity save:self.store_id forKey:kSAVE_STORE_ID];
-//    [NeediatorUtitity save:self.cat_id forKey:kSAVE_CAT_ID];
-    
     
     UploadPrescriptionViewController *uploadVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPrescriptionVC"];
     

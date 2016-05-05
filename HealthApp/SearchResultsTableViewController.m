@@ -315,6 +315,10 @@
 
 -(NSMutableAttributedString *)highlightSearchedTextWithResult:(NSString *)result {
     
+    if (result == nil) {
+        result = @"";
+    }
+    
     NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithString:result];
     
     NSString * regexPattern = [NSString stringWithFormat:@"(%@)", self.searchString];

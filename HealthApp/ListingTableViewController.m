@@ -72,7 +72,11 @@
     
     
     
-    self.bannerImages = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg", @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",@"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",@"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
+    self.bannerImages = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg",
+                          @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg",
+                          @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",
+                          @"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",
+                          @"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
     
     
     
@@ -114,6 +118,8 @@
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"Listing Screen"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
+    [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.5f];
 }
 
 
@@ -125,12 +131,11 @@
 
 
 
+
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-//    [_task cancel];
-//    
-//    [self hideHUD];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(changeDot:) object:nil];
     
     [[self.navigationController.view viewWithTag:kListingNoListingTag] removeFromSuperview];
     [self removeConnectionView];
@@ -142,10 +147,6 @@
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    BannerTableViewCell *cell = (BannerTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    cell.scrollView.contentSize = CGSizeMake(CGRectGetWidth(cell.scrollView.frame) * self.bannerImages.count, CGRectGetHeight(cell.scrollView.frame));
 }
 
 
@@ -163,7 +164,7 @@
     
     CGPoint cellPosition = [self.tableView convertPoint:location fromView:self.view];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:cellPosition];
-    ListingModel *model = self.listingArray[indexPath.section - 1];
+    ListingModel *model = self.listingArray[indexPath.row - 1];
     
     if (indexPath) {
         ListingCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
@@ -222,11 +223,11 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.listingArray.count + kBannerSectionIndex;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return self.listingArray.count + kBannerSectionIndex;
 }
 
 
@@ -235,18 +236,17 @@
     
     NSString *cellIdentifier;
     
-    if (indexPath.section == 0) {
+    if (indexPath.row == 0) {
         cellIdentifier = @"bannerViewCellIdentifier";
         
         BannerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
-        if (cell.scrollView == nil) {
+        if (cell.carousel == nil) {
         
             cell = [[[NSBundle mainBundle] loadNibNamed:@"BannerView" owner:self options:nil] lastObject];
-            cell.scrollView.delegate = self;
-            
-            [self layoutBannerViewCell:cell];
-            [self setupScrollViewImages:cell];
+            cell.carousel.delegate = self;
+            cell.carousel.dataSource = self;
+            cell.pageControl.numberOfPages = self.bannerImages.count;
             
         }
         
@@ -258,7 +258,7 @@
         
         id cell;
         
-        ListingModel *model = self.listingArray[indexPath.section - 1];
+        ListingModel *model = self.listingArray[indexPath.row - 1];
         
         
         //    if (model.isBook == [NSNumber numberWithBool:YES] || model.isCall == [NSNumber numberWithBool:YES]) {
@@ -305,7 +305,7 @@
     if (likeCount == nil) {
         likeCount = @0;
     }
-    cell.likesLabel.text = [NSString stringWithFormat:@"👍🏿 %@", likeCount.stringValue];
+    cell.likesLabel.text = [NSString stringWithFormat:@"👍🏼 %@", likeCount.stringValue];
     cell.rating.text = [NSString stringWithFormat:@"⭐️ %.01f", model.ratings.floatValue];
     cell.distance.text = [NSString stringWithFormat:@"📍%@",[model.nearest_distance lowercaseString]];
     
@@ -455,8 +455,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.section != 0) {
-        ListingModel *model = self.listingArray[indexPath.section - 1];
+    if (indexPath.row != 0) {
+        ListingModel *model = self.listingArray[indexPath.row - 1];
         
         NSString *image_string;
         
@@ -602,7 +602,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.section != 0) {
+    if (indexPath.row != 0) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             return 160;
         }
@@ -612,10 +612,10 @@
     else {
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            return kHeaderViewHeight_Pad + 10;
+            return kHeaderViewHeight_Pad;
         }
         else
-            return kHeaderViewHeight_Phone + 10;
+            return kHeaderViewHeight_Phone;
     }
     
     
@@ -625,16 +625,16 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
     if (section == 0) {
-        header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 30)];
+        header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 50)];
         header.backgroundColor = [NeediatorUtitity defaultColor];
         
-        UILabel *resultsCount =[[ UILabel alloc] initWithFrame:CGRectMake(10, 5, CGRectGetWidth(self.view.frame) - 150, 20)];
+        UILabel *resultsCount =[[ UILabel alloc] initWithFrame:CGRectMake(10, 10, CGRectGetWidth(self.view.frame) - 150, 30)];
         resultsCount.text = [NSString stringWithFormat:@"Showing %@ results", _totalCount];
         resultsCount.font = [NeediatorUtitity regularFontWithSize:13.f];
         resultsCount.backgroundColor = [UIColor clearColor];
         
         
-        sort = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 120, 5, 40, 20)];
+        sort = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 120, 10, 40, 30)];
         [sort setTitle:@"SORT" forState:UIControlStateNormal];
         [sort setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         sort.titleLabel.font = [NeediatorUtitity demiBoldFontWithSize:15.f];
@@ -642,7 +642,7 @@
         
         [sort addTarget:self action:@selector(displaySortingSheet:) forControlEvents:UIControlEventTouchUpInside];
         
-        UIButton *filter = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 70, 5, 60, 20)];
+        UIButton *filter = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - 70, 10, 60, 30)];
         [filter setTitle:@"FILTER" forState:UIControlStateNormal];
         filter.titleLabel.font = [NeediatorUtitity demiBoldFontWithSize:15.f];
         [filter setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -668,7 +668,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     if (section == 0) {
-        return 30.f;
+        return 50.f;
     }
 //    return 5.f;
     
@@ -733,7 +733,7 @@
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.section != 0) {
+    if (indexPath.row != 0) {
         return YES;
     }
     else
@@ -743,7 +743,7 @@
 
 -(NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ListingModel *model = self.listingArray[indexPath.section - 1];
+    ListingModel *model = self.listingArray[indexPath.row - 1];
     
     UITableViewRowAction *callAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Call" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         NSLog(@" Calling ...");
@@ -762,21 +762,6 @@
 
 
 
-#pragma mark - Scroll view Delegate
-
-
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    BannerTableViewCell *cell = (BannerTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    if (scrollView == cell.scrollView) {
-        NSInteger index = cell.scrollView.contentOffset.x / CGRectGetWidth(cell.scrollView.frame);
-        NSLog(@"%ld",(long)index);
-        
-        cell.pageControl.currentPage = index;
-    }
-}
 
 #pragma mark - Helper Methods
 
@@ -791,6 +776,8 @@
 }
 
 -(void)hideHUD {
+    
+    
     [self.hud fadeOutAnimated:YES];
     [self.hud removeFromSuperview];
     
@@ -859,9 +846,9 @@
     
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
-    if (indexPath.section != 0) {
+    if (indexPath.row != 0) {
         ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
-        imageModalVC.model                  = self.listingArray[indexPath.section - 1];
+        imageModalVC.model                  = self.listingArray[indexPath.row - 1];
         
         imageModalVC.transitioningDelegate = self;
         imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
@@ -922,74 +909,7 @@
     
 }
 
--(void)setupScrollViewImages:(BannerTableViewCell *)cell {
-    
-    [self.bannerImages enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.scrollView.frame) * idx, 0, CGRectGetWidth(cell.scrollView.frame), CGRectGetHeight(cell.scrollView.frame))];
-        imageView.tag = idx;
-        
-        NSURL *url = [NSURL URLWithString:imageName];
-        
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            
-//            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-//            
-//            [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-//                NSLog(@"Image %ld of %ld", (long)receivedSize, (long)expectedSize);
-//            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-//                
-//                if (image) {
-//                    
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        
-//                        CIImage *newImage = [[CIImage alloc] initWithImage:image];
-//                        CIContext *context = [CIContext contextWithOptions:nil];
-//                        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
-//                        
-//                        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-//                    });
-//                }
-//                
-//            }];
-//        });
-        
-        
-        [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
-        
-        
-        [cell.scrollView addSubview:imageView];
-    }];
-    
-    
-}
 
--(void)layoutBannerViewCell:(BannerTableViewCell *)cell {
-    
-    
-    
-    CGRect frame;
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Pad + 10);
-    }
-    else
-        frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Phone + 10);
-    
-    cell.frame = frame;
-    [cell layoutIfNeeded];
-    
-    
-    
-    CGRect scrollViewFrame = cell.scrollView.frame;
-    CGRect currentFrame = self.view.frame;
-    
-    scrollViewFrame.size.width = currentFrame.size.width;
-    cell.scrollView.frame = scrollViewFrame;
-    
-    
-    cell.pageControl.numberOfPages = self.bannerImages.count;
-    
-}
 
 -(void)displayFilterVC:(UIButton *)sender {
     
@@ -1108,9 +1028,9 @@
     ListingCell *cell = (ListingCell *)[[[sender superview] superview] superview];
     
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    NSLog(@"Cell index %ld", (long)indexPath.section);
+    NSLog(@"Cell index %ld", (long)indexPath.row);
     
-    ListingModel *model = self.listingArray[indexPath.section - 1];
+    ListingModel *model = self.listingArray[indexPath.row - 1];
     
     BookingViewController *bookingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"makeBookingVC"];
     bookingVC.category_id               = self.category_id;
@@ -1119,6 +1039,33 @@
     bookingVC.image_url                 = model.image_url;
     
     [self.navigationController pushViewController:bookingVC animated:YES];
+}
+
+
+
+-(void)changeDot:(id)sender {
+    
+    NSLog(@"changing");
+    
+    BannerTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    // Calclulate new offset
+    NSInteger index = cell.carousel.currentItemIndex;
+    
+    NSLog(@"Current Index is %ld", (long)index);
+    
+    if (index == 0) {
+        index = self.bannerImages.count-1;
+        
+        NSLog(@"oval Index is %ld", (long)index);
+    }
+    else {
+        index--;
+        NSLog(@"deduced Index is %ld", (long)index);
+    }
+    
+    [cell.carousel scrollToItemAtIndex:index animated:YES];
+    [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.5f];
 }
 
 
@@ -1391,6 +1338,145 @@
     
 }
 
+
+#pragma mark -
+#pragma mark iCarousel methods
+
+- (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel
+{
+    return self.bannerImages.count;
+}
+
+
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
+{
+    
+    BannerTableViewCell *cell = (BannerTableViewCell *)[[carousel superview] superview];
+    
+    
+    if (view == nil)
+    {
+        
+        NSString *image_string = self.bannerImages[index];
+        
+        
+        view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(cell.carousel.frame), CGRectGetHeight(cell.carousel.frame))];
+        NSURL *image_url = [NSURL URLWithString:image_string];
+        
+        [(UIImageView *)view sd_setImageWithURL:image_url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+    }
+    
+    return view;
+}
+
+
+-(void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel {
+    
+    
+    NSInteger index = self.bannerImages.count -1 - carousel.currentItemIndex;
+    
+    index ++;
+    NSLog(@"Current Index is %ld and calc. index is %ld", (long)carousel.currentItemIndex, (long)index);
+    
+    if(index == self.bannerImages.count) {
+        index = 0;
+    }
+    
+    BannerTableViewCell *cell = (BannerTableViewCell *)[[carousel superview] superview];
+    cell.pageControl.currentPage = index;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ 
+ 
+ -(void)setupScrollViewImages:(BannerTableViewCell *)cell {
+ 
+ [self.bannerImages enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
+ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.scrollView.frame) * idx, 0, CGRectGetWidth(cell.scrollView.frame), CGRectGetHeight(cell.scrollView.frame))];
+ imageView.tag = idx;
+ 
+ NSURL *url = [NSURL URLWithString:imageName];
+ 
+ //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+ //
+ //            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+ //
+ //            [manager downloadImageWithURL:url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+ //                NSLog(@"Image %ld of %ld", (long)receivedSize, (long)expectedSize);
+ //            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+ //
+ //                if (image) {
+ //
+ //                    dispatch_async(dispatch_get_main_queue(), ^{
+ //
+ //                        CIImage *newImage = [[CIImage alloc] initWithImage:image];
+ //                        CIContext *context = [CIContext contextWithOptions:nil];
+ //                        CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
+ //
+ //                        imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+ //                    });
+ //                }
+ //
+ //            }];
+ //        });
+ 
+ 
+ [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+ 
+ 
+ [cell.scrollView addSubview:imageView];
+ }];
+ 
+ 
+ }
+ 
+ -(void)layoutBannerViewCell:(BannerTableViewCell *)cell {
+ 
+ 
+ 
+ CGRect frame;
+ 
+ if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+ frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Pad + 10);
+ }
+ else
+ frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderViewHeight_Phone + 10);
+ 
+ cell.frame = frame;
+ [cell layoutIfNeeded];
+ 
+ 
+ 
+ CGRect scrollViewFrame = cell.scrollView.frame;
+ CGRect currentFrame = self.view.frame;
+ 
+ scrollViewFrame.size.width = currentFrame.size.width;
+ cell.scrollView.frame = scrollViewFrame;
+ 
+ 
+ cell.pageControl.numberOfPages = self.bannerImages.count;
+ 
+ }
+ */
 
 
 

@@ -33,12 +33,17 @@
         self.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:self.contentView.layer.cornerRadius].CGPath;
         
         
+        if (self.window.frame.size.width <= 320) {
+            self.imageView = [[UIImageView alloc]initWithFrame:CGRectMake(30, 20, 40, 30)];
+        }
+        else
+            self.imageView = [[UIImageView alloc]initWithFrame:CGRectMake(35, 25, self.frame.size.width - (2*35.f), self.frame.size.height - 10 - 70)];
+    
         
         
-        self.imageView = [[UIImageView alloc]initWithFrame:CGRectMake(35, 25, self.frame.size.width - (2*35.f), self.frame.size.height - 10 - 70)];
         self.imageView.contentMode = UIViewContentModeScaleAspectFit;
         
-        self.label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, self.imageView.frame.size.height + 10 + 20, self.frame.size.width - 10.f, 40)];
+        self.label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, self.imageView.frame.size.height + 20, self.frame.size.width - 10.f, 40)];
         self.label.textColor = [UIColor blackColor];
         self.label.textAlignment = NSTextAlignmentCenter;
         self.label.numberOfLines = 0;

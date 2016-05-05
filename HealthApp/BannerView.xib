@@ -44,6 +44,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="blurView" destination="Xor-Xa-FNj" id="5qY-QC-ZPQ"/>
+                <outlet property="carousel" destination="Ihz-ls-rLP" id="KmA-UW-7lO"/>
                 <outlet property="pageControl" destination="57D-pX-rLv" id="NeP-cZ-GB9"/>
             </connections>
             <point key="canvasLocation" x="602" y="266"/>

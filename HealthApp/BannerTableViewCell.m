@@ -12,6 +12,11 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
+    self.carousel.vertical = YES;
+    self.carousel.type = iCarouselTypeInvertedCylinder;
+    self.carousel.pagingEnabled = YES;
+    self.pageControl.transform  = CGAffineTransformMakeRotation(M_PI / 2);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
