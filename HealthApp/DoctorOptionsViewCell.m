@@ -15,13 +15,10 @@
     // Initialization code
     
     self.appointmentView.layer.cornerRadius = 12.f;
-    self.appointmentView.layer.masksToBounds = YES;
     
     self.sendReportsView.layer.cornerRadius = 12.f;
-    self.sendReportsView.layer.masksToBounds = YES;
     
     self.homeRequestView.layer.cornerRadius = 12.f;
-    self.homeRequestView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
