@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSMutableArray *storesArray;
 @property (nonatomic, strong) NSMutableArray *searchResultsArray;
 @property (nonatomic, strong) NeediatorHUD *neediatorHUD;
+@property (nonatomic, strong) NSURLSessionDataTask *searchTask;
 
 @end
 
@@ -233,8 +234,8 @@
         if ([store isKindOfClass:[NSDictionary class]]) {
             NSDictionary *model = (NSDictionary *)store;
             
-            cell.textLabel.text      = model[@"name"];
-            cell.detailTextLabel.text = model[@"area"];
+            cell.textLabel.text      = STR_OR_NULL(model[@"name"]);
+            cell.detailTextLabel.text = STR_OR_NULL(model[@"area"]);
             [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model[@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         }
         else
@@ -266,7 +267,7 @@
     else if (indexPath.section == 1) {
         
         NSDictionary *store = [self.storesArray objectAtIndex:indexPath.row];
-        NSString *code = store[@"code"];
+        NSString *code = STR_OR_NULL(store[@"code"]);
         
         
         if (![code isEqual:[NSNull null]]) {
@@ -500,7 +501,7 @@ didFailAutocompleteWithError:(NSError *)error {
     
     StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
     storeTaxonsVC.title = [storeBasicDetails[@"name"] capitalizedString];
-    storeTaxonsVC.cat_id = storeBasicDetails[@"catid"];
+    storeTaxonsVC.cat_id = [storeBasicDetails[@"catid"] stringValue];
     storeTaxonsVC.store_id = storeBasicDetails[@"id"];
     storeTaxonsVC.storeImages = storeBasicDetails[@"Images"];
     storeTaxonsVC.storePhoneNumbers = storeBasicDetails[@"phone_no"];
@@ -577,6 +578,8 @@ didFailAutocompleteWithError:(NSError *)error {
         self.searchController.searchBar.placeholder = @"Search by Product";
     
     
+    _searchTask = nil;
+    
     [self updateSearchResultsForSearchController:self.searchController];
 }
 
@@ -592,6 +595,8 @@ didFailAutocompleteWithError:(NSError *)error {
 
 - (void)searchForText:(NSString *)searchText scope:(NeediatorSearchScope)scopeOption
 {
+    NSLog(@"searchForText");
+    
     if (![searchText isEqualToString:@""]) {
         
         NSLog(@"Search Text is_%@_done", searchText);
@@ -602,16 +607,26 @@ didFailAutocompleteWithError:(NSError *)error {
                 vc.searchString = searchText;
                 [vc startNeediatorHUD];
                 
-                // call location
-                [[NAPIManager sharedManager] searchLocations:searchText withSuccess:^(BOOL success, NSArray *predictions) {
-                    //
+                
+                [NeediatorUtitity checkRunningTask:_searchTask withCompletionHandler:^(BOOL success) {
+                    if (!success) {
+                        [_searchTask cancel];
+                        
+                    }
                     
-                    [self sendResults:predictions resultsController:vc forScope:scopeOption];
-                    
-                } failure:^(NSError *error) {
-                    [vc hideHUD];
-                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                    _searchTask = [[NAPIManager sharedManager] searchLocations:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                        //
+                        
+                        [self sendResults:predictions resultsController:vc forScope:scopeOption];
+                        
+                    } failure:^(NSError *error) {
+                        [vc hideHUD];
+                        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                    }];
                 }];
+                
+                // call location
+                
                 
                 
             }
@@ -624,15 +639,25 @@ didFailAutocompleteWithError:(NSError *)error {
                 [vc startNeediatorHUD];
                 // call category
                 
-                [[NAPIManager sharedManager] searchCategoriesFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                [NeediatorUtitity checkRunningTask:_searchTask withCompletionHandler:^(BOOL success) {
+                    if (!success) {
+                        [_searchTask cancel];
+                        
+                        
+                    }
                     
-                    [self sendResults:predictions resultsController:vc forScope:scopeOption];
-                    
-                    
-                } failure:^(NSError *error) {
-                    [vc hideHUD];
-                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                    _searchTask = [[NAPIManager sharedManager] searchCategoriesFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                        
+                        [self sendResults:predictions resultsController:vc forScope:scopeOption];
+                        
+                        
+                    } failure:^(NSError *error) {
+                        [vc hideHUD];
+                        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                    }];
                 }];
+                
+                
                 
                 
                 
@@ -647,14 +672,25 @@ didFailAutocompleteWithError:(NSError *)error {
                 [vc startNeediatorHUD];
                 // call stores
                 
-                [[NAPIManager sharedManager] searchStoresFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                
+                [NeediatorUtitity checkRunningTask:_searchTask withCompletionHandler:^(BOOL success) {
+                    if (!success) {
+                        [_searchTask cancel];
+                        
+                        
+                    }
                     
-                    [self sendResults:predictions resultsController:vc forScope:scopeOption];
-                    
-                } failure:^(NSError *error) {
-                    [vc hideHUD];
-                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                    _searchTask = [[NAPIManager sharedManager] searchStoresFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                        
+                        [self sendResults:predictions resultsController:vc forScope:scopeOption];
+                        
+                    } failure:^(NSError *error) {
+                        [vc hideHUD];
+                        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                    }];
                 }];
+                
+                
                 
             }
                 break;
@@ -666,12 +702,24 @@ didFailAutocompleteWithError:(NSError *)error {
                 [vc startNeediatorHUD];
                 // call product
                 
-                [[NAPIManager sharedManager] searchUniveralProductsWithData:searchText success:^(NSArray *products) {
-                    [self sendResults:products resultsController:vc forScope:scopeOption];
-                } failure:^(NSError *error) {
-                    [vc hideHUD];
-                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                
+                
+                [NeediatorUtitity checkRunningTask:_searchTask withCompletionHandler:^(BOOL success) {
+                    if (!success) {
+                        [_searchTask cancel];
+                        
+                        
+                    }
+                    
+                    _searchTask = [[NAPIManager sharedManager] searchUniveralProductsWithData:searchText success:^(NSArray *products) {
+                        [self sendResults:products resultsController:vc forScope:scopeOption];
+                    } failure:^(NSError *error) {
+                        [vc hideHUD];
+                        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                    }];
                 }];
+                
+                
             }
                 
             default:

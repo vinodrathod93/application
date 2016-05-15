@@ -12,7 +12,7 @@
 #import "StoreRealm.h"
 #import "User.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "StoreTaxonHeaderViewCell.h"]
+#import "StoreTaxonHeaderViewCell.h"
 #import "UploadPrescriptionViewController.h"
 #import "SearchResultsTableViewController.h"
 #import "StoreReviewsView.h"
@@ -67,7 +67,9 @@ typedef NS_ENUM(uint16_t, sections) {
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     
-    
+    _offersArray = @[@"Get upto Rs. 200 Cashback on Recharge & Bill payments.",
+                     @"Get Rs. 100 Cashback Landline Bill Payment of Rs 600 or more.",
+                     @"Get Rs. 100 Cashback Landline Bill Payment of Rs 600 or more."];
     
     // Tableview
     self.tableView.delegate = self;
@@ -102,7 +104,17 @@ typedef NS_ENUM(uint16_t, sections) {
     
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"Store Screen"];
+    
+    
+    NSString *listingName = self.store_name;
+    [tracker set:[GAIFields customDimensionForIndex:1] value:listingName];
+    
+    NSString *listingCode = self.code;
+    [tracker set:[GAIFields customDimensionForIndex:2] value:listingCode];
+    
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -255,11 +267,15 @@ typedef NS_ENUM(uint16_t, sections) {
     
     [self.storeImages enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull imageData, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        UIView *offerView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.offersScrollView.frame) * idx + 3, 5, CGRectGetWidth(cell.offersScrollView.frame) - 6 , kStoreOffersViewHeight - (2*5))];
+        UIView *offerView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(cell.offersScrollView.frame) * idx + 3, 0, CGRectGetWidth(cell.offersScrollView.frame) - 6 , CGRectGetHeight(cell.offersScrollView.frame))];
 
         offerView.backgroundColor = [UIColor lightGrayColor];
         offerView.layer.cornerRadius = 5.f;
         offerView.layer.masksToBounds = YES;
+        
+        
+        UILabel *offersDescription = [[UILabel alloc] initWithFrame:CGRectMake(8, 0, CGRectGetWidth(offerView.frame), 30)];
+        
         
         UITapGestureRecognizer *offersGestureRecognizer    = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayPopupView:)];
         [offerView addGestureRecognizer:offersGestureRecognizer];
@@ -778,10 +794,8 @@ typedef NS_ENUM(uint16_t, sections) {
     storeReviewsView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kStoreReviewsViewHeight);
     storeReviewsView.ratingView.rating = self.ratings.floatValue;
     storeReviewsView.likedStore     =  self.isLikedStore;
-    storeReviewsView.dislikedStore  =  self.isDislikedStore;
     
     [storeReviewsView.likeButton addTarget:self action:@selector(requestLike:) forControlEvents:UIControlEventTouchUpInside];
-    [storeReviewsView.dislikeButton addTarget:self action:@selector(requestDislike:) forControlEvents:UIControlEventTouchUpInside];
     
     NSString *reviews = [NSString stringWithFormat:@"✍ %@",self.reviewsCount];
     
@@ -791,7 +805,6 @@ typedef NS_ENUM(uint16_t, sections) {
     
     if (self.likeUnlikeArray.count == 0) {
         [storeReviewsView.likeButton setTitle:@"0" forState:UIControlStateNormal];
-        [storeReviewsView.dislikeButton setTitle:@"0" forState:UIControlStateNormal];
     }
     else {
         
@@ -807,7 +820,6 @@ typedef NS_ENUM(uint16_t, sections) {
         }
         
         [storeReviewsView.likeButton setTitle:likeCount.stringValue forState:UIControlStateNormal];
-        [storeReviewsView.dislikeButton setTitle:dislikeCount.stringValue forState:UIControlStateNormal];
     }
     
     
@@ -822,7 +834,7 @@ typedef NS_ENUM(uint16_t, sections) {
     
     StoreReviewsView *storeReviewsView = (StoreReviewsView *)button.superview;
     
-    if (!storeReviewsView.dislikeButton.isSelected) {
+    if (!storeReviewsView.viewsButton.isSelected) {
         button.selected = !button.selected;
         
         if (button.isSelected) {
@@ -846,9 +858,7 @@ typedef NS_ENUM(uint16_t, sections) {
         likeTag = @"1";
         dislikeTag = @"0";
         
-        storeReviewsView.dislikeButton.selected = NO;
-        [storeReviewsView.dislikeButton setImage:[UIImage imageNamed:@"dislike"] forState:UIControlStateNormal];
-        
+                
         storeReviewsView.likeButton.selected = YES;
         [storeReviewsView.likeButton setImage:[UIImage imageNamed:@"liked"] forState:UIControlStateNormal];
     }
@@ -894,8 +904,8 @@ typedef NS_ENUM(uint16_t, sections) {
         storeReviewsView.likeButton.selected = NO;
         [storeReviewsView.likeButton setImage:[UIImage imageNamed:@"like"] forState:UIControlStateNormal];
         
-        storeReviewsView.dislikeButton.selected = YES;
-        [storeReviewsView.dislikeButton setImage:[UIImage imageNamed:@"disliked"] forState:UIControlStateNormal];
+        //storeReviewsView.dislikeButton.selected = YES;
+        //[storeReviewsView.dislikeButton setImage:[UIImage imageNamed:@"disliked"] forState:UIControlStateNormal];
     }
     
     
@@ -929,7 +939,7 @@ typedef NS_ENUM(uint16_t, sections) {
             
             StoreReviewsView *storeReviewsView = (StoreReviewsView *)sender.superview;
             [storeReviewsView.likeButton setTitle:likeCount.stringValue forState:UIControlStateNormal];
-            [storeReviewsView.dislikeButton setTitle:dislikeCount.stringValue forState:UIControlStateNormal];
+            //[storeReviewsView.dislikeButton setTitle:dislikeCount.stringValue forState:UIControlStateNormal];
             
             
             

@@ -438,7 +438,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     
     
-    NSString *paginatingURLString = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@&PageNo=%d&search=", self.taxonID, self.storeID, self.taxonomyID, self.categoryID, _page];
+    NSString *paginatingURLString = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores2?store_id=%@&taxonomies_id=%@&cat_id=%@&PageNo=%d&search=", self.storeID, self.taxonID, self.categoryID, _page];
     
     NSLog(@"%@", paginatingURLString);
     

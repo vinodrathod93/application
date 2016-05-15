@@ -17,6 +17,8 @@
 //Neediator API
 @property (nonatomic, strong) NSString *cat_id;
 @property (nonatomic, strong) NSString *store_id;
+@property (nonatomic, strong) NSString *store_name;
+@property (nonatomic, strong) NSString *code;
 
 @property (nonatomic, strong) NSArray *storePhoneNumbers;
 @property (nonatomic, strong) NSString *storeDistance;

@@ -52,6 +52,7 @@
     BOOL _isBooking;
     BOOL _isProductType;
     BOOL _viewDidLoadFlag;
+    BOOL _hideHeaderView;
     UIImageView *activityImageView;
     UIView *header;
     UIButton *sort;
@@ -118,6 +119,9 @@
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"Listing Screen"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
+    
+    
     
     [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.5f];
 }
@@ -518,6 +522,7 @@
             storeTaxonsVC.title = [model.name capitalizedString];
             storeTaxonsVC.cat_id = self.category_id;
             storeTaxonsVC.store_id = model.list_id;
+            storeTaxonsVC.store_name = [model.name capitalizedString];
             storeTaxonsVC.storeImages = model.images;
             storeTaxonsVC.storePhoneNumbers = model.phone_nos;
             storeTaxonsVC.storeDistance = model.nearest_distance.uppercaseString;
@@ -527,7 +532,8 @@
             storeTaxonsVC.isFavourite   = model.isFavourite.boolValue;
             storeTaxonsVC.isLikedStore  = model.isLike.boolValue;
             storeTaxonsVC.isDislikedStore = model.isDislike.boolValue;
-            
+            storeTaxonsVC.code              = model.code;
+        
             
             
             
@@ -670,19 +676,6 @@
     if (section == 0) {
         return 50.f;
     }
-//    return 5.f;
-    
-    /*
-    if (section == 0) {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            return kHeaderViewHeight_Pad + 10;
-        }
-        else
-            return kHeaderViewHeight_Phone + 10;
-    }
-    else
-        return 5.f;
-    */
     
     return 5.f;
     
@@ -759,7 +752,23 @@
 
 
 
+#pragma mark - ScrollView 
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    CGFloat alpha = 1;
+    
+    if (scrollView.contentOffset.y < 1)    //means that the user began to scroll down the table
+    {
+        alpha = 0;
+       
+    }
+    else if (scrollView.contentOffset.y >= 1 && scrollView.contentOffset.y < 20) {
+        
+        alpha = scrollView.contentOffset.y/20.f;
+    }
+    
+}
 
 
 
@@ -767,6 +776,7 @@
 
 -(void)showHUD {
     self.hud = [[NeediatorHUD alloc] initWithFrame:self.tableView.frame];
+    self.hud.userInteractionEnabled = NO;
     self.hud.overlayColor = [NeediatorUtitity blurredDefaultColor];
     [self.hud fadeInAnimated:YES];
     self.hud.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2);

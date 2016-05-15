@@ -130,6 +130,7 @@ typedef void(^completion)(BOOL finished);
                         user.email              = [json valueForKey:@"Username"];
                         
                         [user save];
+                        [self signInWithUser:user];
                         
                         isLoggedIn(YES);
                     }
@@ -202,6 +203,23 @@ typedef void(^completion)(BOOL finished);
     } else {
         [self displayNoConnection];
     }
+}
+
+
+- (void)signInWithUser:(User *)user {
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
+    // You only need to set User ID on a tracker once. By setting it on the tracker, the ID will be
+    // sent with all subsequent hits.
+    [tracker set:kGAIUserId
+           value:user.userID];
+    
+    // This hit will be sent with the User ID value and be visible in User-ID-enabled views (profiles).
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Users"            // Event category (required)
+                                                          action:@"User Sign In"  // Event action (required)
+                                                           label:nil              // Event label
+                                                           value:nil] build]];    // Event value
 }
 
 

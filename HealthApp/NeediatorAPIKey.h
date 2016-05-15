@@ -15,6 +15,7 @@
 static NSString *const kGoogleAPIKey = @"AIzaSyDymzfOul0S3QTEvLJb0Yf4p_N6n5C-U-g";
 static NSString *const kGoogleAPIBrowserKey = @"AIzaSyA2MFbVLx1dOq9O0QxOKFUf50nIOwrscEg";
 static NSString *const kGoogleAPIServerKey  = @"AIzaSyDKhfrd69hGKU2ZqUA5Lv5Zd0q00movdPA";
+static NSString *const kGoogleReportingAPIClientID = @"542469951106-1m0ldqvelbaproj35t94kvkea3tlmuk5.apps.googleusercontent.com";
 
 /* Admin Token */
 static NSString *const kStoreTokenKey = @"3b362afd771255dcc06c12295c90eb8fa5ef815605374dbc";

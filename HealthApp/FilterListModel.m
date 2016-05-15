@@ -15,8 +15,8 @@
     return @{
              @"filterName"    : @"key",
              @"filterValues"  : @"value",
-             @"filterParameter": @"parameter"
-             
+             @"filterParameter": @"parameter",
+             @"type"            : @"type"
              };
 }
 

@@ -11,6 +11,7 @@
 #import "LineItems.h"
 #import "Order.h"
 
+
 @interface SearchResultsTableViewController ()
 {
     NSDictionary *_product;
@@ -31,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    NSLog(@"%@", self.searchResults);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,7 +66,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    NSLog(@"cellForRowAtIndexPath");
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchResultCell" forIndexPath:indexPath];
     
@@ -279,9 +281,10 @@
 }
 
 -(void)configureStoreCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+    
     NSDictionary *store = self.searchResults[indexPath.row];
-    NSString *name = store[@"Name"];
-    NSString *category = store[@"CatName"];
+    NSString *name = STR_OR_NULL(store[@"Name"]);
+    NSString *category = STR_OR_NULL(store[@"CatName"]);
     NSString *imageurl = store[@"images"];
     
     
@@ -292,13 +295,14 @@
     
     cell.textLabel.attributedText = [self highlightSearchedTextWithResult:name];
     cell.detailTextLabel.text = category;
-    cell.imageView.image = [UIImage imageNamed:@"shop"];
     
+    cell.imageView.image = [UIImage imageNamed:@"shop"];
     
     if ([imageurl isEqual:[NSNull null]]) {
         cell.imageView.image = [UIImage imageNamed:@"shop"];
     }
     else {
+        
         [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:imageurl]
                                                         options:SDWebImageRefreshCached
                                                        progress:nil
@@ -341,6 +345,7 @@
                                                              range:subStringRange];
                          }];
     
+    NSLog(@"Returning MutableAttributedString");
     return mutableAttributedString;
     
 }

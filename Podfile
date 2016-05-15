@@ -24,6 +24,8 @@ target 'Neediator' do
     pod 'DIDatepicker'
     
     pod 'GoogleMaps'
+    pod 'GoogleAPIClient/Core', '~> 1.0.2'
+    pod 'GTMOAuth2', '~> 1.1.0'
     
     pod 'SVPullToRefresh'
     pod 'Google/Analytics'

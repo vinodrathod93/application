@@ -7,6 +7,7 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "FilterListModel.h"
 
 @interface FilterHelperModel : MTLModel<MTLJSONSerializing>
 
@@ -15,5 +16,6 @@
 
 @property(nonatomic) BOOL canBeExpanded;
 @property(nonatomic) BOOL isExpanded;
+@property (nonatomic, strong) FilterListModel *filterModel;
 
 @end

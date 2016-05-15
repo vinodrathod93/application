@@ -25,6 +25,7 @@
     #import "User.h"
     #import "Location.h"
     #import "LogSignViewController.h"
+    #import "NeediatorHelper.h"
 
     #import "NAPIManager.h"
     #import "NeediatorUtitity.h"

@@ -26,6 +26,8 @@
     self.closeButton.layer.borderColor  = [UIColor redColor].CGColor;
     self.closeButton.layer.masksToBounds = YES;
     
+    
+    
     [self.closeButton addTarget:self action:@selector(closeTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
