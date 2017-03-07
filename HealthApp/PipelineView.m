@@ -21,12 +21,10 @@
     [super drawRect:rect];
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    
-    
-    
     CGRect drawRect = CGRectMake(rect.origin.x, rect.origin.y,rect.size.width, _currentHeight);
     
     CGContextSetRGBFillColor(context, 100.0f/255.0f, 100.0f/255.0f, 100.0f/255.0f, 1.0f);
+    
     CGContextFillRect(context, drawRect);
 }
 

@@ -31,9 +31,7 @@ typedef void(^completion)(BOOL finished);
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
     self.loginButton.layer.cornerRadius = 3.f;
-    
     
     self.emailImageView.image = [self.emailImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [self.emailImageView setTintColor:[UIColor whiteColor]];
@@ -50,7 +48,7 @@ typedef void(^completion)(BOOL finished);
     self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
     
     
-//    self.emailField
+    //    self.emailField
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 }
@@ -59,20 +57,24 @@ typedef void(^completion)(BOOL finished);
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    id tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:@"Login Screen"];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    // sb   id tracker = [[GAI sharedInstance] defaultTracker];
+    //    [tracker set:kGAIScreenName value:@"Login Screen"];
+    //    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - self.topLayoutGuide.length - self.bottomLayoutGuide.length);
 }
 
 
-- (IBAction)cancelPressed:(id)sender {
-    
+
+#pragma mark - Button Actions.
+- (IBAction)cancelPressed:(id)sender
+{
     User *user = [User savedUser];
     
     if (user == nil) {
@@ -84,11 +86,6 @@ typedef void(^completion)(BOOL finished);
 }
 
 
--(void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - self.topLayoutGuide.length - self.bottomLayoutGuide.length);
-}
 
 
 - (IBAction)loginButtonPressed:(id)sender {
@@ -166,7 +163,8 @@ typedef void(^completion)(BOOL finished);
                         
                         isLoggedIn(NO);
                         
-                    } else if (url_response.statusCode == 200) {
+                    }
+                    else if (url_response.statusCode == 200) {
                         NSLog(@"JSON %@",json);
                         
                         NSArray *login     = [json valueForKey:@"signin"];
@@ -180,8 +178,8 @@ typedef void(^completion)(BOOL finished);
                         user.addresses          = [data objectForKey:@"addreslist"];
                         user.profilePic         = [data valueForKey:@"imageurl"];
                         
+                        
                         [user save];
-                        [self signInWithUser:user];
                         
                         isLoggedIn(YES);
                     }
@@ -207,6 +205,9 @@ typedef void(^completion)(BOOL finished);
     
 }
 
+
+#pragma mark - Alert Controller.
+
 -(void)alertWithTitle:(NSString *)status message:(NSString *)message {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:status message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alert show];
@@ -214,6 +215,7 @@ typedef void(^completion)(BOOL finished);
 
 
 
+#pragma mark - Validation.
 -(NSString *)validateForm {
     NSString *errorMessage;
     
@@ -226,6 +228,8 @@ typedef void(^completion)(BOOL finished);
     return errorMessage;
 }
 
+
+#pragma mark - Helper Methods
 -(void)displayConnectionFailed {
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -246,6 +250,7 @@ typedef void(^completion)(BOOL finished);
 
 
 
+#pragma mark - Reachability.
 -(void)reachabilityChanged:(NSNotification*)note
 {
     Reachability * reach = [note object];
@@ -259,167 +264,17 @@ typedef void(^completion)(BOOL finished);
 }
 
 
+#pragma mark - Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    if ([segue.identifier isEqualToString:@"registerSegue"]) {
+    if ([segue.identifier isEqualToString:@"registerSegue"])
+    {
         SignUpViewController *signupVC = [segue destinationViewController];
-        signupVC.isPlacingOrder        = self.isPlacingOrder;
+        signupVC.isPlacingOrder = self.isPlacingOrder;
         
     }
 }
 
 
-- (void)signInWithUser:(User *)user {
-    
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    
-    // You only need to set User ID on a tracker once. By setting it on the tracker, the ID will be
-    // sent with all subsequent hits.
-    [tracker set:kGAIUserId
-           value:user.userID];
-    
-    // This hit will be sent with the User ID value and be visible in User-ID-enabled views (profiles).
-    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Users"            // Event category (required)
-                                                          action:@"User Sign In"  // Event action (required)
-                                                           label:nil              // Event label
-                                                           value:nil] build]];    // Event value
-}
-
-
-#pragma mark - UITextFieldDelegate
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#pragma mark - Not Needed
-
-#pragma mark - FBSDKLoginButtonDelegate
-
-/*
-- (void)loginButton:(FBSDKLoginButton *)loginButton didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result error:(NSError *)error {
-    if (error) {
-        NSLog(@"Unexpected login error: %@", error);
-        NSString *alertMessage = error.userInfo[FBSDKErrorLocalizedDescriptionKey] ?: @"There was a problem logging in. Please try again later.";
-        NSString *alertTitle = error.userInfo[FBSDKErrorLocalizedTitleKey] ?: @"Oops";
-        [[[UIAlertView alloc] initWithTitle:alertTitle
-                                    message:alertMessage
-                                   delegate:nil
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil] show];
-    } else {
-        NSLog(@"logged in");
-        
-        
-        FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]initWithGraphPath:@"me" parameters:@{@"fields":@"email, name, first_name, last_name"}];
-        [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-            if (error == nil) {
-                NSLog(@"User information ==== %@",result);
-                
-                [self uploadUserDetailsWithResult:result];
-                
-            } else {
-                NSLog(@"Error getting info %@",error);
-            }
-        }];
-        
-    }
-}
-
--(void)loginButtonDidLogOut:(FBSDKLoginButton *)loginButton {
-    NSLog(@"Logged out");
-}
-
-
-- (IBAction)signInButtonPressed:(id)sender {
-    SignInViewController *signInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"signInVC"];
-    signInVC.isPlacingOrder = self.isPlacingOrder;
-    [self.navigationController pushViewController:signInVC animated:YES];
-}
-
-- (IBAction)registerButtonPressed:(id)sender {
-    SignUpViewController *signUpVC = [self.storyboard instantiateViewControllerWithIdentifier:@"registerVC"];
-    signUpVC.isPlacingOrder = self.isPlacingOrder;
-    [self.navigationController pushViewController:signUpVC animated:YES];
-}
-
-
--(void)uploadUserDetailsWithResult:(NSDictionary *)result {
-    
-    NSString *email = result[@"email"];
-    NSString *username = result[@"name"];
-    NSString *firstName = result[@"first_name"];
-    NSString *lastName = result[@"last_name"];
-    NSString *userProfilePic = [NSString stringWithFormat:PROFILE_URL,result[@"id"]];
-    
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSString *postString = [NSString stringWithFormat:@"email=%@&username=%@",email, username];
-    NSURL *url = [NSURL URLWithString:REGISTER_URL];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    request.HTTPMethod = @"POST";
-    request.HTTPBody = [NSData dataWithBytes:[postString UTF8String] length:[postString length]];
-    [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            NSError *response_error;
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&response_error];
-            
-            NSString *message = [json valueForKey:@"Message"];
-            NSString *userID = [json valueForKey:@"userID"];
-            
-            NSLog(@"%@",message);
-            
-            User *user      = [[User alloc]init];
-            user.firstName  = firstName;
-            user.lastName   = lastName;
-            user.fullName   = username;
-            user.email      = email;
-            user.profilePic = userProfilePic;
-            user.userID     = userID;
-            [user save];
-            
-            
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
-            
-            
-        });
-        
-    }];
-    
-    [task resume];
-}
-*/
 
 @end

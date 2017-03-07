@@ -30,7 +30,8 @@
             toolbar.barStyle = UIBarStyleDefault;
         }
         
-        if ([view isKindOfClass:[UIScrollView class]]) {
+        if ([view isKindOfClass:[UIScrollView class]])
+        {
             
             UIScrollView *_pagingScrollView = (UIScrollView *)view;
             _pagingScrollView.backgroundColor = [UIColor whiteColor];
@@ -39,16 +40,15 @@
                 if ([zoomView isKindOfClass:[MWZoomingScrollView class]]) {
                     MWZoomingScrollView *zoomScrollView = (MWZoomingScrollView *)zoomView;
                     
-                    
-                    for (id insideZoomView in zoomScrollView.subviews) {
+                    for (id insideZoomView in zoomScrollView.subviews)
+                    {
                         if ([insideZoomView isKindOfClass:[MWTapDetectingView class]]) {
                             MWTapDetectingView *tapDetectingView = (MWTapDetectingView *)insideZoomView;
-                            
                             tapDetectingView.backgroundColor = [UIColor whiteColor];
                         }
-                        else if ([insideZoomView isKindOfClass:[MWTapDetectingImageView class]]) {
+                        else if ([insideZoomView isKindOfClass:[MWTapDetectingImageView class]])
+                        {
                             MWTapDetectingImageView *tapDetectingImageView = (MWTapDetectingImageView *)insideZoomView;
-                            
                             tapDetectingImageView.backgroundColor = [UIColor whiteColor];
                         }
                     }
@@ -87,7 +87,8 @@
 }
 
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
     return UIStatusBarStyleDefault;
 }
 

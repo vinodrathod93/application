@@ -18,6 +18,7 @@
 
 
 //@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
 - (IBAction)takePhotoPressed:(id)sender;
 - (IBAction)selectPhotoPressed:(id)sender;
 - (IBAction)uploadPhotoPressed:(id)sender;
@@ -38,10 +39,10 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *imagesCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *deliveryTypeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *deliveryTypeButton;
+@property (weak, nonatomic) IBOutlet UIButton *addressTypeButton;
 
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UIButton *addressButton;
-
 @property (weak, nonatomic) IBOutlet UILabel *dataTimeLabel;
 @property (weak, nonatomic) IBOutlet NTextField *dateTimeField;
 
@@ -54,5 +55,32 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *addressLabelBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *addressLabelHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *addressButtonHeight;
+
+
+
+@property (weak, nonatomic) IBOutlet UILabel *AccountCodelabel;
+@property (weak, nonatomic) IBOutlet UITextField *AcountCodeTF;
+
+
+@property (weak, nonatomic) IBOutlet UITextField *timeSlotFromTF;
+@property (weak, nonatomic) IBOutlet UITextField *timeSlotToTF;
+@property (weak, nonatomic) IBOutlet UITextField *accountCodeTF;
+
+
+
+@property (weak, nonatomic) IBOutlet UIView *View1;
+@property (weak, nonatomic) IBOutlet UIView *view2;
+@property (weak, nonatomic) IBOutlet UIView *view3;
+
+@property (weak, nonatomic) IBOutlet UIButton *addNewAddressButton;
+
+
+
+
+
+
+
+
+
 
 @end

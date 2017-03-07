@@ -10,7 +10,8 @@
 
 @implementation DoctorViewCell
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     // Initialization code
 }
 

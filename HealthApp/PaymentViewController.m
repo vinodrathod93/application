@@ -67,7 +67,8 @@ enum TABLEVIEWCELL {
 
 typedef void(^completion)(BOOL finished);
 
-@implementation PaymentViewController {
+@implementation PaymentViewController
+{
     UIButton *_proceedPaymentOption;
     NSInteger _sectionCount;
     NSDictionary *_userData;
@@ -84,17 +85,27 @@ typedef void(^completion)(BOOL finished);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    
-    UIBarButtonItem *promoButton = [[UIBarButtonItem alloc] initWithTitle:@"Promo Code" style:UIBarButtonItemStylePlain target:self action:@selector(promoAlertView)];
-    
-    self.navigationItem.rightBarButtonItem = promoButton;
-    
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incomingNotification:) name:@"PromoCodeNotification" object:self];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    UIBarButtonItem *promoButton = [[UIBarButtonItem alloc] initWithTitle:@"Promo Code" style:UIBarButtonItemStylePlain target:self action:@selector(promoAlertView)];
+    self.navigationItem.rightBarButtonItem = promoButton;
+    
+    
+    
 }
+
+
+
+- (void)incomingNotification:(NSNotification *)notification{
+    NSString *theString = [notification object];
+    NSLog(@"the string %@",theString);
+}
+
 
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -122,7 +133,8 @@ typedef void(^completion)(BOOL finished);
 }
 
 
--(void)promoAlertView {
+-(void)promoAlertView
+{
     _promoAlertView = [[UIAlertView alloc]initWithTitle:@"Enter Promo Code" message:@"" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
     [_promoAlertView setDelegate:self];
     [_promoAlertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
@@ -133,12 +145,15 @@ typedef void(^completion)(BOOL finished);
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView isEqual:_promoAlertView]) {
-        if (buttonIndex == 0) {
+        if (buttonIndex == 0)
+        {
+            
+            
             NSLog(@"Promo Applied");
             NSString *reasonString = [[alertView textFieldAtIndex:0] text];
             NSLog(@"%@",reasonString);
             
-//            [self sendTheCancellationStatusWithReasonID:OTHER_REASON_ID andReason:reasonString];
+            //            [self sendTheCancellationStatusWithReasonID:OTHER_REASON_ID andReason:reasonString];
             
         } else
             NSLog(@"Not send");
@@ -161,7 +176,7 @@ typedef void(^completion)(BOOL finished);
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSString *cellIdentifier = (indexPath.section == 0) ? ((indexPath.row == 0) ? kPAYMENT_SUMMARY_CELLIDENTIFIER: kPAY_CELLIDENTIFIER): (indexPath.section == 1)? kADDRESS_CELLIDENTIFIER: (indexPath.section == 2) ? kPAYMENT_DELVIERY_CELLIDENTIFIER : (indexPath.section == 3) ? kPAYMENT_DELVIERY_CELLIDENTIFIER : kOPTIONS_CELLIDENTIFIER;
+    //    NSString *cellIdentifier = (indexPath.section == 0) ? ((indexPath.row == 0) ? kPAYMENT_SUMMARY_CELLIDENTIFIER: kPAY_CELLIDENTIFIER): (indexPath.section == 1)? kADDRESS_CELLIDENTIFIER: (indexPath.section == 2) ? kPAYMENT_DELVIERY_CELLIDENTIFIER : (indexPath.section == 3) ? kPAYMENT_DELVIERY_CELLIDENTIFIER : kOPTIONS_CELLIDENTIFIER;
     
     
     NSString *cellIdentifier;
@@ -207,7 +222,7 @@ typedef void(^completion)(BOOL finished);
     else if (indexPath.section == DELIVERY_TYPE_SECTION) {
         [self configureDeliveryOptionCell:cell forIndexPath:indexPath];
     }
-        
+    
     
     
     return cell;
@@ -281,7 +296,7 @@ typedef void(^completion)(BOOL finished);
 
 -(void)setupDatePicker {
     _dateTimePickerView = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame) - 216.f, CGRectGetWidth(self.view.frame), 216.f)];
-    _dateTimePickerView.datePickerMode = UIDatePickerModeDateAndTime;
+    _dateTimePickerView.datePickerMode = UIDatePickerModeDate;
     
     NSDate *currentDate = [NSDate date];
     NSDate *nextDate = [currentDate dateByAddingTimeInterval:60*60*24*3];
@@ -602,7 +617,7 @@ typedef void(^completion)(BOOL finished);
 //-(void)createPayment {
 //    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 //    NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
-//    
+//
 //    if (netStatus != NotReachable) {
 //        [self sendPaymentOptionToServer];
 //    } else
@@ -616,12 +631,12 @@ typedef void(^completion)(BOOL finished);
 //
 //        if (self.isPaymentOptionSelected) {
 //            [self deselectPaymentOptionForTableview:tableView forIndexPath:indexPath];
-//            
+//
 //            self.payment_method_id = nil;
 //        }
 //        else {
 //            [self selectPaymentOptionForTableview:tableView forIndexPath:indexPath];
-//            
+//
 //            self.payment_method_id = [self.payment_methods[indexPath.row] valueForKey:@"id"];
 //        }
 //    }
@@ -631,8 +646,8 @@ typedef void(^completion)(BOOL finished);
 
 
 -(void)editShippingDetails {
-//    AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
-//    [self.navigationController pushViewController:addShippingVC animated:YES];
+    //    AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
+    //    [self.navigationController pushViewController:addShippingVC animated:YES];
     
     
     AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
@@ -647,17 +662,17 @@ typedef void(^completion)(BOOL finished);
     
     [self presentViewController:navigationController animated:YES completion:nil];
     
-//    EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
-//    editAddressVC.title = @"Add Address";
-//    
-//    if (![self.shipAddress isEqual:[NSNull null]]) {
-//        
-//        editAddressVC.title       = @"Edit Address";
-//        editAddressVC.shipAddress = self.shipAddress;
-//    }
-//    
-//    
-//    [self.navigationController pushViewController:editAddressVC animated:YES];
+    //    EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
+    //    editAddressVC.title = @"Add Address";
+    //
+    //    if (![self.shipAddress isEqual:[NSNull null]]) {
+    //
+    //        editAddressVC.title       = @"Edit Address";
+    //        editAddressVC.shipAddress = self.shipAddress;
+    //    }
+    //
+    //
+    //    [self.navigationController pushViewController:editAddressVC animated:YES];
     
     
     
@@ -667,28 +682,28 @@ typedef void(^completion)(BOOL finished);
 
 -(void)deliverableAddressDidSelect:(NSDictionary *)address {
     
-//    NSIndexPath *addressIndexPath = [NSIndexPath indexPathForRow:0 inSection:ADDRESS_OPTION_SECTION];
-//    
-//    AddressInPaymentViewCell *cell = [self.tableView cellForRowAtIndexPath:addressIndexPath];
-//    
-//    
-//    NSString *address1 = [[self.shipAddress valueForKey:@"address"] capitalizedString];
-//    
-//    NSString *pincode  = [self.shipAddress valueForKey:@"pincode"];
-//    
-//    
-//    cell.name.text                  = [[self.shipAddress valueForKey:@"name"] capitalizedString];
-//    cell.addressDetailLabel.text    = [NSString stringWithFormat:@"%@, %@",address1, pincode];
-//    cell.mobileNumber.text          = [_userData valueForKey:@"phoneno"];
-//    cell.selectionStyle             = UITableViewCellSelectionStyleNone;
-//    
-//    cell.accessoryType = UITableViewCellAccessoryNone;
-//    
-//    UIButton *edit = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
-//    [edit setImage:[UIImage imageNamed:@"edit2"] forState:UIControlStateNormal];
-//    [edit addTarget:self action:@selector(editShippingDetails) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    cell.accessoryView = edit;
+    //    NSIndexPath *addressIndexPath = [NSIndexPath indexPathForRow:0 inSection:ADDRESS_OPTION_SECTION];
+    //
+    //    AddressInPaymentViewCell *cell = [self.tableView cellForRowAtIndexPath:addressIndexPath];
+    //
+    //
+    //    NSString *address1 = [[self.shipAddress valueForKey:@"address"] capitalizedString];
+    //
+    //    NSString *pincode  = [self.shipAddress valueForKey:@"pincode"];
+    //
+    //
+    //    cell.name.text                  = [[self.shipAddress valueForKey:@"name"] capitalizedString];
+    //    cell.addressDetailLabel.text    = [NSString stringWithFormat:@"%@, %@",address1, pincode];
+    //    cell.mobileNumber.text          = [_userData valueForKey:@"phoneno"];
+    //    cell.selectionStyle             = UITableViewCellSelectionStyleNone;
+    //
+    //    cell.accessoryType = UITableViewCellAccessoryNone;
+    //
+    //    UIButton *edit = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
+    //    [edit setImage:[UIImage imageNamed:@"edit2"] forState:UIControlStateNormal];
+    //    [edit addTarget:self action:@selector(editShippingDetails) forControlEvents:UIControlEventTouchUpInside];
+    //
+    //    cell.accessoryView = edit;
     
     NSLog(@"Called Diselect address");
     
@@ -731,10 +746,12 @@ typedef void(^completion)(BOOL finished);
     User *user = [User savedUser];
     Location *location = [Location savedLocation];
     
-    NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/viewCheckout"];
+    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/viewCheckout"];
     NSLog(@"URL is --> %@", url);
     
-    NSString *parameter = [NSString stringWithFormat:@"user_id=%@&cat_id=%@&store_id=%@&latitude=%@&longitude=%@",user.userID, self.orderModel.cat_id.stringValue, self.orderModel.store_id, location.latitude, location.longitude];
+    NSString *parameter = [NSString stringWithFormat:@"user_id=%@&Section_id=%@&store_id=%@&latitude=%@&longitude=%@",user.userID, self.orderModel.cat_id.stringValue, self.orderModel.store_id,location.latitude,location.longitude];
+    
+    
     NSLog(@"Parameter is %@", parameter);
     
     NSURLSession *session = [NSURLSession sharedSession];
@@ -782,7 +799,7 @@ typedef void(^completion)(BOOL finished);
                 self.total                  = [headerCurrencyFormatter stringFromNumber:[totalData valueForKey:@"totalamount"]];
                 self.title                  = @"CHECKOUT";
                 self.store                  = [[storeData valueForKey:@"name"] capitalizedString];
-
+                
                 _sectionCount               = kSECTION_COUNT;
                 
                 [self.hud hide:YES];
@@ -825,146 +842,146 @@ typedef void(^completion)(BOOL finished);
 
 
 /*
-
--(void)sendPaymentOptionToServer {
-    User *user = [User savedUser];
-    
-    NSString *url = [NSString stringWithFormat:@"http://%@%@/%@?token=%@", self.store_url, kPAYMENT_OPTIONS_URL, self.order_id, user.access_token];
-    NSLog(@"URL is --> %@", url);
-    
-    NSDictionary *payment_dictionary = [self createPaymentDictionary];
-    NSLog(@"Payment Dictionary ==> %@",payment_dictionary);
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:payment_dictionary options:NSJSONWritingPrettyPrinted error:&error];
-    
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:url]];
-    request.HTTPMethod = @"PUT";
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setHTTPBody:jsonData];
-    
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        if (data != nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"%@",response);
-                NSError *jsonError;
-                
-                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-                
-                NSLog(@"Payment JSON ==> %@",json);
-                
-                [self.hud hide:YES];
-                if (jsonError) {
-                    NSLog(@"Error %@",[jsonError localizedDescription]);
-                    
-                } else {
-                    
-                    
-                    NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
-                    NSLog(@"Response %ld", (long)[url_response statusCode]);
-                    
-                    if (url_response.statusCode == 422) {
-                        NSString *error = [json valueForKey:@"error"];
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [self alertWithTitle:@"Error" message:error];
-                        });
-                        
-                    } else if (url_response.statusCode == 200) {
-                        NSLog(@"Payment Done");
-                        
-                        if ([[json valueForKey:@"state"] isEqualToString:@"complete"]) {
-                            OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
-                            orderCompleteVC.order_id = self.order_id;
-                            
-                            
-                            [self deleteCartProducts];
-                            [self deleteAllLineItems];
-                            
-                            
-                            [self.navigationController pushViewController:orderCompleteVC animated:YES];
-                        } else {
-                            [self alertWithTitle:@"Oops" message:@"We currently don't accept Credit Card & Paypal Payments"];
-                        }
-                        
-                        
-                    }
-
-                    
-                }
-                
-            });
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.hud hide:YES];
-                [self displayConnectionFailed];
-            });
-        }
-        
-        
-    }];
-    
-    [task resume];
-    UIWindow *window = [[UIApplication sharedApplication] delegate].window;
-    self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
-    self.hud.dimBackground = YES;
-    self.hud.labelText = @"Making Payment...";
-    self.hud.color = self.view.tintColor;
-}
-
-
--(void)deleteCartProducts {
-    
-    
-    
-    NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
-    NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
-    
-    for (NSManagedObject *product in fetchedArray) {
-        [self.managedObjectContext deleteObject:product];
-    }
-    NSError *error = nil;
-    [self.managedObjectContext save:&error];
-}
-
--(void)deleteAllLineItems {
-    
-    NSFetchRequest *allLineItems = [[NSFetchRequest alloc] init];
-    [allLineItems setEntity:[NSEntityDescription entityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext]];
-    
-    NSError *error = nil;
-    NSArray *lineItems = [self.managedObjectContext executeFetchRequest:allLineItems error:&error];
-    
-    for (NSManagedObject *lineItem in lineItems) {
-        [self.managedObjectContext deleteObject:lineItem];
-    }
-    
-    
-    // Order
-    NSFetchRequest *orderFetchRequest = [[NSFetchRequest alloc]init];
-    [orderFetchRequest setEntity:[NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext]];
-    
-    NSError *orderError = nil;
-    NSArray *orderArray = [self.managedObjectContext executeFetchRequest:orderFetchRequest error:&orderError];
-    
-    for (NSManagedObject *order in orderArray) {
-        [self.managedObjectContext deleteObject:order];
-    }
-    
-    NSError *saveError = nil;
-    [self.managedObjectContext save:&saveError];
-    
-}
+ 
+ -(void)sendPaymentOptionToServer {
+ User *user = [User savedUser];
+ 
+ NSString *url = [NSString stringWithFormat:@"http://%@%@/%@?token=%@", self.store_url, kPAYMENT_OPTIONS_URL, self.order_id, user.access_token];
+ NSLog(@"URL is --> %@", url);
+ 
+ NSDictionary *payment_dictionary = [self createPaymentDictionary];
+ NSLog(@"Payment Dictionary ==> %@",payment_dictionary);
+ NSError *error;
+ NSData *jsonData = [NSJSONSerialization dataWithJSONObject:payment_dictionary options:NSJSONWritingPrettyPrinted error:&error];
+ 
+ 
+ NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:url]];
+ request.HTTPMethod = @"PUT";
+ [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+ [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+ [request setHTTPBody:jsonData];
+ 
+ 
+ NSURLSession *session = [NSURLSession sharedSession];
+ NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+ 
+ if (data != nil) {
+ dispatch_async(dispatch_get_main_queue(), ^{
+ NSLog(@"%@",response);
+ NSError *jsonError;
+ 
+ NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+ 
+ NSLog(@"Payment JSON ==> %@",json);
+ 
+ [self.hud hide:YES];
+ if (jsonError) {
+ NSLog(@"Error %@",[jsonError localizedDescription]);
+ 
+ } else {
+ 
+ 
+ NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
+ NSLog(@"Response %ld", (long)[url_response statusCode]);
+ 
+ if (url_response.statusCode == 422) {
+ NSString *error = [json valueForKey:@"error"];
+ 
+ dispatch_async(dispatch_get_main_queue(), ^{
+ [self alertWithTitle:@"Error" message:error];
+ });
+ 
+ } else if (url_response.statusCode == 200) {
+ NSLog(@"Payment Done");
+ 
+ if ([[json valueForKey:@"state"] isEqualToString:@"complete"]) {
+ OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+ orderCompleteVC.order_id = self.order_id;
+ 
+ 
+ [self deleteCartProducts];
+ [self deleteAllLineItems];
+ 
+ 
+ [self.navigationController pushViewController:orderCompleteVC animated:YES];
+ } else {
+ [self alertWithTitle:@"Oops" message:@"We currently don't accept Credit Card & Paypal Payments"];
+ }
+ 
+ 
+ }
+ 
+ 
+ }
+ 
+ });
+ } else {
+ dispatch_async(dispatch_get_main_queue(), ^{
+ [self.hud hide:YES];
+ [self displayConnectionFailed];
+ });
+ }
+ 
+ 
+ }];
+ 
+ [task resume];
+ UIWindow *window = [[UIApplication sharedApplication] delegate].window;
+ self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
+ self.hud.dimBackground = YES;
+ self.hud.labelText = @"Making Payment...";
+ self.hud.color = self.view.tintColor;
+ }
+ 
+ 
+ -(void)deleteCartProducts {
+ 
+ 
+ 
+ NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
+ NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
+ 
+ for (NSManagedObject *product in fetchedArray) {
+ [self.managedObjectContext deleteObject:product];
+ }
+ NSError *error = nil;
+ [self.managedObjectContext save:&error];
+ }
+ 
+ -(void)deleteAllLineItems {
+ 
+ NSFetchRequest *allLineItems = [[NSFetchRequest alloc] init];
+ [allLineItems setEntity:[NSEntityDescription entityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext]];
+ 
+ NSError *error = nil;
+ NSArray *lineItems = [self.managedObjectContext executeFetchRequest:allLineItems error:&error];
+ 
+ for (NSManagedObject *lineItem in lineItems) {
+ [self.managedObjectContext deleteObject:lineItem];
+ }
+ 
+ 
+ // Order
+ NSFetchRequest *orderFetchRequest = [[NSFetchRequest alloc]init];
+ [orderFetchRequest setEntity:[NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext]];
+ 
+ NSError *orderError = nil;
+ NSArray *orderArray = [self.managedObjectContext executeFetchRequest:orderFetchRequest error:&orderError];
+ 
+ for (NSManagedObject *order in orderArray) {
+ [self.managedObjectContext deleteObject:order];
+ }
+ 
+ NSError *saveError = nil;
+ [self.managedObjectContext save:&saveError];
+ 
+ }
  
  */
 
 //-(NSDictionary *)createPaymentDictionary {
-//    
-//    
+//
+//
 //    NSDictionary *payment = @{
 //                              @"order" : @{
 //                                            @"payments_attributes": @[
@@ -972,13 +989,13 @@ typedef void(^completion)(BOOL finished);
 //                                                                            @"payment_method_id": self.payment_method_id.stringValue
 //                                                                            }
 //                                                                     ],
-//                                            
+//
 //                                            @"use_existing_card": @"no",
 //                                            @"state": @"payment"
 //                                            }
 //                              };
-//    
-//    
+//
+//
 //    return payment;
 //}
 
@@ -1004,33 +1021,31 @@ typedef void(^completion)(BOOL finished);
 
 
 /*
--(void)deselectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
-    
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [_proceedPaymentOption setEnabled:NO];
-    _proceedPaymentOption.alpha = 0.5f;
-    
-    self.isPaymentOptionSelected = NO;
-    
-    UITableViewCell *unSelectCell = [tableView cellForRowAtIndexPath:indexPath];
-    unSelectCell.accessoryType = UITableViewCellAccessoryNone;
-}
-
--(void)selectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
-    
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [_proceedPaymentOption setEnabled:YES];
-    _proceedPaymentOption.alpha = 1.f;
-    
-    UITableViewCell *paymentCell = [tableView cellForRowAtIndexPath:indexPath];
-    paymentCell.accessoryType = UITableViewCellAccessoryCheckmark;
-    
-    self.isPaymentOptionSelected = YES;
-}
-
-*/
-
-
+ -(void)deselectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
+ 
+ [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+ [_proceedPaymentOption setEnabled:NO];
+ _proceedPaymentOption.alpha = 0.5f;
+ 
+ self.isPaymentOptionSelected = NO;
+ 
+ UITableViewCell *unSelectCell = [tableView cellForRowAtIndexPath:indexPath];
+ unSelectCell.accessoryType = UITableViewCellAccessoryNone;
+ }
+ 
+ -(void)selectPaymentOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
+ 
+ [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+ [_proceedPaymentOption setEnabled:YES];
+ _proceedPaymentOption.alpha = 1.f;
+ 
+ UITableViewCell *paymentCell = [tableView cellForRowAtIndexPath:indexPath];
+ paymentCell.accessoryType = UITableViewCellAccessoryCheckmark;
+ 
+ self.isPaymentOptionSelected = YES;
+ }
+ 
+ */
 
 
 
@@ -1042,7 +1057,9 @@ typedef void(^completion)(BOOL finished);
 
 
 
-#pragma mark - Not Required 
+
+
+#pragma mark - Not Required
 
 /*
  
@@ -1059,6 +1076,6 @@ typedef void(^completion)(BOOL finished);
  
  
  
-*/
+ */
 
 @end

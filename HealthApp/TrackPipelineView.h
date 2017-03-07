@@ -18,4 +18,6 @@
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *stageImages;
 
 -(void)drawCurrentOrderState:(NSString *)orderState orderDateTime:(NSString *)dateTime withCode:(int)statusCode;
+
+
 @end

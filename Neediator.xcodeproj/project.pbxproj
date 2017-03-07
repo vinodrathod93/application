@@ -8,17 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		0C908C364CC939481E020D86 /* libPods-Neediator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A16AC5A4C6DEBE2546E9713 /* libPods-Neediator.a */; };
+		37C8B3D97DF0F6DA933E2FD3 /* libPods-NeediatorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B5BA946124DC476FBC8927 /* libPods-NeediatorTests.a */; };
 		4B13D2C70E0136E2D7B3E8C5 /* libPods-Neediator-AppleWatch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10FB8275C15FF7C2F9701FBE /* libPods-Neediator-AppleWatch.a */; };
-		6707112F1CDF4E6D00B2E76A /* GoogleReportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6707112E1CDF4E6D00B2E76A /* GoogleReportsViewController.m */; };
+		5FEF6DB5540FDC6C37D74615 /* libPods-Neediator-AppleWatch Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3269AD15104CCA7F559DE108 /* libPods-Neediator-AppleWatch Extension.a */; };
+		674BB1A01E69B6AB00241BE7 /* StoreStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 674BB19F1E69B6AB00241BE7 /* StoreStoryboard.storyboard */; };
+		674BB1A41E69B8DB00241BE7 /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 674BB1A31E69B8DB00241BE7 /* FilterViewController.m */; };
+		674BB1A81E69EFB700241BE7 /* ToggleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 674BB1A71E69EFB700241BE7 /* ToggleViewController.m */; };
+		674BB1AB1E69EFD700241BE7 /* ToggleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 674BB1AA1E69EFD700241BE7 /* ToggleTableViewCell.m */; };
+		674BB1AE1E69FB6000241BE7 /* AreaFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 674BB1AD1E69FB6000241BE7 /* AreaFilterViewController.m */; };
+		674BB1B11E6A06C800241BE7 /* WorkingHoursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 674BB1B01E6A06C800241BE7 /* WorkingHoursViewController.m */; };
+		674BB1B41E6A098F00241BE7 /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 674BB1B31E6A098F00241BE7 /* OptionsViewController.m */; };
 		676A18311CADC3310031BFF0 /* NSString+AddressValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 676A182F1CADC3310031BFF0 /* NSString+AddressValidation.m */; };
 		6795F0A81C9C8E9000984A92 /* SortListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0A71C9C8E9000984A92 /* SortListModel.m */; };
 		6795F0AB1C9C8F6200984A92 /* FilterListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AA1C9C8F6200984A92 /* FilterListModel.m */; };
 		6795F0AE1C9C93A500984A92 /* FilterHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */; };
-		67DF40101CE3501000415F6F /* FilterSliderViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DF400F1CE3501000415F6F /* FilterSliderViewCell.m */; };
-		67DF40131CE3502200415F6F /* FilterSwitchViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DF40121CE3502200415F6F /* FilterSwitchViewCell.m */; };
-		67DF40161CE3767500415F6F /* FilterDefaultViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DF40151CE3767500415F6F /* FilterDefaultViewCell.m */; };
-		67DF401F1CE4B4D300415F6F /* FollowUsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DF401E1CE4B4D300415F6F /* FollowUsTableViewCell.m */; };
+		7519CD032FD4353DB3408210 /* libPods-Neediator Widget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81A0ED376589C22F63FF6C24 /* libPods-Neediator Widget.a */; };
+		820108E11E27B99100A8627E /* AftrCheckoutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 820108E01E27B99100A8627E /* AftrCheckoutVC.m */; };
 		82041C261CA9118A007F3B3C /* NeediatorHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 82041C251CA9118A007F3B3C /* NeediatorHUD.m */; };
+		8206B34B1E2A00D4002F1359 /* ShowMyBookingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8206B34A1E2A00D4002F1359 /* ShowMyBookingsVC.m */; };
+		8206B34F1E2A0401002F1359 /* MyBookingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8206B34E1E2A0401002F1359 /* MyBookingModel.m */; };
+		8206B3521E2A05E8002F1359 /* MyBookingResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8206B3511E2A05E8002F1359 /* MyBookingResponseModel.m */; };
+		8206B3551E2A0718002F1359 /* MyBookingByStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 8206B3541E2A0718002F1359 /* MyBookingByStatus.m */; };
+		8206B3581E2A08C2002F1359 /* MyBookingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8206B3571E2A08C2002F1359 /* MyBookingCell.m */; };
+		820777C91DFAABF100075857 /* RatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820777C81DFAABF100075857 /* RatingViewController.m */; };
 		820D4C0F1CD0A246002F137D /* NATextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 820D4C0E1CD0A246002F137D /* NATextView.m */; };
 		820D4C191CD0CE3A002F137D /* CancelOrderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 820D4C181CD0CE3A002F137D /* CancelOrderView.m */; };
 		820D4C1B1CD0CE81002F137D /* CancelOrderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 820D4C1A1CD0CE81002F137D /* CancelOrderView.xib */; };
@@ -49,12 +61,15 @@
 		823339351C9D7D3300E16852 /* FilterTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 823339341C9D7D3300E16852 /* FilterTableViewController.m */; };
 		8233CE101B873B8B00B5279B /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8233CE0F1B873B8B00B5279B /* PaymentViewController.m */; };
 		8233CE161B874FB200B5279B /* PaymentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8233CE151B874FB200B5279B /* PaymentViewCell.m */; };
+		82352F661DF2A32A00DD3CB7 /* TrackPipelineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82352F631DF2A32A00DD3CB7 /* TrackPipelineView.m */; };
+		82352F671DF2A32A00DD3CB7 /* TrackPipelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82352F651DF2A32A00DD3CB7 /* TrackPipelineView.xib */; };
 		823571B41CB3E9C200D27BEC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 823571B31CB3E9C200D27BEC /* NotificationCenter.framework */; };
 		823571B81CB3E9C200D27BEC /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 823571B71CB3E9C200D27BEC /* TodayViewController.m */; };
 		823571BB1CB3E9C200D27BEC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 823571B91CB3E9C200D27BEC /* MainInterface.storyboard */; };
 		823571BF1CB3E9C200D27BEC /* Neediator Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 823571B21CB3E9C200D27BEC /* Neediator Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8238A7061B5E4538005CC0A5 /* ProductDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 8238A7051B5E4538005CC0A5 /* ProductDetail.m */; };
 		82395A9C1B53A77300581EB4 /* CategoryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82395A9B1B53A77300581EB4 /* CategoryViewCell.m */; };
+		823AADC71E14DCA000E46FFE /* ShowMyPrescriptionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 823AADC51E14DCA000E46FFE /* ShowMyPrescriptionVC.m */; };
 		823B737F1C49149F00031596 /* NSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 823B737E1C49149F00031596 /* NSessionManager.m */; };
 		823B73821C49152F00031596 /* NAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 823B73811C49152F00031596 /* NAPIManager.m */; };
 		823B73851C491A4000031596 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 823B73841C491A4000031596 /* CategoryModel.m */; };
@@ -67,6 +82,8 @@
 		823C46AD1B7374C100E37DBE /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 823C46AC1B7374C100E37DBE /* SignUpViewController.m */; };
 		823C46B01B7392FE00E37DBE /* ProfileViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 823C46AF1B7392FE00E37DBE /* ProfileViewCell.m */; };
 		823C46B31B73934F00E37DBE /* MyAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 823C46B21B73934F00E37DBE /* MyAccountViewController.m */; };
+		823C97151DFAB6710046AEDD /* WriteReviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 823C97141DFAB6710046AEDD /* WriteReviewController.m */; };
+		823C97191DFAD3480046AEDD /* AllReviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 823C97181DFAD3480046AEDD /* AllReviewTableViewCell.m */; };
 		823D06621B8C458600640F45 /* CODInputViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 823D06611B8C458600640F45 /* CODInputViewCell.m */; };
 		823F71B11C1B206E00E43731 /* NoStores.xib in Resources */ = {isa = PBXBuildFile; fileRef = 823F71B01C1B206E00E43731 /* NoStores.xib */; };
 		823F71B41C1B21F500E43731 /* NoStores.m in Sources */ = {isa = PBXBuildFile; fileRef = 823F71B31C1B21F500E43731 /* NoStores.m */; };
@@ -79,6 +96,13 @@
 		8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250A3261B54E9D70026ADCE /* HeaderSliderView.m */; };
 		8250A32D1B55142E0026ADCE /* ProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250A32C1B55142E0026ADCE /* ProductsViewController.m */; };
 		8250A3321B553B000026ADCE /* ProductViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250A3311B553B000026ADCE /* ProductViewCell.m */; };
+		82521A881E26160200D6E7CF /* HomeRequestConfirmVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 82521A871E26160200D6E7CF /* HomeRequestConfirmVC.m */; };
+		82521A8B1E262BAF00D6E7CF /* ProductDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 82521A8A1E262BAF00D6E7CF /* ProductDetailVC.m */; };
+		82521A8E1E262D5C00D6E7CF /* SpecificationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82521A8D1E262D5C00D6E7CF /* SpecificationTableViewCell.m */; };
+		82521A911E262D7C00D6E7CF /* DescriptionsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82521A901E262D7C00D6E7CF /* DescriptionsTableViewCell.m */; };
+		82521A951E2633C800D6E7CF /* Ico.png in Resources */ = {isa = PBXBuildFile; fileRef = 82521A921E2633C800D6E7CF /* Ico.png */; };
+		82521A961E2633C800D6E7CF /* Bac.png in Resources */ = {isa = PBXBuildFile; fileRef = 82521A931E2633C800D6E7CF /* Bac.png */; };
+		82521A971E2633C800D6E7CF /* addr.png in Resources */ = {isa = PBXBuildFile; fileRef = 82521A941E2633C800D6E7CF /* addr.png */; };
 		825266DF1B50002600C635F7 /* HomeCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825266DE1B50002600C635F7 /* HomeCategoryViewController.m */; };
 		825567181B68E6D4009F013A /* AddShippingDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825567171B68E6D4009F013A /* AddShippingDetailsViewController.m */; };
 		8255671B1B68E6F0009F013A /* AddShippingViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8255671A1B68E6F0009F013A /* AddShippingViewCell.m */; };
@@ -87,7 +111,9 @@
 		82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82559A611B623F9B0064E994 /* HeaderLabel.m */; };
 		825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825692CB1B6B771700B5D1D3 /* DoctorViewCell.m */; };
 		825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825692D21B6B77E200B5D1D3 /* DoctorViewController.m */; };
+		82585A6C1DFC1BBC005DAA3A /* UploadVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 82585A6B1DFC1BBB005DAA3A /* UploadVC.m */; };
 		825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 825892811BBEB21C0032B0A3 /* DeliveryViewController.m */; };
+		825F99191E14EC060003431F /* BookAppointmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 825F99181E14EC060003431F /* BookAppointmentVC.m */; };
 		826212F61BFB25BC00F75254 /* BannerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 826212F51BFB25BC00F75254 /* BannerView.xib */; };
 		826212F91BFB25CE00F75254 /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826212F81BFB25CE00F75254 /* BannerView.m */; };
 		8267AB731CB281E300CF1632 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8267AB711CB281E300CF1632 /* Interface.storyboard */; };
@@ -122,6 +148,8 @@
 		8286B2711BF0CF6A00AFC533 /* TaxonomyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2701BF0CF6A00AFC533 /* TaxonomyModel.m */; };
 		8286B2741BF0CF7500AFC533 /* TaxonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2731BF0CF7500AFC533 /* TaxonModel.m */; };
 		8286B27A1BF0CFCE00AFC533 /* TaxonomyListResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8286B2791BF0CFCE00AFC533 /* TaxonomyListResponseModel.m */; };
+		828C301C1E07B7A100D9690B /* MyOrderByStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C301B1E07B7A100D9690B /* MyOrderByStatus.m */; };
+		828C30671E07FA0200D9690B /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C30661E07FA0200D9690B /* TableViewCell.m */; };
 		829113C11BB90746000DA995 /* Cart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 829113BF1BB90746000DA995 /* Cart.xcdatamodeld */; };
 		829113D71BB93A63000DA995 /* VariantsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829113D61BB93A63000DA995 /* VariantsViewController.m */; };
 		8294E0281CB51B8E00DF2313 /* BookingDIDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8294E0271CB51B8E00DF2313 /* BookingDIDatePicker.m */; };
@@ -131,6 +159,8 @@
 		8294E0301CB538A400DF2313 /* ListingInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8294E02F1CB538A400DF2313 /* ListingInterfaceController.m */; };
 		8294E0331CB538ED00DF2313 /* CategoryRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8294E0321CB538ED00DF2313 /* CategoryRow.m */; };
 		8294E0351CB53A7F00DF2313 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8294E0341CB53A7F00DF2313 /* LocalAuthentication.framework */; };
+		82954ADE1E17918A0047A996 /* UploadReportsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 82954ADD1E17918A0047A996 /* UploadReportsVC.m */; };
+		82954AE11E17BABB0047A996 /* UploadReportsPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82954AE01E17BABB0047A996 /* UploadReportsPreviewController.m */; };
 		82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E911BEB1D0100F0EDE3 /* APIManager.m */; };
 		82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82999E981BEB1D9300F0EDE3 /* StoresModel.m */; };
 		829F73941C257FEE001670A8 /* CustomCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 829F73931C257FEE001670A8 /* CustomCollectionViewCell.m */; };
@@ -148,15 +178,18 @@
 		82A542891C22B3A100383253 /* VariantImagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A542881C22B3A100383253 /* VariantImagesModel.m */; };
 		82A5428D1C22BB1A00383253 /* MyOrdersResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A5428C1C22BB1A00383253 /* MyOrdersResponseModel.m */; };
 		82A8B4131C4E610D00FCDF79 /* ImageModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A8B4121C4E610D00FCDF79 /* ImageModalViewController.m */; };
-		82AA54B31CB68E11009E9717 /* TrackPipelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82AA54B21CB68E11009E9717 /* TrackPipelineView.xib */; };
-		82AA54B61CB68F59009E9717 /* TrackPipelineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA54B51CB68F59009E9717 /* TrackPipelineView.m */; };
 		82AB0C961C2E882100675567 /* EditAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AB0C951C2E882100675567 /* EditAddressViewController.m */; };
 		82AE1F851CCE320600458CBB /* NeediatorPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AE1F841CCE320600458CBB /* NeediatorPhotoBrowser.m */; };
 		82AE1F881CCE355800458CBB /* NeediatorMWZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AE1F871CCE355800458CBB /* NeediatorMWZoomingScrollView.m */; };
+		82B2B4AD1E28B9C500928E85 /* PaymentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B2B4AC1E28B9C500928E85 /* PaymentVC.m */; };
+		82B2B4B41E28BAC700928E85 /* CashOnDeliveryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B2B4AF1E28BAC700928E85 /* CashOnDeliveryCell.m */; };
+		82B2B4B51E28BAC700928E85 /* CreditCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B2B4B11E28BAC700928E85 /* CreditCardCell.m */; };
+		82B2B4B61E28BAC700928E85 /* DebitCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B2B4B31E28BAC700928E85 /* DebitCardCell.m */; };
 		82B4245A1C8431BB00664A4B /* UploadPrescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B424591C8431BB00664A4B /* UploadPrescriptionViewController.m */; };
 		82B7AAF01C5D0C0E0031BA8E /* SubCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7AAEF1C5D0C0E0031BA8E /* SubCategoryViewController.m */; };
 		82B7AAF61C5D0CAF0031BA8E /* SubCategoryHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B7AAF51C5D0CAF0031BA8E /* SubCategoryHeaderView.m */; };
 		82B93B611CB918D700D1EC8C /* FavouriteStoreDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B93B601CB918D700D1EC8C /* FavouriteStoreDetailModel.m */; };
+		82BAED3C1E2CC07E00DFA976 /* MyOrdersVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BAED3B1E2CC07E00DFA976 /* MyOrdersVC.m */; };
 		82BB3DEB1CA01B1B00B282D0 /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */; };
 		82BD028E1B46A73C00108A0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD028D1B46A73C00108A0B /* main.m */; };
 		82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BD02901B46A73C00108A0B /* AppDelegate.m */; };
@@ -201,8 +234,12 @@
 		82D47D2F1CABF928006B7996 /* OffersPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D47D2E1CABF928006B7996 /* OffersPopViewController.m */; };
 		82D4D2681CD740DC00EB140D /* ChemistOptionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D4D2671CD740DC00EB140D /* ChemistOptionViewCell.m */; };
 		82D4D26B1CD74BA700EB140D /* DoctorOptionsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D4D26A1CD74BA700EB140D /* DoctorOptionsViewCell.m */; };
+		82D621B61E3B14F7006A9B36 /* FavouriteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D621B51E3B14F7006A9B36 /* FavouriteTableViewCell.m */; };
 		82D65ADF1CC510E700A24A30 /* CallBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D65ADE1CC510E700A24A30 /* CallBackViewController.m */; };
+		82D69A061E0CF49C00E5E84C /* CustomPrescriptionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D69A051E0CF49C00E5E84C /* CustomPrescriptionViewCell.m */; };
+		82D69A091E0D298300E5E84C /* PrescriptionLineItemsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D69A081E0D298300E5E84C /* PrescriptionLineItemsModel.m */; };
 		82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */; };
+		82D86D9E1E16690300A2F19A /* BookConfirmNewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D86D9D1E16690300A2F19A /* BookConfirmNewVC.m */; };
 		82DCBED11C4CEFE7005EBDB3 /* ListingResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED01C4CEFE7005EBDB3 /* ListingResponseModel.m */; };
 		82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DCBED31C4CFEC0005EBDB3 /* RatingView.m */; };
 		82E07F2F1C906A5500F6480D /* HomeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E07F2E1C906A5500F6480D /* HomeCollectionViewCell.m */; };
@@ -223,6 +260,10 @@
 		82ED53E71C4FB58300FA7707 /* EntityDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82ED53E61C4FB58300FA7707 /* EntityDetailModel.m */; };
 		82EF2DE11BE8C67B00D87DE2 /* StoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE01BE8C67B00D87DE2 /* StoresViewController.m */; };
 		82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */; };
+		82F56A841E35C6EE00014990 /* CancelOrderNewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F56A831E35C6EE00014990 /* CancelOrderNewView.m */; };
+		82F56A861E35C71300014990 /* CancelOrderNewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82F56A851E35C71300014990 /* CancelOrderNewView.xib */; };
+		82F610C61E41BAD600568BDB /* MyPrescriptionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F610C51E41BAD600568BDB /* MyPrescriptionModel.m */; };
+		82F610C91E41DA3100568BDB /* MyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F610C81E41DA3100568BDB /* MyModel.m */; };
 		82F80CD61C1EE01100C8E076 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F80CD51C1EE01100C8E076 /* MoreViewController.m */; };
 		82F856CB1C8077B0000B68A9 /* SubCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F856CA1C8077B0000B68A9 /* SubCategoryModel.m */; };
 		82F856D31C80833B000B68A9 /* StateCityResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F856D01C80833B000B68A9 /* StateCityResponseModel.m */; };
@@ -231,6 +272,7 @@
 		82F856DA1C8091CF000B68A9 /* SubCategoryRealm.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F856D91C8091CF000B68A9 /* SubCategoryRealm.m */; };
 		82FB520C1C281B2500E19626 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FB520B1C281B2500E19626 /* LoginView.m */; };
 		82FB520E1C281B3300E19626 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82FB520D1C281B3300E19626 /* LoginView.xib */; };
+		82FDF7D61E250F920023EC52 /* HomeRequestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FDF7D51E250F920023EC52 /* HomeRequestVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -302,11 +344,25 @@
 
 /* Begin PBXFileReference section */
 		10FB8275C15FF7C2F9701FBE /* libPods-Neediator-AppleWatch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator-AppleWatch.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3269AD15104CCA7F559DE108 /* libPods-Neediator-AppleWatch Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator-AppleWatch Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		32B41B3BF2A27E5243E376E3 /* Pods-Neediator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.release.xcconfig"; sourceTree = "<group>"; };
 		4B0933CC18D1F3AE6AAC3759 /* Pods-Neediator-AppleWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch.release.xcconfig"; sourceTree = "<group>"; };
-		6707112D1CDF4E6D00B2E76A /* GoogleReportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReportsViewController.h; sourceTree = "<group>"; };
-		6707112E1CDF4E6D00B2E76A /* GoogleReportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReportsViewController.m; sourceTree = "<group>"; };
-		670A3B221CE65EE300620D29 /* NeediatorHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorHelper.h; sourceTree = "<group>"; };
+		52B5BA946124DC476FBC8927 /* libPods-NeediatorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NeediatorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65D65CDED614DEB7B31509D2 /* Pods-Neediator-AppleWatch Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension.release.xcconfig"; sourceTree = "<group>"; };
+		674BB19F1E69B6AB00241BE7 /* StoreStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = StoreStoryboard.storyboard; path = ../StoreStoryboard.storyboard; sourceTree = "<group>"; };
+		674BB1A21E69B8DB00241BE7 /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
+		674BB1A31E69B8DB00241BE7 /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
+		674BB1A51E69C04100241BE7 /* NeediatorHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorHelper.h; sourceTree = "<group>"; };
+		674BB1A61E69EFB700241BE7 /* ToggleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleViewController.h; sourceTree = "<group>"; };
+		674BB1A71E69EFB700241BE7 /* ToggleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToggleViewController.m; sourceTree = "<group>"; };
+		674BB1A91E69EFD700241BE7 /* ToggleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleTableViewCell.h; sourceTree = "<group>"; };
+		674BB1AA1E69EFD700241BE7 /* ToggleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToggleTableViewCell.m; sourceTree = "<group>"; };
+		674BB1AC1E69FB6000241BE7 /* AreaFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaFilterViewController.h; sourceTree = "<group>"; };
+		674BB1AD1E69FB6000241BE7 /* AreaFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaFilterViewController.m; sourceTree = "<group>"; };
+		674BB1AF1E6A06C800241BE7 /* WorkingHoursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkingHoursViewController.h; sourceTree = "<group>"; };
+		674BB1B01E6A06C800241BE7 /* WorkingHoursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkingHoursViewController.m; sourceTree = "<group>"; };
+		674BB1B21E6A098F00241BE7 /* OptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsViewController.h; sourceTree = "<group>"; };
+		674BB1B31E6A098F00241BE7 /* OptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsViewController.m; sourceTree = "<group>"; };
 		676A182F1CADC3310031BFF0 /* NSString+AddressValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AddressValidation.m"; sourceTree = "<group>"; };
 		676A18301CADC3310031BFF0 /* NSString+AddressValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AddressValidation.h"; sourceTree = "<group>"; };
 		6795F0A61C9C8E9000984A92 /* SortListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortListModel.h; sourceTree = "<group>"; };
@@ -315,17 +371,25 @@
 		6795F0AA1C9C8F6200984A92 /* FilterListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterListModel.m; sourceTree = "<group>"; };
 		6795F0AC1C9C93A500984A92 /* FilterHelperModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterHelperModel.h; sourceTree = "<group>"; };
 		6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterHelperModel.m; sourceTree = "<group>"; };
-		67DF400E1CE3501000415F6F /* FilterSliderViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterSliderViewCell.h; sourceTree = "<group>"; };
-		67DF400F1CE3501000415F6F /* FilterSliderViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterSliderViewCell.m; sourceTree = "<group>"; };
-		67DF40111CE3502200415F6F /* FilterSwitchViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterSwitchViewCell.h; sourceTree = "<group>"; };
-		67DF40121CE3502200415F6F /* FilterSwitchViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterSwitchViewCell.m; sourceTree = "<group>"; };
-		67DF40141CE3767500415F6F /* FilterDefaultViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterDefaultViewCell.h; sourceTree = "<group>"; };
-		67DF40151CE3767500415F6F /* FilterDefaultViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterDefaultViewCell.m; sourceTree = "<group>"; };
-		67DF401D1CE4B4D300415F6F /* FollowUsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowUsTableViewCell.h; sourceTree = "<group>"; };
-		67DF401E1CE4B4D300415F6F /* FollowUsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowUsTableViewCell.m; sourceTree = "<group>"; };
 		6A16AC5A4C6DEBE2546E9713 /* libPods-Neediator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EE59D28EB28CEDF2BED371F /* Pods-Neediator Widget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator Widget.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator Widget/Pods-Neediator Widget.release.xcconfig"; sourceTree = "<group>"; };
+		81A0ED376589C22F63FF6C24 /* libPods-Neediator Widget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator Widget.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		820108DF1E27B99100A8627E /* AftrCheckoutVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AftrCheckoutVC.h; sourceTree = "<group>"; };
+		820108E01E27B99100A8627E /* AftrCheckoutVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AftrCheckoutVC.m; sourceTree = "<group>"; };
 		82041C241CA9118A007F3B3C /* NeediatorHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorHUD.h; sourceTree = "<group>"; };
 		82041C251CA9118A007F3B3C /* NeediatorHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorHUD.m; sourceTree = "<group>"; };
+		8206B3491E2A00D4002F1359 /* ShowMyBookingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowMyBookingsVC.h; sourceTree = "<group>"; };
+		8206B34A1E2A00D4002F1359 /* ShowMyBookingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowMyBookingsVC.m; sourceTree = "<group>"; };
+		8206B34D1E2A0401002F1359 /* MyBookingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBookingModel.h; sourceTree = "<group>"; };
+		8206B34E1E2A0401002F1359 /* MyBookingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookingModel.m; sourceTree = "<group>"; };
+		8206B3501E2A05E8002F1359 /* MyBookingResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBookingResponseModel.h; sourceTree = "<group>"; };
+		8206B3511E2A05E8002F1359 /* MyBookingResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookingResponseModel.m; sourceTree = "<group>"; };
+		8206B3531E2A0718002F1359 /* MyBookingByStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBookingByStatus.h; sourceTree = "<group>"; };
+		8206B3541E2A0718002F1359 /* MyBookingByStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookingByStatus.m; sourceTree = "<group>"; };
+		8206B3561E2A08C2002F1359 /* MyBookingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBookingCell.h; sourceTree = "<group>"; };
+		8206B3571E2A08C2002F1359 /* MyBookingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBookingCell.m; sourceTree = "<group>"; };
+		820777C71DFAABF100075857 /* RatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingViewController.h; sourceTree = "<group>"; };
+		820777C81DFAABF100075857 /* RatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingViewController.m; sourceTree = "<group>"; };
 		820D4C0D1CD0A246002F137D /* NATextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NATextView.h; sourceTree = "<group>"; };
 		820D4C0E1CD0A246002F137D /* NATextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NATextView.m; sourceTree = "<group>"; };
 		820D4C171CD0CE3A002F137D /* CancelOrderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelOrderView.h; sourceTree = "<group>"; };
@@ -379,6 +443,9 @@
 		8233CE0F1B873B8B00B5279B /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentViewController.m; sourceTree = "<group>"; };
 		8233CE141B874FB200B5279B /* PaymentViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewCell.h; path = ../PaymentViewCell.h; sourceTree = "<group>"; };
 		8233CE151B874FB200B5279B /* PaymentViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewCell.m; path = ../PaymentViewCell.m; sourceTree = "<group>"; };
+		82352F631DF2A32A00DD3CB7 /* TrackPipelineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackPipelineView.m; sourceTree = "<group>"; };
+		82352F641DF2A32A00DD3CB7 /* TrackPipelineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackPipelineView.h; sourceTree = "<group>"; };
+		82352F651DF2A32A00DD3CB7 /* TrackPipelineView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackPipelineView.xib; sourceTree = "<group>"; };
 		823571B21CB3E9C200D27BEC /* Neediator Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Neediator Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		823571B31CB3E9C200D27BEC /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		823571B61CB3E9C200D27BEC /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
@@ -389,6 +456,8 @@
 		8238A7051B5E4538005CC0A5 /* ProductDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetail.m; sourceTree = "<group>"; };
 		82395A9A1B53A77300581EB4 /* CategoryViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryViewCell.h; sourceTree = "<group>"; };
 		82395A9B1B53A77300581EB4 /* CategoryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewCell.m; sourceTree = "<group>"; };
+		823AADC41E14DCA000E46FFE /* ShowMyPrescriptionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowMyPrescriptionVC.h; sourceTree = "<group>"; };
+		823AADC51E14DCA000E46FFE /* ShowMyPrescriptionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowMyPrescriptionVC.m; sourceTree = "<group>"; };
 		823B737D1C49149F00031596 /* NSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSessionManager.h; sourceTree = "<group>"; };
 		823B737E1C49149F00031596 /* NSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSessionManager.m; sourceTree = "<group>"; };
 		823B73801C49152F00031596 /* NAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAPIManager.h; sourceTree = "<group>"; };
@@ -413,6 +482,10 @@
 		823C46AF1B7392FE00E37DBE /* ProfileViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewCell.m; sourceTree = "<group>"; };
 		823C46B11B73934F00E37DBE /* MyAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAccountViewController.h; sourceTree = "<group>"; };
 		823C46B21B73934F00E37DBE /* MyAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAccountViewController.m; sourceTree = "<group>"; };
+		823C97131DFAB6710046AEDD /* WriteReviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteReviewController.h; sourceTree = "<group>"; };
+		823C97141DFAB6710046AEDD /* WriteReviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteReviewController.m; sourceTree = "<group>"; };
+		823C97171DFAD3480046AEDD /* AllReviewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllReviewTableViewCell.h; sourceTree = "<group>"; };
+		823C97181DFAD3480046AEDD /* AllReviewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllReviewTableViewCell.m; sourceTree = "<group>"; };
 		823D06601B8C458600640F45 /* CODInputViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CODInputViewCell.h; sourceTree = "<group>"; };
 		823D06611B8C458600640F45 /* CODInputViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CODInputViewCell.m; sourceTree = "<group>"; };
 		823F71B01C1B206E00E43731 /* NoStores.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoStores.xib; sourceTree = "<group>"; };
@@ -434,6 +507,17 @@
 		8250A32C1B55142E0026ADCE /* ProductsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductsViewController.m; sourceTree = "<group>"; };
 		8250A3301B553B000026ADCE /* ProductViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductViewCell.h; sourceTree = "<group>"; };
 		8250A3311B553B000026ADCE /* ProductViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductViewCell.m; sourceTree = "<group>"; };
+		82521A861E26160200D6E7CF /* HomeRequestConfirmVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeRequestConfirmVC.h; sourceTree = "<group>"; };
+		82521A871E26160200D6E7CF /* HomeRequestConfirmVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeRequestConfirmVC.m; sourceTree = "<group>"; };
+		82521A891E262BAF00D6E7CF /* ProductDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailVC.h; sourceTree = "<group>"; };
+		82521A8A1E262BAF00D6E7CF /* ProductDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailVC.m; sourceTree = "<group>"; };
+		82521A8C1E262D5C00D6E7CF /* SpecificationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecificationTableViewCell.h; sourceTree = "<group>"; };
+		82521A8D1E262D5C00D6E7CF /* SpecificationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpecificationTableViewCell.m; sourceTree = "<group>"; };
+		82521A8F1E262D7C00D6E7CF /* DescriptionsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescriptionsTableViewCell.h; sourceTree = "<group>"; };
+		82521A901E262D7C00D6E7CF /* DescriptionsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DescriptionsTableViewCell.m; sourceTree = "<group>"; };
+		82521A921E2633C800D6E7CF /* Ico.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ico.png; sourceTree = "<group>"; };
+		82521A931E2633C800D6E7CF /* Bac.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bac.png; sourceTree = "<group>"; };
+		82521A941E2633C800D6E7CF /* addr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addr.png; sourceTree = "<group>"; };
 		825266DD1B50002600C635F7 /* HomeCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeCategoryViewController.h; sourceTree = "<group>"; };
 		825266DE1B50002600C635F7 /* HomeCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeCategoryViewController.m; sourceTree = "<group>"; };
 		825567161B68E6D4009F013A /* AddShippingDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddShippingDetailsViewController.h; sourceTree = "<group>"; };
@@ -449,8 +533,12 @@
 		825692CB1B6B771700B5D1D3 /* DoctorViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoctorViewCell.m; sourceTree = "<group>"; };
 		825692D11B6B77E200B5D1D3 /* DoctorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoctorViewController.h; sourceTree = "<group>"; };
 		825692D21B6B77E200B5D1D3 /* DoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoctorViewController.m; sourceTree = "<group>"; };
+		82585A6A1DFC1BBB005DAA3A /* UploadVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadVC.h; sourceTree = "<group>"; };
+		82585A6B1DFC1BBB005DAA3A /* UploadVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadVC.m; sourceTree = "<group>"; };
 		825892801BBEB21C0032B0A3 /* DeliveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeliveryViewController.h; path = ../DeliveryViewController.h; sourceTree = "<group>"; };
 		825892811BBEB21C0032B0A3 /* DeliveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeliveryViewController.m; path = ../DeliveryViewController.m; sourceTree = "<group>"; };
+		825F99171E14EC060003431F /* BookAppointmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookAppointmentVC.h; sourceTree = "<group>"; };
+		825F99181E14EC060003431F /* BookAppointmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookAppointmentVC.m; sourceTree = "<group>"; };
 		826212F51BFB25BC00F75254 /* BannerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BannerView.xib; sourceTree = "<group>"; };
 		826212F71BFB25CE00F75254 /* BannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerView.h; sourceTree = "<group>"; };
 		826212F81BFB25CE00F75254 /* BannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
@@ -516,6 +604,10 @@
 		8286B2731BF0CF7500AFC533 /* TaxonModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonModel.m; sourceTree = "<group>"; };
 		8286B2781BF0CFCE00AFC533 /* TaxonomyListResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxonomyListResponseModel.h; sourceTree = "<group>"; };
 		8286B2791BF0CFCE00AFC533 /* TaxonomyListResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxonomyListResponseModel.m; sourceTree = "<group>"; };
+		828C301A1E07B7A100D9690B /* MyOrderByStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderByStatus.h; sourceTree = "<group>"; };
+		828C301B1E07B7A100D9690B /* MyOrderByStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderByStatus.m; sourceTree = "<group>"; };
+		828C30651E07FA0200D9690B /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
+		828C30661E07FA0200D9690B /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
 		829113C01BB90746000DA995 /* Cart.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cart.xcdatamodel; sourceTree = "<group>"; };
 		829113D51BB93A63000DA995 /* VariantsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariantsViewController.h; sourceTree = "<group>"; };
 		829113D61BB93A63000DA995 /* VariantsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VariantsViewController.m; sourceTree = "<group>"; };
@@ -526,6 +618,10 @@
 		8294E0311CB538ED00DF2313 /* CategoryRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryRow.h; sourceTree = "<group>"; };
 		8294E0321CB538ED00DF2313 /* CategoryRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryRow.m; sourceTree = "<group>"; };
 		8294E0341CB53A7F00DF2313 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		82954ADC1E17918A0047A996 /* UploadReportsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadReportsVC.h; sourceTree = "<group>"; };
+		82954ADD1E17918A0047A996 /* UploadReportsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadReportsVC.m; sourceTree = "<group>"; };
+		82954ADF1E17BABB0047A996 /* UploadReportsPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadReportsPreviewController.h; sourceTree = "<group>"; };
+		82954AE01E17BABB0047A996 /* UploadReportsPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadReportsPreviewController.m; sourceTree = "<group>"; };
 		82999E901BEB1D0100F0EDE3 /* APIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		82999E911BEB1D0100F0EDE3 /* APIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		82999E971BEB1D9300F0EDE3 /* StoresModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoresModel.h; sourceTree = "<group>"; };
@@ -560,9 +656,6 @@
 		82A5428C1C22BB1A00383253 /* MyOrdersResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersResponseModel.m; sourceTree = "<group>"; };
 		82A8B4111C4E610D00FCDF79 /* ImageModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageModalViewController.h; sourceTree = "<group>"; };
 		82A8B4121C4E610D00FCDF79 /* ImageModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageModalViewController.m; sourceTree = "<group>"; };
-		82AA54B21CB68E11009E9717 /* TrackPipelineView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackPipelineView.xib; sourceTree = "<group>"; };
-		82AA54B41CB68F59009E9717 /* TrackPipelineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackPipelineView.h; sourceTree = "<group>"; };
-		82AA54B51CB68F59009E9717 /* TrackPipelineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackPipelineView.m; sourceTree = "<group>"; };
 		82AB0C931C2E7B2D00675567 /* NeediatorConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorConstants.h; sourceTree = "<group>"; };
 		82AB0C941C2E882100675567 /* EditAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAddressViewController.h; sourceTree = "<group>"; };
 		82AB0C951C2E882100675567 /* EditAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAddressViewController.m; sourceTree = "<group>"; };
@@ -570,6 +663,14 @@
 		82AE1F841CCE320600458CBB /* NeediatorPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorPhotoBrowser.m; sourceTree = "<group>"; };
 		82AE1F861CCE355800458CBB /* NeediatorMWZoomingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorMWZoomingScrollView.h; sourceTree = "<group>"; };
 		82AE1F871CCE355800458CBB /* NeediatorMWZoomingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorMWZoomingScrollView.m; sourceTree = "<group>"; };
+		82B2B4AB1E28B9C500928E85 /* PaymentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentVC.h; sourceTree = "<group>"; };
+		82B2B4AC1E28B9C500928E85 /* PaymentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentVC.m; sourceTree = "<group>"; };
+		82B2B4AE1E28BAC700928E85 /* CashOnDeliveryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CashOnDeliveryCell.h; sourceTree = "<group>"; };
+		82B2B4AF1E28BAC700928E85 /* CashOnDeliveryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CashOnDeliveryCell.m; sourceTree = "<group>"; };
+		82B2B4B01E28BAC700928E85 /* CreditCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreditCardCell.h; sourceTree = "<group>"; };
+		82B2B4B11E28BAC700928E85 /* CreditCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreditCardCell.m; sourceTree = "<group>"; };
+		82B2B4B21E28BAC700928E85 /* DebitCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebitCardCell.h; sourceTree = "<group>"; };
+		82B2B4B31E28BAC700928E85 /* DebitCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebitCardCell.m; sourceTree = "<group>"; };
 		82B424581C8431BB00664A4B /* UploadPrescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadPrescriptionViewController.h; sourceTree = "<group>"; };
 		82B424591C8431BB00664A4B /* UploadPrescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadPrescriptionViewController.m; sourceTree = "<group>"; };
 		82B7AAEE1C5D0C0E0031BA8E /* SubCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryViewController.h; sourceTree = "<group>"; };
@@ -578,6 +679,8 @@
 		82B7AAF51C5D0CAF0031BA8E /* SubCategoryHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryHeaderView.m; sourceTree = "<group>"; };
 		82B93B5F1CB918D700D1EC8C /* FavouriteStoreDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavouriteStoreDetailModel.h; sourceTree = "<group>"; };
 		82B93B601CB918D700D1EC8C /* FavouriteStoreDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavouriteStoreDetailModel.m; sourceTree = "<group>"; };
+		82BAED3A1E2CC07E00DFA976 /* MyOrdersVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersVC.h; sourceTree = "<group>"; };
+		82BAED3B1E2CC07E00DFA976 /* MyOrdersVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersVC.m; sourceTree = "<group>"; };
 		82BB3DE91CA01B1B00B282D0 /* QRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeViewController.h; sourceTree = "<group>"; };
 		82BB3DEA1CA01B1B00B282D0 /* QRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeViewController.m; sourceTree = "<group>"; };
 		82BD02881B46A73C00108A0B /* Chemist Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chemist Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -660,11 +763,19 @@
 		82D4D2671CD740DC00EB140D /* ChemistOptionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChemistOptionViewCell.m; sourceTree = "<group>"; };
 		82D4D2691CD74BA700EB140D /* DoctorOptionsViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoctorOptionsViewCell.h; sourceTree = "<group>"; };
 		82D4D26A1CD74BA700EB140D /* DoctorOptionsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoctorOptionsViewCell.m; sourceTree = "<group>"; };
+		82D621B41E3B14F7006A9B36 /* FavouriteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavouriteTableViewCell.h; sourceTree = "<group>"; };
+		82D621B51E3B14F7006A9B36 /* FavouriteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavouriteTableViewCell.m; sourceTree = "<group>"; };
 		82D65ADD1CC510E700A24A30 /* CallBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallBackViewController.h; sourceTree = "<group>"; };
 		82D65ADE1CC510E700A24A30 /* CallBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallBackViewController.m; sourceTree = "<group>"; };
+		82D69A041E0CF49C00E5E84C /* CustomPrescriptionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPrescriptionViewCell.h; sourceTree = "<group>"; };
+		82D69A051E0CF49C00E5E84C /* CustomPrescriptionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPrescriptionViewCell.m; sourceTree = "<group>"; };
+		82D69A071E0D298300E5E84C /* PrescriptionLineItemsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrescriptionLineItemsModel.h; sourceTree = "<group>"; };
+		82D69A081E0D298300E5E84C /* PrescriptionLineItemsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrescriptionLineItemsModel.m; sourceTree = "<group>"; };
 		82D6EE301C1802B6007CE5F2 /* NeediatorAPIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeediatorAPIKey.h; sourceTree = "<group>"; };
 		82D71D961B84969800A2088F /* UIScrollView+InfiniteScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+InfiniteScroll.h"; sourceTree = "<group>"; };
 		82D71D971B84969800A2088F /* UIScrollView+InfiniteScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+InfiniteScroll.m"; sourceTree = "<group>"; };
+		82D86D9C1E16690300A2F19A /* BookConfirmNewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookConfirmNewVC.h; sourceTree = "<group>"; };
+		82D86D9D1E16690300A2F19A /* BookConfirmNewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookConfirmNewVC.m; sourceTree = "<group>"; };
 		82DCBECF1C4CEFE7005EBDB3 /* ListingResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingResponseModel.h; sourceTree = "<group>"; };
 		82DCBED01C4CEFE7005EBDB3 /* ListingResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingResponseModel.m; sourceTree = "<group>"; };
 		82DCBED21C4CFEC0005EBDB3 /* RatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingView.h; sourceTree = "<group>"; };
@@ -706,6 +817,13 @@
 		82EF2DE01BE8C67B00D87DE2 /* StoresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoresViewController.m; sourceTree = "<group>"; };
 		82EF2DE31BE8ECD400D87DE2 /* SessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionManager.h; sourceTree = "<group>"; };
 		82EF2DE41BE8ECD400D87DE2 /* SessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionManager.m; sourceTree = "<group>"; };
+		82F56A821E35C6EE00014990 /* CancelOrderNewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelOrderNewView.h; sourceTree = "<group>"; };
+		82F56A831E35C6EE00014990 /* CancelOrderNewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelOrderNewView.m; sourceTree = "<group>"; };
+		82F56A851E35C71300014990 /* CancelOrderNewView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelOrderNewView.xib; sourceTree = "<group>"; };
+		82F610C41E41BAD600568BDB /* MyPrescriptionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPrescriptionModel.h; sourceTree = "<group>"; };
+		82F610C51E41BAD600568BDB /* MyPrescriptionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPrescriptionModel.m; sourceTree = "<group>"; };
+		82F610C71E41DA3100568BDB /* MyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyModel.h; sourceTree = "<group>"; };
+		82F610C81E41DA3100568BDB /* MyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyModel.m; sourceTree = "<group>"; };
 		82F80CD41C1EE01100C8E076 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
 		82F80CD51C1EE01100C8E076 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
 		82F856C91C8077B0000B68A9 /* SubCategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryModel.h; sourceTree = "<group>"; };
@@ -721,8 +839,14 @@
 		82FB520A1C281B2500E19626 /* LoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginView.h; sourceTree = "<group>"; };
 		82FB520B1C281B2500E19626 /* LoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
 		82FB520D1C281B3300E19626 /* LoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		82FDF7D41E250F920023EC52 /* HomeRequestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeRequestVC.h; sourceTree = "<group>"; };
+		82FDF7D51E250F920023EC52 /* HomeRequestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeRequestVC.m; sourceTree = "<group>"; };
+		86A2FB6B6CC116478056D591 /* Pods-Neediator Widget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator Widget.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator Widget/Pods-Neediator Widget.debug.xcconfig"; sourceTree = "<group>"; };
+		9877EB620BDD7EEB27492D79 /* Pods-NeediatorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeediatorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NeediatorTests/Pods-NeediatorTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B17AA84BD7E275354050D117 /* Pods-Neediator-AppleWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch.debug.xcconfig"; sourceTree = "<group>"; };
+		BD75B5A0151B9BB11D9B5094 /* Pods-Neediator-AppleWatch Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		C05584E5CEE80CCA138CB9D3 /* Pods-Neediator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.debug.xcconfig"; sourceTree = "<group>"; };
+		E8FD769156790BB232887BDE /* Pods-NeediatorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeediatorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NeediatorTests/Pods-NeediatorTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -739,6 +863,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				823571B41CB3E9C200D27BEC /* NotificationCenter.framework in Frameworks */,
+				7519CD032FD4353DB3408210 /* libPods-Neediator Widget.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,6 +871,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FEF6DB5540FDC6C37D74615 /* libPods-Neediator-AppleWatch Extension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -767,6 +893,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37C8B3D97DF0F6DA933E2FD3 /* libPods-NeediatorTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -787,8 +914,31 @@
 				823571B31CB3E9C200D27BEC /* NotificationCenter.framework */,
 				6A16AC5A4C6DEBE2546E9713 /* libPods-Neediator.a */,
 				10FB8275C15FF7C2F9701FBE /* libPods-Neediator-AppleWatch.a */,
+				81A0ED376589C22F63FF6C24 /* libPods-Neediator Widget.a */,
+				3269AD15104CCA7F559DE108 /* libPods-Neediator-AppleWatch Extension.a */,
+				52B5BA946124DC476FBC8927 /* libPods-NeediatorTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		674BB1A11E69B8C100241BE7 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				674BB19F1E69B6AB00241BE7 /* StoreStoryboard.storyboard */,
+				674BB1A21E69B8DB00241BE7 /* FilterViewController.h */,
+				674BB1A31E69B8DB00241BE7 /* FilterViewController.m */,
+				674BB1A61E69EFB700241BE7 /* ToggleViewController.h */,
+				674BB1A71E69EFB700241BE7 /* ToggleViewController.m */,
+				674BB1A91E69EFD700241BE7 /* ToggleTableViewCell.h */,
+				674BB1AA1E69EFD700241BE7 /* ToggleTableViewCell.m */,
+				674BB1AC1E69FB6000241BE7 /* AreaFilterViewController.h */,
+				674BB1AD1E69FB6000241BE7 /* AreaFilterViewController.m */,
+				674BB1AF1E6A06C800241BE7 /* WorkingHoursViewController.h */,
+				674BB1B01E6A06C800241BE7 /* WorkingHoursViewController.m */,
+				674BB1B21E6A098F00241BE7 /* OptionsViewController.h */,
+				674BB1B31E6A098F00241BE7 /* OptionsViewController.m */,
+			);
+			name = Filter;
 			sourceTree = "<group>";
 		};
 		8200C95C1BC5348600D8A32C /* Reachability */ = {
@@ -800,15 +950,45 @@
 			name = Reachability;
 			sourceTree = "<group>";
 		};
+		8206B34C1E2A038F002F1359 /* MyBookingsModel */ = {
+			isa = PBXGroup;
+			children = (
+				8206B34D1E2A0401002F1359 /* MyBookingModel.h */,
+				8206B34E1E2A0401002F1359 /* MyBookingModel.m */,
+				8206B3501E2A05E8002F1359 /* MyBookingResponseModel.h */,
+				8206B3511E2A05E8002F1359 /* MyBookingResponseModel.m */,
+				8206B3531E2A0718002F1359 /* MyBookingByStatus.h */,
+				8206B3541E2A0718002F1359 /* MyBookingByStatus.m */,
+				8206B3561E2A08C2002F1359 /* MyBookingCell.h */,
+				8206B3571E2A08C2002F1359 /* MyBookingCell.m */,
+			);
+			name = MyBookingsModel;
+			sourceTree = "<group>";
+		};
+		820777C61DFAABC500075857 /* RatingView */ = {
+			isa = PBXGroup;
+			children = (
+				820777C71DFAABF100075857 /* RatingViewController.h */,
+				820777C81DFAABF100075857 /* RatingViewController.m */,
+				823C97161DFAD31A0046AEDD /* AllReviewlistCell */,
+				823C97131DFAB6710046AEDD /* WriteReviewController.h */,
+				823C97141DFAB6710046AEDD /* WriteReviewController.m */,
+			);
+			name = RatingView;
+			sourceTree = "<group>";
+		};
 		820D4C101CD0B966002F137D /* Orders */ = {
 			isa = PBXGroup;
 			children = (
-				82AA54B21CB68E11009E9717 /* TrackPipelineView.xib */,
-				82AA54B41CB68F59009E9717 /* TrackPipelineView.h */,
-				82AA54B51CB68F59009E9717 /* TrackPipelineView.m */,
+				82352F631DF2A32A00DD3CB7 /* TrackPipelineView.m */,
+				82352F641DF2A32A00DD3CB7 /* TrackPipelineView.h */,
+				82352F651DF2A32A00DD3CB7 /* TrackPipelineView.xib */,
 				820D4C171CD0CE3A002F137D /* CancelOrderView.h */,
 				820D4C181CD0CE3A002F137D /* CancelOrderView.m */,
 				820D4C1A1CD0CE81002F137D /* CancelOrderView.xib */,
+				82F56A821E35C6EE00014990 /* CancelOrderNewView.h */,
+				82F56A831E35C6EE00014990 /* CancelOrderNewView.m */,
+				82F56A851E35C71300014990 /* CancelOrderNewView.xib */,
 				820D4C1E1CD0E660002F137D /* PipelineView.h */,
 				820D4C1F1CD0E660002F137D /* PipelineView.m */,
 			);
@@ -986,6 +1166,15 @@
 				823B73811C49152F00031596 /* NAPIManager.m */,
 			);
 			name = "Neediator API";
+			sourceTree = "<group>";
+		};
+		823C97161DFAD31A0046AEDD /* AllReviewlistCell */ = {
+			isa = PBXGroup;
+			children = (
+				823C97171DFAD3480046AEDD /* AllReviewTableViewCell.h */,
+				823C97181DFAD3480046AEDD /* AllReviewTableViewCell.m */,
+			);
+			name = AllReviewlistCell;
 			sourceTree = "<group>";
 		};
 		8267AB691CB2663A00CF1632 /* QR Code */ = {
@@ -1260,6 +1449,8 @@
 				82A265A31C2195D00031BDC9 /* MyOrdersCell.m */,
 				829F73921C257FEE001670A8 /* CustomCollectionViewCell.h */,
 				829F73931C257FEE001670A8 /* CustomCollectionViewCell.m */,
+				82D69A041E0CF49C00E5E84C /* CustomPrescriptionViewCell.h */,
+				82D69A051E0CF49C00E5E84C /* CustomPrescriptionViewCell.m */,
 			);
 			name = "My Orders";
 			sourceTree = "<group>";
@@ -1271,6 +1462,14 @@
 				82A542821C229ECF00383253 /* MyOrdersModel.m */,
 				82A5428B1C22BB1A00383253 /* MyOrdersResponseModel.h */,
 				82A5428C1C22BB1A00383253 /* MyOrdersResponseModel.m */,
+				828C301A1E07B7A100D9690B /* MyOrderByStatus.h */,
+				828C301B1E07B7A100D9690B /* MyOrderByStatus.m */,
+				82F610C41E41BAD600568BDB /* MyPrescriptionModel.h */,
+				82F610C51E41BAD600568BDB /* MyPrescriptionModel.m */,
+				82F610C71E41DA3100568BDB /* MyModel.h */,
+				82F610C81E41DA3100568BDB /* MyModel.m */,
+				82D69A071E0D298300E5E84C /* PrescriptionLineItemsModel.h */,
+				82D69A081E0D298300E5E84C /* PrescriptionLineItemsModel.m */,
 			);
 			name = "My Orders";
 			sourceTree = "<group>";
@@ -1291,6 +1490,8 @@
 			children = (
 				82A2659E1C2195830031BDC9 /* MyOrdersViewController.h */,
 				82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */,
+				82BAED3A1E2CC07E00DFA976 /* MyOrdersVC.h */,
+				82BAED3B1E2CC07E00DFA976 /* MyOrdersVC.m */,
 			);
 			name = "My Orders";
 			sourceTree = "<group>";
@@ -1311,6 +1512,18 @@
 				82A1D3CB1C5602BF00E6B1D3 /* BookingViewController.m */,
 				82A1D3D81C5663F700E6B1D3 /* BookConfirmViewController.h */,
 				82A1D3D91C5663F700E6B1D3 /* BookConfirmViewController.m */,
+				825F99171E14EC060003431F /* BookAppointmentVC.h */,
+				825F99181E14EC060003431F /* BookAppointmentVC.m */,
+				82D86D9C1E16690300A2F19A /* BookConfirmNewVC.h */,
+				82D86D9D1E16690300A2F19A /* BookConfirmNewVC.m */,
+				82954ADC1E17918A0047A996 /* UploadReportsVC.h */,
+				82954ADD1E17918A0047A996 /* UploadReportsVC.m */,
+				82954ADF1E17BABB0047A996 /* UploadReportsPreviewController.h */,
+				82954AE01E17BABB0047A996 /* UploadReportsPreviewController.m */,
+				82FDF7D41E250F920023EC52 /* HomeRequestVC.h */,
+				82FDF7D51E250F920023EC52 /* HomeRequestVC.m */,
+				82521A861E26160200D6E7CF /* HomeRequestConfirmVC.h */,
+				82521A871E26160200D6E7CF /* HomeRequestConfirmVC.m */,
 			);
 			name = Booking;
 			sourceTree = "<group>";
@@ -1329,6 +1542,16 @@
 		82BD027F1B46A73C00108A0B = {
 			isa = PBXGroup;
 			children = (
+				82521A921E2633C800D6E7CF /* Ico.png */,
+				82521A931E2633C800D6E7CF /* Bac.png */,
+				82521A941E2633C800D6E7CF /* addr.png */,
+				828C30651E07FA0200D9690B /* TableViewCell.h */,
+				828C30661E07FA0200D9690B /* TableViewCell.m */,
+				82D621B41E3B14F7006A9B36 /* FavouriteTableViewCell.h */,
+				82D621B51E3B14F7006A9B36 /* FavouriteTableViewCell.m */,
+				823AADC41E14DCA000E46FFE /* ShowMyPrescriptionVC.h */,
+				823AADC51E14DCA000E46FFE /* ShowMyPrescriptionVC.m */,
+				82BD02951B46A73C00108A0B /* Main.storyboard */,
 				82BD028A1B46A73C00108A0B /* HealthApp */,
 				82BD02A41B46A73C00108A0B /* HealthAppTests */,
 				8267AB701CB281E300CF1632 /* Neediator-AppleWatch */,
@@ -1355,6 +1578,8 @@
 		82BD028A1B46A73C00108A0B /* HealthApp */ = {
 			isa = PBXGroup;
 			children = (
+				674BB1A11E69B8C100241BE7 /* Filter */,
+				82D6EE311C1802C2007CE5F2 /* Constants */,
 				82F1F1151CCFA5BD00AB1B93 /* Overrides */,
 				82EF2DDB1BE8C55E00D87DE2 /* AppDelegate */,
 				82EF2DB71BE8BD8F00D87DE2 /* Libraries */,
@@ -1366,12 +1591,7 @@
 				82C722F91B7B42EF00E0C5EF /* Models */,
 				8286B2551BF08F1100AFC533 /* Realm */,
 				82EF2DE21BE8EC3E00D87DE2 /* Network */,
-				82D6EE311C1802C2007CE5F2 /* Constants */,
-				82BD02951B46A73C00108A0B /* Main.storyboard */,
 				82BD029A1B46A73C00108A0B /* LaunchScreen.xib */,
-				827FD14A1C455D16000EB0A4 /* Neediator_Logo_Final.png */,
-				82D47D271CABF839006B7996 /* behind_alert_view.png */,
-				821868AB1CD3997100C3A3EE /* NeediatorQR - AppStore.png */,
 				82BD02981B46A73C00108A0B /* Images.xcassets */,
 				827632861B4A3DC900230833 /* Frameworks */,
 				82BD028B1B46A73C00108A0B /* Supporting Files */,
@@ -1382,6 +1602,9 @@
 		82BD028B1B46A73C00108A0B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				827FD14A1C455D16000EB0A4 /* Neediator_Logo_Final.png */,
+				82D47D271CABF839006B7996 /* behind_alert_view.png */,
+				821868AB1CD3997100C3A3EE /* NeediatorQR - AppStore.png */,
 				82D0A7661CAFCB39000456D8 /* GoogleService-Info.plist */,
 				82BF08571C1F18AD0093B8CD /* about_us.txt */,
 				82BD028C1B46A73C00108A0B /* Info.plist */,
@@ -1442,6 +1665,8 @@
 				82845C361CBBBB6B001D7D80 /* UploadPreviewController.m */,
 				82B424581C8431BB00664A4B /* UploadPrescriptionViewController.h */,
 				82B424591C8431BB00664A4B /* UploadPrescriptionViewController.m */,
+				82585A6A1DFC1BBB005DAA3A /* UploadVC.h */,
+				82585A6B1DFC1BBB005DAA3A /* UploadVC.m */,
 			);
 			name = "Upload Prescription";
 			sourceTree = "<group>";
@@ -1526,9 +1751,9 @@
 			children = (
 				82D6EE301C1802B6007CE5F2 /* NeediatorAPIKey.h */,
 				82AB0C931C2E7B2D00675567 /* NeediatorConstants.h */,
+				674BB1A51E69C04100241BE7 /* NeediatorHelper.h */,
 				82C36C541C81C39B0038EA5F /* NeediatorUtitity.h */,
 				82C36C551C81C39B0038EA5F /* NeediatorUtitity.m */,
-				670A3B221CE65EE300620D29 /* NeediatorHelper.h */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -1637,6 +1862,7 @@
 		82ED53E01C4FB39800FA7707 /* Spree */ = {
 			isa = PBXGroup;
 			children = (
+				8206B34C1E2A038F002F1359 /* MyBookingsModel */,
 				82147FBE1C452A7E00D6691E /* Meta Model */,
 				82A5428A1C22B98400383253 /* Variant Model */,
 				82A542801C229E9E00383253 /* My Orders */,
@@ -1698,6 +1924,7 @@
 		82EF2DB81BE8BDCF00D87DE2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				820777C61DFAABC500075857 /* RatingView */,
 				8267AB691CB2663A00CF1632 /* QR Code */,
 				8267AB6A1CB2664300CF1632 /* Filter */,
 				8267AB6B1CB2664D00CF1632 /* Map */,
@@ -1712,8 +1939,6 @@
 				82ED53E11C4FB3B700FA7707 /* Spree */,
 				8267AB6C1CB2666200CF1632 /* Favourites */,
 				820D4C161CD0B9FF002F137D /* Notification */,
-				6707112D1CDF4E6D00B2E76A /* GoogleReportsViewController.h */,
-				6707112E1CDF4E6D00B2E76A /* GoogleReportsViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1811,6 +2036,8 @@
 				823C46B21B73934F00E37DBE /* MyAccountViewController.m */,
 				82C6FC351CBD0B5800DF1C9A /* EditProfileViewController.h */,
 				82C6FC361CBD0B5800DF1C9A /* EditProfileViewController.m */,
+				8206B3491E2A00D4002F1359 /* ShowMyBookingsVC.h */,
+				8206B34A1E2A00D4002F1359 /* ShowMyBookingsVC.m */,
 			);
 			name = "My Account";
 			sourceTree = "<group>";
@@ -1829,6 +2056,16 @@
 			children = (
 				82327F721B60C86B00D92889 /* CartViewController.h */,
 				82327F731B60C86B00D92889 /* CartViewController.m */,
+				820108DF1E27B99100A8627E /* AftrCheckoutVC.h */,
+				820108E01E27B99100A8627E /* AftrCheckoutVC.m */,
+				82B2B4AB1E28B9C500928E85 /* PaymentVC.h */,
+				82B2B4AC1E28B9C500928E85 /* PaymentVC.m */,
+				82B2B4AE1E28BAC700928E85 /* CashOnDeliveryCell.h */,
+				82B2B4AF1E28BAC700928E85 /* CashOnDeliveryCell.m */,
+				82B2B4B01E28BAC700928E85 /* CreditCardCell.h */,
+				82B2B4B11E28BAC700928E85 /* CreditCardCell.m */,
+				82B2B4B21E28BAC700928E85 /* DebitCardCell.h */,
+				82B2B4B31E28BAC700928E85 /* DebitCardCell.m */,
 			);
 			name = Cart;
 			sourceTree = "<group>";
@@ -1838,6 +2075,12 @@
 			children = (
 				82842CD91B58F81000FCCACC /* DetailsProductViewController.h */,
 				82842CDA1B58F81000FCCACC /* DetailsProductViewController.m */,
+				82521A891E262BAF00D6E7CF /* ProductDetailVC.h */,
+				82521A8A1E262BAF00D6E7CF /* ProductDetailVC.m */,
+				82521A8C1E262D5C00D6E7CF /* SpecificationTableViewCell.h */,
+				82521A8D1E262D5C00D6E7CF /* SpecificationTableViewCell.m */,
+				82521A8F1E262D7C00D6E7CF /* DescriptionsTableViewCell.h */,
+				82521A901E262D7C00D6E7CF /* DescriptionsTableViewCell.m */,
 			);
 			name = "Product Details";
 			sourceTree = "<group>";
@@ -1893,14 +2136,6 @@
 				820D4C111CD0B971002F137D /* HUD */,
 				820D4C131CD0B982002F137D /* Upload */,
 				820D4C101CD0B966002F137D /* Orders */,
-				67DF40141CE3767500415F6F /* FilterDefaultViewCell.h */,
-				67DF40151CE3767500415F6F /* FilterDefaultViewCell.m */,
-				67DF400E1CE3501000415F6F /* FilterSliderViewCell.h */,
-				67DF400F1CE3501000415F6F /* FilterSliderViewCell.m */,
-				67DF40111CE3502200415F6F /* FilterSwitchViewCell.h */,
-				67DF40121CE3502200415F6F /* FilterSwitchViewCell.m */,
-				67DF401D1CE4B4D300415F6F /* FollowUsTableViewCell.h */,
-				67DF401E1CE4B4D300415F6F /* FollowUsTableViewCell.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -2181,6 +2416,12 @@
 				32B41B3BF2A27E5243E376E3 /* Pods-Neediator.release.xcconfig */,
 				B17AA84BD7E275354050D117 /* Pods-Neediator-AppleWatch.debug.xcconfig */,
 				4B0933CC18D1F3AE6AAC3759 /* Pods-Neediator-AppleWatch.release.xcconfig */,
+				86A2FB6B6CC116478056D591 /* Pods-Neediator Widget.debug.xcconfig */,
+				6EE59D28EB28CEDF2BED371F /* Pods-Neediator Widget.release.xcconfig */,
+				BD75B5A0151B9BB11D9B5094 /* Pods-Neediator-AppleWatch Extension.debug.xcconfig */,
+				65D65CDED614DEB7B31509D2 /* Pods-Neediator-AppleWatch Extension.release.xcconfig */,
+				9877EB620BDD7EEB27492D79 /* Pods-NeediatorTests.debug.xcconfig */,
+				E8FD769156790BB232887BDE /* Pods-NeediatorTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2192,9 +2433,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 823571C01CB3E9C200D27BEC /* Build configuration list for PBXNativeTarget "Neediator Widget" */;
 			buildPhases = (
+				C54097D5BE44CFEBFC036B0E /* [CP] Check Pods Manifest.lock */,
 				823571AE1CB3E9C200D27BEC /* Sources */,
 				823571AF1CB3E9C200D27BEC /* Frameworks */,
 				823571B01CB3E9C200D27BEC /* Resources */,
+				290A8A7ED1F1D7CA49645909 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2209,11 +2452,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8267AB951CB281E400CF1632 /* Build configuration list for PBXNativeTarget "Neediator-AppleWatch" */;
 			buildPhases = (
-				DE7973203789204B858F4E33 /* Check Pods Manifest.lock */,
+				DE7973203789204B858F4E33 /* [CP] Check Pods Manifest.lock */,
 				8267AB6D1CB281E300CF1632 /* Resources */,
 				8267AB941CB281E400CF1632 /* Embed App Extensions */,
 				46E4D24237C7D37380ED434D /* Frameworks */,
-				967D45933561E0A60DE7749E /* Copy Pods Resources */,
+				967D45933561E0A60DE7749E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2229,9 +2472,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8267AB911CB281E400CF1632 /* Build configuration list for PBXNativeTarget "Neediator-AppleWatch Extension" */;
 			buildPhases = (
+				0CF32895F37B66EE7B8E6626 /* [CP] Check Pods Manifest.lock */,
 				8267AB771CB281E300CF1632 /* Sources */,
 				8267AB781CB281E300CF1632 /* Frameworks */,
 				8267AB791CB281E300CF1632 /* Resources */,
+				B00C667C5D72161E6831A949 /* [CP] Embed Pods Frameworks */,
+				BC068454669F7BB45D41EF73 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2246,14 +2492,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82BD02AB1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "Neediator" */;
 			buildPhases = (
-				DFC1AA554B324FD2F1A72C3E /* Check Pods Manifest.lock */,
+				DFC1AA554B324FD2F1A72C3E /* [CP] Check Pods Manifest.lock */,
 				82BD02841B46A73C00108A0B /* Sources */,
 				82BD02851B46A73C00108A0B /* Frameworks */,
 				82BD02861B46A73C00108A0B /* Resources */,
 				8267AB981CB281E400CF1632 /* Embed Watch Content */,
 				823571C31CB3E9C200D27BEC /* Embed App Extensions */,
-				5ECA914883095B4E0FF67CD7 /* Embed Pods Frameworks */,
-				C4803AEE92739E2B1B0B9FAE /* Copy Pods Resources */,
+				5ECA914883095B4E0FF67CD7 /* [CP] Embed Pods Frameworks */,
+				C4803AEE92739E2B1B0B9FAE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2270,9 +2516,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82BD02AE1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "NeediatorTests" */;
 			buildPhases = (
+				55BC48F17DBC083C6FC71395 /* [CP] Check Pods Manifest.lock */,
 				82BD029D1B46A73C00108A0B /* Sources */,
 				82BD029E1B46A73C00108A0B /* Frameworks */,
 				82BD029F1B46A73C00108A0B /* Resources */,
+				BEE958521549D57E811CC1B1 /* [CP] Embed Pods Frameworks */,
+				D91468E7873EC6DAED468E68 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2296,22 +2545,28 @@
 				TargetAttributes = {
 					823571B11CB3E9C200D27BEC = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = KMK576W42B;
+						DevelopmentTeam = HK3PRD8YBE;
 					};
 					8267AB6E1CB281E300CF1632 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = KMK576W42B;
+						DevelopmentTeam = HK3PRD8YBE;
 					};
 					8267AB7A1CB281E300CF1632 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = KMK576W42B;
+						DevelopmentTeam = HK3PRD8YBE;
 					};
 					82BD02871B46A73C00108A0B = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = KMK576W42B;
+						DevelopmentTeam = HK3PRD8YBE;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 					82BD02A01B46A73C00108A0B = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = HK3PRD8YBE;
 						TestTargetID = 82BD02871B46A73C00108A0B;
 					};
 				};
@@ -2376,17 +2631,22 @@
 				823F71B11C1B206E00E43731 /* NoStores.xib in Resources */,
 				821868AC1CD3997100C3A3EE /* NeediatorQR - AppStore.png in Resources */,
 				82D47D281CABF839006B7996 /* behind_alert_view.png in Resources */,
+				674BB1A01E69B6AB00241BE7 /* StoreStoryboard.storyboard in Resources */,
 				827FD14B1C455D16000EB0A4 /* Neediator_Logo_Final.png in Resources */,
 				82FB520E1C281B3300E19626 /* LoginView.xib in Resources */,
 				82BD02971B46A73C00108A0B /* Main.storyboard in Resources */,
 				82C36C5B1C81DA900038EA5F /* TaxonHeaderView.xib in Resources */,
 				820D4C1B1CD0CE81002F137D /* CancelOrderView.xib in Resources */,
 				82217C481C96D4FA002570E3 /* StoreOptionsView.xib in Resources */,
+				82521A951E2633C800D6E7CF /* Ico.png in Resources */,
+				82352F671DF2A32A00DD3CB7 /* TrackPipelineView.xib in Resources */,
 				82D0A7671CAFCB39000456D8 /* GoogleService-Info.plist in Resources */,
+				82F56A861E35C71300014990 /* CancelOrderNewView.xib in Resources */,
+				82521A971E2633C800D6E7CF /* addr.png in Resources */,
 				82217C461C96CE50002570E3 /* StoreReviewsView.xib in Resources */,
 				82BD029C1B46A73C00108A0B /* LaunchScreen.xib in Resources */,
+				82521A961E2633C800D6E7CF /* Bac.png in Resources */,
 				82BF08581C1F18AD0093B8CD /* about_us.txt in Resources */,
-				82AA54B31CB68E11009E9717 /* TrackPipelineView.xib in Resources */,
 				82217C4A1C96E293002570E3 /* UploadPrescriptionCellView.xib in Resources */,
 				820D4C1D1CD0CEA5002F137D /* icon7.png in Resources */,
 				82BD02991B46A73C00108A0B /* Images.xcassets in Resources */,
@@ -2405,14 +2665,59 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5ECA914883095B4E0FF67CD7 /* Embed Pods Frameworks */ = {
+		0CF32895F37B66EE7B8E6626 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		290A8A7ED1F1D7CA49645909 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator Widget/Pods-Neediator Widget-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		55BC48F17DBC083C6FC71395 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		5ECA914883095B4E0FF67CD7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2420,14 +2725,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator/Pods-Neediator-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		967D45933561E0A60DE7749E /* Copy Pods Resources */ = {
+		967D45933561E0A60DE7749E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2435,14 +2740,59 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C4803AEE92739E2B1B0B9FAE /* Copy Pods Resources */ = {
+		B00C667C5D72161E6831A949 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BC068454669F7BB45D41EF73 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BEE958521549D57E811CC1B1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NeediatorTests/Pods-NeediatorTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C4803AEE92739E2B1B0B9FAE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2450,34 +2800,64 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator/Pods-Neediator-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DE7973203789204B858F4E33 /* Check Pods Manifest.lock */ = {
+		C54097D5BE44CFEBFC036B0E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		DFC1AA554B324FD2F1A72C3E /* Check Pods Manifest.lock */ = {
+		D91468E7873EC6DAED468E68 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NeediatorTests/Pods-NeediatorTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE7973203789204B858F4E33 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DFC1AA554B324FD2F1A72C3E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2510,13 +2890,19 @@
 			files = (
 				829113C11BB90746000DA995 /* Cart.xcdatamodeld in Sources */,
 				82147FC71C452B2800D6691E /* HospitalResponseModel.m in Sources */,
+				8206B3521E2A05E8002F1359 /* MyBookingResponseModel.m in Sources */,
 				82AB0C961C2E882100675567 /* EditAddressViewController.m in Sources */,
+				82954ADE1E17918A0047A996 /* UploadReportsVC.m in Sources */,
 				82AE1F851CCE320600458CBB /* NeediatorPhotoBrowser.m in Sources */,
+				82B2B4AD1E28B9C500928E85 /* PaymentVC.m in Sources */,
 				82E07F2F1C906A5500F6480D /* HomeCollectionViewCell.m in Sources */,
 				82B4245A1C8431BB00664A4B /* UploadPrescriptionViewController.m in Sources */,
+				82B2B4B51E28BAC700928E85 /* CreditCardCell.m in Sources */,
 				82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */,
 				82C38A821C0864D70006A73B /* PopupCartViewController.m in Sources */,
+				674BB1A81E69EFB700241BE7 /* ToggleViewController.m in Sources */,
 				823B73911C492F0700031596 /* MainCategoryRealm.m in Sources */,
+				674BB1AB1E69EFD700241BE7 /* ToggleTableViewCell.m in Sources */,
 				823D06621B8C458600640F45 /* CODInputViewCell.m in Sources */,
 				82EA198B1C29775F001EBA16 /* NoConnectionView.m in Sources */,
 				82842CDB1B58F81000FCCACC /* DetailsProductViewController.m in Sources */,
@@ -2529,24 +2915,29 @@
 				82F856D31C80833B000B68A9 /* StateCityResponseModel.m in Sources */,
 				820D4C191CD0CE3A002F137D /* CancelOrderView.m in Sources */,
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
+				82B2B4B61E28BAC700928E85 /* DebitCardCell.m in Sources */,
 				82BF08541C1F0B790093B8CD /* WebViewController.m in Sources */,
 				82CE513E1C0443020073EF3A /* ProductDetailsViewCell.m in Sources */,
 				82BB3DEB1CA01B1B00B282D0 /* QRCodeViewController.m in Sources */,
+				82BAED3C1E2CC07E00DFA976 /* MyOrdersVC.m in Sources */,
 				82C722FF1B7B4EC200E0C5EF /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				82D65ADF1CC510E700A24A30 /* CallBackViewController.m in Sources */,
 				82999E921BEB1D0100F0EDE3 /* APIManager.m in Sources */,
+				828C301C1E07B7A100D9690B /* MyOrderByStatus.m in Sources */,
 				82157D461CAD3D21005A812B /* UploadPrsCollectionViewCell.m in Sources */,
 				826B14201BC28C9100B6A1C3 /* OrderReviewViewController.m in Sources */,
 				82EF2DE51BE8ECD400D87DE2 /* SessionManager.m in Sources */,
 				82C1D1C61CD8893B0058B9C0 /* iCarousel.m in Sources */,
+				82FDF7D61E250F920023EC52 /* HomeRequestVC.m in Sources */,
+				82F610C91E41DA3100568BDB /* MyModel.m in Sources */,
 				82327F741B60C86B00D92889 /* CartViewController.m in Sources */,
 				82EF2DE11BE8C67B00D87DE2 /* StoresViewController.m in Sources */,
-				67DF40101CE3501000415F6F /* FilterSliderViewCell.m in Sources */,
 				823C46B31B73934F00E37DBE /* MyAccountViewController.m in Sources */,
 				82999E991BEB1D9300F0EDE3 /* StoresModel.m in Sources */,
 				82B7AAF01C5D0C0E0031BA8E /* SubCategoryViewController.m in Sources */,
 				82559A621B623F9B0064E994 /* HeaderLabel.m in Sources */,
 				82D47D2F1CABF928006B7996 /* OffersPopViewController.m in Sources */,
+				8206B3551E2A0718002F1359 /* MyBookingByStatus.m in Sources */,
 				82C36C561C81C39B0038EA5F /* NeediatorUtitity.m in Sources */,
 				6795F0AE1C9C93A500984A92 /* FilterHelperModel.m in Sources */,
 				82D3840C1C2BF22F00D05FB7 /* AddressInPaymentViewCell.m in Sources */,
@@ -2556,24 +2947,28 @@
 				82A1D3D61C562DD100E6B1D3 /* TimeSlotModel.m in Sources */,
 				823B73821C49152F00031596 /* NAPIManager.m in Sources */,
 				82A1D3CC1C5602BF00E6B1D3 /* BookingViewController.m in Sources */,
-				6707112F1CDF4E6D00B2E76A /* GoogleReportsViewController.m in Sources */,
-				67DF40161CE3767500415F6F /* FilterDefaultViewCell.m in Sources */,
 				82EA68061C43D89900F9924D /* ClinicsModel.m in Sources */,
 				82147FBD1C4528ED00D6691E /* MetaPagingModel.m in Sources */,
 				82ED53E41C4FB48100FA7707 /* EntityDetailsResponseModel.m in Sources */,
+				82585A6C1DFC1BBC005DAA3A /* UploadVC.m in Sources */,
 				82A542831C229ECF00383253 /* MyOrdersModel.m in Sources */,
 				8267ABA01CB29E6C00CF1632 /* NotificationViewController.m in Sources */,
 				829F73941C257FEE001670A8 /* CustomCollectionViewCell.m in Sources */,
 				821415801C99819900FDEFDB /* MapLocationViewController.m in Sources */,
+				825F99191E14EC060003431F /* BookAppointmentVC.m in Sources */,
 				823B738E1C49262000031596 /* UIColor+HexString.m in Sources */,
+				82D69A091E0D298300E5E84C /* PrescriptionLineItemsModel.m in Sources */,
 				82C38A8E1C086BBE0006A73B /* UIColor+CustomColors.m in Sources */,
 				826F07511C524A310033DD09 /* BookCallListingCell.m in Sources */,
 				82147FBA1C45272B00D6691E /* ListingModel.m in Sources */,
+				82D69A061E0CF49C00E5E84C /* CustomPrescriptionViewCell.m in Sources */,
+				82D86D9E1E16690300A2F19A /* BookConfirmNewVC.m in Sources */,
 				8286B2511BF089D600AFC533 /* ListingRequestModel.m in Sources */,
 				82041C261CA9118A007F3B3C /* NeediatorHUD.m in Sources */,
 				82FB520C1C281B2500E19626 /* LoginView.m in Sources */,
 				676A18311CADC3310031BFF0 /* NSString+AddressValidation.m in Sources */,
 				82CC99431C8863CA00F06EB3 /* MainPromotionRealm.m in Sources */,
+				823C97151DFAB6710046AEDD /* WriteReviewController.m in Sources */,
 				82327F771B60F9A800D92889 /* CartViewCell.m in Sources */,
 				82A542861C22B00800383253 /* LineItemsModel.m in Sources */,
 				820D4C0F1CD0A246002F137D /* NATextView.m in Sources */,
@@ -2584,6 +2979,7 @@
 				82BD02911B46A73C00108A0B /* AppDelegate.m in Sources */,
 				82E509F61CAE97E00013289F /* FavouritesViewController.m in Sources */,
 				82147FB71C45230D00D6691E /* ChemistResponseModel.m in Sources */,
+				8206B34B1E2A00D4002F1359 /* ShowMyBookingsVC.m in Sources */,
 				823C46A91B73327600E37DBE /* DoctorDetailsViewCell.m in Sources */,
 				823B738B1C4920EA00031596 /* MainCategoriesResponseModel.m in Sources */,
 				82F856D41C80833B000B68A9 /* StatesModel.m in Sources */,
@@ -2597,7 +2993,9 @@
 				8246FE681B74B70A001D1CFF /* SignInViewController.m in Sources */,
 				826212F91BFB25CE00F75254 /* BannerView.m in Sources */,
 				829113D71BB93A63000DA995 /* VariantsViewController.m in Sources */,
+				823AADC71E14DCA000E46FFE /* ShowMyPrescriptionVC.m in Sources */,
 				8246FE651B74B53D001D1CFF /* LogSignViewController.m in Sources */,
+				82F56A841E35C6EE00014990 /* CancelOrderNewView.m in Sources */,
 				825567181B68E6D4009F013A /* AddShippingDetailsViewController.m in Sources */,
 				82C723081B7B58C800E0C5EF /* NSString+SignupValidation.m in Sources */,
 				82C36C591C81DA7F0038EA5F /* TaxonHeaderView.m in Sources */,
@@ -2611,20 +3009,24 @@
 				82F856D71C808361000B68A9 /* CitiesModel.m in Sources */,
 				8255671B1B68E6F0009F013A /* AddShippingViewCell.m in Sources */,
 				82C722F61B7B1B7600E0C5EF /* RootTabBarControllerDelegate.m in Sources */,
+				82521A911E262D7C00D6E7CF /* DescriptionsTableViewCell.m in Sources */,
+				82352F661DF2A32A00DD3CB7 /* TrackPipelineView.m in Sources */,
 				8286B25C1BF0A2BA00AFC533 /* StoresViewCell.m in Sources */,
 				826B14261BC2904700B6A1C3 /* OrderReviewFooterView.m in Sources */,
 				82AE1F881CCE355800458CBB /* NeediatorMWZoomingScrollView.m in Sources */,
+				82521A881E26160200D6E7CF /* HomeRequestConfirmVC.m in Sources */,
 				8286B27A1BF0CFCE00AFC533 /* TaxonomyListResponseModel.m in Sources */,
 				82BD028E1B46A73C00108A0B /* main.m in Sources */,
+				823C97191DFAD3480046AEDD /* AllReviewTableViewCell.m in Sources */,
 				82D71D981B84969800A2088F /* UIScrollView+InfiniteScroll.m in Sources */,
-				67DF40131CE3502200415F6F /* FilterSwitchViewCell.m in Sources */,
 				82C0950D1C5F614100727C25 /* LineItems.m in Sources */,
 				82327F7A1B61027B00D92889 /* CartViewModel.m in Sources */,
-				67DF401F1CE4B4D300415F6F /* FollowUsTableViewCell.m in Sources */,
+				820108E11E27B99100A8627E /* AftrCheckoutVC.m in Sources */,
 				8246FE621B748382001D1CFF /* User.m in Sources */,
 				825266DF1B50002600C635F7 /* HomeCategoryViewController.m in Sources */,
 				82147FD61C452E7D00D6691E /* ListingCell.m in Sources */,
 				823C46AD1B7374C100E37DBE /* SignUpViewController.m in Sources */,
+				820777C91DFAABF100075857 /* RatingViewController.m in Sources */,
 				82C36C521C81B98E0038EA5F /* Order.m in Sources */,
 				82B7AAF61C5D0CAF0031BA8E /* SubCategoryHeaderView.m in Sources */,
 				82A265A01C2195830031BDC9 /* MyOrdersViewController.m in Sources */,
@@ -2632,6 +3034,9 @@
 				825692CC1B6B771700B5D1D3 /* DoctorViewCell.m in Sources */,
 				826B14231BC28D4800B6A1C3 /* OrderReviewCell.m in Sources */,
 				82A1D3D31C562C6500E6B1D3 /* TimeSlotResponseModel.m in Sources */,
+				82B2B4B41E28BAC700928E85 /* CashOnDeliveryCell.m in Sources */,
+				674BB1AE1E69FB6000241BE7 /* AreaFilterViewController.m in Sources */,
+				82D621B61E3B14F7006A9B36 /* FavouriteTableViewCell.m in Sources */,
 				82842CE11B590B8600FCCACC /* DetailViewModel.m in Sources */,
 				82E2E68B1C9AD42400B81CCE /* BannerTableViewCell.m in Sources */,
 				827026DE1BC650840054E16F /* Reachability.m in Sources */,
@@ -2642,15 +3047,19 @@
 				82A1D3DA1C5663F700E6B1D3 /* BookConfirmViewController.m in Sources */,
 				82C095101C5F7E2A00727C25 /* PaymentOptionsViewController.m in Sources */,
 				824AE0801BF9B1D4008A49A9 /* StoreTaxonsViewController.m in Sources */,
+				828C30671E07FA0200D9690B /* TableViewCell.m in Sources */,
 				82D3840F1C2C0DB700D05FB7 /* PaymentDetailViewCell.m in Sources */,
+				82954AE11E17BABB0047A996 /* UploadReportsPreviewController.m in Sources */,
 				823B737F1C49149F00031596 /* NSessionManager.m in Sources */,
 				825692D31B6B77E200B5D1D3 /* DoctorViewController.m in Sources */,
 				6795F0AB1C9C8F6200984A92 /* FilterListModel.m in Sources */,
 				826B142E1BC2A01E00B6A1C3 /* OrderCompleteViewController.m in Sources */,
 				82A4F1081C94605400708E5E /* StoreOptionsView.m in Sources */,
+				674BB1B41E6A098F00241BE7 /* OptionsViewController.m in Sources */,
 				82A5428D1C22BB1A00383253 /* MyOrdersResponseModel.m in Sources */,
 				823B73881C491C3800031596 /* PromotionModel.m in Sources */,
 				82CE35E41C15B7E1003744C9 /* SearchViewController.m in Sources */,
+				674BB1A41E69B8DB00241BE7 /* FilterViewController.m in Sources */,
 				8250A32D1B55142E0026ADCE /* ProductsViewController.m in Sources */,
 				82E509F31CAE79110013289F /* SortOrderModel.m in Sources */,
 				8238A7061B5E4538005CC0A5 /* ProductDetail.m in Sources */,
@@ -2659,11 +3068,12 @@
 				82A2659C1C2169B50031BDC9 /* NTextField.m in Sources */,
 				82F80CD61C1EE01100C8E076 /* MoreViewController.m in Sources */,
 				823B73851C491A4000031596 /* CategoryModel.m in Sources */,
+				82521A8B1E262BAF00D6E7CF /* ProductDetailVC.m in Sources */,
 				6795F0A81C9C8E9000984A92 /* SortListModel.m in Sources */,
-				82AA54B61CB68F59009E9717 /* TrackPipelineView.m in Sources */,
 				82C6FC371CBD0B5800DF1C9A /* EditProfileViewController.m in Sources */,
 				82D4D2681CD740DC00EB140D /* ChemistOptionViewCell.m in Sources */,
 				82DCBED41C4CFEC0005EBDB3 /* RatingView.m in Sources */,
+				82521A8E1E262D5C00D6E7CF /* SpecificationTableViewCell.m in Sources */,
 				82F856CB1C8077B0000B68A9 /* SubCategoryModel.m in Sources */,
 				825892821BBEB21C0032B0A3 /* DeliveryViewController.m in Sources */,
 				8294E0281CB51B8E00DF2313 /* BookingDIDatePicker.m in Sources */,
@@ -2674,15 +3084,19 @@
 				82F856DA1C8091CF000B68A9 /* SubCategoryRealm.m in Sources */,
 				82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */,
 				82C095081C5F614100727C25 /* AddToCart+CoreDataProperties.m in Sources */,
+				674BB1B11E6A06C800241BE7 /* WorkingHoursViewController.m in Sources */,
 				82EA68001C43BB6B00F9924D /* DoctorModel.m in Sources */,
 				82147FCD1C452CD000D6691E /* RestaurantResponseModel.m in Sources */,
 				8286B2581BF08F3F00AFC533 /* StoreRealm.m in Sources */,
+				82F610C61E41BAD600568BDB /* MyPrescriptionModel.m in Sources */,
+				8206B3581E2A08C2002F1359 /* MyBookingCell.m in Sources */,
 				82A1D3CF1C56142F00E6B1D3 /* TimeSlotCollectionViewCell.m in Sources */,
 				82C97ED01C19939C00E6ED4C /* Location.m in Sources */,
 				82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */,
 				82B93B611CB918D700D1EC8C /* FavouriteStoreDetailModel.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,
 				82681EAD1C50B8FA00035E6E /* NEntityDetailCell.m in Sources */,
+				8206B34F1E2A0401002F1359 /* MyBookingModel.m in Sources */,
 				82ED53E71C4FB58300FA7707 /* EntityDetailModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2743,6 +3157,7 @@
 				82BD02961B46A73C00108A0B /* Base */,
 			);
 			name = Main.storyboard;
+			path = HealthApp;
 			sourceTree = "<group>";
 		};
 		82BD029A1B46A73C00108A0B /* LaunchScreen.xib */ = {
@@ -2758,11 +3173,13 @@
 /* Begin XCBuildConfiguration section */
 		823571C11CB3E9C200D27BEC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86A2FB6B6CC116478056D591 /* Pods-Neediator Widget.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = HK3PRD8YBE;
 				INFOPLIST_FILE = "Neediator Widget/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -2774,10 +3191,12 @@
 		};
 		823571C21CB3E9C200D27BEC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6EE59D28EB28CEDF2BED371F /* Pods-Neediator Widget.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = HK3PRD8YBE;
 				INFOPLIST_FILE = "Neediator Widget/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -2790,11 +3209,13 @@
 		};
 		8267AB921CB281E400CF1632 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD75B5A0151B9BB11D9B5094 /* Pods-Neediator-AppleWatch Extension.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = HK3PRD8YBE;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "Neediator-AppleWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -2811,10 +3232,12 @@
 		};
 		8267AB931CB281E400CF1632 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65D65CDED614DEB7B31509D2 /* Pods-Neediator-AppleWatch Extension.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = HK3PRD8YBE;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "Neediator-AppleWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -2838,10 +3261,11 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = HK3PRD8YBE;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
 				IBSC_MODULE = Neediator_AppleWatch_Extension;
 				INFOPLIST_FILE = "Neediator-AppleWatch/Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.linkcube.neediator.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2859,10 +3283,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = HK3PRD8YBE;
 				GCC_PREFIX_HEADER = "HealthApp/Neediator-Prefix.pch";
 				IBSC_MODULE = Neediator_AppleWatch_Extension;
 				INFOPLIST_FILE = "Neediator-AppleWatch/Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.linkcube.neediator.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2891,8 +3316,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Rachna Singh (ML7JUY5H4R)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rachna Singh (ML7JUY5H4R)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2938,8 +3363,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Rachna Singh (ML7JUY5H4R)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rachna Singh (ML7JUY5H4R)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -2967,7 +3392,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = HK3PRD8YBE;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2984,7 +3409,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.linkcube.neediator;
 				PRODUCT_NAME = "Chemist Plus";
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HealthApp/Neediator-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2998,7 +3422,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = HK3PRD8YBE;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3015,7 +3439,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.linkcube.neediator;
 				PRODUCT_NAME = "Chemist Plus";
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HealthApp/Neediator-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3023,8 +3446,11 @@
 		};
 		82BD02AF1B46A73C00108A0B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9877EB620BDD7EEB27492D79 /* Pods-NeediatorTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = HK3PRD8YBE;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -3043,8 +3469,11 @@
 		};
 		82BD02B01B46A73C00108A0B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E8FD769156790BB232887BDE /* Pods-NeediatorTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = HK3PRD8YBE;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

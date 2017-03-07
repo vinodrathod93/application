@@ -15,4 +15,6 @@
 
 @property (weak, nonatomic) IBOutlet UIView *uploadPrsView;
 @property (weak, nonatomic) IBOutlet UIView *quickOrderView;
+
+
 @end

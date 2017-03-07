@@ -17,21 +17,22 @@
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     
     return @{
-             
              @"records"         : @"records",
              @"type"            : @"type",
              @"deliveryTypes"   : @"deliverytype",
+             @"addressTypes"    : @"Addresstype",
+             @"PurposeType"     : @"PurposeType",
              @"sorting_list"    : @"sort",
              @"filter_list"     : @"filter",
              @"current_count"   : @"current_count",
              @"total_count"     : @"total_count",
              @"total_pages"     : @"total_pages",
              @"current_page"    : @"current_page"
-             
              };
 }
 
-+(NSValueTransformer *)recordsJSONTransformer {
++(NSValueTransformer *)recordsJSONTransformer
+{
     return [MTLJSONAdapter arrayTransformerWithModelClass:[ListingModel class]];
 }
 
@@ -63,17 +64,12 @@
         
         // nothing.
         NSDictionary *type  = dictionaryValue[@"type"];
-        
-        
         self.isProductType  = [type[@"IsProduct"] boolValue];
         self.urlString      = type[@"Url"];
         self.parameters     = type[@"Parameters"];
-        
     }
     else
         NSLog(@"Something is nil");
-    
-    
     return self;
 }
 

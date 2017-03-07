@@ -12,9 +12,9 @@
 
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"taxonID": @"Id",
-             @"taxonName": @"Name",
-             @"taxonomyID" : @"TaxonomiesId"
+             @"taxonID"     : @"Id",
+             @"taxonName"   : @"Name",
+             @"taxonomyID"  : @"TaxonomiesId"
              };
 }
 

@@ -16,4 +16,5 @@
 
 @property (strong, nonatomic) ListingModel *model;
 @property (strong, nonatomic) UIImage *image;
+
 @end

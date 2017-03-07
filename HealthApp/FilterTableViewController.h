@@ -7,10 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FilterListModel.h"
-#import "FilterHelperModel.h"
-#import "FilterSliderViewCell.h"
-#import "FilterSwitchViewCell.h"
 
 
 @protocol FilterListingDelegate <NSObject>
@@ -19,9 +15,11 @@
 
 @end
 
-@interface FilterTableViewController : UITableViewController<SliderFilterDelegate>
+
+@interface FilterTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSArray *filterArray;
+
 @property (nonatomic, weak) id<FilterListingDelegate> delegate;
 
 @end

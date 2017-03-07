@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface MapLocationViewController : UIViewController<CLLocationManagerDelegate>
 
 @property (nonatomic, strong) NSArray *storeAddressArray;
 @property (nonatomic, strong) NSString *storeName;
+@property(nonatomic,retain) NSString *storeDistance;
+
 
 @end

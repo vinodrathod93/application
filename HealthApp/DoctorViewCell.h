@@ -16,4 +16,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *experienceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *consultationFeeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *distance;
+
 @end

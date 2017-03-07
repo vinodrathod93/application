@@ -10,24 +10,29 @@
 
 @interface ProductDetail : NSObject
 
+@property (nonatomic, strong) NSNumber *total_on_hand;
+
+
+@property (nonatomic, strong) NSString *default_image;
 @property (nonatomic, strong) NSString *productID;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *summary;
 @property (nonatomic, strong) NSString *price;
 @property (nonatomic, strong) NSString *displayPrice;
 @property (nonatomic, strong) NSString *masterPrice;
-@property (nonatomic, assign) BOOL hasVariant;
 @property (nonatomic, strong) NSString *variantID;
-@property (nonatomic, strong) NSNumber *total_on_hand;
+
+
+@property (nonatomic, assign) BOOL hasVariant;
+
+
 
 @property (nonatomic, strong) NSArray *small_img;
 @property (nonatomic, strong) NSArray *product_img;
 @property (nonatomic, strong) NSArray *large_img;
-
-
-@property (nonatomic, strong) NSString *default_image;
-
 @property (nonatomic, strong) NSArray *variants;
+
+
 
 
 //Neediator API

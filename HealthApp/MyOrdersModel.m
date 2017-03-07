@@ -15,16 +15,18 @@
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
              
-             @"orderNumber" : @"orderno",
-             @"orderTotal"  : @"total",
-             @"orderState"  : @"status",
-             @"shipmentState": @"status",
-             @"paymentState" : @"status",
-             @"completed_date"   : @"orderdate",
-             @"storeName"        : @"storename",
-             @"line_items"   : @"myorder_productlist",
-             @"isPrescription"  : @"isprescription",
-             @"prescriptionArray" : @"uploadPrescription",
+             @"id"                  : @"id",
+             @"orderNumber"         : @"orderno",
+             @"orderTotal"          : @"total",
+             @"orderState"          : @"status",
+             @"shipmentState"       : @"status",
+             @"paymentState"        : @"status",
+             @"completed_date"      : @"orderdate",
+             @"storeName"           : @"storename",
+             @"area"                : @"area",
+             @"line_items"          : @"myorder_productlist",
+             @"isPrescription"      : @"isprescription",
+             @"prescriptionArray"   : @"uploadPrescription",
              @"statusCode"          : @"status_code"
              };
 }

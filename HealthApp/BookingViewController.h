@@ -12,13 +12,21 @@
 
 @interface BookingViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate>
 
+
+
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
+
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
+
+
 @property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet UILabel *metaInfo;
+@property (weak, nonatomic) IBOutlet UILabel *selected_dateLabel;
+
+
 @property (weak, nonatomic) IBOutlet BookingDIDatePicker *calendar;
 
-@property (weak, nonatomic) IBOutlet UILabel *selected_dateLabel;
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @property (nonatomic, strong) NSString *entity_id;
 @property (nonatomic, strong) NSString *category_id;

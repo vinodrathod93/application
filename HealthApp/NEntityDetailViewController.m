@@ -20,7 +20,8 @@
 
 @end
 
-@implementation NEntityDetailViewController {
+@implementation NEntityDetailViewController
+{
     NSMutableArray *_entityDescriptionArray;
     NSMutableDictionary *_selectedIndexes;
     NSURLSessionDataTask *_task;
@@ -29,7 +30,8 @@
 }
 
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     
@@ -44,38 +46,49 @@
     
     
     if (!self.isStoreInfo) {
+        //        NSDictionary *parameters = @{
+        //                                     @"catid": self.cat_id,
+        //                                     @"id"   : self.entity_id
+        //                                     };
+        
+        
         NSDictionary *parameters = @{
-                                     @"catid": self.cat_id,
-                                     @"id"   : self.entity_id
+                                     @"SectionId"   : self.cat_id,
+                                     @"id"          : self.entity_id
                                      };
+        
+        
+        
+        
+        
+        
+        
         
         [self showHUD];
         
-        _task = [[NAPIManager sharedManager] getEntityDetailsWithRequest:parameters success:^(EntityDetailsResponseModel *response) {
-            
-            
-            [_entityDescriptionArray addObjectsFromArray:response.details];
-            _footerHeight   = kFooterHeight;
-            _hasLoaded      = YES;
-            
-            [self hideHUD];
-            [self.tableView reloadData];
-            
-        } failure:^(NSError *error) {
-            [self hideHUD];
-            NSLog(@"%@", error.localizedDescription);
-            
-            UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alertError show];
-            
-        }];
+        _task = [[NAPIManager sharedManager] getEntityDetailsWithRequest:parameters success:^(EntityDetailsResponseModel *response)
+                 {
+                     
+                     [_entityDescriptionArray addObjectsFromArray:response.details];
+                     _footerHeight   = kFooterHeight;
+                     _hasLoaded      = YES;
+                     
+                     [self hideHUD];
+                     [self.tableView reloadData];
+                     
+                 } failure:^(NSError *error)
+                 {
+                     [self hideHUD];
+                     NSLog(@"%@", error.localizedDescription);
+                     
+                     UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                     [alertError show];
+                     
+                 }];
     }
     else {
         _entityDescriptionArray = [NSMutableArray arrayWithArray:self.storeInfoArray];
     }
-    
-    
-    
 }
 
 
@@ -138,11 +151,11 @@
         return kHeight;
     
     
-//    if (![self cellIsSelected:indexPath]) {
-//        return kHeight + height;
-//    }
-//    
-//    return kHeight;
+    //    if (![self cellIsSelected:indexPath]) {
+    //        return kHeight + height;
+    //    }
+    //
+    //    return kHeight;
 }
 
 

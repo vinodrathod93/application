@@ -15,12 +15,19 @@
 #import "Reachability.h"
 #import "AppDelegate.h"
 #import <SVPullToRefresh/SVPullToRefresh.h>
+#import "ProductDetailVC.h"
 
 #define kFIRST_PAGE 1
 #define kPhoneTitleViewWidth 160
 #define kPadTitleViewWidth 250
 
 @interface ProductsViewController ()<UIViewControllerTransitioningDelegate,UISearchBarDelegate, UISearchControllerDelegate, UIViewControllerPreviewingDelegate>
+{
+    NSDictionary *received;
+    NSArray *productsArray;
+    NSString *AdminPid;
+    
+}
 
 @property (nonatomic, strong) NSURLSessionDataTask *task;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -35,7 +42,6 @@
 
 // version api 1
 @property (nonatomic, strong) NSString *pages;
-
 @property (nonatomic, strong) NSMutableArray *filteredProducts;
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic)        float          searchBarBoundsY;
@@ -53,24 +59,54 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sort" style:UIBarButtonItemStylePlain target:self action:@selector(displaySortingSheet)];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAddedToCart) name:@"addedToCartNotification" object:nil];
-
-    
-    
+    received=[NSDictionary dictionary];
+    productsArray=[NSArray array];
     _page = 1;
     
-    // Reachablity code
     
+    //    NSString *parameterString = [NSString stringWithFormat:@"GrandParent=%@&Parent=%@&Grandchild=%@&Child=%@&Subchild=%@&store_id=%@&Section_id=%@&search=%@&PageNo=%@",@"Health Equipments",@"Blood Pressure Monitor",@"Digital",@"",@"",@"2",@"1",@"",@"",@"1"];
+    
+    NSString *parameterString = [NSString stringWithFormat:@"GrandParent=%@&Parent=%@&Grandchild=%@&Child=%@&Subchild=%@&store_id=%@&Section_id=%@&search=%@&PageNo=%d",self.GrandProduct,self.ParentProduct,self.GrandChildProduct,self.ChildProduct,self.SubChildProduct,self.storeID,self.categoryID,@"",_page];
+    NSLog(@"My Details %@",parameterString);
+    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductStores3"];
+    NSLog(@"URL is --> %@", url);
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductStores3"]];
+    request.HTTPMethod = @"POST";
+    request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"%@",response);
+        if (error) {
+            NSLog(@"%@",error.localizedDescription);
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@" Product Response Is %@",received);
+                NSError *jsonError;
+                received = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+                NSLog(@" Product Response Is %@",received);
+                productsArray=received[@"ProductStores"];
+                
+                [self.collectionView reloadData];
+            });
+        }
+    }];
+    [task resume];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sort" style:UIBarButtonItemStylePlain target:self action:@selector(displaySortingSheet)];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAddedToCart) name:@"addedToCartNotification" object:nil];
+    
+    
+    
+    
+    // Reachablity code
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
-    
     if (netStatus != NotReachable) {
-        [self loadProductsPage];
+        //    [self loadProductsPage];
     }
     else
         [self displayNoConnection];
@@ -91,8 +127,29 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.task suspend];
+}
 
 
+-(BOOL)isForceTouchAvailable {
+    BOOL isForceTouchAvailable = NO;
+    if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)]) {
+        isForceTouchAvailable = self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable;
+    }
+    return isForceTouchAvailable;
+}
+
+
+
+
+#pragma mark - Sorting Sheet
 -(void)displaySortingSheet {
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Sort" message:nil
                                                                  preferredStyle:UIAlertControllerStyleActionSheet];
@@ -124,6 +181,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 
 
+#pragma mark - Display Search Bar.
 -(void)displaySearchBar {
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
@@ -147,29 +205,9 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     [self displaySearchBar];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self.task suspend];
-}
 
 
--(BOOL)isForceTouchAvailable {
-    BOOL isForceTouchAvailable = NO;
-    if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)]) {
-        isForceTouchAvailable = self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable;
-    }
-    return isForceTouchAvailable;
-}
-
-
-#pragma mark -
-#pragma mark === UIViewControllerPreviewingDelegate Methods ===
-#pragma mark -
+#pragma mark -  UIViewControllerPreviewingDelegate Methods
 
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
               viewControllerForLocation:(CGPoint)location {
@@ -194,11 +232,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         detailsVC.detail = self.viewModel.viewModelProducts[selectedIndexPath.item];
         detailsVC.title  = [self.navigationTitleString uppercaseString];
         
-        
-        
-        
         previewingContext.sourceRect = [self.view convertRect:cell.frame fromView:self.collectionView];
-        
         
         return detailsVC;
         
@@ -232,7 +266,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 
 
-#pragma mark <UICollectionViewDataSource>
+#pragma mark -  <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -241,19 +275,30 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
+    return productsArray.count;
     
-    return (self.searchController.active) ? self.filteredProducts.count : [self.viewModel numberOfProducts];
+    //return (self.searchController.active) ? self.filteredProducts.count : [self.viewModel numberOfProducts];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    NSLog(@"cellForItemAtIndexPath");
+    //    NSLog(@"cellForItemAtIndexPath");
     
     ProductViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:productsReuseIdentifier forIndexPath:indexPath];
     
-    NSString *string = [self.viewModel infiniteImageAtIndex:indexPath.item];
     
-    NSURL *url = [NSURL URLWithString:string];
-    [cell.productImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    
+    NSDictionary *product=[productsArray objectAtIndex:indexPath.row];
+    NSLog(@"Product Dictionary Is%@",product);
+    
+    //    AdminPid=product[@"AdminProductId"];
+    //
+    //    NSLog(@"Admin Pid Is %@",AdminPid);
+    
+    cell.productLabel.text=product[@"DisplayTitles"];
+    cell.productPrice.text=[NSString stringWithFormat:@"%@",product[@"mrp"]];
+    cell.productImageView.clipsToBounds = YES;
+    cell.productImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [cell.productImageView sd_setImageWithURL:[NSURL URLWithString:product[@"imageurl"]] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (error) {
             NSLog(@"%@", [error localizedDescription]);
             
@@ -261,20 +306,46 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         }
     }];
     
-    cell.productImageView.clipsToBounds = YES;
-    cell.productImageView.contentMode = UIViewContentModeScaleAspectFit;
     
-    cell.productLabel.text = [self.viewModel nameAtIndex:indexPath.item];
-    cell.productPrice.text = [self.viewModel priceAtIndex:indexPath.item];
     
-    if ([self.viewModel isProductOutOfStock:indexPath.item]) {
-        
-        [cell.soldOutView setImage:[UIImage imageNamed:@"soldout"]];
-        
-        
-    }
-    
+    //    ProductViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:productsReuseIdentifier forIndexPath:indexPath];
+    //    NSString *string = [self.viewModel infiniteImageAtIndex:indexPath.item];
+    //    NSURL *url = [NSURL URLWithString:string];
+    //    [cell.productImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    //        if (error) {
+    //            NSLog(@"%@", [error localizedDescription]);
+    //            [cell.productImageView setImage:[UIImage imageNamed:@"no_image"]];
+    //        }
+    //    }];
+    //    cell.productImageView.clipsToBounds = YES;
+    //    cell.productImageView.contentMode = UIViewContentModeScaleAspectFit;
+    //    cell.productLabel.text = [self.viewModel nameAtIndex:indexPath.item];
+    //    cell.productPrice.text = [self.viewModel priceAtIndex:indexPath.item];
+    //
+    //    if ([self.viewModel isProductOutOfStock:indexPath.item]) {
+    //        [cell.soldOutView setImage:[UIImage imageNamed:@"soldout"]];
+    //    }
     return cell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *product=[productsArray objectAtIndex:indexPath.row];
+    
+    ProductDetailVC *pdVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ProductDetailVC"];
+    
+    
+    
+    
+    pdVC.AdminProductID=product[@"AdminProductId"];
+    pdVC.VendorProductID=product[@"VendorProductId"];
+    pdVC.AdminProductName=product[@"DisplayTitles"];
+    pdVC.AdminProductPrice=[NSString stringWithFormat:@"%@",product[@"mrp"]];
+    pdVC.ImagesArray=product[@"images"];
+    pdVC.ProductQuantity=@"1";
+    
+    [self.navigationController pushViewController:pdVC animated:YES];
+    
 }
 
 
@@ -298,9 +369,6 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         return CGSizeMake(width-1, width-1);
     }
 }
-
-
-
 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -339,10 +407,10 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-//    [self loadProducts];
+    //    [self loadProducts];
     
     self.currentPage = nil;
-
+    
     _page = 1;
     
     [self loadProductsPage];
@@ -380,10 +448,17 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 
 
--(void)searchProducts:(NSString *)keyword {
+-(void)searchProducts:(NSString *)keyword
+{
     NSLog(@"searching products");
     NSURLSession *session = [NSURLSession sharedSession];
-    NSString *url_string = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@&PageNo=1&search=%@",self.taxonID, self.storeID, self.taxonomyID, self.categoryID, keyword];
+    //sb   NSString *url_string = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@&PageNo=1&search=%@",self.taxonID, self.storeID, self.taxonomyID, self.categoryID, keyword];
+    
+    
+    NSString *url_string = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&Section_id=%@&PageNo=1&search=%@",self.taxonID, self.storeID, self.taxonomyID, self.categoryID, keyword];
+    
+    
+    
     NSURL *url = [NSURL URLWithString:url_string];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -429,17 +504,15 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 //-(void)loadProductsPage:(int)page completion:(void(^)(void))completion {
 
 -(void)loadProductsPage {
-//    void(^finish)(void) = completion ?: ^{};
+    //    void(^finish)(void) = completion ?: ^{};
     
     __weak typeof(self) weakSelf = self;
-    
     NSLog(@"loadProducts");
+    
     NSURLSession *session = [NSURLSession sharedSession];
+    //      NSString *paginatingURLString = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&Section_id=%@&PageNo=%d&search=", self.taxonID, self.storeID, self.taxonomyID, self.categoryID, _page];
     
-    
-    
-    NSString *paginatingURLString = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/getProductStores2?store_id=%@&taxonomies_id=%@&cat_id=%@&PageNo=%d&search=", self.storeID, self.taxonID, self.categoryID, _page];
-    
+    NSString *paginatingURLString = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductStores3?GrandParent=%@&Parent=%@&Grandchild=%@&Child=%@&Subchild=%@&store_id=%@&Section_id=%@&search=%@&PageNo=%@",@"Health Equipments",@"Blood Pressure Monitor",@"Digital",@"",@"",@"2",@"1",@"",@"",@"1"];
     NSLog(@"%@", paginatingURLString);
     
     NSURLRequest *spree_request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:paginatingURLString]];
@@ -452,19 +525,20 @@ static NSString * const productsReuseIdentifier = @"productsCell";
                 NSError *jsonError;
                 id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
                 
-                NSLog(@"%@",dictionary);
+                NSLog(@" load Product Response Is:->%@",received);
                 
                 if (jsonError != nil) {
-                    NSLog(@"Error %@",[jsonError localizedDescription]);
+                    NSLog(@"Error--> %@",[jsonError localizedDescription]);
                     
-//                    finish();
+                    //                    finish();
                     [weakSelf.collectionView.infiniteScrollingView stopAnimating];
                     
                 }
                 else if(![dictionary isEqual:nil])
                 {
-                    NSArray *array = [DetailViewModel infiniteProductsFromJSON:dictionary];
-                    if (_page == 1) {
+                    NSArray *array = [DetailViewModel infiniteProductsFromJSON:received];
+                    if (_page == 1)
+                    {
                         
                         self.viewModel = [[DetailViewModel alloc]initWithArray:array];
                         
@@ -511,11 +585,11 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         
     }];
     
-//    if (self.currentPage != nil && (self.currentPage.intValue == self.pages.intValue)) {
-//        [weakSelf.collectionView.infiniteScrollingView stopAnimating];
-//    } else {
-//        [self.task resume];
-//    }
+    //    if (self.currentPage != nil && (self.currentPage.intValue == self.pages.intValue)) {
+    //        [weakSelf.collectionView.infiniteScrollingView stopAnimating];
+    //    } else {
+    //        [self.task resume];
+    //    }
     
     [self.task resume];
     
@@ -523,9 +597,8 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.color = self.collectionView.tintColor;
         self.hud.labelText = @"Loading items...";
-//        self.hud.dimBackground = YES;
+        //        self.hud.dimBackground = YES;
     }
-    
 }
 
 
@@ -556,15 +629,11 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     count.textColor = [UIColor blackColor];
     count.textAlignment = NSTextAlignmentCenter;
     
-    
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 44)];
     [titleView addSubview:taxon];
     [titleView addSubview:count];
     
-    
     self.navigationItem.titleView = titleView;
-    
-
     
 }
 
@@ -584,9 +653,6 @@ static NSString * const productsReuseIdentifier = @"productsCell";
         });
     });
 }
-
-
-
 
 
 -(void)reachabilityChanged:(NSNotification*)note
@@ -617,138 +683,98 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 
 
 /*
-#pragma mark - observer
-- (void)addObservers{
-    [self.collectionView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-}
+ #pragma mark - observer
+ - (void)addObservers{
+ [self.collectionView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+ }
+ 
+ - (void)removeObservers{
+ [self.collectionView removeObserver:self forKeyPath:@"contentOffset" context:Nil];
+ }
+ 
+ - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(UICollectionView *)object change:(NSDictionary *)change context:(void *)context{
+ if ([keyPath isEqualToString:@"contentOffset"] && object == self.collectionView ) {
+ if (self.searchController.isActive) {
+ NSLog(@"Bounds %f, offset %f minus %f and equals to %f",self.searchBarBoundsY, (-1* object.contentOffset.y), self.searchBarBoundsY, self.searchBarBoundsY + ((-1* object.contentOffset.y)-self.searchBarBoundsY));
+ 
+ self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x,
+ 0,
+ self.searchController.searchBar.frame.size.width,
+ self.searchController.searchBar.frame.size.height);
+ } else {
+ NSLog(@"Bounds %f, offset %f minus %f and equals to %f",self.searchBarBoundsY, (-1* object.contentOffset.y), self.searchBarBoundsY, self.searchBarBoundsY + ((-1* object.contentOffset.y)-self.searchBarBoundsY));
+ 
+ self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x,
+ self.searchBarBoundsY + ((-1* object.contentOffset.y)-self.searchBarBoundsY),
+ self.searchController.searchBar.frame.size.width,
+ self.searchController.searchBar.frame.size.height);
+ }
+ }
+ }
+ */
 
-- (void)removeObservers{
-    [self.collectionView removeObserver:self forKeyPath:@"contentOffset" context:Nil];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(UICollectionView *)object change:(NSDictionary *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"contentOffset"] && object == self.collectionView ) {
-        if (self.searchController.isActive) {
-            NSLog(@"Bounds %f, offset %f minus %f and equals to %f",self.searchBarBoundsY, (-1* object.contentOffset.y), self.searchBarBoundsY, self.searchBarBoundsY + ((-1* object.contentOffset.y)-self.searchBarBoundsY));
-            
-            self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x,
-                                                               0,
-                                                               self.searchController.searchBar.frame.size.width,
-                                                               self.searchController.searchBar.frame.size.height);
-        } else {
-            NSLog(@"Bounds %f, offset %f minus %f and equals to %f",self.searchBarBoundsY, (-1* object.contentOffset.y), self.searchBarBoundsY, self.searchBarBoundsY + ((-1* object.contentOffset.y)-self.searchBarBoundsY));
-            
-            self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x,
-                                                               self.searchBarBoundsY + ((-1* object.contentOffset.y)-self.searchBarBoundsY),
-                                                               self.searchController.searchBar.frame.size.width,
-                                                               self.searchController.searchBar.frame.size.height);
-        }
-        
-    }
-}
-
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#pragma Not Needed 
+#pragma Not Needed
 
 /*
--(UIView *)titleViewWithCount:(NSString *)count {
-    CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
-    CGFloat width = 0.95 * self.navigationItem.titleView.frame.size.width;
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, navBarHeight)];
-    
-    
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, width-70, 20)];
-    titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
-    titleLabel.text = self.navigationTitleString;
-    
-    UILabel *countLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 25, width-70, 20)];
-    countLabel.font = [UIFont fontWithName:@"AvenirNext-UltraLight" size:12.0f];
-    countLabel.text = [NSString stringWithFormat:@"%@ Products",count];
-    
-    [titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [countLabel setTextAlignment:NSTextAlignmentCenter];
-    
-    [containerView addSubview:titleLabel];
-    [containerView addSubview:countLabel];
-    
-    return containerView;
-}
-
-
--(UIView *)customTitleViewWithCount:(NSString *)count {
-    
-    CGFloat titleHeight = self.navigationController.navigationBar.frame.size.height;
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectZero];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    
-    titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
-    
-    CGFloat desiredWidth = [self.navigationTitleString boundingRectWithSize:CGSizeMake([[UIScreen mainScreen] applicationFrame].size.width, titleLabel.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{
-                                                                                                                                                                                                                                     NSFontAttributeName:titleLabel.font
-                                                                                                                                                                                                                                     }context:nil].size.width;
-    CGRect frame;
-    
-    frame = titleLabel.frame;
-    frame.size.height = titleHeight;
-    frame.size.width = desiredWidth;
-    titleLabel.frame = frame;
-    
-    frame = containerView.frame;
-    frame.size.height = titleHeight;
-    frame.size.width = desiredWidth;
-    containerView.frame = frame;
-    
-    titleLabel.numberOfLines = 1;
-    titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    
-    containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    containerView.autoresizesSubviews = YES;
-    titleLabel.autoresizingMask = containerView.autoresizingMask;
-    
-    titleLabel.text = self.navigationTitleString;
-    
-    [containerView addSubview:titleLabel];
-    
-    return containerView;
-}
-*/
+ -(UIView *)titleViewWithCount:(NSString *)count {
+ CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
+ CGFloat width = 0.95 * self.navigationItem.titleView.frame.size.width;
+ UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, navBarHeight)];
+ 
+ 
+ UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, width-70, 20)];
+ titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
+ titleLabel.text = self.navigationTitleString;
+ 
+ UILabel *countLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 25, width-70, 20)];
+ countLabel.font = [UIFont fontWithName:@"AvenirNext-UltraLight" size:12.0f];
+ countLabel.text = [NSString stringWithFormat:@"%@ Products",count];
+ 
+ [titleLabel setTextAlignment:NSTextAlignmentCenter];
+ [countLabel setTextAlignment:NSTextAlignmentCenter];
+ 
+ [containerView addSubview:titleLabel];
+ [containerView addSubview:countLabel];
+ 
+ return containerView;
+ }
+ -(UIView *)customTitleViewWithCount:(NSString *)count {
+ 
+ CGFloat titleHeight = self.navigationController.navigationBar.frame.size.height;
+ UIView *containerView = [[UIView alloc] initWithFrame:CGRectZero];
+ UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+ 
+ titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:15.0f];
+ 
+ CGFloat desiredWidth = [self.navigationTitleString boundingRectWithSize:CGSizeMake([[UIScreen mainScreen] applicationFrame].size.width, titleLabel.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{
+ NSFontAttributeName:titleLabel.font
+ }context:nil].size.width;
+ CGRect frame;
+ 
+ frame = titleLabel.frame;
+ frame.size.height = titleHeight;
+ frame.size.width = desiredWidth;
+ titleLabel.frame = frame;
+ 
+ frame = containerView.frame;
+ frame.size.height = titleHeight;
+ frame.size.width = desiredWidth;
+ containerView.frame = frame;
+ 
+ titleLabel.numberOfLines = 1;
+ titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+ 
+ containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+ containerView.autoresizesSubviews = YES;
+ titleLabel.autoresizingMask = containerView.autoresizingMask;
+ 
+ titleLabel.text = self.navigationTitleString;
+ 
+ [containerView addSubview:titleLabel];
+ 
+ return containerView;
+ }
+ */
 
 /*
  -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -768,13 +794,9 @@ static NSString * const productsReuseIdentifier = @"productsCell";
  
  [self.activityIndicator stopAnimating];
  self.no_items.hidden = NO;
- }
- }
- }
+ } } }
  */
 
-
-//
 //#pragma mark <RMPZoomTransitionAnimating>
 //
 //- (UIImageView *)transitionSourceImageView
@@ -786,7 +808,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 //    imageView.clipsToBounds = YES;
 //    imageView.userInteractionEnabled = NO;
 //    imageView.frame = [cell.productImageView convertRect:cell.productImageView.frame toView:self.collectionView.superview];
-//    
+//
 //    return imageView;
 //}
 //
@@ -800,7 +822,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
 //    NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
 //    ProductViewCell *cell = (ProductViewCell *)[self.collectionView cellForItemAtIndexPath:selectedIndexPath];
 //    CGRect cellFrameInSuperview = [cell.productImageView convertRect:cell.productImageView.frame toView:self.collectionView.superview];
-//    
+//
 //    return cellFrameInSuperview;
 //}
 

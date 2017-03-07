@@ -15,4 +15,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *quantity;
 @property (weak, nonatomic) IBOutlet UILabel *variant;
 @property (weak, nonatomic) IBOutlet UILabel *total_price;
+
 @end

@@ -13,10 +13,10 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"taxonomies" : @"Taxonomy",
-             @"shopInfo"   : @"shopinfo",
-             @"offers"     : @"Offers",
-             @"storeAddresses"  : @"address"
+             @"taxonomies"          : @"response",
+             @"shopInfo"            : @"shopinfo",
+             @"offers"              : @"Offers",
+             @"storeAddresses"      : @"address"
              };
 }
 
@@ -26,21 +26,21 @@
     return [MTLJSONAdapter arrayTransformerWithModelClass:TaxonomyModel.class];
 }
 
-+ (NSValueTransformer *)shopInfoJSONTransformer {
++ (NSValueTransformer *)shopInfoJSONTransformer
+{
     return [MTLJSONAdapter arrayTransformerWithModelClass:EntityDetailModel.class];
 }
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error {
+-(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error
+{
     self = [super initWithDictionary:dictionaryValue error:error];
     
     if (self == nil) return nil;
     
-    NSLog(@"%@", self.offers);
+    NSLog(@" offers are %@", self.offers);
     NSLog(@"%@", self.storeAddresses);
     
     NSLog(@"%@", dictionaryValue);
-    
-    
     
     return self;
 }

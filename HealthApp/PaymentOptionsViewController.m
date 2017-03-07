@@ -22,7 +22,8 @@
 
 @end
 
-@implementation PaymentOptionsViewController {
+@implementation PaymentOptionsViewController
+{
     UIButton *_placeOrderButton;
     NSURLSessionDataTask *_task;
 }
@@ -72,13 +73,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"paymentOptionCellIdentifier" forIndexPath:indexPath];
     
-//    if (!cell) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"paymentOptionCellIdentifier"];
-//    }
+    //    if (!cell) {
+    //        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"paymentOptionCellIdentifier"];
+    //    }
     
     if (indexPath.section == 0) {
         
@@ -86,17 +85,17 @@
         cell.textLabel.text = payment_option[@"paymenttype"];
         cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:17.f];
     }
-//    else if (indexPath.section == 2) {
-//        
-//        cell.textLabel.text = @"";
-//        
-//        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 2, CGRectGetWidth(self.view.frame) - (2*10), 40)];
-//        textField.placeholder = @"Select Time";
-//        [cell.contentView addSubview:textField];
-//        
-//        [self showDateTimePicker:textField];
-//        
-//    }
+    //    else if (indexPath.section == 2) {
+    //
+    //        cell.textLabel.text = @"";
+    //
+    //        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 2, CGRectGetWidth(self.view.frame) - (2*10), 40)];
+    //        textField.placeholder = @"Select Time";
+    //        [cell.contentView addSubview:textField];
+    //
+    //        [self showDateTimePicker:textField];
+    //
+    //    }
     
     
     return cell;
@@ -105,7 +104,7 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     return 44.f;
 }
 
@@ -117,8 +116,6 @@
     }
     else
         return @"";
-
-    
 }
 
 
@@ -161,25 +158,21 @@
 }
 
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-//    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    
-    if (indexPath.section == 0) {
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    if (indexPath.section == 0)
+    {
         if (self.isPaymentOptionSelected) {
             [self deselectPaymentOptionForTableview:tableView forIndexPath:indexPath];
-            
             self.payment_method_id = nil;
         }
         else {
             [self selectPaymentOptionForTableview:tableView forIndexPath:indexPath];
-            
             self.payment_method_id = [self.payment_types[indexPath.row] valueForKey:@"id"];
         }
     }
-    
-    
-}
+ }
 
 
 
@@ -207,8 +200,9 @@
     self.isPaymentOptionSelected = YES;
 }
 
-
--(void)placeOrderPressed:(UIButton *)sender {
+#pragma mark - Place Order.
+-(void)placeOrderPressed:(UIButton *)sender
+{
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     NetworkStatus netStatus = [appDelegate.googleReach currentReachabilityStatus];
     
@@ -234,34 +228,31 @@
             } else
                 [self displayNoConnection];
         }
-        
-        
-        
     }
-    else {
-        
+    
+    else
+    {
         // Highlight cell
-        
         NSArray *allIndexPaths = [self allRowsindexPathsForSection:0];
         [self calloutCells:allIndexPaths];
     }
     
-
+    
 }
 
 
-
+#pragma mark - Send Payment.
 -(void)sendPaymentOptionToServer {
     User *user = [User savedUser];
     
-    NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/addOrder"];
+    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/addOrder"];
     NSLog(@"URL is --> %@", url);
     
-    NSString *parameter = [NSString stringWithFormat:@"user_id=%@&payment_id=%@&address_id=%@&store_id=%@&cat_id=%@&delivery_type=%@&preffered_time=%@", user.userID, self.payment_method_id.stringValue, self.address_id, self.orderModel.store_id, self.orderModel.cat_id.stringValue, _selectedOrderDeliveryType, _selectedOrderTime];
+    //    NSString *parameter = [NSString stringWithFormat:@"user_id=%@&payment_id=%@&address_id=%@&store_id=%@&Section_id=%@&delivery_type=%@&preffered_time=%@", user.userID, self.payment_method_id.stringValue, self.address_id, self.orderModel.store_id, self.orderModel.cat_id.stringValue, _selectedOrderDeliveryType, _selectedOrderTime];
+    
+    NSString *parameter = [NSString stringWithFormat:@"user_id=%@&payment_id=%@&address_id=%@&store_id=%@&Section_id=%@&delivery_type=%@&preffered_time=%@", user.userID,@"1",@"155",@"2",@"1",@"1",@"2"];
+    
     NSLog(@"Payment parameter ==> %@",parameter);
-    
-    
-    
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:url]];
     request.HTTPMethod = @"POST";
@@ -286,8 +277,6 @@
                     NSLog(@"Error %@",[jsonError localizedDescription]);
                     
                 } else {
-                    
-                    
                     NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
                     NSLog(@"Response %ld", (long)[url_response statusCode]);
                     
@@ -315,8 +304,6 @@
                         }
                         else
                             [self alertWithTitle:@"Response Error" message:@"Something went wrong. Please Try again later"];
-                        
-                        
                         
                     }
                     else {
@@ -346,23 +333,20 @@
 }
 
 
-
+#pragma mark - Delete Order.
 -(void)deleteOrder {
     
-//    // Order
+    //    // Order
     NSArray *lineItems = self.orderModel.cartLineItems.allObjects;
     
     for (LineItems *lineItem in lineItems) {
         [self.managedObjectContext deleteObject:lineItem];
     }
     
-    
-    
     [self.managedObjectContext deleteObject:self.orderModel];
     
     NSError *saveError = nil;
     [self.managedObjectContext save:&saveError];
-    
 }
 
 

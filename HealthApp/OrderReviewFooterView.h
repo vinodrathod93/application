@@ -13,4 +13,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *purchase_price_label;
 @property (weak, nonatomic) IBOutlet UILabel *tax_label;
 @property (weak, nonatomic) IBOutlet UILabel *total_price_label;
+
 @end

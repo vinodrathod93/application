@@ -8,12 +8,16 @@
 
 #import "SessionManager.h"
 
-static NSString *const kBaseURL = @"http://www.elnuur.com";
+//static NSString *const kBaseURL = @"http://www.elnuur.com";
+
+
+
+
 
 @implementation SessionManager
 
 - (id)init {
-    self = [super initWithBaseURL:[NSURL URLWithString:kBaseURL]];
+ //   self = [super initWithBaseURL:[NSURL URLWithString:kBaseURL]];
     if(!self) return nil;
     
     self.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -22,7 +26,8 @@ static NSString *const kBaseURL = @"http://www.elnuur.com";
     return self;
 }
 
-+ (id)sharedManager {
++ (id)sharedManager
+{
     static SessionManager *_sessionManager = nil;
     
     static dispatch_once_t onceToken;

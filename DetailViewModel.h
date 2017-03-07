@@ -22,28 +22,35 @@
 @property (nonatomic, weak) id <viewModelDelegate> delegate;
 
 
+
 -(id)initWithArray:(NSArray *)array;
 
 //+(NSArray *)productsFromJSON:(NSDictionary *)objectNotation;
 //-(NSString *)imageAtIndex:(NSInteger)index;
 
 -(NSInteger)numberOfProducts;
+
 -(NSString *)nameAtIndex:(NSInteger)index;
 -(NSString *)summaryAtIndex:(NSInteger)index;
 -(NSString *)priceAtIndex:(NSInteger)index;
 -(NSString *)productIDAtIndex:(NSInteger)index;
+-(NSString *)infiniteImageAtIndex:(NSInteger)index;
+-(NSString *)getItemsCount:(NSDictionary *)dictionary;
+-(NSString *)getPagesCount:(NSDictionary *)dictionary;
+-(NSString *)currentPage:(NSDictionary *)dictionary;
+-(NSString *)secondVersionInfiniteImageAtIndex:(NSInteger)index;
+
+
 -(BOOL)isProductOutOfStock:(NSInteger)index;
 
 +(NSArray *)filterProductsFromJSON:(NSDictionary *)dictionary;
 +(NSArray *)infiniteProductsFromJSON:(NSDictionary *)dictionary;
--(NSString *)infiniteImageAtIndex:(NSInteger)index;
++(NSArray *)secondVersionInfiniteProductsFromJSON:(NSArray *)allProducts;
+
+
+
 -(void)addProducts:(NSArray *)array;
--(NSString *)getItemsCount:(NSDictionary *)dictionary;
--(NSString *)getPagesCount:(NSDictionary *)dictionary;
--(NSString *)currentPage:(NSDictionary *)dictionary;
 -(int)nextPage:(NSDictionary *)dictionary;
 
-+(NSArray *)secondVersionInfiniteProductsFromJSON:(NSArray *)allProducts;
--(NSString *)secondVersionInfiniteImageAtIndex:(NSInteger)index;
 
 @end

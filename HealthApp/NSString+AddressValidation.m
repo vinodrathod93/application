@@ -11,7 +11,8 @@
 @implementation NSString (AddressValidation)
 
 
-- (BOOL)isValidAddress1 {
+- (BOOL)isValidAddress1
+{
     return (self.length >= 3);
 }
 
@@ -32,11 +33,13 @@
     return (self.length > 1);
 }
 
--(BOOL)isValidFirstName {
+-(BOOL)isValidFirstName
+{
     return (self.length > 2);
 }
 
--(BOOL)isValidLastName {
+-(BOOL)isValidLastName
+{
     return (self.length > 2);
 }
 

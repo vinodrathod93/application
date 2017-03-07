@@ -19,4 +19,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *offersLabel;
 
 
+
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollviewbottom;
+@property (weak, nonatomic) IBOutlet UIScrollView *nooffersLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *offersViewBottom;
+
 @end

@@ -26,7 +26,8 @@
 }
 
 
--(void)hideDeleteButton {
+-(void)hideDeleteButton
+{
     self.deleteButton.hidden = YES;
 }
 

@@ -42,7 +42,8 @@
     return model.productPrice;
 }
 
--(NSInteger)numberOfCartProducts {
+-(NSInteger)numberOfCartProducts
+{
     return self.cartProducts.count;
 }
 

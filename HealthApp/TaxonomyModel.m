@@ -15,7 +15,7 @@
              @"taxonomyId"  : @"Id",
              @"taxonomyName": @"Name",
              @"hasTaxons"   : @"HasTaxon",
-             @"catId"       : @"Catid",
+             @"catId"       : @"Sectionid",
              @"taxons"      : @"Taxons"
              };
 }

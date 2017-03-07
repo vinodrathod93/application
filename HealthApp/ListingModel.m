@@ -33,12 +33,23 @@
              @"isHomeRequest"       : @"home_request",
              @"images"              : @"Images",
              @"likeUnlike"          : @"LikeUnlike",
-             @"premium"             : @"premium"
+             @"premium"             : @"premium",
+             @"isOffer"             : @"isOffer",
+             @"offerArray"          : @"Offers",
+             @"FeesCharge"          : @"charges",
+             @"Sunday"              : @"sunday",
+             @"Monday"              : @"monday",
+             @"Tuesday"             : @"tuesday",
+             @"Wednesday"           : @"wednesday",
+             @"Thursday"            : @"thursday",
+             @"Friday"              : @"friday",
+             @"Saturday"            : @"saturday"
              
              };
 }
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error {
+-(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error
+{
     self = [super initWithDictionary:dictionaryValue error:error];
     
     if (self == nil) return nil;
@@ -52,5 +63,8 @@
     
     return self;
 }
+
+
+
 
 @end

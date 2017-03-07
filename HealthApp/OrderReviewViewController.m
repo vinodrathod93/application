@@ -1,4 +1,4 @@
- //
+//
 //  OrderReviewViewController.m
 //  Chemist Plus
 //
@@ -37,7 +37,7 @@ typedef void (^completion)(BOOL finished);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    self.title = @"Review Order";
+    //    self.title = @"Review Order";
     self.navigationItem.hidesBackButton = YES;
     
     
@@ -57,7 +57,7 @@ typedef void (^completion)(BOOL finished);
     
     [self.cartFetchedResultsController performFetch:nil];
     
-//    [self sendOrderToServer];
+    //    [self sendOrderToServer];
 }
 
 #pragma mark - Table view data source
@@ -111,18 +111,18 @@ typedef void (^completion)(BOOL finished);
 
 - (IBAction)proceedToCheckoutPressed:(id)sender {
     
-//    [self sendCompleteRequestWithCompletion:^(BOOL finished) {
-//        if (finished) {
-//            NSLog(@"finished");
-//            OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
-//            orderCompleteVC.order_id = self.order_id;
-//            
-//            [self.navigationController pushViewController:orderCompleteVC animated:YES];
-//
-//            
-//        } else
-//            NSLog(@"Could not send Complete Request");
-//    }];
+    //    [self sendCompleteRequestWithCompletion:^(BOOL finished) {
+    //        if (finished) {
+    //            NSLog(@"finished");
+    //            OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+    //            orderCompleteVC.order_id = self.order_id;
+    //
+    //            [self.navigationController pushViewController:orderCompleteVC animated:YES];
+    //
+    //
+    //        } else
+    //            NSLog(@"Could not send Complete Request");
+    //    }];
     
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
@@ -168,7 +168,7 @@ typedef void (^completion)(BOOL finished);
 
 
 
-#pragma mark - Helper Methods 
+#pragma mark - Helper Methods
 
 -(NSArray *)getCartProducts {
     
@@ -243,7 +243,7 @@ typedef void (^completion)(BOOL finished);
                         NSLog(@"Json Cart ===> %@",json);
                         
                         NSLog(@"Order initiated");
-//                        [self showOrderReviewPage:json];
+                        //                        [self showOrderReviewPage:json];
                         
                         self.line_items     = [json objectForKey:@"line_items"];
                         self.purchase_total = [json valueForKey:@"display_item_total"];
@@ -273,7 +273,8 @@ typedef void (^completion)(BOOL finished);
 }
 
 
--(void)sendCheckoutRequestToServer {
+-(void)sendCheckoutRequestToServer
+{
     User *user = [User savedUser];
     
     NSString *url = [NSString stringWithFormat:@"%@/%@/advance?token=%@",kComplete_order_url, self.order_id, user.access_token];
@@ -300,21 +301,24 @@ typedef void (^completion)(BOOL finished);
                 } else {
                     
                     NSLog(@"JSON ==> %@",json);
-//                    [self showAddressesPageWithOrderID:order_id];
+                    //                    [self showAddressesPageWithOrderID:order_id];
                     
                     PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
                     
                     /* commented just because all the checkout process in done in viewwillappear of PaymentVC */
                     
-//                    paymentVC.order_id               = [json valueForKey:@"number"];
-//                    paymentVC.display_total          = [json valueForKey:@"display_total"];
-//                    paymentVC.total                  = [json valueForKey:@"total"];
-//                    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
+                    //                    paymentVC.order_id               = [json valueForKey:@"number"];
+                    //                    paymentVC.display_total          = [json valueForKey:@"display_total"];
+                    //                    paymentVC.total                  = [json valueForKey:@"total"];
+                    //                    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
+                    
+                    
+                    
                     [self.navigationController pushViewController:paymentVC animated:YES];
                 }
                 
             });
-
+            
         } else {
             [self displayConnectionFailed];
         }
@@ -370,7 +374,7 @@ typedef void (^completion)(BOOL finished);
     
     User *user = [User savedUser];
     AddressesViewController *addressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
-//    addressVC.addresses = user.ship_address;
+    //    addressVC.addresses = user.ship_address;
     addressVC.order_id  = order_id;
     addressVC.isGettingOrder = YES;
     

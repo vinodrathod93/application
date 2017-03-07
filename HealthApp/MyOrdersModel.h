@@ -17,12 +17,19 @@
 @property (nonatomic, copy) NSString *paymentState;
 @property (nonatomic, copy) NSString *completed_date;
 @property (nonatomic, copy) NSString *storeName;
+@property (nonatomic, copy) NSString *area;
+@property (nonatomic, copy) NSString *id;
+
+
+
+
 @property (nonatomic, copy) NSArray *line_items;
 
 @property (nonatomic, copy) NSNumber *isPrescription;
-@property (nonatomic, copy) NSArray *prescriptionArray;
+@property (nonatomic, copy) NSArray  *prescriptionArray;
 @property (nonatomic, copy) NSNumber *statusCode;
 
 @property (nonatomic) BOOL isExpanded;
 @property (nonatomic) BOOL isCancelExpanded;
+
 @end

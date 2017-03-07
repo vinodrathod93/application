@@ -12,15 +12,17 @@
 
 @implementation FavouriteCategoryModel
 
+
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
              
-             @"category": @"category",
-             @"cat_id": @"cat_id",
-             @"category_image_url": @"image_url",
-             @"stores"  : @"details"
+             @"category"            : @"section",
+             @"cat_id"              : @"Section_id",
+             @"category_image_url"  : @"image_url",
+             @"stores"              : @"details"
              };
 }
+
 
 
 + (NSValueTransformer *)storesJSONTransformer {

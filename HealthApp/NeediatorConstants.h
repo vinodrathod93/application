@@ -12,23 +12,7 @@
 
 #endif /* NeediatorConstants_h */
 
-
 static NSString *const kAPP_ID = @"1073622324";
-
-/* Home VC */
-
-#define kHeaderViewHeight_Pad 316
-#define kHeaderViewHeight_Phone 166
-
-
-/* Stores VC */
-#define kStoresNoStoresTag 10
-#define kStoresConnectionViewTag 11
-
-
-/* Taxon - Taxonomy VC */
-#define kTaxonHeaderViewHeight_Pad 512
-#define kTaxonHeaderViewHeight_Phone 256
 
 
 /* Cart VC */
@@ -45,6 +29,122 @@ static NSString *const kAPP_ID = @"1073622324";
 #define GET_CITIES_URL @"http://chemistplus.in/getCities.php"
 #define VERIFY_PINCODE_URL @"http://chemistplus.in/verifyPincode.php"
 
+
+
+
+/* Spree API Manager */
+static NSString *const kStoresListPath = @"/api/stores";
+static NSString *const kTaxonomiesListPath = @"/api/taxonomies";
+static NSString *const kMyOrdersPath       = @"/api/orders/mine";
+static NSString *const kStatesPathOfIndia  = @"/api/countries/105/states";
+static NSString *const kDoctorsListPath = @"/api/clinics";
+
+
+/* Signin */
+static NSString *const kSign_in_url = @"http://shahronak.in/NeediatorWebservice/neediatorWs.asmx/checkLogin";
+
+
+/* Neediator API Manager */
+
+static NSString *const kUPDATE_PROFILE_PATH         = @"/NeediatorWebservice/NeediatorWS.asmx/update_profile";
+static NSString *const kMAIN_CATEGORIES_PATH    = @"/NeediatorWebservice/NeediatorWS.asmx/getSectionSub";
+static NSString *const kLISTING_PATH            = @"/NeediatorWebservice/NeediatorWS.asmx/getListing1";
+
+
+static NSString *const kENTITY_DETAILS_PATH     = @"/NeediatorWebservice/NeediatorWS.asmx/getDetails";
+static NSString *const kTIME_SLOTS_PATH         = @"/NeediatorWebservice/NeediatorWS.asmx/getTimeSlot";
+static NSString *const kBOOKING_PATH            = @"/NeediatorWebservice/NeediatorWS.asmx/Book";
+//static NSString *const kSTORE_TAXONS_PATH       = @"/NeediatorWebservice/NeediatorWS.asmx/getTaxonomyTaxons";
+static NSString *const kSTORE_TAXONS_PATH       = @"/NeediatorWebservice/NeediatorWS.asmx/Taxonomies";
+
+static NSString *const kPAYMENT_OPTIONS_PATH    = @"/NeediatorWebservice/NeediatorWS.asmx/getPayment";
+static NSString *const KSTATE_CITIES_PATH       = @"/NeediatorWebservice/NeediatorWS.asmx/getStateCity";
+static NSString *const KALL_ADDRESSES_PATH      = @"/NeediatorWebservice/NeediatorWS.asmx/getAddress";
+static NSString *const kDELETE_ADDRESSES_PATH   = @"/NeediatorWebservice/NeediatorWS.asmx/deleteAddress";
+static NSString *const kUPLOAD_PRESCRIPTION_PATH    = @"/NeediatorWebservice/NeediatorWS.asmx/uploadPrescription";
+static NSString *const kUPLOAD_REPORTS_PATH         = @"/NeediatorWebservice/NeediatorWS.asmx/ShareReport";
+
+static NSString *const kAUTOCOMPLETE_SEARCH_PRODUCT = @"/NeediatorWebservice/NeediatorWS.asmx/search_product1";
+static NSString *const kADD_TO_FAVOURTIE_PATH       = @"/NeediatorWebservice/NeediatorWS.asmx/addToFavourites";
+//static NSString *const kADD_TO_LIKEDISLIKE_PATH     = @"/NeediatorWebservice/NeediatorWS.asmx/addToLikedislike";
+
+static NSString *const kADD_TO_LIKEDISLIKE_PATH     = @"/NeediatorWebservice/NeediatorWS.asmx/addToLike";
+static NSString *const kMY_ORDERS_PATH              = @"/NeediatorWebservice/NeediatorWS.asmx/myOrder";
+static NSString *const kMY_ORDERS_PATH_BY_STATUS    = @"/NeediatorWebservice/NeediatorWS.asmx/myOrderByStatus";
+
+static NSString *const kMY_BOOKING_PATH              = @"/NeediatorWebservice/NeediatorWS.asmx/mybooking1";
+static NSString *const kMY_BOOKING_BY_STATUS    = @"/NeediatorWebservice/NeediatorWS.asmx/mybooking1bystatus";
+
+
+
+
+static NSString *const kMY_FAVOURITES_PATH          = @"/NeediatorWebservice/NeediatorWS.asmx/viewFavourites";
+static NSString *const kDELETE_FAVOURITE_PATH       = @"/NeediatorWebservice/NeediatorWS.asmx/deleteFavourites";
+static NSString *const kAUTOCOMPLETE_LOCATION       = @"https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:IN";
+static NSString *const kGOOGLE_GEOCODE_URL          = @"https://maps.googleapis.com/maps/api/geocode/json?sensor=false";
+static NSString *const kAUTOCOMPLETE_SEARCH_CATEGORIES          = @"/NeediatorWebservice/NeediatorWS.asmx/search_Section";
+static NSString *const kAUTOCOMPLETE_SEARCH_STORES              = @"/NeediatorWebservice/NeediatorWS.asmx/universal_storesname";
+static NSString *const kAUTOCOMPLETE_SEARCH_UNIVERSAL_PRODUCT   = @"/NeediatorWebservice/NeediatorWS.asmx/universal_searchproduct";
+static NSString *const kSTORE_DETAILS_BY_CODE_PATH              = @"/NeediatorWebservice/NeediatorWS.asmx/detailsbycode";
+
+
+typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
+{
+    searchScopeLocation = 0,
+    searchScopeCategory,
+    searchScopeStore,
+    searchScopeProduct,
+    searchScopeService
+};
+
+
+/* Helper Constants */
+
+static NSString *const kSAVE_STORE_ID    = @"kSaveStoreID";
+static NSString *const kSAVE_CAT_ID      = @"kSaveCatID";
+static NSString *const kSAVE_DELIVERY_TYPES = @"kSaveDeliveryTypes";
+static NSString *const kSAVE_Address_Types  = @"kSaveAddressTypes";
+static NSString *const kSAVE_Purpose_Types  = @"kSavePurposeTypes";
+
+static NSString *const kSAVE_Pending_Reason_Types  = @"kSavePendingReasonTypes";
+static NSString *const kSAVE_Processing_Reason_Types  = @"kSaveProcessingReasonTypes";
+
+
+
+
+
+
+static NSString *const kSAVE_ADDRESS_ID         = @"kSaveAddressID";
+static NSString *const kSAVE_ADDRESS_TYPE_ID    =@"kSaveAddressTypeID";
+static NSString *const kSAVE_PURPOSE_TYPE_ID    =@"kSavePurposeTypeID";
+
+static NSString *const kSAVE_DELIVERY_ID        = @"kSaveDeliveryID";
+
+static NSString *const kSAVE_RECENT_STORES  = @"kSaveRecentStoreData";
+
+static NSString *const kLAST_COMMUNICATION_DATE  = @"kLastCommunicationDate";
+
+static NSString *const kPROMOCODE  = @"kPromoCode";
+
+static NSString *const CheckOutStoreId= @"kCheckOutStoreID";
+
+
+
+
+/* Home VC */
+#define kHeaderViewHeight_Pad 316
+#define kHeaderViewHeight_Phone 166
+
+
+/* Stores VC */
+#define kStoresNoStoresTag 10
+#define kStoresConnectionViewTag 11
+
+
+/* Taxon - Taxonomy VC */
+#define kTaxonHeaderViewHeight_Pad 512
+#define kTaxonHeaderViewHeight_Phone 256
+
 /* Listing VC */
 #define kListingConnectionViewTag 40
 #define kListingNoListingTag 41
@@ -59,68 +159,4 @@ static NSString *const kAPP_ID = @"1073622324";
 #define kStoreImageViewCellHeight 240
 #define kStoreTaxonTaxonomyCellHeight 50
 #define kStoreOffersViewHeight 62
-
-
-/* Spree API Manager */
-static NSString *const kStoresListPath = @"/api/stores";
-static NSString *const kTaxonomiesListPath = @"/api/taxonomies";
-static NSString *const kMyOrdersPath       = @"/api/orders/mine";
-static NSString *const kStatesPathOfIndia  = @"/api/countries/105/states";
-
-static NSString *const kDoctorsListPath = @"/api/clinics";
-
-
-/* Signin */
-static NSString *const kSign_in_url             = @"http://neediator.in/NeediatorWS.asmx/checkLogin";
-
-/* Neediator API Manager */
-
-static NSString *const kMAIN_CATEGORIES_PATH    = @"/NeediatorWS.asmx/getCatSub";
-static NSString *const kLISTING_PATH            = @"/NeediatorWS.asmx/getListing1";
-static NSString *const kENTITY_DETAILS_PATH     = @"/NeediatorWS.asmx/getDetails";
-static NSString *const kTIME_SLOTS_PATH         = @"/NeediatorWS.asmx/getTimeSlot";
-static NSString *const kBOOKING_PATH            = @"/NeediatorWS.asmx/Book";
-static NSString *const kSTORE_TAXONS_PATH       = @"/NeediatorWS.asmx/getTaxonomyTaxons";
-static NSString *const kPAYMENT_OPTIONS_PATH    = @"/NeediatorWS.asmx/getPayment";
-static NSString *const KSTATE_CITIES_PATH       = @"/NeediatorWS.asmx/getStateCity";
-static NSString *const KALL_ADDRESSES_PATH      = @"/NeediatorWS.asmx/getAddress";
-static NSString *const kDELETE_ADDRESSES_PATH   = @"/NeediatorWS.asmx/deleteAddress";
-static NSString *const kUPLOAD_PRESCRIPTION_PATH    = @"/NeediatorWS.asmx/uploadPrescription";
-static NSString *const kAUTOCOMPLETE_SEARCH_PRODUCT = @"/NeediatorWS.asmx/search_product";
-static NSString *const kADD_TO_FAVOURTIE_PATH       = @"/NeediatorWS.asmx/addToFavourites";
-static NSString *const kADD_TO_LIKEDISLIKE_PATH     = @"/NeediatorWS.asmx/addToLikedislike";
-static NSString *const kMY_ORDERS_PATH              = @"/NeediatorWS.asmx/myOrder";
-static NSString *const kMY_FAVOURITES_PATH          = @"/NeediatorWS.asmx/viewFavourites";
-static NSString *const kDELETE_FAVOURITE_PATH       = @"/NeediatorWS.asmx/deleteFavourites";
-static NSString *const kUPDATE_PROFILE_PATH         = @"/NeediatorWS.asmx/update_profile";
-static NSString *const kAUTOCOMPLETE_LOCATION       = @"https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:IN";
-static NSString *const kGOOGLE_GEOCODE_URL          = @"https://maps.googleapis.com/maps/api/geocode/json?sensor=false";
-static NSString *const kAUTOCOMPLETE_SEARCH_CATEGORIES          = @"/NeediatorWS.asmx/search_category";
-static NSString *const kAUTOCOMPLETE_SEARCH_STORES              = @"/NeediatorWS.asmx/universal_storesname";
-static NSString *const kAUTOCOMPLETE_SEARCH_UNIVERSAL_PRODUCT   = @"/NeediatorWS.asmx/universal_searchproduct";
-static NSString *const kSTORE_DETAILS_BY_CODE_PATH              = @"/NeediatorWS.asmx/detailsbycode";
-
-
-typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
-{
-    searchScopeLocation = 0,
-    searchScopeCategory,
-    searchScopeStore,
-    searchScopeProduct
-};
-
-/* Helper Constants */
-
-static NSString *const kSAVE_STORE_ID    = @"kSaveStoreID";
-static NSString *const kSAVE_CAT_ID      = @"kSaveCatID";
-static NSString *const kSAVE_DELIVERY_TYPES = @"kSaveDeliveryTypes";
-static NSString *const kSAVE_ADDRESS_ID     = @"kSaveAddressID";
-static NSString *const kSAVE_DELIVERY_ID    = @"kSaveDeliveryID";
-
-static NSString *const kSAVE_RECENT_STORES  = @"kSaveRecentStoreData";
-
-
-
-
-
 

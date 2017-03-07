@@ -25,7 +25,6 @@
     #import "User.h"
     #import "Location.h"
     #import "LogSignViewController.h"
-    #import "NeediatorHelper.h"
 
     #import "NAPIManager.h"
     #import "NeediatorUtitity.h"
@@ -36,6 +35,7 @@
     #import "NeediatorHUD.h"
     #import <Google/Analytics.h>
     #import <BBBadgeBarButtonItem/BBBadgeBarButtonItem.h>
+    #import "NeediatorHelper.h"
 #endif
 
 #endif /* Neediator_Prefix_pch */

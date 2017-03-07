@@ -10,7 +10,8 @@
 
 @implementation MainCategoryRealm
 
-- (id)initWithMantleModel:(CategoryModel *)model{
+- (id)initWithMantleModel:(CategoryModel *)model
+{
     self = [super init];
     if(!self) return nil;
     

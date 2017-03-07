@@ -22,5 +22,23 @@
 @property (nonatomic, strong) NSString *storeID;
 
 
+
+@property (nonatomic, strong) NSString *GrandProduct;
+@property (nonatomic, strong) NSString *ParentProduct;
+@property (nonatomic, strong) NSString *GrandChildProduct;
+@property (nonatomic, strong) NSString *ChildProduct;
+@property (nonatomic, strong) NSString *SubChildProduct;
+
+
+
+
+
+
+
+
+
+
+
+
 @end
 

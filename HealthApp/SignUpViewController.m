@@ -14,7 +14,11 @@
 #import <NBPhoneNumberUtil.h>
 
 
-#define kSign_up_url @"http://neediator.in/NeediatorWS.asmx/addUser"
+#define kSign_up_url @"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/addUser"
+
+
+
+
 
 @interface SignUpViewController ()<UITextFieldDelegate,UIAlertViewDelegate>
 
@@ -29,27 +33,21 @@ typedef void(^completion)(BOOL finished);
 }
 
 
-
+#pragma mark - View Did Load..
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.signUpButton.layer.cornerRadius = 5.0f;
-    
-    
     self.userName.delegate = self;
     self.passwordField.delegate = self;
     self.emailField.delegate = self;
     self.mobileField.delegate = self;
     self.dateOfBirthField.delegate = self;
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardDidDisappear:) name:UIKeyboardDidHideNotification object:nil];
-    
-    
-    
     self.dateOfBirthField.inputView = [self dateOfBirthPickerView];
     self.dateOfBirthField.inputAccessoryView = [self datePickerToolBar];
     
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardDidDisappear:) name:UIKeyboardDidHideNotification object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -64,38 +62,8 @@ typedef void(^completion)(BOOL finished);
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
--(void)keyboardDidShow:(NSNotification *)notification
-{
-    NSLog(@"KeyBoard appeared");
-    NSDictionary *info=[notification userInfo];
-    NSValue *aValue=[info objectForKey:UIKeyboardFrameEndUserInfoKey];
-    
-    CGRect keyBoardRect=[aValue CGRectValue];
-    keyBoardRect=[self.view convertRect:keyBoardRect fromView:nil];
-    CGFloat keyBoardTop=keyBoardRect.origin.y; //i am getting the height of the keyboard
-    
-    self.scrollView.contentInset=UIEdgeInsetsMake(0, 0, keyBoardTop+50, 0); //adjust the height by setting the "contentInset"
-    
-    
-}
-
--(void)keyboardDidDisappear:(NSNotification *)notification
-{
-    NSLog(@"KeyBoard Disappeared");
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.2];
-    self.scrollView.contentInset=UIEdgeInsetsMake(10, 0, 10, 0); //set to normal by setting the "contentInset"
-    
-    [UIView commitAnimations];
-    
-}
-
-
-
 -(void)viewWillDisappear:(BOOL)animated {
+    
     [super viewWillDisappear:animated];
     
     NSLog(@"viewWillDisappear");
@@ -107,16 +75,48 @@ typedef void(^completion)(BOOL finished);
     NSLog(@"viewDidDisappear");
 }
 
--(void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - self.topLayoutGuide.length - self.bottomLayoutGuide.length);
-}
+//-(void)viewDidLayoutSubviews {
+//    [super viewDidLayoutSubviews];
+//    
+//    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - self.topLayoutGuide.length - self.bottomLayoutGuide.length);
+//}
 
 
+
+
+//#pragma mark - Keyboard.
+//-(void)keyboardDidShow:(NSNotification *)notification
+//{
+//    NSLog(@"KeyBoard appeared");
+//    NSDictionary *info=[notification userInfo];
+//    NSValue *aValue=[info objectForKey:UIKeyboardFrameEndUserInfoKey];
+//    
+//    CGRect keyBoardRect=[aValue CGRectValue];
+//    keyBoardRect=[self.view convertRect:keyBoardRect fromView:nil];
+//    CGFloat keyBoardTop=keyBoardRect.origin.y; //i am getting the height of the keyboard
+//    
+//    self.scrollView.contentInset=UIEdgeInsetsMake(0, 0, keyBoardTop+50, 0); //adjust the height by setting the "contentInset"
+//}
+//
+//-(void)keyboardDidDisappear:(NSNotification *)notification
+//{
+//    NSLog(@"KeyBoard Disappeared");
+//    
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:0.2];
+//    self.scrollView.contentInset=UIEdgeInsetsMake(10, 0, 10, 0); //set to normal by setting the "contentInset"
+//    
+//    [UIView commitAnimations];
+//    
+//}
+
+
+
+
+#pragma mark - TextField..
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
     
-     NSLog(@"%f",self.scrollView.frame.origin.y);
+    NSLog(@"%f",self.scrollView.frame.origin.y);
     
 }
 
@@ -139,6 +139,8 @@ typedef void(^completion)(BOOL finished);
 }
 
 
+
+#pragma mark - SignUp..
 - (IBAction)signUpPressed:(id)sender {
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
@@ -154,7 +156,8 @@ typedef void(^completion)(BOOL finished);
                 if (finished) {
                     [self.navigationController dismissViewControllerAnimated:YES completion:^{
                         
-                        if (self.isPlacingOrder) {
+                        if (self.isPlacingOrder)
+                        {
                             NSLog(@"Placing Order");
                             
                             [[NSNotificationCenter defaultCenter] postNotificationName:@"loggedInSendOrderNotification" object:nil];
@@ -177,15 +180,19 @@ typedef void(^completion)(BOOL finished);
 
 
 -(void)submitSignupDataWithCompletion:(completion)isLoggedIn {
-    NSURL *url = [NSURL URLWithString:kSign_up_url];
-    NSString *user_data = [NSString stringWithFormat:@"username=%@&password=%@&name=%@&phoneno=%@&dob=%@",self.emailField.text,self.passwordField.text, self.userName.text, self.mobileField.text, self.dateOfBirthField.text];
+   
+    
+    
+      NSURL *url = [NSURL URLWithString:kSign_up_url];
+    
+    NSString *user_data = [NSString stringWithFormat:@"password=%@&firstname=%@&lastname=%@&Gender=%@&phoneno=%@&emailid=%@&dob=%@",self.passwordField.text,self.userName.text,self.LastnameTf.text,self.maleorFemaleString,self.mobileField.text,self.emailField.text,self.dateOfBirthField.text];
+    
     NSData *post_data = [NSData dataWithBytes:[user_data UTF8String] length:[user_data length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
     request.HTTPMethod = @"POST";
     request.HTTPBody = post_data;
     [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    
     
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -206,8 +213,19 @@ typedef void(^completion)(BOOL finished);
                     NSHTTPURLResponse *url_response = (NSHTTPURLResponse *)response;
                     NSLog(@"Response %ld", (long)[url_response statusCode]);
                     
-                    if ([json valueForKey:@"errors"] != nil) {
+                    if ([json valueForKey:@"errors"] != nil)
+                    {
                         NSString *error = [json valueForKey:@"errors"];
+                        
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                                       message:error
+                                                                                preferredStyle:UIAlertControllerStyleAlert];
+                        [self presentViewController:alert animated:YES completion:nil];
+                        int duration = 1; // duration in seconds
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                            [alert dismissViewControllerAnimated:YES completion:nil];
+                        });
+
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self alertWithTitle:@"Error" message:error];
@@ -215,24 +233,22 @@ typedef void(^completion)(BOOL finished);
                         
                         isLoggedIn(NO);
                         
-                    } else {
+                    }
+                    else {
                         
                         NSArray *userData = [json valueForKey:@"registeruser"];
                         
                         User *user              = [[User alloc]init];
                         user.userID             = [userData[0] valueForKey:@"id"];
                         user.email              = [userData[0] valueForKey:@"email"];
-                        user.firstName           = [userData[0] valueForKey:@"name"];
+                        user.firstName          = [userData[0] valueForKey:@"name"];
+                        user.mobno              = [userData[0] valueForKey:@"phoneno"];
                         
                         [user save];
-                        [self signUpWithUser:user];
-                        
                         isLoggedIn(YES);
-                        
                         
                     }
                 }
-                
             });
         }
         else {
@@ -243,7 +259,7 @@ typedef void(^completion)(BOOL finished);
     
     [task resume];
     
-    // display HUD
+//     display HUD
     UIWindow *window = [[UIApplication sharedApplication] delegate].window;
     self.hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
     self.hud.dimBackground = YES;
@@ -260,10 +276,11 @@ typedef void(^completion)(BOOL finished);
 
 
 
-
--(NSString *)validateForm {
+#pragma mark - Validations..
+-(NSString *)validateForm
+{
     NSString *errorMessage;
-
+    
     if (![self.userName.text isValidName]) {
         errorMessage = @"Please enter a valid name";
     } else if (![self.emailField.text isValidEmail]) {
@@ -292,6 +309,8 @@ typedef void(^completion)(BOOL finished);
 
 
 
+
+#pragma mark - DatePicker..
 -(UIDatePicker *)dateOfBirthPickerView {
     datePickerView = [[UIDatePicker alloc] init];
     datePickerView.datePickerMode = UIDatePickerModeDate;
@@ -304,13 +323,11 @@ typedef void(^completion)(BOOL finished);
     NSDate * maxDate = [gregorian dateByAddingComponents: comps toDate: currentDate options: 0];
     [comps setYear: -100];
     NSDate * minDate = [gregorian dateByAddingComponents: comps toDate: currentDate options: 0];
-
+    
     
     datePickerView.minimumDate = minDate;
     datePickerView.maximumDate = maxDate;
     datePickerView.date = maxDate;
-    
-    
     return datePickerView;
 }
 
@@ -353,6 +370,9 @@ typedef void(^completion)(BOOL finished);
     self.dateOfBirthField.text = [dateFormatter stringFromDate:datePicker.date];
 }
 
+
+
+#pragma mark - Helper Methods.
 -(void)displayConnectionFailed {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     
@@ -366,20 +386,43 @@ typedef void(^completion)(BOOL finished);
 }
 
 
-- (void)signUpWithUser:(User *)user {
+- (IBAction)FemaleAction:(id)sender
+{
+    self.maleorFemaleString=@"female";
     
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     
-    // You only need to set User ID on a tracker once. By setting it on the tracker, the ID will be
-    // sent with all subsequent hits.
-    [tracker set:kGAIUserId
-           value:user.userID];
+        _femalebtn.layer.cornerRadius = 5.f;
+        _femalebtn.layer.borderWidth = 0.5f;
+        _femalebtn.layer.borderColor = [UIColor blackColor].CGColor;
+        _femalebtn.layer.masksToBounds = YES;
+   
+        _malebtn.layer.cornerRadius = 5.f;
+        _malebtn.layer.borderWidth = 0.5f;
+        _malebtn.layer.borderColor = [UIColor clearColor].CGColor;
+        _malebtn.layer.masksToBounds = YES;
     
-    // This hit will be sent with the User ID value and be visible in User-ID-enabled views (profiles).
-    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Users"            // Event category (required)
-                                                          action:@"User SignUp"  // Event action (required)
-                                                           label:nil              // Event label
-                                                           value:nil] build]];    // Event value
+
+    NSLog(@"Selected btn is %@",self.maleorFemaleString);
+    
+
 }
 
+- (IBAction)maleAction:(id)sender
+{
+    self.maleorFemaleString=@"male";
+    
+    _malebtn.layer.cornerRadius = 5.f;
+    _malebtn.layer.borderWidth = 0.5f;
+    _malebtn.layer.borderColor = [UIColor blackColor].CGColor;
+    _malebtn.layer.masksToBounds = YES;
+    
+    _femalebtn.layer.cornerRadius = 5.f;
+    _femalebtn.layer.borderWidth = 0.5f;
+    _femalebtn.layer.borderColor = [UIColor clearColor].CGColor;
+    _femalebtn.layer.masksToBounds = YES;
+
+    NSLog(@"Selected btn is %@",self.maleorFemaleString);
+
+    
+}
 @end

@@ -13,7 +13,8 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
     
-    if (self.model == nil) {
+    if (self.model == nil)
+    {
         self.bigImageView.image = self.image;
     }
     else {
@@ -26,10 +27,10 @@
         }
         else
             image_string = @"";
-
         
         
-        NSURL *url = [NSURL URLWithString:image_string];
+        NSURL *url = [NSURL URLWithString:self.model.image_url];
+        //sb  NSURL *url = [NSURL URLWithString:image_string];
         [self.bigImageView sd_setImageWithURL:url];
     }
     
@@ -38,7 +39,6 @@
     UIGestureRecognizer *touchGR = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                            action:@selector(didTouch:)];
     [self.view addGestureRecognizer:touchGR];
-    
     
     
     UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(dismiss:)];

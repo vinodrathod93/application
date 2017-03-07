@@ -38,8 +38,12 @@ CGFloat RotationDuration = 0.5;
 {
     
     self.backgroundColor = [NeediatorUtitity defaultColor];
+    self.userInteractionEnabled = NO;
     
     
+//    UIView *blurView = [[UIView alloc] initWithFrame:[UIWindow ]];
+//    blurView.backgroundColor = [UIColor whiteColor];
+//    blurView.alpha = 0.6f;
     
     UIImage *statusImage = [UIImage imageNamed:@"icon7.png"];
     _activityImageView = [[UIImageView alloc]

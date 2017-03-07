@@ -20,7 +20,7 @@
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    
+    self.offersLabel.hidden=YES;
     
     
     /*
@@ -51,11 +51,10 @@
     [self.dislikeButton addTarget:self action:@selector(dislikePressed:) forControlEvents:UIControlEventTouchUpInside];
      
     */
-    
-    
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state

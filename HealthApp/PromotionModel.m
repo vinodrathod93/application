@@ -17,7 +17,7 @@
              @"code"                : @"PromotionCode",
              @"name"                : @"PromotionName",
              @"image_url"           : @"PromotionImageUrl",
-             @"cat_id"              : @"CatId",
+             @"cat_id"              : @"SectionId",
              @"store_id"            : @"StoreId",
              @"is_star_promoter"    : @"isStarPromoter"
              

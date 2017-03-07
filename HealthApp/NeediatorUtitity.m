@@ -20,19 +20,19 @@
     NSArray *string_array = [location.location_name componentsSeparatedByString:@","];
     
     
-//    UIButton *locButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    locButton.titleLabel.numberOfLines = 0;
-//    [locButton setTitle:string_array[0] forState:UIControlStateNormal];
-//    [locButton sizeToFit];
-//    
-//    UIBarButtonItem *customButton = [[UIBarButtonItem alloc] initWithCustomView:locButton];
+    //    UIButton *locButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    //    locButton.titleLabel.numberOfLines = 0;
+    //    [locButton setTitle:string_array[0] forState:UIControlStateNormal];
+    //    [locButton sizeToFit];
+    //
+    //    UIBarButtonItem *customButton = [[UIBarButtonItem alloc] initWithCustomView:locButton];
     
     UIBarButtonItem *locationButton = [[UIBarButtonItem alloc] initWithTitle:string_array[0] style:UIBarButtonItemStyleDone target:self action:@selector(showLocationView)];
     
     [locationButton setTitleTextAttributes:@{
-                                            NSFontAttributeName : [self demiBoldFontWithSize:16.f],
-                                            NSForegroundColorAttributeName : [UIColor darkGrayColor]
-                                            }
+                                             NSFontAttributeName : [self demiBoldFontWithSize:16.f],
+                                             NSForegroundColorAttributeName : [UIColor darkGrayColor]
+                                             }
                                   forState:UIControlStateNormal];
     
     
@@ -86,9 +86,9 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
     }
-    
     [controller presentViewController:logSignNav animated:YES completion:nil];
 }
+
 
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize{
     UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
@@ -101,7 +101,7 @@
 
 
 /* Fonts */
-
+#pragma mark - Fonts
 + (UIFont *)regularFontWithSize:(CGFloat)size {
     return [UIFont fontWithName:@"AvenirNext-Regular" size:size];
 }
@@ -121,15 +121,19 @@
 
 
 /* Saving Data */
+#pragma mark - Save Data in NSUserDefaults.
 
-+ (void)save:(id)data forKey:(NSString *)key {
++ (void)save:(id)data forKey:(NSString *)key
+{
+    //Commented Because Of Crash..........
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:data forKey:key];
     [defaults synchronize];
 }
 
-
 + (id)savedDataForKey:(NSString *)key {
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     id data = [defaults objectForKey:key];
     if (data)
@@ -140,12 +144,15 @@
     return nil;
 }
 
+
+#pragma mark - Clear Data Of NSUserDefaults.
 + (void)clearDataForKey:(NSString *)key
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:key];
     [defaults synchronize];
 }
+
 
 
 
@@ -164,7 +171,8 @@
 
 #pragma mark - Color
 
-+(UIColor *)defaultColor {
++(UIColor *)defaultColor
+{
     return [UIColor colorWithRed:235/255.f green:235/255.f blue:240/255.f alpha:1.0];
 }
 
@@ -179,7 +187,7 @@
 }
 
 
-#pragma mark - Functions 
+#pragma mark - Functions
 
 
 
@@ -229,4 +237,5 @@
         NSLog(@"State Suspended");
     }
 }
+
 @end

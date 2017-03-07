@@ -35,9 +35,10 @@
     
     [self startStopReading];
     
-//    self.overlayImageView.contentMode = UIViewContentModeScaleAspectFill;
+    //    self.overlayImageView.contentMode = UIViewContentModeScaleAspectFill;
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
         if (self.view.frame.size.width <= 768) {
             self.overlayImageView.image = [UIImage imageNamed:@"iPad-768x1024"];
         }
@@ -61,7 +62,7 @@
     
     
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(avCaptureInputPortFormatDescriptionDidChangeNotification:) name:AVCaptureInputPortFormatDescriptionDidChangeNotification object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(avCaptureInputPortFormatDescriptionDidChangeNotification:) name:AVCaptureInputPortFormatDescriptionDidChangeNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,24 +71,6 @@
 }
 
 
--(void)showHUD {
-    
-    self.neediatorHUD = [[NeediatorHUD alloc] initWithFrame:self.view.frame];
-    self.neediatorHUD.overlayColor = [UIColor clearColor];
-    self.neediatorHUD.shadowColor = [UIColor clearColor];
-    self.neediatorHUD.imageSize = CGSizeMake(60.f, 60.f);
-    [self.neediatorHUD fadeInAnimated:YES];
-    self.neediatorHUD.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2 + (CGRectGetWidth(self.view.bounds)/2.7f));
-    [self.navigationController.view insertSubview:self.neediatorHUD belowSubview:self.navigationController.navigationBar];
-    
-    
-}
-
--(void)hideHUD {
-    [self.neediatorHUD fadeOutAnimated:YES];
-    [self.neediatorHUD removeFromSuperview];
-    
-}
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -105,14 +88,14 @@
 }
 
 //-(void)avCaptureInputPortFormatDescriptionDidChangeNotification:(NSNotification *)notification {
-//    
+//
 //    CGFloat width = CGRectGetWidth(self.view.frame);
 //    CGFloat height = CGRectGetHeight(self.view.frame);
 //    _captureMetadataOutput.rectOfInterest = CGRectMake(width/4, height/7, 400, 400);
 //}
 
+
 -(void)startStopReading {
-    
     
     if (!_isReading) {
         // This is the case where the app should read a QR code when the start button is tapped.
@@ -131,13 +114,13 @@
     
     // Set to the flag the exact opposite value of the one that currently has.
     _isReading = !_isReading;
-    
 }
 
 
 #pragma mark - Private method implementation
 
-- (BOOL)startReading {
+- (BOOL)startReading
+{
     NSError *error;
     
     // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video
@@ -179,16 +162,16 @@
     
     
     
-//    CGFloat width = CGRectGetWidth(self.view.frame);
-//    CGFloat height = CGRectGetHeight(self.view.frame);
+    //    CGFloat width = CGRectGetWidth(self.view.frame);
+    //    CGFloat height = CGRectGetHeight(self.view.frame);
     
     
-//    CGRect visibleMetaDataOutputRect = [_videoPreviewLayer metadataOutputRectOfInterestForRect:CGRectMake(width/4, height/7, 400, 400)];
-//    
-//    
-//    [_captureMetadataOutput setRectOfInterest:visibleMetaDataOutputRect];
-//    
-//    NSLog(@"%@", NSStringFromCGRect(CGRectMake(width/4, height/7, 400, 400)));
+    //    CGRect visibleMetaDataOutputRect = [_videoPreviewLayer metadataOutputRectOfInterestForRect:CGRectMake(width/4, height/7, 400, 400)];
+    //
+    //
+    //    [_captureMetadataOutput setRectOfInterest:visibleMetaDataOutputRect];
+    //
+    //    NSLog(@"%@", NSStringFromCGRect(CGRectMake(width/4, height/7, 400, 400)));
     
     
     [self.view.layer addSublayer:_videoPreviewLayer];
@@ -201,7 +184,8 @@
 }
 
 
--(void)stopReading{
+-(void)stopReading
+{
     // Stop video capture and make the capture session object nil.
     [_captureSession stopRunning];
     _captureSession = nil;
@@ -250,7 +234,7 @@
             [self.descriptionLabel performSelectorOnMainThread:@selector(setText:) withObject:[metadataObj stringValue] waitUntilDone:NO];
             
             [self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:NO];
-//            [_bbitemStart performSelectorOnMainThread:@selector(setTitle:) withObject:@"Start!" waitUntilDone:NO];
+            //            [_bbitemStart performSelectorOnMainThread:@selector(setTitle:) withObject:@"Start!" waitUntilDone:NO];
             
             _isReading = NO;
             
@@ -263,6 +247,28 @@
     
     
 }
+
+
+-(void)showHUD
+{
+    
+    self.neediatorHUD = [[NeediatorHUD alloc] initWithFrame:self.view.frame];
+    self.neediatorHUD.overlayColor = [UIColor clearColor];
+    self.neediatorHUD.shadowColor = [UIColor clearColor];
+    self.neediatorHUD.imageSize = CGSizeMake(60.f, 60.f);
+    [self.neediatorHUD fadeInAnimated:YES];
+    self.neediatorHUD.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2 + (CGRectGetWidth(self.view.bounds)/2.7f));
+    [self.navigationController.view insertSubview:self.neediatorHUD belowSubview:self.navigationController.navigationBar];
+    
+    
+}
+
+-(void)hideHUD {
+    [self.neediatorHUD fadeOutAnimated:YES];
+    [self.neediatorHUD removeFromSuperview];
+    
+}
+
 
 
 

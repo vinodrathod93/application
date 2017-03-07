@@ -11,6 +11,7 @@
 #import "FavouriteStoreModel.h"
 #import "FavouriteStoreDetailModel.h"
 #import "StoreTaxonsViewController.h"
+#import "FavouriteTableViewCell.h"
 
 @interface FavouritesViewController ()
 
@@ -28,12 +29,7 @@
     [super viewDidLoad];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Fav" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.title         = @"My Favourites";
-    
-    
-    
-    
-    
-    
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -74,7 +70,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"favouriteStoreCellIdentifier" forIndexPath:indexPath];
+    FavouriteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"favouriteStoreCellIdentifier" forIndexPath:indexPath];
     
     // Configure the cell...
     
@@ -86,17 +82,22 @@
     FavouriteStoreDetailModel *detailModel = category.stores[indexPath.row];
     FavouriteStoreModel *store = detailModel.listing_stores[0];
     
-    cell.textLabel.text = store.store_name.capitalizedString;
-    cell.detailTextLabel.text = store.city.capitalizedString;
+    cell.StoreName.text = store.store_name.capitalizedString;
+    cell.StoreAreaName.text = store.area.capitalizedString;
     
-    cell.textLabel.font = [NeediatorUtitity mediumFontWithSize:17.f];
-    cell.detailTextLabel.font = [NeediatorUtitity regularFontWithSize:14.f];
+    cell.StoreName.font = [NeediatorUtitity mediumFontWithSize:15.f];
+    cell.StoreAreaName.font = [NeediatorUtitity regularFontWithSize:12.f];
+    
+ 
+    [cell.imageview sd_setImageWithURL:[NSURL URLWithString:store.store_image_url] placeholderImage:[UIImage imageNamed:@""] options:SDWebImageRefreshCached];
+    
+
     
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60.f;
+    return 68.f;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -112,13 +113,14 @@
     FavouriteStoreDetailModel *detailModel = category.stores[indexPath.row];
     FavouriteStoreModel *model = detailModel.listing_stores[0];
     
+    
     StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
     storeTaxonsVC.title = [model.store_name capitalizedString];
     storeTaxonsVC.cat_id = category.cat_id.stringValue;
     storeTaxonsVC.store_id = model.store_id;
     storeTaxonsVC.storeImages = model.images;
     storeTaxonsVC.storePhoneNumbers = model.phone_numbers;
-#warning remove this static distance and show the calculated distance.
+//#warning remove this static distance and show the calculated distance.
     storeTaxonsVC.storeDistance = @"2 KM";
     storeTaxonsVC.ratings   = model.ratings;
     storeTaxonsVC.reviewsCount =model.reviews_count;
@@ -127,12 +129,8 @@
     storeTaxonsVC.isLikedStore  = model.isLike.boolValue;
     storeTaxonsVC.isDislikedStore = model.isDislike.boolValue;
     
-    
-    
     storeTaxonsVC.hidesBottomBarWhenPushed = NO;
     [self.navigationController pushViewController:storeTaxonsVC animated:YES];
-    
-    
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -143,6 +141,7 @@
     
     return UITableViewCellEditingStyleDelete;
 }
+
 
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -180,7 +179,6 @@
     [self.hud removeFromSuperview];
     
 }
-
 
 -(void)requestFavourites {
     [self showHUD];

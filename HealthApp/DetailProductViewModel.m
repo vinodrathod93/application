@@ -29,28 +29,71 @@
     return 1;
 }
 
--(NSString *)summary {
+-(NSString *)summary
+{
     return [self.model valueForKey:@"summary"];
 }
 
--(NSString *)name {
+-(NSString *)name
+{
     return [self.model valueForKey:@"name"];
 }
 
--(NSNumber *)price {
+-(NSNumber *)price
+{
     return [self.model valueForKey:@"price"];
 }
 
--(NSString *)display_price {
+-(NSString *)display_price
+{
     return [self.model valueForKey:@"displayPrice"];
 }
 
--(NSString *)master_price {
+-(NSString *)master_price
+{
     return [self.model valueForKey:@"masterPrice"];
 }
 
--(NSArray *)images {
-//    NSArray *allImages = self.model.product_img;
+
+-(NSString *)default_image {
+    return [self.model valueForKey:@"default_image"];
+}
+
+-(NSNumber *)productID {
+    return [self.model valueForKey:@"productID"];
+}
+
+-(NSNumber *)storeID {
+    return [self.model valueForKey:@"storeID"];
+}
+
+-(NSNumber *)catID
+{
+    return [self.model valueForKey:@"catID"];
+}
+
+-(NSNumber *)quantity
+{
+    return @(1);
+}
+
+-(NSNumber *)total_on_hand {
+    return [self.model valueForKey:@"total_on_hand"];
+}
+
+
+
+-(BOOL)isOutOfStock {
+    if ([[self.model valueForKey:@"total_on_hand"] isEqual: @(0)]) {
+        return true;
+    } else
+        return false;
+}
+
+
+-(NSArray *)images
+{
+    //    NSArray *allImages = self.model.product_img;
     
     NSMutableArray *allImages = [[NSMutableArray alloc] init];
     [allImages addObjectsFromArray:self.model.product_img];
@@ -68,45 +111,13 @@
     return largeImages;
 }
 
--(NSArray *)smallImages {
+-(NSArray *)smallImages
+{
     NSArray *smallImages = self.model.small_img;
     
     return smallImages;
 }
 
-
--(NSString *)default_image {
-    return [self.model valueForKey:@"default_image"];
-}
-
--(NSNumber *)productID {
-    return [self.model valueForKey:@"productID"];
-}
-
--(NSNumber *)storeID {
-    return [self.model valueForKey:@"storeID"];
-}
-
--(NSNumber *)catID {
-    return [self.model valueForKey:@"catID"];
-}
-
--(NSNumber *)quantity {
-    return @(1);
-}
-
--(NSNumber *)total_on_hand {
-    return [self.model valueForKey:@"total_on_hand"];
-}
-
-
-
--(BOOL)isOutOfStock {
-    if ([[self.model valueForKey:@"total_on_hand"] isEqual: @(0)]) {
-        return true;
-    } else
-        return false;
-}
 
 -(CGFloat)heightForSummaryTextInTableViewCellWithWidth:(CGFloat)width {
     NSString *string = [self summary];

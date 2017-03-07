@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *emptyCartButton;
 @property (weak, nonatomic) IBOutlet UIButton *goToCartButton;
 @property (weak, nonatomic) IBOutlet UILabel *importantLabel;
+
 - (IBAction)emptyCart:(id)sender;
 - (IBAction)goToCart:(id)sender;
 @end

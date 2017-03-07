@@ -27,81 +27,121 @@
     UIDatePicker *datePickerView;
 }
 
+#pragma mark - View Did Load
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     self.title = @"Edit Profile";
     
+//    [self.view bringSubviewToFront:self.contentView];
+//    [self.contentView bringSubviewToFront:self.imageBackgroundView];
+    
+    
     UIButton *saveButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 20)];
     [saveButton setTitle:@"Save" forState:UIControlStateNormal];
     saveButton.titleLabel.font = [NeediatorUtitity mediumFontWithSize:16.f];
     [saveButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [saveButton addTarget:self action:@selector(saveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
-    
     self.imageBackgroundView.layer.cornerRadius = self.imageBackgroundView.frame.size.width/2;
     self.imageBackgroundView.layer.masksToBounds = YES;
-    
-    
-    
-    User *savedUser = [User savedUser];
-    
-    if (savedUser) {
-        [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:savedUser.profilePic] placeholderImage:[UIImage imageNamed:@"profile_placeholder"] options:SDWebImageRefreshCached];
-        self.firstnameTF.text = savedUser.firstName;
-        self.lastnameTF.text = savedUser.lastName;
-    }
-    
-    
     self.firstnameTF.delegate = self;
     self.lastnameTF.delegate = self;
-    
-    
-    
     self.dateOfBirthTF.inputView = [self dateOfBirthPickerView];
     self.dateOfBirthTF.inputAccessoryView = [self datePickerToolBar];
     
+    [self callMyProfileWebService];
+    
+    User *savedUser = [User savedUser];
+    if (savedUser)
+    {
+      //  [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:savedUser.profilePic] placeholderImage:[UIImage imageNamed:@"profile_placeholder"] options:SDWebImageRefreshCached];
+      //  self.firstnameTF.text = savedUser.firstName;
+     //   self.lastnameTF.text = savedUser.lastName;
+        self.emailLabel.text=savedUser.email;
+     //   self.dateOfBirthTF.text=savedUser.DateOfBirth;
+    }
     
     [self.editProfileButton addTarget:self action:@selector(editPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    [self.maleButton addTarget:self action:@selector(maleButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.maleButton addTarget:self action:@selector(maleButtonPressed:)  forControlEvents:UIControlEventTouchUpInside];
     [self.femaleButton addTarget:self action:@selector(femaleButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
+//    [self.emailVerificationButton addTarget:self action:@selector(EmailVeriFication:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.mobileVerificationButton addTarget:self action:@selector(MobileVeriFication:) forControlEvents:UIControlEventTouchUpInside];
     [self loadAssets];
-    
-    
 }
 
-
--(void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
+-(void)callMyProfileWebService
+{
     
+    User *savedUser = [User savedUser];
+    NSString *parameterString = [NSString stringWithFormat:@"userid=%@",savedUser.userID];
+    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/MyProfile"];
+    NSLog(@"URL is --> %@", url);
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/MyProfile"]];
+    request.HTTPMethod = @"POST";
+    request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"%@",response);
+        
+        if (error) {
+            NSLog(@"%@",error.localizedDescription);
+        }
+        else
+        {
+            NSError *jsonError;
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSArray *user=[json objectForKey:@"userinfo"];
+                NSDictionary *userinfoDict=[user lastObject];
+                
+                
+                
+                [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:userinfoDict[@"imageurl"]] placeholderImage:[UIImage imageNamed:@"profile_placeholder"] options:SDWebImageRefreshCached];
+                self.firstnameTF.text = userinfoDict[@"FirstName"];
+                self.lastnameTF.text = userinfoDict[@"LastName"];
+            //    self.emailLabel.text=userinfoDict[@"FirstName"];
+                self.dateOfBirthTF.text=userinfoDict[@"DOB"];
+                
+                NSLog(@"%@",json);
+            });
+        }
+    }];
+    [task resume];
+
+}
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
     CGFloat lastViewHeight = CGRectGetHeight(((UIView *)[self.contentView.subviews lastObject]).frame);
     int lastViewY = CGRectGetMaxY(((UIView *)[self.contentView.subviews lastObject]).frame);
-    
     CGFloat height = lastViewHeight + lastViewY;
-    
     self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), height);
-    
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Button Actions
+
+- (IBAction)ChangePasswordClicked:(id)sender
+{
+    
+}
+
+- (IBAction)DeleteAccountClicked:(id)sender {
+}
 
 
+#pragma mark - Button Actions Adn Helper Methods
 -(void)maleButtonPressed:(UIButton *)sender {
     
     sender.selected = !sender.selected;
-    
-    
-    
     
     
     if (sender.selected) {
@@ -159,8 +199,108 @@
 
 
 
+//-(void)EmailVeriFication:(UIButton *)sender
+//{
+//    
+//    User *user = [User savedUser];
+//    User *savedUser = [User savedUser];
+//    
+//    
+//    NSString *parameterString = [NSString stringWithFormat:@"Emailid=%@&userid=%@",savedUser.email,user.userID];
+//    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/VerifyUserEmailId"];
+//    NSLog(@"URL is --> %@", url);
+//    NSURLSession *session = [NSURLSession sharedSession];
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/VerifyUserEmailId"]];
+//    request.HTTPMethod = @"POST";
+//    request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
+//    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+//    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+//        NSLog(@"%@",response);
+//        
+//        if (error) {
+//            NSLog(@"%@",error.localizedDescription);
+//        }
+//        else
+//        {
+//            NSError *jsonError;
+//            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+//            
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                NSLog(@"EmailVerifed Json is     %@",json);
+//                
+//                NSString *ResponseString=[json objectForKey:@"result"];
+//                
+//                if([ResponseString isEqualToString:@"verified"])
+//                {
+//                    [self.emailVerificationButton setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
+//                    [self.emailVerificationButton setTitle:@"Verified" forState:UIControlStateNormal];
+//                }
+//                else
+//                {
+//                    [self.emailVerificationButton setImage:[UIImage imageNamed:@"cancel-1"] forState:UIControlStateNormal];
+//                    [self.emailVerificationButton setTitle:@"Not Verified" forState:UIControlStateNormal];
+//                    
+//                }
+//            });
+//        }
+//    }];
+//    [task resume];
+//    //    [self.emailVerificationButton setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
+//}
+//
+//-(void)MobileVeriFication:(UIButton *)sender
+//{
+//    
+//    User *user = [User savedUser];
+//    User *savedUser = [User savedUser];
+//    
+//    NSString *parameterString = [NSString stringWithFormat:@"MobNo=%@&userid=%@",user.mobno,user.userID];
+//    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/VerifyUserMobNo"];
+//    NSLog(@"URL is --> %@", url);
+//    NSURLSession *session = [NSURLSession sharedSession];
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/VerifyUserMobNo"]];
+//    request.HTTPMethod = @"POST";
+//    request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
+//    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+//    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+//        NSLog(@"%@",response);
+//        
+//        if (error) {
+//            NSLog(@"%@",error.localizedDescription);
+//        }
+//        else
+//        {
+//            NSError *jsonError;
+//            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+//            
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                NSLog(@"MObile Verified Json is     %@",json);
+//                
+//                NSString *ResponseString=[json objectForKey:@"result"];
+//                
+//                if([ResponseString isEqualToString:@"verified"])
+//                {
+//                    [self.mobileVerificationButton setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
+//                    [self.mobileVerificationButton setTitle:@"Verified" forState:UIControlStateNormal];
+//                }
+//                else
+//                {
+//                    [self.mobileVerificationButton setImage:[UIImage imageNamed:@"cancel-1"] forState:UIControlStateNormal];
+//                    [self.mobileVerificationButton setTitle:@"Not Verified" forState:UIControlStateNormal];
+//                    
+//                }
+//            });
+//        }
+//        
+//    }];
+//    [task resume];
+//    
+//}
+
 
 -(void)saveButtonPressed:(id)sender {
+    
+    User *user = [User savedUser];
     
     NSString *convertedImage = @"";
     
@@ -172,53 +312,65 @@
     
     [self showHUD];
     self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
-
+    
     
     NSDictionary *data = @{
-                           @"firstname" : self.firstnameTF.text,
-                           @"lastname"  : self.lastnameTF.text,
-                           @"imageprofile" : convertedImage
+                           @"firstname"     : self.firstnameTF.text,
+                           @"lastname"      : self.lastnameTF.text,
+                           @"imageprofile"  : convertedImage,
+                           @"gender"        : @"male",
+                           @"dob"           : self.dateOfBirthTF.text,
+                           @"emailid"       : user.email,
+                           @"mobno"         : @"1234567890"
                            };
     
     
-    [[NAPIManager sharedManager] updateUserProfile:data withHUD:self.hud success:^(BOOL success, NSDictionary *responseData) {
-        // get data and pop
-        
-        if (success) {
-            
-            NSLog(@"%@", responseData);
-            
-            
-            [self hideHUD];
-            [self showHideCompletedHUD];
-            
-            NSDictionary *response = responseData[@"update_profile"][0];
-            
-            User *savedUser = [User savedUser];
-            
-            savedUser.firstName = response[@"FirstName"] == [NSNull null] ? @"" : response[@"FirstName"];
-            savedUser.lastName  = response[@"LastName"] == [NSNull null] ? @"" : response[@"LastName"];
-            savedUser.profilePic    = response[@"imageurl"] == [NSNull null] ? @"" : response[@"imageurl"];
-            savedUser.email         = response[@"Email"] == [NSNull null] ? @"" : response[@"Email"];
-            
-            [savedUser save];
-            
-            
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-        
-        
-    } failure:^(NSError *error) {
-        
-        [self.hud hide:YES];
-        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-    }];
+    [[NAPIManager sharedManager] updateUserProfile:data withHUD:self.hud success:^(BOOL success, NSDictionary *responseData)
+     {
+         // get data and pop
+         
+         if (success) {
+             
+             NSLog(@"%@", responseData);
+             
+             
+             [self hideHUD];
+             [self showHideCompletedHUD];
+             
+             NSDictionary *response = responseData[@"update_profile"][0];
+             
+             NSLog(@"Updated Profile Response Is:%@",response);
+             
+             User *savedUser = [User savedUser];
+             
+             savedUser.firstName        = response[@"FirstName"] == [NSNull null] ? @"" : response[@"FirstName"];
+             savedUser.lastName         = response[@"LastName"] == [NSNull null] ? @"" : response[@"LastName"];
+             savedUser.profilePic       = response[@"imageurl"] == [NSNull null] ? @"" : response[@"imageurl"];
+             savedUser.email            = response[@"Email"] == [NSNull null] ? @"" : response[@"Email"];
+             savedUser.mobno            =response[@"MobNo"]==[NSNull null] ? @"" : response[@"MobNo"];
+             savedUser.DateOfBirth      =response[@"DOB"]==[NSNull null] ? @"" : response[@"DOB"];
+
+             
+             [savedUser save];
+             
+             
+             [self.navigationController popViewControllerAnimated:YES];
+         }
+         
+         
+     } failure:^(NSError *error)
+     {
+         
+         [self.hud hide:YES];
+         [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+         
+     }];
 }
 
 
 -(void)editPressed:(UIButton *)sender {
     
-//    [self hideAllElements];
+    //    [self hideAllElements];
     
     [self showUploadImageOptions:sender];
     
@@ -266,70 +418,77 @@
 }
 
 
--(void)selectPhotos {
-    NSMutableArray *photos = [[NSMutableArray alloc] init];
-    NSMutableArray *thumbs = [[NSMutableArray alloc] init];
+-(void)selectPhotos
+{
     
-    @synchronized(_assets) {
-        NSMutableArray *copy = [_assets copy];
-        if (NSClassFromString(@"PHAsset")) {
-            // Photos library
-            UIScreen *screen = [UIScreen mainScreen];
-            CGFloat scale = screen.scale;
-            // Sizing is very rough... more thought required in a real implementation
-            CGFloat imageSize = MAX(screen.bounds.size.width, screen.bounds.size.height) * 1.5;
-            CGSize imageTargetSize = CGSizeMake(imageSize * scale, imageSize * scale);
-            CGSize thumbTargetSize = CGSizeMake(imageSize / 3.0 * scale, imageSize / 3.0 * scale);
-            for (PHAsset *asset in copy) {
-                [photos addObject:[MWPhoto photoWithAsset:asset targetSize:imageTargetSize]];
-                [thumbs addObject:[MWPhoto photoWithAsset:asset targetSize:thumbTargetSize]];
-            }
-        } else {
-            // Assets library
-            for (ALAsset *asset in copy) {
-                MWPhoto *photo = [MWPhoto photoWithURL:asset.defaultRepresentation.url];
-                [photos addObject:photo];
-                MWPhoto *thumb = [MWPhoto photoWithImage:[UIImage imageWithCGImage:asset.thumbnail]];
-                [thumbs addObject:thumb];
-                if ([asset valueForProperty:ALAssetPropertyType] == ALAssetTypeVideo) {
-                    photo.videoURL = asset.defaultRepresentation.url;
-                    thumb.isVideo = true;
-                }
-            }
-        }
-        
-    }
-    
-    self.photos = photos;
-    self.thumbs = thumbs;
-    
-    browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    browser.displayActionButton = NO;
-    browser.displayNavArrows = NO;
-    browser.displaySelectionButtons = YES;
-    browser.alwaysShowControls = YES;
-    browser.zoomPhotosToFill = YES;
-    browser.enableGrid = NO;
-    browser.startOnGrid = YES;
-    browser.enableSwipeToDismiss = NO;
-    browser.autoPlayOnAppear = NO;
-    [browser setCurrentPhotoIndex:0];
-    
-    
-    if (_selections != nil) {
-        NSLog(@"Already Selected");
-    }
-    else if (browser.displaySelectionButtons) {
-        _selections = [NSMutableArray new];
-        for (int i = 0; i < photos.count; i++) {
-            [_selections addObject:[NSNumber numberWithBool:NO]];
-        }
-    }
-    
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
-    nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:nc animated:YES completion:nil];
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePickerController.delegate = self;
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+//    NSMutableArray *photos = [[NSMutableArray alloc] init];
+//    NSMutableArray *thumbs = [[NSMutableArray alloc] init];
+//    
+//    @synchronized(_assets) {
+//        NSMutableArray *copy = [_assets copy];
+//        if (NSClassFromString(@"PHAsset")) {
+//            // Photos library
+//            UIScreen *screen = [UIScreen mainScreen];
+//            CGFloat scale = screen.scale;
+//            // Sizing is very rough... more thought required in a real implementation
+//            CGFloat imageSize = MAX(screen.bounds.size.width, screen.bounds.size.height) * 1.5;
+//            CGSize imageTargetSize = CGSizeMake(imageSize * scale, imageSize * scale);
+//            CGSize thumbTargetSize = CGSizeMake(imageSize / 3.0 * scale, imageSize / 3.0 * scale);
+//            for (PHAsset *asset in copy) {
+//                [photos addObject:[MWPhoto photoWithAsset:asset targetSize:imageTargetSize]];
+//                [thumbs addObject:[MWPhoto photoWithAsset:asset targetSize:thumbTargetSize]];
+//            }
+//        } else {
+//            // Assets library
+//            for (ALAsset *asset in copy) {
+//                MWPhoto *photo = [MWPhoto photoWithURL:asset.defaultRepresentation.url];
+//                [photos addObject:photo];
+//                MWPhoto *thumb = [MWPhoto photoWithImage:[UIImage imageWithCGImage:asset.thumbnail]];
+//                [thumbs addObject:thumb];
+//                if ([asset valueForProperty:ALAssetPropertyType] == ALAssetTypeVideo) {
+//                    photo.videoURL = asset.defaultRepresentation.url;
+//                    thumb.isVideo = true;
+//                }
+//            }
+//        }
+//        
+//    }
+//    
+//    self.photos = photos;
+//    self.thumbs = thumbs;
+//    
+//    browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+//    browser.displayActionButton = NO;
+//    browser.displayNavArrows = NO;
+//    browser.displaySelectionButtons = YES;
+//    browser.alwaysShowControls = YES;
+//    browser.zoomPhotosToFill = YES;
+//    browser.enableGrid = NO;
+//    browser.startOnGrid = YES;
+//    browser.enableSwipeToDismiss = NO;
+//    browser.autoPlayOnAppear = NO;
+//    [browser setCurrentPhotoIndex:0];
+//    
+//    
+//    if (_selections != nil) {
+//        NSLog(@"Already Selected");
+//    }
+//    else if (browser.displaySelectionButtons) {
+//        _selections = [NSMutableArray new];
+//        for (int i = 0; i < photos.count; i++) {
+//            [_selections addObject:[NSNumber numberWithBool:NO]];
+//        }
+//    }
+//    
+//    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
+//    nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    [self presentViewController:nc animated:YES completion:nil];
 }
+
 
 
 
@@ -339,6 +498,10 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     
     
+    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    //Or you can get the image url from AssetsLibrary
+    NSURL *path = [info valueForKey:UIImagePickerControllerReferenceURL];
+
     NSLog(@"%@", info);
     _cameraImage = info[UIImagePickerControllerOriginalImage];
     
@@ -371,8 +534,7 @@
 }
 
 
-#pragma mark - Date Of Birth
-
+#pragma mark - Date Picker
 -(UIDatePicker *)dateOfBirthPickerView {
     datePickerView = [[UIDatePicker alloc] init];
     datePickerView.datePickerMode = UIDatePickerModeDate;
@@ -479,16 +641,7 @@
             self.selectedImagesArray = [self thumbnailSelectedImages];
             [self updateProfileImageView];
         }
-        
-        
-        
     }];
-    
-    
-    
-    
-    
-    
 }
 
 
@@ -534,9 +687,7 @@
         }
         
     }];
-    
-    
-    return base64Images;
+     return base64Images;
 }
 
 
@@ -557,17 +708,13 @@
             PHAsset *photo = _assets[index.intValue];
             UIImage *image = [self getAssetThumbnail:photo withTargetSize:size];
             
-            
             [selectedImagesArray addObject:image];
             
         }];
-        
     }
-    
-    
-    
     return selectedImagesArray;
 }
+
 
 -(NSArray *)positionArray {
     
@@ -579,9 +726,7 @@
             [positions addObject:@(idx)];
         }
     }];
-    
     return positions;
-    
 }
 
 
@@ -612,7 +757,6 @@
 
 
 #pragma mark - Assests
-
 
 - (void)loadAssets {
     if (NSClassFromString(@"PHAsset")) {
@@ -723,7 +867,7 @@
     
 }
 
-
+#pragma mark - Helper Methods.
 -(void)showHUD {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.color = self.view.tintColor;
@@ -758,12 +902,8 @@
     else if ([textField isEqual:self.lastnameTF]) {
         [self.lastnameTF resignFirstResponder];
     }
-    
-    
     return YES;
 }
-
-
 
 
 

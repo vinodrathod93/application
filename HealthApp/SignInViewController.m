@@ -13,7 +13,8 @@
 #import "AppDelegate.h"
 
 
-#define kSign_in_url @"http://neediator.in/NeediatorWS.asmx/checklogin"
+#define kSign_in_url @"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/checkLogin"
+
 
 @interface SignInViewController ()
 
@@ -122,15 +123,14 @@ typedef void(^completion)(BOOL finished);
                     } else if (url_response.statusCode == 200) {
                         NSLog(@"JSON %@",json);
                         
-                        NSArray *login     = [json valueForKey:@"checklogin"];
+                        NSArray *login     = [json valueForKey:@"checkLogin"];
                         NSDictionary *data = [login lastObject];
                         
-                        User *user              = [[User alloc]init];
-                        user.userID             = [data valueForKey:@"Id"];
-                        user.email              = [json valueForKey:@"Username"];
-                        
-                        [user save];
-                        [self signInWithUser:user];
+//                        User *user              = [[User alloc]init];
+//                        user.userID             = [data valueForKey:@"Id"];
+//                        user.email              = [json valueForKey:@"Username"];
+//                        
+//                        [user save];
                         
                         isLoggedIn(YES);
                     }
@@ -203,23 +203,6 @@ typedef void(^completion)(BOOL finished);
     } else {
         [self displayNoConnection];
     }
-}
-
-
-- (void)signInWithUser:(User *)user {
-    
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    
-    // You only need to set User ID on a tracker once. By setting it on the tracker, the ID will be
-    // sent with all subsequent hits.
-    [tracker set:kGAIUserId
-           value:user.userID];
-    
-    // This hit will be sent with the User ID value and be visible in User-ID-enabled views (profiles).
-    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Users"            // Event category (required)
-                                                          action:@"User Sign In"  // Event action (required)
-                                                           label:nil              // Event label
-                                                           value:nil] build]];    // Event value
 }
 
 

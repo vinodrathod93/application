@@ -26,7 +26,6 @@
     
     
     
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(closeVC)];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
@@ -40,9 +39,6 @@
         self.order_number.text = self.order_id;
         
     }
-    
-    
-    
     
     if (self.message != nil) {
         self.messageLabel.text = self.message;
@@ -79,13 +75,9 @@
         if ([vc isKindOfClass:[UploadPreviewController class]]) {
             [viewControllers removeObject:vc];
         }
-        
-        
         if ([vc isKindOfClass:[UploadPrescriptionViewController class]]) {
             [viewControllers removeObject:vc];
         }
-        
-        
     }
     self.navigationController.viewControllers = [NSArray arrayWithArray:viewControllers];
     
@@ -104,14 +96,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 - (IBAction)viewOrderPressed:(id)sender {
     

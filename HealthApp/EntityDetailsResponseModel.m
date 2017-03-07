@@ -11,7 +11,8 @@
 
 @implementation EntityDetailsResponseModel
 
-+(NSDictionary *)JSONKeyPathsByPropertyKey {
++(NSDictionary *)JSONKeyPathsByPropertyKey
+{
     return @{
              
              @"details" : @"Details"

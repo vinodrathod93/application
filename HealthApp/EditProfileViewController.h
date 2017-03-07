@@ -16,9 +16,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *lastnameTF;
 @property (weak, nonatomic) IBOutlet UIView *imageBackgroundView;
 
-@property (nonatomic, copy) UIImage *image;
-@property (nonatomic, copy) NSString *firstname;
-@property (nonatomic, copy) NSString *lastname;
 
 @property (weak, nonatomic) IBOutlet UIButton *editProfileButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -30,4 +27,19 @@
 @property (weak, nonatomic) IBOutlet UILabel *mobileNumberLabel;
 @property (weak, nonatomic) IBOutlet UIButton *mobileVerificationButton;
 @property (weak, nonatomic) IBOutlet UIButton *emailVerificationButton;
+
+
+
+
+- (IBAction)ChangePasswordClicked:(id)sender;
+- (IBAction)DeleteAccountClicked:(id)sender;
+
+
+
+
+@property (nonatomic, copy) UIImage *image;
+@property (nonatomic, copy) NSString *firstname;
+@property (nonatomic, copy) NSString *lastname;
+
+
 @end

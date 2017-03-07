@@ -12,4 +12,11 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *full_name;
 @property (weak, nonatomic) IBOutlet UILabel *completeAddress;
+
+
+@property (weak, nonatomic) IBOutlet UILabel *AddressTYpe;
+@property (weak, nonatomic) IBOutlet UIButton *DefaultAddressBtn;
+@property (weak, nonatomic) IBOutlet UILabel *ContactNumber;
+
+
 @end

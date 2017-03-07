@@ -11,16 +11,25 @@
 @interface User : NSObject
 
 @property (nonatomic, copy) NSString *userID;
+@property (nonatomic,copy)  NSString *mobno;
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;
 @property (nonatomic, copy) NSString *fullName;
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, copy) NSString *profilePic;
 @property (nonatomic, copy) NSString *access_token;
+
+@property (nonatomic, copy) NSString *gender;
+@property (nonatomic, copy) NSString *password;
+@property(nonatomic,copy) NSString *DateOfBirth;
+
+
 @property (nonatomic, copy) NSString *default_country_id;
 @property (nonatomic, copy) NSDictionary *bill_address;
 @property (nonatomic, copy) NSDictionary *ship_address;
 @property (nonatomic, copy) NSArray *addresses;
+
+
 
 -(void)save;
 + (id)savedUser;

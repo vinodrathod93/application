@@ -26,12 +26,11 @@
     
     self.title = @"SELECT TIME SLOT";
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     
     [self.calendar addTarget:self action:@selector(updateSelectedDate:) forControlEvents:UIControlEventValueChanged];
-    [self.calendar fillDatesFromDate:[NSDate date] numberOfDays:7];
+//    [self.calendar fillDatesFromDate:[NSDate date] numberOfDays:7];
     
     NSLog(@"%@", self.calendar.dates);
     NSLog(@"Current date %@", [NSDate date]);
@@ -40,8 +39,7 @@
     
     NSDictionary *parameter = @{
                                 @"StoreId" : self.entity_id,
-                                @"categoryid" : self.category_id
-                                
+                                @"Sectionid" : self.category_id
                                 };
     
     NSLog(@"Request Parameter %@", parameter);
@@ -49,8 +47,9 @@
     
     
     [self showHUD];
-    _task = [[NAPIManager sharedManager] getTimeSlotsWithRequest:parameter success:^(TimeSlotResponseModel *response) {
-        
+    
+    _task = [[NAPIManager sharedManager]getTimeSlotsWithRequest:parameter success:^(TimeSlotResponseModel *response)
+    {
         _complete_timeSlots = response.timeSlots;
         
         TimeSlotModel *model = [_complete_timeSlots firstObject];
@@ -80,7 +79,8 @@
 }
 
 
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     TimeSlotCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"timeSlotCellIdentifier" forIndexPath:indexPath];
     
     NSMutableArray *values = [NSMutableArray array];
@@ -95,12 +95,9 @@
         return [date1 compare:date2];
     }];
     
-    
     cell.timeLabel.text = _sortedTimes[indexPath.item];
 
-    
     return cell;
-    
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -112,7 +109,6 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     
     NSArray *keys   = [_day_timeSlots allKeysForObject:_sortedTimes[indexPath.item]];
     NSString *time_key = [keys lastObject];
@@ -135,11 +131,8 @@
 }
 
 
-
-
 - (void)updateSelectedDate:(id)sender
 {
-    
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"EEEEddMMMM" options:0 locale:nil];
@@ -166,9 +159,9 @@
     
 }
 
--(void)showHUD {
-    
-    
+-(void)showHUD
+{
+   
     _dimView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), self.view.frame.size.height - 64 - 44)];
     _dimView.backgroundColor = [UIColor whiteColor];
     
@@ -177,7 +170,8 @@
     _hud = [MBProgressHUD showHUDAddedTo:_dimView animated:YES];
 }
 
--(void)hideHUD {
+-(void)hideHUD
+{
     [_hud hide:YES];
     
     [_dimView removeFromSuperview];

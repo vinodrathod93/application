@@ -112,10 +112,10 @@
                     
                     /* commented just because all the checkout process in done in viewwillappear of PaymentVC */
                     
-//                    paymentVC.order_id               = [json valueForKey:@"number"];
-//                    paymentVC.display_total          = [json valueForKey:@"display_total"];
-//                    paymentVC.total                  = [json valueForKey:@"total"];
-//                    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
+                    //                    paymentVC.order_id               = [json valueForKey:@"number"];
+                    //                    paymentVC.display_total          = [json valueForKey:@"display_total"];
+                    //                    paymentVC.total                  = [json valueForKey:@"total"];
+                    //                    paymentVC.payment_methods        = [json valueForKey:@"payment_methods"];
                     [self.navigationController pushViewController:paymentVC animated:YES];
                     
                 }
@@ -170,87 +170,87 @@
 
 
 /*
-
--(void)sendDeliveryDataToServer {
-    User *user = [User savedUser];
-    
-    NSString *url = [NSString stringWithFormat:@"%@%@?token=%@",kCheckout_delivery_url, self.order_id, user.access_token];
-    NSLog(@"URL is --> %@", url);
-    
-    NSDictionary *delivery_data = [self createDeliveryDictionary];
-    
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:delivery_data options:NSJSONWritingPrettyPrinted error:&error];
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    request.HTTPMethod = @"PUT";
-    
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
-    
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"%@",response);
-            NSError *jsonError;
-            
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            
-            
-            [self.hud hide:YES];
-            if (jsonError) {
-                NSLog(@"Error %@",[jsonError localizedDescription]);
-            } else {
-                
-                NSLog(@"JSON ==> %@",json);
-                
-                PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
-                paymentVC.order_id               = [json valueForKey:@"number"];
-                paymentVC.display_total          = [json valueForKey:@"display_total"];
-                paymentVC.total                  = [json valueForKey:@"total"];
-                [self.navigationController pushViewController:paymentVC animated:YES];
-                
-            }
-            
-        });
-        
-    }];
-    
-    [task resume];
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.color = self.view.tintColor;
-}
-
-
-
--(NSDictionary *)createDeliveryDictionary {
-    NSDictionary *delivery = @{
-                               @"order": @{
-                                       @"shipments_attributes": @{
-                                               @"0": @{
-                                                       @"selected_shipping_rate_id": [self.shipping_data valueForKey:@"id"],
-                                                       @"id"                       : [self.shipping_data valueForKey:@"shipping_method_id"]
-                                                       }
-                                               }
-                                       }
-                               };
-    
-    return delivery;
-}
-
-*/
+ 
+ -(void)sendDeliveryDataToServer {
+ User *user = [User savedUser];
+ 
+ NSString *url = [NSString stringWithFormat:@"%@%@?token=%@",kCheckout_delivery_url, self.order_id, user.access_token];
+ NSLog(@"URL is --> %@", url);
+ 
+ NSDictionary *delivery_data = [self createDeliveryDictionary];
+ 
+ NSError *error;
+ NSData *jsonData = [NSJSONSerialization dataWithJSONObject:delivery_data options:NSJSONWritingPrettyPrinted error:&error];
+ 
+ NSURLSession *session = [NSURLSession sharedSession];
+ NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+ request.HTTPMethod = @"PUT";
+ 
+ [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+ [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+ [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
+ 
+ 
+ NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+ 
+ dispatch_async(dispatch_get_main_queue(), ^{
+ NSLog(@"%@",response);
+ NSError *jsonError;
+ 
+ NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+ 
+ 
+ [self.hud hide:YES];
+ if (jsonError) {
+ NSLog(@"Error %@",[jsonError localizedDescription]);
+ } else {
+ 
+ NSLog(@"JSON ==> %@",json);
+ 
+ PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
+ paymentVC.order_id               = [json valueForKey:@"number"];
+ paymentVC.display_total          = [json valueForKey:@"display_total"];
+ paymentVC.total                  = [json valueForKey:@"total"];
+ [self.navigationController pushViewController:paymentVC animated:YES];
+ 
+ }
+ 
+ });
+ 
+ }];
+ 
+ [task resume];
+ self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+ self.hud.color = self.view.tintColor;
+ }
+ 
+ 
+ 
+ -(NSDictionary *)createDeliveryDictionary {
+ NSDictionary *delivery = @{
+ @"order": @{
+ @"shipments_attributes": @{
+ @"0": @{
+ @"selected_shipping_rate_id": [self.shipping_data valueForKey:@"id"],
+ @"id"                       : [self.shipping_data valueForKey:@"shipping_method_id"]
+ }
+ }
+ }
+ };
+ 
+ return delivery;
+ }
+ 
+ */
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

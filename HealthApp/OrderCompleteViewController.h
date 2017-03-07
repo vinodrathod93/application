@@ -12,7 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *order_number;
 
-@property (nonatomic, strong) NSString *order_id;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
@@ -20,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *headingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *additionalInfoLabel;
 
+
+@property (nonatomic, strong) NSString *order_id;
 @property (strong, nonatomic) NSString *message;
 @property (strong, nonatomic) NSString *heading;
 @property (strong, nonatomic) NSString *booking_id;

@@ -14,15 +14,15 @@
 
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"storeName": @"name",
-             @"storeUrl" : @"url",
-             @"storeStreetAddress": @"street_address",
-             @"storeCity": @"city",
-             @"storePincode": @"pincode",
-             @"storeState": @"state",
-             @"storeCountry": @"country",
-             @"storeDistance": @"nearest_distance",
-             @"storeImage": @"medium_url"
+             @"storeName"               : @"name",
+             @"storeUrl"                : @"url",
+             @"storeStreetAddress"      : @"street_address",
+             @"storeCity"               : @"city",
+             @"storePincode"            : @"pincode",
+             @"storeState"              : @"state",
+             @"storeCountry"            : @"country",
+             @"storeDistance"           : @"nearest_distance",
+             @"storeImage"              : @"medium_url"
              };
 }
 

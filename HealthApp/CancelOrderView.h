@@ -14,4 +14,17 @@
 @property (weak, nonatomic) IBOutlet UITextField *selectReasonTF;
 @property (weak, nonatomic) IBOutlet UITextField *justifyTF;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
+
+
+
+
+
+
+
+@property (weak, nonatomic) IBOutlet UIButton *SelectProductBtn;
+@property (weak, nonatomic) IBOutlet UIButton *SelectReasonBtn;
+
+
+
+
 @end

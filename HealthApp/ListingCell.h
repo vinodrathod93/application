@@ -11,17 +11,20 @@
 
 @interface ListingCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIView *roundedContentView;
-@property (weak, nonatomic) IBOutlet UIImageView *profileImageview;
-@property (weak, nonatomic) IBOutlet UILabel *name;
-@property (weak, nonatomic) IBOutlet UILabel *street;
-@property (weak, nonatomic) IBOutlet UILabel *rating;
-@property (weak, nonatomic) IBOutlet UILabel *distance;
-@property (weak, nonatomic) IBOutlet RatingView *ratingView;
-@property (weak, nonatomic) IBOutlet UILabel *timing;
-@property (weak, nonatomic) IBOutlet UILabel *minOrderLabel;
+@property (weak, nonatomic) IBOutlet UIView         *roundedContentView;
+@property (weak, nonatomic) IBOutlet UIImageView    *profileImageview;
+@property (weak, nonatomic) IBOutlet UILabel        *name;
+@property (weak, nonatomic) IBOutlet UILabel        *street;
+@property (weak, nonatomic) IBOutlet UILabel        *rating;
+@property (weak, nonatomic) IBOutlet UILabel        *distance;
+@property (weak, nonatomic) IBOutlet RatingView     *ratingView;
+@property (weak, nonatomic) IBOutlet UILabel        *timing;
+@property (weak, nonatomic) IBOutlet UILabel        *minOrderLabel;
 
-@property (weak, nonatomic) IBOutlet UIButton *offersButton;
-@property (weak, nonatomic) IBOutlet UILabel *likesLabel;
+@property (weak, nonatomic) IBOutlet UIButton       *offersButton;
+@property (weak, nonatomic) IBOutlet UILabel        *likesLabel;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *ImageViewBottomConstraints;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *ImageViewTopConstraints;
 
 @end

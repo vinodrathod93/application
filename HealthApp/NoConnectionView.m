@@ -20,8 +20,7 @@
 
 -(void)awakeFromNib {
     [super awakeFromNib];
-    
-    
+  
     self.retryButton.layer.cornerRadius = 5.f;
 }
 

@@ -115,7 +115,8 @@
     [self refresh];
 }
 
-- (void)handleTouchAtLocation:(CGPoint)touchLocation {
+- (void)handleTouchAtLocation:(CGPoint)touchLocation
+{
     if (!self.editable) return;
     
     int newRating = 0;
@@ -126,7 +127,6 @@
             break;
         }
     }
-    
     self.rating = newRating;
 }
 

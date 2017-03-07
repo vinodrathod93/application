@@ -16,7 +16,8 @@
     MBProgressHUD *_hud;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -37,6 +38,9 @@
         self.webView.scrollView.showsHorizontalScrollIndicator = NO;
         
         [self.webView loadRequest:req];
+        
+        
+    //    @"http://maps.google.com/?q=New+York"
     }
     
 }
@@ -46,7 +50,8 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)webViewDidFinishLoad:(UIWebView *)webView {
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
     [_hud hide:YES];
 }
 

@@ -16,8 +16,8 @@
              
              @"timeSlots"   : @"timeslot",
              @"entityName"  : @"storename",
-             @"categoryName": @"catname",
-             @"categoryID"  : @"catid",
+             @"categoryName": @"Sectionname",
+             @"categoryID"  : @"Sectionid",
              @"entityID"    : @"store_id"
              
              };

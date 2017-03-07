@@ -21,5 +21,23 @@
 
 - (IBAction)signUpPressed:(id)sender;
 
+
+
+@property (weak, nonatomic) IBOutlet UITextField *LastnameTf;
+
+
+
+@property (weak, nonatomic) IBOutlet UIButton *malebtn;
+@property (weak, nonatomic) IBOutlet UIButton *femalebtn;
+
+@property (weak, nonatomic) IBOutlet UIButton *CheckBoxButton;
+
+- (IBAction)FemaleAction:(id)sender;
+- (IBAction)maleAction:(id)sender;
+
+
+
+@property(nonatomic,retain)NSString *maleorFemaleString;
+
 @property (nonatomic, assign)BOOL isPlacingOrder;
 @end

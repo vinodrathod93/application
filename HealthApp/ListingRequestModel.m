@@ -16,8 +16,8 @@
     return @{
              @"latitude"        : @"latitude",
              @"longitude"       : @"longitude",
-             @"category_id"     : @"catid",
-             @"subcategory_id"  : @"subcatid",
+             @"category_id"     : @"Sectionid",
+             @"subcategory_id"  : @"Categoryid",
              @"page"            : @"page",
              @"sort_id"         : @"type_id",
              @"sortOrder_id"    : @"sort_type",
@@ -26,7 +26,7 @@
              @"minDelivery_id"  : @"minimum_delivery_id",
              @"ratings_id"      : @"ratings_id",
              @"user_id"         : @"userid"
-             };
+        };
 }
 
 

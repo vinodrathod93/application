@@ -10,10 +10,10 @@
 #import "User.h"
 
 
-@implementation APIManager {
+@implementation APIManager
+{
     BOOL _isDone;
     BOOL _isIterating;
-    
 }
 
 /*
@@ -127,9 +127,9 @@
 
  */
 
--(void)retryGetStoresWithRequestModel:(ListingRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure {
-    
-    
+-(void)retryGetStoresWithRequestModel:(ListingRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure
+{
+ 
     User *user = [User savedUser];
     
     if (user.access_token == nil) {
@@ -163,9 +163,6 @@
         }];
         
     }
-    
-    
-    
 }
 
 
@@ -205,8 +202,9 @@
         
         failure(error);
     }];
-    
 }
+
+
 
 
 -(NSURLSessionDataTask *)getMyOrdersWithSuccess:(void (^)(MyOrdersResponseModel *))success failure:(void (^)(NSError *))failure {
@@ -336,12 +334,6 @@
     }
     
 }
-
-
-
-
-
-
 
 
 @end

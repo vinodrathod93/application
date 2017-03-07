@@ -26,7 +26,6 @@
 @property (nonatomic, strong) NSMutableArray *storesArray;
 @property (nonatomic, strong) NSMutableArray *searchResultsArray;
 @property (nonatomic, strong) NeediatorHUD *neediatorHUD;
-@property (nonatomic, strong) NSURLSessionDataTask *searchTask;
 
 @end
 
@@ -70,18 +69,13 @@
         
         
         /* just to check whether the location selected is current or not */
-//        if ([CLLocationManager locationServicesEnabled]) {
-//            
-//            if (location.isCurrentLocation) {
-//                
-//                [self decorateSelectCurrentLocation];
-//                
-//                
-//            }
-//            
-//        }
-        
-//        [self loadStoresWithLocation:location];
+//                if ([CLLocationManager locationServicesEnabled]) {
+//                    if (location.isCurrentLocation) {
+//        
+//                        [self decorateSelectCurrentLocation];
+//                    }
+//                }
+//                [self loadStoresWithLocation:location];
         
         
         
@@ -125,6 +119,7 @@
     
     
     SearchResultsTableViewController *searchResultsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"searchResultsVC"];
+    
     searchResultsVC.delegate = self;
     
     
@@ -134,15 +129,15 @@
     _searchController.searchBar.placeholder = @"Search";
     _searchController.delegate = self;
     _searchController.searchBar.delegate = self;
-    _searchController.searchBar.scopeButtonTitles = @[@"Location", @"Category", @"Listing", @"Product"];
+    _searchController.searchBar.scopeButtonTitles = @[@"Location",@"Category",@"Listing",@"Product",@"Service"];
     
     _searchController.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _searchController.searchBar.searchBarStyle   = UISearchBarStyleDefault;
     
     [_searchController.searchBar sizeToFit];
     
-    self.tableView.tableHeaderView                = _searchController.searchBar;
-    self.definesPresentationContext              = YES;
+    self.tableView.tableHeaderView  = _searchController.searchBar;
+    self.definesPresentationContext  = YES;
     
     // resolves the issue of repostioning the tableview when rotated to landscape.
     self.edgesForExtendedLayout = UIRectEdgeAll;
@@ -150,11 +145,11 @@
     
     _searchController.searchResultsUpdater       = self;
     
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-//        _searchController.modalPresentationStyle = UIModalPresentationPopover;
-//    } else {
-        _searchController.modalPresentationStyle = UIModalPresentationFullScreen;
-//    }
+    //    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    //        _searchController.modalPresentationStyle = UIModalPresentationPopover;
+    //    } else {
+    _searchController.modalPresentationStyle = UIModalPresentationFullScreen;
+    //    }
 }
 
 
@@ -165,7 +160,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [searchController.searchBar becomeFirstResponder];
     });
-    
 }
 
 
@@ -176,7 +170,8 @@
     return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if (section == 0) {
         return 1;
     } else
@@ -214,10 +209,9 @@
         } else
             cell.textLabel.text = self.currentPlace;
         
-        
-        
-        
-    } else {
+    }
+    
+    else {
         
         cell = [tableView dequeueReusableCellWithIdentifier:CellReuseId];
         
@@ -227,15 +221,15 @@
             
         }
         
-        
-        
         id store = [self.storesArray objectAtIndex:indexPath.row];
         
         if ([store isKindOfClass:[NSDictionary class]]) {
+            
+            
             NSDictionary *model = (NSDictionary *)store;
             
-            cell.textLabel.text      = STR_OR_NULL(model[@"name"]);
-            cell.detailTextLabel.text = STR_OR_NULL(model[@"area"]);
+            cell.textLabel.text      = model[@"name"];
+            cell.detailTextLabel.text = model[@"area"];
             [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model[@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
         }
         else
@@ -247,11 +241,7 @@
         
         cell.detailTextLabel.font = [NeediatorUtitity regularFontWithSize:11.f];
         cell.detailTextLabel.textColor = [UIColor darkGrayColor];
-        
     }
-    
-    
-    
     return cell;
 }
 
@@ -267,168 +257,77 @@
     else if (indexPath.section == 1) {
         
         NSDictionary *store = [self.storesArray objectAtIndex:indexPath.row];
-        NSString *code = STR_OR_NULL(store[@"code"]);
+        NSString *code = store[@"code"];
+        NSString *sectionId=store[@"categoryid"];
         
         
         if (![code isEqual:[NSNull null]]) {
             
             [self showHUD];
             
-            [[NAPIManager sharedManager] requestStoreByCode:code success:^(NSDictionary *store) {
-                // go to storefront page
-                
-                [self hideHUD];
-                
-                
-                // push to store taxon vc.
-                
-                [self pushToStoreFront:store];
-                
-                
-            } failure:^(NSError *error) {
-                
-                [self hideHUD];
-                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-            }];
             
+            NSString *parameterString = [NSString stringWithFormat:@"code=%@&sectionid=%@",code,sectionId];
+            NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/detailsbycode"];
+            NSLog(@"URL is --> %@", url);
+            NSURLSession *session = [NSURLSession sharedSession];
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/detailsbycode"]];
+            request.HTTPMethod = @"POST";
+            request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
+            [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+            NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                NSLog(@"%@",response);
+                if (error) {
+                    NSLog(@"%@",error.localizedDescription);
+                }
+                else
+                {
+                    NSError *jsonError;
+                    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        [self hideHUD];
+                        
+                        
+                        
+                        [self pushToStoreFront:json];
+                        
+                        NSLog(@" Details By Code Json Response Is \n%@",json);
+                        
+                    });
+                }
+            }];
+            [task resume];
+  
+//            [[NAPIManager sharedManager] requestStoreByCode:code success:^(NSDictionary *store) {
+//                // go to storefront page
+//                [self hideHUD];
+//                // push to store taxon vc.
+//                [self pushToStoreFront:store];
+//                
+//            } failure:^(NSError *error) {
+//                
+//                [self hideHUD];
+//                [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+//            }];
         }
         
-        
-        
+    
     }
 }
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 40.f;
-}
+-(void)searchResultsTableviewControllerDidSelectResult:(NSDictionary *)result
+{
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 40)];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(25, 10, 200, 20)];
-    label.textColor = [UIColor blackColor];
-    label.font      = [UIFont fontWithName:@"AvenirNext-Medium" size:14.f];
-    
-    if (section == 0) {
-        label.text = [NSString stringWithFormat:@"LOCATION"];
-    }
-    else
-        label.text = @"RECENTLY VIEWED";
-    
-    [headerView addSubview:label];
-    
-    return headerView;
-}
-
-
-#pragma mark - GMSAutocompleteResultsViewControllerDelegate
-
-/*
-- (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
- didAutocompleteWithPlace:(GMSPlace *)place {
-    [_searchController setActive:NO];
-    
-    
-    NSLog(@"Place co-ordinates %f and %f", place.coordinate.latitude, place.coordinate.longitude);
-    NSLog(@"Place name %@", place.name);
-    NSLog(@"Place address %@", place.formattedAddress);
-    NSLog(@"Place attributions %@", place.attributions.string);
-    
-    if (self.isTapped) {
-        [self deselectCurrentLocation];
-    }
-    
-    
-    Location *location = [Location savedLocation];
-    if (location == nil) {
-        
-        location = [[Location alloc] init];
-        
-        self.currentPlace = kDefaultLocationMessage;
-    }
-    
-    
-    NSArray *trimmedLocation        = [place.formattedAddress componentsSeparatedByString:@","];
-    
-    NSInteger count = trimmedLocation.count;
-    NSString *currentPlaceString;
-    
-    if (count == 1) {
-        currentPlaceString          = [NSString stringWithFormat:@"%@", trimmedLocation[count-1]];
-    }
-    else if (count == 2) {
-        currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-2 ], trimmedLocation[count-1]];
-    }
-    else if (count == 3) {
-        currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-2 ], trimmedLocation[count-1]];
-    }
-    else if (count == 4) {
-        currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-3 ], trimmedLocation[count-2]];
-    }
-    else if (count > 4) {
-        currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-4 ], trimmedLocation[count-3]];
-    }
-    
-    
-    if (self.currentPlace) {
-        self.currentPlace = nil;
-    }
-    
-    self.currentPlace               = currentPlaceString;
-    
-    
-    location.location_name          = self.currentPlace;
-    location.latitude               = [NSString stringWithFormat:@"%f", place.coordinate.latitude];
-    location.longitude              = [NSString stringWithFormat:@"%f", place.coordinate.longitude];
-    location.isCurrentLocation      = NO;
-    [location save];
-    
-    
-    
-    [self loadStoresWithLocation:location];
-    
-    
-    if (self.storesArray.count != 0) {
-        [self.storesArray removeAllObjects];
-        [self.storesArray addObject:@"Searching..."];
-    }
-    
-    [self.tableView reloadData];
-    
-}
-
-
-
-
-
-
-
-- (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
-didFailAutocompleteWithError:(NSError *)error {
-    [_searchController setActive:NO];
-    
-    NSLog(@"Autocomplete failed with error: %@", error.localizedDescription);
-    
-    self.currentPlace           = @"Cannot select location now.";
-    
-    [self.tableView reloadData];
-    
-}
-
-*/
-
-
--(void)searchResultsTableviewControllerDidSelectResult:(NSDictionary *)result {
-    
     [_searchController setActive:NO];
     
     NSLog(@"%lu", (unsigned long)result[@"NeediatorSearchScope"]);
     int searchScope = (int)[result[@"NeediatorSearchScope"] intValue];
     NeediatorSearchScope scope = (NeediatorSearchScope)searchScope;
     
-    if (scope == searchScopeLocation) {
+    if (scope == searchScopeLocation)
+    {
         NSNumber *latitude = result[@"lat"];
         NSNumber *longitude = result[@"lng"];
         
@@ -441,7 +340,6 @@ didFailAutocompleteWithError:(NSError *)error {
             [self deselectCurrentLocation];
         }
         
-        
         Location *location = [Location savedLocation];
         if (location == nil) {
             
@@ -450,9 +348,7 @@ didFailAutocompleteWithError:(NSError *)error {
             self.currentPlace = kDefaultLocationMessage;
         }
         
-        
         self.currentPlace               = place;
-        
         
         location.location_name          = self.currentPlace;
         location.latitude               = [NSString stringWithFormat:@"%f", latitude.floatValue];
@@ -463,49 +359,41 @@ didFailAutocompleteWithError:(NSError *)error {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NeediatorLocationChanged" object:nil];
         
     }
-    else if (scope == searchScopeStore) {
+    else if (scope == searchScopeStore)
+    {
         [self pushToStoreFront:result];
-        
-        }
-    
+    }
     [self.tableView reloadData];
-    
 }
 
 
 
 - (IBAction)nearByButtonPressed:(UIBarButtonItem *)sender {
     
-    if (!self.isTapped) {
-        
-        
+    if (!self.isTapped)
+    {
         [self selectCurrentLocation];
-        
-        
     } else {
-        
         [self deselectCurrentLocation];
-        
     }
-    
-    
-    
 }
 
 
 
--(void)pushToStoreFront:(NSDictionary *)result {
+-(void)pushToStoreFront:(NSDictionary *)result
+{
     NSDictionary *storeBasicDetails = [result[@"records"] lastObject];
     NSDictionary *storeLikes = [storeBasicDetails[@"LikeUnlike"] lastObject];
     NSNumber *liked             = storeLikes[@"like"];
     
     StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
     storeTaxonsVC.title = [storeBasicDetails[@"name"] capitalizedString];
-    storeTaxonsVC.cat_id = [storeBasicDetails[@"catid"] stringValue];
-    storeTaxonsVC.store_id = storeBasicDetails[@"id"];
+    
+    storeTaxonsVC.cat_id = [NSString stringWithFormat:@"%@",storeBasicDetails[@"Sectionid"]];
+    storeTaxonsVC.store_id = [NSString stringWithFormat:@"%@",storeBasicDetails[@"id"]];
     storeTaxonsVC.storeImages = storeBasicDetails[@"Images"];
     storeTaxonsVC.storePhoneNumbers = storeBasicDetails[@"phone_no"];
-#warning change this static distance with api distance.
+    //#warning change this static distance with api distance.
     storeTaxonsVC.storeDistance = @"2 KM";
     storeTaxonsVC.ratings   = storeBasicDetails[@"ratings"];
     storeTaxonsVC.reviewsCount = storeBasicDetails[@"reviews_count"];
@@ -513,10 +401,8 @@ didFailAutocompleteWithError:(NSError *)error {
     storeTaxonsVC.isFavourite   = NO;
     storeTaxonsVC.isLikedStore  = liked.boolValue;
     storeTaxonsVC.isDislikedStore = NO;
-    
-    //        [self presentViewController:storeTaxonsVC animated:YES completion:nil];
-    
-    
+
+//  [self presentViewController:storeTaxonsVC animated:YES completion:nil];
     [self.navigationController pushViewController:storeTaxonsVC animated:YES];
 }
 
@@ -525,16 +411,11 @@ didFailAutocompleteWithError:(NSError *)error {
 
 
 -(void)selectCurrentLocation {
-    
     self.isTapped = YES;
-    
-    
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     [_locationManager requestWhenInUseAuthorization];
-    
     [_locationManager startUpdatingLocation];
-    
 }
 
 -(void)decorateSelectCurrentLocation {
@@ -576,9 +457,8 @@ didFailAutocompleteWithError:(NSError *)error {
         self.searchController.searchBar.placeholder = @"Search by Location";
     else if (selectedScope == searchScopeProduct)
         self.searchController.searchBar.placeholder = @"Search by Product";
-    
-    
-    _searchTask = nil;
+    else if (selectedScope == searchScopeService)
+        self.searchController.searchBar.placeholder = @"Search by Service";
     
     [self updateSearchResultsForSearchController:self.searchController];
 }
@@ -595,8 +475,6 @@ didFailAutocompleteWithError:(NSError *)error {
 
 - (void)searchForText:(NSString *)searchText scope:(NeediatorSearchScope)scopeOption
 {
-    NSLog(@"searchForText");
-    
     if (![searchText isEqualToString:@""]) {
         
         NSLog(@"Search Text is_%@_done", searchText);
@@ -607,26 +485,16 @@ didFailAutocompleteWithError:(NSError *)error {
                 vc.searchString = searchText;
                 [vc startNeediatorHUD];
                 
-                
-                [NeediatorUtitity checkRunningTask:_searchTask withCompletionHandler:^(BOOL success) {
-                    if (!success) {
-                        [_searchTask cancel];
-                        
-                    }
-                    
-                    _searchTask = [[NAPIManager sharedManager] searchLocations:searchText withSuccess:^(BOOL success, NSArray *predictions) {
-                        //
-                        
-                        [self sendResults:predictions resultsController:vc forScope:scopeOption];
-                        
-                    } failure:^(NSError *error) {
-                        [vc hideHUD];
-                        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-                    }];
-                }];
-                
                 // call location
-                
+                [[NAPIManager sharedManager] searchLocations:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+                    //
+                    
+                    [self sendResults:predictions resultsController:vc forScope:scopeOption];
+                    
+                } failure:^(NSError *error) {
+                    [vc hideHUD];
+                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+                }];
                 
                 
             }
@@ -639,29 +507,17 @@ didFailAutocompleteWithError:(NSError *)error {
                 [vc startNeediatorHUD];
                 // call category
                 
-                [NeediatorUtitity checkRunningTask:_searchTask withCompletionHandler:^(BOOL success) {
-                    if (!success) {
-                        [_searchTask cancel];
-                        
-                        
-                    }
+                [[NAPIManager sharedManager] searchCategoriesFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
                     
-                    _searchTask = [[NAPIManager sharedManager] searchCategoriesFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
-                        
-                        [self sendResults:predictions resultsController:vc forScope:scopeOption];
-                        
-                        
-                    } failure:^(NSError *error) {
-                        [vc hideHUD];
-                        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-                    }];
+                    [self sendResults:predictions resultsController:vc forScope:scopeOption];
+                    NSLog(@"prediction is -->%@",predictions);
+                    
+                } failure:^(NSError *error)
+                {
+                    [vc hideHUD];
+                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
                 }];
-                
-                
-                
-                
-                
-            }
+             }
                 break;
                 
             case searchScopeStore:
@@ -672,25 +528,14 @@ didFailAutocompleteWithError:(NSError *)error {
                 [vc startNeediatorHUD];
                 // call stores
                 
-                
-                [NeediatorUtitity checkRunningTask:_searchTask withCompletionHandler:^(BOOL success) {
-                    if (!success) {
-                        [_searchTask cancel];
-                        
-                        
-                    }
+                [[NAPIManager sharedManager] searchStoresFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
                     
-                    _searchTask = [[NAPIManager sharedManager] searchStoresFor:searchText withSuccess:^(BOOL success, NSArray *predictions) {
-                        
-                        [self sendResults:predictions resultsController:vc forScope:scopeOption];
-                        
-                    } failure:^(NSError *error) {
-                        [vc hideHUD];
-                        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-                    }];
+                    [self sendResults:predictions resultsController:vc forScope:scopeOption];
+                    
+                } failure:^(NSError *error) {
+                    [vc hideHUD];
+                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
                 }];
-                
-                
                 
             }
                 break;
@@ -702,24 +547,14 @@ didFailAutocompleteWithError:(NSError *)error {
                 [vc startNeediatorHUD];
                 // call product
                 
-                
-                
-                [NeediatorUtitity checkRunningTask:_searchTask withCompletionHandler:^(BOOL success) {
-                    if (!success) {
-                        [_searchTask cancel];
-                        
-                        
-                    }
-                    
-                    _searchTask = [[NAPIManager sharedManager] searchUniveralProductsWithData:searchText success:^(NSArray *products) {
-                        [self sendResults:products resultsController:vc forScope:scopeOption];
-                    } failure:^(NSError *error) {
-                        [vc hideHUD];
-                        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-                    }];
+                [[NAPIManager sharedManager] searchUniveralProductsWithData:searchText success:^(NSArray *products)
+                {
+                    NSLog(@"Product Array Is %@",products);
+                    [self sendResults:products resultsController:vc forScope:scopeOption];
+                } failure:^(NSError *error) {
+                    [vc hideHUD];
+                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
                 }];
-                
-                
             }
                 
             default:
@@ -740,7 +575,7 @@ didFailAutocompleteWithError:(NSError *)error {
         
         
         vc.neediatorSearchScope = scopeOption;
-
+        
         // Update searchResults
         vc.searchResults = self.searchResultsArray;
         
@@ -811,10 +646,10 @@ didFailAutocompleteWithError:(NSError *)error {
         if (error == nil && [placemarks count] > 0) {
             _placemark = [placemarks lastObject];
             NSLog(@"%@ %@\n%@ %@\n%@\n%@",
-                                 _placemark.subLocality, _placemark.locality,
-                                 _placemark.postalCode, _placemark.addressDictionary,
-                                 _placemark.administrativeArea,
-                                 _placemark.country);
+                  _placemark.subLocality, _placemark.locality,
+                  _placemark.postalCode, _placemark.addressDictionary,
+                  _placemark.administrativeArea,
+                  _placemark.country);
             
             if (self.currentPlace) {
                 self.currentPlace = nil;
@@ -833,15 +668,15 @@ didFailAutocompleteWithError:(NSError *)error {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"NeediatorLocationChanged" object:nil];
             [self decorateSelectCurrentLocation];
             
-//            if (self.storesArray.count != 0) {
-//                [self.storesArray removeAllObjects];
-//                [self.storesArray addObject:@"Searching..."];
-//            }
-//            
+            //            if (self.storesArray.count != 0) {
+            //                [self.storesArray removeAllObjects];
+            //                [self.storesArray addObject:@"Searching..."];
+            //            }
+            //
             [self.tableView reloadData];
             
             
-//            [self loadStoresWithLocation:location];
+            //            [self loadStoresWithLocation:location];
             
             
             
@@ -854,58 +689,58 @@ didFailAutocompleteWithError:(NSError *)error {
 }
 
 /*
+ 
+ -(void)loadStoresWithLocation:(Location *)location {
+ ListingRequestModel *requestModel = [ListingRequestModel new];
+ //    requestModel.location = [NSString stringWithFormat:@"%@,%@", location.latitude, location.longitude];
+ 
+ [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {
+ 
+ if (self.storesArray.count != 0) {
+ [self.storesArray removeAllObjects];
+ }
+ 
+ 
+ [self.storesArray addObjectsFromArray:responseModel.stores];
+ 
+ if (self.storesArray.count == 0) {
+ [self.storesArray addObject:@"We have not reached here yet!"];
+ }
+ 
+ [self.tableView reloadData];
+ 
+ } failure:^(NSError *error, BOOL loginFailure) {
+ if (loginFailure) {
+ 
+ LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
+ logSignVC.isPlacingOrder = NO;
+ 
+ UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
+ logSignNav.navigationBar.tintColor = self.tableView.tintColor;
+ 
+ if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+ logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
+ }
+ 
+ [self presentViewController:logSignNav animated:YES completion:nil];
+ }
+ else if (error) {
+ 
+ UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+ [alertError show];
+ }
+ 
+ 
+ }];
+ }
+ 
+ */
 
--(void)loadStoresWithLocation:(Location *)location {
-    ListingRequestModel *requestModel = [ListingRequestModel new];
-//    requestModel.location = [NSString stringWithFormat:@"%@,%@", location.latitude, location.longitude];
-    
-    [[APIManager sharedManager] getStoresWithRequestModel:requestModel success:^(StoreListResponseModel *responseModel) {
-        
-        if (self.storesArray.count != 0) {
-            [self.storesArray removeAllObjects];
-        }
-        
-        
-        [self.storesArray addObjectsFromArray:responseModel.stores];
-        
-        if (self.storesArray.count == 0) {
-            [self.storesArray addObject:@"We have not reached here yet!"];
-        }
-        
-        [self.tableView reloadData];
-        
-    } failure:^(NSError *error, BOOL loginFailure) {
-        if (loginFailure) {
-            
-            LogSignViewController *logSignVC = (LogSignViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"loginSignupVC"];
-            logSignVC.isPlacingOrder = NO;
-            
-            UINavigationController *logSignNav = [[UINavigationController alloc] initWithRootViewController:logSignVC];
-            logSignNav.navigationBar.tintColor = self.tableView.tintColor;
-            
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                logSignNav.modalPresentationStyle    = UIModalPresentationFormSheet;
-            }
-            
-            [self presentViewController:logSignNav animated:YES completion:nil];
-        }
-        else if (error) {
-            
-            UIAlertView *alertError = [[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alertError show];
-        }
-        
-        
-    }];
-}
-
-*/
-
--(void)alertLocationPermission {
-    
-    
+-(void)alertLocationPermission
+{
+   
     UIAlertController *alertLocationController = [UIAlertController alertControllerWithTitle:@"Location not Enabled" message:@"Location services are not enabled on your device. Please go to settings and enable location service to use this feature." preferredStyle:UIAlertControllerStyleAlert];
-
+    
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -921,7 +756,6 @@ didFailAutocompleteWithError:(NSError *)error {
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Go to Settings" message:@"Location services are not enabled on your device. Please go to settings and enable location service to use this feature." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             
             [alert show];
-
             
         }
         
@@ -938,7 +772,7 @@ didFailAutocompleteWithError:(NSError *)error {
 
 
 
-#pragma mark - Other Methods 
+#pragma mark - Other Methods
 
 -(void)activateSearchBar {
     [self.searchController setActive:YES];
@@ -955,7 +789,6 @@ didFailAutocompleteWithError:(NSError *)error {
     self.neediatorHUD.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2);
     [self.navigationController.view insertSubview:self.neediatorHUD belowSubview:self.navigationController.navigationBar];
     
-    
 }
 
 -(void)hideHUD {
@@ -963,6 +796,127 @@ didFailAutocompleteWithError:(NSError *)error {
     [self.neediatorHUD removeFromSuperview];
     
 }
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 40.f;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 40)];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(25, 10, 200, 20)];
+    label.textColor = [UIColor blackColor];
+    label.font      = [UIFont fontWithName:@"AvenirNext-Medium" size:14.f];
+    
+    if (section == 0) {
+        label.text = [NSString stringWithFormat:@"LOCATION"];
+    }
+    else
+        label.text = @"RECENTLY VIEWED";
+    
+    [headerView addSubview:label];
+    
+    return headerView;
+}
+
+
+#pragma mark - GMSAutocompleteResultsViewControllerDelegate
+
+/*
+ - (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
+ didAutocompleteWithPlace:(GMSPlace *)place {
+ [_searchController setActive:NO];
+ 
+ 
+ NSLog(@"Place co-ordinates %f and %f", place.coordinate.latitude, place.coordinate.longitude);
+ NSLog(@"Place name %@", place.name);
+ NSLog(@"Place address %@", place.formattedAddress);
+ NSLog(@"Place attributions %@", place.attributions.string);
+ 
+ if (self.isTapped) {
+ [self deselectCurrentLocation];
+ }
+ 
+ 
+ Location *location = [Location savedLocation];
+ if (location == nil) {
+ 
+ location = [[Location alloc] init];
+ 
+ self.currentPlace = kDefaultLocationMessage;
+ }
+ 
+ 
+ NSArray *trimmedLocation        = [place.formattedAddress componentsSeparatedByString:@","];
+ 
+ NSInteger count = trimmedLocation.count;
+ NSString *currentPlaceString;
+ 
+ if (count == 1) {
+ currentPlaceString          = [NSString stringWithFormat:@"%@", trimmedLocation[count-1]];
+ }
+ else if (count == 2) {
+ currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-2 ], trimmedLocation[count-1]];
+ }
+ else if (count == 3) {
+ currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-2 ], trimmedLocation[count-1]];
+ }
+ else if (count == 4) {
+ currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-3 ], trimmedLocation[count-2]];
+ }
+ else if (count > 4) {
+ currentPlaceString          = [NSString stringWithFormat:@"%@, %@", trimmedLocation[count-4 ], trimmedLocation[count-3]];
+ }
+ 
+ 
+ if (self.currentPlace) {
+ self.currentPlace = nil;
+ }
+ 
+ self.currentPlace               = currentPlaceString;
+ 
+ 
+ location.location_name          = self.currentPlace;
+ location.latitude               = [NSString stringWithFormat:@"%f", place.coordinate.latitude];
+ location.longitude              = [NSString stringWithFormat:@"%f", place.coordinate.longitude];
+ location.isCurrentLocation      = NO;
+ [location save];
+ 
+ 
+ 
+ [self loadStoresWithLocation:location];
+ 
+ 
+ if (self.storesArray.count != 0) {
+ [self.storesArray removeAllObjects];
+ [self.storesArray addObject:@"Searching..."];
+ }
+ 
+ [self.tableView reloadData];
+ 
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ - (void)resultsController:(GMSAutocompleteResultsViewController *)resultsController
+ didFailAutocompleteWithError:(NSError *)error {
+ [_searchController setActive:NO];
+ 
+ NSLog(@"Autocomplete failed with error: %@", error.localizedDescription);
+ 
+ self.currentPlace           = @"Cannot select location now.";
+ 
+ [self.tableView reloadData];
+ 
+ }
+ 
+ */
 
 
 @end

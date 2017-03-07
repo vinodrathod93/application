@@ -8,7 +8,15 @@
 
 #import "NSessionManager.h"
 
-static NSString *const kBaseURL = @"http://neediator.in";
+//static NSString *const kBaseURL = @"http://neediator.in";
+
+//static NSString *const kBaseURL = @"http://192.168.0.90/NeediatorWebservice";
+
+static NSString *const kBaseURL = @"http://shahronak.in"; //@"http://192.168.1.199";
+
+
+
+
 
 @implementation NSessionManager
 

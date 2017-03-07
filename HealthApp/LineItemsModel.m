@@ -20,7 +20,6 @@
              @"quantity"        :  @"qty",
              @"amount"          :  @"subtotal",
              @"imageURL"        :  @"imageurl"
-             
              };
 }
 
@@ -30,9 +29,10 @@
 //        return value;
 //    }];
 //}
+
 //
-//+(NSValueTransformer *)imagesJSONTransformer {
-//    return [MTLJSONAdapter arrayTransformerWithModelClass:[VariantImagesModel class]];
-//}
++(NSValueTransformer *)imagesJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[VariantImagesModel class]];
+}
 
 @end

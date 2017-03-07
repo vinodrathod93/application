@@ -11,11 +11,12 @@
 #import "LineItems.h"
 #import "Order.h"
 
-
 @interface SearchResultsTableViewController ()
 {
     NSDictionary *_product;
     NSInteger _footerHeight;
+    
+    BOOL ProductCellFlag;
 }
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -27,12 +28,12 @@
 
 @end
 
+
 @implementation SearchResultsTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLog(@"%@", self.searchResults);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,10 +46,11 @@
     [super viewDidLayoutSubviews];
 }
 
--(void)viewDidDisappear:(BOOL)animated {
+-(void)viewDidDisappear:(BOOL)animated
+{
     [super viewDidDisappear:animated];
     
-    [self.neediatorHUD removeFromSuperview];
+  //sb  [self.neediatorHUD removeFromSuperview];
 }
 
 #pragma mark - Table view data source
@@ -66,12 +68,14 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"cellForRowAtIndexPath");
+    
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchResultCell" forIndexPath:indexPath];
     
     
-    if (_isQuickOrder) {
+    if (_isQuickOrder)
+    {
+        ProductCellFlag=YES;
         [self configureProductCell:cell forIndexPath:indexPath];
     }
     else {
@@ -86,6 +90,8 @@
             [self configureStoreCell:cell forIndexPath:indexPath];
         }
         else {
+            ProductCellFlag=NO;
+
             [self configureProductCell:cell forIndexPath:indexPath];
         }
     }
@@ -126,17 +132,15 @@
                     }
                 }];
                 
-                
-                
-                
-                
             } failure:^(NSError *error) {
                 
                 [self.neediatorHUD fadeOutAnimated:YES];
                 [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
             }];
         }
-        else if (_neediatorSearchScope == searchScopeStore) {
+        
+        else if (_neediatorSearchScope == searchScopeStore)
+        {
                 NSDictionary *store = self.searchResults[indexPath.row];
                 NSString *code = store[@"code"];
                 
@@ -150,14 +154,11 @@
                     [storeDataDictionary setValue:@"value" forKey:@"value"];
                     [storeDataDictionary setValue:@(searchScopeStore) forKey:@"NeediatorSearchScope"];
                     
-                    
-                    
-                    [self dismissViewControllerAnimated:YES completion:^{
+                     [self dismissViewControllerAnimated:YES completion:^{
                         if ([self.delegate respondsToSelector:@selector(searchResultsTableviewControllerDidSelectResult:)]) {
                             [self.delegate searchResultsTableviewControllerDidSelectResult:storeDataDictionary];
                         }
                     }];
-                    
                     
                 } failure:^(NSError *error) {
                     [self.neediatorHUD fadeOutAnimated:YES];
@@ -168,6 +169,7 @@
         
       // end of quickorder bool condition
     }
+    
 }
 
 
@@ -180,10 +182,15 @@
         return nil;
 }
 
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
     return _footerHeight;
-    
 }
 
 
@@ -197,8 +204,7 @@
     NSString *place = location[@"description"];
     NSString *formattedPlace = [self formattedAreaPlace:place];
     
-    
-    
+
     cell.textLabel.attributedText = [self highlightSearchedTextWithResult:formattedPlace];
     cell.detailTextLabel.text = [self formattedLocation:place];
     cell.imageView.image = [UIImage imageNamed:@"store_location"];
@@ -209,7 +215,8 @@
     
     
     NSDictionary *category = self.searchResults[indexPath.row];
-    NSString *name = category[@"Catname"];
+    
+    NSString *name = category[@"Sectionname"];
     NSString *imageURL = category[@"Imageurl"];
     
     cell.textLabel.attributedText = [self highlightSearchedTextWithResult:name];
@@ -226,7 +233,7 @@
                                                   }];
     
     cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
-//    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"category"]];
+ //   [cell.imageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"category"]];
     
 }
 
@@ -238,25 +245,75 @@
     [priceCurrencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     [priceCurrencyFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_IN"]];
     
+    if(ProductCellFlag==YES)
+    {
+        NSString *price = _product[@"MRP"];
+        NSString *imageURL = _product[@"imageurl"];
+        NSString *productName = [_product[@"DisplayTitles"] capitalizedString];
+        
+        cell.textLabel.attributedText = [self highlightSearchedTextWithResult:productName];
+        
+        NSString *rupee=@"\u20B9";
+        NSLog(@"%@ %@",rupee,price);
+        cell.detailTextLabel.text =[NSString stringWithFormat:@"%@ %@",rupee,price];
+        
+        
+        cell.textLabel.numberOfLines=0;
+        cell.textLabel.adjustsFontSizeToFitWidth=YES;
+        //    cell.detailTextLabel.text = [priceCurrencyFormatter stringFromNumber:@(price.intValue)];
+        
+        
+        
+        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:imageURL]
+                                                        options:SDWebImageRefreshCached
+                                                       progress:nil
+                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                                          CGSize size = CGSizeMake(35,50);
+                                                          
+                                                          cell.imageView.image = [NeediatorUtitity imageWithImage:image scaledToSize:size];
+                                                      }];
+
+    }
+    else
+    {
+        NSString *price = _product[@"rate"];
+        NSString *imageURL = _product[@"imageurl"];
+        NSString *productName = [_product[@"productname"] capitalizedString];
+        
+        cell.textLabel.attributedText = [self highlightSearchedTextWithResult:productName];
+        
+        NSString *rupee=@"\u20B9";
+        NSLog(@"%@ %@",rupee,price);
+    //    cell.detailTextLabel.text =[NSString stringWithFormat:@"%@ %@",rupee,price];
+        
+cell.detailTextLabel.text=[NSString stringWithFormat:@"In %@,%@,%@,%@,%@",_product[@"GrandParent"],_product[@"Parent"],_product[@"Grandchild"],_product[@"Child"],_product[@"Subchild"]];
+        
+        
+        
+        
+        
+        cell.textLabel.numberOfLines=0;
+        cell.textLabel.adjustsFontSizeToFitWidth=YES;
+        
+        cell.detailTextLabel.numberOfLines=0;
+        cell.detailTextLabel.adjustsFontSizeToFitWidth=YES;
+        
+        //    cell.detailTextLabel.text = [priceCurrencyFormatter stringFromNumber:@(price.intValue)];
+        
+        
+        
+        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:imageURL]
+                                                        options:SDWebImageRefreshCached
+                                                       progress:nil
+                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                                          CGSize size = CGSizeMake(35,50);
+                                                          
+                                                          cell.imageView.image = [NeediatorUtitity imageWithImage:image scaledToSize:size];
+                                                      }];
+
+
+    }
     
-//    NSString *price = _product[@"rate"];
-    NSString *imageURL = _product[@"imageurl"];
-    NSString *productName = [_product[@"productname"] capitalizedString];
-    
-    cell.textLabel.attributedText = [self highlightSearchedTextWithResult:productName];
-    cell.detailTextLabel.text = @"";
-//    cell.detailTextLabel.text = [priceCurrencyFormatter stringFromNumber:@(price.intValue)];
-    
-    
-    
-    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:imageURL]
-                                                    options:SDWebImageRefreshCached
-                                                   progress:nil
-                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                                                      CGSize size = CGSizeMake(25, 25);
-                                                      
-                                                      cell.imageView.image = [NeediatorUtitity imageWithImage:image scaledToSize:size];
-                                                  }];
     
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -276,33 +333,26 @@
             cell.accessoryView = add;
         }
     }
-    
-    
 }
 
--(void)configureStoreCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-    
+-(void)configureStoreCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath
+{
     NSDictionary *store = self.searchResults[indexPath.row];
-    NSString *name = STR_OR_NULL(store[@"Name"]);
-    NSString *category = STR_OR_NULL(store[@"CatName"]);
+    NSString *name = store[@"Name"];
+    NSString *category = store[@"SectionName"];
     NSString *imageurl = store[@"images"];
-    
-    
-    
-    
     
     // Replace your result string with the updated attributed string
     
     cell.textLabel.attributedText = [self highlightSearchedTextWithResult:name];
     cell.detailTextLabel.text = category;
-    
     cell.imageView.image = [UIImage imageNamed:@"shop"];
+    
     
     if ([imageurl isEqual:[NSNull null]]) {
         cell.imageView.image = [UIImage imageNamed:@"shop"];
     }
     else {
-        
         [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:imageurl]
                                                         options:SDWebImageRefreshCached
                                                        progress:nil
@@ -319,7 +369,8 @@
 
 -(NSMutableAttributedString *)highlightSearchedTextWithResult:(NSString *)result {
     
-    if (result == nil) {
+    if (result == nil)
+    {
         result = @"";
     }
     
@@ -345,7 +396,6 @@
                                                              range:subStringRange];
                          }];
     
-    NSLog(@"Returning MutableAttributedString");
     return mutableAttributedString;
     
 }
@@ -398,7 +448,9 @@
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     NSFetchRequest *fetch   = [NSFetchRequest fetchRequestWithEntityName:@"LineItems"];
-    NSPredicate *predicate  = [NSPredicate predicateWithFormat:@"variantID == %@", product[@"productid"]];
+    NSPredicate *predicate  = [NSPredicate predicateWithFormat:@"variantID == %@", product[@"VendorProductId"]];
+    
+    
     [fetch setPredicate:predicate];
     
     NSError *productItemCheckError;
@@ -410,18 +462,19 @@
         _lineItemsModel            = [NSEntityDescription insertNewObjectForEntityForName:@"LineItems" inManagedObjectContext:self.managedObjectContext];
         
         
-        NSString *price = product[@"rate"];
-        NSString *qty   = product[@"qty"];
-        NSString *product_id = product[@"productid"];
+        NSString *price = product[@"MRP"];
+        NSString *qty   = product[@"Qty"];
+        NSString *product_id = product[@"VendorProductId"];
+        
         
         _lineItemsModel.image                 = product[@"imageurl"];
         _lineItemsModel.quantity              = @1;
         _lineItemsModel.variantID             = @(product_id.integerValue);
-        _lineItemsModel.name                  = product[@"productname"];
+        _lineItemsModel.name                  = product[@"DisplayTitles"];
         _lineItemsModel.price                 = @(price.integerValue);
-        _lineItemsModel.singleDisplayPrice    = product[@"rate"];
+        _lineItemsModel.singleDisplayPrice    = [NSString stringWithFormat:@"%@",product[@"MRP"]];
         _lineItemsModel.total                 = @(price.integerValue);
-        _lineItemsModel.totalDisplayPrice     = product[@"rate"];
+        _lineItemsModel.totalDisplayPrice     = [NSString stringWithFormat:@"%@",product[@"MRP"]];
         _lineItemsModel.totalOnHand           = @(qty.integerValue);
         _lineItemsModel.option                = @"";
         
@@ -431,8 +484,17 @@
         
     }
     else {
-//        [self alreadyLabelButton];
         
+        NSString *message = @"Already added";
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                       message:message
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [self presentViewController:alert animated:YES completion:nil];
+        int duration = 1; // duration in seconds
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [alert dismissViewControllerAnimated:YES completion:nil];
+        });
+
         NSLog(@"Already added ");
     }
 
@@ -450,12 +512,22 @@
     [self checkOrders];
     
     
-    
-    
-    NSString *url = [NSString stringWithFormat:@"http://neediator.in/NeediatorWS.asmx/addToCart"];
+    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/addToCartNew"];
     NSLog(@"URL is --> %@", url);
     
-    NSString *parameter  = [NSString stringWithFormat:@"product_id=%@&qty=%@&user_id=%@&store_id=%@&cat_id=%@", lineItem[@"productid"], @"1", user.userID, lineItem[@"storeid"], lineItem[@"catid"]];
+    
+NSString *parameter  = [NSString stringWithFormat:@"VendorProductId=%@&qty=%@&user_id=%@&store_id=%@&Section_id=%@",
+                        [NSString stringWithFormat:@"%@",lineItem[@"VendorProductId"]],
+                        @"1",user.userID,
+                        lineItem[@"storeid"],
+                        @"1"];
+
+
+    NSLog(@"ADD TO CART PARAMETERS ARE %@",parameter);
+    
+    
+    
+    
     NSData *parameterData = [NSData dataWithBytes:[parameter UTF8String] length:[parameter length]];
     
     NSURLSession *session = [NSURLSession sharedSession];
@@ -514,12 +586,6 @@
     self.hud.labelText = @"Adding To Cart...";
     self.hud.color = self.view.tintColor;
     
-    
-    
-    
-    
-    
-    
 }
 
 
@@ -564,7 +630,8 @@
 
 #pragma mark - Location
 
--(NSString *)formattedLocation:(NSString *)place {
+-(NSString *)formattedLocation:(NSString *)place
+{
     
     NSArray *trimmedLocation        = [place componentsSeparatedByString:@","];
     
@@ -635,48 +702,5 @@
     [self.tableView reloadData];
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

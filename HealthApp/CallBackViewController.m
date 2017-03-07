@@ -34,9 +34,9 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewDidLayoutSubviews {
+-(void)viewDidLayoutSubviews
+{
     [super viewDidLayoutSubviews];
-    
     self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
 }
 /*

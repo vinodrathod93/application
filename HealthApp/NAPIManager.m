@@ -16,7 +16,9 @@
     return [self GET:kMAIN_CATEGORIES_PATH parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         NSLog(@"Getting main Categories %@", downloadProgress.localizedDescription);
         
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+            
+    {
         // Success Get promotions array & categories array
         
         NSDictionary *response = (NSDictionary *)responseObject;
@@ -44,7 +46,8 @@
     
     NSDictionary *parameters;
     
-    if ([request isKindOfClass:[ListingRequestModel class]]) {
+    if ([request isKindOfClass:[ListingRequestModel class]])
+    {
         parameters = [MTLJSONAdapter JSONDictionaryFromModel:request error:nil];
     }
     else if ([request isKindOfClass:[NSDictionary class]])
@@ -57,7 +60,8 @@
         
         NSLog(@"Getting Services %@", downloadProgress.localizedDescription);
         
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+            {
         
         NSDictionary *response = (NSDictionary *)responseObject;
         
@@ -66,7 +70,8 @@
         NSError *responseError;
         ListingResponseModel *responseModel = [MTLJSONAdapter modelOfClass:[ListingResponseModel class] fromJSONDictionary:response error:&responseError];
         
-        if (responseError) {
+        if (responseError)
+        {
             NSLog(@"Error in Listing Response: %@", responseError.localizedFailureReason);
             
             failure(responseError);
@@ -197,8 +202,8 @@
 }
 
 
--(NSURLSessionDataTask *)getNeediatorStatesCityWithSuccess:(void (^)(StateCityResponseModel *states))success failure:(void (^)(NSError *error))failure {
-    
+-(NSURLSessionDataTask *)getNeediatorStatesCityWithSuccess:(void (^)(StateCityResponseModel *states))success failure:(void (^)(NSError *error))failure
+{
     
     return [self GET:KSTATE_CITIES_PATH parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         NSLog(@"Getting States %@", downloadProgress.localizedDescription);
@@ -219,9 +224,12 @@
 
 
 -(NSURLSessionDataTask *)getAllAddressesWithSuccess:(void (^)(NSArray *address))success failure:(void (^)(NSError *error)) failure {
+
     User *user = [User savedUser];
     
     NSDictionary *address_parameter = [NSDictionary dictionaryWithObject:user.userID forKey:@"user_id"];
+    
+    NSLog(@"%@",address_parameter);
     
     return [self GET:KALL_ADDRESSES_PATH parameters:address_parameter progress:^(NSProgress * _Nonnull downloadProgress) {
         NSLog(@"Getting Addresses = %@", downloadProgress.localizedDescription);
@@ -238,14 +246,11 @@
         else {
             success(@[]);
         }
-            
-        
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
 }
+
 
 -(NSURLSessionDataTask *)deleteAddress:(NSString *)addressID withSuccess:(void (^)(BOOL))success failure:(void (^)(NSError *error))failure {
     
@@ -276,28 +281,39 @@
 
 
 
--(NSURLSessionDataTask *)uploadImagesWithData:(NSDictionary *)data withHUD:(MBProgressHUD *)hud success:(void (^)(BOOL success, NSDictionary *response))success failure:(void (^)(NSError *error))failure {
+-(NSURLSessionDataTask *)uploadImagesWithData:(NSDictionary *)data withHUD:(MBProgressHUD *)hud success:(void (^)(BOOL success, NSDictionary *response))success failure:(void (^)(NSError *error))failure
+{
+   
     User *user = [User savedUser];
     
     NSLog(@"%@", user.addresses);
     
     NSDictionary *object = @{
-                           @"store_id": [NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],
-                           @"cat_id"    : [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID],
-                           @"user_id"   : user.userID,
-                           @"addresss_id"   : data[@"addressID"],
-                           @"delivery_type" : data[@"deliveryID"],
-                           @"payment_id"    : @"1",
-                           @"preffered_time": data[@"dateTime"],
-                           @"order_amount"  : @"",
-                           @"images"        : data[@"images"]
+                           @"store_id"          : [NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],
+                           @"Section_id"        : [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID],
+                           @"user_id"           : user.userID,
+                           @"address_id"        : data[@"addressID"],
+                           @"delivery_type"     : data[@"deliveryID"],
+                           @"payment_id"        : @"1",
+                           @"preffered_time"    : data[@"dateTime"],
+                           @"order_amount"      : @"1",
+                           @"timeslotfrom"      : data[@"timeslotfrom"],
+                           @"timeslotto"        : data[@"timeslotto"],
+                           @"accountcode"       : data[@"accountcode"],
+                           @"comments"          : data[@"comments"],
+                           @"addresstype"       : data[@"addresstype"],
+                           @"images"            : data[@"images"]
                            };
     
+    
+    NSLog(@"%@",object);
     
     NSError *error;
     NSData *json_data = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:&error];
     
     NSString *json_string = [[NSString alloc] initWithData:json_data encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"JSON String------>%@",json_string);
     
     
     NSDictionary *parameter = @{
@@ -312,6 +328,7 @@
         hud.progress = uploadProgress.fractionCompleted;
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+      
         NSLog(@"Response = %@", responseObject);
         
         success(YES, responseObject);
@@ -320,6 +337,56 @@
         failure(error);
     }];
 }
+
+
+-(NSURLSessionDataTask *)uploadReportsWithData:(NSDictionary *)data withHUD:(MBProgressHUD *)hud success:(void (^)(BOOL, NSDictionary *))success failure:(void (^)(NSError *))failure
+{
+    
+    User *user = [User savedUser];
+    
+    NSLog(@"%@", user.addresses);
+    
+    NSDictionary *object = @{
+                             @"store_id"                : [NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],
+                             @"Section_id"              : [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID],
+                             @"user_id"                 : user.userID,
+                             @"lastcommunicationdate"   : data[@"lastcommunicationdate"],
+                             @"images"                  : data[@"images"]
+                             };
+    
+    
+    NSLog(@"%@",object);
+    
+    NSError *error;
+    NSData *json_data = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:&error];
+    
+    NSString *json_string = [[NSString alloc] initWithData:json_data encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"JSON String------>%@",json_string);
+    
+    
+    NSDictionary *parameter = @{
+                                @"json": json_string
+                                };
+    
+    self.requestSerializer = [AFHTTPRequestSerializer serializer];
+    
+    return [self POST:kUPLOAD_REPORTS_PATH parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"Images Uploading progess %@", uploadProgress.localizedDescription);
+        
+        hud.progress = uploadProgress.fractionCompleted;
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"Response = %@", responseObject);
+        
+        success(YES, responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
 
 
 
@@ -349,7 +416,8 @@
     
     return [self POST:kADD_TO_FAVOURTIE_PATH parameters:data progress:^(NSProgress * _Nonnull uploadProgress) {
         NSLog(@"Adding to Favourites %@", uploadProgress.localizedDescription);
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    }
+        success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"Response %@", responseObject);
         
         NSString *status = responseObject[@"status"];
@@ -376,16 +444,31 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"Response %@", responseObject);
         
+        
         NSString *status = responseObject[@"test"];
         
         
         if ([status isEqualToString:@"success"]) {
             
             NSArray *responseArray = responseObject[@"LikeUnlike"];
-            success(responseArray[0]);
+            
+            if(!(responseArray.count==0))
+            {
+                        success(responseArray[0]);
+                
+            }
+            else
+            {
+                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Message" message:@"Already Liked" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+                
+                [alert show];
+                
+            }
         }
         else
-            success(@{});
+        {
+           success(@{});
+        }
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -394,8 +477,8 @@
 }
 
 
--(NSURLSessionDataTask *)getMyOrdersListingWithSuccess:(void(^)(MyOrdersResponseModel *))success failure:(void (^)(NSError *))failure {
-    
+-(NSURLSessionDataTask *)getMyOrdersListingWithSuccess:(void(^)(MyOrdersResponseModel *))success failure:(void (^)(NSError *))failure
+{
     
     User *user = [User savedUser];
     
@@ -413,7 +496,7 @@
             NSLog(@"Getting myorder %@", downloadProgress.localizedDescription);
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
-            NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+            NSMutableDictionary *responseDictionary = (NSMutableDictionary *)responseObject;
             NSError *error;
             
             MyOrdersResponseModel *myOrders = [MTLJSONAdapter modelOfClass:[MyOrdersResponseModel class] fromJSONDictionary:responseDictionary error:&error];
@@ -428,10 +511,159 @@
         }];
         
     }
-    
-    
-    
 }
+
+
+-(NSURLSessionDataTask *)getMyOrdersListingByStatus:(MyOrderByStatus *)request success:(void (^)(MyOrdersResponseModel *))success failure:(void (^)(NSError *))failure
+{
+    User *user = [User savedUser];
+    
+    if (user.userID == nil) {
+        NSLog(@"User not logged in");
+        
+        return nil;
+    } else
+    {
+        NSDictionary *parameters;
+        if ([request isKindOfClass:[MyOrderByStatus class]])
+        {
+            parameters = [MTLJSONAdapter JSONDictionaryFromModel:request error:nil];
+        }
+        else if ([request isKindOfClass:[NSDictionary class]])
+            parameters = request;
+        
+        NSLog(@"Parameters %@", parameters);
+        
+        return [self GET:kMY_ORDERS_PATH_BY_STATUS parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+            NSLog(@"Getting Services %@", downloadProgress.localizedDescription);
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+                {
+                    NSDictionary *response = (NSDictionary *)responseObject;
+                    NSLog(@"%@", response);
+                    NSError *responseError;
+                    MyOrdersResponseModel *responseModel = [MTLJSONAdapter modelOfClass:[MyOrdersResponseModel class] fromJSONDictionary:response error:&responseError];
+                    
+                    if (responseError)
+                    {
+                        NSLog(@"Error in Listing Response: %@", responseError.localizedFailureReason);
+                        failure(responseError);
+                    }
+                    else
+                        success(responseModel);
+                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                    
+                    NSLog(@"Error : %@ & %@", error.localizedFailureReason, error.localizedDescription);
+                    failure(error);
+                }];
+}
+   }
+
+
+
+
+
+
+-(NSURLSessionDataTask *)getMyBookingListingWithSuccess:(void(^)(MyBookingResponseModel *))success failure:(void (^)(NSError *))failure {
+    
+    
+    User *user = [User savedUser];
+    
+    if (user.userID == nil) {
+        NSLog(@"User not logged in");
+        
+        return nil;
+    } else {
+        
+        
+        NSMutableDictionary *parametersWithKey = [[NSMutableDictionary alloc] init];
+        [parametersWithKey setObject:user.userID forKey:@"userid"];
+        
+        return [self GET:kMY_BOOKING_PATH parameters:parametersWithKey progress:^(NSProgress * _Nonnull downloadProgress) {
+            NSLog(@"Getting myorder %@", downloadProgress.localizedDescription);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+            NSError *error;
+            
+            MyBookingResponseModel *myOrders = [MTLJSONAdapter modelOfClass:[MyBookingResponseModel class] fromJSONDictionary:responseDictionary error:&error];
+            if (error) {
+                NSLog(@"%@", [error localizedDescription]);
+            }
+            
+            success(myOrders);
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            failure(error);
+        }];
+        
+    }
+}
+
+
+
+
+
+
+
+-(NSURLSessionDataTask *)getMyBookingListingByStatus:(MyBookingByStatus *)request success:(void (^)(MyBookingResponseModel *))success failure:(void (^)(NSError *))failure
+{
+    
+    
+    User *user = [User savedUser];
+    
+    if (user.userID == nil) {
+        NSLog(@"User not logged in");
+        
+        return nil;
+    } else
+    {
+        NSDictionary *parameters;
+        if ([request isKindOfClass:[MyBookingByStatus class]])
+        {
+            parameters = [MTLJSONAdapter JSONDictionaryFromModel:request error:nil];
+        }
+        else if ([request isKindOfClass:[NSDictionary class]])
+            parameters = request;
+        
+        NSLog(@"Parameters %@", parameters);
+        
+        return [self GET:kMY_BOOKING_BY_STATUS parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+            NSLog(@"Getting Services %@", downloadProgress.localizedDescription);
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+                {
+                    NSDictionary *response = (NSDictionary *)responseObject;
+                    NSLog(@"%@", response);
+                    NSError *responseError;
+                MyBookingResponseModel *responseModel = [MTLJSONAdapter modelOfClass:[MyBookingResponseModel class] fromJSONDictionary:response error:&responseError];
+                    
+                    if (responseError)
+                    {
+                        NSLog(@"Error in Listing Response: %@", responseError.localizedFailureReason);
+                        failure(responseError);
+                    }
+                    else
+                        success(responseModel);
+                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                    
+                    NSLog(@"Error : %@ & %@", error.localizedFailureReason, error.localizedDescription);
+                    failure(error);
+                }];
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 -(NSURLSessionDataTask *)getMyFavouritesListingWithSuccess:(void(^)(FavouritesResponseModel *))success failure:(void (^)(NSError *))failure {
     
@@ -510,8 +742,12 @@
     NSDictionary *object = @{
                              @"first_name"      : data[@"firstname"],
                              @"last_name"       : data[@"lastname"],
-                             @"userid"         : user.userID,
-                             @"imageprofile"    : data[@"imageprofile"]
+                             @"userid"          : user.userID,
+                             @"imageprofile"    : data[@"imageprofile"],
+                             @"gender"          : data[@"gender"],
+                             @"dob"             : data[@"dob"],
+                             @"emailid"         : data[@"emailid"],
+                             @"mobno"           : data[@"mobno"]
                              };
     
     
@@ -527,15 +763,18 @@
     
     self.requestSerializer = [AFHTTPRequestSerializer serializer];
     
-    return [self POST:kUPDATE_PROFILE_PATH parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
+    return [self POST:kUPDATE_PROFILE_PATH parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress)
+            {
         NSLog(@"Profile Image Uploading progess %@", uploadProgress.localizedDescription);
         
         hud.progress = uploadProgress.fractionCompleted;
         
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"Response = %@", responseObject);
+    }
+        success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        NSLog(@"Response = %@",responseObject);
         
-        success(YES, responseObject);
+        success(YES,responseObject);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
@@ -543,7 +782,9 @@
 }
 
 
--(NSURLSessionDataTask *)searchLocations:(NSString *)keyword withSuccess:(void (^)(BOOL success, NSArray *predictions))success failure:(void (^)(NSError *error))failure {
+
+-(NSURLSessionDataTask *)searchLocations:(NSString *)keyword withSuccess:(void (^)(BOOL success, NSArray *predictions))success failure:(void (^)(NSError *error))failure
+{
     
     NSString *urlstring = [NSString stringWithFormat:@"%@&key=%@&input=%@", kAUTOCOMPLETE_LOCATION, kGoogleAPIServerKey,keyword];
     
@@ -605,7 +846,10 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         // send locations
         
-        NSArray *predictionArray = responseObject[@"Categories"];
+//        NSArray *predictionArray = responseObject[@"Categories"];
+        NSArray *predictionArray = responseObject[@"Section"];
+
+        NSLog(@"Prediction Array Is %@",predictionArray);
         
         success(YES, predictionArray);
         
@@ -659,7 +903,8 @@
 -(NSURLSessionDataTask *)requestStoreByCode:(NSString *)keyword success:(void (^)(NSDictionary *storeDetails))success failure:(void (^)(NSError *error))failure {
     
     NSDictionary *parameter = @{
-                                @"code" : keyword
+                                @"code" : keyword,
+                                @"sectionid" :@"1"
                                 };
     
     return [self GET:kSTORE_DETAILS_BY_CODE_PATH parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {

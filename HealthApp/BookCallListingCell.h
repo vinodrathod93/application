@@ -20,4 +20,26 @@
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageview;
 @property (weak, nonatomic) IBOutlet UIButton *button;
 @property (weak, nonatomic) IBOutlet UIView *corneredView;
+
+
+
+
+@property (weak, nonatomic) IBOutlet UILabel *DoctorLikes;
+@property (weak, nonatomic) IBOutlet UILabel *DoctorArea;
+@property (weak, nonatomic) IBOutlet UILabel *MinimumFees;
+
+
+
+
+@property (weak, nonatomic) IBOutlet UILabel *Sunday_lbl;
+@property (weak, nonatomic) IBOutlet UILabel *Monday_lbl;
+@property (weak, nonatomic) IBOutlet UILabel *Tuesday_lbl;
+@property (weak, nonatomic) IBOutlet UILabel *Wednesday_lbl;
+@property (weak, nonatomic) IBOutlet UILabel *Thrusday_lbl;
+@property (weak, nonatomic) IBOutlet UILabel *Friday_lbl;
+@property (weak, nonatomic) IBOutlet UILabel *Saturday_lbl;
+
+
+
+
 @end

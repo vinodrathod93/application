@@ -43,6 +43,8 @@
 }
 
 
+
+#pragma mark - Table View Delegate And Datasource..
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.variants.count;
 }
@@ -64,36 +66,36 @@
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     
-//    NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"productID == %@",[self.variants[indexPath.row] valueForKey:@"id"]];
-//    [fetch setPredicate:predicate];
-//    NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
+    //    NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"AddToCart"];
+    //    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"productID == %@",[self.variants[indexPath.row] valueForKey:@"id"]];
+    //    [fetch setPredicate:predicate];
+    //    NSArray *fetchedArray = [self.managedObjectContext executeFetchRequest:fetch error:nil];
     
-//    if (fetchedArray.count == 0) {
-//        self.addToCartModel                 = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
-//        self.addToCartModel.productID       = [self.variants[indexPath.row] valueForKey:@"id"];
-//        self.addToCartModel.productName     = [self.variants[indexPath.row] valueForKey:@"name"];
-//        
-//        NSString *price                     = [self.variants[indexPath.row] valueForKey:@"price"];
-//        
-//        self.addToCartModel.productPrice    = [NSNumber numberWithInt:price.intValue];
-//        self.addToCartModel.addedDate       = [NSDate date];
-//        
-//        self.addToCartModel.productImage    = self.productImage;
-//        self.addToCartModel.quantity        = @(1);
-//        self.addToCartModel.totalPrice      = [NSNumber numberWithInt:price.intValue];
-//        self.addToCartModel.displayPrice    = [self.variants[indexPath.row] valueForKey:@"display_price"];
-//        self.addToCartModel.variant         = [self.variants[indexPath.row] valueForKey:@"options_text"];
-//        
-//        NSDictionary *line_item             = [self lineItemDictionaryWithVariantID:self.addToCartModel.productID quantity:self.addToCartModel.quantity];
-//        [self sendLineItem:line_item];
-//        
-//    }
-//    else {
-//        [self dismissViewControllerAnimated:YES completion:^{
-//            [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAlreadyAdded" object:nil];
-//        }];
-//    }
+    //    if (fetchedArray.count == 0) {
+    //        self.addToCartModel                 = [NSEntityDescription insertNewObjectForEntityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
+    //        self.addToCartModel.productID       = [self.variants[indexPath.row] valueForKey:@"id"];
+    //        self.addToCartModel.productName     = [self.variants[indexPath.row] valueForKey:@"name"];
+    //
+    //        NSString *price                     = [self.variants[indexPath.row] valueForKey:@"price"];
+    //
+    //        self.addToCartModel.productPrice    = [NSNumber numberWithInt:price.intValue];
+    //        self.addToCartModel.addedDate       = [NSDate date];
+    //
+    //        self.addToCartModel.productImage    = self.productImage;
+    //        self.addToCartModel.quantity        = @(1);
+    //        self.addToCartModel.totalPrice      = [NSNumber numberWithInt:price.intValue];
+    //        self.addToCartModel.displayPrice    = [self.variants[indexPath.row] valueForKey:@"display_price"];
+    //        self.addToCartModel.variant         = [self.variants[indexPath.row] valueForKey:@"options_text"];
+    //
+    //        NSDictionary *line_item             = [self lineItemDictionaryWithVariantID:self.addToCartModel.productID quantity:self.addToCartModel.quantity];
+    //        [self sendLineItem:line_item];
+    //
+    //    }
+    //    else {
+    //        [self dismissViewControllerAnimated:YES completion:^{
+    //            [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAlreadyAdded" object:nil];
+    //        }];
+    //    }
     
     NSNumber *productID                 = [self.variants[indexPath.row] valueForKey:@"id"];
     NSNumber *quantity                  = @(1);
@@ -144,6 +146,9 @@
     return title;
 }
 
+
+
+#pragma mark - Header
 - (IBAction)headerButtonPressed:(id)sender {
     
     [self dismissViewControllerAnimated:YES completion:^{
@@ -199,8 +204,8 @@
     
     
     
-//    NSError *error;
-//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameter options:NSJSONWritingPrettyPrinted error:&error];
+    //    NSError *error;
+    //    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameter options:NSJSONWritingPrettyPrinted error:&error];
     
     NSString *url = [NSString stringWithFormat:@"http://%@%@?token=%@", store.storeUrl, kOrderURL, user.access_token];
     NSLog(@"URL is --> %@", url);
@@ -217,124 +222,125 @@
     manager.requestSerializer     = [AFHTTPRequestSerializer serializer];
     
     
-    [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
-        NSLog(@"upload progress %@", uploadProgress.localizedDescription);
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"Posted");
-        
-        if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            
-            
-            [self.hud hide:YES];
-            
-            NSLog(@"Json Cart ===> %@",responseObject);
-            
-            if (self.orderFetchedResultsController.fetchedObjects.count == 0) {
-                NSEntityDescription *orderEntityDescription = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
-                
-                
-                if ([responseObject valueForKey:@"number"] != NULL) {
-                    Order *orderModel = (Order *)[[NSManagedObject alloc] initWithEntity:orderEntityDescription
-                                                          insertIntoManagedObjectContext:self.managedObjectContext];
-                    
-                    orderModel.number = [responseObject valueForKey:@"number"];
-                    
-                    [orderModel addCartLineItemsObject:_lineItemsModel];
-                }
-                
-                
-            } else {
-                Order *orderModel = [self.orderFetchedResultsController.fetchedObjects lastObject];
-                
-                if ([responseObject valueForKey:@"number"] != nil) {
-                    orderModel.number = [responseObject valueForKey:@"number"];
-                }
-                
-                [orderModel addCartLineItemsObject:_lineItemsModel];
-                
-            }
-            
-            
-            [self.managedObjectContext save:nil];
-            [self dismissViewControllerAnimated:YES completion:^{
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAdded" object:nil];
-            }];
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@" ERROR %@", [error localizedDescription]);
-        
-        [self displayConnectionFailed];
-
-    }];
+    [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress)
+     {
+         NSLog(@"upload progress %@", uploadProgress.localizedDescription);
+     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+         NSLog(@"Posted");
+         
+         if ([responseObject isKindOfClass:[NSDictionary class]]) {
+             
+             
+             [self.hud hide:YES];
+             
+             NSLog(@"Json Cart ===> %@",responseObject);
+             
+             if (self.orderFetchedResultsController.fetchedObjects.count == 0) {
+                 NSEntityDescription *orderEntityDescription = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
+                 
+                 
+                 if ([responseObject valueForKey:@"number"] != NULL) {
+                     Order *orderModel = (Order *)[[NSManagedObject alloc] initWithEntity:orderEntityDescription
+                                                           insertIntoManagedObjectContext:self.managedObjectContext];
+                     
+                     orderModel.number = [responseObject valueForKey:@"number"];
+                     
+                     [orderModel addCartLineItemsObject:_lineItemsModel];
+                 }
+                 
+                 
+             } else {
+                 Order *orderModel = [self.orderFetchedResultsController.fetchedObjects lastObject];
+                 
+                 if ([responseObject valueForKey:@"number"] != nil) {
+                     orderModel.number = [responseObject valueForKey:@"number"];
+                 }
+                 
+                 [orderModel addCartLineItemsObject:_lineItemsModel];
+                 
+             }
+             
+             
+             [self.managedObjectContext save:nil];
+             [self dismissViewControllerAnimated:YES completion:^{
+                 [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAdded" object:nil];
+             }];
+         }
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+         NSLog(@" ERROR %@", [error localizedDescription]);
+         
+         [self displayConnectionFailed];
+         
+     }];
     
     
     
     
     /*
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    request.HTTPMethod = @"POST";
-    request.HTTPBody = jsonData;
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
-    
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        if (data != nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"%@",response);
-                NSError *jsonError;
-                
-                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-                
-                
-                [self.hud hide:YES];
-                if (jsonError) {
-                    NSLog(@"Error %@",[jsonError localizedDescription]);
-                } else {
-                    
-                    NSLog(@"Json Cart ===> %@",json);
-                    
-                    if (self.orderFetchedResultsController.fetchedObjects.count == 0) {
-                        NSEntityDescription *orderEntityDescription = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
-                        
-                        Order *orderModel = (Order *)[[NSManagedObject alloc] initWithEntity:orderEntityDescription
-                                                                  insertIntoManagedObjectContext:self.managedObjectContext];
-                        
-                        orderModel.number = [json valueForKey:@"number"];
-                        
-                        [orderModel addCartLineItemsObject:_lineItemsModel];
-                        
-                    } else {
-                        Order *orderModel = [self.orderFetchedResultsController.fetchedObjects lastObject];
-                        orderModel.number = [json valueForKey:@"number"];
-                        [orderModel addCartLineItemsObject:_lineItemsModel];
-    
-                    }
-                    
-                    
-                    [self.managedObjectContext save:nil];
-                    [self dismissViewControllerAnimated:YES completion:^{
-                        [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAdded" object:nil];
-                    }];
-                    
-                }
-                
-            });
-        }
-        else {
-               [self displayConnectionFailed];
-        }
-        
-        
-    }];
-    
-    [task resume];
+     NSURLSession *session = [NSURLSession sharedSession];
+     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+     request.HTTPMethod = @"POST";
+     request.HTTPBody = jsonData;
+     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+     [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
      
-    */
      
+     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+     
+     if (data != nil) {
+     dispatch_async(dispatch_get_main_queue(), ^{
+     NSLog(@"%@",response);
+     NSError *jsonError;
+     
+     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+     
+     
+     [self.hud hide:YES];
+     if (jsonError) {
+     NSLog(@"Error %@",[jsonError localizedDescription]);
+     } else {
+     
+     NSLog(@"Json Cart ===> %@",json);
+     
+     if (self.orderFetchedResultsController.fetchedObjects.count == 0) {
+     NSEntityDescription *orderEntityDescription = [NSEntityDescription entityForName:@"Order" inManagedObjectContext:self.managedObjectContext];
+     
+     Order *orderModel = (Order *)[[NSManagedObject alloc] initWithEntity:orderEntityDescription
+     insertIntoManagedObjectContext:self.managedObjectContext];
+     
+     orderModel.number = [json valueForKey:@"number"];
+     
+     [orderModel addCartLineItemsObject:_lineItemsModel];
+     
+     } else {
+     Order *orderModel = [self.orderFetchedResultsController.fetchedObjects lastObject];
+     orderModel.number = [json valueForKey:@"number"];
+     [orderModel addCartLineItemsObject:_lineItemsModel];
+     
+     }
+     
+     
+     [self.managedObjectContext save:nil];
+     [self dismissViewControllerAnimated:YES completion:^{
+     [[NSNotificationCenter defaultCenter]postNotificationName:@"updateAdded" object:nil];
+     }];
+     
+     }
+     
+     });
+     }
+     else {
+     [self displayConnectionFailed];
+     }
+     
+     
+     }];
+     
+     [task resume];
+     
+     */
+    
     
     
     
@@ -386,13 +392,13 @@
 
 -(void)displayConnectionFailed {
     
-//    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.hud hide:YES];
-        
-        UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        
-        [failed_alert show];
-//    });
+    //    dispatch_async(dispatch_get_main_queue(), ^{
+    [self.hud hide:YES];
+    
+    UIAlertView *failed_alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [failed_alert show];
+    //    });
     
 }
 
@@ -403,27 +409,27 @@
 //    if (_cartFetchedResultsController != nil) {
 //        return _cartFetchedResultsController;
 //    }
-//    
+//
 //    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
 //    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AddToCart" inManagedObjectContext:self.managedObjectContext];
 //    [fetchRequest setEntity:entity];
-//    
+//
 //    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
 //                                        initWithKey:@"addedDate"
 //                                        ascending:NO];
-//    
+//
 //    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
 //    [fetchRequest setSortDescriptors:sortDescriptors];
-//    
+//
 //    _cartFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 //    _cartFetchedResultsController.delegate = self;
-//    
+//
 //    NSError *error = nil;
 //    if (![self.cartFetchedResultsController performFetch:&error]) {
 //        NSLog(@"Core data error %@, %@", error, [error userInfo]);
 //        abort();
 //    }
-//    
+//
 //    return _cartFetchedResultsController;
 //}
 

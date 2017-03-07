@@ -10,16 +10,16 @@
 
 @implementation StoreOptionsView
 
--(void)awakeFromNib {
+-(void)awakeFromNib
+{
     [super awakeFromNib];
-    
-    
 }
 
 
 -(BOOL)favouriteStore {
     
-    if ([self.favButton.imageView.image isEqual:[UIImage imageNamed:@"store_fav_filled"]]) {
+    if ([self.favButton.imageView.image isEqual:[UIImage imageNamed:@"store_fav_filled"]])
+    {
         return YES;
     }
     else

@@ -13,23 +13,20 @@
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
              
-             @"subCat_id"   : @"Subid",
-             @"cat_id"      : @"Catid",
+             @"subCat_id"   : @"Categoryid",
+             @"cat_id"      : @"Sectionid",
              @"name"        : @"Name",
              @"is_active"   : @"Isactive",
              @"image_url"   : @"Imageurl"
              
-             };
+        };
 }
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error {
+-(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error
+{
     self = [super initWithDictionary:dictionaryValue error:error];
-    
     if (self == nil) return nil;
-    
     NSLog(@"Dictionary value %@", dictionaryValue);
-    
-    
     return self;
 }
 

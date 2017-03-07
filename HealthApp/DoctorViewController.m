@@ -61,7 +61,7 @@ NSString *const CellIdentifier = @"doctorsCell";
     Location *location_store = [Location savedLocation];
     
     ListingRequestModel *requestModel = [ListingRequestModel new];
-//    requestModel.location = [NSString stringWithFormat:@"%@,%@", location_store.latitude, location_store.longitude];
+    //    requestModel.location = [NSString stringWithFormat:@"%@,%@", location_store.latitude, location_store.longitude];
     
     [self showHUD];
     
@@ -164,7 +164,7 @@ NSString *const CellIdentifier = @"doctorsCell";
 
 
 
-#define Helper Methods 
+#define Helper Methods
 
 -(void)showHUD {
     self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];

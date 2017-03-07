@@ -258,7 +258,7 @@ NSString *cellIdentifier;
     } else if (sender.tag == AddressTextField) {
         
         [self jumpToNext:sender];
-    
+        
     } else if (sender.tag == LandmarkTextField) {
         
         [self proceedButtonPressed];
@@ -280,7 +280,7 @@ NSString *cellIdentifier;
 
 - (IBAction)editingChanged:(UITextField *)sender {
     
-//    [self saveToArray:sender];
+    //    [self saveToArray:sender];
 }
 
 
@@ -368,7 +368,7 @@ NSString *cellIdentifier;
     
     //        http://maps.google.com/maps/api/geocode/json?components=postal_code:421306%7Ccountry:IN&sensor=false
     
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:postString]];
+    //    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:postString]];
     NSURL *url = [NSURL URLWithString:postString];
     
     
@@ -425,59 +425,59 @@ NSString *cellIdentifier;
     }];
     
     /*
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSError *pincodeError;
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&pincodeError];
-            
-            if (dict != nil) {
-                
-                NSArray *results = dict[@"results"];
-                NSLog(@"%@",results);
-                
-                if (results.count != 0) {
-                    NSDictionary *address = results[0];
-                    NSLog(@"%@",address);
-                    
-                    self.latitude = [address valueForKeyPath:@"geometry.location.lat"];
-                    self.longitude = [address valueForKeyPath:@"geometry.location.lng"];
-                    
-                    UITextField *town = (UITextField *)[self.view viewWithTag:TownTextField];
-                    UITextField *city = (UITextField *)[self.view viewWithTag:CityTextField];
-                    UITextField *state = (UITextField *)[self.view viewWithTag:StateTextField];
-
-                    self.isCorrectPincode = YES;
-                    
-                    if (self.isCorrectPincode) {
-                        completionBlock();
-                        
-                        if (self.isPincodeAvailable) {
-                            [self loadJSONForTown:town forCity:city andForState:state];
-                        }
-                        
-                    }
-                    
-                } else {
-                    UIAlertView *pincodeAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter the correct pincode" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    [pincodeAlert show];
-                    
-                    pincode.text = @"";
-                }
-                
-            }
-            else {
-                UIAlertView *networkError = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Try again - while requesting Pincode" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [networkError show];
-                
-                pincode.text =@"";
-            }
-            
-        });
-    }];
+     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+     NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
      
-    */
+     dispatch_async(dispatch_get_main_queue(), ^{
+     NSError *pincodeError;
+     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&pincodeError];
+     
+     if (dict != nil) {
+     
+     NSArray *results = dict[@"results"];
+     NSLog(@"%@",results);
+     
+     if (results.count != 0) {
+     NSDictionary *address = results[0];
+     NSLog(@"%@",address);
+     
+     self.latitude = [address valueForKeyPath:@"geometry.location.lat"];
+     self.longitude = [address valueForKeyPath:@"geometry.location.lng"];
+     
+     UITextField *town = (UITextField *)[self.view viewWithTag:TownTextField];
+     UITextField *city = (UITextField *)[self.view viewWithTag:CityTextField];
+     UITextField *state = (UITextField *)[self.view viewWithTag:StateTextField];
+     
+     self.isCorrectPincode = YES;
+     
+     if (self.isCorrectPincode) {
+     completionBlock();
+     
+     if (self.isPincodeAvailable) {
+     [self loadJSONForTown:town forCity:city andForState:state];
+     }
+     
+     }
+     
+     } else {
+     UIAlertView *pincodeAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter the correct pincode" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+     [pincodeAlert show];
+     
+     pincode.text = @"";
+     }
+     
+     }
+     else {
+     UIAlertView *networkError = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Try again - while requesting Pincode" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+     [networkError show];
+     
+     pincode.text =@"";
+     }
+     
+     });
+     }];
+     
+     */
     
     [task1 resume];
 }
@@ -505,45 +505,45 @@ NSString *cellIdentifier;
     if (self.detailsDictionary.count == self.formFields.count) {
         
         PaymentViewController *paymentVC = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentVC"];
-//        paymentVC.addressDetails = self.detailsDictionary;
-//        paymentVC.orderDetails = self.cartDetails;
+        //        paymentVC.addressDetails = self.detailsDictionary;
+        //        paymentVC.orderDetails = self.cartDetails;
         [self.navigationController pushViewController:paymentVC animated:YES];
         
         
         /*
-        NSDictionary *json = [NSDictionary dictionaryWithObjectsAndKeys:self.cartProducts, @"products",
-                              self.detailsDictionary, @"userInfo", self.totalAmount, @"orderAmount", nil];
-        
-        
-        NSLog(@"%@",json);
-        NSError *error;
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error];
-        
-        NSURLSession *session = [NSURLSession sharedSession];
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://chemistplus.in/storePurchaseDetails.php"]];
-        request.HTTPMethod = @"POST";
-        request.HTTPBody = jsonData;
-        [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-        [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
-        
-        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            NSLog(@"%@",response);
-            
-            NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSLog(@"%@",string);
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-//                self.orderConfirmation = [[UIAlertView alloc]initWithTitle:@"Success" message:[NSString stringWithFormat:@"Yeah! Order has been placed and Order ID is \"%@\"",string] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-//                self.orderConfirmation.delegate = self;
-//                [self.orderConfirmation show];
-                
-                
-                
-            });
-            
-            
-        }];
-        [task resume];
+         NSDictionary *json = [NSDictionary dictionaryWithObjectsAndKeys:self.cartProducts, @"products",
+         self.detailsDictionary, @"userInfo", self.totalAmount, @"orderAmount", nil];
+         
+         
+         NSLog(@"%@",json);
+         NSError *error;
+         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:&error];
+         
+         NSURLSession *session = [NSURLSession sharedSession];
+         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://chemistplus.in/storePurchaseDetails.php"]];
+         request.HTTPMethod = @"POST";
+         request.HTTPBody = jsonData;
+         [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+         [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
+         
+         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+         NSLog(@"%@",response);
+         
+         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+         NSLog(@"%@",string);
+         
+         dispatch_async(dispatch_get_main_queue(), ^{
+         //                self.orderConfirmation = [[UIAlertView alloc]initWithTitle:@"Success" message:[NSString stringWithFormat:@"Yeah! Order has been placed and Order ID is \"%@\"",string] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+         //                self.orderConfirmation.delegate = self;
+         //                [self.orderConfirmation show];
+         
+         
+         
+         });
+         
+         
+         }];
+         [task resume];
          
          */
     } else
@@ -649,7 +649,8 @@ NSString *cellIdentifier;
 }
 
 
--(void)displayErrorMessageFor:(NSString *)textField {
+-(void)displayErrorMessageFor:(NSString *)textField
+{
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:[NSString stringWithFormat:@"Please Enter %@",textField] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alert show];
 }

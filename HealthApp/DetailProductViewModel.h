@@ -13,6 +13,7 @@
 @interface DetailProductViewModel : NSObject
 
 - (id)initWithModel:(ProductDetail *)model;
+
 -(NSInteger)numberOfRows;
 -(NSString *)summary;
 -(NSString *)name;

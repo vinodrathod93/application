@@ -12,5 +12,12 @@
 @interface MyOrdersResponseModel : MTLModel<MTLJSONSerializing>
 
 @property (nonatomic, copy) NSArray *orders;
+@property(nonatomic,copy)   NSArray *statusArray;
+@property(nonatomic,copy)   NSArray *Prescriptions;
+@property(nonatomic,copy)   NSArray *pendingorderreason;
+@property(nonatomic,copy)   NSArray *processingorderreason;
+
+
+
 
 @end

@@ -11,14 +11,13 @@
 #import "FilterTableViewController.h"
 #import "iCarousel.h"
 
-@interface ListingTableViewController : UITableViewController<UIGestureRecognizerDelegate,UIScrollViewDelegate, FilterListingDelegate, iCarouselDelegate, iCarouselDataSource>
+@interface ListingTableViewController : UITableViewController<UIGestureRecognizerDelegate,UIScrollViewDelegate,FilterListingDelegate,iCarouselDelegate,iCarouselDataSource>
 
 @property (nonatomic, strong) NSString *root;
 @property (nonatomic, strong) NSString *nav_color;
-
 @property (nonatomic, strong) NSString *category_id;
 @property (nonatomic, strong) NSString *subcategory_id;
-
+@property(nonatomic,retain)   NSNumber* total;
 
 
 @end

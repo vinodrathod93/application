@@ -33,7 +33,7 @@
 			<string>com.advertotechnology.com</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>neediator</string>
+				<string>192.168.1.199/NeediatorWebservice/</string>
 			</array>
 		</dict>
 	</array>
@@ -49,30 +49,6 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>www.chemistplus.in</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-			<key>www.elnuur.com</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-			<key>www.neediator.in</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need the delivery location to serve you the relevant merchant list</string>
@@ -127,5 +103,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Neediator photo use</string>
 </dict>
 </plist>

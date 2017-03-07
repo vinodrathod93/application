@@ -12,7 +12,8 @@
 
 @implementation RootTabBarControllerDelegate
 
--(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
     NSLog(@"clicked");
     
     if (tabBarController.selectedIndex == 3) {
@@ -20,14 +21,17 @@
         User *user = [User savedUser];
         NSLog(@"register clicked %lu",(unsigned long)tabBarController.selectedIndex);
         
-        if (user.userID == nil) {
+        if (user.userID == nil)
+        {
             NSLog(@"go back to home index");
             
             
             [tabBarController setSelectedIndex:0];
+            
             LogSignViewController *logsignVC = [tabBarController.selectedViewController.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
             
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            {
                 logsignVC.modalPresentationStyle    = UIModalPresentationFormSheet;
             }
             
@@ -35,6 +39,9 @@
         }
     }
 }
+
+
+ 
 
 
 

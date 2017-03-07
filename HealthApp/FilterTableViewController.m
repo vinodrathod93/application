@@ -7,34 +7,35 @@
 //
 
 #import "FilterTableViewController.h"
-#import "FilterDefaultViewCell.h"
-
+#import "FilterListModel.h"
+#import "FilterHelperModel.h"
 
 @interface FilterTableViewController ()
 {
     BOOL _isExpanded;
-    BOOL _sliderCellTapped;
     NSMutableArray *_tempArray;
+    //    BOOL _isOptionSelected;
     NSIndexPath *lastSelectedIndexPath;
     NSMutableDictionary *_selectedIndexes;
-    FilterDefaultViewCell *_mainTappedDefaultCell;
 }
+
 @end
 
 @implementation FilterTableViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-    
-    self.title = @"Refine";
-    
+    self.title = @"Filters";
     _tempArray = [[NSMutableArray alloc] init];
+    _selectedIndexes = [[NSMutableDictionary alloc] init];
+    
     [_tempArray addObjectsFromArray:_filterArray];
     
     
-    _selectedIndexes = [[NSMutableDictionary alloc] init];
-   
+    
+    
     
     UIButton *applyLabel = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
     applyLabel.titleLabel.font = [NeediatorUtitity mediumFontWithSize:15.f];
@@ -59,53 +60,26 @@
     NSLog(@"Applying Filter...");
     
     
-    if ([self.delegate respondsToSelector:@selector(appliedFilterListingDelegate:)]) {
+    if ([self.delegate respondsToSelector:@selector(appliedFilterListingDelegate:)])
+    {
         NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
         
         
-        for (FilterListModel *model in _filterArray) {
+        for (FilterListModel *model in _filterArray)
+        {
             [parameter setObject:@"" forKey:model.filterParameter];
         }
         
-        NSLog(@"%@", _selectedIndexes);
         
-        [_selectedIndexes enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull filterSection, NSNumber * _Nonnull selectedValues, BOOL * _Nonnull stop) {
-            
-            
-            FilterListModel *model = _filterArray[filterSection.intValue];
-            
-            if ([model.type isEqualToString:@"Slider"]) {
-                
-                NSInteger index;
-                
-                if (selectedValues.integerValue > model.filterValues.count) {
-                    index = 0;
-                }
-                else
-                    index = selectedValues.integerValue;
-                
-                
-                FilterHelperModel *options = model.filterValues[index];
-                
-                [parameter setObject:options.filterID forKey:model.filterParameter];
-            }
-            else if ([model.type isEqualToString:@"Switch"]) {
-                
-                FilterHelperModel *options = model.filterValues[selectedValues.integerValue];
-                
-                [parameter setObject:options.filterID forKey:model.filterParameter];
-            }
-            else {
-                
-                FilterHelperModel *options = model.filterValues[selectedValues.integerValue-1];
-                
-                [parameter setObject:options.filterID forKey:model.filterParameter];
-                
-            }
-            
-            
-            
-        }];
+        [_selectedIndexes enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull section, NSIndexPath * _Nonnull selectedIndexPath, BOOL * _Nonnull stop)
+         {
+             FilterListModel *model     =   _filterArray[section.intValue];
+             FilterHelperModel *options =   model.filterValues[selectedIndexPath.row];
+             
+             [parameter setObject:options.filterID forKey:model.filterParameter];
+             
+             
+         }];
         
         
         NSLog(@"%@", parameter);
@@ -119,291 +93,128 @@
 
 #pragma mark - Table view data source
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return _filterArray.count;
+}
 
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-//    FilterListModel *model = _filterArray[section];
-//    
-//    if ([model.type isEqualToString:@"Slider"] || [model.type isEqualToString:@"Switch"]) {
-//        return 1;
-//    }
-//    else
-//        return model.filterValues.count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     
-    return _tempArray.count;
+    FilterListModel *model = _filterArray[section];
+    
+    return model.filterValues.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"filterListCellIdentifier" forIndexPath:indexPath];
     
-    static NSString *defaultCellIdentifier = @"filterListCellIdentifier";
-    static NSString *sliderCellIdentifier  = @"filterSliderCellIdentifier";
-    static NSString *switchCellIdentifier  = @"filterSwitchCellIdentifier";
-
-    NSString *cellIdentifier;
+    // Configure the cell...
     
-    id data = _tempArray[indexPath.row];
+    cell.textLabel.font = [NeediatorUtitity regularFontWithSize:17.f];
+    cell.indentationWidth = 20;
     
     
-    if ([data isKindOfClass:[FilterListModel class]]) {
-        FilterListModel *filter = (FilterListModel *)data;
-        
-        if ([filter.type isEqualToString:@"Slider"]) {
-            cellIdentifier = sliderCellIdentifier;
-        }
-        else if ([filter.type isEqualToString:@"Switch"]) {
-            cellIdentifier = switchCellIdentifier;
+    FilterListModel *model = _filterArray[indexPath.section];
+    FilterHelperModel *helperModel = model.filterValues[indexPath.row];
+    
+    cell.textLabel.text = helperModel.name;
+    
+    
+    
+    
+    NSIndexPath *selectedIndexPath = [_selectedIndexes objectForKey:@(indexPath.section)];
+    
+    if (selectedIndexPath != nil) {
+        if (selectedIndexPath.section == indexPath.section && selectedIndexPath.row == indexPath.row) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
         else
-            cellIdentifier = defaultCellIdentifier;
+            cell.accessoryType = UITableViewCellAccessoryNone;
     }
     else
-        cellIdentifier = defaultCellIdentifier;
-    
-    
-    
-    id cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    
-    
-    
-    
-    if ([data isKindOfClass:[FilterListModel class]]) {
-        
-        FilterListModel *filter = (FilterListModel *)data;
-        
-        if ([filter.type isEqualToString:@"Slider"]) {
-            [self configureSliderCell:cell withFilter:filter forIndexPath:indexPath];
-        }
-        else if ([filter.type isEqualToString:@"Switch"]) {
-            [self configureSwitchCell:cell withFilter:filter forIndexPath:indexPath];
-        }
-        else {
-            filter.canBeExpanded = YES;
-            [self configureDefaultCell:cell withFilter:filter forIndexPath:indexPath];
-        }
-    }
-    else {
-        
-        
-        [self configureOptionsCell:cell withFilterValue:data forIndexPath:indexPath];
-    }
-    
+        cell.accessoryType = UITableViewCellAccessoryNone;
     
     return cell;
 }
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    id allModel = _tempArray[indexPath.row];
-    
-    if ([allModel isKindOfClass:[FilterListModel class]]) {
-        
-        FilterListModel *model = (FilterListModel *)allModel;
-        
-        
-        if ([model.type isEqualToString:@"Slider"] && _sliderCellTapped) {
-            return 105.f;
-        }
-        else
-            return 44.f;
-    }
-    else
-        return 44.f;
-    
-    
-}
-
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    /*
+     id allModel = _tempArray[indexPath.row];
+     
+     UITableViewCell *selected_cell = [tableView cellForRowAtIndexPath:indexPath];
+     
+     
+     if ([allModel isKindOfClass:[FilterListModel class]]) {
+     
+     FilterListModel *model = (FilterListModel *)allModel;
+     
+     if (model.canBeExpanded) {
+     if (model.isExpanded) {
+     [self collapseCellsFromIndexOf:model indexPath:indexPath tableView:tableView];
+     selected_cell.accessoryView = [self viewForDisclosureForState:NO];
+     }
+     else {
+     [self expandCellsFromIndexOf:model indexPath:indexPath tableView:tableView];
+     selected_cell.accessoryView = [self viewForDisclosureForState:YES];
+     }
+     }
+     }
+     else {
+     NSLog(@"Selected");
+     
+     
+     if (lastSelectedIndexPath) {
+     [self deselectFilterOptionForTableview:tableView forIndexPath:lastSelectedIndexPath];
+     
+     }
+     
+     [self selectFilterOptionForTableview:tableView forIndexPath:indexPath];
+     lastSelectedIndexPath = indexPath;
+     
+     }
+     */
     
-    id allModel = _tempArray[indexPath.row];
+    NSLog(@"Indexes %@", _selectedIndexes);
     
-    FilterDefaultViewCell *selected_cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSIndexPath *savedIndexPath = [_selectedIndexes objectForKey:@(indexPath.section)];
     
-    
-    if ([allModel isKindOfClass:[FilterListModel class]]) {
+    if (savedIndexPath == nil) {
         
-        FilterListModel *model = (FilterListModel *)allModel;
+        [self selectFilterOptionForTableview:tableView forIndexPath:indexPath];
+        [_selectedIndexes setObject:indexPath forKey:@(indexPath.section)];
         
-        if ([model.type isEqualToString:@"Slider"]) {
-            // Slider
-            
-            _sliderCellTapped = !_sliderCellTapped;
-            [self.tableView beginUpdates];
-            [self.tableView endUpdates];
-            
-        }
-        else if ([model.type isEqualToString:@"Switch"]) {
-            // Switch
-        }
-        else { // Default Cell
-            
-            _mainTappedDefaultCell = selected_cell;
-            
-            // Decorate according to selected or deselected.
-            if (model.canBeExpanded) {
-                if (model.isExpanded) {
-                    [self collapseCellsFromIndexOf:model indexPath:indexPath tableView:tableView];
-                    selected_cell.accessoryImageView.image = [self viewForDisclosureForState:NO];
-                    
-                }
-                else {
-                    [self expandCellsFromIndexOf:model indexPath:indexPath tableView:tableView];
-                    selected_cell.accessoryImageView.image = [self viewForDisclosureForState:YES];
-                    
-                }
-            }
-            
-            
-        }
     }
     else {
-        NSLog(@"Selected");
-        
-        FilterHelperModel *valueModel = (FilterHelperModel *)allModel;
-        NSInteger filterIndex = [_filterArray indexOfObject:valueModel.filterModel];
-        
-        
-        if (lastSelectedIndexPath) {
-            [self deselectFilterOptionForTableview:tableView forIndexPath:lastSelectedIndexPath];
+        if (indexPath.section == savedIndexPath.section) {
+            [self deselectFilterOptionForTableview:tableView forIndexPath:savedIndexPath];
             
         }
         
         [self selectFilterOptionForTableview:tableView forIndexPath:indexPath];
-        [_selectedIndexes setObject:valueModel.filterID forKey:@(filterIndex)];
-        _mainTappedDefaultCell.defaultValue.text = valueModel.name;
+        [_selectedIndexes setObject:indexPath forKey:@(indexPath.section)];
         
-        
-        lastSelectedIndexPath = indexPath;
-        
-        
-       
-        NSLog(@"After Indexes %@", _selectedIndexes);
-    }
- 
-}
-
-
-
-
-
-
-#pragma mark - Custom Table View Cell
-
--(void)configureOptionsCell:(FilterDefaultViewCell *)cell withFilterValue:(FilterHelperModel *)model forIndexPath:(NSIndexPath *)indexPath {
-    
-    cell.defaultLabel.text = model.name;
-    cell.defaultValue.text = nil;
-    cell.accessoryImageView.image = nil;
-    
-    if (model.filterModel.isExpanded) {
-        cell.leadingDefaultLabelConstraint.constant = 30.f;
     }
     
-//    NSNumber *filterID = [_selectedIndexes objectForKey:@([_filterArray indexOfObject:model.filterModel])];
-//    
-//    
-//    if (model.filterModel.isExpanded) {
-//        if (filterID != nil) {
-//            [self selectFilterOptionForTableview:self.tableView forIndexPath:indexPath];
-//        }
-//        else
-//            [self deselectFilterOptionForTableview:self.tableView forIndexPath:indexPath];
-//    }
-    
-    
-    
-    
-}
-
-
--(void)configureSliderCell:(FilterSliderViewCell *)cell withFilter:(FilterListModel *)filter forIndexPath:(NSIndexPath *)indexPath {
-    
-    cell.filterName.text = filter.filterName;
-    cell.sliderDelegate = self;
-    cell.slider.minimumValue = 0.f;
-    cell.slider.maximumValue = 5.f;
-    
-    
-    NSNumber *value = [_selectedIndexes objectForKey:@([_filterArray indexOfObject:filter])];
-    
-    if(value) {
-        [cell.slider setValue:value.integerValue]; //set the slider value
-        [cell.sliderValue setText:[NSString stringWithFormat:@"%ld",(long)value.integerValue]];
-    }
-    else {
-        [cell.slider setValue:(NSInteger)0];
-        [cell.sliderValue setText:@"0"];
-    }
+    NSLog(@"After Indexes %@", _selectedIndexes);
 }
 
 
 
--(void)configureSwitchCell:(FilterSwitchViewCell *)cell withFilter:(FilterListModel *)filter forIndexPath:(NSIndexPath *)indexPath {
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    FilterListModel *model = _filterArray[section];
     
-    NSInteger filterIndex = [_filterArray indexOfObject:filter];
-    
-    cell.filterName.text = filter.filterName;
-    cell.filterSwitch.tag = filterIndex;
-    [cell.filterSwitch addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
-    
-    
-    NSNumber *value = [_selectedIndexes objectForKey:@(filterIndex)];
-    [cell.filterSwitch setOn:value.boolValue animated:YES];
-}
-
--(void)switchValueChanged:(UISwitch *)sender {
-    
-    
-    [_selectedIndexes setObject:@([sender isOn]) forKey:@(sender.tag)];
-}
-
--(void)configureDefaultCell:(FilterDefaultViewCell *)cell withFilter:(FilterListModel *)filter forIndexPath:(NSIndexPath *)indexPath {
-    
-    
-//    FilterHelperModel *filterValue = filter.filterValues[indexPath.row];
-    
-    
-    cell.defaultLabel.text = filter.filterName;
-    
-    NSNumber *filterID = [_selectedIndexes objectForKey:@([_filterArray indexOfObject:filter])];
-    
-    if (filterID != nil) {
-        for (FilterHelperModel *valueModel in filter.filterValues) {
-            if ([valueModel.filterID isEqual:filterID]) {
-                cell.defaultValue.text = valueModel.name;
-            }
-            else
-                cell.defaultValue.text = @"";
-        }
-    }
-    else
-        cell.defaultValue.text = @"";
-    
-    
-//    NSIndexPath *selectedIndexPath = [_selectedIndexes objectForKey:@(indexPath.section)];
-//    
-//    if (selectedIndexPath != nil) {
-//        if (selectedIndexPath.section == indexPath.section && selectedIndexPath.row == indexPath.row) {
-//            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-//        }
-//        else
-//            cell.accessoryType = UITableViewCellAccessoryNone;
-//    }
-//    else
-//        cell.accessoryType = UITableViewCellAccessoryNone;
+    return model.filterName;
 }
 
 
 
-#pragma mark - Select - Deselect Method
-
-
-
--(void)deselectFilterOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath {
+-(void)deselectFilterOptionForTableview:(UITableView *)tableView forIndexPath:(NSIndexPath *)indexPath
+{
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -422,7 +233,23 @@
 }
 
 
-
+-(UIView*) viewForDisclosureForState:(BOOL) isExpanded
+{
+    NSString *imageName;
+    if(isExpanded)
+    {
+        imageName = @"Collapse Arrow";
+    }
+    else
+    {
+        imageName = @"Expand Arrow";
+    }
+    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+    [imgView setFrame:CGRectMake(0, 6, 24, 24)];
+    [myView addSubview:imgView];
+    return myView;
+}
 
 
 
@@ -444,14 +271,14 @@
     }
     // Animate and delete
     [tableView deleteRowsAtIndexPaths:indexPaths
-                     withRowAnimation:UITableViewRowAnimationAutomatic];
-    
+                     withRowAnimation:UITableViewRowAnimationTop];
     
 }
 
 
 
--(void)expandCellsFromIndexOf:(FilterListModel *)model indexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+-(void)expandCellsFromIndexOf:(FilterListModel *)model indexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView
+{
     
     NSLog(@"expandCellsFromIndexOf");
     
@@ -461,10 +288,8 @@
         int i=0;
         
         for (FilterHelperModel *valuesModel in model.filterValues) {
-            // To know who is the parent filter.
-            valuesModel.filterModel = model;
             
-            NSLog(@"Inserting at index %ld", indexPath.row + i + 1);
+            NSLog(@"Inserting at index %d", indexPath.row + i + 1);
             [_tempArray insertObject:valuesModel atIndex:indexPath.row + i + 1];
             i++;
         }
@@ -474,22 +299,18 @@
         NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
         for (int i=0; i< expandedRange.length; i++) {
             [indexPaths addObject:[NSIndexPath indexPathForRow:expandedRange.location + i + 1 inSection:indexPath.section]];
-            NSLog(@"Adding at index %lu", expandedRange.location + i + 1);
+            NSLog(@"Adding at index %u", expandedRange.location + i + 1);
         }
         
         for (NSIndexPath *indexpath in indexPaths) {
             NSLog(@"%ld, %ld", (long)indexpath.section, (long)indexpath.row);
         }
         
-        [tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+        [tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
         
         [tableView scrollToRowAtIndexPath:indexPaths[0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
-    
-    
 }
-
-
 
 
 -(NSInteger) numberOfCellsToBeCollapsed:(FilterListModel *) model
@@ -510,47 +331,4 @@
     }
     return total;
 }
-
--(UIImage *) viewForDisclosureForState:(BOOL) isExpanded
-{
-    NSString *imageName;
-    if(isExpanded)
-    {
-        imageName = @"Expand Arrow";
-    }
-    else
-    {
-        imageName = @"Collapse Arrow";
-    }
-    
-    
-    return [UIImage imageNamed:imageName];
-}
-
-
-#pragma mark - Slider Delegate Method
-
--(void)sliderChanged:(FilterSliderViewCell *)cell {
-    NSIndexPath *path = [self.tableView indexPathForCell:cell]; //get the indexpath
-    if(path)//check if valid path
-    {
-        int value = cell.slider.value;
-        
-        
-        NSString *filterName = cell.filterName.text;
-        
-        
-        for (FilterListModel *model in _filterArray) {
-            if ([model.filterName isEqualToString:filterName]) {
-                [_selectedIndexes setObject:[NSNumber numberWithInt:value] forKey:@([_filterArray indexOfObject:model])];
-            }
-        }
-        
-        
-        
-        NSLog(@"%d", value);
-    }
-}
-
-
 @end

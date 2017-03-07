@@ -25,6 +25,8 @@
 {
     NSString *cellIdentifier;
 }
+
+
 @property (nonatomic, strong) NeediatorHUD *hud;
 @property (nonatomic, strong) NSMutableArray *available_addresses;
 
@@ -38,7 +40,7 @@ typedef void(^completion)(BOOL finished);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+
     _available_addresses = [NSMutableArray arrayWithArray:self.addressesArray];
     
     self.title = @"My Addresses";
@@ -56,6 +58,13 @@ typedef void(^completion)(BOOL finished);
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    
+    _available_addresses = [NSMutableArray arrayWithArray:self.addressesArray];
+    [self.tableView reloadData];
 }
 
 
@@ -119,8 +128,6 @@ typedef void(^completion)(BOOL finished);
         
     }
     
-    
-    
     return cell;
 }
 
@@ -144,7 +151,7 @@ typedef void(^completion)(BOOL finished);
     NSDictionary *address = _available_addresses[indexPath.row];
     
     
-    NSLog(@"Address %@", address);
+    NSLog(@" Available Addresses is--\n %@", address);
     
     if (self.isGettingOrder) {
         
@@ -155,7 +162,8 @@ typedef void(^completion)(BOOL finished);
 //            cell.userInteractionEnabled = NO;
 //        }
     }
-    else {
+    else
+    {
         UIButton *edit = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
         [edit setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
         [edit addTarget:self action:@selector(editAddress:) forControlEvents:UIControlEventTouchUpInside];
@@ -165,7 +173,7 @@ typedef void(^completion)(BOOL finished);
     
     
     
-    cell.full_name.text = [[address valueForKey:@"name"]capitalizedString];
+    cell.full_name.text = [[address valueForKey:@"billingname"]capitalizedString];
     
     NSString *address1 = [[address valueForKey:@"address"] capitalizedString];
     
@@ -176,6 +184,11 @@ typedef void(^completion)(BOOL finished);
     
     NSString *zipcode  = [address valueForKey:@"pincode"];
     cell.completeAddress.text = [NSString stringWithFormat:@"%@, - %@",address1, zipcode];
+    
+    cell.AddressTYpe.text=[address valueForKey:@"AddressType"];
+    cell.ContactNumber.text=[NSString stringWithFormat:@"Mob.No-%@",[address valueForKey:@"contactno"]];
+    
+    
 }
 
 
@@ -189,6 +202,8 @@ typedef void(^completion)(BOOL finished);
     EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
     editAddressVC.title = @"Edit Address";
     editAddressVC.shipAddress = _available_addresses[indexPath.row];
+    
+    NSLog(@"Edited address Should be %@",_available_addresses[indexPath.row]);
     
     editAddressVC.delegate = self;
     
@@ -209,7 +224,7 @@ typedef void(^completion)(BOOL finished);
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 1) {
-        return 120.0f;
+        return 110.0f;
     }
     else
         return [super tableView:tableView heightForRowAtIndexPath:indexPath];
@@ -231,22 +246,15 @@ typedef void(^completion)(BOOL finished);
                 NSLog(@"Yes, Its available - %@", address);
                 [self.delegate deliverableAddressDidSelect:address];
             }
-            
-            
             [self dismissViewControllerAnimated:YES completion:nil];
         }
-
     }
     else {
         EditAddressViewController *editAddressVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editAddressVC"];
         editAddressVC.title = @"Add Address";
         editAddressVC.delegate = self;
-        
-        
         [self.navigationController pushViewController:editAddressVC animated:YES];
     }
-    
-    
 }
 
 
@@ -257,12 +265,14 @@ typedef void(^completion)(BOOL finished);
     
     NSLog(@"Before %@", _available_addresses);
     
-    [_available_addresses removeAllObjects];
+   [_available_addresses removeAllObjects];
     [_available_addresses addObjectsFromArray:addresses];
     
-    NSLog(@"%@", _available_addresses);
-    
     [self.tableView reloadData];
+
+    
+    NSLog(@" addresses array is %@", _available_addresses);
+    
 }
 
 
@@ -301,7 +311,6 @@ typedef void(^completion)(BOOL finished);
         
         [self deleteAddress:address atIndexPath:indexPath];
         
-        
     }
     
 }
@@ -336,16 +345,13 @@ typedef void(^completion)(BOOL finished);
 
 
 -(void)deleteAddress:(NSDictionary *)address atIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    [self showHUD];
+     [self showHUD];
     
     NSString *addressID = [address valueForKey:@"id"];
     
     [[NAPIManager sharedManager] deleteAddress:addressID withSuccess:^(BOOL success) {
         
         [self hideHUD];
-        
         
         if (success) {
             
@@ -357,7 +363,6 @@ typedef void(^completion)(BOOL finished);
             [self alertWithTitle:@"Delete Address" message:@"Something went wrong. Please try again."];
         }
         
-        
     } failure:^(NSError *error) {
         [self hideHUD];
         NSLog(@"Error: %@", error.localizedDescription);
@@ -365,9 +370,6 @@ typedef void(^completion)(BOOL finished);
         [self alertWithTitle:@"Delete Address" message:error.localizedDescription];
     }];
 }
-
-
-
 
 -(BOOL)isAddressAvailable {
     
@@ -378,28 +380,21 @@ typedef void(^completion)(BOOL finished);
         return NO;
 }
 
-
-
-
 #pragma mark - MBProgressHUD
 
--(void)showHUD {
+-(void)showHUD
+{
     self.hud = [[NeediatorHUD alloc] initWithFrame:self.tableView.frame];
     self.hud.overlayColor = [UIColor clearColor];
     [self.hud fadeInAnimated:YES];
     self.hud.hudCenter = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, CGRectGetHeight(self.view.bounds) / 2);
     [self.navigationController.view insertSubview:self.hud belowSubview:self.navigationController.navigationBar];
-    
-    
 }
 
 -(void)hideHUD {
     [self.hud fadeOutAnimated:YES];
     [self.hud removeFromSuperview];
-    
 }
-
-
 
 
 #pragma mark - UIAlertView
@@ -422,211 +417,5 @@ typedef void(^completion)(BOOL finished);
     [connection_alert show];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#pragma mark - Not Needed 
-
-/*
-
--(void)deleteCurrentOrder {
-    User *user = [User savedUser];
-    
-    
-    NSString *url = [NSString stringWithFormat:@"%@%@/empty?token=%@",kOrders_url, self.order_id, user.access_token];
-    NSLog(@"URL is --> %@", url);
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    request.HTTPMethod = @"PUT";
-    
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"%@",response);
-            NSError *jsonError;
-            
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            
-            NSLog(@"JSON ==> %@",json);
-            
-            [self.hud hide:YES];
-            if (jsonError) {
-                NSLog(@"Error %@",[jsonError localizedDescription]);
-            } else {
-                
-                NSLog(@"Order Line items empty");
-                
-            }
-            
-        });
-        
-    }];
-    
-    [task resume];
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.color = self.view.tintColor;
-}
-
-
--(void)sendAddressToServerWithCompletion:(completion)isComplete {
-    User *user = [User savedUser];
-    
-    NSString *url = [NSString stringWithFormat:@"%@%@?token=%@",kCheckout_address_url, self.order_id, user.access_token];
-    NSLog(@"URL is --> %@", url);
-    
-    NSDictionary *order_address = [self addressJSON:user];
-    
-    NSLog(@"Address ===> %@",order_address);
-    
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:order_address options:NSJSONWritingPrettyPrinted error:&error];
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    request.HTTPMethod = @"PUT";
-    
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)jsonData.length] forHTTPHeaderField:@"Content-Length"];
-    
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        if (data != nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"%@",response);
-                NSError *jsonError;
-                
-                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-                
-                NSLog(@"JSON ==> %@",json);
-                
-                [self.hud hide:YES];
-                if (jsonError) {
-                    NSLog(@"Error %@",[jsonError localizedDescription]);
-                } else {
-                    
-                    NSDictionary *shippment = [json valueForKey:@"shipments"][0];
-                    self.shipping_data = [shippment valueForKey:@"selected_shipping_rate"];
-                    
-                    isComplete(YES);
-                }
-                
-            });
-        } else {
-            isComplete(NO);
-        }
-        
-    }];
-    
-    [task resume];
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.color = self.view.tintColor;
-    
-}
-
-
--(NSDictionary *)createAddressesDictionaryForUser:(User *)user {
-    
-    NSDictionary *shipping_address = @{
-                                       @"firstname"     : [user.ship_address valueForKey:@"firstname"],
-                                       @"lastname"      : [user.ship_address valueForKey:@"lastname"],
-                                       @"address1"      : [user.ship_address valueForKey:@"address1"],
-                                       @"city"          : [user.ship_address valueForKey:@"city"],
-                                       @"phone"         : [user.ship_address valueForKey:@"phone"],
-                                       @"zipcode"       : [user.ship_address valueForKey:@"zipcode"],
-                                       @"state_id"      : [user.ship_address valueForKey:@"state_id"],
-                                       @"country_id"    : [user.ship_address valueForKey:@"country_id"]
-                                       };
-    
-    return shipping_address;
-}
-
-
--(NSDictionary *)addressJSON:(User *)user {
-    
-    NSDictionary *orderAddress = @{
-                                   @"order": @{
-                                           @"bill_address_attributes": [self createAddressesDictionaryForUser:user],
-                                           @"ship_address_attributes": [self createAddressesDictionaryForUser:user]
-                                           }
-                                   };
-    
-    return orderAddress;
-}
-
-*/
-
-/*
- -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
- if (indexPath.section == 0) {
- if (self.isGettingOrder) {
- AddShippingDetailsViewController *addShippingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addShippingDetailsVC"];
- [self.navigationController pushViewController:addShippingVC animated:YES];
- } else {
- NSLog(@"Does not support multiple addresses");
- }
- 
- NSLog(@"Currently, does'nt support multiple addresses");
- 
- }
- else if (indexPath.section == 1) {
- 
- if (self.isGettingOrder) {
- DeliveryViewController *deliveryVC = [self.storyboard instantiateViewControllerWithIdentifier:@"deliveryVC"];
- 
- [self sendAddressToServerWithCompletion:^(BOOL finished) {
- if (finished) {
- deliveryVC.shipping_data = self.shipping_data;
- deliveryVC.order_id      = self.order_id;
- 
- [self.navigationController pushViewController:deliveryVC animated:YES];
- }
- else
- NSLog(@"Could not send address");
- }];
- } else {
- NSLog(@" Showing Address ");
- }
- 
- 
- 
- }
- 
- }
- 
- */
 
 @end

@@ -97,6 +97,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     StoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storeCell" forIndexPath:indexPath];
 //    StoreRealm *store = self.stores[indexPath.row];
+
     StoresModel *store = self.array_stores[indexPath.row];
     
     

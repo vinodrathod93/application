@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,7 +14,6 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgS-9x-2EA">
-                    <rect key="frame" x="30" y="5" width="60" height="55"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="55" id="IoH-LA-KjS"/>
                         <constraint firstAttribute="width" constant="60" id="dk7-1r-IeL"/>
@@ -22,11 +22,10 @@
                     <inset key="titleEdgeInsets" minX="-40" minY="36" maxX="-17" maxY="0.0"/>
                     <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="14" maxY="12"/>
                     <state key="normal" title="Favourite" image="store_fav">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I4v-OY-Djx">
-                    <rect key="frame" x="150" y="5" width="60" height="55"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="OeX-Pi-SeC"/>
                         <constraint firstAttribute="height" constant="55" id="zCr-5b-ymb"/>
@@ -35,11 +34,10 @@
                     <inset key="titleEdgeInsets" minX="-10" minY="36" maxX="14" maxY="0.0"/>
                     <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="14" maxY="12"/>
                     <state key="normal" title="Info" image="about_us">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="94K-ZU-r02">
-                    <rect key="frame" x="270" y="5" width="60" height="55"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="55" id="E6P-pg-Pk5"/>
                         <constraint firstAttribute="width" constant="60" id="Wfq-Du-1U5"/>
@@ -48,11 +46,10 @@
                     <inset key="titleEdgeInsets" minX="-15" minY="36" maxX="11" maxY="0.0"/>
                     <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="14" maxY="12"/>
                     <state key="normal" title="Share" image="store_share">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qf6-2K-Uca">
-                    <rect key="frame" x="390" y="5" width="60" height="55"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="780-BD-fGE"/>
                         <constraint firstAttribute="height" constant="55" id="b7V-wy-4TT"/>
@@ -60,12 +57,11 @@
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
                     <inset key="titleEdgeInsets" minX="-25" minY="36" maxX="0.0" maxY="0.0"/>
                     <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="14" maxY="12"/>
-                    <state key="normal" title="1.5 KM" image="store_location">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="Location" image="store_location">
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wua-6W-Nrp">
-                    <rect key="frame" x="510" y="5" width="60" height="55"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="1br-VL-Don"/>
                         <constraint firstAttribute="height" constant="55" id="2oR-Pq-ELd"/>
@@ -74,11 +70,11 @@
                     <inset key="titleEdgeInsets" minX="-11" minY="36" maxX="14" maxY="0.0"/>
                     <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="14" maxY="12"/>
                     <state key="normal" title="Call" image="store_phone">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="0.93860479797979801" green="0.93831746871845767" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.93860479797979801" green="0.93831746871845767" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="wua-6W-Nrp" firstAttribute="centerY" secondItem="dtB-kn-NAa" secondAttribute="centerY" id="2yN-vB-mXu"/>
                 <constraint firstItem="94K-ZU-r02" firstAttribute="centerX" secondItem="dtB-kn-NAa" secondAttribute="trailing" multiplier="0.5" id="EAu-LF-C5Y"/>

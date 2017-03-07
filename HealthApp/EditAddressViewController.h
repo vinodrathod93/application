@@ -27,19 +27,26 @@
 @property (weak, nonatomic) IBOutlet UITextField *roadTextField;
 @property (weak, nonatomic) IBOutlet UITextField *landMarkTextField;
 @property (weak, nonatomic) IBOutlet UITextField *cityTextField;
-@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (weak, nonatomic) IBOutlet UITextField *pincodeTextField;
 @property (weak, nonatomic) IBOutlet UITextField *stateTextField;
-@property (weak, nonatomic) IBOutlet UITextField *cityTextfield;
 @property (weak, nonatomic) IBOutlet UITextField *areaTextField;
+@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
+
 
 @property (weak, nonatomic) IBOutlet TPKeyboardAvoidingScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIButton *saveNContinueButton;
-
 @property (nonatomic, strong) NSDictionary *shipAddress;
-
-
 @property (nonatomic, weak) id<EditedAddressDelegate> delegate;
+
+
+@property (weak, nonatomic) IBOutlet UIButton *AddressTypeButton;
+
+
+
+
+
+@property (weak, nonatomic) IBOutlet UITextField *cityTextfield;
+
 
 @end

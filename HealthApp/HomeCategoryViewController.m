@@ -19,26 +19,35 @@
 #import "ListingTableViewController.h"
 #import "SubCategoryViewController.h"
 #import "QRCodeViewController.h"
-
-#import "CategoryModel.h"
-#import "SubCategoryModel.h"
 #import "PromotionModel.h"
 #import "UIColor+HexString.h"
-#import "MainCategoryRealm.h"
-#import "SubCategoryRealm.h"
-#import "MainPromotionRealm.h"
 #import "HomeCollectionViewCell.h"
-#import "SortListModel.h"
-#import "FilterListModel.h"
 #import "NotificationViewController.h"
 
 
 
-@interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate, NSXMLParserDelegate,UIViewControllerPreviewingDelegate,iCarouselDataSource,iCarouselDelegate>
+
+#import "MainCategoryRealm.h"
+#import "SubCategoryRealm.h"
+#import "MainPromotionRealm.h"
+
+
+
+#import "CategoryModel.h"
+#import "FilterListModel.h"
+#import "SubCategoryModel.h"
+#import "SortListModel.h"
+
+
+
+
+
+@interface HomeCategoryViewController ()<NSFetchedResultsControllerDelegate,NSXMLParserDelegate,UIViewControllerPreviewingDelegate,iCarouselDataSource,iCarouselDelegate>
 
 
 @property (nonatomic, strong) NSFetchedResultsController *h_lineItemsFetchedResultsController;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
 @property (nonatomic, strong) RLMResults *categoriesArray;
 @property (nonatomic, strong) RLMResults *subCategoriesArray;
 @property (nonatomic, strong) RLMResults *promotions;
@@ -58,7 +67,8 @@
 
 
 
-@implementation HomeCategoryViewController {
+@implementation HomeCategoryViewController
+{
     CLLocationManager *_locationManager;
     CLGeocoder *_geocoder;
     CLPlacemark *_placemark;
@@ -80,7 +90,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     UIImageView *neediatorLogoView    = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"neediator_logo"]];
     self.navigationItem.titleView = neediatorLogoView;
-
+    
     UIButton *QRButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [QRButton setImage:[UIImage imageNamed:@"QRIcon"] forState:UIControlStateNormal];
     [QRButton addTarget:self action:@selector(QRButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -104,12 +114,12 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     /* Start the Location */
-//    Location *location = [Location savedLocation];
-//    if (location == nil)
-        [self startCurrentLocation];
+    //    Location *location = [Location savedLocation];
+    //    if (location == nil)
+    [self startCurrentLocation];
     
     
-
+    
     
     
     /* Show Badge value for Cart in Tab */
@@ -119,7 +129,8 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [self checkLineItems];
     NSString *count = [NSString stringWithFormat:@"%lu", self.h_lineItemsFetchedResultsController.fetchedObjects.count];
     
-    if ([count isEqualToString:@"0"]) {
+    if ([count isEqualToString:@"0"])
+    {
         [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:nil];
     } else
         [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:count];
@@ -140,15 +151,17 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [self showLoadingView];
     
     
-    if ([self isForceTouchAvailable]) {
+    if ([self isForceTouchAvailable])
+    {
         self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
     }
     
     
     [self showHUD];
-
     
-    if ([self isCategoriesSaved]) {
+    
+    if ([self isCategoriesSaved])
+    {
         [NSThread sleepForTimeInterval:3];
         [self hideHUD];
         
@@ -159,67 +172,17 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     else
         [self requestCategories];
     
-    
-    
-    
-    
-    // auto sliding of banners
-    
-   
-    
-    
+     // auto sliding of banners
 }
 
-
-
-
-
-- (IBAction)notificationDidTapped:(id)sender {
-    
-    NotificationViewController *notificationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationListVC"];
-    
-    [self.navigationController pushViewController:notificationVC animated:YES];
-}
-
--(void)showLoadingView {
-    
-    self.tabBarController.tabBar.hidden = YES;
-    
-    _launchScreen = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] lastObject];
-    _launchScreen.frame  = [[UIScreen mainScreen] bounds];
-    
-    // Add blurview
-    UIView *blurView = [[UIView alloc] initWithFrame:_launchScreen.frame];
-    blurView.backgroundColor = [UIColor whiteColor];
-    blurView.alpha = 0.6f;
-    
-    [_launchScreen addSubview:blurView];
-    
-    
-    [self.navigationController.view addSubview:_launchScreen];
-    
-}
-
--(void)QRButtonTapped:(UIButton *)sender {
-    
-    QRCodeViewController *QRCodeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"qrCodeVC"];
-    [self.navigationController pushViewController:QRCodeVC animated:YES];
-    
-}
-
--(void)removeLaunchScreen {
-    [_launchScreen removeFromSuperview];
-    self.tabBarController.tabBar.hidden = NO;
-}
-
-
--(void)viewWillAppear:(BOOL)animated {
+-(void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     // Change tint color in navigation Bar
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:238/255.f green:238/255.f blue:243/255.f alpha:1.0]];
     
     // Customize TabBar
-//    [[UIView appearanceWhenContainedIn:[UITabBar class], nil] setTintColor:[UIColor whiteColor]];
+    //    [[UIView appearanceWhenContainedIn:[UITabBar class], nil] setTintColor:[UIColor whiteColor]];
     [self.tabBarController.tabBar setBarTintColor:[UIColor whiteColor]];
     [self.tabBarController.tabBar setTintColor:[UIColor yellowColor]];
     [self.tabBarController.tabBar.items enumerateObjectsUsingBlock:^(UITabBarItem * _Nonnull tabBarItem, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -244,9 +207,10 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+
+-(void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
-    
     [_task suspend];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(changeDot:) object:nil];
 }
@@ -258,21 +222,68 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     self.headerView.askDoctorButton.layer.cornerRadius = self.headerView.askDoctorButton.frame.size.width/2;
     self.headerView.askPharmacistButton.layer.cornerRadius = self.headerView.askPharmacistButton.frame.size.width/2;
     
-//    self.headerView.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.headerView.scrollView.frame) * self.promotions.count, CGRectGetHeight(self.headerView.scrollView.frame));
+    //    self.headerView.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.headerView.scrollView.frame) * self.promotions.count, CGRectGetHeight(self.headerView.scrollView.frame));
 }
 
--(NSArray *)getPListIconsArray {
+
+
+
+
+#pragma mark - Navigation
+- (IBAction)notificationDidTapped:(id)sender
+{
+    NotificationViewController *notificationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationListVC"];
+    [self.navigationController pushViewController:notificationVC animated:YES];
+}
+
+-(void)QRButtonTapped:(UIButton *)sender
+{
+    QRCodeViewController *QRCodeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"qrCodeVC"];
+    [self.navigationController pushViewController:QRCodeVC animated:YES];
+}
+
+
+#pragma mark - Show Loading View..
+-(void)showLoadingView {
+    
+    self.tabBarController.tabBar.hidden = YES;
+    
+    _launchScreen = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] lastObject];
+    _launchScreen.frame  = [[UIScreen mainScreen] bounds];
+    
+    // Add blurview
+    UIView *blurView = [[UIView alloc] initWithFrame:_launchScreen.frame];
+    blurView.backgroundColor = [UIColor whiteColor];
+    blurView.alpha = 0.6f;
+    [_launchScreen addSubview:blurView];
+    [self.navigationController.view addSubview:_launchScreen];
+    
+}
+
+#pragma mark - Remove Launch Screen..
+-(void)removeLaunchScreen
+{
+    [_launchScreen removeFromSuperview];
+    self.tabBarController.tabBar.hidden = NO;
+}
+
+
+
+#pragma mark - Get Icon Array.
+-(NSArray *)getPListIconsArray
+{
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Categories" ofType:@"plist"];
     NSDictionary *rootDictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-    
     NSArray *iconsArray = rootDictionary[@"Icons"];
-    
+    NSLog(@"%@",iconsArray);
     return iconsArray;
 }
 
+
 #pragma mark <UICollectionViewDataSource>
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
     return 1;
 }
 
@@ -287,9 +298,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     HomeCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     
-    
     CategoryModel *category     = self.categoriesArray[indexPath.row];
-    
     
     cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.categoryIcons[indexPath.item]]];
     cell.label.text = category.name;
@@ -300,7 +309,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     }
     else
         cell.contentView.backgroundColor = [UIColor whiteColor];
-    
     
     return cell;
 }
@@ -316,7 +324,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     }
     else
         return CGSizeMake(148, 148);
-    
 }
 
 
@@ -409,7 +416,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
             listingVC.nav_color                  = model.color_code;
             listingVC.category_id                 = model.cat_id.stringValue;
             listingVC.subcategory_id              = @"";
-            
+            listingVC.hidesBottomBarWhenPushed      =   YES;
             
             previewingContext.sourceRect = [self.view convertRect:cell.frame fromView:self.collectionView];
             
@@ -422,16 +429,10 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
             SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCategoryCollectionVC"];
             subCatVC.subcategoryArray       = array;
             
-            
             previewingContext.sourceRect = [self.view convertRect:cell.frame fromView:self.collectionView];
-            
             
             return subCatVC;
         }
-        
-        
-        
-        
         
     }
     
@@ -474,17 +475,17 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-//    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    //    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     
-//    [UIView animateWithDuration:0.5
-//                          delay:0
-//                        options:(UIViewAnimationOptionAllowUserInteraction)
-//                     animations:^{
-//                         cell.frame = CGRectMake(cell.frame.origin.x+5, cell.frame.origin.y+5, CGRectGetWidth(cell.frame)-10, CGRectGetHeight(cell.frame)-10);
-//                     }
-//                     completion:^(BOOL finished) {
-//                         
-//                     }];
+    //    [UIView animateWithDuration:0.5
+    //                          delay:0
+    //                        options:(UIViewAnimationOptionAllowUserInteraction)
+    //                     animations:^{
+    //                         cell.frame = CGRectMake(cell.frame.origin.x+5, cell.frame.origin.y+5, CGRectGetWidth(cell.frame)-10, CGRectGetHeight(cell.frame)-10);
+    //                     }
+    //                     completion:^(BOOL finished) {
+    //
+    //                     }];
     
     
     CategoryModel *model = self.categoriesArray[indexPath.row];
@@ -506,22 +507,17 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         listingVC.nav_color                  = model.color_code;
         listingVC.category_id                 = model.cat_id.stringValue;
         listingVC.subcategory_id              = @"";
+        listingVC.hidesBottomBarWhenPushed      =   YES;
         
         [self.navigationController pushViewController:listingVC animated:YES];
-        
-        
     }
+    
     else {
         
         SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCategoryCollectionVC"];
         subCatVC.subcategoryArray       = array;
         [self.navigationController pushViewController:subCatVC animated:YES];
     }
-    
-    
-    
-    
-    
     
 }
 
@@ -532,8 +528,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     UICollectionReusableView *reusableView = nil;
     
     if (kind == UICollectionElementKindSectionHeader) {
-        
-        
         
         self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseSupplementaryIdentifier forIndexPath:indexPath];
         
@@ -546,26 +540,26 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         
         
-//        [self setupScrollViewImages];
+        //        [self setupScrollViewImages];
         
         
         
         // Changed the promotion model with static string url
         
         
-//        [self.promotions enumerateObjectsUsingBlock:^(NSString *promotion_url, NSUInteger idx, BOOL *stop) {
-//            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
-//            imageView.tag = idx;
-//            
-//            
-//            NSURL *image_url = [NSURL URLWithString:promotion_url];
-//            
-//            
-//            [imageView sd_setImageWithURL:image_url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
-//            
-//            
-//            [self.headerView.scrollView addSubview:imageView];
-//        }];
+        //        [self.promotions enumerateObjectsUsingBlock:^(NSString *promotion_url, NSUInteger idx, BOOL *stop) {
+        //            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollView.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollView.frame), CGRectGetHeight(self.headerView.scrollView.frame))];
+        //            imageView.tag = idx;
+        //
+        //
+        //            NSURL *image_url = [NSURL URLWithString:promotion_url];
+        //
+        //
+        //            [imageView sd_setImageWithURL:image_url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+        //
+        //
+        //            [self.headerView.scrollView addSubview:imageView];
+        //        }];
         
         
         
@@ -587,48 +581,45 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     }
     else
         return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Phone);
-
+    
 }
 
 
 /*
-#pragma mark - Scroll view Delegate
-
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (scrollView == self.headerView.scrollView) {
-        NSInteger index = self.headerView.scrollView.contentOffset.x / CGRectGetWidth(self.headerView.scrollView.frame);
-        
-        self.headerView.pageControl.currentPage = index;
-    }
-}
-
--(void)scrollToPage:(NSInteger)aPage{
-    float myPageWidth = [self.headerView.scrollView frame].size.width;
-    [self.headerView.scrollView setContentOffset:CGPointMake(aPage*myPageWidth,0) animated:YES];
-}
-*/
+ #pragma mark - Scroll view Delegate
  
+ -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+ if (scrollView == self.headerView.scrollView) {
+ NSInteger index = self.headerView.scrollView.contentOffset.x / CGRectGetWidth(self.headerView.scrollView.frame);
+ 
+ self.headerView.pageControl.currentPage = index;
+ }
+ }
+ 
+ -(void)scrollToPage:(NSInteger)aPage{
+ float myPageWidth = [self.headerView.scrollView frame].size.width;
+ [self.headerView.scrollView setContentOffset:CGPointMake(aPage*myPageWidth,0) animated:YES];
+ }
+ */
+
 -(void)changeDot:(id)sender {
     
-    NSLog(@"changing");
-    
-    
-    
+    //  NSLog(@"changing");
     // Calclulate new offset
     NSInteger index = self.headerView.carousel.currentItemIndex;
     
-    NSLog(@"Current Index is %ld", (long)index);
+    //  NSLog(@"Current Index is %ld", (long)index);
     
     if (index == 0) {
         index = self.promotions.count-1;
         
-        NSLog(@"oval Index is %ld", (long)index);
+        //     NSLog(@"oval Index is %ld", (long)index);
     }
     else {
         index--;
-        NSLog(@"deduced Index is %ld", (long)index);
+        //     NSLog(@"deduced Index is %ld", (long)index);
     }
-        
+    
     [self.headerView.carousel scrollToItemAtIndex:index animated:YES];
     [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.5f];
 }
@@ -663,17 +654,16 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 -(void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel {
-
+    
     
     NSInteger index = self.promotions.count -1 - carousel.currentItemIndex;
     
     index ++;
-    NSLog(@"Current Index is %ld and calc. index is %ld", (long)carousel.currentItemIndex, (long)index);
+    // NSLog(@"Current Index is %ld and calc. index is %ld", (long)carousel.currentItemIndex, (long)index);
     
     if(index == self.promotions.count) {
         index = 0;
     }
-    
     
     self.headerView.pageControl.currentPage = index;
 }
@@ -681,7 +671,8 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 
--(void)checkLineItems {
+-(void)checkLineItems
+{
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"LineItems"];
     
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lineItemID" ascending:YES];
@@ -728,7 +719,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     Location *location = [Location savedLocation];
     if (location != nil) {
-       // nothing
+        // nothing
         
     } else {
         location = [[Location alloc] init];
@@ -763,17 +754,17 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
             
             [_locationManager stopUpdatingLocation];
             
-//            [self decorateSelectCurrentLocation];
+            //            [self decorateSelectCurrentLocation];
             
-//            if (self.storesArray.count != 0) {
-//                [self.storesArray removeAllObjects];
-//                [self.storesArray addObject:@"Searching..."];
-//            }
+            //            if (self.storesArray.count != 0) {
+            //                [self.storesArray removeAllObjects];
+            //                [self.storesArray addObject:@"Searching..."];
+            //            }
             
-//            [self.tableView reloadData];
+            //            [self.tableView reloadData];
             
             
-//            [self loadStoresWithLocation:location];
+            //            [self loadStoresWithLocation:location];
             
             
             
@@ -782,11 +773,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
             NSLog(@"%@", error.debugDescription);
         }
     } ];
-    
-}
-
-- (IBAction)notificationPressed:(id)sender {
-    
     
 }
 
@@ -801,7 +787,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         self.hud.hudCenter = CGPointMake(CGRectGetWidth(_launchScreen.bounds) / 2, CGRectGetHeight(_launchScreen.bounds) / 2 + 120.f);
         [self.hud fadeInAnimated:YES];
         [_launchScreen addSubview:self.hud];
-        
         
     }
     
@@ -822,78 +807,71 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     
-    
-    
     self.subCategoriesArray = [[NSMutableArray alloc] init];
     
-    
-    
-    
     /* Get Category names & Promotion Images */
-    _task = [[NAPIManager sharedManager] mainCategoriesWithSuccess:^(MainCategoriesResponseModel *response) {
-        
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            RLMRealm *realm = [RLMRealm defaultRealm];
-            [realm beginWriteTransaction];
-            [realm deleteAllObjects];
-            [realm commitWriteTransaction];
-            
-            [realm beginWriteTransaction];
-            for (CategoryModel *category in response.categories) {
-                MainCategoryRealm *categoryRealm = [[MainCategoryRealm alloc] initWithMantleModel:category];
-                [realm addObject:categoryRealm];
-                
-                
-                
-                for (SubCategoryModel *subCategory in category.subCat_array) {
-                    SubCategoryRealm *subCategoryRealm = [[ SubCategoryRealm alloc] initWithMantleModel:subCategory];
-                    
-                    [realm addObject:subCategoryRealm];
-                }
-                
-            }
-            
-            for (PromotionModel *promotion in response.promotions) {
-                MainPromotionRealm *promotionRealm = [[MainPromotionRealm alloc] initWithMantleModel:promotion];
-                [realm addObject:promotionRealm];
-            }
-            
-            
-            [realm commitWriteTransaction];
-            
-            
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                RLMRealm *realmMainThread = [RLMRealm defaultRealm];
-                
-                RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
-                RLMResults *subCategories = [SubCategoryRealm allObjectsInRealm:realmMainThread];
-                RLMResults *promotions = [MainPromotionRealm allObjectsInRealm:realmMainThread];
-                
-                self.categoriesArray = categories;
-                self.subCategoriesArray = subCategories;
-                self.promotions = promotions;
-                
-                [self.collectionView reloadData];
-                [self.headerView.carousel reloadData];
-                [self hideHUD];
-                [self removeLaunchScreen];
-            });
-        });
-        
-        
-    } failure:^(NSError *error) {
-        // Display error
-        [NSThread sleepForTimeInterval:2.0];
-        [self hideHUD];
-        
-        [self loadSavedCategories];
-        
-        [self removeLaunchScreen];
-        
-        NSLog(@"HomeCategory Error: %@", error.localizedDescription);
-    }];
+    _task = [[NAPIManager sharedManager] mainCategoriesWithSuccess:^(MainCategoriesResponseModel *response)
+             {
+                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                     RLMRealm *realm = [RLMRealm defaultRealm];
+                     [realm beginWriteTransaction];
+                     [realm deleteAllObjects];
+                     [realm commitWriteTransaction];
+                     [realm beginWriteTransaction];
+                     
+                     for (CategoryModel *category in response.categories)
+                     {
+                         MainCategoryRealm *categoryRealm = [[MainCategoryRealm alloc] initWithMantleModel:category];
+                         [realm addObject:categoryRealm];
+                         
+                         for (SubCategoryModel *subCategory in category.subCat_array) {
+                             SubCategoryRealm *subCategoryRealm = [[ SubCategoryRealm alloc] initWithMantleModel:subCategory];
+                             
+                             [realm addObject:subCategoryRealm];
+                         }
+                         
+                     }
+                     
+                     for (PromotionModel *promotion in response.promotions) {
+                         MainPromotionRealm *promotionRealm = [[MainPromotionRealm alloc] initWithMantleModel:promotion];
+                         [realm addObject:promotionRealm];
+                     }
+                     
+                     
+                     [realm commitWriteTransaction];
+                     
+                     
+                     
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         RLMRealm *realmMainThread = [RLMRealm defaultRealm];
+                         
+                         RLMResults *categories = [MainCategoryRealm allObjectsInRealm:realmMainThread];
+                         RLMResults *subCategories = [SubCategoryRealm allObjectsInRealm:realmMainThread];
+                         RLMResults *promotions = [MainPromotionRealm allObjectsInRealm:realmMainThread];
+                         
+                         self.categoriesArray = categories;
+                         self.subCategoriesArray = subCategories;
+                         self.promotions = promotions;
+                         
+                         [self.collectionView reloadData];
+                         [self.headerView.carousel reloadData];
+                         [self hideHUD];
+                         [self removeLaunchScreen];
+                     });
+                 });
+                 
+                 
+             } failure:^(NSError *error) {
+                 // Display error
+                 [NSThread sleepForTimeInterval:2.0];
+                 [self hideHUD];
+                 
+                 [self loadSavedCategories];
+                 
+                 [self removeLaunchScreen];
+                 
+                 NSLog(@"HomeCategory Error: %@", error.localizedDescription);
+             }];
 }
 
 
@@ -913,15 +891,8 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     RLMResults *categoriesArray = [MainCategoryRealm allObjects];
     RLMResults *promotions = [MainPromotionRealm allObjects];
-    
     return (categoriesArray.count && promotions.count) ? YES : NO;
 }
-
-
-
-
-
-
 
 
 

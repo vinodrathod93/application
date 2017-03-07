@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface QRCodeViewController : UIViewController<AVCaptureMetadataOutputObjectsDelegate>
+@interface QRCodeViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *videoPreview;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *overlayImageView;
+
 @end

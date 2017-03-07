@@ -13,6 +13,6 @@ IB_DESIGNABLE
 @property (nonatomic, retain) IBInspectable NSString *placeholder;
 @property (nonatomic, retain) IBInspectable UIColor *placeholderColor;
 
--(void)textChanged:(NSNotification*)notification;
+-(void)textChanged:(NSNotification *)notification;
 
 @end

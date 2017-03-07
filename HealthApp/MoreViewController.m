@@ -9,8 +9,6 @@
 #import "MoreViewController.h"
 #import "WebViewController.h"
 #import "CallBackViewController.h"
-#import "GoogleReportsViewController.h"
-#import "FollowUsTableViewCell.h"
 #import <MessageUI/MessageUI.h>
 
 
@@ -18,8 +16,7 @@ enum SECTIONS {
     FAQSection = 0,
     PolicySection,
     SharingSection,
-    ContactUs,
-    SyncGoogleSection
+    ContactUs
 };
 
 @interface MoreViewController ()<MFMailComposeViewControllerDelegate>
@@ -40,18 +37,22 @@ enum SECTIONS {
                     @"FAQ",
                     @[ @"Privacy Policy", @"Return Policy",@"Terms of Use"],
                     @[@"About Us", @"Rate Us", @"Share Us"],
-                    @"Contact Us",
-                    @"Follow Us"
+                    @"Contact Us"
                     ];
     
     _moreDataIcons = @[
                        @"about_us",
                        @[ @"privacy",@"return_policy", @"terms_condition"],
                        @[@"about_us", @"rate", @"share"],
-                       @"contact_us",
-                       @"circle"
+                       @"contact_us"
                        ];
     
+//    _moreDataIcons = @[
+//                       @[@"rate", @"share"],
+//                       @[ @"privacy",@"return_policy", @"terms_condition"],
+//                       @"contact_us",
+//                       @"about_us"
+//                       ];
 }
 
 
@@ -86,95 +87,26 @@ enum SECTIONS {
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MoreCellIdentifier" forIndexPath:indexPath];
     
-    
-    
-    
-    if ([_moreData[indexPath.section] isEqual:[_moreData lastObject]]) {
-        FollowUsTableViewCell *followUsCell = [tableView dequeueReusableCellWithIdentifier:@"followUsMoreCellIdentifier" forIndexPath:indexPath];
-        followUsCell.backgroundColor = [UIColor clearColor];
-//        followUsCell.
-        [followUsCell.facebookButton addTarget:self action:@selector(facebookButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [followUsCell.twitterButton addTarget:self action:@selector(twitterButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    if ([_moreData[indexPath.section] isKindOfClass:[NSArray class]]) {
         
+        NSArray *array = _moreData[indexPath.section];
+        NSArray *icons = _moreDataIcons[indexPath.section];
         
-        
-        return followUsCell;
+        cell.textLabel.text = array[indexPath.row];
+        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", icons[indexPath.row]]];
     }
     else {
-        
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MoreCellIdentifier" forIndexPath:indexPath];
-        cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
-        cell.textLabel.textColor = [UIColor darkGrayColor];
-        
-        if ([_moreData[indexPath.section] isKindOfClass:[NSArray class]]) {
-            
-            NSArray *array = _moreData[indexPath.section];
-            NSArray *icons = _moreDataIcons[indexPath.section];
-            
-            cell.textLabel.text = array[indexPath.row];
-            cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", icons[indexPath.row]]];
-        }
-        else {
-            cell.textLabel.text = _moreData[indexPath.section];
-            cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", _moreDataIcons[indexPath.section]]];
-        }
-        
-        return cell;
+        cell.textLabel.text = _moreData[indexPath.section];
+        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", _moreDataIcons[indexPath.section]]];
     }
     
-}
-
-
-//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.section == _moreData.count-1) {
-//        NSArray *subViews = cell.subviews;
-//        
-//        if (subViews.count >= 3) {
-//            for (UIView *subview in subViews) {
-//                if (subview != cell.contentView) {
-//                    [subview removeFromSuperview];
-//                    break;
-//                }
-//            }
-//        }
-//    }
-//}
-
-
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == _moreData.count-1) {
-        return @"Follow Us";
-    }
-    else
-        return @"";
-}
-
--(void)facebookButtonTapped:(id)sender {
+    cell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
+    cell.textLabel.textColor = [UIColor darkGrayColor];
     
     
-    NSURL *fbURL = [[NSURL alloc] initWithString:@"fb://profile/IamSRK"];
-    // check if app is installed
-    if ( ! [[UIApplication sharedApplication] canOpenURL:fbURL] ) {
-        // if we get here, we can't open the FB app.
-        fbURL = [NSURL URLWithString:@"https://www.facebook.com/IamSRK"];
-    }
-    
-    [[UIApplication sharedApplication] openURL:fbURL];
-    
-}
-
--(void)twitterButtonTapped:(id)sender {
-    // open the Twitter App
-    if (![[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"twitter://user?screen_name=iamsrk"]]) {
-        
-        // opening the app didn't work - let's open Safari
-        if (![[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/iamsrk"]]) {
-            
-            // nothing works - perhaps we're not onlye
-            NSLog(@"Nothing works. Punt.");
-        }
-    }
+    return cell;
 }
 
 
@@ -187,13 +119,6 @@ enum SECTIONS {
 }
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == _moreData.count-1) {
-        return 50.f;
-    }
-    else
-        return 44.f;
-}
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
@@ -263,52 +188,38 @@ enum SECTIONS {
         }
         
     }
-    else if (indexPath.section == ContactUs) {
-        
+    else if (indexPath.section == ContactUs)
+    {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [self contactUsOptions:cell];
-        
     }
     else if (indexPath.section == PolicySection) {
         
         if (indexPath.row == 0) {
             WebViewController *privacyWebViewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewVC"];
-            privacyWebViewVC.urlString = [NSString stringWithFormat:@"http://neediator.in/privacy_policy.html"];
+            privacyWebViewVC.urlString = [NSString stringWithFormat:@"https://www.amazon.in/gp/help/customer/display.html"];
             privacyWebViewVC.hidesBottomBarWhenPushed = YES;
             privacyWebViewVC.title = @"Privacy Policy";
-            
             [self.navigationController pushViewController:privacyWebViewVC animated:YES];
             
         }
         else if (indexPath.row == 1) {
             WebViewController *returnPolicyWebViewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewVC"];
-#warning change the url to return policy
-            returnPolicyWebViewVC.urlString = [NSString stringWithFormat:@"http://neediator.in/return_policy.html"];
+//#warning change the url to return policy
+            returnPolicyWebViewVC.urlString = [NSString stringWithFormat:@"https://www.amazon.in/gp/help/customer/display.html"];
             returnPolicyWebViewVC.hidesBottomBarWhenPushed = YES;
             returnPolicyWebViewVC.title = @"Return Policy";
-            
             [self.navigationController pushViewController:returnPolicyWebViewVC animated:YES];
         }
         else if (indexPath.row == 2) {
             WebViewController *termsConditionWebViewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewVC"];
-            termsConditionWebViewVC.urlString = [NSString stringWithFormat:@"http://neediator.in/terms_of_usage.html"];
+            termsConditionWebViewVC.urlString = [NSString stringWithFormat:@"https://www.amazon.in/gp/help/customer/display.html"];
             termsConditionWebViewVC.hidesBottomBarWhenPushed = YES;
             termsConditionWebViewVC.title = @"Terms & Conditions";
-            
             [self.navigationController pushViewController:termsConditionWebViewVC animated:YES];
-            
         }
-        
-        
-    }
-    else {
-//        GoogleReportsViewController *reportVC = [[GoogleReportsViewController alloc] init];
-//        reportVC.title = @"Reports";
-//        
-//        [self.navigationController pushViewController:reportVC animated:YES];
-    }
-    
-}
+     }
+ }
 
 
 -(void)prepareMail {

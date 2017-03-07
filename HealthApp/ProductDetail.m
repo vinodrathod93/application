@@ -13,7 +13,9 @@
 - (id)init
 {
     self = [super init];
-    if (self) {
+    if (self)
+    
+    {
         self.productID      = nil;
         self.name           = nil;
         self.summary        = nil;

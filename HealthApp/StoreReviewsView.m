@@ -36,7 +36,9 @@
     self.ratingView.leftMargin          = 0.f;
 }
 
--(BOOL)likedStore {
+
+-(BOOL)likedStore
+{
     if ([self.likeButton.imageView.image isEqual:[UIImage imageNamed:@"liked"]]) {
         return YES;
     }
@@ -44,8 +46,11 @@
         return NO;
 }
 
--(void)setLikedStore:(BOOL)likedStore {
-    if (likedStore) {
+
+-(void):(BOOL)likedStore
+{
+    if (likedStore==true)
+    {
         [self.likeButton setImage:[UIImage imageNamed:@"liked"] forState:UIControlStateNormal];
     }
     else
@@ -53,24 +58,30 @@
 }
 
 
+-(void)setDislikedStore:(BOOL)dislikedStore {
+    if (dislikedStore) {
+        [self.dislikeButton setImage:[UIImage imageNamed:@"disliked"] forState:UIControlStateNormal];
+    }
+    else
+        [self.dislikeButton setImage:[UIImage imageNamed:@"dislike"] forState:UIControlStateNormal];
+}
+
+
+
+
+
 #pragma mark -
 #pragma mark - Dislike Button
 
 
-//-(BOOL)dislikedStore {
-//    if ([self.dislikeButton.imageView.image isEqual:[UIImage imageNamed:@"disliked"]]) {
-//        return YES;
-//    }
-//    else
-//        return NO;
-//}
+-(BOOL)dislikedStore {
+    if ([self.dislikeButton.imageView.image isEqual:[UIImage imageNamed:@"disliked"]])
+    {
+        return YES;
+    }
+    else
+        return NO;
+}
 
-//-(void)setDislikedStore:(BOOL)dislikedStore {
-//    if (dislikedStore) {
-//        [self.dislikeButton setImage:[UIImage imageNamed:@"disliked"] forState:UIControlStateNormal];
-//    }
-//    else
-//        [self.dislikeButton setImage:[UIImage imageNamed:@"dislike"] forState:UIControlStateNormal];
-//}
 
 @end

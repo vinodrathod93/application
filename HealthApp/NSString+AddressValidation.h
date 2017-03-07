@@ -16,4 +16,5 @@
 - (BOOL)isValidCity;
 - (BOOL)isValidFirstName;
 - (BOOL)isValidLastName;
+
 @end

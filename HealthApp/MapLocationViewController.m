@@ -8,6 +8,7 @@
 
 #import "MapLocationViewController.h"
 
+
 @interface MapLocationViewController ()
 
 @property (nonatomic, strong) GMSMapView *mapView;
@@ -17,7 +18,8 @@
 
 @end
 
-@implementation MapLocationViewController {
+@implementation MapLocationViewController
+{
     NSString *_currentPlaceString;
 }
 
@@ -40,16 +42,29 @@
     
     UILabel *storeNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, CGRectGetWidth(storeInfoView.frame) - (2 * 10), 30)];
     storeNameLabel.text      = self.storeName;
-    storeNameLabel.font      = [NeediatorUtitity mediumFontWithSize:18];
+    storeNameLabel.font      = [NeediatorUtitity mediumFontWithSize:16];
     
-    UILabel *storeAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, storeNameLabel.frame.size.height + (2 * 10), CGRectGetWidth(storeInfoView.frame) - (2 * 10), 50)];
+    UILabel *storeAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, storeNameLabel.frame.size.height + (1.5 * 10), CGRectGetWidth(storeInfoView.frame) - (2 * 10), 50)];
     storeAddressLabel.text       = self.storeAddressArray[0][@"address"];
     storeAddressLabel.numberOfLines = 0;
-    storeAddressLabel.font = [NeediatorUtitity regularFontWithSize:15.f];
+    storeAddressLabel.font = [NeediatorUtitity regularFontWithSize:12.f];
     storeAddressLabel.textColor = [UIColor lightGrayColor];
+    
+    
+    
+    UILabel *distancelabel = [[UILabel alloc] initWithFrame:CGRectMake(10, storeAddressLabel.frame.size.height + (3.2 * 10), CGRectGetWidth(storeInfoView.frame) - (2 * 10), 50)];
+    distancelabel.text       = self.storeDistance;
+    distancelabel.numberOfLines = 0;
+    distancelabel.font = [NeediatorUtitity regularFontWithSize:15.f];
+    distancelabel.textColor = [UIColor blackColor];
+    
+    
+    
+    
     
     [storeInfoView addSubview:storeNameLabel];
     [storeInfoView addSubview:storeAddressLabel];
+    [storeInfoView addSubview:distancelabel];
     
     
     
@@ -61,11 +76,11 @@
     [self.locationManager startUpdatingLocation];
     
     
-//    Location *location = [Location savedLocation];
+    //    Location *location = [Location savedLocation];
     
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude zoom:15 bearing:0 viewingAngle:0];
     
-//    CGRect frame = CGRectMake(0, 100, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - 100);
+    //    CGRect frame = CGRectMake(0, 100, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - 100);
     
     self.mapView = [GMSMapView mapWithFrame:self.view.bounds camera:camera];
     self.mapView.mapType = kGMSTypeNormal;
@@ -93,7 +108,7 @@
     marker1.map         = self.mapView;
     
     
-//    [self geocodeCurrentPlaceString];
+    //    [self geocodeCurrentPlaceString];
     
     GMSMarker *currentLocationMarker = [[GMSMarker alloc] init];
     currentLocationMarker.position = CLLocationCoordinate2DMake(self.locationManager.location.coordinate.latitude, self.locationManager.location.coordinate.longitude);
@@ -105,12 +120,12 @@
     [self focusMapShow:marker1 andDestination:currentLocationMarker];
     [self requestDirectionFromMarker:marker1 toDestination:currentLocationMarker];
     
-//    GMSMutablePath *path = [[GMSMutablePath alloc] init];
-//    [path addLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude];
-//    [path addLatitude:storeLatitude.doubleValue longitude:storeLongitude.doubleValue];
-//    
-//    GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];
-//    singleLine.map = self.mapView;
+    //    GMSMutablePath *path = [[GMSMutablePath alloc] init];
+    //    [path addLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude];
+    //    [path addLatitude:storeLatitude.doubleValue longitude:storeLongitude.doubleValue];
+    //
+    //    GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];
+    //    singleLine.map = self.mapView;
     
     
     [self.view addSubview:self.mapView];
@@ -158,57 +173,50 @@
 }
 
 
--(void)requestDirectionFromMarker:(GMSMarker *)marker toDestination:(GMSMarker *)destination {
-    
-    
+-(void)requestDirectionFromMarker:(GMSMarker *)marker toDestination:(GMSMarker *)destination
+{
     
     self.polyline.map = nil;
     self.polyline = nil;
     
+    NSString *urlString = [NSString stringWithFormat:@"%@?origin=%f,%f&destination=%f,%f&sensor=true&key=%@",
+                           @"https://maps.googleapis.com/maps/api/directions/json",
+                           destination.position.latitude,
+                           destination.position.longitude,
+                           marker.position.latitude,
+                           marker.position.longitude,
+                           kGoogleAPIServerKey
+                           ];
     
-        NSString *urlString = [NSString stringWithFormat:@"%@?origin=%f,%f&destination=%f,%f&sensor=true&key=%@",
-                               @"https://maps.googleapis.com/maps/api/directions/json",
-                               destination.position.latitude,
-                               destination.position.longitude,
-                               marker.position.latitude,
-                               marker.position.longitude,
-                               kGoogleAPIServerKey
-                               ];
+    NSURL *directionURL = [NSURL URLWithString:urlString];
+    NSURLSessionDataTask *task = [self.markerSession dataTaskWithURL:directionURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        // directions Task
         
-        NSURL *directionURL = [NSURL URLWithString:urlString];
-        NSURLSessionDataTask *task = [self.markerSession dataTaskWithURL:directionURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            // directions Task
-            
-            
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-            if (!error) {
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    
-                    NSArray *routes = json[@"routes"];
-                    if (routes.count > 0) {
-                        GMSPath *path = [GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
-                        
-                        self.polyline = [GMSPolyline polylineWithPath:path];
-                        self.polyline.strokeWidth = 7;
-                        self.polyline.strokeColor = [UIColor yellowColor];
-                        self.polyline.map = self.mapView;
-                    }
-                    
-                }];
-            }
-            
-            
-        }];
         
-        [task resume];
-
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+        if (!error) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                
+                NSArray *routes = json[@"routes"];
+                if (routes.count > 0) {
+                    GMSPath *path = [GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
+                    
+                    self.polyline = [GMSPolyline polylineWithPath:path];
+                    self.polyline.strokeWidth = 7;
+                    self.polyline.strokeColor = [UIColor yellowColor];
+                    self.polyline.map = self.mapView;
+                }
+                
+            }];
+        }
+    }];
     
+    [task resume];
 }
 
 
-
-
--(void)geocodeCurrentPlaceString {
+-(void)geocodeCurrentPlaceString
+{
     __block CLPlacemark *placemark;
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     
@@ -221,7 +229,6 @@
                            return;
                            
                        }
-                       
                        
                        placemark = [placemarks objectAtIndex:0];
                        
@@ -237,36 +244,6 @@
                        _currentPlaceString = currentPlace;
                        
                    }];
-    
-    
-    
-   
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @end

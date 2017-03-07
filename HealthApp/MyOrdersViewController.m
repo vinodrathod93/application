@@ -14,6 +14,8 @@
 #import "CustomCollectionViewCell.h"
 #import "TrackPipelineView.h"
 #import "CancelOrderView.h"
+#import "CancelOrderNewView.h"
+#import "TableViewCell.h"
 
 @interface MyOrdersViewController ()
 
@@ -67,33 +69,33 @@
     
     
     /*
-    const NSInteger numberOfTableViewRows = 20;
-    const NSInteger numberOfCollectionViewCells = 15;
-    
-    NSMutableArray *mutableArray = [NSMutableArray arrayWithCapacity:numberOfTableViewRows];
-    
-    for (NSInteger tableViewRow = 0; tableViewRow < numberOfTableViewRows; tableViewRow++)
-    {
-        NSMutableArray *colorArray = [NSMutableArray arrayWithCapacity:numberOfCollectionViewCells];
-        
-        for (NSInteger collectionViewItem = 0; collectionViewItem < numberOfCollectionViewCells; collectionViewItem++)
-        {
-            
-            CGFloat red = arc4random() % 255;
-            CGFloat green = arc4random() % 255;
-            CGFloat blue = arc4random() % 255;
-            UIColor *color = [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1.0f];
-            
-            [colorArray addObject:color];
-        }
-        
-        [mutableArray addObject:colorArray];
-    }
-    
-    self.colorArray = [NSArray arrayWithArray:mutableArray];
-    
-    self.contentOffsetDictionary = [NSMutableDictionary dictionary];
-    */
+     const NSInteger numberOfTableViewRows = 20;
+     const NSInteger numberOfCollectionViewCells = 15;
+     
+     NSMutableArray *mutableArray = [NSMutableArray arrayWithCapacity:numberOfTableViewRows];
+     
+     for (NSInteger tableViewRow = 0; tableViewRow < numberOfTableViewRows; tableViewRow++)
+     {
+     NSMutableArray *colorArray = [NSMutableArray arrayWithCapacity:numberOfCollectionViewCells];
+     
+     for (NSInteger collectionViewItem = 0; collectionViewItem < numberOfCollectionViewCells; collectionViewItem++)
+     {
+     
+     CGFloat red = arc4random() % 255;
+     CGFloat green = arc4random() % 255;
+     CGFloat blue = arc4random() % 255;
+     UIColor *color = [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1.0f];
+     
+     [colorArray addObject:color];
+     }
+     
+     [mutableArray addObject:colorArray];
+     }
+     
+     self.colorArray = [NSArray arrayWithArray:mutableArray];
+     
+     self.contentOffsetDictionary = [NSMutableDictionary dictionary];
+     */
     
 }
 
@@ -135,11 +137,11 @@
     }
     
     
-//    NSArray *lineItems = model.line_items;
+    //    NSArray *lineItems = model.line_items;
     
-//    cell.orderState.text         = [model.orderState capitalizedString];
-//    cell.orderNumber.text        = [NSString stringWithFormat:@"Order #%@",model.orderNumber];
-//    cell.orderDate.text          = [NSString stringWithFormat:@"%@/%lu Items/%@", [self getFormattedDate:model.completed_date], (unsigned long)lineItems.count, model.orderTotal];
+    //    cell.orderState.text         = [model.orderState capitalizedString];
+    //    cell.orderNumber.text        = [NSString stringWithFormat:@"Order #%@",model.orderNumber];
+    //    cell.orderDate.text          = [NSString stringWithFormat:@"%@/%lu Items/%@", [self getFormattedDate:model.completed_date], (unsigned long)lineItems.count, model.orderTotal];
     
     
     cell.n_orderAmount.text = [NSString stringWithFormat:@"Rs.%@",model.orderTotal];
@@ -153,9 +155,7 @@
     
     [cell.trackButton addTarget:self action:@selector(showTrackView:) forControlEvents:UIControlEventTouchUpInside];
     [cell.beforeCompleteTrackOrderButton addTarget:self action:@selector(showTrackView:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.cancelOrderButton addTarget:self action:@selector(showCancelView:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
+    [cell.pendingCancelOrderBtn addTarget:self action:@selector(showCancelView:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
@@ -187,6 +187,8 @@
         model.isExpanded = _isTrackTapped;
         
         TrackPipelineView *trackView = [[[NSBundle mainBundle] loadNibNamed:@"TrackPipelineView" owner:self options:nil] firstObject];
+        
+        
         [trackView drawCurrentOrderState:model.orderState orderDateTime:model.completed_date withCode:model.statusCode.intValue];
         [cell.contentView addSubview:trackView];
         
@@ -197,10 +199,6 @@
         [self.tableView endUpdates];
     }
 }
-
-
-
-
 
 -(void)showCancelView:(UIButton *)sender {
     
@@ -221,19 +219,18 @@
         MyOrdersModel *model = _orders[indexPath.section];
         model.isCancelExpanded = _isCancelTapped;
         
-        CancelOrderView *cancelView = [[[NSBundle mainBundle] loadNibNamed:@"CancelOrderView" owner:self options:nil] firstObject];
-        [cell.contentView addSubview:cancelView];
+//        CancelOrderView *cancelView = [[[NSBundle mainBundle] loadNibNamed:@"CancelOrderView" owner:self options:nil] firstObject];
         
+      CancelOrderNewView *cancelView = [[[NSBundle mainBundle] loadNibNamed:@"CancelOrderNewView" owner:self options:nil] firstObject];
+        [cell.contentView addSubview:cancelView];
         cancelView.frame = CGRectMake(0, 230, self.view.frame.size.width, 134);
         
         
         [self.tableView beginUpdates];
         [self.tableView endUpdates];
     }
-    
-    
-    
 }
+
 
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(MyOrdersCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -242,13 +239,16 @@
 }
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
     MyOrdersModel *model = _orders[indexPath.section];
     
     if (model.isExpanded) {
         return 196+230;
     }
-    else if (model.isCancelExpanded) {
+    else if (model.isCancelExpanded)
+    {
         return 134+230;
     }
     else
@@ -292,7 +292,7 @@
                 [cell.imageView setImage:[UIImage imageNamed:@"no_image"]];
             }
         }];
-
+        
     }
     else {
         [cell.imageView setImage:[UIImage imageNamed:@"small_no_image"]];
@@ -341,18 +341,18 @@
         
         
         
-//        [items enumerateObjectsUsingBlock:^(LineItemsModel * _Nonnull line_item, NSUInteger idx, BOOL * _Nonnull stop) {
-//            
-////            if (line_item.images.count != 0) {
-////                VariantImagesModel *image = line_item.images[0];
-////                
-////                [imagesParticularOrder addObject:image.small_url];
-////            }
-//            
-//            
-//            [imagesParticularOrder addObject:line_item.imageURL];
-//            
-//        }];
+        //        [items enumerateObjectsUsingBlock:^(LineItemsModel * _Nonnull line_item, NSUInteger idx, BOOL * _Nonnull stop) {
+        //
+        ////            if (line_item.images.count != 0) {
+        ////                VariantImagesModel *image = line_item.images[0];
+        ////
+        ////                [imagesParticularOrder addObject:image.small_url];
+        ////            }
+        //
+        //
+        //            [imagesParticularOrder addObject:line_item.imageURL];
+        //
+        //        }];
         
         
         for (id item in items) {
@@ -379,79 +379,67 @@
     
     return _itemsImages;
     /*
-    
-    // get scrollview & view frame
-    CGRect scrollViewFrame = cell.scrollView.frame;
-    CGRect currentFrame = cell.contentView.frame;
-    
-    // assign the visible frame to scrollview
-    scrollViewFrame.size.width = currentFrame.size.width;
-    cell.scrollView.frame = scrollViewFrame;
-    
-    __block UIImageView *previousImageView;
-    
-    [_itemsImages enumerateObjectsUsingBlock:^(NSString *image_url, NSUInteger idx, BOOL *stop)  {
-        
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(80 * idx, 0, 80, CGRectGetHeight(cell.scrollView.frame))];
-        
-        imageView.tag = idx;
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
-        imageView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [cell.scrollViewContentView addSubview:imageView];
-        
-        if (idx == 0) {
-            
-            [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.scrollViewContentView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
-            
-        } else {
-            [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:previousImageView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
-            
-            if (idx == [_itemsImages indexOfObject:[_itemsImages lastObject]]) {
-                
-                [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.scrollViewContentView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
-            }
-            
-        }
-        
-        
-        // Imageview constraints
-//        [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeWidth multiplier:1.f constant:0.f]];
-//        [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:cell.scrollViewContentView.frame.size.height]];
-        
-        
-        [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.scrollViewContentView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
-        
-        previousImageView = imageView;
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        [imageView sd_setImageWithURL:[NSURL URLWithString:image_url]];
-        
      
-        
-        
-    }];
+     // get scrollview & view frame
+     CGRect scrollViewFrame = cell.scrollView.frame;
+     CGRect currentFrame = cell.contentView.frame;
+     
+     // assign the visible frame to scrollview
+     scrollViewFrame.size.width = currentFrame.size.width;
+     cell.scrollView.frame = scrollViewFrame;
+     
+     __block UIImageView *previousImageView;
+     
+     [_itemsImages enumerateObjectsUsingBlock:^(NSString *image_url, NSUInteger idx, BOOL *stop)  {
+     
+     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(80 * idx, 0, 80, CGRectGetHeight(cell.scrollView.frame))];
+     
+     imageView.tag = idx;
+     imageView.contentMode = UIViewContentModeScaleAspectFit;
+     imageView.translatesAutoresizingMaskIntoConstraints = NO;
+     
+     [cell.scrollViewContentView addSubview:imageView];
+     
+     if (idx == 0) {
+     
+     [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:cell.scrollViewContentView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
+     
+     } else {
+     [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:previousImageView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+     
+     if (idx == [_itemsImages indexOfObject:[_itemsImages lastObject]]) {
+     
+     [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:cell.scrollViewContentView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+     }
+     
+     }
+     
+     
+     // Imageview constraints
+     //        [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:cell.contentView attribute:NSLayoutAttributeWidth multiplier:1.f constant:0.f]];
+     //        [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:cell.scrollViewContentView.frame.size.height]];
+     
+     
+     [cell.scrollViewContentView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cell.scrollViewContentView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
+     
+     previousImageView = imageView;
+     
+     
+     [imageView sd_setImageWithURL:[NSURL URLWithString:image_url]];
+     
+     
+     
+     
+     }];
      
      */
 }
 
- 
- 
 
--(NSString *)getFormattedDate:(NSString *)date {
+
+
+-(NSString *)getFormattedDate:(NSString *)date
+{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSS'Z'"];
     

@@ -20,11 +20,12 @@
 #import "LoginView.h"
 #import "FavouritesViewController.h"
 #import "EditProfileViewController.h"
+#import "MyOrdersVC.h"
+#import "ShowMyBookingsVC.h"
 
 
 enum MyAccountCells {
-    MyRequestsCell = 0,
-    MyOrdersCell,
+    MyOrdersCell=0,
     MyBookingCell,
     MyAddressesCell,
     FavouriteCell,
@@ -43,20 +44,24 @@ enum MyAccountCells {
 
 @end
 
-@implementation MyAccountViewController {
+@implementation MyAccountViewController
+{
     NSArray  *_iconsArray;
     NSArray  *_options;
     MBProgressHUD *_hud;
     LoginView *_loginView;
 }
 
-
-- (void)viewDidLoad {
+#pragma mark - View Did Load
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     NSLog(@"viewDidLoad");
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editProfile:)];
+    UIBarButtonItem *cartItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Logout"] style:UIBarButtonItemStylePlain target:self action:@selector(ShowLogout)];
+    self.navigationItem.leftBarButtonItem = cartItem;
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
@@ -67,34 +72,23 @@ enum MyAccountCells {
     [super viewWillAppear:animated];
     
     NSLog(@"viewWillAppear");
-    
     [self showViewAfterLogin];
-    
     [self.tableView reloadData];
-    
 }
-
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
     [[self.navigationController.view viewWithTag:kLoginViewTag] removeFromSuperview];
-    
 }
-
-
--(void)editProfile:(id)sender {
-    
-    EditProfileViewController *editProfileVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfileVC"];
-    [self.navigationController pushViewController:editProfileVC animated:YES];
-    
-}
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+
+
 
 #pragma mark - Table view data source
 
@@ -104,7 +98,7 @@ enum MyAccountCells {
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+    
     if ([_options[section] isKindOfClass:[NSArray class]]) {
         
         NSArray *array = _options[section];
@@ -138,9 +132,10 @@ enum MyAccountCells {
 }
 
 
--(void)configureProfileViewCell:(ProfileViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-    User *user = [User savedUser];
+-(void)configureProfileViewCell:(ProfileViewCell *)cell forIndexPath:(NSIndexPath *)indexPath
+{
     
+    User *user = [User savedUser];
     NSLog(@"%f",cell.profileImage.frame.size.width);
     
     NSString *firstname = [user.firstName isEqual:[NSNull null]] ? @"" : user.firstName;
@@ -154,7 +149,6 @@ enum MyAccountCells {
     [cell.profileImage sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"profile_placeholder"] options:SDWebImageRefreshCached];
     cell.profileImage.layer.cornerRadius = cell.profileImage.frame.size.width/2.0f;
     cell.profileImage.clipsToBounds = YES;
-    
 }
 
 
@@ -180,7 +174,8 @@ enum MyAccountCells {
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         return 238.f;
     } else
         return 44.0f;
@@ -216,18 +211,27 @@ enum MyAccountCells {
     
     if (indexPath.section == 1) {
         
-        if (indexPath.row == MyRequestsCell) {
-            MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
-            myOrdersVC.title = @"My Requests";
-            [self.navigationController pushViewController:myOrdersVC animated:YES];
-        }
-        else if (indexPath.row == MyOrdersCell) {
+        if (indexPath.row == MyOrdersCell) {
             
-            MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
-            [self.navigationController pushViewController:myOrdersVC animated:YES];
-        }
-        else if (indexPath.row == MyAddressesCell) {
+            //            MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
+            //            [self.navigationController pushViewController:myOrdersVC animated:YES];
             
+            MyOrdersVC *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyOrdersVC"];
+            [self.navigationController pushViewController:myOrdersVC animated:YES];
+            
+        }
+        
+        else if (indexPath.row==MyBookingCell)
+        {
+            ShowMyBookingsVC *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ShowMyBookingsVC"];
+            
+//            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addressesVC];
+//            [self presentViewController:navigationController animated:YES completion:nil];
+           [self.navigationController pushViewController:addressesVC animated:YES];
+        }
+        
+        else if (indexPath.row == MyAddressesCell)
+        {
             AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
             addressesVC.isGettingOrder = NO;
             [self.navigationController pushViewController:addressesVC animated:YES];
@@ -238,43 +242,32 @@ enum MyAccountCells {
             
             [self.navigationController pushViewController:favouritesVC animated:YES];
         }
-        
-
     }
     else if (indexPath.section == 2) {
         
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [self showWarningBeforeSignoutForCell:cell];
-        
     }
-    
 }
 
 
 
 
 -(void)showWarningBeforeSignoutForCell: (UITableViewCell *)cell {
-    UIAlertController *alertController  = [UIAlertController alertControllerWithTitle:nil message:@"Are you Sure ?" preferredStyle:UIAlertControllerStyleActionSheet];
     
+    UIAlertController *alertController  = [UIAlertController alertControllerWithTitle:nil message:@"Are you Sure ?" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *signoutAction = [UIAlertAction actionWithTitle:@"Yes, Signout" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        
-        
         _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         _hud.dimBackground = YES;
-        
         // Remove all user data here
         [self removeAllUserData];
         [self.tableView reloadData];
         [_hud hide:YES];
-        
         // present login view or show login view.
         [self displayLoginView];
-        
-        
     }];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
         [alertController dismissViewControllerAnimated:YES completion:nil];
     }];
     
@@ -284,26 +277,53 @@ enum MyAccountCells {
     alertController.popoverPresentationController.sourceView = cell;
     alertController.popoverPresentationController.sourceRect = cell.bounds;
     [self presentViewController:alertController animated:YES completion:nil];
+}
+
+
+#pragma mark - Helper Methods.
+-(void)ShowLogout
+{
+    UIAlertController *alertController  = [UIAlertController alertControllerWithTitle:nil message:@"Are you Sure ?" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *signoutAction = [UIAlertAction actionWithTitle:@"Yes, Signout" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action)
+    {
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud.dimBackground = YES;
+        // Remove all user data here
+        [self removeAllUserData];
+        [self.tableView reloadData];
+        [_hud hide:YES];
+        // present login view or show login view.
+        [self displayLoginView];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [alertController addAction:signoutAction];
+    [alertController addAction:cancelAction];
+    
+    //    alertController.popoverPresentationController.sourceView = self;
+    //    alertController.popoverPresentationController.sourceRect = cell.bounds;
+    [self presentViewController:alertController animated:YES completion:nil];
+    
     
 }
 
 
--(void)removeAllUserData {
+
+
+
+-(void)removeAllUserData
+{
     
     // Clear all orders & lineItems
     [self deleteAllObjects:@"Order"];
     [self deleteAllObjects:@"LineItems"];
     
-    
-    
     User *user = [User savedUser];
     NSLog(@"%@",user);
-    
     [User clearUser];
-    
-    
-    
-    
 }
 
 
@@ -328,7 +348,8 @@ enum MyAccountCells {
 }
 
 
--(void)showLoginPageVC {
+-(void)showLoginPageVC
+{
     LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -350,7 +371,6 @@ enum MyAccountCells {
     _loginView.tag = kLoginViewTag;
     
     [_loginView.signinButton addTarget:self action:@selector(showLoginPageVC) forControlEvents:UIControlEventTouchUpInside];
-    
     [self.navigationController.view insertSubview:_loginView belowSubview:self.navigationController.navigationBar];
     
 }
@@ -361,14 +381,22 @@ enum MyAccountCells {
     User *user = [User savedUser];
     
     if (user != nil) {
-        _options = @[ @"", @[ @"My Requests", @"My Orders", @"My Bookings", @"My Addresses",@"Favourites", @"Leaderboard"],
-                      @"Sign Out"];
+        //        _options = @[ @"", @[@"My Orders", @"My Bookings", @"My Addresses",@"Favourites", @"Leaderboard"],
+        //                      @"Sign Out"];
+        
+        //        _iconsArray  = @[
+        //                         @"",
+        //                         @[@"myorder", @"booking", @"address",@"store_fav", @"leaderboard"],
+        //                         @"signout"
+        //                         ];
+        
+        
+        _options = @[ @"", @[@"My Orders", @"My Bookings", @"My Addresses",@"Favourites", @"Leaderboard"]];
+        
         
         _iconsArray  = @[
                          @"",
-                         @[ @"my_orders", @"myorder", @"booking", @"address",@"store_fav", @"leaderboard"],
-                         @"signout"
-                         ];
+                         @[@"myorder", @"booking", @"address",@"store_fav", @"leaderboard"]];
         
         
         [self.tableView reloadData];
@@ -381,5 +409,13 @@ enum MyAccountCells {
     }
     
 }
+
+-(void)editProfile:(id)sender {
+    
+    EditProfileViewController *editProfileVC = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfileVC"];
+    [self.navigationController pushViewController:editProfileVC animated:YES];
+    
+}
+
 
 @end

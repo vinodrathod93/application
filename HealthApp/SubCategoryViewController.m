@@ -1,6 +1,6 @@
 //
 //  SubCategoryViewController.m
-//  
+//
 //
 //  Created by adverto on 30/01/16.
 //
@@ -23,7 +23,8 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 
 @end
 
-@implementation SubCategoryViewController {
+@implementation SubCategoryViewController
+{
     SDWebImageManager *manager;
 }
 
@@ -44,12 +45,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     
     /* Create Promotion Header View */
-//    self.headerView = [[SubCategoryHeaderView alloc]init];
-    
-    
-    
-    
-    
+    //    self.headerView = [[SubCategoryHeaderView alloc]init];
 }
 
 
@@ -65,7 +61,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-//    self.headerView.scrollview.contentSize = CGSizeMake(CGRectGetWidth(self.headerView.scrollview.frame) * self.subcategoryPromotions.count, CGRectGetHeight(self.headerView.scrollview.frame));
+    //    self.headerView.scrollview.contentSize = CGSizeMake(CGRectGetWidth(self.headerView.scrollview.frame) * self.subcategoryPromotions.count, CGRectGetHeight(self.headerView.scrollview.frame));
 }
 
 -(NSArray *)getPListIconsArray {
@@ -181,7 +177,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
         }
     }
     
-        return UIEdgeInsetsMake(5.f, 5.f, 5.f, 5.f);
+    return UIEdgeInsetsMake(5.f, 5.f, 5.f, 5.f);
 }
 
 
@@ -205,108 +201,104 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     //    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    
-    
-    
     SubCategoryModel *model = self.subcategoryArray[indexPath.row];
-   
-    
     
     ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
     listingVC.root                       = model.name;
     listingVC.subcategory_id                = model.subCat_id.stringValue;
     listingVC.category_id                 = model.cat_id.stringValue;
+    listingVC.hidesBottomBarWhenPushed      =   YES;
+    
     [self.navigationController pushViewController:listingVC animated:YES];
     
 }
 
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+-(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
     //    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    //
     //    UIView *view = [cell viewWithTag:30+indexPath.item];
     //    view.backgroundColor = [UIColor whiteColor];
-    
 }
 
 /*
--(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    
-    UICollectionReusableView *reusableView = nil;
-    
-    if (kind == UICollectionElementKindSectionHeader) {
-        
-        
-        
-        self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseSupplementaryIdentifier forIndexPath:indexPath];
-        
-        
-        self.headerView.scrollview.frame           = self.headerView.frame;
-        self.headerView.scrollview.backgroundColor = [UIColor whiteColor];
-        
-        
-//        [self setupScrollViewImages];
-//        self.headerView.pageControl.numberOfPages = self.promotions.count;
-        
-        reusableView = self.headerView;
-    }
-    
-    return reusableView;
-    
-}
-
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Pad);
-    }
-    else
-        return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Phone);
-    
-}
-*/
+ -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+ 
+ UICollectionReusableView *reusableView = nil;
+ 
+ if (kind == UICollectionElementKindSectionHeader) {
+ 
+ 
+ 
+ self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseSupplementaryIdentifier forIndexPath:indexPath];
+ 
+ 
+ self.headerView.scrollview.frame           = self.headerView.frame;
+ self.headerView.scrollview.backgroundColor = [UIColor whiteColor];
+ 
+ 
+ //        [self setupScrollViewImages];
+ //        self.headerView.pageControl.numberOfPages = self.promotions.count;
+ 
+ reusableView = self.headerView;
+ }
+ 
+ return reusableView;
+ 
+ }
+ 
+ 
+ - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+ if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+ return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Pad);
+ }
+ else
+ return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Phone);
+ 
+ }
+ */
 
 //
 //#pragma mark - Scroll view Delegate
 //
 //-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    
+//
 //    if (scrollView == self.headerView.scrollview) {
 //        NSInteger index = self.headerView.scrollview.contentOffset.x / CGRectGetWidth(self.headerView.scrollview.frame);
-//        
+//
 //        self.headerView.pageControl.currentPage = index;
 //    }
-//    
-//    
+//
+//
 //}
 //
 //#pragma mark - Scroll view Methods
 //
 //-(void)setupScrollViewImages {
-//    
+//
 //    [self.subcategoryPromotions enumerateObjectsUsingBlock:^(PromotionModel *promotion, NSUInteger idx, BOOL *stop) {
 //        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.headerView.scrollview.frame) * idx, 0, CGRectGetWidth(self.headerView.scrollview.frame), CGRectGetHeight(self.headerView.scrollview.frame))];
 //        imageView.tag = idx;
-//        
-//        
+//
+//
 //        NSURL *image_url = [NSURL URLWithString:promotion.image_url];
-//        
+//
 //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 //            UIImage *image   = [UIImage imageWithData:[NSData dataWithContentsOfURL:image_url]];
-//            
+//
 //            dispatch_async(dispatch_get_main_queue(), ^{
 //                CIImage *newImage = [[CIImage alloc] initWithImage:image];
 //                CIContext *context = [CIContext contextWithOptions:nil];
 //                CGImageRef reference = [context createCGImage:newImage fromRect:newImage.extent];
-//                
+//
 //                imageView.image  = [UIImage imageWithCGImage:reference scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
 //            });
 //        });
-//        
-//        
+//
+//
 //        [self.headerView.scrollview addSubview:imageView];
 //    }];
-//    
-//    
+//
+//
 //}
 
 @end

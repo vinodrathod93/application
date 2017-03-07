@@ -16,6 +16,7 @@
 
 
 @interface UploadPrescriptionViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
+
 {
     long long expectedLength;
     long long currentLength;
@@ -24,6 +25,7 @@
     UIDatePicker *_dateTimePicker;
     
     NSNumber *_selectedDeliveryID;
+    NSNumber *_selectedAddressTypeID;
     NSNumber *_selectedAddressID;
     NSString *_shippingAddress;
     
@@ -53,18 +55,25 @@
     // Do any additional setup after loading the view.
     
     self.title = @"Send Prescription";
+    self.selectedImagesArray = [[NSMutableArray alloc] init];
+    self.finalDisplayArray = [[NSMutableArray alloc] init];
+    self.cameraCapturedArray = [[NSMutableArray alloc] init];
+    self.cameraThumbnails = [[NSMutableArray alloc] init];
+    self.galleryThumbnails = [[NSMutableArray alloc] init];
+    _allThumbnails = [[NSMutableArray alloc] init];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissVC:)];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    self.selectedImagesArray = [[NSMutableArray alloc] init];
-    self.finalDisplayArray = [[NSMutableArray alloc] init];
-    self.cameraCapturedArray = [[NSMutableArray alloc] init];
     
-    self.cameraThumbnails = [[NSMutableArray alloc] init];
-    self.galleryThumbnails = [[NSMutableArray alloc] init];
+    self.View1.hidden=YES;
+    self.view2.hidden=YES;
+    self.view3.hidden=YES;
+    self.AcountCodeTF.hidden=YES;
+    self.AccountCodelabel.hidden=YES;
     
-    _allThumbnails = [[NSMutableArray alloc] init];
+    [self.View1 setBackgroundColor:[UIColor clearColor]];
+    [self.view2 setBackgroundColor:[UIColor clearColor]];
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -97,16 +106,27 @@
     
     
     [self.deliveryTypeButton addTarget:self action:@selector(showShippingTypeSheet:) forControlEvents:UIControlEventTouchUpInside];
-    [self.addressButton addTarget:self action:@selector(showAddresses:) forControlEvents:UIControlEventTouchUpInside];
+    [self.addressTypeButton addTarget:self action:@selector(showAddressTypeSheet:) forControlEvents:UIControlEventTouchUpInside];
+    [self.addNewAddressButton addTarget:self action:@selector(showAddresses:) forControlEvents:UIControlEventTouchUpInside];
     
     [self decorateButtons];
     [self showDateTimePicker];
     
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.View1 setBackgroundColor:[UIColor clearColor]];
+    [self.view2 setBackgroundColor:[UIColor clearColor]];
+    //    self.View1.hidden=YES;
+    //    self.view2.hidden=YES;
+    //    self.AcountCodeTF.hidden=YES;
+    //    self.AccountCodelabel.hidden=YES;
+}
 
 
--(void)viewDidAppear:(BOOL)animated {
+-(void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
     
     id tracker = [[GAI sharedInstance] defaultTracker];
@@ -115,29 +135,8 @@
 }
 
 
--(void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    
-    CGFloat lastViewHeight = CGRectGetHeight(((UIView *)[self.contentView.subviews lastObject]).frame);
-    int lastViewY = CGRectGetMaxY(((UIView *)[self.contentView.subviews lastObject]).frame);
-    
-    CGFloat height = lastViewHeight + lastViewY;
-    
-    
-    
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), height);
-    
-    NSLog(@"%@", NSStringFromCGRect(self.contentView.frame));
-    NSLog(@"Scrollview %@", NSStringFromCGRect(self.scrollView.frame));
-    
-    NSLog(@"%@", self.uploadButton.superview);
-    NSLog(@"%@", NSStringFromCGRect(self.uploadButton.frame));
-}
-
-
-
--(void)disableHideUploadButton {
+-(void)disableHideUploadButton
+{
     [self.uploadButton setTintColor:[UIColor lightGrayColor]];
     [self.uploadButton setUserInteractionEnabled:NO];
     self.uploadButton.hidden = YES;
@@ -153,7 +152,8 @@
 
 #pragma mark - IBActions
 
--(IBAction)takePhotoPressed:(id)sender {
+-(IBAction)takePhotoPressed:(id)sender
+{
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = NO;
@@ -168,7 +168,8 @@
     NSMutableArray *photos = [[NSMutableArray alloc] init];
     NSMutableArray *thumbs = [[NSMutableArray alloc] init];
     
-    @synchronized(_assets) {
+    @synchronized(_assets)
+    {
         NSMutableArray *copy = [_assets copy];
         if (NSClassFromString(@"PHAsset")) {
             // Photos library
@@ -184,7 +185,8 @@
             }
         } else {
             // Assets library
-            for (ALAsset *asset in copy) {
+            for (ALAsset *asset in copy)
+            {
                 MWPhoto *photo = [MWPhoto photoWithURL:asset.defaultRepresentation.url];
                 [photos addObject:photo];
                 MWPhoto *thumb = [MWPhoto photoWithImage:[UIImage imageWithCGImage:asset.thumbnail]];
@@ -197,7 +199,7 @@
         }
         
     }
-
+    
     self.photos = photos;
     self.thumbs = thumbs;
     
@@ -214,7 +216,8 @@
     [browser setCurrentPhotoIndex:0];
     
     
-    if (_selections != nil) {
+    if (_selections != nil)
+    {
         NSLog(@"Already Selected");
     }
     else if (browser.displaySelectionButtons) {
@@ -234,7 +237,8 @@
 - (IBAction)uploadPhotoPressed:(id)sender {
     
     
-    if (self.finalDisplayArray.count <= 0) {
+    if (self.finalDisplayArray.count <= 0)
+    {
         UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Cannot Proceed"
                                                               message:@"First Select Images"
                                                              delegate:nil
@@ -243,7 +247,9 @@
         
         [myAlertView show];
         
-    } else {
+    } else
+        
+    {
         
         UploadPreviewController *uploadPreviewVC = [self.storyboard instantiateViewControllerWithIdentifier:@"uploadPreviewVC"];
         
@@ -253,13 +259,19 @@
         uploadPreviewVC.selectedImages = readyImages;
         uploadPreviewVC.shippingTypeID = _selectedDeliveryID;
         uploadPreviewVC.shippingAddressID = _selectedAddressID;
+        uploadPreviewVC.shippingAddressTypeID=_selectedAddressTypeID;
         
         uploadPreviewVC.deliveryTime = self.dateTimeField.text;
         
-        NSArray *names = [self deliveryTypes];
         
-        uploadPreviewVC.shippingType = names[_selectedDeliveryID.integerValue];
+        
+        NSArray *names = [self deliveryTypes];
+        uploadPreviewVC.shippingType = names[_selectedDeliveryID.integerValue-1];
         uploadPreviewVC.shippingAddress = _shippingAddress;
+        uploadPreviewVC.timeslotFrom=self.timeSlotFromTF.text;
+        uploadPreviewVC.timeslotTo=self.timeSlotToTF.text;
+        uploadPreviewVC.AccountCode=self.accountCodeTF.text;
+        
         
         
         [self.navigationController pushViewController:uploadPreviewVC animated:YES];
@@ -339,23 +351,17 @@
             
             [self enableUploadButton];
         }
-        
-        
-        
     }];
-    
 }
 
 
 #pragma mark - ImagePicker Delegates
 
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-   
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
     
     NSLog(@"%@", info);
     _cameraImage = info[UIImagePickerControllerOriginalImage];
-    
-    
     
     [self.cameraCapturedArray addObject:_cameraImage];
     [self.cameraThumbnails addObject:[self imageWithImage:_cameraImage scaledToSize:CGSizeMake(100, 150)]];
@@ -406,49 +412,24 @@
             _selectedDeliveryID = ids[idx];
             
             
-            if (![_selectedDeliveryID isEqual:@1]) {
-                // hide addresss.
+            
+            if ([_selectedDeliveryID isEqual:@1])
+            {
+                self.view2.hidden=NO;
+                self.View1.hidden=NO;
+                self.view3.hidden=YES;
                 
                 
-                
-                [self.view layoutIfNeeded];
-                [UIView animateWithDuration:0.3 animations:^{
-                    
-                    
-//                    self.addressLabel.hidden = YES;
-//                    self.addressButton.hidden = YES;
-                    
-                    previousTopConstant = self.addresslabelTopConstraint.constant;
-                    previousBottomConstant = self.addressLabelBottomConstraint.constant;
-                    
-                    previousAddressLabelHeight = self.addressLabelHeight.constant;
-                    previousAddressButtonHeight = self.addressButtonHeight.constant;
-                    
-                    
-                    self.addresslabelTopConstraint.constant=0;
-                    self.addressLabelBottomConstraint.constant=0;
-                    self.addressLabelHeight.constant = 0;
-                    self.addressButtonHeight.constant = 0;
-                    
-                    [self.view layoutIfNeeded];
-                }];
+                self.AccountCodelabel.hidden=NO;
+                self.AcountCodeTF.hidden=NO;
+                self.addressButton.hidden=NO;
             }
-            else {
+            else
+            {
                 
-                
-                [self.view layoutIfNeeded];
-                [UIView animateWithDuration:0.3 animations:^{
-                
-//                    self.addressButton.hidden = NO;
-//                    self.addressLabel.hidden = NO;
-                    
-                    self.addresslabelTopConstraint.constant = previousTopConstant;
-                    self.addressLabelBottomConstraint.constant = previousBottomConstant;
-                    self.addressLabelHeight.constant = previousAddressLabelHeight;
-                    self.addressButtonHeight.constant = previousAddressButtonHeight;
-                    
-                    [self.view layoutIfNeeded];
-                }];
+                self.View1.hidden=NO;
+                self.view2.hidden=YES;
+                self.view3.hidden=NO;
             }
         }];
         
@@ -464,20 +445,104 @@
     controller.popoverPresentationController.sourceView = sender;
     controller.popoverPresentationController.sourceRect = sender.bounds;
     [self presentViewController:controller animated:YES completion:nil];
+}
+
+-(void)showAddressTypeSheet:(UIButton *)sender
+{
     
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Select Address Type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    NSArray *namess = [self addressTypes];
+    NSArray *idss   = [self addressIDs];
+    
+    [namess enumerateObjectsUsingBlock:^(NSString * _Nonnull title, NSUInteger idx, BOOL * _Nonnull stop) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [sender setTitle:action.title forState:UIControlStateNormal];
+            _selectedAddressTypeID = idss[idx];
+            
+        }];
+        
+        [controller addAction:action];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [controller dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [controller addAction:cancel];
+    
+    controller.popoverPresentationController.sourceView = sender;
+    controller.popoverPresentationController.sourceRect = sender.bounds;
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 
--(void)showDateTimePicker {
+
+
+-(NSArray *)deliveryTypes
+{
+    
+    NSArray *delivery_types = [NeediatorUtitity savedDataForKey:kSAVE_DELIVERY_TYPES];
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+        [names addObject:[type valueForKey:@"type"]];
+    }];
+    
+    return names;
+}
+
+-(NSArray *)deliveryIDs {
+    NSArray *delivery_types = [NeediatorUtitity savedDataForKey:kSAVE_DELIVERY_TYPES];
+    
+    NSMutableArray *ids = [[NSMutableArray alloc] init];
+    
+    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+        [ids addObject:[type valueForKey:@"id"]];
+    }];
+    
+    return ids;
+}
+
+-(NSArray *)addressTypes
+{
+    
+    NSArray *address_types = [NeediatorUtitity savedDataForKey:kSAVE_Address_Types];
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    [address_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+        [names addObject:[type valueForKey:@"AddressType"]];
+    }];
+    return names;
+}
+
+
+-(NSArray *)addressIDs {
+    NSArray *address_types = [NeediatorUtitity savedDataForKey:kSAVE_Address_Types];
+    NSMutableArray *ids = [[NSMutableArray alloc] init];
+    
+    [address_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
+        [ids addObject:[type valueForKey:@"id"]];
+    }];
+    
+    return ids;
+}
+
+
+
+
+
+
+
+-(void)showDateTimePicker
+{
     _dateTimePicker = [[UIDatePicker alloc]initWithFrame:CGRectZero];
-    _dateTimePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    _dateTimePicker.datePickerMode = UIDatePickerModeDate;
     
     NSDate *currentDate = [NSDate date];
-    NSDate *nextDate = [currentDate dateByAddingTimeInterval:60*60*24*3];
+    NSDate *nextDate = [currentDate dateByAddingTimeInterval:60*60*24*7];
     
     
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
+    [dateFormat setDateFormat:@"dd-MM-yyyy"];
     
     
     
@@ -535,7 +600,7 @@
 
 -(void)setSelectedDateTime:(UIDatePicker *)picker {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
+    [dateFormat setDateFormat:@"dd-MM-yyyy"];
     
     self.dateTimeField.text = [NSString stringWithFormat:@"%@", [dateFormat stringFromDate:picker.date]];
     
@@ -578,6 +643,12 @@
     
     self.dataTimeLabel.hidden = NO;
     self.dateTimeField.hidden = NO;
+    
+    
+    self.View1.hidden=YES;
+    self.view2.hidden=YES;
+    self.AcountCodeTF.hidden=YES;
+    self.AccountCodelabel.hidden=YES;
 }
 
 
@@ -587,7 +658,7 @@
     self.deliveryTypeLabel.hidden = YES;
     self.deliveryTypeButton.hidden = YES;
     self.addressLabel.hidden = YES;
-    self.addressButton.hidden = YES;
+    self.addressButton.hidden = NO;
     
     self.dataTimeLabel.hidden = YES;
     self.dateTimeField.hidden = YES;
@@ -595,7 +666,8 @@
 
 
 
--(void)hideNewUploadView {
+-(void)hideNewUploadView
+{
     self.selectPhotoButton.hidden = YES;
     self.takePhotoButton.hidden = YES;
     self.selectPhotoLabel.hidden = YES;
@@ -618,54 +690,65 @@
 
 -(void)decorateButtons {
     
-    [self.deliveryTypeButton setTitle:@"" forState:UIControlStateNormal];
+    //   [self.deliveryTypeButton setTitle:@"" forState:UIControlStateNormal];
     self.deliveryTypeButton.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    self.deliveryTypeButton.layer.borderWidth = 2.f;
-    self.deliveryTypeButton.layer.cornerRadius = 5.f;
+    self.deliveryTypeButton.layer.borderWidth = 1.f;
     self.deliveryTypeButton.layer.masksToBounds = YES;
     
-    [self.addressButton setTitle:@"" forState:UIControlStateNormal];
+    //   [self.addressButton setTitle:@"" forState:UIControlStateNormal];
     self.addressButton.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    self.addressButton.layer.borderWidth = 2.f;
-    self.addressButton.layer.cornerRadius = 5.f;
+    self.addressButton.layer.borderWidth = 1.f;
     self.addressButton.layer.masksToBounds = YES;
     
+    //   [self.addressTypeButton setTitle:@"" forState:UIControlStateNormal];
+    self.addressTypeButton.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.addressTypeButton.layer.borderWidth = 1.f;
+    self.addressTypeButton.layer.masksToBounds = YES;
+    
+    //    [self.addNewAddressButton setTitle:@"" forState:UIControlStateNormal];
+    self.addNewAddressButton.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.addNewAddressButton.layer.borderWidth = 1.f;
+    self.addNewAddressButton.layer.masksToBounds = YES;
     
     self.dateTimeField.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    self.dateTimeField.layer.borderWidth = 2.f;
-    self.dateTimeField.layer.cornerRadius = 5.f;
+    self.dateTimeField.layer.borderWidth = 1.f;
     self.dateTimeField.layer.masksToBounds = YES;
+    
+    self.timeSlotToTF.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.timeSlotToTF.layer.borderWidth = 1.f;
+    self.timeSlotToTF.layer.masksToBounds = YES;
+    
+    self.timeSlotFromTF.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.timeSlotFromTF.layer.borderWidth = 1.f;
+    self.timeSlotFromTF.layer.masksToBounds = YES;
+    
+    self.accountCodeTF.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.accountCodeTF.layer.borderWidth = 1.f;
+    self.accountCodeTF.layer.masksToBounds = YES;
+    
+    
 }
 
 
--(NSArray *)deliveryTypes {
-    NSArray *delivery_types = [NeediatorUtitity savedDataForKey:kSAVE_DELIVERY_TYPES];
-    
-    NSMutableArray *names = [[NSMutableArray alloc] init];
-    
-    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
-        [names addObject:[type valueForKey:@"type"]];
-    }];
-    
-    return names;
-}
 
--(NSArray *)deliveryIDs {
-    NSArray *delivery_types = [NeediatorUtitity savedDataForKey:kSAVE_DELIVERY_TYPES];
-    
-    NSMutableArray *ids = [[NSMutableArray alloc] init];
-    
-    [delivery_types enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull type, NSUInteger idx, BOOL * _Nonnull stop) {
-        [ids addObject:[type valueForKey:@"id"]];
-    }];
-    
-    return ids;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 -(NSArray *)positionArray {
     
     NSMutableArray *positions = [[NSMutableArray alloc] init];
-    
     
     [_selections enumerateObjectsUsingBlock:^(NSNumber *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.intValue == 1) {
@@ -717,15 +800,15 @@
     NSArray *positions = [self positionArray];
     
     
-        [positions enumerateObjectsUsingBlock:^(NSNumber  *_Nonnull index, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            PHAsset *photo = _assets[index.intValue];
-            UIImage *image = [self getAssetThumbnail:photo withTargetSize:size];
-            
-            
-            [selectedImagesArray addObject:image];
-            
-        }];
+    [positions enumerateObjectsUsingBlock:^(NSNumber  *_Nonnull index, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        PHAsset *photo = _assets[index.intValue];
+        UIImage *image = [self getAssetThumbnail:photo withTargetSize:size];
+        
+        
+        [selectedImagesArray addObject:image];
+        
+    }];
     
     
     
@@ -751,7 +834,6 @@
     
     thumbnails = (NSMutableArray *)[self commonSelectedImagesWithSize:CGSizeMake(100, 150)];
     
-    
     return thumbnails;
 }
 
@@ -770,7 +852,9 @@
         
         array = _allThumbnails;
         
-        [array removeLastObject];
+       [array removeLastObject];
+        
+        
     }
     
     return array;
@@ -784,7 +868,8 @@
     
     [images enumerateObjectsUsingBlock:^(UIImage  *_Nonnull image, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (idx == images.count-1) {
+        if (idx == images.count-1)
+        {
             ;
         }
         else {
@@ -795,9 +880,7 @@
             
             [base64Images addObject:imageBase64String];
         }
-        
     }];
-    
     
     return base64Images;
 }
@@ -807,9 +890,10 @@
 -(void)showAddresses:(UIButton *)button {
     
     User *user = [User savedUser];
-    if (user) {
-        AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
+    if (user)
+    {
         
+        AddressesViewController *addressesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressesVC"];
         addressesVC.isGettingOrder = YES;
         addressesVC.addressesArray = user.addresses;
         addressesVC.title = @"Addresses";
@@ -841,7 +925,7 @@
     
     NSString *zipcode  = [address valueForKey:@"pincode"];
     
-    NSString *complete_address = [NSString stringWithFormat:@"%@, - %@",address1, zipcode];
+    NSString *complete_address = [NSString stringWithFormat:@"%@, - %@",address1,zipcode];
     
     _shippingAddress = complete_address;
     
@@ -869,115 +953,85 @@
     return errorMessage;
 }
 
+
+
 /*
--(void)sendImagesToUpload {
-    
-    
-    NSString *error = [self validateInputs];
-    
-    if (error == nil) {
-        [self uploadImages];
-    }
-    else
-        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error onController:self];
-}
+ -(void)sendImagesToUpload {
 
-
--(void)uploadImages {
-    
-    NSArray *array = [self selectedImagesBase64];
-    User *saved_user = [User savedUser];
-    
-    
-    if (saved_user != nil) {
-        
-        [self showHUD];
-        self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
-        
-        
-        NSDictionary *data = @{
-                               @"images": array,
-                               @"deliveryID": _selectedDeliveryID,
-                               @"addressID" : _selectedAddressID,
-                               @"dateTime"  : self.dateTimeField.text
-                               };
-        
-        [[NAPIManager sharedManager] uploadImagesWithData:data withHUD:self.hud success:^(BOOL success, NSDictionary *responseData) {
-            if (success) {
-                
-                NSLog(@"Success");
-                
-                [self hideHUD];
-                [self showHideCompletedHUD];
-                
-                
-                NSDictionary *order = responseData[@"details"][0];
-                
-                
-                OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
-                orderCompleteVC.order_id    = order[@"OrderNo"];
-                orderCompleteVC.message     = [NSString stringWithFormat:@"Your Prescription has been successfully send to %@", [order[@"storename"] capitalizedString]];
-                orderCompleteVC.additonalInfo = [NSString stringWithFormat:@"Payment Type is %@\n Delivery Date is %@", order[@"PaymentType"], order[@"preferred_time"]];
-                [self.navigationController pushViewController:orderCompleteVC animated:YES];
-                
-            }
-            else
-                NSLog(@"Failed");
-            
-            
-        } failure:^(NSError *error) {
-            NSLog(@"Error %@",error.localizedDescription);
-            
-            [self.hud hide:YES];
-        }];
-        
-    }
-    else {
-        
-        LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
-        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            logSignVC.modalPresentationStyle    = UIModalPresentationFormSheet;
-        }
-        
-        [self presentViewController:logSignVC animated:YES completion:nil];
-        
-    }
-    
-    
-}
-*/
-
-#pragma mark - HUD
-
-
--(void)showHUD {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.color = self.view.tintColor;
-    self.hud.labelText = @"Uploading...";
-}
-
--(void)hideHUD {
-    
-    [self.hud hide:YES];
-    [self.hud removeFromSuperview];
-}
-
-
--(void)showHideCompletedHUD {
-    MBProgressHUD *completed_hud = [[MBProgressHUD alloc] initWithView:self.view];
-    completed_hud.color = [UIColor clearColor];
-    [self.view addSubview:completed_hud];
-    
-    completed_hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Ok Filled"]];
-    completed_hud.mode = MBProgressHUDModeCustomView;
-    
-    [completed_hud show:YES];
-    [completed_hud hide:YES afterDelay:2.0];
-}
-
-
-
+ NSString *error = [self validateInputs];
+ 
+ if (error == nil) {
+ [self uploadImages];
+ }
+ else
+ [NeediatorUtitity alertWithTitle:@"Error" andMessage:error onController:self];
+ }
+ 
+ 
+ -(void)uploadImages {
+ 
+ NSArray *array = [self selectedImagesBase64];
+ User *saved_user = [User savedUser];
+ 
+ 
+ if (saved_user != nil) {
+ 
+ [self showHUD];
+ self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
+ 
+ 
+ NSDictionary *data = @{
+ @"images": array,
+ @"deliveryID": _selectedDeliveryID,
+ @"addressID" : _selectedAddressID,
+ @"dateTime"  : self.dateTimeField.text
+ };
+ 
+ [[NAPIManager sharedManager] uploadImagesWithData:data withHUD:self.hud success:^(BOOL success, NSDictionary *responseData) {
+ if (success) {
+ 
+ NSLog(@"Success");
+ 
+ [self hideHUD];
+ [self showHideCompletedHUD];
+ 
+ 
+ NSDictionary *order = responseData[@"details"][0];
+ 
+ 
+ OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+ orderCompleteVC.order_id    = order[@"OrderNo"];
+ orderCompleteVC.message     = [NSString stringWithFormat:@"Your Prescription has been successfully send to %@", [order[@"storename"] capitalizedString]];
+ orderCompleteVC.additonalInfo = [NSString stringWithFormat:@"Payment Type is %@\n Delivery Date is %@", order[@"PaymentType"], order[@"preferred_time"]];
+ [self.navigationController pushViewController:orderCompleteVC animated:YES];
+ 
+ }
+ else
+ NSLog(@"Failed");
+ 
+ 
+ } failure:^(NSError *error) {
+ NSLog(@"Error %@",error.localizedDescription);
+ 
+ [self.hud hide:YES];
+ }];
+ 
+ }
+ else {
+ 
+ LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
+ 
+ if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+ logSignVC.modalPresentationStyle    = UIModalPresentationFormSheet;
+ }
+ 
+ [self presentViewController:logSignVC animated:YES completion:nil];
+ 
+ }
+ 
+ 
+ }
+ */
 
 #pragma mark - Assests
 
@@ -1023,7 +1077,7 @@
                 [_assets addObject:obj];
             }];
             if (fetchResults.count > 0) {
-//                [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+                //                [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
                 
                 
                 NSLog(@"Gallery Photos fetched");
@@ -1055,7 +1109,7 @@
                                                       [_assets addObject:asset];
                                                       if (_assets.count == 1) {
                                                           // Added first asset so reload data
-//                                                          [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+                                                          //                                                          [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
                                                           
                                                           NSLog(@"First Gallery Photos fetched");
                                                       }
@@ -1094,7 +1148,7 @@
 
 
 
-#pragma mark - UICollectionView 
+#pragma mark - UICollectionView
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -1118,7 +1172,7 @@
     static NSString *cellIdentifier = @"selectedImagesCellIdentifier";
     
     UploadPrsCollectionViewCell *uploadPrsCell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-
+    
     [uploadPrsCell.deleteButton addTarget:self action:@selector(removeImage:) forControlEvents:UIControlEventTouchUpInside];
     
     
@@ -1203,7 +1257,7 @@
         
         
         UploadPrsCollectionViewCell *cell = (UploadPrsCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-     
+        
         [self showNewActionSheet:cell];
         
     }
@@ -1251,79 +1305,79 @@
 }
 
 /*
--(void)collectionViewTapGestureSelectAtIndex:(NSIndexPath *)indexPath {
-    
-    
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    if (indexPath.item == [[self selectedImages] count]) {
-        
-        
-        UIAlertAction *camera = [UIAlertAction actionWithTitle:@"Capture" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self takePhotoPressed:nil];
-        }];
-        
-        UIAlertAction *library = [UIAlertAction actionWithTitle:@"Select from Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self selectPhotoPressed:nil];
-        }];
-        
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [controller dismissViewControllerAnimated:YES completion:nil];
-        }];
-        
-        [controller addAction:camera];
-        [controller addAction:library];
-        [controller addAction:cancel];
-        
-        
-    }
-    else {
-        
-        UICollectionViewCell *cell = [self.imagesCollectionView cellForItemAtIndexPath:indexPath];
-        
-        for (id item in cell.subviews) {
-            if ([item isKindOfClass:[UIImageView class]]) {
-                _selectedImageView = (UIImageView *)item;
-            }
-        }
-        
-        UIAlertAction *viewImage = [UIAlertAction actionWithTitle:@"View Image" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            // View Image
-            
-            
-            NSArray *images = [self selectedImages];
-            
-            ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
-            imageModalVC.image  = images[indexPath.item];
-            
-            imageModalVC.transitioningDelegate = self;
-            imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
-            
-            [self presentViewController:imageModalVC animated:YES completion:nil];
-            
-        }];
-        
-        UIAlertAction *deleteImage = [UIAlertAction actionWithTitle:@"Delete Image" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            // Remvoe from selected Image
-            
-            [self removeImageAtIndex:indexPath];
-            [self.imagesCollectionView reloadData];
-            
-            
-        }];
-        
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [controller dismissViewControllerAnimated:YES completion:nil];
-        }];
-        
-        [controller addAction:viewImage];
-        [controller addAction:deleteImage];
-        [controller addAction:cancel];
-    }
-    
-    [self presentViewController:controller animated:YES completion:nil];
-}
-*/
+ -(void)collectionViewTapGestureSelectAtIndex:(NSIndexPath *)indexPath {
+ 
+ 
+ UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+ 
+ if (indexPath.item == [[self selectedImages] count]) {
+ 
+ 
+ UIAlertAction *camera = [UIAlertAction actionWithTitle:@"Capture" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+ [self takePhotoPressed:nil];
+ }];
+ 
+ UIAlertAction *library = [UIAlertAction actionWithTitle:@"Select from Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+ [self selectPhotoPressed:nil];
+ }];
+ 
+ UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+ [controller dismissViewControllerAnimated:YES completion:nil];
+ }];
+ 
+ [controller addAction:camera];
+ [controller addAction:library];
+ [controller addAction:cancel];
+ 
+ 
+ }
+ else {
+ 
+ UICollectionViewCell *cell = [self.imagesCollectionView cellForItemAtIndexPath:indexPath];
+ 
+ for (id item in cell.subviews) {
+ if ([item isKindOfClass:[UIImageView class]]) {
+ _selectedImageView = (UIImageView *)item;
+ }
+ }
+ 
+ UIAlertAction *viewImage = [UIAlertAction actionWithTitle:@"View Image" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+ // View Image
+ 
+ 
+ NSArray *images = [self selectedImages];
+ 
+ ImageModalViewController *imageModalVC = [self.storyboard instantiateViewControllerWithIdentifier:@"imageModalVC"];
+ imageModalVC.image  = images[indexPath.item];
+ 
+ imageModalVC.transitioningDelegate = self;
+ imageModalVC.modalPresentationStyle = UIModalPresentationCustom;
+ 
+ [self presentViewController:imageModalVC animated:YES completion:nil];
+ 
+ }];
+ 
+ UIAlertAction *deleteImage = [UIAlertAction actionWithTitle:@"Delete Image" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+ // Remvoe from selected Image
+ 
+ [self removeImageAtIndex:indexPath];
+ [self.imagesCollectionView reloadData];
+ 
+ 
+ }];
+ 
+ UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+ [controller dismissViewControllerAnimated:YES completion:nil];
+ }];
+ 
+ [controller addAction:viewImage];
+ [controller addAction:deleteImage];
+ [controller addAction:cancel];
+ }
+ 
+ [self presentViewController:controller animated:YES completion:nil];
+ }
+ */
 
 
 
@@ -1413,122 +1467,148 @@
     
 }
 
+#pragma mark - HUD
+
+-(void)showHUD {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = self.view.tintColor;
+    self.hud.labelText = @"Uploading...";
+}
+
+-(void)hideHUD {
+    
+    [self.hud hide:YES];
+    [self.hud removeFromSuperview];
+}
 
 
+-(void)showHideCompletedHUD {
+    MBProgressHUD *completed_hud = [[MBProgressHUD alloc] initWithView:self.view];
+    completed_hud.color = [UIColor clearColor];
+    [self.view addSubview:completed_hud];
+    
+    completed_hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Ok Filled"]];
+    completed_hud.mode = MBProgressHUDModeCustomView;
+    
+    [completed_hud show:YES];
+    [completed_hud hide:YES afterDelay:2.0];
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#pragma mark - Not Needed 
+#pragma mark - Not Needed
 
 /*
--(NSData *)createBodyWithParameters:(NSDictionary *)param andFilePathKey:(NSString *)filePathKey withImageDataKey:(NSData *)imageDataKey andBoundary:(NSString *)boundary {
-    NSMutableData *body = [NSMutableData data];
-    NSString *filename = @"prescription";
-    NSString *mimetype = @"image/jpg";
-    
-    if (param != nil) {
-        
-        [param enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            
-            NSLog(@"%@ : %@",key,obj);
-            [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n",obj] dataUsingEncoding:NSUTF8StringEncoding]];
-            [body appendData:[[NSString stringWithFormat:@"%@\r\n",key] dataUsingEncoding:NSUTF8StringEncoding]];
-        }];
-        
-        
-    }
-    
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", filePathKey,filename] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", mimetype] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[NSData dataWithData:imageDataKey]];
-    
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    return body;
-}
-
--(NSString *)generateBoundaryString {
-    NSString *uuid = [[NSUUID UUID] UUIDString];
-    
-    NSString *boundaryString = [NSString stringWithFormat:@"Boundary-%@",uuid];
-    return boundaryString;
-}
-
--(void)getJSONData:(NSData *)data {
-    NSError *error;
-    self.dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-}
-
-
--(void)uploadImageAndGetPath {
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSURL *url = [NSURL URLWithString:@"http://chemistplus.in/uploader.php"];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    
-    NSString *boundary = [self generateBoundaryString];
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-    [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
-    NSData *imageData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
-    
-    
-    request.HTTPBody = [self createBodyWithParameters:nil andFilePathKey:@"file" withImageDataKey:imageData andBoundary:boundary];
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"str: %@", str);
-        
-        if (response) {
-            expectedLength = MAX([response expectedContentLength], 1);
-            currentLength = 0;
-            self.hud.mode = MBProgressHUDModeDeterminate;
-        }
-        
-        if (data) {
-            currentLength += [data length];
-            self.hud.progress = currentLength / (float)expectedLength;
-        }
-        
-        
-        // Push to orderVC when the URL path gets as a response.
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self getJSONData:data];
-            [self pushToPlaceOrderVC];
-        });
-        
-        
-        if (error != nil) {
-            NSLog(@"%@",error);
-        }
-    }];
-    
-    [task resume];
-    [self showHUD];
-}
+ -(NSData *)createBodyWithParameters:(NSDictionary *)param andFilePathKey:(NSString *)filePathKey withImageDataKey:(NSData *)imageDataKey andBoundary:(NSString *)boundary {
+ NSMutableData *body = [NSMutableData data];
+ NSString *filename = @"prescription";
+ NSString *mimetype = @"image/jpg";
+ 
+ if (param != nil) {
+ 
+ [param enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+ 
+ NSLog(@"%@ : %@",key,obj);
+ [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+ [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n",obj] dataUsingEncoding:NSUTF8StringEncoding]];
+ [body appendData:[[NSString stringWithFormat:@"%@\r\n",key] dataUsingEncoding:NSUTF8StringEncoding]];
+ }];
+ 
+ 
+ }
+ 
+ [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+ 
+ [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", filePathKey,filename] dataUsingEncoding:NSUTF8StringEncoding]];
+ 
+ [body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", mimetype] dataUsingEncoding:NSUTF8StringEncoding]];
+ 
+ [body appendData:[NSData dataWithData:imageDataKey]];
+ 
+ [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+ 
+ return body;
+ }
+ 
+ -(NSString *)generateBoundaryString {
+ NSString *uuid = [[NSUUID UUID] UUIDString];
+ 
+ NSString *boundaryString = [NSString stringWithFormat:@"Boundary-%@",uuid];
+ return boundaryString;
+ }
+ 
+ -(void)getJSONData:(NSData *)data {
+ NSError *error;
+ self.dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+ }
+ 
+ 
+ -(void)uploadImageAndGetPath {
+ 
+ NSURLSession *session = [NSURLSession sharedSession];
+ NSURL *url = [NSURL URLWithString:@"http://chemistplus.in/uploader.php"];
+ NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
+ [request setHTTPMethod:@"POST"];
+ 
+ NSString *boundary = [self generateBoundaryString];
+ NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
+ [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
+ NSData *imageData = UIImageJPEGRepresentation(self.imageView.image, 1.0);
+ 
+ 
+ request.HTTPBody = [self createBodyWithParameters:nil andFilePathKey:@"file" withImageDataKey:imageData andBoundary:boundary];
+ 
+ NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+ 
+ NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+ NSLog(@"str: %@", str);
+ 
+ if (response) {
+ expectedLength = MAX([response expectedContentLength], 1);
+ currentLength = 0;
+ self.hud.mode = MBProgressHUDModeDeterminate;
+ }
+ 
+ if (data) {
+ currentLength += [data length];
+ self.hud.progress = currentLength / (float)expectedLength;
+ }
+ 
+ 
+ // Push to orderVC when the URL path gets as a response.
+ dispatch_async(dispatch_get_main_queue(), ^{
+ [self getJSONData:data];
+ [self pushToPlaceOrderVC];
+ });
+ 
+ 
+ if (error != nil) {
+ NSLog(@"%@",error);
+ }
+ }];
+ 
+ [task resume];
+ [self showHUD];
+ }
  
  */
+
+
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    //
+    //    CGFloat lastViewHeight = CGRectGetHeight(((UIView *)[self.contentView.subviews lastObject]).frame);
+    //    int lastViewY = CGRectGetMaxY(((UIView *)[self.contentView.subviews lastObject]).frame);
+    //
+    //    CGFloat height = lastViewHeight + lastViewY;
+    //
+    //    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), height);
+    //
+    //    NSLog(@"%@", NSStringFromCGRect(self.contentView.frame));
+    //    NSLog(@"Scrollview %@", NSStringFromCGRect(self.scrollView.frame));
+    //
+    //    NSLog(@"%@", self.uploadButton.superview);
+    //    NSLog(@"%@", NSStringFromCGRect(self.uploadButton.frame));
+}
 
 @end

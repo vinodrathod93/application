@@ -31,6 +31,7 @@ typedef void(^completion)(BOOL finished);
 
 @implementation PopupCartViewController
 
+#pragma mark - View Did Load
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -44,7 +45,7 @@ typedef void(^completion)(BOOL finished);
     
     _orderModel = [self.pop_orderFetchedResultsController.fetchedObjects lastObject];
     
-    self.warningMessageLabel.text = [NSString stringWithFormat:@"You have %lu Items in the Cart from %@, Do Checkout unless your Order gets lost", self.pop_lineItemsFetchedResultsController.fetchedObjects.count, _orderModel.store];
+    self.warningMessageLabel.text = [NSString stringWithFormat:@"You have %u Items in the Cart from %@, Do Checkout unless your Order gets lost", self.pop_lineItemsFetchedResultsController.fetchedObjects.count, _orderModel.store];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,6 +83,8 @@ typedef void(^completion)(BOOL finished);
 }
 
 
+
+#pragma mark - Empty cart..
 - (IBAction)emptyCart:(id)sender {
     
     
@@ -97,16 +100,12 @@ typedef void(^completion)(BOOL finished);
                 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not Remove Items. Please Try again..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [alert show];
-                
             }];
-            
         }
-        
     }];
-    
-    
 }
 
+#pragma mark - Go To Cart.
 - (IBAction)goToCart:(id)sender {
     
     [self dismissViewControllerAnimated:YES completion:^{
@@ -120,6 +119,7 @@ typedef void(^completion)(BOOL finished);
 }
 
 
+#pragma mark - Check Line Items.....
 -(void)checkLineItems {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"LineItems"];
     
@@ -134,6 +134,7 @@ typedef void(^completion)(BOOL finished);
 }
 
 
+#pragma mark - Check Orders...
 -(void)checkOrders {
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Order"];
@@ -153,7 +154,7 @@ typedef void(^completion)(BOOL finished);
 
 
 
-
+#pragma mark - Empty Whole Cart..
 -(void)emptyWholeCart:(completion)success {
     User *user = [User savedUser];
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -222,19 +223,16 @@ typedef void(^completion)(BOOL finished);
     }
 }
 
+
+#pragma mark - Helper Methods
+
 -(void)displayConnectionFailed {
     dispatch_async(dispatch_get_main_queue(), ^{
-        
         [self.hud hide:YES];
-        
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Network Error" message:@"The Internet Connection Seems to be not available, error while connecting" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        
         [alert show];
     });
-    
-    
 }
-
 
 
 - (void) deleteAllObjects: (NSString *) entityDescription  {
@@ -253,11 +251,11 @@ typedef void(^completion)(BOOL finished);
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"Error deleting %@ - error:%@",entityDescription,error);
     }
-    
 }
 
 
--(void)updateTabBarBadge {
+-(void)updateTabBarBadge
+{
     [[self.tabBarController.tabBar.items objectAtIndex:3] setBadgeValue:nil];
 }
 

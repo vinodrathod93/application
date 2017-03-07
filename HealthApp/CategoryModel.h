@@ -15,6 +15,11 @@
 @property (nonatomic, copy) NSString *image_url;
 @property (nonatomic, copy) NSString *color_code;
 
+
+
+
+
+
 @property (nonatomic, assign) BOOL is_active;
 @property (nonatomic, assign) BOOL is_product;
 @property (nonatomic, assign) BOOL has_subCat;

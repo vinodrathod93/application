@@ -16,17 +16,20 @@
     
     return @{
              
-             @"categories" : @"Categories",
+             @"categories" : @"Section",
              @"promotions" : @"promotions"
              
              };
 }
 
-+(NSValueTransformer *)categoriesJSONTransformer {
+
++(NSValueTransformer *)categoriesJSONTransformer
+{
     return [MTLJSONAdapter arrayTransformerWithModelClass:[CategoryModel class]];
 }
 
-+(NSValueTransformer *)promotionsJSONTransformer {
++(NSValueTransformer *)promotionsJSONTransformer
+{
     return [MTLJSONAdapter arrayTransformerWithModelClass:[PromotionModel class]];
 }
 

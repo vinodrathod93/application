@@ -20,6 +20,7 @@
 @property(strong) Reachability * googleReach;
 
 - (void)saveContext;
+
 - (NSURL *)applicationDocumentsDirectory;
 @end
 

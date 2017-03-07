@@ -34,7 +34,6 @@
         
         
         
-////        
 ////        if (self.window.frame.size.width <= 320) {
 ////            Imageframe =  CGRectMake(30, 20, 40, 30);
 ////            LabelFrame =  CGRectMake(5.f, Imageframe.size.height + 20, self.frame.size.width - 10.f, 40);
@@ -69,4 +68,5 @@
     
     return self;
 }
+
 @end

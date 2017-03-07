@@ -25,4 +25,7 @@
 
 
 -(void)retryGetStoresWithRequestModel:(ListingRequestModel *)requestModel success:(void (^)(StoreListResponseModel *))success failure:(void (^)(NSError *error, BOOL loginFailure))failure;
+
+
+
 @end

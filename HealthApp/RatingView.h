@@ -11,7 +11,9 @@
 @class RatingView;
 
 @protocol RateViewDelegate
+
 - (void)rateView:(RatingView *)rateView ratingDidChange:(float)rating;
+
 @end
 
 @interface RatingView : UIView
@@ -19,6 +21,7 @@
 @property (strong, nonatomic) UIImage *notSelectedImage;
 @property (strong, nonatomic) UIImage *halfSelectedImage;
 @property (strong, nonatomic) UIImage *fullSelectedImage;
+
 @property (assign, nonatomic) float rating;
 @property (assign) BOOL editable;
 @property (strong) NSMutableArray * imageViews;

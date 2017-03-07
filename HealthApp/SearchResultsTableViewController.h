@@ -18,8 +18,11 @@
 @interface SearchResultsTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSMutableArray *searchResults;
+
 @property (nonatomic) NeediatorSearchScope neediatorSearchScope;
+
 @property (nonatomic) BOOL isQuickOrder;
+
 @property (nonatomic, weak) id <SearchResultsTableviewDelegate> delegate;
 
 -(void)startNeediatorHUD;

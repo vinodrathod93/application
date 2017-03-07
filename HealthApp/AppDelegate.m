@@ -30,8 +30,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
     NSLog(@"didFinishLaunchingWithOptions");
+    
+    
     [NSThread sleepForTimeInterval:2.0];
     
     
@@ -74,7 +75,7 @@
     
     
     // UITabBar appearance
-//    [[UIView appearanceWhenContainedIn:[UITabBar class], nil] setTintColor:[UIColor whiteColor]];
+    //    [[UIView appearanceWhenContainedIn:[UITabBar class], nil] setTintColor:[UIColor whiteColor]];
     [[UITabBar appearance] setTintColor:[UIColor yellowColor]];
     [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
     [[UITabBar appearance] setBackgroundImage:[UIImage imageNamed:@"tabbar"]];
@@ -105,7 +106,7 @@
     // Optional: configure GAI options.
     GAI *gai = [GAI sharedInstance];
     gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
-    //gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
+    //    gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
     
     
     /* Migration of Realm */
@@ -118,7 +119,8 @@
                 // do nothing.
             }
             
-            if (oldSchemaVersion < 2) {
+            if (oldSchemaVersion < 2)
+            {
                 // do nothing.
             }
         }];
@@ -134,26 +136,26 @@
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
     NSLog(@"openURL");
     
     
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
-                                                             bundle: nil];
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
-    
-    
     NSLog(@"%@", [tabController selectedViewController]);
     UINavigationController *navigationController = [tabController selectedViewController];
     
-    if ([url.scheme isEqualToString:@"neediator"]) {
-        if ([url.host isEqualToString:@"chemist"]) {
-            
-            
-            
+    
+    
+    if ([url.scheme isEqualToString:@"neediator"])
+    {
+        if ([url.host isEqualToString:@"chemist"])
+        {
             ListingTableViewController *listingVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
             listingVC.root                       = @"Chemist";
             listingVC.category_id                 = @"1";
             listingVC.subcategory_id              = @"";
+            listingVC.hidesBottomBarWhenPushed      =   YES;
             
             [navigationController pushViewController:listingVC animated:YES];
         }
@@ -221,22 +223,25 @@
 }
 
 
+
 -(void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
     NSLog(@"3D Touch");
     
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
-                                                             bundle: nil];
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    
     UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
     
     
     NSLog(@"%@", [tabController selectedViewController]);
     UINavigationController *navigationController = [tabController selectedViewController];
     
-    if([shortcutItem.type isEqualToString:@"com.neediator.search"]) {
+    if([shortcutItem.type isEqualToString:@"com.neediator.search"])
+    {
         UITabBarController *tabBarController = (UITabBarController *)[[[UIApplication sharedApplication]keyWindow]rootViewController];
         
         [tabBarController setSelectedIndex:1];
     }
+    
     else if ([shortcutItem.type isEqualToString:@"com.neediator.favourites"]) {
         
         FavouritesViewController *favouritesVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"favouritesVC"];
@@ -248,12 +253,11 @@
         
         [tabBarController setSelectedIndex:3];
     }
-    else if ([shortcutItem.type isEqualToString:@"com.neediator.scanqr"]) {
+    else if ([shortcutItem.type isEqualToString:@"com.neediator.scanqr"])
+    {
         QRCodeViewController *QRCodeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"qrCodeVC"];
         [navigationController pushViewController:QRCodeVC animated:YES];
     }
-        
-    
 }
 
 
@@ -275,6 +279,7 @@
     }
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Cart" withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
     return _managedObjectModel;
 }
 
@@ -336,24 +341,24 @@
 }
 
 
-#pragma mark - UITabBarController Delegate 
+#pragma mark - UITabBarController Delegate
 
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-     if ([viewController isEqual:[LogSignViewController class]]) {
+    if ([viewController isEqual:[LogSignViewController class]])
+    {
         NSLog(@"log clicked");
     }
 }
 
--(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
     NSLog(@"clicked");
 }
 
-
-
 #pragma mark - Get Current Orders
 
--(void)checkCurrentVersion {
-    
+-(void)checkCurrentVersion
+{
     NSString *lookupString = [NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@",kAPP_ID];
     
     [[NAPIManager sharedManager] GET:lookupString parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -378,19 +383,20 @@
                 
                 UIAlertController *alertVersion = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
                 
-                UIAlertAction *not_now = [UIAlertAction actionWithTitle:@"Not Now" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    NSLog(@"Dismissed Version Alert");
-                    
-                    [alertVersion dismissViewControllerAnimated:YES completion:nil];
-                }];
+                UIAlertAction *not_now = [UIAlertAction actionWithTitle:@"Not Now" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                          {
+                                              NSLog(@"Dismissed Version Alert");
+                                              
+                                              [alertVersion dismissViewControllerAnimated:YES completion:nil];
+                                          }];
                 
                 
                 UIAlertAction *update = [UIAlertAction actionWithTitle:@"Update" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     
-//                    NSString *iTunesLink = [NSString stringWithFormat:@"itms://itunes.apple.com/us/app/apple-store/id%@?mt=8",kAPP_ID];
+                    //                    NSString *iTunesLink = [NSString stringWithFormat:@"itms://itunes.apple.com/us/app/apple-store/id%@?mt=8",kAPP_ID];
                     NSString *iTunesLink = kAPP_URL_STRING;
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
-
+                    
                 }];
                 
                 [alertVersion addAction:not_now];
@@ -401,14 +407,9 @@
             }
         }
         
-        
-        
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"Error in Version Check : %@",error.localizedDescription);
     }];
-    
-    
     
 }
 

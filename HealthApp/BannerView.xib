@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,23 +12,20 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="180"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="duV-rg-qat" id="kwg-zP-HpH">
-                <rect key="frame" x="0.0" y="0.0" width="600" height="179"/>
+                <frame key="frameInset" width="600" height="179"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ihz-ls-rLP" customClass="iCarousel">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="179"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xor-Xa-FNj">
-                        <rect key="frame" x="576" y="0.0" width="24" height="179"/>
-                        <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="0.30033255910000001" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="0.30033255910000001" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="24" id="Dox-hg-vFQ"/>
                         </constraints>
                     </view>
                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="57D-pX-rLv">
-                        <rect key="frame" x="569" y="71" width="39" height="37"/>
-                        <color key="pageIndicatorTintColor" red="0.086274509799999996" green="0.62745098040000002" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="pageIndicatorTintColor" red="0.10368983447551727" green="0.56898558139801025" blue="0.44660377502441406" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </pageControl>
                 </subviews>
                 <constraints>
@@ -47,7 +45,7 @@
                 <outlet property="carousel" destination="Ihz-ls-rLP" id="KmA-UW-7lO"/>
                 <outlet property="pageControl" destination="57D-pX-rLv" id="NeP-cZ-GB9"/>
             </connections>
-            <point key="canvasLocation" x="602" y="266"/>
+            <point key="canvasLocation" x="453" y="-126"/>
         </tableViewCell>
     </objects>
 </document>

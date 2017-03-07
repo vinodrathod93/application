@@ -9,13 +9,14 @@
 #import "UploadPreviewController.h"
 #import "OrderCompleteViewController.h"
 
-@interface UploadPreviewController ()<UIAlertViewDelegate>
+@interface UploadPreviewController () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
-@implementation UploadPreviewController {
+@implementation UploadPreviewController
+{
     UIAlertView *_uPromoAlertView;
 }
 
@@ -26,9 +27,11 @@
     self.title = @"Review Order";
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    UIBarButtonItem *uPromoButton = [[UIBarButtonItem alloc] initWithTitle:@"Promo Code" style:UIBarButtonItemStylePlain target:self action:@selector(uPromoAlertView)];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incomingNotification:) name:@"PromoCodeNotification" object:self];
+
     
-    self.navigationItem.rightBarButtonItem = uPromoButton;
+    //  UIBarButtonItem *uPromoButton = [[UIBarButtonItem alloc] initWithTitle:@"Promo Code" style:UIBarButtonItemStylePlain target:self action:@selector(uPromoAlertView)];
+    //    self.navigationItem.rightBarButtonItem = uPromoButton;
     
     self.collectionview.backgroundColor = [UIColor clearColor];
     self.collectionview.layer.borderColor = [UIColor darkGrayColor].CGColor;
@@ -41,16 +44,26 @@
     self.uploadButton.layer.masksToBounds = YES;
     [self.uploadButton addTarget:self action:@selector(uploadPrescriptions) forControlEvents:UIControlEventTouchUpInside];
     
-    if (![self.shippingTypeID isEqual:@1]) {
+    if (![self.shippingTypeID isEqual:@1])
+    {
         self.shippingTimeHeader.hidden = YES;
         self.deliveryTimeLabel.hidden = YES;
     }
     
-    
-    
     self.deliveryTypeLabel.text = self.shippingType;
     self.deliveryAddressLabel.text = self.shippingAddress;
     self.deliveryTimeLabel.text = self.deliveryTime;
+    self.timeSlotToLabel.text=self.timeslotFrom;
+    self.timeSlotFromLabel.text=self.timeslotFrom;
+}
+
+- (void)incomingNotification:(NSNotification *)notification{
+    NSString *theString = [notification object];
+    NSLog(@"the string %@",theString);
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = @"heelo";
+    
+    NSLog(@"PAsteboardString Is %@",pasteboard.string);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,16 +74,16 @@
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    CGFloat lastViewHeight = CGRectGetHeight(((UIView *)[self.contentView.subviews lastObject]).frame);
-    int lastViewY = CGRectGetMaxY(((UIView *)[self.contentView.subviews lastObject]).frame);
-    
-    CGFloat height = lastViewHeight + lastViewY;
-    
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), height);
+    //    CGFloat lastViewHeight = CGRectGetHeight(((UIView *)[self.contentView.subviews lastObject]).frame);
+    //    int lastViewY = CGRectGetMaxY(((UIView *)[self.contentView.subviews lastObject]).frame);
+    //
+    //    CGFloat height = lastViewHeight + lastViewY;
+    //
+    //    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), height);
 }
 
 
-#pragma mark - UICollectionView
+#pragma mark - UICollectionView Methods.
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -116,7 +129,7 @@
 }
 
 
-
+#pragma mark - Upload Prescription.
 -(void)uploadPrescriptions {
     User *saved_user = [User savedUser];
     
@@ -127,61 +140,110 @@
         self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
         
         
-        NSDictionary *data = @{
-                               @"images": self.base64Images,
-                               @"deliveryID": self.shippingTypeID.stringValue,
-                               @"addressID" : self.shippingAddressID.stringValue,
-                               @"dateTime"  : self.deliveryTime
-                               };
+        if([_shippingTypeID isEqual:@1])
+        {
+            NSDictionary *data = @{
+                                   @"images"                :self.base64Images,
+                                   @"deliveryID"            : self.shippingTypeID.stringValue,
+                                   @"addressID"             : self.shippingAddressID.stringValue,
+                                   @"dateTime"              : self.deliveryTime,
+                                   @"timeslotfrom"          : self.timeslotFrom,
+                                   @"timeslotto"            : self.timeslotTo,
+                                   @"accountcode"           :self.AccountCode,
+                                   @"comments"              :self.CommentTF.text,
+                                   @"addresstype"           :self.shippingAddressTypeID
+                                   };
+            
+            NSLog(@"%@",data);
+            [[NAPIManager sharedManager] uploadImagesWithData:data withHUD:self.hud success:^(BOOL success, NSDictionary *responseData) {
+                if (success) {
+                    
+                    NSLog(@"Success");
+                    
+                    [self hideHUD];
+                    [self showHideCompletedHUD];
+                    
+                    
+                    NSDictionary *order = responseData[@"details"][0];
+                    
+                    OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+                    orderCompleteVC.order_id    = order[@"OrderNo"];
+                    orderCompleteVC.message     = [NSString stringWithFormat:@"Your Prescription has been successfully send to %@", [order[@"storename"] capitalizedString]];
+                    orderCompleteVC.additonalInfo = [NSString stringWithFormat:@"Payment Type is %@\n Delivery Date is %@", order[@"PaymentType"], order[@"preferred_time"]];
+                    [self.navigationController pushViewController:orderCompleteVC animated:YES];
+                }
+                else
+                    NSLog(@"Failed");
+                
+                
+            } failure:^(NSError *error) {
+                NSLog(@"Error %@",error.localizedDescription);
+                
+                [self.hud hide:YES];
+            }];
+            
+            
+        }
         
-        [[NAPIManager sharedManager] uploadImagesWithData:data withHUD:self.hud success:^(BOOL success, NSDictionary *responseData) {
-            if (success) {
+        else{
+            
+            NSDictionary *data = @{
+                                   @"images"                :self.base64Images,
+                                   @"deliveryID"            : self.shippingTypeID.stringValue,
+                                   @"addressID"             : @"0",
+                                   @"dateTime"              : self.deliveryTime,
+                                   @"timeslotfrom"          : self.timeslotFrom,
+                                   @"timeslotto"            : self.timeslotTo,
+                                   @"accountcode"           :self.AccountCode,
+                                   @"comments"              :self.CommentTF.text,
+                                   @"addresstype"           :@"0"
+                                   };
+            NSLog(@"%@",data);
+            
+            [[NAPIManager sharedManager] uploadImagesWithData:data withHUD:self.hud success:^(BOOL success, NSDictionary *responseData) {
+                if (success) {
+                    
+                    NSLog(@"Success");
+                    
+                    [self hideHUD];
+                    [self showHideCompletedHUD];
+                    
+                    NSDictionary *order = responseData[@"details"][0];
+                    
+                    OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
+                    orderCompleteVC.order_id    = order[@"OrderNo"];
+                    orderCompleteVC.message     = [NSString stringWithFormat:@"Your Prescription has been successfully send to %@", [order[@"storename"] capitalizedString]];
+                    orderCompleteVC.additonalInfo = [NSString stringWithFormat:@"Payment Type is %@\n Delivery Date is %@", order[@"PaymentType"], order[@"preferred_time"]];
+                    [self.navigationController pushViewController:orderCompleteVC animated:YES];
+                    
+                }
+                else
+                    NSLog(@"Failed");
                 
-                NSLog(@"Success");
                 
-                [self hideHUD];
-                [self showHideCompletedHUD];
+            } failure:^(NSError *error) {
+                NSLog(@"Error %@",error.localizedDescription);
                 
-                
-                NSDictionary *order = responseData[@"details"][0];
-                
-                
-                OrderCompleteViewController *orderCompleteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"orderCompleteVC"];
-                orderCompleteVC.order_id    = order[@"OrderNo"];
-                orderCompleteVC.message     = [NSString stringWithFormat:@"Your Prescription has been successfully send to %@", [order[@"storename"] capitalizedString]];
-                orderCompleteVC.additonalInfo = [NSString stringWithFormat:@"Payment Type is %@\n Delivery Date is %@", order[@"PaymentType"], order[@"preferred_time"]];
-                [self.navigationController pushViewController:orderCompleteVC animated:YES];
-                
-            }
-            else
-                NSLog(@"Failed");
+                [self.hud hide:YES];
+            }];
             
             
-        } failure:^(NSError *error) {
-            NSLog(@"Error %@",error.localizedDescription);
-            
-            [self.hud hide:YES];
-        }];
+        }
         
     }
     else {
         
         LogSignViewController *logSignVC = [self.storyboard instantiateViewControllerWithIdentifier:@"logSignNVC"];
-        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
             logSignVC.modalPresentationStyle    = UIModalPresentationFormSheet;
         }
-        
         [self presentViewController:logSignVC animated:YES completion:nil];
-        
     }
-
 }
 
 
 #pragma mark - HUD
-
-
 -(void)showHUD {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.color = self.view.tintColor;
@@ -193,7 +255,6 @@
     [self.hud hide:YES];
     [self.hud removeFromSuperview];
 }
-
 
 -(void)showHideCompletedHUD {
     MBProgressHUD *completed_hud = [[MBProgressHUD alloc] initWithView:self.view];
@@ -211,15 +272,7 @@
 }
 
 
--(void)uPromoAlertView {
-    _uPromoAlertView = [[UIAlertView alloc]initWithTitle:@"Enter Promo Code" message:@"" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
-    [_uPromoAlertView setDelegate:self];
-    [_uPromoAlertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-    [_uPromoAlertView addButtonWithTitle:@"Apply"];
-    [_uPromoAlertView addButtonWithTitle:@"Dismiss"];
-    [_uPromoAlertView show];
-}
-
+#pragma mark - Alert View...
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView isEqual:_uPromoAlertView]) {
         if (buttonIndex == 0) {
@@ -228,12 +281,38 @@
             NSLog(@"%@",reasonString);
             
             // send the promo code.
-            
-        } else
+        }
+        else
             NSLog(@"Not send");
     }
-    
 }
 
 
+#pragma mark - Promo Code..
+- (IBAction)PromoCodeAction:(id)sender
+{
+//    NSString *savedValue = [[NSUserDefaults standardUserDefaults]
+//                            stringForKey:@"promocode"];
+//    NSLog(@"Userdefault %@",savedValue);
+    
+    UIPasteboard *pb = [UIPasteboard generalPasteboard];
+    self.PromoCodeTF.text = [pb string];
+    
+    
+    
+   // self.PromoCodeTF.text=savedValue;
+}
+
+
+
+
+//-(void)uPromoAlertView
+//{
+//    _uPromoAlertView = [[UIAlertView alloc]initWithTitle:@"Enter Promo Code" message:@"" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+//    [_uPromoAlertView setDelegate:self];
+//    [_uPromoAlertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+//    [_uPromoAlertView addButtonWithTitle:@"Apply"];
+//    [_uPromoAlertView addButtonWithTitle:@"Dismiss"];
+//    [_uPromoAlertView show];
+//}
 @end
