@@ -30,6 +30,8 @@ target 'Neediator' do
     pod 'SVPullToRefresh'
     pod 'Google/Analytics'
     pod 'BBBadgeBarButtonItem'
+    pod "STPopup"
+    pod 'JVFloatLabeledTextField'
 end
 
 target 'NeediatorTests' do

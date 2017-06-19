@@ -57,10 +57,11 @@
 -(void)changedTime:(UIDatePicker *)timePicker {
     
     NSDateFormatter *dateformatter = [[NSDateFormatter alloc] init];
-    [dateformatter setDateStyle:NSDateFormatterShortStyle];
+    [dateformatter setDateFormat:@"HH:mm"];
     
     
     if ([timePicker isEqual:fromTimePicker]) {
+        
         _fromTextField.text          =   [dateformatter stringFromDate:timePicker.date];
     }
     else

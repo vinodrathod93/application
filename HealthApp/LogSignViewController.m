@@ -177,6 +177,7 @@ typedef void(^completion)(BOOL finished);
                         user.email              = [data valueForKey:@"username"];
                         user.addresses          = [data objectForKey:@"addreslist"];
                         user.profilePic         = [data valueForKey:@"imageurl"];
+                        user.mobno              = [data valueForKey:@"phoneno"];
                         
                         
                         [user save];

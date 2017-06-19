@@ -36,6 +36,7 @@
     #import <Google/Analytics.h>
     #import <BBBadgeBarButtonItem/BBBadgeBarButtonItem.h>
     #import "NeediatorHelper.h"
+    #import <JVFloatLabeledTextField/JVFloatLabeledTextField.h>
 #endif
 
 #endif /* Neediator_Prefix_pch */

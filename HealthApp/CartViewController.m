@@ -891,7 +891,7 @@ static NSString *cellIdentifier = @"cartCell";
     
     if (user.userID != nil) {
         
-        NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/viewCartNew?userid=%@", user.userID];
+        NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/viewCartNew?userid=%@", user.userID];
         
         
         NSURLSession *session = [NSURLSession sharedSession];
@@ -1136,7 +1136,7 @@ static NSString *cellIdentifier = @"cartCell";
     if (user.userID != nil)
     {
         
-        NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/deleteCart"];
+        NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/deleteCart"];
         
         
         NSURLSession *session = [NSURLSession sharedSession];
@@ -1245,7 +1245,7 @@ static NSString *cellIdentifier = @"cartCell";
         NSLog(@"parameter %@", parameter);
         
         
-        NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/updateCart"];
+        NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/updateCart"];
         
         
         

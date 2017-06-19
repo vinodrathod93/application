@@ -10,6 +10,6 @@
 
 @interface SubCategoryViewController : UICollectionViewController
 
-@property (nonatomic, strong) NSArray *subcategoryArray;
+
 
 @end

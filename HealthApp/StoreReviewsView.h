@@ -19,4 +19,5 @@
 
 @property (assign, nonatomic) BOOL likedStore;
 @property (assign, nonatomic) BOOL dislikedStore;
+@property (weak, nonatomic) IBOutlet UIImageView *likeImageView;
 @end

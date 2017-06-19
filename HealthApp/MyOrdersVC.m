@@ -533,10 +533,10 @@
     
     NSLog(@"Parameter String Is %@",parameterString);
     
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/cancelorder"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/cancelorder"];
     NSLog(@"URL is --> %@", url);
     NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/cancelorder"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/cancelorder"]];
     request.HTTPMethod = @"POST";
     request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];

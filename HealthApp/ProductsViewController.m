@@ -68,10 +68,10 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     
     NSString *parameterString = [NSString stringWithFormat:@"GrandParent=%@&Parent=%@&Grandchild=%@&Child=%@&Subchild=%@&store_id=%@&Section_id=%@&search=%@&PageNo=%d",self.GrandProduct,self.ParentProduct,self.GrandChildProduct,self.ChildProduct,self.SubChildProduct,self.storeID,self.categoryID,@"",_page];
     NSLog(@"My Details %@",parameterString);
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductStores3"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/getProductStores3"];
     NSLog(@"URL is --> %@", url);
     NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductStores3"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/getProductStores3"]];
     request.HTTPMethod = @"POST";
     request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -455,7 +455,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     //sb   NSString *url_string = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&cat_id=%@&PageNo=1&search=%@",self.taxonID, self.storeID, self.taxonomyID, self.categoryID, keyword];
     
     
-    NSString *url_string = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&Section_id=%@&PageNo=1&search=%@",self.taxonID, self.storeID, self.taxonomyID, self.categoryID, keyword];
+    NSString *url_string = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&Section_id=%@&PageNo=1&search=%@",self.taxonID, self.storeID, self.taxonomyID, self.categoryID, keyword];
     
     
     
@@ -512,7 +512,7 @@ static NSString * const productsReuseIdentifier = @"productsCell";
     NSURLSession *session = [NSURLSession sharedSession];
     //      NSString *paginatingURLString = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/getProductStores2?taxon_id=%@&store_id=%@&taxonomies_id=%@&Section_id=%@&PageNo=%d&search=", self.taxonID, self.storeID, self.taxonomyID, self.categoryID, _page];
     
-    NSString *paginatingURLString = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductStores3?GrandParent=%@&Parent=%@&Grandchild=%@&Child=%@&Subchild=%@&store_id=%@&Section_id=%@&search=%@&PageNo=%@",@"Health Equipments",@"Blood Pressure Monitor",@"Digital",@"",@"",@"2",@"1",@"",@"",@"1"];
+    NSString *paginatingURLString = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/getProductStores3?GrandParent=%@&Parent=%@&Grandchild=%@&Child=%@&Subchild=%@&store_id=%@&Section_id=%@&search=%@&PageNo=%@",@"Health Equipments",@"Blood Pressure Monitor",@"Digital",@"",@"",@"2",@"1",@"",@"",@"1"];
     NSLog(@"%@", paginatingURLString);
     
     NSURLRequest *spree_request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:paginatingURLString]];

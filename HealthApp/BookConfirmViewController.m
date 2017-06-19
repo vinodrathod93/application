@@ -139,7 +139,7 @@
     
     NSURLSession *session = [NSURLSession sharedSession];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/Book"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/Book"]];
     
     
     request.HTTPMethod = @"POST";

@@ -202,7 +202,7 @@
             NSString *addressID = self.shipAddress[@"id"];
             
             
-            path = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/updateAddress"];
+            path = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/updateAddress"];
             
             complete_address = [NSString stringWithFormat:@"%@, %@, %@, %@, %@",  self.wingTextFiedl.text, self.flatNoTextField.text, self.floorNoTextField.text, self.buildingNameTextField.text, self.roadTextField.text];
             
@@ -286,7 +286,7 @@ else
             
             /* if adding new address */
             // Path URL
-            path = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/addAddress"];
+            path = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/addAddress"];
             
             complete_address = [NSString stringWithFormat:@"%@, %@, %@, %@, %@ %@", self.wingTextFiedl.text, self.flatNoTextField.text, self.floorNoTextField.text, self.buildingNameTextField.text, self.roadTextField.text,self.cityTextField.text];
             

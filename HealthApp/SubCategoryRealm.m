@@ -14,8 +14,8 @@
     self = [super init];
     if(!self) return nil;
     
-    self.subCat_id = model.subCat_id;
-    self.cat_id = model.cat_id;
+    self.subCat_id = model.sectionID;
+    self.cat_id = model.categoryID;
     self.name   = model.name;
     self.image_url = model.image_url;
     

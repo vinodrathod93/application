@@ -14,7 +14,7 @@
 #import <NBPhoneNumberUtil.h>
 
 
-#define kSign_up_url @"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/addUser"
+#define kSign_up_url @"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/addUser"
 
 
 

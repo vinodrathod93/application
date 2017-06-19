@@ -7,59 +7,43 @@
 		<string>chemist</string>
 		<string>general_store</string>
 		<string>doctor_specialist</string>
+		<string>restaurant_cafe</string>
+		<string>salon</string>
+		<string>diagnostic_centre</string>
+		<string>banquet</string>
+		<string>bar_shop</string>
+		<string>home_service</string>
 		<string>hospital</string>
 		<string>ambulance</string>
-		<string>diagnostic_centre</string>
 		<string>insurance</string>
-		<string>salon</string>
-		<string>restaurant_cafe</string>
-		<string>banquet</string>
 		<string>sweet_shop</string>
 		<string>motorcycle</string>
-		<string>bar_shop</string>
 		<string>laundary</string>
 		<string>courier</string>
-		<string>home_service</string>
 		<string>salon</string>
 	</array>
 	<key>Category</key>
 	<array>
-		<string>Chemist</string>
-		<string>General Stores</string>
+		<string>Pharmacy</string>
+		<string>Stores</string>
 		<string>Doctors</string>
-		<string>Hospitals</string>
-		<string>Ambulance</string>
+		<string>Eateries</string>
+		<string>Salon &amp; Spa</string>
 		<string>Diagnostic Centres</string>
-		<string>Insurance</string>
-		<string>Wellness</string>
-		<string>Restaurants</string>
-		<string>Banquets</string>
-		<string>Desserts</string>
-		<string>Vehicle Showroom</string>
-		<string>Bar Shop</string>
-		<string>Laundry</string>
-		<string>Courier</string>
-		<string>Home Services</string>
-		<string>Salon</string>
+		<string>Event Venues</string>
+		<string>Fitness Centres</string>
+		<string>Lifestyle &amp; Utility</string>
 	</array>
 	<key>subCategory</key>
 	<array>
 		<false/>
-		<false/>
+		<true/>
+		<true/>
 		<true/>
 		<false/>
 		<false/>
 		<false/>
 		<false/>
-		<true/>
-		<true/>
-		<false/>
-		<false/>
-		<true/>
-		<false/>
-		<false/>
-		<false/>
-		<true/>
 		<false/>
 	</array>
 </dict>

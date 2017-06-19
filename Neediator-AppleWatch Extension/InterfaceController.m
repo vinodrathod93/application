@@ -59,7 +59,7 @@
     
     [parameter setObject:location_store.latitude forKey:@"latitude"];
     [parameter setObject:location_store.longitude forKey:@"longitude"];
-    [parameter setObject:[NeediatorUtitity savedDataForKey:kSAVE_CAT_ID] forKey:@"catid"];
+    [parameter setObject:[NeediatorUtitity savedDataForKey:kSAVE_SEC_ID] forKey:@"catid"];
     [parameter setObject:@"" forKey:@"subcatid"];
     [parameter setObject:@"1" forKey:@"page"];
     [parameter setObject:@"" forKey:@"type_id"];

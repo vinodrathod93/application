@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C908C364CC939481E020D86 /* libPods-Neediator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A16AC5A4C6DEBE2546E9713 /* libPods-Neediator.a */; };
-		37C8B3D97DF0F6DA933E2FD3 /* libPods-NeediatorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B5BA946124DC476FBC8927 /* libPods-NeediatorTests.a */; };
-		4B13D2C70E0136E2D7B3E8C5 /* libPods-Neediator-AppleWatch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10FB8275C15FF7C2F9701FBE /* libPods-Neediator-AppleWatch.a */; };
-		5FEF6DB5540FDC6C37D74615 /* libPods-Neediator-AppleWatch Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3269AD15104CCA7F559DE108 /* libPods-Neediator-AppleWatch Extension.a */; };
+		3048734E5BF21B16591E7ED0 /* libPods-NeediatorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE1A0391D0A9968D5995DC32 /* libPods-NeediatorTests.a */; };
+		395DF33D2576AEC4439232DA /* libPods-Neediator-AppleWatch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB86A1B92C9998DFD648065 /* libPods-Neediator-AppleWatch.a */; };
+		66D845B42C38BDB3727EE8B7 /* libPods-Neediator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35DDCC0FB0FD581911E5E1D8 /* libPods-Neediator.a */; };
+		6717B8241E893DEA0095A4E8 /* NotificationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6717B8231E893DEA0095A4E8 /* NotificationTableViewCell.m */; };
+		672529541E7F0BAE00841968 /* SortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672529531E7F0BAE00841968 /* SortViewController.m */; };
+		672529571E7F0CDA00841968 /* SortTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 672529561E7F0CDA00841968 /* SortTableViewCell.m */; };
 		674BB1A01E69B6AB00241BE7 /* StoreStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 674BB19F1E69B6AB00241BE7 /* StoreStoryboard.storyboard */; };
 		674BB1A41E69B8DB00241BE7 /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 674BB1A31E69B8DB00241BE7 /* FilterViewController.m */; };
 		674BB1A81E69EFB700241BE7 /* ToggleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 674BB1A71E69EFB700241BE7 /* ToggleViewController.m */; };
@@ -22,7 +24,13 @@
 		6795F0A81C9C8E9000984A92 /* SortListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0A71C9C8E9000984A92 /* SortListModel.m */; };
 		6795F0AB1C9C8F6200984A92 /* FilterListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AA1C9C8F6200984A92 /* FilterListModel.m */; };
 		6795F0AE1C9C93A500984A92 /* FilterHelperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */; };
-		7519CD032FD4353DB3408210 /* libPods-Neediator Widget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81A0ED376589C22F63FF6C24 /* libPods-Neediator Widget.a */; };
+		67A9EE691EA3F6A1000D7EAC /* NewMyOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A9EE681EA3F6A0000D7EAC /* NewMyOrdersViewController.m */; };
+		67A9EE6C1EA3F853000D7EAC /* NewOrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A9EE6B1EA3F853000D7EAC /* NewOrderTableViewCell.m */; };
+		67BB7DE81E7FF7D200CF1139 /* TypeSendStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67BB7DE71E7FF7D200CF1139 /* TypeSendStoryboard.storyboard */; };
+		67BB7DEB1E7FFA9100CF1139 /* TypeSendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67BB7DEA1E7FFA9100CF1139 /* TypeSendViewController.m */; };
+		67BB7DEE1E800EA300CF1139 /* TypeSendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67BB7DED1E800EA300CF1139 /* TypeSendTableViewCell.m */; };
+		67BB7DF11E8284F000CF1139 /* NeediatorFloatTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 67BB7DF01E8284F000CF1139 /* NeediatorFloatTextField.m */; };
+		6E78CAFDCC21D1FB4FE3D54D /* libPods-Neediator-AppleWatch Extension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBD5ADA894A24E4642B12EC /* libPods-Neediator-AppleWatch Extension.a */; };
 		820108E11E27B99100A8627E /* AftrCheckoutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 820108E01E27B99100A8627E /* AftrCheckoutVC.m */; };
 		82041C261CA9118A007F3B3C /* NeediatorHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 82041C251CA9118A007F3B3C /* NeediatorHUD.m */; };
 		8206B34B1E2A00D4002F1359 /* ShowMyBookingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8206B34A1E2A00D4002F1359 /* ShowMyBookingsVC.m */; };
@@ -89,7 +97,6 @@
 		823F71B41C1B21F500E43731 /* NoStores.m in Sources */ = {isa = PBXBuildFile; fileRef = 823F71B31C1B21F500E43731 /* NoStores.m */; };
 		8246FE621B748382001D1CFF /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 8246FE611B748382001D1CFF /* User.m */; };
 		8246FE651B74B53D001D1CFF /* LogSignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8246FE641B74B53D001D1CFF /* LogSignViewController.m */; };
-		8246FE681B74B70A001D1CFF /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8246FE671B74B70A001D1CFF /* SignInViewController.m */; };
 		824AE0801BF9B1D4008A49A9 /* StoreTaxonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 824AE07F1BF9B1D4008A49A9 /* StoreTaxonsViewController.m */; };
 		824C25531B56374900C58F97 /* Categories.plist in Resources */ = {isa = PBXBuildFile; fileRef = 824C25521B56374900C58F97 /* Categories.plist */; };
 		824D00371B6F2EBF000F1825 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824D00361B6F2EBF000F1825 /* CoreLocation.framework */; };
@@ -273,6 +280,7 @@
 		82FB520C1C281B2500E19626 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FB520B1C281B2500E19626 /* LoginView.m */; };
 		82FB520E1C281B3300E19626 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82FB520D1C281B3300E19626 /* LoginView.xib */; };
 		82FDF7D61E250F920023EC52 /* HomeRequestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FDF7D51E250F920023EC52 /* HomeRequestVC.m */; };
+		EB4BBAEDAD16E182CEC6762A /* libPods-Neediator Widget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E691BC16B0BDA1F7DF2AE2C9 /* libPods-Neediator Widget.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -343,12 +351,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		10FB8275C15FF7C2F9701FBE /* libPods-Neediator-AppleWatch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator-AppleWatch.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3269AD15104CCA7F559DE108 /* libPods-Neediator-AppleWatch Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator-AppleWatch Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		32B41B3BF2A27E5243E376E3 /* Pods-Neediator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.release.xcconfig"; sourceTree = "<group>"; };
-		4B0933CC18D1F3AE6AAC3759 /* Pods-Neediator-AppleWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch.release.xcconfig"; sourceTree = "<group>"; };
-		52B5BA946124DC476FBC8927 /* libPods-NeediatorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NeediatorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		65D65CDED614DEB7B31509D2 /* Pods-Neediator-AppleWatch Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension.release.xcconfig"; sourceTree = "<group>"; };
+		037ED1F9872A03962069B3EF /* Pods-NeediatorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeediatorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NeediatorTests/Pods-NeediatorTests.release.xcconfig"; sourceTree = "<group>"; };
+		04F214447278307423EBA5B2 /* Pods-Neediator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.debug.xcconfig"; sourceTree = "<group>"; };
+		1DB70D91EAFFF3171337FD4F /* Pods-Neediator-AppleWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch.release.xcconfig"; sourceTree = "<group>"; };
+		35DDCC0FB0FD581911E5E1D8 /* libPods-Neediator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		645D262CE042968DC7EA6DB3 /* Pods-Neediator-AppleWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch.debug.xcconfig"; sourceTree = "<group>"; };
+		6717B8221E893DEA0095A4E8 /* NotificationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationTableViewCell.h; sourceTree = "<group>"; };
+		6717B8231E893DEA0095A4E8 /* NotificationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationTableViewCell.m; sourceTree = "<group>"; };
+		672529521E7F0BAE00841968 /* SortViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortViewController.h; sourceTree = "<group>"; };
+		672529531E7F0BAE00841968 /* SortViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortViewController.m; sourceTree = "<group>"; };
+		672529551E7F0CDA00841968 /* SortTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortTableViewCell.h; sourceTree = "<group>"; };
+		672529561E7F0CDA00841968 /* SortTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortTableViewCell.m; sourceTree = "<group>"; };
 		674BB19F1E69B6AB00241BE7 /* StoreStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = StoreStoryboard.storyboard; path = ../StoreStoryboard.storyboard; sourceTree = "<group>"; };
 		674BB1A21E69B8DB00241BE7 /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
 		674BB1A31E69B8DB00241BE7 /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
@@ -371,9 +384,17 @@
 		6795F0AA1C9C8F6200984A92 /* FilterListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterListModel.m; sourceTree = "<group>"; };
 		6795F0AC1C9C93A500984A92 /* FilterHelperModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterHelperModel.h; sourceTree = "<group>"; };
 		6795F0AD1C9C93A500984A92 /* FilterHelperModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterHelperModel.m; sourceTree = "<group>"; };
-		6A16AC5A4C6DEBE2546E9713 /* libPods-Neediator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EE59D28EB28CEDF2BED371F /* Pods-Neediator Widget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator Widget.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator Widget/Pods-Neediator Widget.release.xcconfig"; sourceTree = "<group>"; };
-		81A0ED376589C22F63FF6C24 /* libPods-Neediator Widget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator Widget.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		67A9EE671EA3F6A0000D7EAC /* NewMyOrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewMyOrdersViewController.h; sourceTree = "<group>"; };
+		67A9EE681EA3F6A0000D7EAC /* NewMyOrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewMyOrdersViewController.m; sourceTree = "<group>"; };
+		67A9EE6A1EA3F853000D7EAC /* NewOrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewOrderTableViewCell.h; sourceTree = "<group>"; };
+		67A9EE6B1EA3F853000D7EAC /* NewOrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewOrderTableViewCell.m; sourceTree = "<group>"; };
+		67BB7DE71E7FF7D200CF1139 /* TypeSendStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TypeSendStoryboard.storyboard; sourceTree = "<group>"; };
+		67BB7DE91E7FFA9100CF1139 /* TypeSendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeSendViewController.h; sourceTree = "<group>"; };
+		67BB7DEA1E7FFA9100CF1139 /* TypeSendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TypeSendViewController.m; sourceTree = "<group>"; };
+		67BB7DEC1E800EA300CF1139 /* TypeSendTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeSendTableViewCell.h; sourceTree = "<group>"; };
+		67BB7DED1E800EA300CF1139 /* TypeSendTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TypeSendTableViewCell.m; sourceTree = "<group>"; };
+		67BB7DEF1E8284F000CF1139 /* NeediatorFloatTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorFloatTextField.h; sourceTree = "<group>"; };
+		67BB7DF01E8284F000CF1139 /* NeediatorFloatTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeediatorFloatTextField.m; sourceTree = "<group>"; };
 		820108DF1E27B99100A8627E /* AftrCheckoutVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AftrCheckoutVC.h; sourceTree = "<group>"; };
 		820108E01E27B99100A8627E /* AftrCheckoutVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AftrCheckoutVC.m; sourceTree = "<group>"; };
 		82041C241CA9118A007F3B3C /* NeediatorHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeediatorHUD.h; sourceTree = "<group>"; };
@@ -495,8 +516,6 @@
 		8246FE611B748382001D1CFF /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		8246FE631B74B53D001D1CFF /* LogSignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogSignViewController.h; sourceTree = "<group>"; };
 		8246FE641B74B53D001D1CFF /* LogSignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogSignViewController.m; sourceTree = "<group>"; };
-		8246FE661B74B70A001D1CFF /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
-		8246FE671B74B70A001D1CFF /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		824AE07E1BF9B1D4008A49A9 /* StoreTaxonsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreTaxonsViewController.h; sourceTree = "<group>"; };
 		824AE07F1BF9B1D4008A49A9 /* StoreTaxonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreTaxonsViewController.m; sourceTree = "<group>"; };
 		824C25521B56374900C58F97 /* Categories.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Categories.plist; sourceTree = "<group>"; };
@@ -841,12 +860,16 @@
 		82FB520D1C281B3300E19626 /* LoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
 		82FDF7D41E250F920023EC52 /* HomeRequestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeRequestVC.h; sourceTree = "<group>"; };
 		82FDF7D51E250F920023EC52 /* HomeRequestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeRequestVC.m; sourceTree = "<group>"; };
-		86A2FB6B6CC116478056D591 /* Pods-Neediator Widget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator Widget.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator Widget/Pods-Neediator Widget.debug.xcconfig"; sourceTree = "<group>"; };
-		9877EB620BDD7EEB27492D79 /* Pods-NeediatorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeediatorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NeediatorTests/Pods-NeediatorTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B17AA84BD7E275354050D117 /* Pods-Neediator-AppleWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch.debug.xcconfig"; sourceTree = "<group>"; };
-		BD75B5A0151B9BB11D9B5094 /* Pods-Neediator-AppleWatch Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension.debug.xcconfig"; sourceTree = "<group>"; };
-		C05584E5CEE80CCA138CB9D3 /* Pods-Neediator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.debug.xcconfig"; sourceTree = "<group>"; };
-		E8FD769156790BB232887BDE /* Pods-NeediatorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeediatorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NeediatorTests/Pods-NeediatorTests.release.xcconfig"; sourceTree = "<group>"; };
+		839EFF63F5961FB97A0ABE7B /* Pods-Neediator Widget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator Widget.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator Widget/Pods-Neediator Widget.release.xcconfig"; sourceTree = "<group>"; };
+		ADBD5ADA894A24E4642B12EC /* libPods-Neediator-AppleWatch Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator-AppleWatch Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD799A877F4C8660EEBDD716 /* Pods-Neediator-AppleWatch Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension.release.xcconfig"; sourceTree = "<group>"; };
+		C695D450C47405265ACC0E69 /* Pods-Neediator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator.release.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator/Pods-Neediator.release.xcconfig"; sourceTree = "<group>"; };
+		DE1A0391D0A9968D5995DC32 /* libPods-NeediatorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NeediatorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1B28B68612AE5ECA07F5CC4 /* Pods-Neediator Widget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator Widget.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator Widget/Pods-Neediator Widget.debug.xcconfig"; sourceTree = "<group>"; };
+		E691BC16B0BDA1F7DF2AE2C9 /* libPods-Neediator Widget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator Widget.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFB86A1B92C9998DFD648065 /* libPods-Neediator-AppleWatch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Neediator-AppleWatch.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2FCF9715584C7A44E4F4B82 /* Pods-Neediator-AppleWatch Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Neediator-AppleWatch Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension.debug.xcconfig"; sourceTree = "<group>"; };
+		F5B39AF74DA95D215DDCE019 /* Pods-NeediatorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NeediatorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NeediatorTests/Pods-NeediatorTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -854,7 +877,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B13D2C70E0136E2D7B3E8C5 /* libPods-Neediator-AppleWatch.a in Frameworks */,
+				395DF33D2576AEC4439232DA /* libPods-Neediator-AppleWatch.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -863,7 +886,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				823571B41CB3E9C200D27BEC /* NotificationCenter.framework in Frameworks */,
-				7519CD032FD4353DB3408210 /* libPods-Neediator Widget.a in Frameworks */,
+				EB4BBAEDAD16E182CEC6762A /* libPods-Neediator Widget.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -871,7 +894,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FEF6DB5540FDC6C37D74615 /* libPods-Neediator-AppleWatch Extension.a in Frameworks */,
+				6E78CAFDCC21D1FB4FE3D54D /* libPods-Neediator-AppleWatch Extension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -885,7 +908,7 @@
 				82BF08511C1F07E90093B8CD /* MessageUI.framework in Frameworks */,
 				824D00371B6F2EBF000F1825 /* CoreLocation.framework in Frameworks */,
 				825567201B68F9B6009F013A /* CoreTelephony.framework in Frameworks */,
-				0C908C364CC939481E020D86 /* libPods-Neediator.a in Frameworks */,
+				66D845B42C38BDB3727EE8B7 /* libPods-Neediator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -893,7 +916,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37C8B3D97DF0F6DA933E2FD3 /* libPods-NeediatorTests.a in Frameworks */,
+				3048734E5BF21B16591E7ED0 /* libPods-NeediatorTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -912,11 +935,11 @@
 				824D00361B6F2EBF000F1825 /* CoreLocation.framework */,
 				8255671F1B68F9B6009F013A /* CoreTelephony.framework */,
 				823571B31CB3E9C200D27BEC /* NotificationCenter.framework */,
-				6A16AC5A4C6DEBE2546E9713 /* libPods-Neediator.a */,
-				10FB8275C15FF7C2F9701FBE /* libPods-Neediator-AppleWatch.a */,
-				81A0ED376589C22F63FF6C24 /* libPods-Neediator Widget.a */,
-				3269AD15104CCA7F559DE108 /* libPods-Neediator-AppleWatch Extension.a */,
-				52B5BA946124DC476FBC8927 /* libPods-NeediatorTests.a */,
+				35DDCC0FB0FD581911E5E1D8 /* libPods-Neediator.a */,
+				E691BC16B0BDA1F7DF2AE2C9 /* libPods-Neediator Widget.a */,
+				EFB86A1B92C9998DFD648065 /* libPods-Neediator-AppleWatch.a */,
+				ADBD5ADA894A24E4642B12EC /* libPods-Neediator-AppleWatch Extension.a */,
+				DE1A0391D0A9968D5995DC32 /* libPods-NeediatorTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -937,8 +960,41 @@
 				674BB1B01E6A06C800241BE7 /* WorkingHoursViewController.m */,
 				674BB1B21E6A098F00241BE7 /* OptionsViewController.h */,
 				674BB1B31E6A098F00241BE7 /* OptionsViewController.m */,
+				672529521E7F0BAE00841968 /* SortViewController.h */,
+				672529531E7F0BAE00841968 /* SortViewController.m */,
+				672529551E7F0CDA00841968 /* SortTableViewCell.h */,
+				672529561E7F0CDA00841968 /* SortTableViewCell.m */,
 			);
 			name = Filter;
+			sourceTree = "<group>";
+		};
+		67A9EE661EA3F673000D7EAC /* TypeSend */ = {
+			isa = PBXGroup;
+			children = (
+				67BB7DE71E7FF7D200CF1139 /* TypeSendStoryboard.storyboard */,
+				67BB7DE91E7FFA9100CF1139 /* TypeSendViewController.h */,
+				67BB7DEA1E7FFA9100CF1139 /* TypeSendViewController.m */,
+				67BB7DEC1E800EA300CF1139 /* TypeSendTableViewCell.h */,
+				67BB7DED1E800EA300CF1139 /* TypeSendTableViewCell.m */,
+			);
+			name = TypeSend;
+			sourceTree = "<group>";
+		};
+		7118FF5F91B788338851D301 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				04F214447278307423EBA5B2 /* Pods-Neediator.debug.xcconfig */,
+				C695D450C47405265ACC0E69 /* Pods-Neediator.release.xcconfig */,
+				E1B28B68612AE5ECA07F5CC4 /* Pods-Neediator Widget.debug.xcconfig */,
+				839EFF63F5961FB97A0ABE7B /* Pods-Neediator Widget.release.xcconfig */,
+				645D262CE042968DC7EA6DB3 /* Pods-Neediator-AppleWatch.debug.xcconfig */,
+				1DB70D91EAFFF3171337FD4F /* Pods-Neediator-AppleWatch.release.xcconfig */,
+				F2FCF9715584C7A44E4F4B82 /* Pods-Neediator-AppleWatch Extension.debug.xcconfig */,
+				BD799A877F4C8660EEBDD716 /* Pods-Neediator-AppleWatch Extension.release.xcconfig */,
+				F5B39AF74DA95D215DDCE019 /* Pods-NeediatorTests.debug.xcconfig */,
+				037ED1F9872A03962069B3EF /* Pods-NeediatorTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		8200C95C1BC5348600D8A32C /* Reachability */ = {
@@ -1046,6 +1102,8 @@
 			children = (
 				8267AB9E1CB29E6C00CF1632 /* NotificationViewController.h */,
 				8267AB9F1CB29E6C00CF1632 /* NotificationViewController.m */,
+				6717B8221E893DEA0095A4E8 /* NotificationTableViewCell.h */,
+				6717B8231E893DEA0095A4E8 /* NotificationTableViewCell.m */,
 			);
 			name = Notification;
 			sourceTree = "<group>";
@@ -1451,6 +1509,8 @@
 				829F73931C257FEE001670A8 /* CustomCollectionViewCell.m */,
 				82D69A041E0CF49C00E5E84C /* CustomPrescriptionViewCell.h */,
 				82D69A051E0CF49C00E5E84C /* CustomPrescriptionViewCell.m */,
+				67A9EE6A1EA3F853000D7EAC /* NewOrderTableViewCell.h */,
+				67A9EE6B1EA3F853000D7EAC /* NewOrderTableViewCell.m */,
 			);
 			name = "My Orders";
 			sourceTree = "<group>";
@@ -1492,6 +1552,8 @@
 				82A2659F1C2195830031BDC9 /* MyOrdersViewController.m */,
 				82BAED3A1E2CC07E00DFA976 /* MyOrdersVC.h */,
 				82BAED3B1E2CC07E00DFA976 /* MyOrdersVC.m */,
+				67A9EE671EA3F6A0000D7EAC /* NewMyOrdersViewController.h */,
+				67A9EE681EA3F6A0000D7EAC /* NewMyOrdersViewController.m */,
 			);
 			name = "My Orders";
 			sourceTree = "<group>";
@@ -1559,7 +1621,7 @@
 				823571B51CB3E9C200D27BEC /* Neediator Widget */,
 				82BD02891B46A73C00108A0B /* Products */,
 				4D432D975D494ECD94D11A09 /* Frameworks */,
-				F5503D3BF4E76179B03C2A18 /* Pods */,
+				7118FF5F91B788338851D301 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1578,6 +1640,7 @@
 		82BD028A1B46A73C00108A0B /* HealthApp */ = {
 			isa = PBXGroup;
 			children = (
+				67A9EE661EA3F673000D7EAC /* TypeSend */,
 				674BB1A11E69B8C100241BE7 /* Filter */,
 				82D6EE311C1802C2007CE5F2 /* Constants */,
 				82F1F1151CCFA5BD00AB1B93 /* Overrides */,
@@ -1674,8 +1737,8 @@
 		82C722F71B7B42BA00E0C5EF /* LogIn */ = {
 			isa = PBXGroup;
 			children = (
-				8246FE661B74B70A001D1CFF /* SignInViewController.h */,
-				8246FE671B74B70A001D1CFF /* SignInViewController.m */,
+				8246FE631B74B53D001D1CFF /* LogSignViewController.h */,
+				8246FE641B74B53D001D1CFF /* LogSignViewController.m */,
 			);
 			name = LogIn;
 			sourceTree = "<group>";
@@ -2014,8 +2077,6 @@
 			children = (
 				82EF2DC11BE8BF8F00D87DE2 /* Register */,
 				82C722F71B7B42BA00E0C5EF /* LogIn */,
-				8246FE631B74B53D001D1CFF /* LogSignViewController.h */,
-				8246FE641B74B53D001D1CFF /* LogSignViewController.m */,
 			);
 			name = SignUp;
 			sourceTree = "<group>";
@@ -2374,6 +2435,8 @@
 				82AE1F841CCE320600458CBB /* NeediatorPhotoBrowser.m */,
 				82AE1F861CCE355800458CBB /* NeediatorMWZoomingScrollView.h */,
 				82AE1F871CCE355800458CBB /* NeediatorMWZoomingScrollView.m */,
+				67BB7DEF1E8284F000CF1139 /* NeediatorFloatTextField.h */,
+				67BB7DF01E8284F000CF1139 /* NeediatorFloatTextField.m */,
 			);
 			name = Overrides;
 			sourceTree = "<group>";
@@ -2409,23 +2472,6 @@
 			name = "Login View";
 			sourceTree = "<group>";
 		};
-		F5503D3BF4E76179B03C2A18 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				C05584E5CEE80CCA138CB9D3 /* Pods-Neediator.debug.xcconfig */,
-				32B41B3BF2A27E5243E376E3 /* Pods-Neediator.release.xcconfig */,
-				B17AA84BD7E275354050D117 /* Pods-Neediator-AppleWatch.debug.xcconfig */,
-				4B0933CC18D1F3AE6AAC3759 /* Pods-Neediator-AppleWatch.release.xcconfig */,
-				86A2FB6B6CC116478056D591 /* Pods-Neediator Widget.debug.xcconfig */,
-				6EE59D28EB28CEDF2BED371F /* Pods-Neediator Widget.release.xcconfig */,
-				BD75B5A0151B9BB11D9B5094 /* Pods-Neediator-AppleWatch Extension.debug.xcconfig */,
-				65D65CDED614DEB7B31509D2 /* Pods-Neediator-AppleWatch Extension.release.xcconfig */,
-				9877EB620BDD7EEB27492D79 /* Pods-NeediatorTests.debug.xcconfig */,
-				E8FD769156790BB232887BDE /* Pods-NeediatorTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2433,11 +2479,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 823571C01CB3E9C200D27BEC /* Build configuration list for PBXNativeTarget "Neediator Widget" */;
 			buildPhases = (
-				C54097D5BE44CFEBFC036B0E /* [CP] Check Pods Manifest.lock */,
+				4C95EBA2B4B3134C98E76CC4 /* [CP] Check Pods Manifest.lock */,
 				823571AE1CB3E9C200D27BEC /* Sources */,
 				823571AF1CB3E9C200D27BEC /* Frameworks */,
 				823571B01CB3E9C200D27BEC /* Resources */,
-				290A8A7ED1F1D7CA49645909 /* [CP] Copy Pods Resources */,
+				1FB86978AF1DE00360FAF401 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2452,11 +2498,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8267AB951CB281E400CF1632 /* Build configuration list for PBXNativeTarget "Neediator-AppleWatch" */;
 			buildPhases = (
-				DE7973203789204B858F4E33 /* [CP] Check Pods Manifest.lock */,
+				7133C1CFF98CD010B20F92E2 /* [CP] Check Pods Manifest.lock */,
 				8267AB6D1CB281E300CF1632 /* Resources */,
 				8267AB941CB281E400CF1632 /* Embed App Extensions */,
 				46E4D24237C7D37380ED434D /* Frameworks */,
-				967D45933561E0A60DE7749E /* [CP] Copy Pods Resources */,
+				BB65099AC5B2E63A8290549B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2472,12 +2518,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8267AB911CB281E400CF1632 /* Build configuration list for PBXNativeTarget "Neediator-AppleWatch Extension" */;
 			buildPhases = (
-				0CF32895F37B66EE7B8E6626 /* [CP] Check Pods Manifest.lock */,
+				3EC959513108490273C5FEC6 /* [CP] Check Pods Manifest.lock */,
 				8267AB771CB281E300CF1632 /* Sources */,
 				8267AB781CB281E300CF1632 /* Frameworks */,
 				8267AB791CB281E300CF1632 /* Resources */,
-				B00C667C5D72161E6831A949 /* [CP] Embed Pods Frameworks */,
-				BC068454669F7BB45D41EF73 /* [CP] Copy Pods Resources */,
+				75D0EFD47EC14CB4699ECB60 /* [CP] Embed Pods Frameworks */,
+				0599A12FF733915DB6822D84 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2492,14 +2538,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82BD02AB1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "Neediator" */;
 			buildPhases = (
-				DFC1AA554B324FD2F1A72C3E /* [CP] Check Pods Manifest.lock */,
+				F44BE0B58F988CCE432D99A8 /* [CP] Check Pods Manifest.lock */,
 				82BD02841B46A73C00108A0B /* Sources */,
 				82BD02851B46A73C00108A0B /* Frameworks */,
 				82BD02861B46A73C00108A0B /* Resources */,
 				8267AB981CB281E400CF1632 /* Embed Watch Content */,
 				823571C31CB3E9C200D27BEC /* Embed App Extensions */,
-				5ECA914883095B4E0FF67CD7 /* [CP] Embed Pods Frameworks */,
-				C4803AEE92739E2B1B0B9FAE /* [CP] Copy Pods Resources */,
+				D0E0DCC32C502354A10E91FE /* [CP] Embed Pods Frameworks */,
+				01F06E0CA0CD1CF2C45F2B4A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2516,12 +2562,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82BD02AE1B46A73C00108A0B /* Build configuration list for PBXNativeTarget "NeediatorTests" */;
 			buildPhases = (
-				55BC48F17DBC083C6FC71395 /* [CP] Check Pods Manifest.lock */,
+				2D592E88C561F4241298498A /* [CP] Check Pods Manifest.lock */,
 				82BD029D1B46A73C00108A0B /* Sources */,
 				82BD029E1B46A73C00108A0B /* Frameworks */,
 				82BD029F1B46A73C00108A0B /* Resources */,
-				BEE958521549D57E811CC1B1 /* [CP] Embed Pods Frameworks */,
-				D91468E7873EC6DAED468E68 /* [CP] Copy Pods Resources */,
+				D9A0CB7E76619A1AFA3905B6 /* [CP] Embed Pods Frameworks */,
+				5866674AA85EF879CC82AD7F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2546,6 +2592,7 @@
 					823571B11CB3E9C200D27BEC = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = HK3PRD8YBE;
+						ProvisioningStyle = Automatic;
 					};
 					8267AB6E1CB281E300CF1632 = {
 						CreatedOnToolsVersion = 7.3;
@@ -2633,6 +2680,7 @@
 				82D47D281CABF839006B7996 /* behind_alert_view.png in Resources */,
 				674BB1A01E69B6AB00241BE7 /* StoreStoryboard.storyboard in Resources */,
 				827FD14B1C455D16000EB0A4 /* Neediator_Logo_Final.png in Resources */,
+				67BB7DE81E7FF7D200CF1139 /* TypeSendStoryboard.storyboard in Resources */,
 				82FB520E1C281B3300E19626 /* LoginView.xib in Resources */,
 				82BD02971B46A73C00108A0B /* Main.storyboard in Resources */,
 				82C36C5B1C81DA900038EA5F /* TaxonHeaderView.xib in Resources */,
@@ -2665,127 +2713,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0CF32895F37B66EE7B8E6626 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		290A8A7ED1F1D7CA49645909 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator Widget/Pods-Neediator Widget-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		55BC48F17DBC083C6FC71395 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		5ECA914883095B4E0FF67CD7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator/Pods-Neediator-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		967D45933561E0A60DE7749E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B00C667C5D72161E6831A949 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BC068454669F7BB45D41EF73 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BEE958521549D57E811CC1B1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NeediatorTests/Pods-NeediatorTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C4803AEE92739E2B1B0B9FAE /* [CP] Copy Pods Resources */ = {
+		01F06E0CA0CD1CF2C45F2B4A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2800,7 +2728,37 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator/Pods-Neediator-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C54097D5BE44CFEBFC036B0E /* [CP] Check Pods Manifest.lock */ = {
+		0599A12FF733915DB6822D84 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1FB86978AF1DE00360FAF401 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator Widget/Pods-Neediator Widget-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2D592E88C561F4241298498A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2815,7 +2773,37 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		D91468E7873EC6DAED468E68 /* [CP] Copy Pods Resources */ = {
+		3EC959513108490273C5FEC6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4C95EBA2B4B3134C98E76CC4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		5866674AA85EF879CC82AD7F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2830,7 +2818,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NeediatorTests/Pods-NeediatorTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DE7973203789204B858F4E33 /* [CP] Check Pods Manifest.lock */ = {
+		7133C1CFF98CD010B20F92E2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2845,7 +2833,67 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		DFC1AA554B324FD2F1A72C3E /* [CP] Check Pods Manifest.lock */ = {
+		75D0EFD47EC14CB4699ECB60 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator-AppleWatch Extension/Pods-Neediator-AppleWatch Extension-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BB65099AC5B2E63A8290549B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator-AppleWatch/Pods-Neediator-AppleWatch-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D0E0DCC32C502354A10E91FE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Neediator/Pods-Neediator-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D9A0CB7E76619A1AFA3905B6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NeediatorTests/Pods-NeediatorTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F44BE0B58F988CCE432D99A8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2889,6 +2937,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				829113C11BB90746000DA995 /* Cart.xcdatamodeld in Sources */,
+				67A9EE6C1EA3F853000D7EAC /* NewOrderTableViewCell.m in Sources */,
 				82147FC71C452B2800D6691E /* HospitalResponseModel.m in Sources */,
 				8206B3521E2A05E8002F1359 /* MyBookingResponseModel.m in Sources */,
 				82AB0C961C2E882100675567 /* EditAddressViewController.m in Sources */,
@@ -2901,6 +2950,7 @@
 				82842CDE1B58F92600FCCACC /* ProductImageViewCell.m in Sources */,
 				82C38A821C0864D70006A73B /* PopupCartViewController.m in Sources */,
 				674BB1A81E69EFB700241BE7 /* ToggleViewController.m in Sources */,
+				67BB7DF11E8284F000CF1139 /* NeediatorFloatTextField.m in Sources */,
 				823B73911C492F0700031596 /* MainCategoryRealm.m in Sources */,
 				674BB1AB1E69EFD700241BE7 /* ToggleTableViewCell.m in Sources */,
 				823D06621B8C458600640F45 /* CODInputViewCell.m in Sources */,
@@ -2913,6 +2963,7 @@
 				82EA68031C43BC9000F9924D /* DoctorResponseModel.m in Sources */,
 				82E50A001CAE9C1A0013289F /* FavouritesResponseModel.m in Sources */,
 				82F856D31C80833B000B68A9 /* StateCityResponseModel.m in Sources */,
+				67BB7DEB1E7FFA9100CF1139 /* TypeSendViewController.m in Sources */,
 				820D4C191CD0CE3A002F137D /* CancelOrderView.m in Sources */,
 				8250A3271B54E9D70026ADCE /* HeaderSliderView.m in Sources */,
 				82B2B4B61E28BAC700928E85 /* DebitCardCell.m in Sources */,
@@ -2985,12 +3036,13 @@
 				82F856D41C80833B000B68A9 /* StatesModel.m in Sources */,
 				82217C4D1C96E2B4002570E3 /* UploadPrescriptionCellView.m in Sources */,
 				82217C441C96B162002570E3 /* StoreReviewsView.m in Sources */,
+				672529571E7F0CDA00841968 /* SortTableViewCell.m in Sources */,
+				67BB7DEE1E800EA300CF1139 /* TypeSendTableViewCell.m in Sources */,
 				82ED53DF1C4FAFC500FA7707 /* NEntityDetailViewController.m in Sources */,
 				82C095091C5F614100727C25 /* AddToCart.m in Sources */,
 				82C722FC1B7B4EB100E0C5EF /* TPKeyboardAvoidingScrollView.m in Sources */,
 				82395A9C1B53A77300581EB4 /* CategoryViewCell.m in Sources */,
 				827A80181B85E15C008085F1 /* AddressesViewController.m in Sources */,
-				8246FE681B74B70A001D1CFF /* SignInViewController.m in Sources */,
 				826212F91BFB25CE00F75254 /* BannerView.m in Sources */,
 				829113D71BB93A63000DA995 /* VariantsViewController.m in Sources */,
 				823AADC71E14DCA000E46FFE /* ShowMyPrescriptionVC.m in Sources */,
@@ -3068,6 +3120,7 @@
 				82A2659C1C2169B50031BDC9 /* NTextField.m in Sources */,
 				82F80CD61C1EE01100C8E076 /* MoreViewController.m in Sources */,
 				823B73851C491A4000031596 /* CategoryModel.m in Sources */,
+				6717B8241E893DEA0095A4E8 /* NotificationTableViewCell.m in Sources */,
 				82521A8B1E262BAF00D6E7CF /* ProductDetailVC.m in Sources */,
 				6795F0A81C9C8E9000984A92 /* SortListModel.m in Sources */,
 				82C6FC371CBD0B5800DF1C9A /* EditProfileViewController.m in Sources */,
@@ -3080,6 +3133,7 @@
 				82845C371CBBBB6B001D7D80 /* UploadPreviewController.m in Sources */,
 				8286B2541BF08A7F00AFC533 /* StoreListResponseModel.m in Sources */,
 				82E509FD1CAE9A0E0013289F /* FavouriteStoreModel.m in Sources */,
+				67A9EE691EA3F6A1000D7EAC /* NewMyOrdersViewController.m in Sources */,
 				82E509FA1CAE98BA0013289F /* FavouriteCategoryModel.m in Sources */,
 				82F856DA1C8091CF000B68A9 /* SubCategoryRealm.m in Sources */,
 				82ECD1261BBD5A91004B0BEB /* AddressCell.m in Sources */,
@@ -3095,6 +3149,7 @@
 				82A265A41C2195D00031BDC9 /* MyOrdersCell.m in Sources */,
 				82B93B611CB918D700D1EC8C /* FavouriteStoreDetailModel.m in Sources */,
 				82C7230B1B7B65FF00E0C5EF /* TPKeyboardAvoidingTableView.m in Sources */,
+				672529541E7F0BAE00841968 /* SortViewController.m in Sources */,
 				82681EAD1C50B8FA00035E6E /* NEntityDetailCell.m in Sources */,
 				8206B34F1E2A0401002F1359 /* MyBookingModel.m in Sources */,
 				82ED53E71C4FB58300FA7707 /* EntityDetailModel.m in Sources */,
@@ -3173,7 +3228,7 @@
 /* Begin XCBuildConfiguration section */
 		823571C11CB3E9C200D27BEC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 86A2FB6B6CC116478056D591 /* Pods-Neediator Widget.debug.xcconfig */;
+			baseConfigurationReference = E1B28B68612AE5ECA07F5CC4 /* Pods-Neediator Widget.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3185,13 +3240,15 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.linkcube.neediator.Neediator-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
 		823571C21CB3E9C200D27BEC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6EE59D28EB28CEDF2BED371F /* Pods-Neediator Widget.release.xcconfig */;
+			baseConfigurationReference = 839EFF63F5961FB97A0ABE7B /* Pods-Neediator Widget.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3202,6 +3259,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.linkcube.neediator.Neediator-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -3209,7 +3268,7 @@
 		};
 		8267AB921CB281E400CF1632 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD75B5A0151B9BB11D9B5094 /* Pods-Neediator-AppleWatch Extension.debug.xcconfig */;
+			baseConfigurationReference = F2FCF9715584C7A44E4F4B82 /* Pods-Neediator-AppleWatch Extension.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3232,7 +3291,7 @@
 		};
 		8267AB931CB281E400CF1632 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 65D65CDED614DEB7B31509D2 /* Pods-Neediator-AppleWatch Extension.release.xcconfig */;
+			baseConfigurationReference = BD799A877F4C8660EEBDD716 /* Pods-Neediator-AppleWatch Extension.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3255,7 +3314,7 @@
 		};
 		8267AB961CB281E400CF1632 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B17AA84BD7E275354050D117 /* Pods-Neediator-AppleWatch.debug.xcconfig */;
+			baseConfigurationReference = 645D262CE042968DC7EA6DB3 /* Pods-Neediator-AppleWatch.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -3278,7 +3337,7 @@
 		};
 		8267AB971CB281E400CF1632 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4B0933CC18D1F3AE6AAC3759 /* Pods-Neediator-AppleWatch.release.xcconfig */;
+			baseConfigurationReference = 1DB70D91EAFFF3171337FD4F /* Pods-Neediator-AppleWatch.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -3387,7 +3446,7 @@
 		};
 		82BD02AC1B46A73C00108A0B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C05584E5CEE80CCA138CB9D3 /* Pods-Neediator.debug.xcconfig */;
+			baseConfigurationReference = 04F214447278307423EBA5B2 /* Pods-Neediator.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -3417,7 +3476,7 @@
 		};
 		82BD02AD1B46A73C00108A0B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32B41B3BF2A27E5243E376E3 /* Pods-Neediator.release.xcconfig */;
+			baseConfigurationReference = C695D450C47405265ACC0E69 /* Pods-Neediator.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -3446,7 +3505,7 @@
 		};
 		82BD02AF1B46A73C00108A0B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9877EB620BDD7EEB27492D79 /* Pods-NeediatorTests.debug.xcconfig */;
+			baseConfigurationReference = F5B39AF74DA95D215DDCE019 /* Pods-NeediatorTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -3469,7 +3528,7 @@
 		};
 		82BD02B01B46A73C00108A0B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8FD769156790BB232887BDE /* Pods-NeediatorTests.release.xcconfig */;
+			baseConfigurationReference = 037ED1F9872A03962069B3EF /* Pods-NeediatorTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

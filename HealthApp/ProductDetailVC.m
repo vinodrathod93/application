@@ -50,10 +50,10 @@
     
     NSString *parameterString = [NSString stringWithFormat:@"AdminProductId=%@",_AdminProductID];
     NSLog(@"My Details %@",parameterString);
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductSpecification"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/getProductSpecification"];
     NSLog(@"URL is --> %@", url);
     NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductSpecification"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/getProductSpecification"]];
     request.HTTPMethod = @"POST";
     request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -182,10 +182,10 @@
     
     NSString *parameterString = [NSString stringWithFormat:@"AdminProductId=%@",_AdminProductID];
     NSLog(@"My Details %@",parameterString);
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductSpecification"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/getProductSpecification"];
     NSLog(@"URL is --> %@", url);
     NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductSpecification"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/getProductSpecification"]];
     request.HTTPMethod = @"POST";
     request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -222,10 +222,10 @@
     
     NSString *parameterString = [NSString stringWithFormat:@"VendorProductid=%@",_VendorProductID];
     NSLog(@"My Details %@",parameterString);
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductDescription"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/getProductDescription"];
     NSLog(@"URL is --> %@", url);
     NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/getProductDescription"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/getProductDescription"]];
     request.HTTPMethod = @"POST";
     request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -260,13 +260,13 @@
     //   [self checkOrders];
     
     
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/addToCartNew"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/addToCartNew"];
     
     
     
     NSLog(@"URL is --> %@", url);
     
-    NSString *parameter  = [NSString stringWithFormat:@"VendorProductId=%@&qty=%@&user_id=%@&store_id=%@&Section_id=%@", _VendorProductID, _ProductQuantity, user.userID,[NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],[NeediatorUtitity savedDataForKey:kSAVE_CAT_ID]];
+    NSString *parameter  = [NSString stringWithFormat:@"VendorProductId=%@&qty=%@&user_id=%@&store_id=%@&Section_id=%@", _VendorProductID, _ProductQuantity, user.userID,[NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],[NeediatorUtitity savedDataForKey:kSAVE_SEC_ID]];
     NSLog(@"Add To Cart Parameters%@",parameter);
     
     NSData *parameterData = [NSData dataWithBytes:[parameter UTF8String] length:[parameter length]];

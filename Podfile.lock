@@ -44,6 +44,7 @@ PODS:
   - GTMSessionFetcher/Core (1.1.3)
   - GTMSessionFetcher/Full (1.1.3):
     - GTMSessionFetcher/Core (= 1.1.3)
+  - JVFloatLabeledTextField (1.1.1)
   - libPhoneNumber-iOS (0.8.11)
   - Mantle (2.0.6):
     - Mantle/extobjc (= 2.0.6)
@@ -62,6 +63,7 @@ PODS:
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
   - SLExpandableTableView (1.3.1)
+  - STPopup (1.8.1)
   - SVPullToRefresh (0.4.1)
   - XLForm (3.0.2)
 
@@ -74,6 +76,7 @@ DEPENDENCIES:
   - GoogleAPIClient/Core (~> 1.0.2)
   - GoogleMaps
   - GTMOAuth2 (~> 1.1.0)
+  - JVFloatLabeledTextField
   - libPhoneNumber-iOS (~> 0.8)
   - Mantle
   - MWPhotoBrowser
@@ -82,6 +85,7 @@ DEPENDENCIES:
   - RMPZoomTransitionAnimator
   - SDWebImage (~> 3.7)
   - SLExpandableTableView
+  - STPopup
   - SVPullToRefresh
   - XLForm (~> 3.0.0)
 
@@ -101,6 +105,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 85f8ad6b251544286a97163133d042ec95f889c5
   GTMOAuth2: bdb12f3e0d2110bfe585f6151230b883beb4d042
   GTMSessionFetcher: 86678550b1b2862b0df62e693a177c916debd7d2
+  JVFloatLabeledTextField: 0e5524b097f102036214dd8279edc8ecf08b5e18
   libPhoneNumber-iOS: ded33fab2c51ee847979556aa504c9e70f32d703
   Mantle: 299966b00759634931699f69cb6a30b9239b944d
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
@@ -110,7 +115,10 @@ SPEC CHECKSUMS:
   RMPZoomTransitionAnimator: fa1a0726e8e227069d9d63d30ef403aa12323960
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SLExpandableTableView: ff63a4bb4b71c6c3ae2b7cb1cde6a36c1645f23c
+  STPopup: 47e8ae53d348fa5f9be2d08d5c513ebe12ca758d
   SVPullToRefresh: ba2e718695a43253d8bea6852d2960097dc15d8c
   XLForm: 7817ce29f3f259186e837bb7309ac7e5b7e9b883
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 19e2786fdc9fd41e5c3aa81d0e2ab5f0ed130639
+
+COCOAPODS: 1.1.1

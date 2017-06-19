@@ -17,11 +17,11 @@ RLM_ARRAY_TYPE(SortListObject)
 
 @interface MainCategoryRealm : RLMObject
 
-@property  NSNumber<RLMInt> *cat_id;
-@property  NSString *name;
-@property  NSString *image_url;
-@property  NSString *color_code;
-
+@property  NSNumber<RLMInt> *SectionID;
+@property  NSString *SectionName;
+@property  NSString *ImageUrl;
+@property  NSString *ColorCode;
+@property  BOOL has_subCat;
 
 
 - (id)initWithMantleModel:(CategoryModel *)model;

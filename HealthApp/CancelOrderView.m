@@ -20,6 +20,8 @@
 
 -(void)awakeFromNib {
     
+    [super awakeFromNib];
+    
     self.SelectReasonBtn.layer.borderColor = [UIColor darkGrayColor].CGColor;
     self.SelectReasonBtn.layer.borderWidth = 1.f;
     self.SelectReasonBtn.layer.masksToBounds = YES;

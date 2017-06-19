@@ -34,6 +34,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    self.edgesForExtendedLayout =   UIRectEdgeNone;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,7 +85,8 @@
         if (_neediatorSearchScope == searchScopeLocation) {
             [self configureLocationCell:cell forIndexPath:indexPath];
         }
-        else if (_neediatorSearchScope == searchScopeCategory) {
+        else
+            if (_neediatorSearchScope == searchScopeCategory) {
             [self configureCategoryCell:cell forIndexPath:indexPath];
         }
         else if (_neediatorSearchScope == searchScopeStore) {
@@ -139,7 +142,8 @@
             }];
         }
         
-        else if (_neediatorSearchScope == searchScopeStore)
+        else
+            if (_neediatorSearchScope == searchScopeStore)
         {
                 NSDictionary *store = self.searchResults[indexPath.row];
                 NSString *code = store[@"code"];
@@ -185,7 +189,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80;
+    return 50;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -512,7 +516,7 @@ cell.detailTextLabel.text=[NSString stringWithFormat:@"In %@,%@,%@,%@,%@",_produ
     [self checkOrders];
     
     
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/addToCartNew"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/addToCartNew"];
     NSLog(@"URL is --> %@", url);
     
     

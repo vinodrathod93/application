@@ -17,17 +17,18 @@
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     
     return @{
-             @"records"         : @"records",
-             @"type"            : @"type",
-             @"deliveryTypes"   : @"deliverytype",
-             @"addressTypes"    : @"Addresstype",
-             @"PurposeType"     : @"PurposeType",
-             @"sorting_list"    : @"sort",
-             @"filter_list"     : @"filter",
-             @"current_count"   : @"current_count",
-             @"total_count"     : @"total_count",
-             @"total_pages"     : @"total_pages",
-             @"current_page"    : @"current_page"
+             @"records"         : @"storelist",
+             @"banners"         : @"advBannerImage"
+//             @"type"            : @"type",
+//             @"deliveryTypes"   : @"deliverytype",
+//             @"addressTypes"    : @"Addresstype",
+//             @"PurposeType"     : @"PurposeType",
+//             @"sorting_list"    : @"sort",
+//             @"filter_list"     : @"filter",
+//             @"current_count"   : @"current_count",
+//             @"total_count"     : @"total_count",
+//             @"total_pages"     : @"total_pages",
+//             @"current_page"    : @"current_page"
              };
 }
 
@@ -36,6 +37,7 @@
     return [MTLJSONAdapter arrayTransformerWithModelClass:[ListingModel class]];
 }
 
+/*
 +(NSValueTransformer *)typeJSONTransformer {
     return [MTLValueTransformer transformerUsingForwardBlock:^id(id value, BOOL *success, NSError *__autoreleasing *error) {
         return value;
@@ -72,6 +74,6 @@
         NSLog(@"Something is nil");
     return self;
 }
-
+*/
 
 @end

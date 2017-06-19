@@ -21,6 +21,7 @@
 @interface ToggleViewController : UIViewController
 
 @property (nonatomic, strong) NSArray *toggleArray;
+@property (nonatomic, strong) NSMutableDictionary *toggleDictionary;
 @property (nonatomic, weak) id<ToggleFilterDelegate> delegate;
 
 @end

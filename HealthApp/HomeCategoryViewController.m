@@ -80,7 +80,6 @@
 
 static NSString * const reuseIdentifier = @"categoryCellIdentifier";
 static NSString * const reuseSupplementaryIdentifier = @"headerViewIdentifier";
-static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 - (void)viewDidLoad {
@@ -123,7 +122,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     
     /* Show Badge value for Cart in Tab */
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
     
     [self checkLineItems];
@@ -160,16 +159,16 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     [self showHUD];
     
     
-    if ([self isCategoriesSaved])
-    {
-        [NSThread sleepForTimeInterval:3];
-        [self hideHUD];
-        
-        [self loadSavedCategories];
-        
-        [self removeLaunchScreen];
-    }
-    else
+//    if ([self isCategoriesSaved])
+//    {
+//        [NSThread sleepForTimeInterval:3];
+//        [self hideHUD];
+//        
+//        [self loadSavedCategories];
+//        
+//        [self removeLaunchScreen];
+//    }
+//    else
         [self requestCategories];
     
      // auto sliding of banners
@@ -300,8 +299,10 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     
     CategoryModel *category     = self.categoriesArray[indexPath.row];
     
-    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.categoryIcons[indexPath.item]]];
-    cell.label.text = category.name;
+//    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", self.categoryIcons[indexPath.item]]];
+    
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:category.ImageUrl]];
+    cell.label.text = category.SectionName;
     cell.tag = 30+indexPath.item;
     
     if (cell.isHighlighted) {
@@ -402,19 +403,19 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         
         NSMutableArray *array = [NSMutableArray array];
         for (SubCategoryModel *subcat_model in self.subCategoriesArray) {
-            if ([model.cat_id isEqual:subcat_model.cat_id]) {
+            if ([model.SectionID isEqual:subcat_model.sectionID]) {
                 [array addObject:subcat_model];
             }
         }
         
-        [NeediatorUtitity save:model.cat_id forKey:kSAVE_CAT_ID];
+        [NeediatorUtitity save:model.SectionID forKey:kSAVE_SEC_ID];
         
         if (array.count == 0) {
             
             ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
-            listingVC.root                       = model.name;
-            listingVC.nav_color                  = model.color_code;
-            listingVC.category_id                 = model.cat_id.stringValue;
+            listingVC.root                       = model.SectionName;
+            listingVC.nav_color                  = model.ColorCode;
+            listingVC.category_id                 = model.SectionID.stringValue;
             listingVC.subcategory_id              = @"";
             listingVC.hidesBottomBarWhenPushed      =   YES;
             
@@ -427,7 +428,6 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         else {
             
             SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCategoryCollectionVC"];
-            subCatVC.subcategoryArray       = array;
             
             previewingContext.sourceRect = [self.view convertRect:cell.frame fromView:self.collectionView];
             
@@ -487,35 +487,34 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
     //
     //                     }];
     
-    
-    CategoryModel *model = self.categoriesArray[indexPath.row];
+    NSLog(@"%@", self.categoriesArray);
+    CategoryModel *model = self.categoriesArray[indexPath.item];
     
     
     NSMutableArray *array = [NSMutableArray array];
     for (SubCategoryModel *subcat_model in self.subCategoriesArray) {
-        if ([model.cat_id isEqual:subcat_model.cat_id]) {
+        if ([model.SectionID isEqual:subcat_model.sectionID]) {
             [array addObject:subcat_model];
         }
     }
     
-    [NeediatorUtitity save:model.cat_id forKey:kSAVE_CAT_ID];
+    [NeediatorUtitity save:model.SectionID forKey:kSAVE_SEC_ID];
     
-    if (array.count == 0) {
+    if (!model.has_subCat) {
         
-        ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
-        listingVC.root                       = model.name;
-        listingVC.nav_color                  = model.color_code;
-        listingVC.category_id                 = model.cat_id.stringValue;
-        listingVC.subcategory_id              = @"";
+        ListingTableViewController *listingVC   =   [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+        listingVC.root                          =   model.SectionName;
+        listingVC.nav_color                     =   model.ColorCode;
+        listingVC.category_id                   =   model.SectionID.stringValue;
+        listingVC.subcategory_id                =   @"";
         listingVC.hidesBottomBarWhenPushed      =   YES;
         
         [self.navigationController pushViewController:listingVC animated:YES];
     }
-    
     else {
         
         SubCategoryViewController *subCatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"subCategoryCollectionVC"];
-        subCatVC.subcategoryArray       = array;
+        
         [self.navigationController pushViewController:subCatVC animated:YES];
     }
     
@@ -576,11 +575,18 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Pad);
+    
+    if (self.promotions.count > 0) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Pad);
+        }
+        else
+            return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Phone);
     }
-    else
-        return CGSizeMake(CGRectGetWidth(self.view.frame), kHeaderViewHeight_Phone);
+    else {
+        return CGSizeZero;
+    }
+    
     
 }
 
@@ -644,6 +650,7 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
         PromotionModel *promotion = self.promotions[index];
         
         view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.headerView.carousel.frame), CGRectGetHeight(self.headerView.carousel.frame))];
+        view.contentMode    =   UIViewContentModeScaleAspectFit;
         NSURL *image_url = [NSURL URLWithString:promotion.image_url];
         
         [(UIImageView *)view sd_setImageWithURL:image_url placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
@@ -806,8 +813,8 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
 -(void)requestCategories {
     
     
-    
     self.subCategoriesArray = [[NSMutableArray alloc] init];
+    
     
     /* Get Category names & Promotion Images */
     _task = [[NAPIManager sharedManager] mainCategoriesWithSuccess:^(MainCategoriesResponseModel *response)
@@ -824,11 +831,11 @@ static NSString * const JSON_DATA_URL = @"http://chemistplus.in/products.json";
                          MainCategoryRealm *categoryRealm = [[MainCategoryRealm alloc] initWithMantleModel:category];
                          [realm addObject:categoryRealm];
                          
-                         for (SubCategoryModel *subCategory in category.subCat_array) {
-                             SubCategoryRealm *subCategoryRealm = [[ SubCategoryRealm alloc] initWithMantleModel:subCategory];
-                             
-                             [realm addObject:subCategoryRealm];
-                         }
+//                         for (SubCategoryModel *subCategory in category.subCat_array) {
+//                             SubCategoryRealm *subCategoryRealm = [[ SubCategoryRealm alloc] initWithMantleModel:subCategory];
+//                             
+//                             [realm addObject:subCategoryRealm];
+//                         }
                          
                      }
                      

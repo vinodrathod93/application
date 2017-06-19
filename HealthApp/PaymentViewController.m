@@ -746,7 +746,7 @@ typedef void(^completion)(BOOL finished);
     User *user = [User savedUser];
     Location *location = [Location savedLocation];
     
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/viewCheckout"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/viewCheckout"];
     NSLog(@"URL is --> %@", url);
     
     NSString *parameter = [NSString stringWithFormat:@"user_id=%@&Section_id=%@&store_id=%@&latitude=%@&longitude=%@",user.userID, self.orderModel.cat_id.stringValue, self.orderModel.store_id,location.latitude,location.longitude];

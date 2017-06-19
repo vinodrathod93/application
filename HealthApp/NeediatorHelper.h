@@ -50,5 +50,33 @@ static UIColor *blurredDefaultColor() {     // light gray color.
 
 
 
+static BOOL isValid(id object) {
+    BOOL result = NO;
+    if (object != nil && object != (id)[NSNull null]) {
+        result = YES;
+    }
+    return result;
+}
+
+
+static NSString *setValidValue(NSString *value) {
+    
+    
+    BOOL result = NO;
+    if (value != nil && value != (id)[NSNull null]) {
+        result = YES;
+    }
+    
+    if (result) {
+        
+        return value;
+    }
+    else {
+        return @"";
+    }
+    
+}
+
+
 #endif /* NeediatorHelper_h */
 

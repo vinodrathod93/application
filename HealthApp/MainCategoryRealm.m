@@ -15,10 +15,12 @@
     self = [super init];
     if(!self) return nil;
     
-    self.cat_id = model.cat_id;
-    self.name   = model.name;
-    self.image_url = model.image_url;
-    self.color_code = model.color_code;
+    self.SectionID = model.SectionID;
+    self.SectionName   = model.SectionName;
+    self.ImageUrl = model.ImageUrl;
+    self.ColorCode = model.ColorCode;
+    self.has_subCat =   model.has_subCat;
+    
 //    self.sorting_list = model.sorting_list;
 //    self.filter_list = model.filter_list;
     

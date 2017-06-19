@@ -13,7 +13,8 @@
 
 -(NSURLSessionDataTask *)mainCategoriesWithSuccess:(void (^)(MainCategoriesResponseModel *response))success failure:(void (^)(NSError *error))failure {
     
-    return [self GET:kMAIN_CATEGORIES_PATH parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+    
+    return [self GET:kMAIN_SECTIONS_PATH parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         NSLog(@"Getting main Categories %@", downloadProgress.localizedDescription);
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
@@ -23,8 +24,13 @@
         
         NSDictionary *response = (NSDictionary *)responseObject;
         
+        NSDictionary *tempResponse  =   @{
+                                          @"Section" : response,
+                                          @"promotions" :   @[]
+                                          };
+        
         NSError *responseError;
-        MainCategoriesResponseModel *responseModel = [MTLJSONAdapter modelOfClass:[MainCategoriesResponseModel class] fromJSONDictionary:response error:&responseError];
+        MainCategoriesResponseModel *responseModel = [MTLJSONAdapter modelOfClass:[MainCategoriesResponseModel class] fromJSONDictionary:tempResponse error:&responseError];
         
         if (responseError) {
             NSLog(@"Error in MainCategoriesResponseModel %@", responseError.localizedDescription);
@@ -41,8 +47,36 @@
 }
 
 
+-(NSURLSessionDataTask *)getCategoriesForSection:(NSString *)sectionID WithSuccess:(void (^)(NSArray *categories))success failure:(void (^)(NSError *error))failure {
+    
+    NSDictionary *parameter =   @{
+                                  @"sectionId"  :   sectionID
+                                  };
+    
+    return [self GET:kSECTION_CATEGORIES_PATH parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"Getting main Categories %@", downloadProgress.localizedDescription);
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+            
+            {
+                // Success Get promotions array & categories array
+                
+                NSArray *categories = (NSArray *)responseObject;
+                
+                success(categories);
+                
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                // Failure send error to main view
+                
+                failure(error);
+            }];
+    
+}
 
--(NSURLSessionDataTask *)getListingsWithRequestModel:(id)request success:(void (^)(ListingResponseModel *response))success failure:(void (^)(NSError *error))failure {
+
+
+-(NSURLSessionDataTask *)getListingsWithRequestModel:(id)request success:(void (^)(NSArray *listings, NSArray *banners))success failure:(void (^)(NSError *error))failure {
     
     NSDictionary *parameters;
     
@@ -56,7 +90,14 @@
     NSLog(@"Parameters %@", parameters);
     
     
-    return [self GET:kLISTING_PATH parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+    NSDictionary *tempParameter     =   @{
+                                          @"sectionId"      : setValidValue(parameters[@"Sectionid"]),
+                                          @"categoryId"     : setValidValue(parameters[@"Categoryid"]),
+                                          @"subCategoryId"  : setValidValue(parameters[@""])
+                                          };
+    
+    
+    return [self GET:kLISTING_PATH parameters:tempParameter progress:^(NSProgress * _Nonnull downloadProgress) {
         
         NSLog(@"Getting Services %@", downloadProgress.localizedDescription);
         
@@ -66,7 +107,7 @@
         NSDictionary *response = (NSDictionary *)responseObject;
         
         NSLog(@"%@", response);
-        
+        /*
         NSError *responseError;
         ListingResponseModel *responseModel = [MTLJSONAdapter modelOfClass:[ListingResponseModel class] fromJSONDictionary:response error:&responseError];
         
@@ -78,7 +119,14 @@
         }
         else
             success(responseModel);
+        */
+                
         
+                NSArray *listings   =   isValid(response[@"storelist"]) ? response[@"storelist"] : @[];
+                NSArray *banners    =   isValid(response[@"advBannerImage"]) ? response[@"advBannerImage"] : @[];
+                
+                success(listings, banners);
+                
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -156,21 +204,22 @@
 }
 
 
--(NSURLSessionDataTask *)getTaxonomiesWithRequest:(NSDictionary *)parameter WithSuccess:(void (^)(TaxonomyListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure {
+-(NSURLSessionDataTask *)getStoreDetails:(NSDictionary *)parameter WithSuccess:(void (^)(NSArray *storeData, NSArray *storeImages, NSArray *offers, NSArray *storeAddress))success failure:(void (^)(NSError *error))failure {
     
     
-    return [self GET:kSTORE_TAXONS_PATH parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"GETTING Taxons %@", downloadProgress.localizedDescription);
+    return [self GET:kSTORE_DETAILS_PATH parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"GETTING store details %@", downloadProgress.localizedDescription);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *responseDictionary = (NSDictionary *)responseObject;
-        NSError *error;
         
-        NSLog(@"%@", responseDictionary);
-        TaxonomyListResponseModel *list = [MTLJSONAdapter modelOfClass:TaxonomyListResponseModel.class fromJSONDictionary:responseDictionary error:&error];
-        if (error) {
-            NSLog(@"%@",[error localizedDescription]);
-        }
-        success(list);
+        
+        NSArray *storeData =    responseDictionary[@"storedata"];
+        NSArray *storeImages    =   responseDictionary[@"storeimages"];
+        NSArray *offers         =   responseDictionary[@"offers"];
+        NSDictionary *address   =   (responseDictionary[@"addressdetails"][0]);
+        
+        
+        success(storeData, storeImages, offers, address);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
@@ -290,7 +339,7 @@
     
     NSDictionary *object = @{
                            @"store_id"          : [NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],
-                           @"Section_id"        : [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID],
+                           @"Section_id"        : [NeediatorUtitity savedDataForKey:kSAVE_SEC_ID],
                            @"user_id"           : user.userID,
                            @"address_id"        : data[@"addressID"],
                            @"delivery_type"     : data[@"deliveryID"],
@@ -348,7 +397,7 @@
     
     NSDictionary *object = @{
                              @"store_id"                : [NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],
-                             @"Section_id"              : [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID],
+                             @"Section_id"              : [NeediatorUtitity savedDataForKey:kSAVE_SEC_ID],
                              @"user_id"                 : user.userID,
                              @"lastcommunicationdate"   : data[@"lastcommunicationdate"],
                              @"images"                  : data[@"images"]

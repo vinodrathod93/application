@@ -21,6 +21,7 @@
 #import "FavouritesViewController.h"
 #import "EditProfileViewController.h"
 #import "MyOrdersVC.h"
+#import "NewMyOrdersViewController.h"
 #import "ShowMyBookingsVC.h"
 
 
@@ -63,7 +64,7 @@ enum MyAccountCells {
     UIBarButtonItem *cartItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Logout"] style:UIBarButtonItemStylePlain target:self action:@selector(ShowLogout)];
     self.navigationItem.leftBarButtonItem = cartItem;
     
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
     
 }
@@ -138,11 +139,12 @@ enum MyAccountCells {
     User *user = [User savedUser];
     NSLog(@"%f",cell.profileImage.frame.size.width);
     
-    NSString *firstname = [user.firstName isEqual:[NSNull null]] ? @"" : user.firstName;
-    NSString *lastname = [user.lastName isEqual:[NSNull null]] ? @"" : user.lastName;
+    NSString *firstname = setValidValue(user.firstName);
+    NSString *lastname = setValidValue(user.lastName);
     
     cell.userName.text = [NSString stringWithFormat:@"%@ %@", firstname, lastname];
-    cell.userEmail.text = [user.email isEqual:[NSNull null]] ? @"" : user.email;
+    cell.userEmail.text = setValidValue(user.email);
+    cell.userMobile.text    =   isValid(user.mobno) ? user.mobno : @"+91 xxxxx xxxxx";
     
     NSURL *url = [NSURL URLWithString:user.profilePic];
     cell.backgroundColor = [UIColor whiteColor];
@@ -216,8 +218,11 @@ enum MyAccountCells {
             //            MyOrdersViewController *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"myOrdersVC"];
             //            [self.navigationController pushViewController:myOrdersVC animated:YES];
             
-            MyOrdersVC *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyOrdersVC"];
-            [self.navigationController pushViewController:myOrdersVC animated:YES];
+//            MyOrdersVC *myOrdersVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyOrdersVC"];
+//            [self.navigationController pushViewController:myOrdersVC animated:YES];
+            
+            NewMyOrdersViewController *newOrderVC   =   [self.storyboard instantiateViewControllerWithIdentifier:@"newMyOrdersVC"];
+            [self.navigationController pushViewController:newOrderVC animated:YES];
             
         }
         

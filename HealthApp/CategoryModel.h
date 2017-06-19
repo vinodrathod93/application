@@ -10,11 +10,10 @@
 
 @interface CategoryModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic, copy) NSNumber *cat_id;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *image_url;
-@property (nonatomic, copy) NSString *color_code;
-
+@property (nonatomic, copy) NSNumber *SectionID; //cat_id;
+@property (nonatomic, copy) NSString *SectionName; //name;
+@property (nonatomic, copy) NSString *ImageUrl; //image_url;
+@property (nonatomic, copy) NSString *ColorCode; //color_code;
 
 
 
@@ -24,7 +23,7 @@
 @property (nonatomic, assign) BOOL is_product;
 @property (nonatomic, assign) BOOL has_subCat;
 
-@property (nonatomic, copy) NSArray *subCat_array;
+//@property (nonatomic, copy) NSArray *subCat_array;
 
 
 @end

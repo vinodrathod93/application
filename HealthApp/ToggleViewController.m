@@ -9,10 +9,25 @@
 #import "ToggleViewController.h"
 #import "ToggleTableViewCell.h"
 
+
+typedef enum : NSUInteger {
+    TG_OPEN_24HRS,
+    TG_OFFER_AVAILABLE,
+    TG_PROVIDES_DELIVERY,
+} TOGGLE;
+
+
+#define TGK_OPEN24HOURS @"24hours"
+#define TGK_OFFER_AVAILABLE @"offers"
+#define TGK_PROVIDES_DELIVERY @"delivery"
+
+
 @interface ToggleViewController ()<UITableViewDelegate, UITableViewDataSource>
+{
+    NSDictionary *valueDictionary;
+}
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 
 @end
 
@@ -24,16 +39,21 @@
     
     _toggleArray = @[
                      @{ @"name" : @"Open 24 Hours",
-                        @"value": @1 },
-                     @{ @"name" : @"Offers Available",
                         @"value": @0
                         },
+                     
                      @{ @"name" : @"Provides Delivery",
                         @"value" : @0
+                        },
+                     
+                     @{ @"name" : @"Offers Available",
+                        @"value": @0
                         }
                      ];
     
     self.tableView.backgroundColor      =   [UIColor whiteColor];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,6 +80,9 @@
     cell.toggleLabel.text       =   dictionary[@"name"];
     [cell.toggleSwitch setOn: toggleSwitchValue];
     
+    cell.tag    =   indexPath.row;
+    [cell.toggleSwitch addTarget:self action:@selector(toggleChanged:) forControlEvents:UIControlEventValueChanged];
+    
     
     return cell;
 }
@@ -68,14 +91,33 @@
     return 0.5f;
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - Action
+
+-(void)toggleChanged:(UISwitch *)toggle {
+    
+    switch (toggle.tag) {
+        case TG_OPEN_24HRS: {
+            _toggleDictionary[TGK_OPEN24HOURS]  =   @(toggle.isOn);
+        }
+            break;
+            
+        case TG_OFFER_AVAILABLE: {
+            _toggleDictionary[TGK_OFFER_AVAILABLE]  =   @(toggle.isOn);
+        }
+            break;
+            
+        case TG_PROVIDES_DELIVERY: {
+            _toggleDictionary[TGK_PROVIDES_DELIVERY]  =   @(toggle.isOn);
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    [self.delegate appliedToggleFilter:self withData:_toggleDictionary];
+
 }
-*/
 
 @end

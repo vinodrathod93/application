@@ -31,7 +31,7 @@
 #import "UploadReportsVC.h"
 #import "StoreReviewsView.h"
 #import <STPopup/STPopup.h>
-
+#import "TypeSendViewController.h"
 
 
 
@@ -42,7 +42,7 @@
 typedef NS_ENUM(uint16_t, sections) {
     SectionStoreImageViews = 0,
     SectionStoreOptionsView,
-    SectionStoreTaxonTaxonomies,
+    SectionStoreReportError,
 };
 
 
@@ -84,15 +84,20 @@ typedef NS_ENUM(uint16_t, sections) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.arForTable = [NSMutableArray array];
+//    self.arForTable = [NSMutableArray array];
     // Navigation Bar
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     // Tableview
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [NeediatorUtitity defaultColor];
+    
+    
     // Network Request
-    [self requestTaxons];
+//    [self requestTaxons];
+    
+    
+    
     // Initialization
     _footerHeight = 0;
     self.taxonomies = [[NSMutableArray alloc] init];
@@ -104,46 +109,7 @@ typedef NS_ENUM(uint16_t, sections) {
     
     
     
-    
-    webResponse=[NSMutableDictionary dictionary];
-    NSString *parameterString = [NSString stringWithFormat:@"Sectionid=%@&storeid=%@",self.cat_id,[NeediatorUtitity savedDataForKey:kSAVE_STORE_ID]];
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/Taxonomies"];
-    NSLog(@"URL is --> %@", url);
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://shahronak.in/NeediatorWebservice/NeediatorWS.asmx/Taxonomies"]];
-    request.HTTPMethod = @"POST";
-    request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSLog(@"%@",response);
-        if (error) {
-            NSLog(@"%@",error.localizedDescription);
-        }
-        else
-        {
-            NSError *jsonError;
-            webResponse = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-            
-            
-            NSData *datadic = [NSKeyedArchiver archivedDataWithRootObject:webResponse];
-            [[NSUserDefaults standardUserDefaults] setObject:datadic forKey:@"mydata"];
-            
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@" Web Response Is %@",webResponse);
-            });
-        }
-    }];
-    [task resume];
-    
-    NSData *dictionaryData = [[NSUserDefaults standardUserDefaults] objectForKey:@"mydata"];
-    NSDictionary *dictionary22 = [NSKeyedUnarchiver unarchiveObjectWithData:dictionaryData];
-    
-    NSDictionary *dTmp =dictionary22;
-    NSLog(@"dtmp Is %@",dTmp);
-    self.arrayOriginal = [dTmp valueForKey:@"response"];
-    [self.arForTable addObjectsFromArray:self.arrayOriginal];
-    
+
 }
 
 
@@ -161,10 +127,10 @@ typedef NS_ENUM(uint16_t, sections) {
     if (section == SectionStoreImageViews) {
         return 1;
     }
-    else if (section == SectionStoreTaxonTaxonomies)
+    else if (section == SectionStoreReportError)
     {
         //return [self.taxonomies count];
-        return [self.arForTable count];
+        return 1;
     }
     
     else if (section == SectionStoreOptionsView)
@@ -194,10 +160,10 @@ typedef NS_ENUM(uint16_t, sections) {
         if (!cell) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"TaxonHeaderView" owner:self options:nil] firstObject];
             
-            if(!_isOffer)
-            {
-                cell.offersViewBottom.constant=-98;
-            }
+//            if(!_isOffer)
+//            {
+//                cell.offersViewBottom.constant=-98;
+//            }
             
             cell.scrollView.delegate = self;
             
@@ -220,25 +186,14 @@ typedef NS_ENUM(uint16_t, sections) {
         return cell;
     }
     
-    else if (indexPath.section == SectionStoreTaxonTaxonomies)
+    else if (indexPath.section == SectionStoreReportError)
     {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
-        if([self.cat_id isEqualToString:@"1"])
-        {
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] ;
-            }
-            //    cell.imageView.image=[UIImage imageNamed:@"Expand Arrow"];
-            cell.textLabel.text=[[self.arForTable objectAtIndex:indexPath.row] valueForKey:@"name"];
-            [cell setIndentationLevel:[[[self.arForTable objectAtIndex:indexPath.row] valueForKey:@"Level"] intValue]];
-             return cell;
-        }
+        cell.textLabel.text     =   @"Report Error";
+        cell.textLabel.font     =   regularFont(17);
         
-        else
-        {
-            return cell;
-        }
+        return cell;
    }
     else {
         
@@ -278,7 +233,7 @@ typedef NS_ENUM(uint16_t, sections) {
 
 
 
-
+/*
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == SectionStoreTaxonTaxonomies)
@@ -373,7 +328,7 @@ typedef NS_ENUM(uint16_t, sections) {
             }
         }
  }
-
+*/
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -387,7 +342,7 @@ typedef NS_ENUM(uint16_t, sections) {
             return kTaxonHeaderViewHeight_Phone;
         
     }
-    else if (indexPath.section == SectionStoreTaxonTaxonomies)
+    else if (indexPath.section == SectionStoreReportError)
         return kStoreTaxonTaxonomyCellHeight;
     else if (indexPath.section == SectionStoreOptionsView) {
         
@@ -442,7 +397,7 @@ typedef NS_ENUM(uint16_t, sections) {
     else if (section == SectionStoreOptionsView) {
         return kStoreButtonOptionsViewHeight;
     }
-    else if (section == SectionStoreTaxonTaxonomies) {
+    else if (section == SectionStoreReportError) {
         
         return 5;
     }
@@ -458,6 +413,7 @@ typedef NS_ENUM(uint16_t, sections) {
 
 #pragma mark - Footer View
 
+/*
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
     if (section == SectionStoreTaxonTaxonomies) {
@@ -494,7 +450,6 @@ typedef NS_ENUM(uint16_t, sections) {
 
 
 
-
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
     if (section == SectionStoreTaxonTaxonomies)
@@ -507,7 +462,7 @@ typedef NS_ENUM(uint16_t, sections) {
     return 0;
     
 }
-
+*/
 
 #pragma mark - UITableViewDelegate
 
@@ -519,7 +474,7 @@ typedef NS_ENUM(uint16_t, sections) {
 
 
 #pragma mark - Collapse - Expand Methods
-
+/*
 -(void)collapseCellsFromIndexOf:(TaxonomyModel *)model indexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
     NSLog(@"collapseCellsFromIndexOf");
     
@@ -576,6 +531,7 @@ typedef NS_ENUM(uint16_t, sections) {
     }
     
 }
+*/
 
 
 #pragma mark - Custom Views
@@ -584,7 +540,8 @@ typedef NS_ENUM(uint16_t, sections) {
 {
     StoreReviewsView *storeReviewsView = [[[NSBundle mainBundle] loadNibNamed:@"StoreReviewsView" owner:self options:nil] lastObject];
     storeReviewsView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), kStoreReviewsViewHeight);
-    storeReviewsView.ratingView.rating = self.ratings.floatValue;
+#warning remove the hardcoded value
+    storeReviewsView.ratingView.rating = 0.5;
     NSString *reviews = [NSString stringWithFormat:@"✍ %@",self.reviewsCount];
     [storeReviewsView.reviewsLabel setTitle:reviews forState:UIControlStateNormal];
     //sb storeReviewsView.backgroundColor = [NeediatorUtitity defaultColor];
@@ -596,12 +553,12 @@ typedef NS_ENUM(uint16_t, sections) {
     
     if (self.isLikedStore) {
         storeReviewsView.likeButton.selected = YES;
-        [storeReviewsView.likeButton setImage:[UIImage imageNamed:@"liked"] forState:UIControlStateNormal];
+        [storeReviewsView.likeImageView setImage:[UIImage imageNamed:@"thumbs_up_filled"]];
     }
     else
     {
         storeReviewsView.likeButton.selected = NO;
-        [storeReviewsView.likeButton setImage:[UIImage imageNamed:@"like"] forState:UIControlStateNormal];
+        [storeReviewsView.likeImageView setImage:[UIImage imageNamed:@"thumbs_up"]];
     }
     
     
@@ -692,7 +649,7 @@ typedef NS_ENUM(uint16_t, sections) {
         
         NSDictionary *parameter = @{
                                     @"user_id": user.userID,
-                                    @"Section_id" : [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID],
+                                    @"Section_id" : [NeediatorUtitity savedDataForKey:kSAVE_SEC_ID],
                                     @"store_id" : [NeediatorUtitity savedDataForKey:kSAVE_STORE_ID]
                                     };
         
@@ -939,7 +896,7 @@ typedef NS_ENUM(uint16_t, sections) {
 
 -(void)popQuickOrderSearchVC
 {
-    
+    /*
     SearchResultsTableViewController *searchResultsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"searchResultsVC"];
     searchResultsVC.isQuickOrder = YES;
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsVC];
@@ -962,6 +919,15 @@ typedef NS_ENUM(uint16_t, sections) {
     
     [self.searchController.view addSubview:_search_activityIndicator];
     [self presentViewController:self.searchController animated:YES completion:nil];
+    */
+    
+    UIStoryboard *typeSendStoryboard  =   [UIStoryboard storyboardWithName:@"TypeSendStoryboard" bundle:nil];
+    TypeSendViewController *typeSendVC  =   [typeSendStoryboard instantiateViewControllerWithIdentifier:@"typeSendVC"];
+    
+    [self.navigationController pushViewController:typeSendVC animated:YES];
+    
+    
+    
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -1132,30 +1098,32 @@ typedef NS_ENUM(uint16_t, sections) {
 #pragma mark  - Network
 
 
--(void)requestTaxons {
+-(void)requestStoreDetails {
     
     NSLog(@"requestTaxons");
     
     NSDictionary *parameter = @{
                                 
-                                @"SectionId" : self.cat_id,
-                                @"storeid"   : self.store_id
+                                @"sectionId"        :   [NeediatorUtitity savedDataForKey:kSAVE_SEC_ID],
+                                @"categoryId"       :   self.cat_id,
+                                @"subCategoryId"    :   @"",
+                                @"storeId"          :   self.store_id
                                 };
     
     
     NSLog(@"Parameter %@", parameter);
     
-    _task = [[NAPIManager sharedManager] getTaxonomiesWithRequest:parameter WithSuccess:^(TaxonomyListResponseModel *responseModel) {
+    _task = [[NAPIManager sharedManager] getStoreDetails:parameter WithSuccess:^(NSArray *storeData, NSArray *storeImages, NSArray *offers, NSArray *storeAddress) {
         
         NSLog(@"Success");
         
-        [self.taxonomies addObjectsFromArray:responseModel.taxonomies];
         
-        _offersArray = responseModel.offers;
+        _offersArray        =   offers;
+        self.storeImages    =   storeImages;
+        _storeAddresses     =   storeAddress;
         
+//        _shopInfoArray = responseModel.shopInfo;
         
-        _shopInfoArray = responseModel.shopInfo;
-        _storeAddresses = responseModel.storeAddresses;
         
         [self.tableView reloadData];
         [self hideHUD];
@@ -1180,7 +1148,7 @@ typedef NS_ENUM(uint16_t, sections) {
         
         NSDictionary *parameter = @{
                                     @"user_id"      : user.userID,
-                                    @"Section_id"   : [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID],
+                                    @"Section_id"   : [NeediatorUtitity savedDataForKey:kSAVE_SEC_ID],
                                     @"store_id"     : [NeediatorUtitity savedDataForKey:kSAVE_STORE_ID]
                                     };
         
@@ -1252,8 +1220,8 @@ typedef NS_ENUM(uint16_t, sections) {
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [_task suspend];
-    [self hideHUD];
+//    [_task suspend];
+//    [self hideHUD];
     
 }
 

@@ -9,7 +9,6 @@
 #import "SubCategoryViewController.h"
 #import "SubCategoryHeaderView.h"
 #import "ListingTableViewController.h"
-#import "SubCategoryModel.h"
 #import "PromotionModel.h"
 
 static NSString * const reuseIdentifier = @"subcategoryCellIdentifier";
@@ -17,7 +16,8 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 
 @interface SubCategoryViewController ()
 
-@property (nonatomic, strong) NSArray *subcategoryIcons;
+@property (nonatomic, strong) NSArray *sectionCategories;
+//@property (nonatomic, strong) NSArray *subcategoryIcons;
 @property (nonatomic, strong) NSArray *subcategoryPromotions;
 //@property (nonatomic, strong) SubCategoryHeaderView *headerView;
 
@@ -38,14 +38,27 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     manager = [SDWebImageManager sharedManager];
     
-    self.subcategoryIcons   = [self getPListIconsArray];
-    
     // Register cell classes
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+
     
+    MBProgressHUD *hud  =   [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    /* Create Promotion Header View */
-    //    self.headerView = [[SubCategoryHeaderView alloc]init];
+    [[NAPIManager sharedManager] getCategoriesForSection:[NeediatorUtitity savedDataForKey:kSAVE_SEC_ID] WithSuccess:^(NSArray *categories) {
+        
+        [hud hide:YES];
+        
+        self.sectionCategories =    categories;
+        
+        
+        [self.collectionView reloadData];
+        
+        
+    } failure:^(NSError *error) {
+        [hud hide:YES];
+        [NeediatorUtitity alertWithTitle:@"Section Category" andMessage:error.localizedDescription onController:self];
+    }];
+    
 }
 
 
@@ -83,16 +96,16 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return self.subcategoryArray.count;
+    return self.sectionCategories.count;
     
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    NSLog(@"Index of %lu SubCat. count %lu", (long)indexPath.item, (unsigned long)self.subcategoryArray.count);
+    NSLog(@"Index of %lu SubCat. count %lu", (long)indexPath.item, (unsigned long)self.sectionCategories.count);
     
-    SubCategoryModel *category     = self.subcategoryArray[indexPath.row];
+    NSDictionary *category     = self.sectionCategories[indexPath.row];
     
     
     // Configure the cell
@@ -116,17 +129,25 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     UILabel *label;
     
     if(self.view.frame.size.width <= 320) {
-        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(30, 20, cell.frame.size.width - (2*30.f), cell.frame.size.height - 60)];
+        
+        int padding = 30;
+        int topPadding = padding - 5;
+        
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(padding, topPadding, cell.frame.size.width - (2*padding), cell.frame.size.height - (2*padding))];
         label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 20, cell.frame.size.width - 10.f, 40)];
     }
-    else
-        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(35, 25, cell.frame.size.width - (2*35.f), cell.frame.size.height - 10 - 70)];
-    
+    else {
+        
+        int padding = 20;
+        int topPadding = padding - 10;
+        
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(padding, topPadding, cell.frame.size.width - (2*padding), cell.frame.size.height - 10 - (2*padding))];
+    }
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     
-    
-    [manager downloadImageWithURL:[NSURL URLWithString:category.image_url] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+    NSString *imageURL  =   setValidValue(category[@"ImageUrl"]);
+    [manager downloadImageWithURL:[NSURL URLWithString:imageURL] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
         UIImage* imageForRendering = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         imageView.image = imageForRendering;
         imageView.tintColor = [UIColor colorWithRed:4/255.f green:29/255.f blue:187/255.f alpha:1.0];
@@ -134,12 +155,12 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
     
     
     
-    label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 10 + 20, cell.frame.size.width - 10.f, 40)];
+    label = [[UILabel alloc]initWithFrame:CGRectMake(5.f, imageView.frame.size.height + 10, cell.frame.size.width - 10.f, 40)];
     label.textColor = [UIColor blackColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
     label.font = [UIFont fontWithName:@"AvenirNext-Medium" size:14];
-    label.text = category.name.capitalizedString;
+    label.text = setValidValue(category[@"Name"]).capitalizedString;
     
     UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
     
@@ -161,7 +182,7 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
             return CGSizeMake(152.5f, 100);
         }
         else
-            return CGSizeMake(120, 120);
+            return CGSizeMake(181, 90);
     }
     else
         return CGSizeMake(148, 148);
@@ -201,12 +222,12 @@ static NSString * const reuseSupplementaryIdentifier = @"subcategoryHeaderViewId
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     //    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    SubCategoryModel *model = self.subcategoryArray[indexPath.row];
+    NSDictionary *model = self.sectionCategories[indexPath.row];
     
-    ListingTableViewController *listingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
-    listingVC.root                       = model.name;
-    listingVC.subcategory_id                = model.subCat_id.stringValue;
-    listingVC.category_id                 = model.cat_id.stringValue;
+    ListingTableViewController *listingVC   =   [self.storyboard instantiateViewControllerWithIdentifier:@"listingTableVC"];
+    listingVC.root                          =   setValidValue(model[@"Name"]);
+    listingVC.subcategory_id                =   setValidValue(model[@"CategoryId"]);
+    listingVC.category_id                   =   setValidValue(model[@"SectionId"]);
     listingVC.hidesBottomBarWhenPushed      =   YES;
     
     [self.navigationController pushViewController:listingVC animated:YES];

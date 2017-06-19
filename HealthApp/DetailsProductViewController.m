@@ -474,7 +474,7 @@ NSString *cellReuseIdentifier;
     
     
     
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/neediatorWs.asmx/addToCart"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/addToCart"];
     
     
     

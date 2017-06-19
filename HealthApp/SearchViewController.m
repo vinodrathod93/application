@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSMutableArray *storesArray;
 @property (nonatomic, strong) NSMutableArray *searchResultsArray;
 @property (nonatomic, strong) NeediatorHUD *neediatorHUD;
+@property (nonatomic) BOOL isLocationCellTapped;
 
 @end
 
@@ -129,7 +130,6 @@
     _searchController.searchBar.placeholder = @"Search";
     _searchController.delegate = self;
     _searchController.searchBar.delegate = self;
-    _searchController.searchBar.scopeButtonTitles = @[@"Location",@"Category",@"Listing",@"Product",@"Service"];
     
     _searchController.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _searchController.searchBar.searchBarStyle   = UISearchBarStyleDefault;
@@ -139,29 +139,51 @@
     self.tableView.tableHeaderView  = _searchController.searchBar;
     self.definesPresentationContext  = YES;
     
+    
     // resolves the issue of repostioning the tableview when rotated to landscape.
     self.edgesForExtendedLayout = UIRectEdgeAll;
     self.extendedLayoutIncludesOpaqueBars = YES;
     
     _searchController.searchResultsUpdater       = self;
     
-    //    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-    //        _searchController.modalPresentationStyle = UIModalPresentationPopover;
-    //    } else {
-    _searchController.modalPresentationStyle = UIModalPresentationFullScreen;
-    //    }
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        _searchController.modalPresentationStyle = UIModalPresentationPopover;
+    } else {
+        _searchController.modalPresentationStyle = UIModalPresentationFullScreen;
+    }
 }
 
 
 #pragma mark - UISearchController Delegate
 
+
+-(void)willPresentSearchController:(UISearchController *)searchController {
+    
+    if (self.isLocationCellTapped) {
+        searchController.searchBar.scopeButtonTitles    =   nil;
+        searchController.searchBar.placeholder = @"Search Location";
+        
+    }
+    else {
+        searchController.searchBar.scopeButtonTitles =  @[@"Category", @"Listing"];
+        searchController.searchBar.placeholder          =   @"Search";
+    }
+}
+
 -(void)didPresentSearchController:(UISearchController *)searchController {
+    
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [searchController.searchBar becomeFirstResponder];
     });
 }
 
+
+-(void)didDismissSearchController:(UISearchController *)searchController {
+    if (self.isLocationCellTapped) {
+        self.isLocationCellTapped   =   NO;
+    }
+}
 
 
 #pragma mark - Table view data source
@@ -247,14 +269,16 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == searchScopeLocation) {
+    if (indexPath.section == 0) {
         // active search bar
         
-        [self activateSearchBar];
         [self showLocationScope];
+        [self activateSearchBar];
+        
         
     }
-    else if (indexPath.section == 1) {
+    else
+        if (indexPath.section == 1) {
         
         NSDictionary *store = [self.storesArray objectAtIndex:indexPath.row];
         NSString *code = store[@"code"];
@@ -267,10 +291,10 @@
             
             
             NSString *parameterString = [NSString stringWithFormat:@"code=%@&sectionid=%@",code,sectionId];
-            NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/detailsbycode"];
+            NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/detailsbycode"];
             NSLog(@"URL is --> %@", url);
             NSURLSession *session = [NSURLSession sharedSession];
-            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/detailsbycode"]];
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/detailsbycode"]];
             request.HTTPMethod = @"POST";
             request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
             [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -359,7 +383,8 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NeediatorLocationChanged" object:nil];
         
     }
-    else if (scope == searchScopeStore)
+    else
+        if (scope == searchScopeStore)
     {
         [self pushToStoreFront:result];
     }
@@ -452,13 +477,13 @@
         self.searchController.searchBar.placeholder = @"Search by Listing";
     }
     else if (selectedScope == searchScopeCategory)
-        self.searchController.searchBar.placeholder = @"Search by Category";
-    else if (selectedScope == searchScopeLocation)
-        self.searchController.searchBar.placeholder = @"Search by Location";
-    else if (selectedScope == searchScopeProduct)
-        self.searchController.searchBar.placeholder = @"Search by Product";
-    else if (selectedScope == searchScopeService)
-        self.searchController.searchBar.placeholder = @"Search by Service";
+        self.searchController.searchBar.placeholder = @"Search by Category / Subcategory";
+//    else if (selectedScope == searchScopeLocation)
+//        self.searchController.searchBar.placeholder = @"Search by Location";
+//    else if (selectedScope == searchScopeProduct)
+//        self.searchController.searchBar.placeholder = @"Search by Product";
+//    else if (selectedScope == searchScopeService)
+//        self.searchController.searchBar.placeholder = @"Search by Service";
     
     [self updateSearchResultsForSearchController:self.searchController];
 }
@@ -469,8 +494,33 @@
 
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     NSString *searchString = searchController.searchBar.text;
-    [self searchForText:searchString scope:searchController.searchBar.selectedScopeButtonIndex];
+    
+    
+    if (self.isLocationCellTapped) {
+        [self searchLocationWithText:searchString];
+    }
+    else
+        [self searchForText:searchString scope:searchController.searchBar.selectedScopeButtonIndex];
+    
     [self.tableView reloadData];
+}
+
+
+-(void)searchLocationWithText:(NSString *)searchText {
+    SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+    vc.searchString = searchText;
+    [vc startNeediatorHUD];
+    
+    // call location
+    [[NAPIManager sharedManager] searchLocations:searchText withSuccess:^(BOOL success, NSArray *predictions) {
+        //
+        
+        [self sendResults:predictions resultsController:vc forScope:searchScopeLocation];
+        
+    } failure:^(NSError *error) {
+        [vc hideHUD];
+        [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+    }];
 }
 
 - (void)searchForText:(NSString *)searchText scope:(NeediatorSearchScope)scopeOption
@@ -479,26 +529,6 @@
         
         NSLog(@"Search Text is_%@_done", searchText);
         switch (scopeOption) {
-            case searchScopeLocation:
-            {
-                SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
-                vc.searchString = searchText;
-                [vc startNeediatorHUD];
-                
-                // call location
-                [[NAPIManager sharedManager] searchLocations:searchText withSuccess:^(BOOL success, NSArray *predictions) {
-                    //
-                    
-                    [self sendResults:predictions resultsController:vc forScope:scopeOption];
-                    
-                } failure:^(NSError *error) {
-                    [vc hideHUD];
-                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-                }];
-                
-                
-            }
-                break;
                 
             case searchScopeCategory:
             {
@@ -540,22 +570,22 @@
             }
                 break;
                 
-            case searchScopeProduct:
-            {
-                SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
-                vc.searchString = searchText;
-                [vc startNeediatorHUD];
-                // call product
-                
-                [[NAPIManager sharedManager] searchUniveralProductsWithData:searchText success:^(NSArray *products)
-                {
-                    NSLog(@"Product Array Is %@",products);
-                    [self sendResults:products resultsController:vc forScope:scopeOption];
-                } failure:^(NSError *error) {
-                    [vc hideHUD];
-                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
-                }];
-            }
+//            case searchScopeProduct:
+//            {
+//                SearchResultsTableViewController *vc = (SearchResultsTableViewController *)self.searchController.searchResultsController;
+//                vc.searchString = searchText;
+//                [vc startNeediatorHUD];
+//                // call product
+//                
+//                [[NAPIManager sharedManager] searchUniveralProductsWithData:searchText success:^(NSArray *products)
+//                {
+//                    NSLog(@"Product Array Is %@",products);
+//                    [self sendResults:products resultsController:vc forScope:scopeOption];
+//                } failure:^(NSError *error) {
+//                    [vc hideHUD];
+//                    [NeediatorUtitity alertWithTitle:@"Error" andMessage:error.localizedDescription onController:self];
+//                }];
+//            }
                 
             default:
                 break;
@@ -779,7 +809,10 @@
 }
 
 -(void)showLocationScope {
-    [self.searchController.searchBar setSelectedScopeButtonIndex:searchScopeLocation];
+    
+    self.isLocationCellTapped   =   YES;
+    
+//    [self.searchController.searchBar setSelectedScopeButtonIndex:0];
 }
 
 -(void)showHUD {

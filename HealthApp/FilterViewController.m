@@ -30,14 +30,11 @@
 
 - (void)viewDidLoad {
     
-    UIStoryboard *storeStoryboard  =   [UIStoryboard storyboardWithName:@"StoreStoryboard" bundle:nil];
-    ToggleViewController *toggleVC  =   [storeStoryboard instantiateViewControllerWithIdentifier:@"toggleFilterVC"];
-    toggleVC.delegate               =   self;
-    
-    [self addChild:toggleVC];
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.title      =   @"FILTER";
     
     self.filterOptionTableview.delegate = self;
     self.filterOptionTableview.dataSource   =   self;
@@ -46,8 +43,7 @@
                                   @"Toggles",
                                   @"Area",
                                   @"Working\nHours",
-                                  @"Rating",
-                                  @"Min. Delivery\nAmount"
+                                  @"Rating"
                                   ];
     
     
@@ -57,6 +53,9 @@
     [self.filterOptionTableview selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
     
     [self.applyButton addTarget:self action:@selector(applyTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    [self tableView:self.filterOptionTableview didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
 }
 
@@ -221,14 +220,9 @@
     return 0.5;
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+#pragma mark - Delegate Methods
+
+
 
 @end

@@ -41,21 +41,22 @@ static NSString *const kDoctorsListPath = @"/api/clinics";
 
 
 /* Signin */
-static NSString *const kSign_in_url = @"http://shahronak.in/NeediatorWebservice/neediatorWs.asmx/checkLogin";
+static NSString *const kSign_in_url = @"http://neediator.net/NeediatorWebservice/neediatorWs.asmx/checkLogin";
 
 
 /* Neediator API Manager */
 
-static NSString *const kUPDATE_PROFILE_PATH         = @"/NeediatorWebservice/NeediatorWS.asmx/update_profile";
-static NSString *const kMAIN_CATEGORIES_PATH    = @"/NeediatorWebservice/NeediatorWS.asmx/getSectionSub";
-static NSString *const kLISTING_PATH            = @"/NeediatorWebservice/NeediatorWS.asmx/getListing1";
+static NSString *const kUPDATE_PROFILE_PATH             = @"/NeediatorWebservice/NeediatorWS.asmx/update_profile";
+static NSString *const kMAIN_SECTIONS_PATH              = @"/NeediatorWS/Users.asmx/getSection";
+static NSString *const kSECTION_CATEGORIES_PATH         = @"/NeediatorWS/Users.asmx/getSectionCategories";
+static NSString *const kLISTING_PATH                    = @"/NeediatorWS/Users.asmx/getSectionStores"; //@"/NeediatorWebservice/NeediatorWS.asmx/getListing1";
 
 
 static NSString *const kENTITY_DETAILS_PATH     = @"/NeediatorWebservice/NeediatorWS.asmx/getDetails";
 static NSString *const kTIME_SLOTS_PATH         = @"/NeediatorWebservice/NeediatorWS.asmx/getTimeSlot";
 static NSString *const kBOOKING_PATH            = @"/NeediatorWebservice/NeediatorWS.asmx/Book";
 //static NSString *const kSTORE_TAXONS_PATH       = @"/NeediatorWebservice/NeediatorWS.asmx/getTaxonomyTaxons";
-static NSString *const kSTORE_TAXONS_PATH       = @"/NeediatorWebservice/NeediatorWS.asmx/Taxonomies";
+static NSString *const kSTORE_DETAILS_PATH       = @"/NeediatorWS/Users.asmx/GetStoreDetails";
 
 static NSString *const kPAYMENT_OPTIONS_PATH    = @"/NeediatorWebservice/NeediatorWS.asmx/getPayment";
 static NSString *const KSTATE_CITIES_PATH       = @"/NeediatorWebservice/NeediatorWS.asmx/getStateCity";
@@ -90,18 +91,23 @@ static NSString *const kSTORE_DETAILS_BY_CODE_PATH              = @"/NeediatorWe
 
 typedef NS_ENUM(NSUInteger, NeediatorSearchScope)
 {
-    searchScopeLocation = 0,
+    
     searchScopeCategory,
     searchScopeStore,
-    searchScopeProduct,
-    searchScopeService
+    searchScopeLocation
+//    searchScopeProduct,
+//    searchScopeService
 };
+
+
+
 
 
 /* Helper Constants */
 
 static NSString *const kSAVE_STORE_ID    = @"kSaveStoreID";
-static NSString *const kSAVE_CAT_ID      = @"kSaveCatID";
+static NSString *const kSAVE_SEC_ID      = @"kSaveSectionID";
+static NSString *const kSAVE_SEC_CAT_ID      = @"kSaveCatID";
 static NSString *const kSAVE_DELIVERY_TYPES = @"kSaveDeliveryTypes";
 static NSString *const kSAVE_Address_Types  = @"kSaveAddressTypes";
 static NSString *const kSAVE_Purpose_Types  = @"kSavePurposeTypes";
@@ -132,8 +138,8 @@ static NSString *const CheckOutStoreId= @"kCheckOutStoreID";
 
 
 /* Home VC */
-#define kHeaderViewHeight_Pad 316
-#define kHeaderViewHeight_Phone 166
+#define kHeaderViewHeight_Pad 327.5 //316
+#define kHeaderViewHeight_Phone 187.5 //166
 
 
 /* Stores VC */

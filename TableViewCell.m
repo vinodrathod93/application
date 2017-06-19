@@ -11,9 +11,7 @@
 
 @implementation HorizontalCollectionView1
 
-
 @end
-
 
 
 @implementation TableViewCell

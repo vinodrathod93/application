@@ -34,52 +34,74 @@
     
     self.title = @"Edit Profile";
     
-//    [self.view bringSubviewToFront:self.contentView];
-//    [self.contentView bringSubviewToFront:self.imageBackgroundView];
     
-    
-    UIButton *saveButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 20)];
-    [saveButton setTitle:@"Save" forState:UIControlStateNormal];
-    saveButton.titleLabel.font = [NeediatorUtitity mediumFontWithSize:16.f];
-    [saveButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [saveButton addTarget:self action:@selector(saveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
-    self.imageBackgroundView.layer.cornerRadius = self.imageBackgroundView.frame.size.width/2;
-    self.imageBackgroundView.layer.masksToBounds = YES;
-    self.firstnameTF.delegate = self;
-    self.lastnameTF.delegate = self;
-    self.dateOfBirthTF.inputView = [self dateOfBirthPickerView];
-    self.dateOfBirthTF.inputAccessoryView = [self datePickerToolBar];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self saveButton]];
+
+    [self initalSetup];
     
     [self callMyProfileWebService];
     
     User *savedUser = [User savedUser];
     if (savedUser)
     {
-      //  [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:savedUser.profilePic] placeholderImage:[UIImage imageNamed:@"profile_placeholder"] options:SDWebImageRefreshCached];
-      //  self.firstnameTF.text = savedUser.firstName;
-     //   self.lastnameTF.text = savedUser.lastName;
-        self.emailLabel.text=savedUser.email;
-     //   self.dateOfBirthTF.text=savedUser.DateOfBirth;
+        [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:savedUser.profilePic] placeholderImage:[UIImage imageNamed:@"profile_placeholder"] options:SDWebImageRefreshCached];
+        self.firstnameTF.text       =   savedUser.firstName;
+        self.lastnameTF.text        =   savedUser.lastName;
+        self.emailTextfield.text    =   savedUser.email;
+        self.dateOfBirthTF.text     =   savedUser.DateOfBirth;
+        self.mobileTextfield.text   =   savedUser.mobno;
+        
+        if (isValid(savedUser.mobno)) {
+            self.mobileTextfield.enabled    =   NO;
+        }
+        else
+            self.mobileTextfield.enabled    =   YES;
     }
+    
+    
+    [self loadAssets];
+}
+
+
+-(void)initalSetup {
+    
+    self.firstnameTF.delegate               =   self;
+    self.lastnameTF.delegate                =   self;
+    self.dateOfBirthTF.inputView            =   [self dateOfBirthPickerView];
+    self.dateOfBirthTF.inputAccessoryView   =   [self datePickerToolBar];
     
     [self.editProfileButton addTarget:self action:@selector(editPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.maleButton addTarget:self action:@selector(maleButtonPressed:)  forControlEvents:UIControlEventTouchUpInside];
     [self.femaleButton addTarget:self action:@selector(femaleButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.emailVerificationButton addTarget:self action:@selector(EmailVeriFication:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.mobileVerificationButton addTarget:self action:@selector(MobileVeriFication:) forControlEvents:UIControlEventTouchUpInside];
-    [self loadAssets];
+    [self.emailVerificationButton addTarget:self action:@selector(EmailVeriFication:) forControlEvents:UIControlEventTouchUpInside];
+    [self.mobileVerificationButton addTarget:self action:@selector(MobileVeriFication:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    self.imageBackgroundView.layer.cornerRadius = self.imageBackgroundView.frame.size.width/2.0f;
+    self.imageBackgroundView.layer.masksToBounds    =   YES;
 }
+
+
+-(UIButton *)saveButton {
+    UIButton *saveButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 20)];
+    [saveButton setTitle:@"Save" forState:UIControlStateNormal];
+    saveButton.titleLabel.font = [NeediatorUtitity mediumFontWithSize:16.f];
+    [saveButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [saveButton addTarget:self action:@selector(saveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    return  saveButton;
+}
+
 
 -(void)callMyProfileWebService
 {
     
     User *savedUser = [User savedUser];
     NSString *parameterString = [NSString stringWithFormat:@"userid=%@",savedUser.userID];
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/MyProfile"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/MyProfile"];
     NSLog(@"URL is --> %@", url);
     NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/MyProfile"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/MyProfile"]];
     request.HTTPMethod = @"POST";
     request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -98,29 +120,22 @@
                 NSArray *user=[json objectForKey:@"userinfo"];
                 NSDictionary *userinfoDict=[user lastObject];
                 
+
+                NSString *imageURL          =  setValidValue(userinfoDict[@"imageurl"]);
                 
+                [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"profile_placeholder"] options:SDWebImageRefreshCached];
+                self.firstnameTF.text       =   setValidValue(userinfoDict[@"FirstName"]);
+                self.lastnameTF.text        =   setValidValue(userinfoDict[@"LastName"]);
+                self.dateOfBirthTF.text     =   setValidValue(userinfoDict[@"DOB"]);
+                self.mobileTextfield.text   =   setValidValue(userinfoDict[@"MobNo"]);
                 
-                [self.profileImageView sd_setImageWithURL:[NSURL URLWithString:userinfoDict[@"imageurl"]] placeholderImage:[UIImage imageNamed:@"profile_placeholder"] options:SDWebImageRefreshCached];
-                self.firstnameTF.text = userinfoDict[@"FirstName"];
-                self.lastnameTF.text = userinfoDict[@"LastName"];
-            //    self.emailLabel.text=userinfoDict[@"FirstName"];
-                self.dateOfBirthTF.text=userinfoDict[@"DOB"];
-                
-                NSLog(@"%@",json);
             });
         }
     }];
     [task resume];
 
 }
--(void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    CGFloat lastViewHeight = CGRectGetHeight(((UIView *)[self.contentView.subviews lastObject]).frame);
-    int lastViewY = CGRectGetMaxY(((UIView *)[self.contentView.subviews lastObject]).frame);
-    CGFloat height = lastViewHeight + lastViewY;
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), height);
-}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -199,103 +214,102 @@
 
 
 
-//-(void)EmailVeriFication:(UIButton *)sender
-//{
-//    
-//    User *user = [User savedUser];
-//    User *savedUser = [User savedUser];
-//    
-//    
-//    NSString *parameterString = [NSString stringWithFormat:@"Emailid=%@&userid=%@",savedUser.email,user.userID];
-//    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/VerifyUserEmailId"];
-//    NSLog(@"URL is --> %@", url);
-//    NSURLSession *session = [NSURLSession sharedSession];
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/VerifyUserEmailId"]];
-//    request.HTTPMethod = @"POST";
-//    request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
-//    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-//    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-//        NSLog(@"%@",response);
-//        
-//        if (error) {
-//            NSLog(@"%@",error.localizedDescription);
-//        }
-//        else
-//        {
-//            NSError *jsonError;
-//            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-//            
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                NSLog(@"EmailVerifed Json is     %@",json);
-//                
-//                NSString *ResponseString=[json objectForKey:@"result"];
-//                
-//                if([ResponseString isEqualToString:@"verified"])
-//                {
-//                    [self.emailVerificationButton setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
-//                    [self.emailVerificationButton setTitle:@"Verified" forState:UIControlStateNormal];
-//                }
-//                else
-//                {
-//                    [self.emailVerificationButton setImage:[UIImage imageNamed:@"cancel-1"] forState:UIControlStateNormal];
-//                    [self.emailVerificationButton setTitle:@"Not Verified" forState:UIControlStateNormal];
-//                    
-//                }
-//            });
-//        }
-//    }];
-//    [task resume];
-//    //    [self.emailVerificationButton setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
-//}
-//
-//-(void)MobileVeriFication:(UIButton *)sender
-//{
-//    
-//    User *user = [User savedUser];
-//    User *savedUser = [User savedUser];
-//    
-//    NSString *parameterString = [NSString stringWithFormat:@"MobNo=%@&userid=%@",user.mobno,user.userID];
-//    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/VerifyUserMobNo"];
-//    NSLog(@"URL is --> %@", url);
-//    NSURLSession *session = [NSURLSession sharedSession];
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/VerifyUserMobNo"]];
-//    request.HTTPMethod = @"POST";
-//    request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
-//    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-//    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-//        NSLog(@"%@",response);
-//        
-//        if (error) {
-//            NSLog(@"%@",error.localizedDescription);
-//        }
-//        else
-//        {
-//            NSError *jsonError;
-//            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
-//            
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                NSLog(@"MObile Verified Json is     %@",json);
-//                
-//                NSString *ResponseString=[json objectForKey:@"result"];
-//                
-//                if([ResponseString isEqualToString:@"verified"])
-//                {
-//                    [self.mobileVerificationButton setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
-//                    [self.mobileVerificationButton setTitle:@"Verified" forState:UIControlStateNormal];
-//                }
-//                else
-//                {
-//                    [self.mobileVerificationButton setImage:[UIImage imageNamed:@"cancel-1"] forState:UIControlStateNormal];
-//                    [self.mobileVerificationButton setTitle:@"Not Verified" forState:UIControlStateNormal];
-//                    
-//                }
-//            });
-//        }
-//        
-//    }];
-//    [task resume];
-//    
-//}
+-(void)EmailVeriFication:(UIButton *)sender
+{
+    
+    User *user = [User savedUser];
+    User *savedUser = [User savedUser];
+    
+    
+    NSString *parameterString = [NSString stringWithFormat:@"Emailid=%@&userid=%@",savedUser.email,user.userID];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/VerifyUserEmailId"];
+    NSLog(@"URL is --> %@", url);
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/VerifyUserEmailId"]];
+    request.HTTPMethod = @"POST";
+    request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"%@",response);
+        
+        if (error) {
+            NSLog(@"%@",error.localizedDescription);
+        }
+        else
+        {
+            NSError *jsonError;
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"EmailVerifed Json is     %@",json);
+                
+                NSString *ResponseString=[json objectForKey:@"result"];
+                
+                if([ResponseString isEqualToString:@"verified"])
+                {
+                    [self.emailVerificationButton setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
+                    [self.emailVerificationButton setTitle:@"Verified" forState:UIControlStateNormal];
+                }
+                else
+                {
+                    [self.emailVerificationButton setImage:[UIImage imageNamed:@"cancel-1"] forState:UIControlStateNormal];
+                    [self.emailVerificationButton setTitle:@"Not Verified" forState:UIControlStateNormal];
+                    
+                }
+            });
+        }
+    }];
+    [task resume];
+    //    [self.emailVerificationButton setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
+}
+
+-(void)MobileVeriFication:(UIButton *)sender
+{
+    
+    User *user = [User savedUser];
+    
+    NSString *parameterString = [NSString stringWithFormat:@"MobNo=%@&userid=%@",user.mobno,user.userID];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/VerifyUserMobNo"];
+    NSLog(@"URL is --> %@", url);
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/VerifyUserMobNo"]];
+    request.HTTPMethod = @"POST";
+    request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"%@",response);
+        
+        if (error) {
+            NSLog(@"%@",error.localizedDescription);
+        }
+        else
+        {
+            NSError *jsonError;
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&jsonError];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"MObile Verified Json is     %@",json);
+                
+                NSString *ResponseString=[json objectForKey:@"result"];
+                
+                if([ResponseString isEqualToString:@"verified"])
+                {
+                    [self.mobileVerificationButton setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
+                    [self.mobileVerificationButton setTitle:@"Verified" forState:UIControlStateNormal];
+                }
+                else
+                {
+                    [self.mobileVerificationButton setImage:[UIImage imageNamed:@"cancel-1"] forState:UIControlStateNormal];
+                    [self.mobileVerificationButton setTitle:@"Not Verified" forState:UIControlStateNormal];
+                    
+                }
+            });
+        }
+        
+    }];
+    [task resume];
+    
+}
 
 
 -(void)saveButtonPressed:(id)sender {
@@ -318,10 +332,10 @@
                            @"firstname"     : self.firstnameTF.text,
                            @"lastname"      : self.lastnameTF.text,
                            @"imageprofile"  : convertedImage,
-                           @"gender"        : @"male",
+                           @"gender"        : (self.femaleButton.isSelected) ? @"female" : @"male",
                            @"dob"           : self.dateOfBirthTF.text,
                            @"emailid"       : user.email,
-                           @"mobno"         : @"1234567890"
+                           @"mobno"         : user.mobno
                            };
     
     

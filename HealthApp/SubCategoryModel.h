@@ -10,8 +10,8 @@
 
 @interface SubCategoryModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic, copy) NSNumber *subCat_id;
-@property (nonatomic, copy) NSNumber *cat_id;
+@property (nonatomic, copy) NSNumber *categoryID;
+@property (nonatomic, copy) NSNumber *sectionID;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *image_url;
 

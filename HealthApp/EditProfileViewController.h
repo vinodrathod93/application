@@ -23,8 +23,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *dateOfBirthTF;
 @property (weak, nonatomic) IBOutlet UIButton *maleButton;
 @property (weak, nonatomic) IBOutlet UIButton *femaleButton;
-@property (weak, nonatomic) IBOutlet UILabel *emailLabel;
-@property (weak, nonatomic) IBOutlet UILabel *mobileNumberLabel;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextfield;
+@property (weak, nonatomic) IBOutlet UITextField *mobileTextfield;
 @property (weak, nonatomic) IBOutlet UIButton *mobileVerificationButton;
 @property (weak, nonatomic) IBOutlet UIButton *emailVerificationButton;
 

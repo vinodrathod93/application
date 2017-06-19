@@ -20,13 +20,15 @@
 @interface NAPIManager : NSessionManager
 
 -(NSURLSessionDataTask *)mainCategoriesWithSuccess:(void (^)(MainCategoriesResponseModel *response))success failure:(void (^)(NSError *error))failure;
+-(NSURLSessionDataTask *)getCategoriesForSection:(NSString *)sectionID WithSuccess:(void (^)(NSArray *categories))success failure:(void (^)(NSError *error))failure;
+-(NSURLSessionDataTask *)getListingsWithRequestModel:(id)request success:(void (^)(NSArray *listings, NSArray *banners))success failure:(void (^)(NSError *error))failure;
+-(NSURLSessionDataTask *)getStoreDetails:(NSDictionary *)parameter WithSuccess:(void (^)(NSArray *storeData, NSArray *storeImages, NSArray *offers, NSArray *storeAddress))success failure:(void (^)(NSError *error))failure;
 
--(NSURLSessionDataTask *)getListingsWithRequestModel:(ListingRequestModel *)request success:(void (^)(ListingResponseModel *response))success failure:(void (^)(NSError *error))failure;
 
 -(NSURLSessionDataTask *)getEntityDetailsWithRequest:(NSDictionary *)parameter success:(void (^)(EntityDetailsResponseModel *response))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)getTimeSlotsWithRequest:(NSDictionary *)parameter success:(void (^)(TimeSlotResponseModel *response))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)postBookingWithRequest:(NSString *)parameter success:(void (^)(NSDictionary *response))success failure:(void (^)(NSError *error))failure;
--(NSURLSessionDataTask *)getTaxonomiesWithRequest:(NSDictionary *)parameter WithSuccess:(void (^)(TaxonomyListResponseModel *responseModel))success failure:(void (^)(NSError *error))failure;
+
 -(NSURLSessionDataTask *)getPaymentOptionsWithSuccess:(void (^)(NSDictionary *response))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)getNeediatorStatesCityWithSuccess:(void (^)(StateCityResponseModel *states))success failure:(void (^)(NSError *error))failure;
 -(NSURLSessionDataTask *)getAllAddressesWithSuccess:(void (^)(NSArray *address))success failure:(void (^)(NSError *error)) failure;

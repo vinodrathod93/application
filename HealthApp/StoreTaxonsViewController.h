@@ -42,8 +42,8 @@
 
 
 #pragma mark - Taxanomies Controls.
-@property (nonatomic, retain) NSArray *arrayOriginal;
-@property (nonatomic, retain) NSMutableArray *arForTable;
+//@property (nonatomic, retain) NSArray *arrayOriginal;
+//@property (nonatomic, retain) NSMutableArray *arForTable;
 -(void)miniMizeThisRows:(NSArray*)ar;
 
 

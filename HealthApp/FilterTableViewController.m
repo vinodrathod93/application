@@ -35,8 +35,6 @@
     
     
     
-    
-    
     UIButton *applyLabel = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
     applyLabel.titleLabel.font = [NeediatorUtitity mediumFontWithSize:15.f];
     applyLabel.backgroundColor = [UIColor clearColor];

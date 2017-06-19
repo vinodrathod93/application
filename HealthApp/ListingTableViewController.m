@@ -27,10 +27,12 @@
 #import "SortOrderModel.h"
 #import "StoreReviewsView.h"
 #import "FilterViewController.h"
+#import <STPopup/STPopup.h>
+#import "SortViewController.h"
 
 #define kBannerSectionIndex 1
 
-@interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate,UIViewControllerPreviewingDelegate>
+@interface ListingTableViewController ()<UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate,UIViewControllerPreviewingDelegate, SortViewDelegate>
 
 @property (nonatomic, strong) NSArray *listingArray;
 @property (nonatomic, strong) NSArray *sorting_list;
@@ -44,6 +46,10 @@
 @property (nonatomic, strong) NSDictionary *filterData;
 
 @property (nonatomic, strong) id previewingContext;
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UIButton *sortButton;
+@property (nonatomic, weak) IBOutlet UIButton *filterButton;
+@property (weak, nonatomic) IBOutlet UILabel *countLabel;
 
 @end
 
@@ -66,9 +72,9 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = self.root.uppercaseString;
-    self.tableView.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.title                              =   self.root.uppercaseString;
+    self.tableView.backgroundColor          =   [UIColor colorFromHexString:@"#EEEEEE"];
+    self.navigationItem.backBarButtonItem   =   [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     [self.tableView registerClass:[BannerTableViewCell class] forCellReuseIdentifier:@"bannerViewCellIdentifier"];
     
     // Register for 3D Touch Previewing if available
@@ -86,11 +92,11 @@
         [self requestBasicListings];
     
     
-    self.bannerImages = @[@"http://g-ecx.images-amazon.com/images/G/31/img15/video-games/Gateway/new-year._UX1500_SX1500_CB285786565_.jpg",
-                          @"http://g-ecx.images-amazon.com/images/G/31/img15/Shoes/December/4._UX1500_SX1500_CB286226002_.jpg",
-                          @"http://g-ecx.images-amazon.com/images/G/31/img15/softlines/apparel/201512/GW/New-GW-Hero-1._UX1500_SX1500_CB301105718_.jpg",
-                          @"http://img5a.flixcart.com/www/promos/new/20151229_193348_730x300_image-730-300-8.jpg",
-                          @"http://img5a.flixcart.com/www/promos/new/20151228_231438_730x300_image-730-300-15.jpg"];
+    
+    [_sortButton addTarget:self action:@selector(displaySortingSheet:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    [_filterButton addTarget:self action:@selector(displayFilterVC:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 
@@ -120,9 +126,9 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestBasicListings) name:@"NeediatorLocationChanged" object:nil];
-    
-    
     
 }
 
@@ -147,7 +153,7 @@
     
 }
 
-
+/*
 #pragma mark -
 #pragma mark === UIViewControllerPreviewingDelegate Methods ===
 #pragma mark -
@@ -172,16 +178,17 @@
         
         
         StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
-        storeTaxonsVC.title = [model.name capitalizedString];
-        storeTaxonsVC.cat_id = self.category_id;
-        storeTaxonsVC.store_id = model.list_id;
-        storeTaxonsVC.storeImages = model.images;
+        
+        storeTaxonsVC.title             = [model.name capitalizedString];
+        storeTaxonsVC.cat_id            = self.category_id;
+        storeTaxonsVC.store_id          = model.list_id;
+        storeTaxonsVC.storeImages       = model.images;
         storeTaxonsVC.storePhoneNumbers = model.phone_nos;
-        storeTaxonsVC.storeDistance = model.nearest_distance.uppercaseString;
-        storeTaxonsVC.ratings   = model.ratings;
-        storeTaxonsVC.reviewsCount = model.reviews_count;
-        storeTaxonsVC.likeUnlikeArray = model.likeUnlike;
-        storeTaxonsVC.offersarray=  model.offerArray;
+        storeTaxonsVC.storeDistance     = model.nearest_distance.uppercaseString;
+        storeTaxonsVC.ratings           = model.ratings;
+        storeTaxonsVC.reviewsCount      = model.reviews_count;
+        storeTaxonsVC.likeUnlikeArray   = model.likeUnlike;
+        storeTaxonsVC.offersarray       = model.offerArray;
         
         
         previewingContext.sourceRect = [self.view convertRect:cell.frame fromView:self.tableView];
@@ -214,6 +221,8 @@
         }
     }
 }
+*/
+
 
 #pragma mark - Table view data source
 
@@ -243,7 +252,6 @@
             cell.pageControl.numberOfPages = self.bannerImages.count;
         }
         
-        
         return cell;
         
     }
@@ -251,11 +259,13 @@
         
         id cell;
         
-        ListingModel *model = self.listingArray[indexPath.row - 1];
+        NSDictionary *model = self.listingArray[indexPath.row - 1];
         
         //  if (model.isBook == [NSNumber numberWithBool:YES] || model.isCall == [NSNumber numberWithBool:YES]) {
         
-        if (model.isBook == [NSNumber numberWithBool:YES]) {
+        NSString *sectionID =   [NeediatorUtitity savedDataForKey:kSAVE_SEC_ID];
+        
+        if ([sectionID isEqualToString:@"2"]) {
             _isBooking      = YES;
             cellIdentifier  = @"BookCallCellIdentifier";
             cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
@@ -274,7 +284,7 @@
 
 
 
--(void)configureListingCell:(ListingCell *)cell withModel:(ListingModel *)model
+-(void)configureListingCell:(ListingCell *)cell withModel:(NSDictionary *)model
 {
     cell.backgroundColor = [UIColor clearColor];
     
@@ -289,10 +299,12 @@
     cell.roundedContentView.layer.cornerRadius = 5.f;
     cell.roundedContentView.layer.masksToBounds = YES;
     
-    cell.name.text = model.name.capitalizedString;
-    cell.street.text = [NSString stringWithFormat:@"➥ %@", model.area.capitalizedString];
+    cell.name.text = setValidValue(model[@"Name"]).capitalizedString;
+    cell.street.text = [NSString stringWithFormat:@"➥ %@", setValidValue(model[@"area"]).capitalizedString];
     
-    if(model.isOffer==true)
+    NSString *offer  =   setValidValue(model[@"OffersAvail"]);
+    
+    if(offer.intValue > 0)
     {
         cell.offersButton.hidden=NO;}
     else{
@@ -300,20 +312,22 @@
         cell.ImageViewTopConstraints.constant=18;
         cell.ImageViewBottomConstraints.constant=15;}
     
-    NSDictionary *likeUnlikeDict = [model.likeUnlike lastObject];
-    NSNumber *likeCount = likeUnlikeDict[@"like"];
+    
+    NSString *likeCount = setValidValue(model[@"TotalLikes"]);
+    NSString *minOrder  = setValidValue(model[@"MinDeliveryAmount1"]);
+    NSString *fromTime  = setValidValue(model[@"MonFrom"]);
+    NSString *toTime    = setValidValue(model[@"MonTo"]);
     
     
+    cell.likesLabel.text = [NSString stringWithFormat:@"👍🏼 %@", likeCount];
     
-    if (likeCount == nil) {
-        likeCount = @0;
-    }
+#warning remove this hardcoded rating and distance value.
+    cell.rating.text = [NSString stringWithFormat:@"⭐️ %.01f", 0.5];
+    cell.distance.text = [NSString stringWithFormat:@"📍%@",[@"93 kms" lowercaseString]];
     
-    cell.likesLabel.text = [NSString stringWithFormat:@"👍🏼 %@", likeCount.stringValue];
-    cell.rating.text = [NSString stringWithFormat:@"⭐️ %.01f", model.ratings.floatValue];
-    cell.distance.text = [NSString stringWithFormat:@"📍%@",[model.nearest_distance lowercaseString]];
-    cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",[model.timing lowercaseString]];
-    NSString *minOrderString =  [NSString stringWithFormat:@"Min. Order %@", [minOrderCurrencyFormatter stringFromNumber:@(model.minOrder.intValue)]];
+    
+    cell.timing.text    = [NSString stringWithFormat:@"- %@am-%@pm", fromTime, toTime];
+    NSString *minOrderString =  [NSString stringWithFormat:@"Min. Order %@", [minOrderCurrencyFormatter stringFromNumber:@(minOrder.intValue)]];
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:minOrderString];
     NSRange range = [minOrderString rangeOfString:@"Min."];
@@ -330,26 +344,21 @@
     cell.profileImageview.layer.masksToBounds = YES;
     
     
-    NSString *image_string;
+    NSString *image_string  =   setValidValue(model[@"images"]);
     
-    if (model.images.count > 0) {
-        NSDictionary *image_dict = [model.images objectAtIndex:0];
-        image_string = image_dict[@"image_url"];
-    }
-    else
-        image_string = @"";
     
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     //sb  [cell.profileImageview sd_setImageWithURL:[NSURL URLWithString:image_string] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
-    [cell.profileImageview sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+    [cell.profileImageview sd_setImageWithURL:[NSURL URLWithString:image_string] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
     
     cell.ratingView.notSelectedImage    = [UIImage imageNamed:@"star-1"];
     cell.ratingView.halfSelectedImage   = [UIImage imageNamed:@"Star Half Empty"];
     cell.ratingView.fullSelectedImage   = [UIImage imageNamed:@"Star Filled"];
     
-    cell.ratingView.rating              = model.ratings.floatValue;
+#warning remove this hard coded rating.
+    cell.ratingView.rating              = 0.5;
     cell.ratingView.editable            = NO;
     cell.ratingView.maxRating           = 5;
     cell.ratingView.minImageSize        = CGSizeMake(10.f, 10.f);
@@ -358,7 +367,7 @@
     
     //    CAGradientLayer *gradient = [CAGradientLayer layer];
     //    gradient.frame = cell.roundedContentView.bounds;
-    
+    /*
     if (model.premium.count != 0) {
         NSDictionary *premiumDict = model.premium[0];
         
@@ -384,12 +393,12 @@
         
         cell.roundedContentView.backgroundColor = [UIColor whiteColor];
         
-    }
+    }*/
     
 }
 
 
--(void)configureBookCallCell:(BookCallListingCell *)cell withModel:(ListingModel *)model {
+-(void)configureBookCallCell:(BookCallListingCell *)cell withModel:(NSDictionary *)model {
     
     NSNumberFormatter *minOrderCurrencyFormatter = [[NSNumberFormatter alloc] init];
     [minOrderCurrencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
@@ -404,32 +413,38 @@
     
     
     
-    cell.name.text = model.name.capitalizedString;
-    cell.address.text = model.address.capitalizedString;
-    cell.DoctorArea.text=model.area.capitalizedString;
-    NSString *minOrderString =  [NSString stringWithFormat:@"Min. Fees %@", [minOrderCurrencyFormatter stringFromNumber:@(model.FeesCharge.intValue)]];
+    cell.name.text = setValidValue(model[@"Name"]).capitalizedString;
+    cell.address.text = @"";
+    cell.DoctorArea.text=setValidValue(model[@"area"]).capitalizedString;
+    NSString *minOrderString =  [NSString stringWithFormat:@"Min. Fees %@", [minOrderCurrencyFormatter stringFromNumber:@(setValidValue(model[@"MinDeliveryAmount1"]).intValue)]];
+    
+    NSString *likeCount = setValidValue(model[@"TotalLikes"]);
+    NSString *fromTime  = setValidValue(model[@"MonFrom"]);
+    NSString *toTime    = setValidValue(model[@"MonTo"]);
+    NSString *image_string  =   setValidValue(model[@"images"]);
+    NSString *offer  =   setValidValue(model[@"OffersAvail"]);
     
     cell.MinimumFees.text=minOrderString;
     
     
     
-    cell.ratingLabel.text = [NSString stringWithFormat:@"%.01f", model.ratings.floatValue];
-    cell.distance.text = [NSString stringWithFormat:@"📍 %@",[model.nearest_distance uppercaseString]];
-    cell.timing.text    = [NSString stringWithFormat:@"🕒 %@",[model.timing uppercaseString]];
+    cell.ratingLabel.text = [NSString stringWithFormat:@"%.01f", 0.5];
+    cell.distance.text = [NSString stringWithFormat:@"📍 %@",[@"5 kms" uppercaseString]];
+    cell.timing.text    = [NSString stringWithFormat:@"🕒 %@am-%@pm",fromTime, toTime];
     
     cell.profileImageview.backgroundColor = [UIColor colorFromHexString:@"#EEEEEE"];
     cell.profileImageview.layer.cornerRadius = 5.f;
     cell.profileImageview.layer.masksToBounds = YES;
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell.profileImageview sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
+    [cell.profileImageview sd_setImageWithURL:[NSURL URLWithString:image_string] placeholderImage:[UIImage imageNamed:@"placeholder_neediator"]];
     
     
     cell.ratingView.notSelectedImage    = [UIImage imageNamed:@"Star"];
     cell.ratingView.halfSelectedImage   = [UIImage imageNamed:@"Star Half Empty"];
     cell.ratingView.fullSelectedImage   = [UIImage imageNamed:@"Star Filled"];
     
-    cell.ratingView.rating              = model.ratings.floatValue;
+    cell.ratingView.rating              = 0.5;
     cell.ratingView.editable            = NO;
     cell.ratingView.maxRating           = 5;
     cell.ratingView.minImageSize        = CGSizeMake(10.f, 10.f);
@@ -442,30 +457,30 @@
     
     
     
-    NSString *title                     = model.isBook ? @"Offer" : model.isCall ? @"CALL" : @"";
+    NSString *title                     = offer.intValue > 0 ? @"Offer" : @"";
     [cell.button setTitle:title forState:UIControlStateNormal];
     
     if ([title isEqualToString:@""]) {
         [cell.button removeFromSuperview];
     }
     
-    if([model.Sunday isEqualToString:@"Holiday"])
-        cell.Sunday_lbl.textColor=[UIColor lightGrayColor];
-    
-    if([model.Monday isEqualToString:@"Holiday"])
-        cell.Monday_lbl.textColor=[UIColor lightGrayColor];
-    
-    if([model.Tuesday isEqualToString:@"Holiday"])
-        cell.Tuesday_lbl.textColor=[UIColor lightGrayColor];
-    
-    if([model.Thursday isEqualToString:@"Holiday"])
-        cell.Thrusday_lbl.textColor=[UIColor lightGrayColor];
-    if([model.Wednesday isEqualToString:@"Holiday"])
-        cell.Wednesday_lbl.textColor=[UIColor lightGrayColor];
-    if([model.Friday isEqualToString:@"Holiday"])
-        cell.Friday_lbl.textColor=[UIColor lightGrayColor];
-    if([model.Saturday isEqualToString:@"Holiday"])
-        cell.Saturday_lbl.textColor=[UIColor lightGrayColor];
+//    if([model.Sunday isEqualToString:@"Holiday"])
+//        cell.Sunday_lbl.textColor=[UIColor lightGrayColor];
+//    
+//    if([model.Monday isEqualToString:@"Holiday"])
+//        cell.Monday_lbl.textColor=[UIColor lightGrayColor];
+//    
+//    if([model.Tuesday isEqualToString:@"Holiday"])
+//        cell.Tuesday_lbl.textColor=[UIColor lightGrayColor];
+//    
+//    if([model.Thursday isEqualToString:@"Holiday"])
+//        cell.Thrusday_lbl.textColor=[UIColor lightGrayColor];
+//    if([model.Wednesday isEqualToString:@"Holiday"])
+//        cell.Wednesday_lbl.textColor=[UIColor lightGrayColor];
+//    if([model.Friday isEqualToString:@"Holiday"])
+//        cell.Friday_lbl.textColor=[UIColor lightGrayColor];
+//    if([model.Saturday isEqualToString:@"Holiday"])
+//        cell.Saturday_lbl.textColor=[UIColor lightGrayColor];
     
 }
 
@@ -475,28 +490,25 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.row != 0) {
-        ListingModel *model = self.listingArray[indexPath.row - 1];
+        NSDictionary *model = self.listingArray[indexPath.row - 1];
         
-        NSString *image_string;
-        
-        if (model.images.count > 0)
-        {
-            NSDictionary *image_dict = [model.images objectAtIndex:0];
-            image_string = image_dict[@"image_url"];
-        }
-        else
-            image_string = @"http://www.drcarlito.com/wp-content/uploads/2015/11/Physician-Picture1-deleted-361ff410bd1f74feecdabc3ff33f3b33.jpg";
         
         NSMutableArray *recentStoresArray = [[NSMutableArray alloc] init];
         NSArray *savedStores = [NeediatorUtitity savedDataForKey:kSAVE_RECENT_STORES];
         
+        
+        NSString *name  =   setValidValue(model[@"Name"]).capitalizedString;
+        NSString *storeID   =   setValidValue(model[@"Did"]);
+        NSString *catID     =   setValidValue(model[@"CategoryId"]);
+        NSString *area      =   setValidValue(model[@"area"]);
+        
+        
         NSDictionary *storeData = @{
-                                    @"name"         : model.name,
-                                    @"storeid"      : model.list_id,
-                                    @"categoryid"   : self.category_id,
-                                    @"area"         : model.area,
-                                    @"code"         : model.code,
-                                    @"image"        : image_string
+                                    @"name"         : name,
+                                    @"storeid"      : storeID,
+                                    @"categoryid"   : catID,
+                                    @"area"         : area,
+                                    @"code"         : @""
                                     };
         
         // check if the saved store has reached limit
@@ -521,57 +533,33 @@
         
         // save the store_id for remembering current store id.
         
-        [NeediatorUtitity save:model.list_id forKey:kSAVE_STORE_ID];
+        [NeediatorUtitity save:storeID forKey:kSAVE_STORE_ID];
         
         //        if (_isProductType == TRUE) {
         // Show taxons VC
         
         StoreTaxonsViewController *storeTaxonsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"storeTaxonsVC"];
-        storeTaxonsVC.title =               [model.name capitalizedString];
-        storeTaxonsVC.cat_id =              self.category_id;
-        storeTaxonsVC.store_id =            model.list_id;
-        storeTaxonsVC.storeImages =         model.images;
-        storeTaxonsVC.storePhoneNumbers =   model.phone_nos;
-        storeTaxonsVC.storeDistance =       model.nearest_distance.uppercaseString;
-        storeTaxonsVC.ratings   =           model.ratings;
-        storeTaxonsVC.reviewsCount =        model.reviews_count;
-        storeTaxonsVC.likeUnlikeArray =     model.likeUnlike;
-        storeTaxonsVC.isFavourite   =       model.isFavourite.boolValue;
-        storeTaxonsVC.isLikedStore  =       model.isLike.boolValue;
-        storeTaxonsVC.isDislikedStore =     model.isDislike.boolValue;
-        storeTaxonsVC.offersarray=          model.offerArray;
-        storeTaxonsVC.isOffer=              model.isOffer;//sharad testing
-        storeTaxonsVC.storeURL=             model.image_url;
-        storeTaxonsVC.storeName=            model.name;
-        storeTaxonsVC.storearea=            model.area;
+        storeTaxonsVC.title         =            [name capitalizedString];
+        storeTaxonsVC.cat_id        =            catID;
+        storeTaxonsVC.store_id      =            storeID;
+        storeTaxonsVC.storeName     =            name;
+        storeTaxonsVC.storearea     =            area;
+        
+//        storeTaxonsVC.storeImages =         model.images;
+//        storeTaxonsVC.storePhoneNumbers =   model.phone_nos;
+//        storeTaxonsVC.storeDistance =       model.nearest_distance.uppercaseString;
+//        storeTaxonsVC.ratings   =           model.ratings;
+//        storeTaxonsVC.reviewsCount =        model.reviews_count;
+//        storeTaxonsVC.likeUnlikeArray =     model.likeUnlike;
+//        storeTaxonsVC.isFavourite   =       model.isFavourite.boolValue;
+//        storeTaxonsVC.isLikedStore  =       model.isLike.boolValue;
+//        storeTaxonsVC.isDislikedStore =     model.isDislike.boolValue;
+//        storeTaxonsVC.offersarray=          model.offerArray;
+//        storeTaxonsVC.isOffer=              model.isOffer;//sharad testing
+//        storeTaxonsVC.storeURL=             model.image_url;
         
         
         
-        NSLog(@"Model Url IS %@",model.image_url);
-        
-        /*
-         
-         if (model.premium.count != 0) {
-         NSDictionary *premiumDict = model.premium[0];
-         if (premiumDict != nil) {
-         if ([premiumDict[@"name"] isEqualToString:@"Gold"]) {
-         
-         storeTaxonsVC.background_color = [UIColor colorWithRed:255/255.f green:223/255.f blue:0/255.f alpha:1.0];
-         }
-         else if ([premiumDict[@"name"] isEqualToString:@"Silver"]) {
-         
-         storeTaxonsVC.background_color = [UIColor colorWithRed:192/255.f green:192/255.f blue:192/255.f alpha:1.0];
-         }
-         else if ([premiumDict[@"name"] isEqualToString:@"Bronze"]) {
-         
-         storeTaxonsVC.background_color = [UIColor colorWithRed:205/255.f green:127/255.f blue:50/255.f alpha:1.0];
-         }
-         }
-         }
-         else {
-         storeTaxonsVC.background_color = [NeediatorUtitity defaultColor];
-         }
-         */
         storeTaxonsVC.hidesBottomBarWhenPushed = NO;
         [self.navigationController pushViewController:storeTaxonsVC animated:YES];
         
@@ -598,12 +586,12 @@
     
     if (indexPath.row != 0) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            return 160;
+            return 155;
         }
         else
-            return 130.f;
+            return 125.f;
     }
-    else {
+    else if (indexPath.row == 0 && _bannerImages.count > 0) {
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             return kHeaderViewHeight_Pad;
@@ -611,6 +599,8 @@
         else
             return kHeaderViewHeight_Phone;
     }
+    else
+        return 0;
 }
 
 
@@ -694,57 +684,6 @@
 }
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 90.f;
-}
-
-
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    
-    
-    UIView *footerView      =       [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 90)];
-    footerView.backgroundColor      =   [UIColor clearColor];
-    
-    
-        UILabel *countLabel     =       [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 40)];
-        countLabel.textAlignment    =   NSTextAlignmentCenter;
-        countLabel.font             =   regularFont(13);
-        countLabel.backgroundColor  =   defaultColor();
-    
-        if([_totalCount isEqualToString:@"0"]||[_totalCount isEqualToString:@"1"])
-        {
-            countLabel.text = [NSString stringWithFormat:@"Showing %@ result", _totalCount];
-        }
-        else
-        {
-            countLabel.text = [NSString stringWithFormat:@"Showing %@ results", _totalCount];
-        }
-    
-    
-        UIButton *sortButton        =   [[UIButton alloc] initWithFrame:CGRectMake(0, 40, MAIN_WIDTH/2, 50)];
-        [sortButton setTitle:@"SORT" forState:UIControlStateNormal];
-        [sortButton setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
-        [sortButton.titleLabel setFont:demiBoldFont(15)];
-        [sortButton setBackgroundColor:[UIColor blackColor]];
-        [sortButton addTarget:self action:@selector(displaySortingSheet:) forControlEvents:UIControlEventTouchUpInside];
-    
-        
-        UIButton *filterButton        =   [[UIButton alloc] initWithFrame:CGRectMake(MAIN_WIDTH/2, 40, MAIN_WIDTH/2, 50)];
-        [filterButton setTitle:@"FILTER" forState:UIControlStateNormal];
-        [filterButton setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
-        [filterButton.titleLabel setFont:demiBoldFont(15)];
-        [filterButton setBackgroundColor:[UIColor blackColor]];
-        [filterButton addTarget:self action:@selector(displayFilterVC:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    [footerView addSubview:countLabel];
-    [footerView addSubview:sortButton];
-    [footerView addSubview:filterButton];
-    
-    
-    
-    return footerView;
-}
 
 /*
  -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -963,59 +902,21 @@
 
 -(void)displaySortingSheet:(UIButton *)sender
 {
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Sort" message:nil
-                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
+
+    UIStoryboard *storeStoryboard  =   [UIStoryboard storyboardWithName:@"StoreStoryboard" bundle:nil];
+    SortViewController *sortVC          =   [storeStoryboard instantiateViewControllerWithIdentifier:@"sortListingVC"];
+    sortVC.sortListing                  =   self.sorting_list;
+    sortVC.contentSizeInPopup           =   CGSizeMake(MAIN_WIDTH - 2*10, 220);
+    sortVC.delegate                     =   self;
     
+    STPopupController *controller   =   [[STPopupController alloc] initWithRootViewController:sortVC    ];
+    controller.style                        =   STPopupStyleBottomSheet;
+    controller.navigationBar.tintColor      =   [UIColor blackColor];
+    controller.navigationBar.barTintColor   =   defaultColor();
+    controller.containerView.layer.cornerRadius =   6.f;
     
-    [self.sorting_list enumerateObjectsUsingBlock:^(SortListModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        
-        if ([model.currentSortOrderIndex  isEqual: @-1]) {
-            model.currentSortOrderIndex = @0;
-        }
-        
-        
-        SortOrderModel *sortOrderModel = model.typeArray[model.currentSortOrderIndex.intValue];
-        
-        NSString *code = [sortOrderModel.name substringFromIndex: [sortOrderModel.name length] - 1];
-        
-        NSLog(@"%@",code);
-        
-        //        NSString *name = [NSString stringWithFormat:@"%@ - %@", model.name.capitalizedString, sortOrderModel.name.capitalizedString];
-        
-        //displaying for asc and desc symbol in action sheet
-        NSString *name = [NSString stringWithFormat:@"%@  %@", model.name.capitalizedString,code];
-        
-        UIAlertAction *typeAction = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSLog(@"Sort by %@", name);
-            
-            [self requestListingBySortID:model.sortID.stringValue andTypeID:sortOrderModel.sortOrderID.stringValue];
-            
-            int index = model.currentSortOrderIndex.intValue;
-            
-            if (++index == model.typeArray.count) {
-                model.currentSortOrderIndex = 0;
-            }
-            else
-                model.currentSortOrderIndex = @(index);
-            
-        }];
-        
-        [controller addAction:typeAction];
-    }];
-    
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"Cancel");
-    }];
-    [controller addAction:cancel];
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        [self presentViewController:controller animated:YES completion:nil];
-    }
-    else {
-        UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:controller];
-        [popup presentPopoverFromRect:sender.bounds inView:[sender superview] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
+    [controller presentInViewController:self];
+
 }
 
 
@@ -1102,6 +1003,23 @@
     
     [cell.carousel scrollToItemAtIndex:index animated:YES];
     [self performSelector:@selector(changeDot:) withObject:nil afterDelay:2.5f];
+}
+
+
+-(void)drawFooterView {
+    
+    
+    if([_totalCount isEqualToString:@"0"]||[_totalCount isEqualToString:@"1"])
+    {
+        _countLabel.text = [NSString stringWithFormat:@"Showing %@ result", _totalCount];
+    }
+    else
+    {
+        _countLabel.text = [NSString stringWithFormat:@"Showing %@ results", _totalCount];
+    }
+    
+    
+    
 }
 
 
@@ -1212,11 +1130,15 @@
     
     [self showHUD];
     
-    _task   = [[NAPIManager sharedManager] getListingsWithRequestModel:requestModel success:^(ListingResponseModel *response) {
+    _task   = [[NAPIManager sharedManager] getListingsWithRequestModel:requestModel success:^(NSArray *listings, NSArray *banners) {
         
-        _listingArray = response.records;
-        _isProductType  = response.isProductType;
-        _totalCount     = response.total_count.stringValue;
+        _listingArray   =   listings;
+        _bannerImages   =   banners;
+        
+#warning change this hardcoded line.
+        _totalCount     = [NSString stringWithFormat:@"%lu", (unsigned long)_listingArray.count];
+        
+        [self drawFooterView];
         
         if (_listingArray.count == 0) {
             
@@ -1225,16 +1147,17 @@
         
         
         
-        if (_viewDidLoadFlag) {
-            [NeediatorUtitity save:response.deliveryTypes forKey:kSAVE_DELIVERY_TYPES];
-            [NeediatorUtitity save:response.addressTypes forKey:kSAVE_Address_Types];
-            [NeediatorUtitity save:response.PurposeType forKey:kSAVE_Purpose_Types];
-            
-            self.sorting_list = response.sorting_list;
-            self.filter_list    = response.filter_list;
-            
-            _viewDidLoadFlag = NO;
-        }
+//        if (_viewDidLoadFlag) {
+//            
+//            [NeediatorUtitity save:response.deliveryTypes forKey:kSAVE_DELIVERY_TYPES];
+//            [NeediatorUtitity save:response.addressTypes forKey:kSAVE_Address_Types];
+//            [NeediatorUtitity save:response.PurposeType forKey:kSAVE_Purpose_Types];
+//            
+//            self.sorting_list   = response.sorting_list;
+//            self.filter_list    = response.filter_list;
+//            
+//            _viewDidLoadFlag    = NO;
+//        }
         
         
         [self hideHUD];
@@ -1262,6 +1185,16 @@
 
 
 
+
+
+#pragma mark - Sort List Delegate 
+
+-(void)sortViewController:(SortViewController *)viewController didSelectSort:(SortListModel *)model withSortOrderModel:(SortOrderModel *)orderModel {
+    
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+    
+    [self requestListingBySortID:model.sortID.stringValue andTypeID:orderModel.sortOrderID.stringValue];
+}
 
 
 
@@ -1416,7 +1349,6 @@
 }
 
 /*
- 
  
  -(void)setupScrollViewImages:(BannerTableViewCell *)cell {
  

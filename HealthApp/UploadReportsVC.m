@@ -45,13 +45,13 @@
     
     User *saved_user = [User savedUser];
     
-    NSString *parameterString = [NSString stringWithFormat:@"isConsultingFirstTime=%@&userid=%@&storeid=%@&Sectionid=%@",@"No",saved_user.userID,[NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],[NeediatorUtitity savedDataForKey:kSAVE_CAT_ID]];
+    NSString *parameterString = [NSString stringWithFormat:@"isConsultingFirstTime=%@&userid=%@&storeid=%@&Sectionid=%@",@"No",saved_user.userID,[NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],[NeediatorUtitity savedDataForKey:kSAVE_SEC_ID]];
     NSLog(@"Consultation Parameter is --> %@", parameterString);
     
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/ConsultationDetails"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/ConsultationDetails"];
     NSLog(@"URL is --> %@", url);
     NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/ConsultationDetails"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/ConsultationDetails"]];
     request.HTTPMethod = @"POST";
     request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];

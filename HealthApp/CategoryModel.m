@@ -15,22 +15,22 @@
 
 +(NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"cat_id"      : @"Sectionid",
-             @"name"        : @"Sectionname",
-             @"has_subCat"  : @"HassubCat",
-             @"image_url"   : @"Imageurl",
-             @"is_active"   : @"Isactive",
-             @"color_code"  : @"Colorcode",
-             @"is_product"  : @"Isproduct",
-             @"subCat_array": @"CatList"
+             @"SectionID"       : @"SectionId",
+             @"SectionName"     : @"SectionName",
+             @"has_subCat"      : @"HasCategory",
+             @"ImageUrl"        : @"ImageUrl",
+             @"is_active"       : @"IsActive",
+             @"ColorCode"       : @"ColorCode",
+             @"is_product"      : @"isProduct"
+//             @"subCat_array": @"CatList"
              };
 }
 
 
-+(NSValueTransformer *)subCat_arrayJSONTransformer
-{
-    return [MTLJSONAdapter arrayTransformerWithModelClass:[SubCategoryModel class]];
-}
+//+(NSValueTransformer *)subCat_arrayJSONTransformer
+//{
+//    return [MTLJSONAdapter arrayTransformerWithModelClass:[SubCategoryModel class]];
+//}
 
 
 @end

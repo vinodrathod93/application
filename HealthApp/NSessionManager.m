@@ -12,7 +12,7 @@
 
 //static NSString *const kBaseURL = @"http://192.168.0.90/NeediatorWebservice";
 
-static NSString *const kBaseURL = @"http://shahronak.in"; //@"http://192.168.1.199";
+static NSString *const kBaseURL = @"http://neediator.net"; //@"http://192.168.1.199";
 
 
 
@@ -24,7 +24,7 @@ static NSString *const kBaseURL = @"http://shahronak.in"; //@"http://192.168.1.1
     self = [super initWithBaseURL:[NSURL URLWithString:kBaseURL]];
     if(!self) return nil;
     
-    self.responseSerializer = [AFJSONResponseSerializer serializer];
+    self.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
     self.requestSerializer = [AFJSONRequestSerializer serializer];
     
     return self;

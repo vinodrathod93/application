@@ -43,7 +43,7 @@
     NSLog(@"Submit Action Clicked......");
     NSString *parameterString = [NSString stringWithFormat:@"SectionId=%@&StoreId=%@&purposeType=%@&date=%@&timeslotfrom=%@&timeslotto=%@&isConsultingFirstTime=%@&LastCommunicationDate=%@&RefferedBy=%@&userid=%@&bookingstatus=%@&addresstype=%@",
                                 
-                                 [NeediatorUtitity savedDataForKey:kSAVE_CAT_ID],
+                                 [NeediatorUtitity savedDataForKey:kSAVE_SEC_ID],
                                  [NeediatorUtitity savedDataForKey:kSAVE_STORE_ID],
                                  self.Purpose_Type_ID,
                                  self.Date,
@@ -60,10 +60,10 @@
     
     
     
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/addBook2"];
+    NSString *url = [NSString stringWithFormat:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/addBook2"];
     NSLog(@"URL is --> %@", url);
     NSURLSession *session = [NSURLSession sharedSession];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://192.168.1.199/NeediatorWebservice/NeediatorWS.asmx/addBook2"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://neediator.net/NeediatorWebservice/NeediatorWS.asmx/addBook2"]];
     request.HTTPMethod = @"POST";
     request.HTTPBody   = [NSData dataWithBytes:[parameterString UTF8String] length:[parameterString length]];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];

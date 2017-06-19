@@ -11,7 +11,7 @@
 #import "FilterTableViewController.h"
 #import "iCarousel.h"
 
-@interface ListingTableViewController : UITableViewController<UIGestureRecognizerDelegate,UIScrollViewDelegate,FilterListingDelegate,iCarouselDelegate,iCarouselDataSource>
+@interface ListingTableViewController : UIViewController<UIGestureRecognizerDelegate,UIScrollViewDelegate,FilterListingDelegate,iCarouselDelegate,iCarouselDataSource>
 
 @property (nonatomic, strong) NSString *root;
 @property (nonatomic, strong) NSString *nav_color;
